@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pln-eportal-api-celery-beat
+  labels:
+    deployment: pln-eportal-api-celery-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: pln-eportal-api-celery-beat
+  template:
+    metadata:
+      labels:
+        pod: pln-eportal-api-celery-beat
+    spec:
+      containers:
+        - name: pln-eportal-api-celery-beat
+          image: syafiqpipe/pln-eportal-api
+          # celery -A pln-eportal-api beat -l debug
+          command: ['celery', '-A', 'core', 'beat', '-l', 'debug']
+          envFrom:
+            - secretRef:
+                name: pln-eportal-api-secret

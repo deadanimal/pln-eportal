@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pln-eportal-api-deployment
+  labels:
+    app: pln-eportal-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pln-eportal-api
+  template:
+    metadata:
+      labels:
+        app: pln-eportal-api
+    spec:
+      containers:
+      - name: pln-eportal-api
+        image: syafiqpipe/pln-eportal-api:1.0.0 #boleh tambah version
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        envFrom:
+          - secretRef:
+              name: pln-eportal-api-secret

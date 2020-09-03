@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: pln-eportal-my-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "pln-eportal-my-prod"
+spec:
+  tls:
+  - hosts:
+    - pln-eportal.pipe.my #guna prototype.com.my untuk prototype
+    - pln-eportal-api.pipe.my
+
+    secretName: pln-eportal-my-prod
+
+  rules:
+  - host: pln-eportal-api.pipe.my
+    http:
+      paths:
+      - backend:
+          serviceName: pln-eportal-api
+          servicePort: 5000    
+  - host: pln-eportal.pipe.my
+    http:
+      paths:
+      - backend:
+          serviceName: pln-eportal-webapp
+          servicePort: 80    
