@@ -1,0 +1,598 @@
+<nav
+  class="navbar navbar-expand-lg fixed-top navbar-default bg-default"
+  color-on-scroll="300"
+  id="navbar-top"
+>
+  <div class="container-fluid">
+    <div>
+      <a class="" href="/" placement="bottom" target="_blank" tooltip="MOSTI">
+        <img class="brand-img" src="assets/logo/logo-mosti-white.png" />
+      </a>
+      <a
+        class="navbar-brand"
+        href="/"
+        placement="bottom"
+        target="_blank"
+        tooltip="Planetarium"
+      >
+        <img class="brand-img" src="assets/logo/planetarium-logo.png" />
+      </a>
+      <!-- <div class="navbar-brand">
+        <h6 class="m-0 p-0">Selamat Datang Ke Portal Rasmi</h6>
+        <p class="m-0 p-0">ePlanetarium</p>
+        <small class="m-0 p-0"
+          >Kementerian Sains, Teknologi & Inovasi (MOSTI)</small
+        >
+      </div> -->
+      <button
+        aria-controls="navigation-index"
+        aria-label="Toggle navigation"
+        class="navbar-toggler"
+        [attr.aria-expanded]="!isCollapsed"
+        (click)="isCollapsed = !isCollapsed"
+        id="navigation"
+        type="button"
+      >
+        <span class="navbar-toggler-bar bar1"> </span>
+        <span class="navbar-toggler-bar bar2"> </span>
+        <span class="navbar-toggler-bar bar3"> </span>
+      </button>
+    </div>
+    <div class="navbar-collapse" [collapse]="isCollapsed" id="navigation">
+      <div class="navbar-collapse-header">
+        <div class="row">
+          <div class="col-6 collapse-brand">
+            <a> Planetarium Negara </a>
+          </div>
+          <div class="col-6 collapse-close text-right">
+            <button
+              aria-controls="navigation-index"
+              aria-label="Toggle navigation"
+              class="navbar-toggler text-right"
+              [attr.aria-expanded]="!isCollapsed"
+              (click)="isCollapsed = !isCollapsed"
+              id="navigation"
+              type="button"
+            >
+              <i class="tim-icons icon-simple-remove"> </i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <form class="form-inline">
+        <div class="form-group no-border">
+          <input
+            type="text"
+            class="form-control bg-white text-dark"
+            placeholder="Search"
+          />
+        </div>
+      </form>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/landing']">
+            <i class="fas fa-home"></i> Utama
+          </a>
+        </li>
+        <li class="nav-item dropdown" dropdown>
+          <a
+            class="nav-link dropdown-toggle dropdown-toggle"
+            data-toggle="dropdown"
+            dropdownToggle
+            id="navbarDropdownMenuLink"
+          >
+            <i aria-hidden="true" class="fas fa-globe-asia"> </i>
+            <p>Planetarium</p>
+          </a>
+          <div
+            aria-labelledby="navbarDropdownMenuLink"
+            class="dropdown-menu dropdown-menu-right"
+            *dropdownMenu
+          >
+            <a class="dropdown-item" [routerLink]="['/about-us']">
+              Mengenai kami
+            </a>
+            <a class="dropdown-item" [routerLink]="['/organization-chart']">
+              Carta Organisasi
+            </a>
+            <a class="dropdown-item" [routerLink]="['/mission-vision']">
+              Misi & Visi
+            </a>
+            <a class="dropdown-item" [routerLink]="['/program']">
+              Waktu Operasi
+            </a>
+            <a class="dropdown-item" [routerLink]="['/directory']">
+              Direktori
+            </a>
+            <a class="dropdown-item" [routerLink]="['/pdpa']">
+              Data Perlindungan Peribadi
+            </a>
+            <a class="dropdown-item" [routerLink]="['/faq']"> FAQ </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown" dropdown>
+          <a
+            class="nav-link dropdown-toggle dropdown-toggle"
+            data-toggle="dropdown"
+            dropdownToggle
+            id="navbarDropdownMenuLink"
+          >
+            <i aria-hidden="true" class="fas fa-box"> </i>
+            <p>Modul</p>
+          </a>
+          <div
+            aria-labelledby="navbarDropdownMenuLink"
+            class="dropdown-menu dropdown-menu-right"
+            *dropdownMenu
+          >
+            <a class="dropdown-item" [routerLink]="['/simulator-ride']">
+              <i class="fas fa-book-open fa-sm fa-fw"> </i> Kembara Simulasi
+            </a>
+            <a class="dropdown-item" [routerLink]="['/shows']">
+              <i class="fas fa-tv fa-sm fa-fw"> </i> Tayangan
+            </a>
+            <a class="dropdown-item" [routerLink]="['/exhibit']">
+              <i class="fas fa-calendar-week fa-sm fa-fw"> </i> Pameran
+            </a>
+            <a class="dropdown-item" [routerLink]="['/visit']">
+              <i class="fas fa-calendar-day fa-sm fa-fw"> </i> Lawatan
+            </a>
+            <a class="dropdown-item" [routerLink]="['/program']">
+              <i class="fas fa-calendar-alt fa-sm fa-fw"> </i> Program
+              Pendidikan
+            </a>
+            <a class="dropdown-item" [routerLink]="['/survey']">
+              <i class="fas fa-poll-h fa-sm fa-fw"> </i> Maklum Balas
+            </a>
+            <a class="dropdown-item" [routerLink]="['/facility']">
+              <i class="fas fa-warehouse fa-sm fa-fw"> </i> Fasiliti
+            </a>
+            <a class="dropdown-item" [routerLink]="['/publication']">
+              <i class="fas fa-book-open fa-sm fa-fw"> </i> Penerbitan
+            </a>
+            <a class="dropdown-item" [routerLink]="['/virtual-library']">
+              <i class="fas fa-book-open fa-sm fa-fw"> </i> Perpustakaan Maya
+            </a>
+          </div>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/contact-us']">
+            <i class="fas fa-phone-alt"></i> 03-22734303
+          </a>
+        </li> -->
+        <li class="nav-item" *ngIf="!accessToken">
+          <a class="nav-link" (click)="openLoginModal(loginModal)">
+            <i class="fas fa-sign-in-alt"></i> Log Masuk
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="!accessToken">
+          <a class="nav-link" (click)="openRegisterModal(registerModal)">
+            <i class="fas fa-users"></i> Daftar
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="accessToken">
+          <a class="nav-link" (click)="clickLogout()">
+            <i class="fas fa-sign-out-alt"></i> Log Keluar
+          </a>
+        </li>
+        <li class="nav-item dropdown" dropdown *ngIf="accessToken">
+          <a
+            class="nav-link dropdown-toggle dropdown-toggle"
+            data-toggle="dropdown"
+            dropdownToggle
+            id="navbarDropdownNoti"
+          >
+            <i
+              aria-hidden="true"
+              class="fas fa-bell"
+              style="position: relative"
+            >
+            </i>
+            <span
+              class="badge badge-pill badge-danger"
+              style="position: absolute; top: 1px; right: 10px"
+            >
+              4
+            </span>
+          </a>
+          <div
+            aria-labelledby="navbarDropdownNoti"
+            class="dropdown-menu dropdown-menu-right"
+            *dropdownMenu
+          >
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+      </ul>
+      <bSwitch
+        [switch-off-text]="offText"
+        [switch-on-text]="onText"
+        [switch-on-color]="onColor"
+        [switch-off-color]="offColor"
+        [(ngModel)]="switch"
+        (changeState)="onSwitchChange($event)"
+      >
+      </bSwitch>
+    </div>
+  </div>
+</nav>
+
+<ng-template #loginModal>
+  <div class="modal-header justify-content-center">
+    <button
+      aria-hidden="true"
+      class="close"
+      data-dismiss="modal"
+      (click)="closeLoginModal()"
+      type="button"
+    >
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
+    </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0">Log Masuk</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="loginFormGroup">
+      <div class="form-group mb-3">
+        <div
+          class="input-group input-group-alternative"
+          [ngClass]="{ 'input-group-focus': focus1 === true }"
+        >
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fas fa-at text-dark"> </i>
+            </span>
+          </div>
+          <input
+            class="form-control text-dark"
+            placeholder="Email"
+            type="email"
+            (focus)="focus1 = true"
+            (blur)="focus1 = false"
+            formControlName="username"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <div
+          class="input-group input-group-alternative"
+          [ngClass]="{ 'input-group-focus': focus2 === true }"
+        >
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fas fa-key text-dark"> </i>
+            </span>
+          </div>
+          <input
+            class="form-control text-dark"
+            placeholder="Password"
+            type="password"
+            (focus)="focus2 = true"
+            (blur)="focus2 = false"
+            formControlName="password"
+          />
+        </div>
+      </div>
+      <!-- <div class="form-check mt-3">
+        <label class="form-check-label">
+          <input
+            checked="checked"
+            class="form-check-input"
+            type="checkbox"
+          />
+
+          <span class="form-check-sign"> </span> Remember me!
+        </label>
+      </div> -->
+      <div class="text-center">
+        <button
+          class="btn btn-default my-4"
+          (click)="clickLogin()"
+          type="button"
+          [disabled]="!loginFormGroup.valid"
+        >
+          Log Masuk
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #registerModal>
+  <div class="modal-header justify-content-center">
+    <button
+      aria-hidden="true"
+      class="close"
+      data-dismiss="modal"
+      (click)="closeRegisterModal()"
+      type="button"
+    >
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
+    </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0">Daftar</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="registerFormGroup">
+      <div class="row">
+        <div class="col">
+          <div class="form-group mb-3">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus1 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-user text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Nama Penuh"
+                type="text"
+                (focus)="focus1 = true"
+                (blur)="focus1 = false"
+                formControlName="full_name"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <div
+          class="input-group input-group-alternative"
+          [ngClass]="{ 'input-group-focus': focus3 === true }"
+        >
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fas fa-user text-dark"> </i>
+            </span>
+          </div>
+          <input
+            class="form-control text-dark"
+            placeholder="Nama Pengguna"
+            type="email"
+            (focus)="focus3 = true"
+            (blur)="focus3 = false"
+            formControlName="username"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group mb-3">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus4 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-at text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Email"
+                type="email"
+                (focus)="focus4 = true"
+                (blur)="focus4 = false"
+                formControlName="email"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group mb-3">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus7 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-mobile-alt text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Nombor Telefon"
+                type="tel"
+                (focus)="focus7 = true"
+                (blur)="focus7 = false"
+                formControlName="phone"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group mb-3">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus5 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-key text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Kata Laluan"
+                type="password"
+                (focus)="focus5 = true"
+                (blur)="focus5 = false"
+                formControlName="password1"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus6 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-key text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Ulang Kata Laluan"
+                type="password"
+                (focus)="focus6 = true"
+                (blur)="focus6 = false"
+                formControlName="password2"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <div
+          class="input-group input-group-alternative"
+          [ngClass]="{ 'input-group-focus': focus9 === true }"
+        >
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fas fa-address-book text-dark"> </i>
+            </span>
+          </div>
+          <input
+            class="form-control text-dark"
+            placeholder="Alamat Surat Menyurat"
+            type="tel"
+            (focus)="focus9 = true"
+            (blur)="focus9 = false"
+            formControlName="address"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group mb-3">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus10 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-address-book text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Poskod"
+                type="number"
+                (focus)="focus10 = true"
+                (blur)="focus10 = false"
+                formControlName="postcode"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus11 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-address-book text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Bandar"
+                type="text"
+                (focus)="focus11 = true"
+                (blur)="focus11 = false"
+                formControlName="city"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group mb-3">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus12 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-flag text-dark"> </i>
+                </span>
+              </div>
+              <select
+                class="form-control text-dark"
+                (focus)="focus12 = true"
+                (blur)="focus12 = false"
+                placeholder="Negeri"
+                formControlName="state"
+              >
+                <option value="">Negeri</option>
+                <option value="01">Johor</option>
+                <option value="02">Kedah</option>
+                <option value="03">Kelantan</option>
+                <option value="04">Melaka</option>
+                <option value="05">Negeri Sembilan</option>
+                <option value="06">Pahang</option>
+                <option value="07">Pulau Pinang</option>
+                <option value="08">Perak</option>
+                <option value="09">Perlis</option>
+                <option value="10">Selangor</option>
+                <option value="11">Terengganu</option>
+                <option value="12">Sabah</option>
+                <option value="13">Sarawak</option>
+                <option value="14">Wilayah Persekutuan Kuala Lumpur</option>
+                <option value="15">Wilayah Persekutuan Labuan</option>
+                <option value="16">Wilayah Persekutuan Putrajaya</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus13 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-globe-asia text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Negara"
+                type="text"
+                (focus)="focus13 = true"
+                (blur)="focus13 = false"
+                formControlName="country"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <button
+          class="btn btn-default my-4"
+          type="button"
+          (click)="clickRegister()"
+          [disabled]="!registerFormGroup.valid"
+        >
+          Daftar
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

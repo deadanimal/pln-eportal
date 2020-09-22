@@ -1,0 +1,308 @@
+<div class="header pb-6">
+    <div class=" container-fluid">
+        <div class=" header-body">
+            <div class=" row align-items-center py-4">
+                <div class=" col-lg-6 col-7">
+                    <h6 class=" h2 text-dark d-inline-block mb-0">User Management</h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class=" breadcrumb-item">
+                                <a href="javascript:void(0)"> <i class="fas fa-cogs text-dark"> </i> </a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+				<div class="col-xl-3 col-md-6">
+					<div class="card card-stats bg-gradient-primary">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-auto">
+									<div class="icon icon-shape bg-white text-gray rounded-circle shadow">
+										<i class="fas fa-users"> </i>
+									</div>
+								</div>
+								<div class="col text-right">
+									<h5 class="text-uppercase text-white mb-0">
+										Total Users
+									</h5>
+									<h2 class="font-weight-bold text-white mb-0">
+										12011
+									</h2>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-md-6">
+					<div class="card card-stats bg-gradient-success">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-auto">
+									<div class="icon icon-shape bg-white text-gray rounded-circle shadow">
+										<i class="fas fa-user"> </i>
+									</div>
+								</div>
+								<div class="col text-right">
+									<h5 class="text-uppercase text-white mb-0">
+										Active Users
+									</h5>
+									<h2 class="font-weight-bold text-white mb-0">
+										9746
+									</h2>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-md-6">
+					<div class="card card-stats bg-gradient-warning">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-auto">
+									<div class="icon icon-shape bg-white text-gray rounded-circle shadow">
+										<i class="far fa-user"> </i>
+									</div>
+								</div>
+								<div class="col text-right">
+									<h5 class="text-uppercase text-white mb-0">
+										Inactive Users
+									</h5>
+									<h2 class="font-weight-bold text-white mb-0">
+										3126
+									</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-md-6">
+					<div class="card card-stats bg-gradient-danger">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-auto">
+									<div class="icon icon-shape bg-white text-gray rounded-circle shadow">
+										<i class="fas fa-user-slash"> </i>
+									</div>
+								</div>
+								<div class="col text-right">
+									<h5 class="text-uppercase text-white mb-0">
+										Banned Users
+									</h5>
+									<h2 class="font-weight-bold text-white mb-0">
+										538
+									</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid mt--6">
+	<div class="row">
+		<div class="col-lg-7">
+			<div class="card">
+				<div class="card-header py-2 bg-default">
+					<div class="row">
+						<div class="col">
+							<h4 class="m-0 text-white"><i class="fas fa-chart-line text-white"></i> Chart</h4>
+						</div>
+						<div class="col-auto">
+							<div dropdown class="dropdown no-caret">
+								<button id="button-basic" dropdownToggle type="button"
+									class="btn btn-sm btn-neutral mr-0 dropdown-toggle" aria-controls="dropdown-basic">
+									<i class=" fas fa-ellipsis-h text-gray"> </i>
+								</button>
+
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+									<a class="dropdown-item" href="javascript:void(0)">
+										Download
+									</a>
+
+									<a class="dropdown-item" href="javascript:void(0)">
+										Export PDF
+									</a>
+
+									<a class="dropdown-item" href="javascript:void(0)">
+										Export Powerpoint
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="chart2">
+						<fusioncharts
+							[width]="width"
+							[height]="height"
+							[type]="type"
+							[dataFormat]="dataFormat"
+							[dataSource]="dataSource"
+						>
+						</fusioncharts>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-5">
+			<div class="card">
+				<div class="card-header py-2 bg-default">
+					<div class="row">
+						<div class="col">
+							<h4 class="m-0 text-white"><i class="fas fa-chart-line text-white"></i> Chart</h4>
+						</div>
+						<div class="col-auto">
+							<div dropdown class="dropdown no-caret">
+								<button id="button-basic" dropdownToggle type="button"
+									class="btn btn-sm btn-neutral mr-0 dropdown-toggle" aria-controls="dropdown-basic">
+									<i class=" fas fa-ellipsis-h text-gray"> </i>
+								</button>
+
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+									<a class="dropdown-item" href="javascript:void(0)">
+										Download
+									</a>
+
+									<a class="dropdown-item" href="javascript:void(0)">
+										Export PDF
+									</a>
+
+									<a class="dropdown-item" href="javascript:void(0)">
+										Export Powerpoint
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="chart2">
+						<fusioncharts
+							[width]="width"
+							[height]="height"
+							[type]="type2"
+							[dataFormat]="dataFormat"
+							[dataSource]="dataSource2"
+						>
+						</fusioncharts>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header py-2 bg-default">
+					<div class="row">
+						<div class="col">
+							<h4 class="m-0 text-white"><i class="fas fa-list text-white"></i> User List</h4>
+						</div>
+						<div class="col-auto">
+							<div dropdown class="dropdown no-caret">
+								<button id="button-basic" dropdownToggle type="button"
+									class="btn btn-sm btn-neutral mr-0 dropdown-toggle" aria-controls="dropdown-basic">
+									<i class=" fas fa-ellipsis-h text-gray"> </i>
+								</button>
+
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" *dropdownMenu>
+									<a class="dropdown-item" href="javascript:void(0)">
+										Download
+									</a>
+
+									<a class="dropdown-item" href="javascript:void(0)">
+										Export PDF
+									</a>
+
+									<a class="dropdown-item" href="javascript:void(0)">
+										Export Powerpoint
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table align-items-center table-flush">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Username</th>
+								<th scope="col">Email</th>
+								<th scope="col">Status</th>
+								<th scope="col">IP</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody class="list">
+							<tr>
+								<th scope="row">#1234</th>
+								<td>Amin Redzuan</td>
+								<td>amin.red</td>
+								<td>amin.red@gmail.com</td>
+								<td><span class="badge badge-warning">Inactive</span></td>
+								<td>124.12.4.91</td>
+								<td><button type="button" class="btn btn-outline-warning btn-sm">Remove</button></td>
+							</tr>
+							<tr>
+								<th scope="row">#1235</th>
+								<td>Iwan Hakim</td>
+								<td>iwan01</td>
+								<td>iwan_hakim@gmail.com</td>
+								<td><span class="badge badge-success">Active</span></td>
+								<td>124.12.4.91</td>
+								<td><button type="button" class="btn btn-outline-warning btn-sm">Remove</button></td>
+							</tr>
+							<tr>
+								<th scope="row">#1236</th>
+								<td>Khairul Irfan</td>
+								<td>khai_fan</td>
+								<td>khai_fan@gmail.com</td>
+								<td><span class="badge badge-danger">Banned</span></td>
+								<td>124.12.4.91</td>
+								<td><button type="button" class="btn btn-outline-warning btn-sm">Remove</button></td>
+							</tr>
+							<tr>
+								<th scope="row">#1234</th>
+								<td>Amin Redzuan</td>
+								<td>amin.red</td>
+								<td>amin.red@gmail.com</td>
+								<td><span class="badge badge-warning">Inactive</span></td>
+								<td>124.12.4.91</td>
+								<td><button type="button" class="btn btn-outline-warning btn-sm">Remove</button></td>
+							</tr>
+							<tr>
+								<th scope="row">#1235</th>
+								<td>Iwan Hakim</td>
+								<td>iwan01</td>
+								<td>iwan_hakim@gmail.com</td>
+								<td><span class="badge badge-success">Active</span></td>
+								<td>124.12.4.91</td>
+								<td><button type="button" class="btn btn-outline-warning btn-sm">Remove</button></td>
+							</tr>
+							<tr>
+								<th scope="row">#1236</th>
+								<td>Khairul Irfan</td>
+								<td>khai_fan</td>
+								<td>khai_fan@gmail.com</td>
+								<td><span class="badge badge-danger">Banned</span></td>
+								<td>124.12.4.91</td>
+								<td><button type="button" class="btn btn-outline-warning btn-sm">Remove</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

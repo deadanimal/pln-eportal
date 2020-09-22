@@ -1,0 +1,352 @@
+<div class="wrapper">
+  <div>
+    <!-- <img class="path path3" src="assets/img/path3.png" /> -->
+
+    <!-- <svg class="hidden">
+      <defs>
+        <path
+          d="M292,517.91s-15.55-56.18-82.16-38.13C144.29,497.54,155.58,363.16,162,313.12S224.89,15.59,387.71,4.49,515.3,133.38,499.28,174.22s-48.71,85.09,11,218.26S455,582.74,430.06,588.37,339.71,621.12,292,517.91Z"
+          id="deco2"
+        ></path>
+      </defs>
+    </svg> -->
+    <!-- <div class="content-center m-0 p-0"> -->
+      <div>
+        <carousel [noPause]="false" showIndicators="false">
+          <slide>
+            <img src="assets/img/facility/galeri-pameran-3.jpg" style="display: block; width: 100%; height: 600px;">
+            <div class="carousel-caption d-none d-md-block">
+              <h1 class="title">Selamat datang ke ePlanetarium, Malaysia</h1>
+              <p class="font-weight-bold">Jelajah angkasa lepas dan alam semesta di sini.</p>
+            </div>
+          </slide>
+          <slide>
+            <img src="assets/img/facility/teatret-1.jpg" style="display: block; width: 100%; height: 600px;">
+            <div class="carousel-caption d-none d-md-block">
+              <h1 class="title">Pameran Angkasa</h1>
+              <p class="font-weight-bold">Roket, bintang, cakerawala dan sebagainya ada di sini.</p>
+            </div>
+          </slide>
+          <slide>
+            <img src="assets/img/background/facility-4.jpg" style="display: block; width: 100%; height: 600px;">
+            <div class="carousel-caption d-none d-md-block">
+              <h1 class="title">Terokai Angkasa tanpa pergi ke angkasa</h1>
+              <p class="font-weight-bold">Gambar, video, dan sebagainya sedia untuk dipamerkan kepada anda.</p>
+            </div>
+          </slide>
+        </carousel>
+      </div>
+    <!-- </div> -->
+  </div>
+  <div class="section about-pricing">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-12 col-md-12 col-12 ml-auto">
+          <div class="row align-items-center mx-auto justify-content-center">
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/simulator-ride']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/simulation.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Kembara Simulasi</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/shows']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/shows']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/show.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Tayangan</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/shows']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/exhibit']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/exhibit.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Pameran</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/exhibit']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center mx-auto justify-content-center">
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/visit']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/visit.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Lawatan</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/visit']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/program']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/program.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Program</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/program']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/survey']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/survey.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Maklum Balas</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/survey']">
+                    Info
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center mx-auto justify-content-center">
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/facility']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/facility.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Fasiliti</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/facility']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/publication']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/publication.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Penerbitan</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/publication']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-pricing" [routerLink]="['/virtual-library']">
+                <div class="card-header bg-default">
+                  <img
+                    src="/assets/icon/ticket.svg"
+                    style="max-width: 150px; margin-bottom: 1rem"
+                  />
+                </div>
+                <div class="card-body">
+                  <h2 class="m-0">Perpustakaan Maya</h2>
+                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/ticketing']">
+                                        Info
+                                    </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+    <div class="section">
+        <div class="team-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto text-center">
+                        <h2 class="title">Our Awesome Team</h2>
+                        <h4 class="description">
+                            This is the paragraph where you can write more details about your
+                            team. Keep you user engaged by providing meaningful information.
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <carousel [showIndicators]="false" class="carousel-team">
+                        <slide>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h1 class="title">Charlie Watson</h1>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img alt="First slide" class="d-block" src="assets/img/charlie.jpg" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="wrapper">
+                                            <div class="category">
+                                                <strong>Position:</strong> Artist <br />
+
+                                                <strong>Experience:</strong> 5 years
+                                            </div>
+                                            <div class="description">
+                                                Artist is a term applied to a person who engages in an
+                                                activity deemed to be an art. An artist also may be
+                                                defined unofficially as "a person who expresses him- or
+                                                herself through a medium". He is a descriptive term
+                                                applied to a person who engages in an activity deemed to
+                                                be an art. An artist also may be defined unofficially as
+                                                "a person who expresses him- or herself through a
+                                                medium".
+                                            </div>
+                                            <div class="footer">
+                                                <a class="btn btn-icon btn-twitter btn-round" href="javascript:void(0)">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                                <a class="btn btn-icon btn-facebook btn-round"
+                                                    href="javascript:void(0)">
+                                                    <i class="fab fa-facebook-square"></i>
+                                                </a>
+                                                <a class="btn btn-icon btn-dribbble btn-round"
+                                                    href="javascript:void(0)">
+                                                    <i class="fab fa-dribbble"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </slide>
+                        <slide>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h1 class="title">Quavo Austen</h1>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img alt="First slide" class="d-block" src="assets/img/tom-klein.jpg" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="wrapper">
+                                            <div class="category">
+                                                <strong>Position:</strong> Actor <br />
+
+                                                <strong>Experience:</strong> 1 year
+                                            </div>
+                                            <div class="description">
+                                                Artist is a term applied to a person who engages in an
+                                                activity deemed to be an art. An artist also may be
+                                                defined unofficially as "a person who expresses him- or
+                                                herself through a medium". He is a descriptive term
+                                                applied to a person who engages in an activity deemed to
+                                                be an art. An artist also may be defined unofficially as
+                                                "a person who expresses him- or herself through a
+                                                medium".
+                                            </div>
+                                            <div class="footer">
+                                                <a class="btn btn-icon btn-twitter btn-round" href="javascript:void(0)">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                                <a class="btn btn-icon btn-facebook btn-round"
+                                                    href="javascript:void(0)">
+                                                    <i class="fab fa-facebook-square"></i>
+                                                </a>
+                                                <a class="btn btn-icon btn-dribbble btn-round"
+                                                    href="javascript:void(0)">
+                                                    <i class="fab fa-dribbble"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </slide>
+                        <slide>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h1 class="title">Lucy</h1>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img alt="First slide" class="d-block" src="assets/img/lucy.jpg" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="wrapper">
+                                            <div class="category">
+                                                <strong>Position:</strong> CEO <br />
+
+                                                <strong>Experience:</strong> 7 years
+                                            </div>
+                                            <div class="description">
+                                                Artist is a term applied to a person who engages in an
+                                                activity deemed to be an art. An artist also may be
+                                                defined unofficially as "a person who expresses him- or
+                                                herself through a medium". He is a descriptive term
+                                                applied to a person who engages in an activity deemed to
+                                                be an art. An artist also may be defined unofficially as
+                                                "a person who expresses him- or herself through a
+                                                medium".
+                                            </div>
+                                            <div class="footer">
+                                                <a class="btn btn-icon btn-twitter btn-round" href="javascript:void(0)">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                                <a class="btn btn-icon btn-facebook btn-round"
+                                                    href="javascript:void(0)">
+                                                    <i class="fab fa-facebook-square"></i>
+                                                </a>
+                                                <a class="btn btn-icon btn-dribbble btn-round"
+                                                    href="javascript:void(0)">
+                                                    <i class="fab fa-dribbble"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </slide>
+                    </carousel>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+</div>

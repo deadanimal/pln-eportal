@@ -1,0 +1,313 @@
+<div class="wrapper">
+  <div class="page-header page-header-small header-filter">
+    <div
+      class="page-header-image rellax"
+      data-parallax="true"
+      style="background-image: url('assets/img/show/nasa.jpg')"
+    ></div>
+    <div class="content-center">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-center">
+          <h1 class="title">Kembara Simulasi</h1>
+          <h2 class="description">
+            Alamilah pengalaman sebagai Angkasawan di dalam Space Pod menuju ke
+            USS.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main main-raised">
+    <div class="section team-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2 col-sm-12"></div>
+          <div class="col-md-8 col-sm-12">
+            <mat-horizontal-stepper [linear]="true" #stepper>
+              <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                  <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
+                  <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                      <label>Tarikh</label>
+                      <input
+                        type="text"
+                        placeholder="Tarikh"
+                        class="form-control"
+                        formControlName="date"
+                        bsDatepicker
+                        [bsConfig]="{
+                          isAnimated: true,
+                          containerClass: 'theme-dark-blue',
+                          dateInputFormat: 'YYYY-MM-DD'
+                        }"
+                      />
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                      <label>Masa</label>
+                      <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="time"
+                            id="masa1"
+                            value="10.00 AM"
+                            formControlName="time"
+                          />
+                          10.00 AM
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="time"
+                            id="masa2"
+                            value="10.10 AM"
+                            formControlName="time"
+                          />
+                          10.10 AM
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="time"
+                            id="masa3"
+                            value="10.20 AM"
+                            formControlName="time"
+                          />
+                          10.20 AM
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="time"
+                            id="masa4"
+                            value="10.30 AM"
+                            formControlName="time"
+                          />
+                          10.30 AM
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="time"
+                            id="masa5"
+                            value="10.40 AM"
+                            formControlName="time"
+                          />
+                          10.40 AM
+                          <span class="form-check-sign"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="p-3 text-center">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      matStepperNext
+                      [disabled]="!firstFormGroup.valid"
+                    >
+                      Seterusnya
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="secondFormGroup">
+                <ng-template matStepLabel>Tempahan Tiket</ng-template>
+                <form [formGroup]="secondFormGroup">
+                  <div class="table-responsive">
+                    <table class="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th scope="col" class="text-dark">Warganegara</th>
+                          <th scope="col">
+                            <bSwitch
+                              switch-off-text="Tidak"
+                              switch-on-text="Ya"
+                              formControlName="citizen"
+                              (changeState)="citizenChange()"
+                            ></bSwitch>
+                          </th>
+                        </tr>
+                      </thead>
+                      <thead>
+                        <tr>
+                          <th scope="col" class="text-dark">Jenis Tiket</th>
+                          <th scope="col" class="text-dark">Kuantiti</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row" class="text-dark">
+                            Dewasa<br /><small
+                              *ngIf="secondFormGroup.value.citizen"
+                              >(RM 12.00/Tiket)</small
+                            ><small *ngIf="!secondFormGroup.value.citizen"
+                              >(RM 24.00/Tiket)</small
+                            >
+                          </th>
+                          <td class="text-dark">
+                            <ngx-number-spinner
+                              [value]="0"
+                              (change)="calculateTotal()"
+                              [min]="0"
+                              formControlName="adult"
+                            >
+                            </ngx-number-spinner>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="text-dark">
+                            Kanak-kanak bawah 12 tahun<br /><small
+                              *ngIf="secondFormGroup.value.citizen"
+                              >(RM 8.00/Tiket)</small
+                            ><small *ngIf="!secondFormGroup.value.citizen"
+                              >(RM 16.00/Tiket)</small
+                            >
+                          </th>
+                          <td class="text-dark">
+                            <ngx-number-spinner
+                              [value]="0"
+                              (change)="calculateTotal()"
+                              [min]="0"
+                              formControlName="children"
+                            >
+                            </ngx-number-spinner>
+                          </td>
+                        </tr>
+                        <!-- <tr>
+                          <th scope="row" class="text-dark">
+                            Warga emas<br /><small>(Percuma)</small>
+                          </th>
+                          <td class="text-dark">
+                            <ngx-number-spinner
+                              [value]="0"
+                              (change)="calculateTotal()"
+                              [min]="0"
+                              formControlName="senior"
+                            >
+                            </ngx-number-spinner>
+                          </td>
+                        </tr> -->
+                        <!-- <tr>
+                          <th scope="row" class="text-dark">
+                            OKU<br /><small>(Percuma)</small>
+                          </th>
+                          <td class="text-dark">
+                            <ngx-number-spinner
+                              [value]="0"
+                              (change)="calculateTotal()"
+                              [min]="0"
+                              formControlName="oku"
+                            >
+                            </ngx-number-spinner>
+                          </td>
+                        </tr> -->
+                        <tr>
+                          <th scope="row" class="text-dark">Jumlah</th>
+                          <td class="text-dark">
+                            RM {{ secondFormGroup.value.total | number }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="text-center">
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      matStepperPrevious
+                    >
+                      Kembali
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      matStepperNext
+                      [disabled]="!secondFormGroup.valid"
+                    >
+                      Seterusnya
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Pengesahan</ng-template>
+                <div class="table-responsive">
+                  <table class="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <th scope="row" class="text-dark">Tarikh</th>
+                        <td class="text-dark text-right">
+                          {{ firstFormGroup.value.date | date }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-dark">Masa</th>
+                        <td class="text-dark text-right">
+                          {{ firstFormGroup.value.time }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-dark">Jumlah Tiket</th>
+                        <td class="text-dark text-right">
+                          {{
+                            secondFormGroup.value.adult +
+                              secondFormGroup.value.children
+                          }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-dark">
+                          Jumlah Harga Tiket
+                        </th>
+                        <td class="text-dark text-right">
+                          RM {{ secondFormGroup.value.total }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    matStepperPrevious
+                  >
+                    Kembali
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    (click)="makePayment()"
+                  >
+                    Buat Bayaran
+                  </button>
+                </div>
+              </mat-step>
+            </mat-horizontal-stepper>
+          </div>
+          <div class="col-md-2 col-sm-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,194 @@
+<div class="wrapper">
+    <div class="page-header page-header-small header-filter">
+        <div class="page-header-image rellax" data-parallax="true"
+            style="background-image: url('assets/img/ticketing/information.jpg');"></div>
+        <div class="content-center">
+            <div class="row">
+                <div class="col-md-6 ml-auto mr-auto text-center">
+                    <h1 class="title">
+                        Tiket
+                    </h1>
+                    <h2 class="description">Anda boleh menempah tiket untuk semua tayangan.</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main main-raised">
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 mx-auto text-center">
+                        <h3 class="desc my-5">Tayangan terdekat</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card card-product">
+                                    <div class="card-image">
+                                        <a href="#"> <img alt="..." src="assets/img/ticketing/movies.svg" /> </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#">
+                                            <h4 class="card-title">Tayangan 1</h4>
+                                        </a>
+                                        <div class="card-footer">
+                                            <div class="price-container">
+                                                <span class="price"> RM25.00 </span>
+                                                <p>9.00AM</p>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-default"  data-target="#myModal" (click)="myModal.show()">Tempah</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card card-product">
+                                    <div class="card-image">
+                                        <a href="#">
+                                            <img alt="..." src="assets/img/ticketing/movies.svg" />
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#">
+                                            <h4 class="card-title">Tayangan 2</h4>
+                                        </a>
+                                        <div class="card-footer">
+                                            <div class="price-container">
+                                                <span class="price"> RM25.00 </span>
+                                                <p>10.00AM</p>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-default" data-target="#myModal" (click)="myModal.show()">Tempah</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card card-product">
+                                    <div class="card-image">
+                                        <a href="#">
+                                            <img alt="..." src="assets/img/ticketing/movies.svg" />
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#">
+                                            <h4 class="card-title">Tayangan 3</h4>
+                                        </a>
+                                        <div class="card-footer">
+                                            <div class="price-container">
+                                                <span class="price"> RM25.00</span>
+                                                <p>11.00AM</p>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-default" data-target="#myModal" (click)="myModal.show()">Tempah</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card card-product">
+                                    <div class="card-image">
+                                        <a href="#">
+                                            <img alt="..." src="assets/img/ticketing/movies.svg" />
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#">
+                                            <h4 class="card-title">Tayangan 4</h4>
+                                        </a>
+                                        <div class="card-footer">
+                                            <div class="price-container">
+                                                <span class="price"> RM25.00 </span>
+                                                <p>12.00PM</p>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-default" data-target="#myModal" (click)="myModal.show()">Tempah</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade" #myModal="bs-modal" id="myModal"
+    role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="myModal.hide()">
+                    <i class="tim-icons icon-simple-remove"> </i>
+                </button>
+                <h4 class="title title-up">Tempahan Tiket</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">Jenis Tiket</th>
+                                <th scope="col" class="text-right">Kuantiti</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Dewasa</th>
+                                <td class="text-right">
+                                    <ngx-number-spinner
+                                        [value]="0"
+                                        (change)="changeAdultQuantity($event)" 
+                                        [min]="0">
+                                    </ngx-number-spinner>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Kanak-kanak bawah 12 tahun</th>
+                                <td class="text-right">
+                                    <ngx-number-spinner
+                                        [value]="0"
+                                        (change)="changeChildrenQuantity($event)" 
+                                        [min]="0">
+                                    </ngx-number-spinner>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Warga emas</th>
+                                <td class="text-right">
+                                    <ngx-number-spinner
+                                        [value]="0"
+                                        (change)="changeSeniorQuantity($event)" 
+                                        [min]="0">
+                                    </ngx-number-spinner>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Jumlah</th>
+                                <td class="text-right">
+                                    RM25.00
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="myModal.hide()">
+                    Batal
+                </button>
+                <button class="btn btn-default" type="button" [routerLink]="['/payment']">Tempah</button>
+            </div>
+        </div>
+    </div>
+</div>
+

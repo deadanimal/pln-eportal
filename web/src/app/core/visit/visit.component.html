@@ -1,0 +1,340 @@
+<div class="wrapper">
+  <div class="page-header page-header-small header-filter">
+    <div
+      class="page-header-image rellax"
+      data-parallax="true"
+      style="background-image: url('assets/img/visit/nasa.jpg')"
+    ></div>
+    <div class="content-center">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-center">
+          <h1 class="title">Lawatan</h1>
+          <h2 class="description">
+            Anda boleh membuat tempahan awal lawatan berkumpulan/berpandu dalam
+            talian.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main main-raised">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-blog card-plain">
+            <div class="card-image">
+              <a href="javascript:void(0)">
+                <img class="img rounded" src="assets/img/visit/visit-1.jpg" />
+              </a>
+            </div>
+            <div class="card-body">
+              <h6 class="category text-primary">Popular</h6>
+              <h4 class="card-title">
+                <a href="javascript:void(0)"> Lawatan 1 </a>
+              </h4>
+              <p class="card-description">Informasi tentang lawatan 1...</p>
+              <div class="card-footer">
+                <div class="stats stats-right">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    (click)="openDefaultModal(modalDefault)"
+                  >
+                    Tempah
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-blog card-plain">
+            <div class="card-image">
+              <a href="javascript:void(0)">
+                <img class="img rounded" src="assets/img/visit/visit-2.jpg" />
+              </a>
+            </div>
+            <div class="card-body">
+              <h6 class="category text-info">Popular</h6>
+              <h4 class="card-title">
+                <a href="javascript:void(0)"> Lawatan 2 </a>
+              </h4>
+              <p class="card-description">Informasi tentang lawatan 2...</p>
+              <div class="card-footer">
+                <div class="stats stats-right">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    (click)="openDefaultModal(modalDefault)"
+                  >
+                    Tempah
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-blog card-plain">
+            <div class="card-image">
+              <a href="javascript:void(0)">
+                <img class="img rounded" src="assets/img/visit/visit-3.jpg" />
+              </a>
+            </div>
+            <div class="card-body">
+              <h6 class="category text-warning">Popular</h6>
+              <h4 class="card-title">
+                <a href="javascript:void(0)"> Lawatan 3 </a>
+              </h4>
+              <p class="card-description">Informasi tentang lawatan 3...</p>
+              <div class="card-footer">
+                <div class="stats stats-right">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    (click)="openDefaultModal(modalDefault)"
+                  >
+                    Tempah
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="subscribe-line">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-10 ml-auto mr-auto">
+            <div class="text-center">
+              <h4 class="title">Langgani berita kami</h4>
+              <p class="description">
+                Sertai berita kami dan menerima berita dalam peti masuk emel
+                anda setiap bulan!
+              </p>
+            </div>
+            <div class="card card-raised card-form-horizontal">
+              <div class="card-body">
+                <form action="" method="">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div
+                        class="input-group"
+                        [ngClass]="{ 'input-group-focus': focus === true }"
+                      >
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="tim-icons icon-email-85"> </i>
+                          </span>
+                        </div>
+                        <input
+                          class="form-control"
+                          placeholder="Emel anda..."
+                          type="email"
+                          (blur)="focus = false"
+                          (focus)="focus = true"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <button class="btn btn-danger btn-block" type="button">
+                        Langgan
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalDefault>
+  <div class="modal-header">
+    <h6 class="modal-title" id="modal-title-default">Tempahan</h6>
+
+    <button
+      aria-label="Close"
+      class="close my-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="defaultModal.hide()"
+    >
+      <span aria-hidden="true"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <form class="js-validate">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="labels">
+                  Nama penuh <span class="text-danger"> * </span>
+                </label>
+                <input
+                  aria-label="Nurul Aiman"
+                  class="form-control text-dark"
+                  name="firstName"
+                  placeholder="Nurul Aiman"
+                  required=""
+                  type="text"
+                />
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels">
+                    Alamat emel <span class="text-danger"> * </span>
+                  </label>
+                  <input
+                    aria-label="thompson@gmail.com"
+                    class="form-control text-dark"
+                    name="emailAddress"
+                    placeholder="thompson@gmail.com"
+                    required=""
+                    type="email"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels"> No. tel </label>
+                  <input
+                    aria-label="+6017666162"
+                    class="form-control text-dark"
+                    placeholder="+6017666162"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels">
+                    Tarikh <span class="text-danger"> * </span>
+                  </label>
+                  <input
+                    aria-label="date"
+                    class="form-control text-dark"
+                    type="text"
+                    bsDaterangepicker
+                    placeholder="Sila pilih tarikh"
+                    [bsConfig]="{
+                      isAnimated: true,
+                      containerClass: 'theme-red'
+                    }"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels"> Waktu </label>
+                  <input
+                    aria-label="time"
+                    class="form-control text-dark"
+                    placeholder="Sila pilih waktu"
+                    type="time"
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels">
+                    Kategori Organisasi <span class="text-danger"> * </span>
+                  </label>
+                  <select
+                    aria-label="Kategori Organisasi"
+                    class="form-control custom-select text-dark"
+                  >
+                    <option selected hidden>Sila pilih</option>
+                    <option>Sekolah</option>
+                    <option>Organisasi</option>
+                    <option>Penyelidikan</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels"> Nama Organisasi </label>
+                  <input
+                    aria-label="Universiti Kuala Lumpur"
+                    class="form-control text-dark"
+                    placeholder="Universiti Kuala Lumpur"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels">
+                    Bilangan orang <span class="text-danger"> * </span>
+                  </label>
+                  <input
+                    aria-label="Bilangan orang"
+                    class="form-control text-dark"
+                    placeholder="Bilangan orang"
+                    required=""
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels">
+                    Juru Iring <span class="text-danger"> * </span>
+                  </label>
+                  <select
+                    aria-label="Juru Iring"
+                    class="form-control custom-select text-dark"
+                  >
+                    <option selected hidden>Sila pilih</option>
+                    <option>Ya</option>
+                    <option>Tidak</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" (click)="openAfterBooking()">
+      Buat tempahan
+    </button>
+
+    <button
+      class="btn btn-link ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="defaultModal.hide()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>

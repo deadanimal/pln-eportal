@@ -1,0 +1,181 @@
+<div class="wrapper">
+  <div class="page-header page-header-small header-filter">
+    <div
+      class="page-header-image rellax"
+      data-parallax="true"
+      style="background-image: url('assets/img/show/show-3.jpg')"
+    ></div>
+    <div class="content-center">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-left">
+          <h1 class="title">Dynamic Earth</h1>
+          <h3 class="description bg-dark p-2">
+            The award-winning Dynamic Earth explores the inner workings of
+            Earth's climate system. With visualizations based on satellite
+            monitoring data and advanced supercomputer simulations, this
+            cutting-edge production follows a trail of energy that flows from
+            the Sun into the interlocking systems that shape our climate: the
+            atmosphere, oceans, and the biosphere. Audiences will ride along on
+            swirling ocean and wind currents, dive into the heart of a monster
+            hurricane, come face-to-face with sharks and gigantic whales, and
+            fly into roiling volcanoes.
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main main-raised">
+    <div class="section team-4">
+      <div class="container">
+        <button
+          type="button"
+          class="btn btn-primary text-right"
+          data-target="#myModal"
+          (click)="myModal.show()"
+        >
+          Tempah
+        </button>
+        <div class="row">
+          <div class="col">
+            <h2 class="title text-left">Gazet Tayangan</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div classs="col text-center">
+            <youtube-player
+              [videoId]="urlTrailer"
+              width="1080"
+            ></youtube-player>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  aria-hidden="true"
+  aria-labelledby="myModalLabel"
+  bsModal
+  class="modal fade"
+  #myModal="bs-modal"
+  id="myModal"
+  role="dialog"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button
+          aria-hidden="true"
+          class="close"
+          data-dismiss="modal"
+          type="button"
+          (click)="myModal.hide()"
+        >
+          <i class="tim-icons icon-simple-remove"> </i>
+        </button>
+        <h4 class="title title-up">Tempahan Tiket</h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col" class="text-dark">Warganegara</th>
+                <th scope="col">
+                  <bSwitch
+                    switch-off-text="Tidak"
+                    switch-on-text="Ya"
+                  ></bSwitch>
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th scope="col" class="text-dark">Jenis Tiket</th>
+                <th scope="col" class="text-right text-dark">Kuantiti</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="text-dark">
+                  Dewasa<br /><small>(RM 6.00/Tiket)</small>
+                </th>
+                <td class="text-right text-dark">
+                  <ngx-number-spinner
+                    [value]="0"
+                    (change)="changeAdultQuantity($event)"
+                    [min]="0"
+                  >
+                  </ngx-number-spinner>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">
+                  Kanak-kanak bawah 12 tahun<br /><small>(RM 4.00/Tiket)</small>
+                </th>
+                <td class="text-right text-dark">
+                  <ngx-number-spinner
+                    [value]="0"
+                    (change)="changeChildrenQuantity($event)"
+                    [min]="0"
+                  >
+                  </ngx-number-spinner>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">
+                  Warga emas<br /><small>(Percuma)</small>
+                </th>
+                <td class="text-right text-dark">
+                  <ngx-number-spinner
+                    [value]="0"
+                    (change)="changeSeniorQuantity($event)"
+                    [min]="0"
+                  >
+                  </ngx-number-spinner>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">
+                  OKU<br /><small>(Percuma)</small>
+                </th>
+                <td class="text-right text-dark">
+                  <ngx-number-spinner
+                    [value]="0"
+                    (change)="changeSeniorQuantity($event)"
+                    [min]="0"
+                  >
+                  </ngx-number-spinner>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Jumlah</th>
+                <td class="text-right text-dark">RM25.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-danger"
+          data-dismiss="modal"
+          type="button"
+          (click)="myModal.hide()"
+        >
+          Batal
+        </button>
+        <button
+          class="btn btn-default"
+          type="button"
+          [routerLink]="['/payment']"
+        >
+          Tempah
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
