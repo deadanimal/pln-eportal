@@ -1,40 +1,36 @@
-<div class="wrapper">
-  <div style="position: relative; overflow: hidden">
-    <video
-      autoplay="true"
-      muted="true"
-      loop="true"
-      [width]="screenWidth"
-      height="580"
-    >
-      <source
-        src="../../../assets/video/planetarium-homepage-video.mp4"
-        type="video/mp4"
-      />
-    </video>
-    <div
-      style="
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-      "
-    >
-      <h1 class="title text-center m-0">Portal Rasmi Planetarium Negara</h1>
-      <h4 class="text-center">
-        Kementerian Sains, Teknologi & Inovasi (MOSTI)
-      </h4>
+<div class="header header-4">
+  <div class="header-wrapper">
+    <div class="page-header header-video header-filter">
+      <div class="overlay"></div>
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+      >
+        <source
+          src="../../../assets/video/planetarium-homepage-video.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div class="container text-center">
+        <div class="video-text">
+          <h1 class="title">Portal Rasmi Planetarium Negara</h1>
+          <h4 class="text-center">
+            Kementerian Sains, Teknologi & Inovasi (MOSTI)
+          </h4>
+        </div>
+      </div>
     </div>
   </div>
-
+</div>
+<div class="wrapper">
   <!-- Basic Info -->
   <div class="basic-info">
     <div class="container p-3">
       <div class="row">
         <div class="col-md-4 col-sm-12 text-center">
           <h2 class="title">Waktu Operasi</h2>
-          <p class="text-justified">
+          <p class="text-justify">
             dari 9.00 PAGI - 4.30 PETANG kecuali Isnin, Hari Raya Puasa, Hari
             Raya Haji, dan cuti umum yang ditetapkan oleh Planetarium Negara
           </p>
@@ -63,7 +59,7 @@
         </div>
         <div class="col-md-4 col-sm-12 text-center">
           <h2 class="title">Mengenai Kami</h2>
-          <p class="text-justified">
+          <p class="text-justify">
             Planetarium Negara berstruktur kubah biru yang terletak di atas
             bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
             sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
@@ -86,30 +82,39 @@
         <div class="col">
           <carousel [noPause]="false" showIndicators="false">
             <slide>
-              <img src="assets/img/facility/galeri-pameran-3.jpg" style="display: block; width: 100%; height: 420px;">
-              <div class="carousel-caption d-none d-md-block">
+              <img
+                src="assets/img/facility/galeri-pameran-3.jpg"
+                style="display: block; width: 100%; height: 420px"
+              />
+              <!-- <div class="carousel-caption d-none d-md-block">
                 <h1 class="title text-white">Selamat datang ke ePlanetarium, Malaysia</h1>
                 <p class="font-weight-bold text-white">Jelajah angkasa lepas dan alam semesta di sini.</p>
-              </div>
+              </div> -->
             </slide>
             <slide>
-              <img src="assets/img/facility/teatret-1.jpg" style="display: block; width: 100%; height: 420px;">
-              <div class="carousel-caption d-none d-md-block">
+              <img
+                src="assets/img/facility/teatret-1.jpg"
+                style="display: block; width: 100%; height: 420px"
+              />
+              <!-- <div class="carousel-caption d-none d-md-block">
                 <h1 class="title text-white">Pameran Angkasa</h1>
                 <p class="font-weight-bold text-white">Roket, bintang, cakerawala dan sebagainya ada di sini.</p>
-              </div>
+              </div> -->
             </slide>
             <slide>
-              <img src="assets/img/background/facility-4.jpg" style="display: block; width: 100%; height: 420px;">
-              <div class="carousel-caption d-none d-md-block">
+              <img
+                src="assets/img/background/facility-4.jpg"
+                style="display: block; width: 100%; height: 420px"
+              />
+              <!-- <div class="carousel-caption d-none d-md-block">
                 <h1 class="title text-white">Terokai Angkasa tanpa pergi ke angkasa</h1>
                 <p class="font-weight-bold text-white">Gambar, video, dan sebagainya sedia untuk dipamerkan kepada anda.</p>
-              </div>
+              </div> -->
             </slide>
           </carousel>
         </div>
       </div>
-      
+
       <!-- <alert [type]="'warning'">
         <p class="text-dark">
           Pengumuman: Waktu Operasi dari 9.00 pagi - 4.30 petang
@@ -128,7 +133,7 @@
               <h2 class="card-title title text-uppercase">
                 Penerokaan Angkasa
               </h2>
-              <p class="card-text text-justified">
+              <p class="card-text text-justify">
                 Planetarium Negara berstruktur kubah biru yang terletak di atas
                 bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
                 sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
@@ -144,7 +149,7 @@
             />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">Mikrosatelit</h2>
-              <p class="card-text text-justified">
+              <p class="card-text text-justify">
                 Planetarium Negara berstruktur kubah biru yang terletak di atas
                 bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
                 sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
@@ -160,7 +165,7 @@
             />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">Galeri Pameran</h2>
-              <p class="card-text text-justified">
+              <p class="card-text text-justify">
                 Planetarium Negara berstruktur kubah biru yang terletak di atas
                 bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
                 sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
@@ -176,7 +181,7 @@
             />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">Stonehenge</h2>
-              <p class="card-text text-justified">
+              <p class="card-text text-justify">
                 Planetarium Negara berstruktur kubah biru yang terletak di atas
                 bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
                 sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)

@@ -11,7 +11,7 @@
           </h4>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="facility.images">
         <div class="col-md-8 ml-auto mr-auto text-center">
           <!-- <img alt="First slide" class="d-block" src="assets/img/background/facility-2.jpg" /> -->
           <ngx-gallery
@@ -20,10 +20,10 @@
           ></ngx-gallery>
         </div>
         <div class="col-md-4">
-          <h1 class="title">Maklumat Fasiliti</h1>
-          <p class="description">• Kapasiti maksima 80 orang</p>
-          <p class="description">• Aktiviti pelajar sekolah</p>
-          <p class="description">• Sambutan majlis</p>
+          <h1 class="title">{{ facility.name }}</h1>
+          <p class="description text-justify">{{ facility.desc }}</p>
+          <p class="description">• Kapasiti: {{ facility.capacity }}</p>
+          <p class="description">• Keluasan: {{ facility.area }}</p>
           <div class="row">
             <div class="col-md-12 col-sm-8 mb-3">
               <a
@@ -32,6 +32,33 @@
               >
                 Tempah sekarang
               </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="facility.places">
+        <div class="row pb-5" *ngFor="let place of facility.places">
+          <div class="col-md-8 ml-auto mr-auto text-center">
+            <!-- <img alt="First slide" class="d-block" src="assets/img/background/facility-2.jpg" /> -->
+            <ngx-gallery
+              [options]="galleryOptions"
+              [images]="place.images"
+            ></ngx-gallery>
+          </div>
+          <div class="col-md-4">
+            <h1 class="title">{{ place.name }}</h1>
+            <p class="description text-justify">{{ place.desc }}</p>
+            <p class="description">• Kapasiti: {{ place.capacity }}</p>
+            <p class="description">• Keluasan: {{ place.area }}</p>
+            <div class="row">
+              <div class="col-md-12 col-sm-8 mb-3">
+                <a
+                  class="btn btn-info btn-round text-white"
+                  (click)="openDefaultModal(modalDefault)"
+                >
+                  Tempah sekarang
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -203,7 +230,11 @@
                   <label class="labels">
                     Tarikh <span class="text-danger"> * </span>
                   </label>
-                  <input class="form-control text-dark" required="" type="date" />
+                  <input
+                    class="form-control text-dark"
+                    required=""
+                    type="date"
+                  />
                 </div>
               </div>
               <div class="col-md-6">
@@ -211,7 +242,11 @@
                   <label class="labels">
                     Waktu <span class="text-danger"> * </span>
                   </label>
-                  <input class="form-control text-dark" required="" type="time" />
+                  <input
+                    class="form-control text-dark"
+                    required=""
+                    type="time"
+                  />
                 </div>
               </div>
             </div>

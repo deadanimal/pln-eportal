@@ -1,6 +1,9 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
+
+import { JwtService } from "src/app/shared/jwt/jwt.service";
 
 @Component({
   selector: "app-visit",
@@ -55,12 +58,23 @@ export class VisitComponent implements OnInit {
   selectedItems1 = [];
   focus;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(
+    private jwtService: JwtService,
+    private modalService: BsModalService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {}
 
   openDefaultModal(modalDefault: TemplateRef<any>) {
-    this.defaultModal = this.modalService.show(modalDefault, this.default);
+    if (this.jwtService.getToken("accessToken")) {
+      this.defaultModal = this.modalService.show(modalDefault, this.default);
+    } else {
+      this.toastr.error(
+        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk membuat lawatan.",
+        "Ralat"
+      );
+    }
   }
 
   openAfterBooking() {

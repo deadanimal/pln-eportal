@@ -26,7 +26,7 @@ export class SurveyComponent implements OnInit {
   }
 
   chooseQuestion(question: string, module: string) {
-    this.defaultModal.hide();
+    if (this.defaultModal) this.defaultModal.hide();
     this.typeQuestion = question;
     this.module = module;
   }
