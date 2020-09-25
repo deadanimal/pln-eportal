@@ -33,16 +33,16 @@
               "src/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/mobius1-selectr/dist/selectr.min.css",
-              "node_modules/@swimlane/ngx-datatable/release/index.css",
-              "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
-              "node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
+              "node_modules/@swimlane/ngx-datatable/index.css",
+              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
               "src/assets/scss/argon.scss",
+              "node_modules/@swimlane/ngx-datatable/themes/bootstrap.css",
               "node_modules/leaflet/dist/leaflet.css",
-              "node_modules/mapbox-gl/dist/mapbox-gl.css",
-              "node_modules/@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css"
+              "node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css"
             ],
             "scripts": [
-                "node_modules/chart.js/dist/Chart.min.js"
+              "node_modules/chart.js/dist/Chart.min.js"
             ],
             "es5BrowserSupport": true
           },
@@ -66,8 +66,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "4mb",
+                  "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -150,5 +154,8 @@
       }
     }
   },
-  "defaultProject": "argon-dashboard-pro-angular"
+  "defaultProject": "argon-dashboard-pro-angular",
+  "cli": {
+    "analytics": false
+  }
 }

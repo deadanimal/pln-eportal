@@ -1,78 +1,46 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { 
-  BsDropdownModule, 
+  AccordionModule,
+  BsDropdownModule,
+  ModalModule,
   ProgressbarModule, 
-  TooltipModule, 
-  BsDatepickerModule,
-  ModalModule
+  TabsModule,
+  TooltipModule
 } from 'ngx-bootstrap';
-import { RouterModule } from '@angular/router';
-
-import { FusionChartsModule } from 'angular-fusioncharts';
-import * as FusionCharts from 'fusioncharts';
-import * as Charts from 'fusioncharts/fusioncharts.charts';
-import * as Widgets from 'fusioncharts/fusioncharts.widgets';
-import * as PowerCharts from 'fusioncharts/fusioncharts.powercharts';
-import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
-FusionChartsModule.fcRoot(
-  FusionCharts, 
-  Charts,
-  Widgets,
-  FusionTheme,
-  PowerCharts
-);
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
+import { RouterModule } from '@angular/router';
 import { AdminRoutes } from './admin.routing';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { ManagementComponent } from './management/management.component';
-import { AnalyticsComponent } from './analytics/analytics.component';
+import { ManagementAuditComponent } from './management-audit/management-audit.component';
+import { ManagementUserComponent } from './management-user/management-user.component';
 import { ReportComponent } from './report/report.component';
-import { TicketingComponent } from './ticketing/ticketing.component';
-import { ShowComponent } from './show/show.component';
-import { ExhibitComponent } from './exhibit/exhibit.component';
-import { VisitComponent } from './visit/visit.component';
-import { ProgramComponent } from './program/program.component';
-import { SurveyComponent } from './survey/survey.component';
-import { FacilityComponent } from './facility/facility.component';
-import { PublicationComponent } from './publication/publication.component';
-import { AssetComponent } from './asset/asset.component';
-import { VenueComponent } from './venue/venue.component';
-import { ShowingDatabaseComponent } from './showing-database/showing-database.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    ManagementComponent,
-    AnalyticsComponent,
-    ReportComponent,
-    TicketingComponent,
-    ShowComponent,
-    ExhibitComponent,
-    VisitComponent,
-    ProgramComponent,
-    SurveyComponent,
-    FacilityComponent,
-    PublicationComponent,
-    AssetComponent,
-    VenueComponent,
-    ShowingDatabaseComponent
+    ManagementAuditComponent,
+    ManagementUserComponent,
+    ReportComponent
   ],
   imports: [
     CommonModule,
-    BsDropdownModule.forRoot(),
-    ProgressbarModule.forRoot(),
-    TooltipModule.forRoot(),
-    RouterModule.forChild(AdminRoutes),
-    FusionChartsModule,
-    LeafletModule,
+    AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgxDatatableModule,
+    BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    ReactiveFormsModule
+    ProgressbarModule.forRoot(),
+    TabsModule.forRoot(),
+    TooltipModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
+    LoadingBarModule,
+    NgxDatatableModule,
+    RouterModule.forChild(AdminRoutes)
   ]
 })
 export class AdminModule { }

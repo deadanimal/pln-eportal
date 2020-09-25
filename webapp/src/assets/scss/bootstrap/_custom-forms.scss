@@ -240,7 +240,7 @@
   background-color: $custom-select-bg;
   border: $custom-select-border-width solid $custom-select-border-color;
   @include border-radius($custom-select-border-radius, 0);
-  //@include box-shadow($custom-select-box-shadow);
+  @include box-shadow($custom-select-box-shadow);
   appearance: none;
 
   &:focus {

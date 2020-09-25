@@ -1,28 +1,44 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { ROUTES } from '../../shared/menu/menu-items';
+import { Component, OnInit, ElementRef } from "@angular/core";
+import { ROUTES } from "../../shared/menu/menu-items";
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
-
 import {
   Location,
   LocationStrategy,
   PathLocationStrategy
-} from '@angular/common';
+} from "@angular/common";
+import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+import { User } from 'src/app/shared/services/users/users.model';
+import { JwtService } from 'src/app/shared/handler/jwt/jwt.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  selector: "app-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit {
-  public focus;
-  public listTitles: any[];
-  public location: Location;
+
+  focus;
+  listTitles: any[];
+  location: Location;
+
   sidenavOpen: boolean = true;
+
+  // Data
+  user: User
+
+  // Image
+  imgAvatar = 'assets/img/default/avatar.png'
+
   constructor(
     location: Location,
+    private userService: UsersService,
+    private jwtService: JwtService,
+    private notifyService: NotifyService,
     private element: ElementRef,
     private router: Router
   ) {
+    this.user = this.userService.user
     this.location = location;
     this.router.events.subscribe((event: Event) => {
        if (event instanceof NavigationStart) {
@@ -33,8 +49,8 @@ export class NavbarComponent implements OnInit {
            // Hide loading indicator
 
            if (window.innerWidth < 1200) {
-             document.body.classList.remove('g-sidenav-pinned');
-             document.body.classList.add('g-sidenav-hidden');
+             document.body.classList.remove("g-sidenav-pinned");
+             document.body.classList.add("g-sidenav-hidden");
              this.sidenavOpen = false;
            }
        }
@@ -50,11 +66,13 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('as: ', this.user)
     this.listTitles = ROUTES.filter(listTitle => listTitle);
   }
+
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === '#') {
+    if (titlee.charAt(0) === "#") {
       titlee = titlee.slice(1);
     }
 
@@ -63,52 +81,81 @@ export class NavbarComponent implements OnInit {
         return this.listTitles[item].title;
       }
     }
-    return 'Dashboard';
+    return "Dashboard";
+  }
+
+  navigatePage(path: String) {
+    if (path == 'notifications') {
+      return this.router.navigate(['/global/notifications'])
+    }
+    else if (path == 'profile') {
+      return this.router.navigate(['/global/profile'])
+    }
+    else if (path == 'settings') {
+      return this.router.navigate(['/global/settings'])
+    }
+    else if (path == 'home') {
+      return this.router.navigate(['/auth/login'])
+    }
+  }
+
+  successMessage() {
+    let title = 'Success'
+    let message = 'Loging in right now'
+    this.notifyService.openToastr(title, message)
+  }
+
+  logout() {
+    this.jwtService.destroyToken()
+    this.navigatePage('home')
   }
 
   openSearch() {
-    document.body.classList.add('g-navbar-search-showing');
+    document.body.classList.add("g-navbar-search-showing");
     setTimeout(function() {
-      document.body.classList.remove('g-navbar-search-showing');
-      document.body.classList.add('g-navbar-search-show');
+      document.body.classList.remove("g-navbar-search-showing");
+      document.body.classList.add("g-navbar-search-show");
     }, 150);
     setTimeout(function() {
-      document.body.classList.add('g-navbar-search-shown');
+      document.body.classList.add("g-navbar-search-shown");
     }, 300);
   }
+
   closeSearch() {
-    document.body.classList.remove('g-navbar-search-shown');
+    document.body.classList.remove("g-navbar-search-shown");
     setTimeout(function() {
-      document.body.classList.remove('g-navbar-search-show');
-      document.body.classList.add('g-navbar-search-hiding');
+      document.body.classList.remove("g-navbar-search-show");
+      document.body.classList.add("g-navbar-search-hiding");
     }, 150);
     setTimeout(function() {
-      document.body.classList.remove('g-navbar-search-hiding');
-      document.body.classList.add('g-navbar-search-hidden');
+      document.body.classList.remove("g-navbar-search-hiding");
+      document.body.classList.add("g-navbar-search-hidden");
     }, 300);
     setTimeout(function() {
-      document.body.classList.remove('g-navbar-search-hidden');
+      document.body.classList.remove("g-navbar-search-hidden");
     }, 500);
   }
+
   openSidebar() {
-    if (document.body.classList.contains('g-sidenav-pinned')) {
-      document.body.classList.remove('g-sidenav-pinned');
-      document.body.classList.add('g-sidenav-hidden');
+    if (document.body.classList.contains("g-sidenav-pinned")) {
+      document.body.classList.remove("g-sidenav-pinned");
+      document.body.classList.add("g-sidenav-hidden");
       this.sidenavOpen = false;
     } else {
-      document.body.classList.add('g-sidenav-pinned');
-      document.body.classList.remove('g-sidenav-hidden');
+      document.body.classList.add("g-sidenav-pinned");
+      document.body.classList.remove("g-sidenav-hidden");
       this.sidenavOpen = true;
     }
   }
+
   toggleSidenav() {
-    if (document.body.classList.contains('g-sidenav-pinned')) {
-      document.body.classList.remove('g-sidenav-pinned');
-      document.body.classList.add('g-sidenav-hidden');
+    if (document.body.classList.contains("g-sidenav-pinned")) {
+      document.body.classList.remove("g-sidenav-pinned");
+      document.body.classList.add("g-sidenav-hidden");
       this.sidenavOpen = false;
     } else {
-      document.body.classList.add('g-sidenav-pinned');
-      document.body.classList.remove('g-sidenav-hidden');
+      document.body.classList.add("g-sidenav-pinned");
+      document.body.classList.remove("g-sidenav-hidden");
       this.sidenavOpen = true;
     }
   }

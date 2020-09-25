@@ -1,21 +1,20 @@
 <div class="header pb-6">
-    <div class=" container-fluid">
+    <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-dark d-inline-block mb-0">Report</h6>
+                    <h6 class="h2 text-dark d-inline-block mb-0">Reporting</h6>
 
                     <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item">
-                                <a href="javascript:void(0)"> <i class="far fa-file-alt text-dark"> </i> </a>
+                            <li class=" breadcrumb-item">
+                                <a href="javascript:void(0)"> <i class="fas fa-chart-bar text-dark"> </i> </a>
+                            </li>
+                            <li aria-current="page" class="breadcrumb-item active">
+                                Reporting
                             </li>
                         </ol>
                     </nav>
-                </div>
-
-                <div class="col-lg-6 col-5 text-right">
-                    <a class="btn btn-sm btn-neutral" href="javascript:void(0)"> New </a>
                 </div>
             </div>
         </div>
@@ -24,198 +23,98 @@
 
 <div class="container-fluid mt--6">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header bg-default">
-                    <div class="row">
-                        <div class="col">
-                            <h4 class="m-0 text-white">Reporting Tool</h4>
-                        </div>
-                        <div class="col-auto">
-                            
-                        </div>
-                    </div>
+                <div class="card-header bg-secondary">
+                    <h3 class="m-0">Reporting Tool</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-md-12 col-lg-5">
                             <div class="form-group">
-                                <label class="form-control-label" for="input-bumiputera">
-                                    Type
-                                </label>
-                                <select class="browser-default custom-select">
-                                    <option selected hidden>Please choose</option>
+                                <label class="form-control-label">Report type</label>
+                                <select class="form-control custom-select">
+                                    <option hidden selected>Please pick</option>
+                                    <option>Report 1</option>
+                                    <option>Report 2</option>
+                                    <option>Report 3</option>
+                                    <option>Report 4</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
+                        <div class="col-md-12 col-lg-5">
                             <div class="form-group">
-                                <label class="form-control-label" for="input-bumiputera">
-                                    Time Frame
-                                </label>
+                                <label class="form-control-label">Date range</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
-                                    <input type="text"
+                                    <input 
+                                        type="text"
                                         class="form-control"
                                         bsDaterangepicker
-                                        [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
-                                        name="bsDaterangepicker">
-                                </div>
+                                        [bsConfig]="bsDPConfig"
+                                        placeholder="Date range"
+                                        name="bsDaterangepicker"
+                                    >
+                                  </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button type="button" class="btn btn-default btn-lg btn-block">Search</button>
+                        <div class="col-md-12 col-lg-2 d-flex align-items-center">
+                            <button class="btn btn-default" type="button">Search</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header bg-default">
-                    <div class="row">
-                        <div class="col">
-                            <h4 class="m-0 text-white"></h4>
-                        </div>
-                        <div class="col-auto">
-                            <div class="mr-1 dropdown" dropdown>
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" dropdownToggle>
-                                    Export
-                                </button>
-                                <div aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Print</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">PDF</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Excel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart">
-                            <fusioncharts
-                            [width]="width"
-                            [height]="height"
-                            [type]="type"
-                            [dataFormat]="dataFormat"
-                            [dataSource]="dataSource"
-                          >
-                          </fusioncharts>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-md-12 col-lg-6">
             <div class="card">
-                <div class="card-header bg-default">
-                    <div class="row">
-                        <div class="col">
-                            <h4 class="m-0 text-white"></h4>
-                        </div>
-                        <div class="col-auto">
-                            <div class="mr-1 dropdown" dropdown>
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" dropdownToggle>
-                                    Export
-                                </button>
-                                <div aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Print</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">PDF</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Excel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-header bg-secondary">
+                    <h3 class="m-0">Report 1</h3>
                 </div>
                 <div class="card-body">
                     <div class="chart">
-                        <fusioncharts
-                        [width]="width"
-                        [height]="height"
-                        [type]="type2"
-                        [dataFormat]="dataFormat"
-                        [dataSource]="dataSource2"
-                      >
-                      </fusioncharts>
+                        <div class="amchart" id="chartdiv"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-md-12 col-lg-6">
             <div class="card">
-                <div class="card-header bg-default">
-                    <div class="row">
-                        <div class="col">
-                            <h4 class="m-0 text-white"></h4>
-                        </div>
-                        <div class="col-auto">
-                            <div class="mr-1 dropdown" dropdown>
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" dropdownToggle>
-                                    Export
-                                </button>
-                                <div aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Print</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">PDF</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Excel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-header bg-secondary">
+                    <h3 class="m-0">Report 2</h3>
                 </div>
                 <div class="card-body">
                     <div class="chart">
-                        <fusioncharts
-                        [width]="width"
-                        [height]="height"
-                        [type]="type3"
-                        [dataFormat]="dataFormat"
-                        [dataSource]="dataSource3"
-                      >
-                      </fusioncharts>
+                        <div class="amchart" id="chartdiv1"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12 col-lg-6">
             <div class="card">
-                <div class="card-header bg-default">
-                    <div class="row">
-                        <div class="col">
-                            <h4 class="m-0 text-white"></h4>
-                        </div>
-                        <div class="col-auto">
-                            <div class="mr-1 dropdown" dropdown>
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" dropdownToggle>
-                                    Export
-                                </button>
-                                <div aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Print</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">PDF</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Excel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-header bg-secondary">
+                    <h3 class="m-0">Report 3</h3>
                 </div>
                 <div class="card-body">
                     <div class="chart">
-                        <fusioncharts
-                        [width]="width"
-                        [height]="height"
-                        [type]="type4"
-                        [dataFormat]="dataFormat"
-                        [dataSource]="dataSource4"
-                      >
-                      </fusioncharts>
+                        <div class="amchart" id="chartdiv2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <h3 class="m-0">Report 4</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <div class="amchart" id="chartdiv3"></div>
                     </div>
                 </div>
             </div>

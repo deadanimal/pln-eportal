@@ -1,7 +1,7 @@
-.client-logo-area {
+.logo-box {
     text-align: center;
     margin-bottom: 2rem;
-    .client-logo {
+    .logo {
         max-height: 9rem;
     }
 }
@@ -19,8 +19,10 @@
 }
 
 .error-message {
-    width: 100%;
-    margin-top: .35rem;
-    font-size: 80%;
-    color: #fb6340;
+    color: #f5365c;
+    text-align: right;
+    font-size: 0.8em;
+    padding-top: 5px;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }

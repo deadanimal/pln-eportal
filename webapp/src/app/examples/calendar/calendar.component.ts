@@ -19,8 +19,8 @@ import interaction from "@fullcalendar/interaction";
 export class CalendarComponent implements OnInit {
   addModal: BsModalRef;
   editModal: BsModalRef;
-  @ViewChild("modalAdd", { static: false }) modalAdd: ElementRef;
-  @ViewChild("modalEdit", { static: false }) modalEdit: ElementRef;
+  @ViewChild("modalAdd") modalAdd: ElementRef;
+  @ViewChild("modalEdit") modalEdit: ElementRef;
   default = {
     keyboard: true,
     class: "modal-dialog-centered modal-secondary"
