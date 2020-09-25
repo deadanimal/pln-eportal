@@ -24,6 +24,7 @@ import { PdpaComponent } from "./pdpa/pdpa.component";
 import { FaqComponent } from "./faq/faq.component";
 import { SimulatorRideBookComponent } from "./simulator-ride-book/simulator-ride-book.component";
 import { ShowsBookComponent } from "./shows-book/shows-book.component";
+import { ExhibitListsComponent } from './exhibit-lists/exhibit-lists.component';
 
 export const CoreRoutes: Routes = [
   {
@@ -44,6 +45,10 @@ export const CoreRoutes: Routes = [
       {
         path: "",
         component: ExhibitComponent,
+      },
+      {
+        path: "lists",
+        component: ExhibitListsComponent
       },
       {
         path: "details",

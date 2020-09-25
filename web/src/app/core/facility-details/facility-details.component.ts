@@ -6,7 +6,10 @@ import {
   NgxGalleryAnimation,
 } from "ngx-gallery";
 import { ActivatedRoute } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
+
+import { JwtService } from "src/app/shared/jwt/jwt.service";
 
 @Component({
   selector: "app-facility-details",
@@ -26,85 +29,234 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Teater Angkasa",
       type: "teater-angkasa",
-      images: [],
+      desc: "",
+      capacity: "",
+      area: "",
+      images: [
+        {
+          small: "assets/img/facility/ruangan pameran peerokaan angkasa_2.jpg",
+          medium: "assets/img/facility/ruangan pameran peerokaan angkasa_2.jpg",
+          big: "assets/img/facility/ruangan pameran peerokaan angkasa_2.jpg",
+        },
+        {
+          small: "assets/img/facility/ruangan pameran penerokaan angkasa_3.jpg",
+          medium:
+            "assets/img/facility/ruangan pameran penerokaan angkasa_3.jpg",
+          big: "assets/img/facility/ruangan pameran penerokaan angkasa_3.jpg",
+        },
+        {
+          small: "assets/img/facility/ruangan pameran penerokaan angkasa.jpg",
+          medium: "assets/img/facility/ruangan pameran penerokaan angkasa.jpg",
+          big: "assets/img/facility/ruangan pameran penerokaan angkasa.jpg",
+        },
+        {
+          small: "assets/img/facility/ruangan penerokaan angkasa_3.jpg",
+          medium: "assets/img/facility/ruangan penerokaan angkasa_3.jpg",
+          big: "assets/img/facility/ruangan penerokaan angkasa_3.jpg",
+        },
+      ],
     },
     {
       name: "Galeri Pameran",
       type: "galeri-pameran",
+      desc: "",
+      capacity: "",
+      area: "",
       images: [
         {
-          small: "assets/img/facility/galeri-pameran-1.jpg",
-          medium: "assets/img/facility/galeri-pameran-1.jpg",
-          big: "assets/img/facility/galeri-pameran-1.jpg",
+          small: "assets/img/facility/GALERI PAMERAN_ASTRONOMI 2.jpg",
+          medium: "assets/img/facility/GALERI PAMERAN_ASTRONOMI 2.jpg",
+          big: "assets/img/facility/GALERI PAMERAN_ASTRONOMI 2.jpg",
         },
         {
-          small: "assets/img/facility/galeri-pameran-2.jpg",
-          medium: "assets/img/facility/galeri-pameran-2.jpg",
-          big: "assets/img/facility/galeri-pameran-2.jpg",
+          small: "assets/img/facility/GALERI PAMERAN_ASTRONOMI.jpg",
+          medium: "assets/img/facility/GALERI PAMERAN_ASTRONOMI.jpg",
+          big: "assets/img/facility/GALERI PAMERAN_ASTRONOMI.jpg",
         },
         {
-          small: "assets/img/facility/galeri-pameran-3.jpg",
-          medium: "assets/img/facility/galeri-pameran-3.jpg",
-          big: "assets/img/facility/galeri-pameran-3.jpg",
+          small: "assets/img/facility/GALERI PAMERAN_BILIK GELAP.jpg",
+          medium: "assets/img/facility/GALERI PAMERAN_BILIK GELAP.jpg",
+          big: "assets/img/facility/GALERI PAMERAN_BILIK GELAP.jpg",
         },
       ],
     },
     {
       name: "Teatret",
       type: "teatret",
+      desc: "",
+      capacity: "",
+      area: "",
       images: [
         {
-          small: "assets/img/facility/teatret-1.jpg",
-          medium: "assets/img/facility/teatret-1.jpg",
-          big: "assets/img/facility/teatret-1.jpg",
+          small: "assets/img/facility/teatret 2.jpg",
+          medium: "assets/img/facility/teatret 2.jpg",
+          big: "assets/img/facility/teatret 2.jpg",
         },
         {
-          small: "assets/img/facility/teatret-2.jpg",
-          medium: "assets/img/facility/teatret-2.jpg",
-          big: "assets/img/facility/teatret-2.jpg",
+          small: "assets/img/facility/teatret3.jpg",
+          medium: "assets/img/facility/teatret3.jpg",
+          big: "assets/img/facility/teatret3.jpg",
         },
         {
-          small: "assets/img/facility/teatret-3.jpg",
-          medium: "assets/img/facility/teatret-3.jpg",
-          big: "assets/img/facility/teatret-3.jpg",
+          small: "assets/img/facility/teatret.jpg",
+          medium: "assets/img/facility/teatret.jpg",
+          big: "assets/img/facility/teatret.jpg",
         },
       ],
     },
     {
       name: "Bilik Centaurus",
       type: "bilik-centaurus",
-      images: [],
+      desc:
+        "Kutubkhanah Mini Planetarium Negara mempunyai koleksi buku terdiri daripada sebahagian subjek astronomi dan sains angkasa selain subjek-subjek umum yang lain seperti karya am, falsafah, sains kemasyarakatan dan sebagainya. Buku-buku tersebut telah disusun dan dikatalog agar memudahkan orang ramai untuk membuat carian dan rujukan. Kutubkahanah Mini mempunyai ruang bacaan yang boleh menempatkan 20 orang pembaca dalam 1 masa. Namun ruang ini dikongsi bersama Ruang Aktiviti STEM. Semasa penggunaan Ruang Aktiviti STEM, ruang bacaan dikecilkan kepada 2 pengguna sahaja. Kutubkhanah Mini turut menyenaraikan koleksi bahan rujukan di https://www.libib.com dan menyediakan perkhidmatan bacaan atas talian / online melalui blog iaitu di https://pnlibrary.blogspot.com/ .",
+      capacity: "30 orang",
+      area: "46 m2",
+      images: [
+        {
+          small: "assets/img/facility/1 centaurus.jpg",
+          medium: "assets/img/facility/1 centaurus.jpg",
+          big: "assets/img/facility/1 centaurus.jpg",
+        },
+        {
+          small: "assets/img/facility/2 centaurus.jpg",
+          medium: "assets/img/facility/2 centaurus.jpg",
+          big: "assets/img/facility/2 centaurus.jpg",
+        },
+        {
+          small: "assets/img/facility/3 centaurus.jpg",
+          medium: "assets/img/facility/3 centaurus.jpg",
+          big: "assets/img/facility/3 centaurus.jpg",
+        },
+      ],
     },
     {
       name: "Kawasan Rekreasi",
       type: "kawasan-rekreasi",
-      images: [
+      places: [
         {
-          small: "assets/img/facility/kawasan-rekreasi-1.jpg",
-          medium: "assets/img/facility/kawasan-rekreasi-1.jpg",
-          big: "assets/img/facility/kawasan-rekreasi-1.jpg",
+          name: "Sculpture",
+          desc:
+            "Sculpture ini melambangkan ruang dan waktu. Waktu dipotretkan menerusi garis-garis yang mengalir sementara ruang digambarkan oleh kedudukan sfera mewakili planet-planet. Nombor arab menunjukkan usaha manusia memahami alam semesta.",
+          capacity: "50 orang",
+          area: "49 m2",
+          images: [
+            {
+              small: "assets/img/facility/SCULPTURE/SCULPTURE 1.jpg",
+              medium: "assets/img/facility/SCULPTURE/SCULPTURE 1.jpg",
+              big: "assets/img/facility/SCULPTURE/SCULPTURE 1.jpg",
+            },
+            {
+              small: "assets/img/facility/SCULPTURE/SCULPTURE 2.jpg",
+              medium: "assets/img/facility/SCULPTURE/SCULPTURE 2.jpg",
+              big: "assets/img/facility/SCULPTURE/SCULPTURE 2.jpg",
+            },
+            {
+              small: "assets/img/facility/SCULPTURE/SCULPTURE 3.jpg",
+              medium: "assets/img/facility/SCULPTURE/SCULPTURE 3.jpg",
+              big: "assets/img/facility/SCULPTURE/SCULPTURE 3.jpg",
+            },
+          ],
         },
         {
-          small: "assets/img/facility/kawasan-rekreasi-2.jpg",
-          medium: "assets/img/facility/kawasan-rekreasi-2.jpg",
-          big: "assets/img/facility/kawasan-rekreasi-2.jpg",
+          name: "Jam Matahari Sundial",
+          desc:
+            "Merdeka Sundial dibina pada tahun 1957 dan dirasmikan oleh Perdana Menteri Malaysia pertama, Tunku Abdul Rahman Putra bersempena dengan perasmian Taman Tunku Abdul Rahman. Tan Sri Stanley Edward Jewkes adalah arkitek yang merancang dan membina jam matahari. Sekiranya dilihat dari jauh, sundial kelihatan seperti bulan sabit dari lambang kerajaan persekutuan. Penunjuk bayangan dibuat dari bintang terukir tinggi yang mewakili negeri-negeri yang tinggi di Malaysia pada waktu itu. Pada tahun 1997, Merdeka Sundial telah dipindahkan ke Kompleks Planetarium Negara kerana projek pembangunan baru di taman itu.",
+          capacity: "30 orang",
+          area: "29.8 m2",
+          images: [
+            {
+              small: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL.jpg",
+              medium: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL.jpg",
+              big: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL.jpg",
+            },
+            {
+              small:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 2.jpg",
+              medium:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 2.jpg",
+              big: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 2.jpg",
+            },
+            {
+              small:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 3.jpg",
+              medium:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 3.jpg",
+              big: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 3.jpg",
+            },
+            {
+              small:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 4.jpg",
+              medium:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 4.jpg",
+              big: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 4.jpg",
+            },
+            {
+              small:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 5.jpg",
+              medium:
+                "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 5.jpg",
+              big: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL 5.jpg",
+            },
+          ],
         },
         {
-          small: "assets/img/facility/kawasan-rekreasi-3.jpg",
-          medium: "assets/img/facility/kawasan-rekreasi-3.jpg",
-          big: "assets/img/facility/kawasan-rekreasi-3.jpg",
-        },
-        {
-          small: "assets/img/facility/kawasan-rekreasi-4.jpg",
-          medium: "assets/img/facility/kawasan-rekreasi-4.jpg",
-          big: "assets/img/facility/kawasan-rekreasi-4.jpg",
+          name: "Balai Cerap Purba",
+          desc: "",
+          capacity: "",
+          area: "",
+          images: [
+            {
+              small: "assets/img/facility/STONEHENGE/STONEHENGE 1.jpg",
+              medium: "assets/img/facility/STONEHENGE/STONEHENGE 1.jpg",
+              big: "assets/img/facility/STONEHENGE/STONEHENGE 1.jpg",
+            },
+            {
+              small: "assets/img/facility/STONEHENGE/STONEHENGE 2.jpg",
+              medium: "assets/img/facility/STONEHENGE/STONEHENGE 2.jpg",
+              big: "assets/img/facility/STONEHENGE/STONEHENGE 2.jpg",
+            },
+            {
+              small: "assets/img/facility/STONEHENGE/STONEHENGE 3.jpg",
+              medium: "assets/img/facility/STONEHENGE/STONEHENGE 3.jpg",
+              big: "assets/img/facility/STONEHENGE/STONEHENGE 3.jpg",
+            },
+            {
+              small: "assets/img/facility/STONEHENGE/STONEHENGE 4.jpg",
+              medium: "assets/img/facility/STONEHENGE/STONEHENGE 4.jpg",
+              big: "assets/img/facility/STONEHENGE/STONEHENGE 4.jpg",
+            },
+            {
+              small: "assets/img/facility/STONEHENGE/STONEHENGE 5.jpg",
+              medium: "assets/img/facility/STONEHENGE/STONEHENGE 5.jpg",
+              big: "assets/img/facility/STONEHENGE/STONEHENGE 5.jpg",
+            },
+          ],
         },
       ],
     },
     {
       name: "Stesen Mikrosatelit",
       type: "stesen-mikrosatelit",
-      images: [],
+      desc: "",
+      capacity: "",
+      area: "",
+      images: [
+        {
+          small: "assets/img/facility/MIKROSATELITE 1.jpg",
+          medium: "assets/img/facility/MIKROSATELITE 1.jpg",
+          big: "assets/img/facility/MIKROSATELITE 1.jpg",
+        },
+        {
+          small: "assets/img/facility/MIKROSATELITE 2.jpg",
+          medium: "assets/img/facility/MIKROSATELITE 2.jpg",
+          big: "assets/img/facility/MIKROSATELITE 2.jpg",
+        },
+        {
+          small: "assets/img/facility/MIKROSATELITE 3.jpg",
+          medium: "assets/img/facility/MIKROSATELITE 3.jpg",
+          big: "assets/img/facility/MIKROSATELITE 3.jpg",
+        },
+      ],
     },
   ];
 
@@ -113,7 +265,9 @@ export class FacilityDetailsComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
+    private jwtService: JwtService
   ) {
     this.type = this.activatedRoute.snapshot.paramMap.get("id");
     if (this.type) {
@@ -150,7 +304,14 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>) {
-    this.defaultModal = this.modalService.show(modalDefault, this.default);
+    if (this.jwtService.getToken("accessToken")) {
+      this.defaultModal = this.modalService.show(modalDefault, this.default);
+    } else {
+      this.toastr.error(
+        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah fasiliti.",
+        "Ralat"
+      );
+    }
   }
 
   openAfterBooking() {

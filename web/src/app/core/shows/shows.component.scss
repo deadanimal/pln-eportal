@@ -1,5 +1,10 @@
-.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-    color: #525f7f;
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  color: #525f7f;
 }
 
 .bannerStyle div {
@@ -142,19 +147,19 @@ nav h1 {
   overflow: auto;
   box-sizing: border-box;
 }
-.myPoint  li {
-    display: inline-block;
-    border-radius: 50%;
-    border: 2px solid rgba(0, 0, 0, 0.55);
-    padding: 4px;
-    margin: 0 3px;
-    transition-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
-    transition: 0.4s;
+.myPoint li {
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.55);
+  padding: 4px;
+  margin: 0 3px;
+  transition-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  transition: 0.4s;
 }
-.myPoint  li.active {
-      background: #6b6b6b;
-      transform: scale(1.2);
-    }
+.myPoint li.active {
+  background: #6b6b6b;
+  transform: scale(1.2);
+}
 
 .carouselHoved {
   opacity: 0.4;
@@ -178,12 +183,16 @@ nav h1 {
   box-sizing: border-box;
 }
 .myBannerPoint li {
-    background: #6b6b6b;
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
+  background: #6b6b6b;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 }
 .myBannerPoint li.active {
-      transform: translateY(-10px);
-      transition: .3s ease all;
+  transform: translateY(-10px);
+  transition: 0.3s ease all;
+}
+
+.section {
+  padding: 1px 0;
 }

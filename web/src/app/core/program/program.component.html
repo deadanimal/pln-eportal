@@ -16,12 +16,13 @@
       </div>
     </div>
   </div>
-  <div class="main main-raised">
+  <div class="main main-raised bg-white">
     <div class="section">
-      <div class="container">
+      <div class="container pb-3">
+        <h2 class="title text-center text-dark">Senarai Program Pendidikan</h2>
         <div class="row" *ngFor="let program of programs">
           <div class="col-md-12 ml-auto mr-auto">
-            <h2 class="title ml-1">{{ program.title }}</h2>
+            <h2 class="title ml-1 text-dark">{{ program.title }}</h2>
             <br />
 
             <div
@@ -46,14 +47,20 @@
                 <div class="col-lg-7">
                   <div class="card-body">
                     <h3 class="card-title">
-                      <a href="javascript:void(0)"> {{ pro.name }} </a>
+                      <a href="javascript:void(0)" class="text-dark">
+                        {{ pro.name }}
+                      </a>
                     </h3>
-                    <p class="card-description text-justified">
+                    <p class="card-description text-justify text-dark">
                       {{ pro.desc | slice: 0:200 }} ...
-                      <a href="#">Baca selanjutnya</a>
+                      <a
+                        style="color: #ba54f5; font-weight: bold"
+                        (click)="openReadMoreModal(modalReadMore, pro)"
+                        >Baca selanjutnya</a
+                      >
                       <!-- <a href="javascript:void(0)"> Selanjutnya </a> -->
                     </p>
-                    <h4 *ngIf="pro.further_detail">
+                    <h4 *ngIf="pro.further_detail" class="text-dark">
                       Maklumat lanjut:
                       <a [href]="pro.further_detail">{{
                         pro.further_detail
@@ -245,6 +252,43 @@
       data-dismiss="modal"
       type="button"
       (click)="defaultModal.hide()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #modalReadMore>
+  <div class="modal-header">
+    <h6 class="modal-title" id="modal-title-default">
+      {{ selectedProgram.name }}
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="readmoreModal.hide()"
+    >
+      <span aria-hidden="true"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <p class="text-justify text-dark">{{ selectedProgram.desc }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-link ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="readmoreModal.hide()"
     >
       Tutup
     </button>

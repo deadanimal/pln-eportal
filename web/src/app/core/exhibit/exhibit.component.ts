@@ -6,8 +6,6 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./exhibit.component.scss"],
 })
 export class ExhibitComponent implements OnInit {
-  focus;
-
   constructor() {}
 
   ngOnInit() {}

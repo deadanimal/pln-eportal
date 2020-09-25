@@ -5,7 +5,10 @@ import {
   NgxGalleryImage,
   NgxGalleryAnimation,
 } from "ngx-gallery";
+import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
+
+import { JwtService } from "src/app/shared/jwt/jwt.service";
 
 @Component({
   selector: "app-program",
@@ -14,6 +17,7 @@ import swal from "sweetalert2";
 })
 export class ProgramComponent implements OnInit {
   defaultModal: BsModalRef;
+  readmoreModal: BsModalRef;
   default = {
     keyboard: true,
     class: "modal-dialog-centered",
@@ -93,6 +97,14 @@ export class ProgramComponent implements OnInit {
           ],
           pic: "Rosnita",
           announcement: "Terbuka (sekolah rendah tahun 4 hingga 6)",
+          dates: [
+            {
+              date: "2020-08-18",
+            },
+            {
+              date: "2020-08-19",
+            },
+          ],
         },
         {
           name: "BENGKEL ASTRONOMI UNTUK GURU",
@@ -122,10 +134,18 @@ export class ProgramComponent implements OnInit {
           ],
           pic: "Ella",
           announcement: "Tertutup",
+          dates: [
+            {
+              date: "2020-07-21",
+            },
+            {
+              date: "2020-07-22",
+            },
+          ],
         },
       ],
     },
-    {
+    /* {
       title: "PROGRAM PENCERAPAN",
       program: [
         {
@@ -831,13 +851,24 @@ export class ProgramComponent implements OnInit {
           announcement: "Terbuka (NGO, penggiat astronomi, awam)",
         },
       ],
-    },
+    }, */
   ];
+
+  selectedProgram = {
+    name: "",
+    pic: "",
+    announcement: "",
+    desc: "",
+  };
 
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
-  constructor(private modalService: BsModalService) {}
+  constructor(
+    private toastr: ToastrService,
+    private modalService: BsModalService,
+    private jwtService: JwtService
+  ) {}
 
   ngOnInit(): void {
     this.galleryOptions = [
@@ -846,6 +877,8 @@ export class ProgramComponent implements OnInit {
         height: "500px",
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
+        imageArrows: false,
+        thumbnailsArrows: false,
       },
       // max-width 800
       {
@@ -866,7 +899,19 @@ export class ProgramComponent implements OnInit {
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>) {
-    this.defaultModal = this.modalService.show(modalDefault, this.default);
+    if (this.jwtService.getToken("accessToken")) {
+      this.defaultModal = this.modalService.show(modalDefault, this.default);
+    } else {
+      this.toastr.error(
+        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menyertai program ini.",
+        "Ralat"
+      );
+    }
+  }
+
+  openReadMoreModal(modalDefault: TemplateRef<any>, program) {
+    this.selectedProgram = program;
+    this.readmoreModal = this.modalService.show(modalDefault, this.default);
   }
 
   openAfterBooking() {
