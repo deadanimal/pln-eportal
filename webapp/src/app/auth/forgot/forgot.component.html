@@ -6,8 +6,9 @@
                 <div class="card bg-secondary border-0 mb-0">
                     <div class="card-body px-lg-5 py-lg-5">
                         <div class="client-logo-area">
-                            <img class="client-logo" src="assets/img/logo/planetarium-logo.png">
+                            <img class="client-logo" [src]="imgLogo">
                         </div>
+
                         <form [formGroup]="resetForm">
                             <div class="form-group mb-3" [ngClass]="{ focused: focusEmail === true }">
                                 <div class="input-group input-group-alternative">
@@ -31,6 +32,7 @@
                                     </div>
                                 </ng-container>
                             </div>
+
                             <div class="text-center">
                                 <button 
                                     type="button" 
@@ -43,7 +45,7 @@
                                 <button 
                                     type="button" 
                                     class="btn btn-outline-primary btn-block my-4" 
-                                    [routerLink]="['/auth/login']"
+                                    (click)="navigatePage('/auth/login')"
                                 >
                                     Login
                                 </button>

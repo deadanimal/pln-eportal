@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from 'src/app/shared/services/users/users.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EducationalProgramsService } from 'src/app/shared/services/educational-programs/educational-programs.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +12,10 @@ import { EducationalProgramsService } from 'src/app/shared/services/educational-
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  
+
+  // Image
+  imgLogo: string = 'assets/img/logo/planetarium-logo.png'
+
   // Login form
   focusUsername: boolean = false
   focusPassword: boolean = false
@@ -31,8 +33,6 @@ export class LoginComponent implements OnInit {
   
   constructor(
     private authService: AuthService,
-    private programService: EducationalProgramsService,
-    private userService: UsersService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private router: Router,
@@ -62,9 +62,8 @@ export class LoginComponent implements OnInit {
     // this.programService.getAll().subscribe()
   }
 
-  submitLogin() {
-    this.navigateDashboard()
-    //  this.loadingBar.start()
+  login() {
+    this.navigatePage('/dashboard')
     
     // this.authService.obtainToken(this.loginForm.value).subscribe(
     //   () => {
@@ -77,26 +76,35 @@ export class LoginComponent implements OnInit {
     //   },
     //   () => {
     //     // After
-    //     this.navigateDashboard()
+    //     this.navigatePage('/dashboard')
     //   }
     // )
-    
-    //this.navigateDashboard()
-  }
-
-  navigateDashboard() {
-    this.successMessage()
-    this.router.navigate(['/admin/dashboard'])
-  }
-
-  navigateForgotPage() {
-    this.router.navigate(['/auth/login'])
   }
 
   successMessage() {
     let title = 'Success'
-    let message = 'Loging in right now'
+    let message = 'Logging in right now'
     this.toastr.success(message, title)
+  }
+
+  navigatePage(path: string) {
+    if (path == '/dashboard') {
+      this.successMessage()
+    }
+    return this.router.navigate([path])
+  }
+
+  initServices() {
+    this.loadingBar.start()
+    forkJoin([]).subscribe(
+      () => {
+        this.loadingBar.complete()
+      },
+      () => {
+        this.loadingBar.complete()
+      },
+      () => {}
+    )
   }
 
 }

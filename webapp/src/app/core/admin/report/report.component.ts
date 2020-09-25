@@ -1,617 +1,336 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone, TemplateRef } from '@angular/core';
+import { User } from 'src/assets/mock/admin-user/users.model'
+import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
 
-const data = {
-  chart: {
-    showvalues: "0",
-    labeldisplay: "ROTATE",
-    rotatelabels: "1",
-    plothighlighteffect: "fadeout",
-    plottooltext: "$seriesName $label : <b>$dataValue</b>",
-    theme: "fusion"
-  },
-  axis: [
-    {
-      title: "Data 1",
-      titlepos: "left",
-      numberprefix: "$",
-      divlineisdashed: "1",
-      maxvalue: "100000",
-      dataset: [
-        {
-          seriesname: "Data 1",
-          linethickness: "3",
-          data: [
-            {
-              value: "38450.2"
-            },
-            {
-              value: "16544.4"
-            },
-            {
-              value: "10659.4"
-            },
-            {
-              value: "9657.4"
-            },
-            {
-              value: "9040.4"
-            },
-            {
-              value: "9040.4"
-            },
-            {
-              value: "6992.3"
-            },
-            {
-              value: "6650.5"
-            },
-            {
-              value: "6650.5"
-            },
-            {
-              value: "6337.2"
-            },
-            {
-              value: "5835.4"
-            },
-            {
-              value: "4582.9"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: "Data 2",
-      axisonleft: "1",
-      titlepos: "left",
-      numdivlines: "8",
-      divlineisdashed: "1",
-      maxvalue: "25",
-      numbersuffix: "%",
-      dataset: [
-        {
-          seriesname: "Data 2",
-          dashed: "1",
-          data: [
-            {
-              value: "17.23"
-            },
-            {
-              value: "7.41"
-            },
-            {
-              value: "4.78"
-            },
-            {
-              value: "4.33"
-            },
-            {
-              value: "4.05"
-            },
-            {
-              value: "4.05"
-            },
-            {
-              value: "3.13"
-            },
-            {
-              value: "2.98"
-            },
-            {
-              value: "2.98"
-            },
-            {
-              value: "2.84"
-            },
-            {
-              value: "2.62"
-            },
-            {
-              value: "2.05"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: "Data 3",
-      titlepos: "RIGHT",
-      axisonleft: "0",
-      numdivlines: "5",
-      numbersuffix: "",
-      divlineisdashed: "1",
-      maxvalue: "400000",
-      dataset: [
-        {
-          seriesname: "Data 3",
-          linethickness: "3",
-          data: [
-            {
-              value: "358196"
-            },
-            {
-              value: "166138"
-            },
-            {
-              value: "107288"
-            },
-            {
-              value: "97268"
-            },
-            {
-              value: "91098"
-            },
-            {
-              value: "91098"
-            },
-            {
-              value: "70617"
-            },
-            {
-              value: "67199"
-            },
-            {
-              value: "67199"
-            },
-            {
-              value: "64066"
-            },
-            {
-              value: "59048"
-            },
-            {
-              value: "46523"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: "Data 4",
-      titlepos: "RIGHT",
-      axisonleft: "0",
-      numdivlines: "5",
-      divlineisdashed: "1",
-      maxvalue: "20",
-      numbersuffix: "%",
-      dataset: [
-        {
-          seriesname: "Data 4",
-          dashed: "1",
-          data: [
-            {
-              value: "16.3"
-            },
-            {
-              value: "7.03"
-            },
-            {
-              value: "4.54"
-            },
-            {
-              value: "4.12"
-            },
-            {
-              value: "3.86"
-            },
-            {
-              value: "3.86"
-            },
-            {
-              value: "2.99"
-            },
-            {
-              value: "2.84"
-            },
-            {
-              value: "2.84"
-            },
-            {
-              value: "2.71"
-            },
-            {
-              value: "2.5"
-            },
-            {
-              value: "1.97"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  categories: [
-    {
-      category: [
-        {
-          label: "2006"
-        },
-        {
-          label: "2007"
-        },
-        {
-          label: "2008"
-        },
-        {
-          label: "2009"
-        },
-        {
-          label: "2010"
-        },
-        {
-          label: "2011"
-        },
-        {
-          label: "2012"
-        },
-        {
-          label: "2013"
-        },
-        {
-          label: "2014"
-        },
-        {
-          label: "2015"
-        },
-        {
-          label: "2016"
-        },
-        {
-          label: "2017"
-        }
-      ]
-    }
-  ]
-};
-
-const data2 = {
-  chart: {
-    showhovereffect: "1",
-    drawverticaljoints: "1",
-    useforwardsteps: "0",
-    numberprefix: "$",
-    canvaspadding: "5",
-    plottooltext: "<b>$datavalue</b>",
-    theme: "fusion"
-  },
-  categories: [
-    {
-      category: [
-        {
-          label: "2011"
-        },
-        {
-          label: "2012"
-        },
-        {
-          label: "2013"
-        },
-        {
-          label: "2014"
-        },
-        {
-          label: "2015"
-        },
-        {
-          label: "2016"
-        },
-        {
-          label: "2017"
-        },
-        {
-          label: "2018"
-        },
-        {
-          label: "2019"
-        }
-      ]
-    }
-  ],
-  dataset: [
-    {
-      linethickness: "3",
-      data: [
-        {
-          value: ".10"
-        },
-        {
-          value: ".12"
-        },
-        {
-          value: ".18"
-        },
-        {
-          value: ".20"
-        },
-        {
-          value: ".28"
-        },
-        {
-          value: ".36"
-        },
-        {
-          value: ".42"
-        },
-        {
-          value: ".46"
-        },
-        {
-          value: ".49"
-        }
-      ]
-    }
-  ]
-};
-
-const data3 = {
-  chart: {
-    yaxisname: "# of Tickets",
-    subcaption: "Last week",
-    numdivlines: "3",
-    showvalues: "0",
-    legenditemfontsize: "15",
-    legenditemfontbold: "1",
-    plottooltext: "<b>$dataValue</b> Tickets $seriesName on $label",
-    theme: "fusion"
-  },
-  categories: [
-    {
-      category: [
-        {
-          label: "Jan 1"
-        },
-        {
-          label: "Jan 2"
-        },
-        {
-          label: "Jan 3"
-        },
-        {
-          label: "Jan 4"
-        },
-        {
-          label: "Jan 5"
-        },
-        {
-          label: "Jan 6"
-        },
-        {
-          label: "Jan 7"
-        }
-      ]
-    }
-  ],
-  dataset: [
-    {
-      seriesname: "Received",
-      data: [
-        {
-          value: "55"
-        },
-        {
-          value: "45"
-        },
-        {
-          value: "52"
-        },
-        {
-          value: "29"
-        },
-        {
-          value: "48"
-        },
-        {
-          value: "28"
-        },
-        {
-          value: "32"
-        }
-      ]
-    },
-    {
-      seriesname: "Resolved",
-      data: [
-        {
-          value: "50"
-        },
-        {
-          value: "30"
-        },
-        {
-          value: "49"
-        },
-        {
-          value: "22"
-        },
-        {
-          value: "43"
-        },
-        {
-          value: "14"
-        },
-        {
-          value: "31"
-        }
-      ]
-    }
-  ]
-};
-
-const data4 = {
-  chart: {
-    formatnumberscale: "0",
-    showvalues: "0",
-    drawcrossline: "1",
-    showsum: "1",
-    plottooltext: "$dataValue from $seriesName",
-    theme: "fusion"
-  },
-  categories: [
-    {
-      category: [
-        {
-          label: "2014"
-        },
-        {
-          label: "2015"
-        },
-        {
-          label: "2016"
-        },
-        {
-          label: "2017"
-        },
-        {
-          label: "2018"
-        },
-        {
-          label: "2019"
-        }
-      ]
-    }
-  ],
-  dataset: [
-    {
-      seriesname: "Data 1",
-      data: [
-        {
-          value: "400"
-        },
-        {
-          value: "830"
-        },
-        {
-          value: "500"
-        },
-        {
-          value: "420"
-        },
-        {
-          value: "790"
-        },
-        {
-          value: "380"
-        }
-      ]
-    },
-    {
-      seriesname: "Data 2",
-      data: [
-        {
-          value: "350"
-        },
-        {
-          value: "620"
-        },
-        {
-          value: "410"
-        },
-        {
-          value: "370"
-        },
-        {
-          value: "720"
-        },
-        {
-          value: "310"
-        }
-      ]
-    },
-    {
-      seriesname: "Data 3",
-      data: [
-        {
-          value: "210"
-        },
-        {
-          value: "400"
-        },
-        {
-          value: "450"
-        },
-        {
-          value: "180"
-        },
-        {
-          value: "570"
-        },
-        {
-          value: "270"
-        }
-      ]
-    },
-    {
-      seriesname: "Data 4",
-      data: [
-        {
-          value: "180"
-        },
-        {
-          value: "330"
-        },
-        {
-          value: "230"
-        },
-        {
-          value: "160"
-        },
-        {
-          value: "440"
-        },
-        {
-          value: "350"
-        }
-      ]
-    },
-    {
-      seriesname: "Data 5",
-      data: [
-        {
-          value: "60"
-        },
-        {
-          value: "200"
-        },
-        {
-          value: "200"
-        },
-        {
-          value: "50"
-        },
-        {
-          value: "230"
-        },
-        {
-          value: "150"
-        }
-      ]
-    }
-  ]
-};
+import * as moment from 'moment';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+am4core.useTheme(am4themes_animated);
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, OnDestroy {
 
-  width = '100%';
-  height = '100%';
-  type = "multiaxisline";
-  dataFormat = "json";
-  dataSource = data;
-  dataSource2 = data2
-  type2 = "msstepline"
-  dataSource3 = data3
-  type3 = 'msspline'
-  dataSource4 = data4
-  type4 = 'stackedarea2d'
-  
-  constructor() { }
+  // Chart
+  chart: any
+  chart1: any
+  chart2: any
+  chart3: any
+  dataChart: any[] = []
+  dataChart2: any[] = []
+  dataChart3: any[] = []
+
+  // Datepicker
+  bsDPConfig = { 
+    isAnimated: true, 
+    containerClass: 'theme-default'
+  }
+
+  constructor(
+    private mockService: MocksService,
+    private zone: NgZone
+  ) {
+    this.getData()
+  }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.zone.runOutsideAngular(() => {
+      if (this.chart) {
+        this.chart.dispose()
+      }
+      if (this.chart1) {
+        this.chart1.dispose()
+      }
+      if (this.chart2) {
+        this.chart2.dispose()
+      }
+      if (this.chart3) {
+        this.chart3.dispose()
+      }
+    })
+  }
+
+  getData() {
+    this.mockService.getAll('admin-report/report-data-1.json').subscribe(
+      (res) => {
+        // Success
+        this.dataChart = res
+      },
+      () => {
+        // Unsuccess
+      },
+      () => {
+        // After
+        this.mockService.getAll('admin-report/report-data-2.json').subscribe(
+          (res) => {
+            // Success
+            this.dataChart2 = res
+          },
+          () => {
+            // Unsuccess
+          },
+          () => {
+            // After
+            this.mockService.getAll('admin-report/report-data-3.json').subscribe(
+              (res) => {
+                // Success
+                this.dataChart3 = res
+              },
+              () => {
+                // Unsuccess
+              },
+              () => {
+                // After
+                this.getCharts()
+              }
+            )
+          }
+        )
+      }
+    )
+  }
+
+  getCharts() {
+    this.zone.runOutsideAngular(() => {
+      this.getChart()
+      this.getChart1()
+      this.getChart2()
+      this.getChart3()
+    })
+  }
+
+  getChart() {
+    let chart = am4core.create("chartdiv", am4charts.XYChart);
+    chart.paddingRight = 20;
+
+    let data = this.dataChart
+
+    chart.data = data;
+    chart.dateFormatter.inputDateFormat = "yyyy";
+
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 50;
+    dateAxis.baseInterval = { timeUnit: "year", count: 2 };
+
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.tooltip.disabled = true;
+
+    let series = chart.series.push(new am4charts.StepLineSeries());
+    series.dataFields.dateX = "year";
+    series.dataFields.valueY = "amount";
+    series.tooltipText = "{valueY.amount}";
+    series.strokeWidth = 3;
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = dateAxis;
+    chart.cursor.fullWidthLineX = true;
+    chart.cursor.lineX.strokeWidth = 0;
+    chart.cursor.lineX.fill = chart.colors.getIndex(2);
+    chart.cursor.lineX.fillOpacity = 0.1;
+
+    chart.scrollbarX = new am4core.Scrollbar();
+
+    this.chart = chart
+  }
+
+  getChart1() {
+    let chart = am4core.create("chartdiv1", am4charts.XYChart);
+    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+    let data = [];
+    let open = 100;
+    let close = 250;
+
+    for (var i = 1; i < 120; i++) {
+      open += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 4);
+      close = Math.round(open + Math.random() * 5 + i / 5 - (Math.random() < 0.5 ? 1 : -1) * Math.random() * 2);
+      data.push({ date: new Date(2018, 0, i), open: open, close: close });
+    }
+
+    chart.data = data;
+
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.tooltip.disabled = true;
+
+    let series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.dateX = "date";
+    series.dataFields.openValueY = "open";
+    series.dataFields.valueY = "close";
+    series.tooltipText = "open: {openValueY.value} close: {valueY.value}";
+    series.sequencedInterpolation = true;
+    series.fillOpacity = 0.3;
+    series.defaultState.transitionDuration = 1000;
+    series.tensionX = 0.8;
+
+    let series2 = chart.series.push(new am4charts.LineSeries());
+    series2.dataFields.dateX = "date";
+    series2.dataFields.valueY = "open";
+    series2.sequencedInterpolation = true;
+    series2.defaultState.transitionDuration = 1500;
+    series2.stroke = chart.colors.getIndex(6);
+    series2.tensionX = 0.8;
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = dateAxis;
+    chart.scrollbarX = new am4core.Scrollbar();
+
+    this.chart1 = chart
+  }
+
+  getChart2() {
+    let chart = am4core.create("chartdiv2", am4charts.XYChart);
+
+    // Add data
+    chart.data = this.dataChart2
+
+    // Create axes
+    let valueAxisX = chart.xAxes.push(new am4charts.ValueAxis());
+    valueAxisX.title.text = 'X Axis';
+    valueAxisX.renderer.minGridDistance = 40;
+
+    // Create value axis
+    let valueAxisY = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxisY.title.text = 'Y Axis';
+
+    // Create series
+    let lineSeries = chart.series.push(new am4charts.LineSeries());
+    lineSeries.dataFields.valueY = "ay";
+    lineSeries.dataFields.valueX = "ax";
+    lineSeries.strokeOpacity = 0;
+
+    let lineSeries2 = chart.series.push(new am4charts.LineSeries());
+    lineSeries2.dataFields.valueY = "by";
+    lineSeries2.dataFields.valueX = "bx";
+    lineSeries2.strokeOpacity = 0;
+
+    // Add a bullet
+    let bullet = lineSeries.bullets.push(new am4charts.Bullet());
+
+    // Add a triangle to act as am arrow
+    let arrow = bullet.createChild(am4core.Triangle);
+    arrow.horizontalCenter = "middle";
+    arrow.verticalCenter = "middle";
+    arrow.strokeWidth = 0;
+    arrow.fill = chart.colors.getIndex(0);
+    arrow.direction = "top";
+    arrow.width = 12;
+    arrow.height = 12;
+
+    // Add a bullet
+    let bullet2 = lineSeries2.bullets.push(new am4charts.Bullet());
+
+    // Add a triangle to act as am arrow
+    let arrow2 = bullet2.createChild(am4core.Triangle);
+    arrow2.horizontalCenter = "middle";
+    arrow2.verticalCenter = "middle";
+    arrow2.rotation = 180;
+    arrow2.strokeWidth = 0;
+    arrow2.fill = chart.colors.getIndex(3);
+    arrow2.direction = "top";
+    arrow2.width = 12;
+    arrow2.height = 12;
+
+    //add the trendlines
+    let trend = chart.series.push(new am4charts.LineSeries());
+    trend.dataFields.valueY = "value2";
+    trend.dataFields.valueX = "value";
+    trend.strokeWidth = 2
+    trend.stroke = chart.colors.getIndex(0);
+    trend.strokeOpacity = 0.7;
+    trend.data = [
+      { "value": 1, "value2": 2 },
+      { "value": 12, "value2": 11 }
+    ];
+
+    let trend2 = chart.series.push(new am4charts.LineSeries());
+    trend2.dataFields.valueY = "value2";
+    trend2.dataFields.valueX = "value";
+    trend2.strokeWidth = 2
+    trend2.stroke = chart.colors.getIndex(3);
+    trend2.strokeOpacity = 0.7;
+    trend2.data = [
+      { "value": 1, "value2": 1 },
+      { "value": 12, "value2": 19 }
+    ];
+
+    //scrollbars
+    chart.scrollbarX = new am4core.Scrollbar();
+    chart.scrollbarY = new am4core.Scrollbar();
+
+    this.chart2 = chart
+  }
+
+  getChart3() {
+    let chart = am4core.create("chartdiv3", am4charts.XYChart);
+
+    // Add data
+    chart.data = this.dataChart3
+
+    // Set input format for the dates
+    chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+    // Create axes
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    let series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "value";
+    series.dataFields.dateX = "date";
+    series.tooltipText = "{value}"
+    series.strokeWidth = 2;
+    series.minBulletDistance = 15;
+
+    // Drop-shaped tooltips
+    series.tooltip.background.cornerRadius = 20;
+    series.tooltip.background.strokeOpacity = 0;
+    series.tooltip.pointerOrientation = "vertical";
+    series.tooltip.label.minWidth = 40;
+    series.tooltip.label.minHeight = 40;
+    series.tooltip.label.textAlign = "middle";
+    series.tooltip.label.textValign = "middle";
+
+    // Make bullets grow on hover
+    let bullet = series.bullets.push(new am4charts.CircleBullet());
+    bullet.circle.strokeWidth = 2;
+    bullet.circle.radius = 4;
+    bullet.circle.fill = am4core.color("#fff");
+
+    let bullethover = bullet.states.create("hover");
+    bullethover.properties.scale = 1.3;
+
+    // Make a panning cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.behavior = "panXY";
+    chart.cursor.xAxis = dateAxis;
+    chart.cursor.snapToSeries = series;
+
+    // Create vertical scrollbar and place it before the value axis
+    chart.scrollbarY = new am4core.Scrollbar();
+    chart.scrollbarY.parent = chart.leftAxesContainer;
+    chart.scrollbarY.toBack();
+
+    // Create a horizontal scrollbar with previe and place it underneath the date axis
+    let scrollbarX = new am4charts.XYChartScrollbar();
+    scrollbarX.series.push(series);
+    chart.scrollbarX = scrollbarX;
+    chart.scrollbarX.parent = chart.bottomAxesContainer;
+
+    dateAxis.start = 0.79;
+    dateAxis.keepSelection = true;
+
+    this.chart3 = chart
+
   }
 
 }

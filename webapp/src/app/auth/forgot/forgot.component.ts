@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms'
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgot',
@@ -10,6 +11,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./forgot.component.scss']
 })
 export class ForgotComponent implements OnInit {
+
+  // Image
+  imgLogo: string = 'assets/img/logo/planetarium-logo.png'
 
   // Reset form
   focusEmail: boolean = false
@@ -25,7 +29,8 @@ export class ForgotComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -65,5 +70,9 @@ export class ForgotComponent implements OnInit {
     let message = 'An email has been sent to ' + this.resetForm.value.email + ' to reset your password'
     this.toastr.success(message, title)
   }
-  
+
+  navigatePage(path: string) {
+    return this.router.navigate([path])
+  }
+
 }

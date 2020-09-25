@@ -226,7 +226,7 @@
 
             > .nav-link {
               &.active {
-                background: #dee7f5;//$gray-100;
+                background: $gray-100;
                 margin-right: 0.5rem;
                 margin-left: 0.5rem;
                 padding-left: 1rem;
@@ -332,7 +332,7 @@
 }
 
 .sidenav-header {
-  height: auto;
+  height: auto; // 78px;
 }
 
 // Sidenav states

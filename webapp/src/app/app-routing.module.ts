@@ -22,17 +22,16 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {
+        path: '',
+        loadChildren: './core/user/user.module#UserModule'
+      },
+      {
         path: 'admin',
         loadChildren: './core/admin/admin.module#AdminModule'
       },
       {
-        path: 'user',
-        loadChildren: './core/user/user.module#UserModule'
-      },
-      // Bawah ni contoh dashboard
-      {
-        path: 'dashboards',
-        loadChildren: './examples/dashboards/dashboards.module#DashboardsModule'
+        path: 'global',
+        loadChildren: './core/global/global.module#GlobalModule'
       }
     ]
   },

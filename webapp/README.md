@@ -1,29 +1,36 @@
-# PIPELINE NETWORK
+# Angular Frontend Template
 
-Start developing frontend using this template
+You can use this template to start your frontend development
 
-### // Documentation //
+## Getting Started
 
-Click links below:
+This template is using Argon by Creative Tim.
 
-[Argon](https://demos.creative-tim.com/argon-dashboard-pro-angular/#/documentation/overview?ref=github-ad-pro-angular) to view Argon documentation
+### Prerequisites
 
-[Leaflet](https://github.com/Asymmetrik/ngx-leaflet) to view Leaflet documentation
+Make sure to have npm and node.js installed.
 
-[FontAwesome](https://fontawesome.com/icons?d=gallery) to view icon gallery
+### Installing
 
-[Fusion](https://www.fusioncharts.com/charts) to view Fusion Charts documentation
+1. Clone this repo to your local disk
+2. Rename your project
+3. Install the dependencies by using the command
+    ```
+    npm install
+    ```
+4. Serve the project by using the command
+    ```
+    ng serve --o
+    ```
+5. Done
 
-[D3](https://d3js.org/) to view D3.js documentation
 
-[Bootstrap](https://getbootstrap.com/docs) to view Bootstrap documentation
+## Related links
 
-[ngBootstrap](https://ng-bootstrap.github.io/#/getting-started) to view Angular's Bootstrap documentation
+* [Angular](https://angular.io/docs) - Angular documentation
+* [Argon](https://demos.creative-tim.com/argon-dashboard-pro-angular/#/documentation/overview) - Argon documentation
+* [Leaflet](https://github.com/Asymmetrik/ngx-leaflet) - Leaflet
+* [Bitbucket](https://bitbucket.org/) - Code repository
 
-### // 1337 Team //
-- Afeez
-- Syafiq
-- Amin
-- Husaini
 
-### // Thank you //
+

@@ -1,7 +1,7 @@
 /*!
 
 =========================================================
-* Argon Dashboard PRO Angular - v1.0.0
+* Argon Dashboard PRO Angular - v1.1.1
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-angular

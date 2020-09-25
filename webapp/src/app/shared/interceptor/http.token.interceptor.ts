@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
     HttpEvent,
     HttpInterceptor,
@@ -9,14 +9,14 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { JwtService } from '../jwt/jwt.service';
-import { HandlerNotificationService } from '../handler-notification/handler-notification.service';
+import { JwtService } from '../handler/jwt/jwt.service';
+import { NotifyService } from '../handler/notify/notify.service';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
     constructor(
-        private handlerNotification: HandlerNotificationService,
+        private handlerNotification: NotifyService,
         private jwtService: JwtService
     ){ }
 
@@ -29,11 +29,11 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse) {
             // Server or connection error happened
             if (!navigator.onLine) {
-                this.handlerNotification.openToastrConnection()
                 // Handle offline error
+                this.handlerNotification.openToastrConnection()
             } else {
-                this.handlerNotification.openToastrHttp(error.status, error.statusText)
                 // Handle Http Error (error.status === 403, 404...)
+                this.handlerNotification.openToastrHttp(error.status, error.statusText)
             }
         } else {
             // Handle Client Error (Angular Error, ReferenceError...)     
@@ -49,10 +49,11 @@ export class HttpTokenInterceptor implements HttpInterceptor {
             'Accept': '*/*'
         };
 
-        const token = this.jwtService.getToken();
+        const token = this.jwtService.getToken('accessToken');
 
         if (token) {
             headersConfig['Authorization'] = `Bearer ${token}`;
+            // console.log(headersConfig)
         }
 
         console.log('Intercepting...')

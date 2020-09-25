@@ -6,17 +6,23 @@ var misc: any = {
   sidebar_mini_active: true
 };
 
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+
+  // Image
+  imgLogo: string = 'assets/img/logo/planetarium-logo.png'
+  
   public menuItems: any[];
   public isCollapsed = true;
+  public menu;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
@@ -24,16 +30,19 @@ export class SidebarComponent implements OnInit {
       this.isCollapsed = true;
     });
   }
+
   onMouseEnterSidenav() {
     if (!document.body.classList.contains('g-sidenav-pinned')) {
       document.body.classList.add('g-sidenav-show');
     }
   }
+
   onMouseLeaveSidenav() {
     if (!document.body.classList.contains('g-sidenav-pinned')) {
       document.body.classList.remove('g-sidenav-show');
     }
   }
+  
   minimizeSidebar() {
     const sidenavToggler = document.getElementsByClassName(
       'sidenav-toggler'
