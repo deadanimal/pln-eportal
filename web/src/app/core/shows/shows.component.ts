@@ -6,6 +6,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 
 class Show {
   id: string;
@@ -32,11 +33,16 @@ export class ShowsComponent implements OnInit {
   focus;
 
   // Data
-  shows: Show[] = [];
+  shows = []; //: Show[] = [];
 
   // Glide
 
   // Carousel
+
+  // Slide
+  itemsPerSlide = 3;
+  singleSlideOffset = false;
+  noWrap = false;
 
   imgags = [
     "assets/bg.jpg",
@@ -71,14 +77,25 @@ export class ShowsComponent implements OnInit {
     private jwtService: JwtService,
     private modalService: BsModalService,
     private router: Router,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private showingService: ShowingsService
+  ) {
+    this.showingService.get().subscribe(
+      (res) => {
+        this.shows = res;
+        console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
 
   ngOnInit() {
     this.carouselTileItems.forEach((el) => {
       this.carouselTileLoad(el);
     });
-    this.initGlide();
+    // this.initGlide();
   }
 
   initGlide() {

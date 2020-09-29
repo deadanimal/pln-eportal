@@ -29,6 +29,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { TranslateModule } from "@ngx-translate/core";
+import { AccordionModule } from "ngx-bootstrap/accordion";
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -57,7 +58,9 @@ import { PdpaComponent } from "./pdpa/pdpa.component";
 import { FaqComponent } from "./faq/faq.component";
 import { SimulatorRideBookComponent } from "./simulator-ride-book/simulator-ride-book.component";
 import { ShowsBookComponent } from "./shows-book/shows-book.component";
-import { ExhibitListsComponent } from './exhibit-lists/exhibit-lists.component';
+import { ExhibitListsComponent } from "./exhibit-lists/exhibit-lists.component";
+import { DirectoryComponent } from "./directory/directory.component";
+import { OperatingHourComponent } from "./operating-hour/operating-hour.component";
 
 @NgModule({
   declarations: [
@@ -87,6 +90,8 @@ import { ExhibitListsComponent } from './exhibit-lists/exhibit-lists.component';
     SimulatorRideBookComponent,
     ShowsBookComponent,
     ExhibitListsComponent,
+    DirectoryComponent,
+    OperatingHourComponent,
   ],
   imports: [
     CommonModule,
@@ -121,6 +126,7 @@ import { ExhibitListsComponent } from './exhibit-lists/exhibit-lists.component';
     MatInputModule,
     HttpClientModule,
     TranslateModule,
+    AccordionModule.forRoot(),
   ],
 })
 export class CoreModule {}

@@ -23,7 +23,19 @@
         <h2 class="title text-center text-dark">Tayangan Popular</h2>
         <div class="row pb-3">
           <div class="col-lg-12">
-            <section class="center glide-shows">
+            <carousel [itemsPerSlide]="itemsPerSlide"
+            [singleSlideOffset]="singleSlideOffset"
+            [noWrap]="!noWrap"
+            [interval]="false">
+              <slide *ngFor="let show of shows" (click)="makeBooking(show.id, show.title)">
+                <img [src]="show.poster_link" style="display: block; width: 100%;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h3>{{ show.title }}</h3>
+                  <p>{{ show.description }}</p>
+                </div>
+              </slide>
+            </carousel>
+            <!-- <section class="center glide-shows">
               <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                   <li class="glide__slide">
@@ -157,59 +169,11 @@
                   </div>
                 </div>
               </div>
-            </section>
+            </section> -->
           </div>
         </div>
       </div>
     </div>
-
-    <!-- <div class="subscribe-line">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-10 ml-auto mr-auto">
-            <div class="text-center">
-              <h4 class="title">Langgani berita kami</h4>
-              <p class="description">
-                Sertai berita kami dan menerima berita dalam peti masuk emel
-                anda setiap bulan!
-              </p>
-            </div>
-            <div class="card card-raised card-form-horizontal">
-              <div class="card-body">
-                <form action="" method="">
-                  <div class="row">
-                    <div class="col-sm-8">
-                      <div
-                        class="input-group"
-                        [ngClass]="{ 'input-group-focus': focus === true }"
-                      >
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="tim-icons icon-email-85"> </i>
-                          </span>
-                        </div>
-                        <input
-                          class="form-control"
-                          placeholder="Emel anda..."
-                          type="email"
-                          (blur)="focus = false"
-                          (focus)="focus = true"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-sm-4">
-                      <button class="btn btn-danger btn-block" type="button">
-                        Langgan
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </div>
 

@@ -1007,7 +1007,7 @@ export class ShowsBookComponent implements OnInit {
     },
   ]; */
 
-  seats = [
+  /* seats = [
     // row 1
     {
       row: 0,
@@ -1847,6 +1847,848 @@ export class ShowsBookComponent implements OnInit {
         },
       ],
     },
+  ]; */
+
+  seats = [
+    // row 1
+    {
+      row: 0,
+      columns: [
+        {
+          column: 5,
+          name: "D56",
+        },
+        {
+          column: 6,
+          name: "D57",
+        },
+        {
+          column: 7,
+          name: "D58",
+        },
+        {
+          column: 8,
+          name: "D59",
+        },
+        {
+          column: 9,
+          name: "D60",
+        },
+        {
+          column: 10,
+          name: "D61",
+        },
+        {
+          column: 11,
+          name: "D62",
+        },
+        {
+          column: 12,
+          name: "D63",
+        },
+        {
+          column: 19,
+          name: "F56",
+        },
+        {
+          column: 20,
+          name: "F57",
+        },
+        {
+          column: 21,
+          name: "F58",
+        },
+        {
+          column: 22,
+          name: "F59",
+        },
+        {
+          column: 23,
+          name: "F60",
+        },
+        {
+          column: 24,
+          name: "F61",
+        },
+        {
+          column: 25,
+          name: "F62",
+        },
+        {
+          column: 26,
+          name: "F63",
+        },
+      ],
+    },
+    // row 2
+    {
+      row: 1,
+      columns: [
+        {
+          column: 4,
+          name: "D47",
+        },
+        {
+          column: 5,
+          name: "D48",
+        },
+        {
+          column: 6,
+          name: "D49",
+        },
+        {
+          column: 7,
+          name: "D50",
+        },
+        {
+          column: 8,
+          name: "D51",
+        },
+        {
+          column: 9,
+          name: "D52",
+        },
+        {
+          column: 10,
+          name: "D53",
+        },
+        {
+          column: 11,
+          name: "D54",
+        },
+        {
+          column: 12,
+          name: "D55",
+        },
+        {
+          column: 19,
+          name: "F47",
+        },
+        {
+          column: 20,
+          name: "F48",
+        },
+        {
+          column: 21,
+          name: "F49",
+        },
+        {
+          column: 22,
+          name: "F50",
+        },
+        {
+          column: 23,
+          name: "F51",
+        },
+        {
+          column: 24,
+          name: "F52",
+        },
+        {
+          column: 25,
+          name: "F53",
+        },
+        {
+          column: 26,
+          name: "F54",
+        },
+        {
+          column: 27,
+          name: "F55",
+        },
+      ],
+    },
+    // row 3
+    {
+      row: 2,
+      columns: [
+        {
+          column: 3,
+          name: "D37",
+        },
+        {
+          column: 4,
+          name: "D38",
+        },
+        {
+          column: 5,
+          name: "D39",
+        },
+        {
+          column: 6,
+          name: "D40",
+        },
+        {
+          column: 7,
+          name: "D41",
+        },
+        {
+          column: 8,
+          name: "D42",
+        },
+        {
+          column: 9,
+          name: "D43",
+        },
+        {
+          column: 10,
+          name: "D44",
+        },
+        {
+          column: 11,
+          name: "D45",
+        },
+        {
+          column: 12,
+          name: "D46",
+        },
+        {
+          column: 19,
+          name: "F37",
+        },
+        {
+          column: 20,
+          name: "F38",
+        },
+        {
+          column: 21,
+          name: "F39",
+        },
+        {
+          column: 22,
+          name: "F40",
+        },
+        {
+          column: 23,
+          name: "F41",
+        },
+        {
+          column: 24,
+          name: "F42",
+        },
+        {
+          column: 25,
+          name: "F43",
+        },
+        {
+          column: 26,
+          name: "F44",
+        },
+        {
+          column: 27,
+          name: "F45",
+        },
+        {
+          column: 28,
+          name: "F46",
+        },
+      ],
+    },
+    // row 4
+    {
+      row: 3,
+      columns: [
+        {
+          column: 1,
+          name: "D26",
+        },
+        {
+          column: 2,
+          name: "D27",
+        },
+        {
+          column: 3,
+          name: "D28",
+        },
+        {
+          column: 4,
+          name: "D29",
+        },
+        {
+          column: 5,
+          name: "D30",
+        },
+        {
+          column: 6,
+          name: "D31",
+        },
+        {
+          column: 7,
+          name: "D32",
+        },
+        {
+          column: 8,
+          name: "D33",
+        },
+        {
+          column: 9,
+          name: "D34",
+        },
+        {
+          column: 10,
+          name: "D35",
+        },
+        {
+          column: 11,
+          name: "D36",
+        },
+        {
+          column: 12,
+          name: "D37",
+        },
+        {
+          column: 19,
+          name: "F26",
+        },
+        {
+          column: 20,
+          name: "F27",
+        },
+        {
+          column: 21,
+          name: "F28",
+        },
+        {
+          column: 22,
+          name: "F29",
+        },
+        {
+          column: 23,
+          name: "F30",
+        },
+        {
+          column: 24,
+          name: "F31",
+        },
+        {
+          column: 25,
+          name: "F32",
+        },
+        {
+          column: 26,
+          name: "F33",
+        },
+        {
+          column: 27,
+          name: "F34",
+        },
+        {
+          column: 28,
+          name: "F35",
+        },
+        {
+          column: 29,
+          name: "F36",
+        },
+      ],
+    },
+    // row 5
+    {
+      row: 4,
+      columns: [
+        {
+          column: 1,
+          name: "D14",
+        },
+        {
+          column: 2,
+          name: "D15",
+        },
+        {
+          column: 3,
+          name: "D16",
+        },
+        {
+          column: 4,
+          name: "D17",
+        },
+        {
+          column: 5,
+          name: "D18",
+        },
+        {
+          column: 6,
+          name: "D19",
+        },
+        {
+          column: 7,
+          name: "D20",
+        },
+        {
+          column: 8,
+          name: "D21",
+        },
+        {
+          column: 9,
+          name: "D22",
+        },
+        {
+          column: 10,
+          name: "D23",
+        },
+        {
+          column: 11,
+          name: "D24",
+        },
+        {
+          column: 12,
+          name: "D25",
+        },
+        {
+          column: 19,
+          name: "F14",
+        },
+        {
+          column: 20,
+          name: "F15",
+        },
+        {
+          column: 21,
+          name: "F16",
+        },
+        {
+          column: 22,
+          name: "F17",
+        },
+        {
+          column: 23,
+          name: "F18",
+        },
+        {
+          column: 24,
+          name: "F19",
+        },
+        {
+          column: 25,
+          name: "F20",
+        },
+        {
+          column: 26,
+          name: "F21",
+        },
+        {
+          column: 27,
+          name: "F22",
+        },
+        {
+          column: 28,
+          name: "F23",
+        },
+        {
+          column: 29,
+          name: "F24",
+        },
+        {
+          column: 30,
+          name: "F25",
+        },
+      ],
+    },
+    // row 6
+    {
+      row: 5,
+      columns: [
+        {
+          column: 0,
+          name: "D1",
+        },
+        {
+          column: 1,
+          name: "D2",
+        },
+        {
+          column: 2,
+          name: "D3",
+        },
+        {
+          column: 3,
+          name: "D4",
+        },
+        {
+          column: 4,
+          name: "D5",
+        },
+        {
+          column: 5,
+          name: "D6",
+        },
+        {
+          column: 6,
+          name: "D7",
+        },
+        {
+          column: 7,
+          name: "D8",
+        },
+        {
+          column: 8,
+          name: "D9",
+        },
+        {
+          column: 9,
+          name: "D10",
+        },
+        {
+          column: 10,
+          name: "D11",
+        },
+        {
+          column: 11,
+          name: "D12",
+        },
+        {
+          column: 12,
+          name: "D13",
+        },
+        {
+          column: 19,
+          name: "F1",
+        },
+        {
+          column: 20,
+          name: "F2",
+        },
+        {
+          column: 21,
+          name: "F3",
+        },
+        {
+          column: 22,
+          name: "F4",
+        },
+        {
+          column: 23,
+          name: "F5",
+        },
+        {
+          column: 24,
+          name: "F6",
+        },
+        {
+          column: 25,
+          name: "F7",
+        },
+        {
+          column: 26,
+          name: "F8",
+        },
+        {
+          column: 27,
+          name: "F9",
+        },
+        {
+          column: 28,
+          name: "F10",
+        },
+        {
+          column: 29,
+          name: "F11",
+        },
+        {
+          column: 30,
+          name: "F12",
+        },
+        {
+          column: 31,
+          name: "F13",
+        },
+      ],
+    },
+    // row 7
+    {
+      row: 6,
+      columns: [],
+    },
+    // row 8
+    {
+      row: 7,
+      columns: [
+        {
+          column: 0,
+          name: "A8",
+        },
+        {
+          column: 1,
+          name: "A9",
+        },
+        {
+          column: 2,
+          name: "A10",
+        },
+        {
+          column: 3,
+          name: "A11",
+        },
+        {
+          column: 4,
+          name: "A12",
+        },
+        {
+          column: 7,
+          name: "B33",
+        },
+        {
+          column: 8,
+          name: "B34",
+        },
+        {
+          column: 9,
+          name: "B35",
+        },
+        {
+          column: 10,
+          name: "B36",
+        },
+        {
+          column: 11,
+          name: "B37",
+        },
+        {
+          column: 12,
+          name: "B38",
+        },
+        {
+          column: 19,
+          name: "B39",
+        },
+        {
+          column: 20,
+          name: "B40",
+        },
+        {
+          column: 21,
+          name: "B41",
+        },
+        {
+          column: 22,
+          name: "B42",
+        },
+        {
+          column: 23,
+          name: "B43",
+        },
+        {
+          column: 24,
+          name: "B44",
+        },
+        {
+          column: 27,
+          name: "C8",
+        },
+        {
+          column: 28,
+          name: "C9",
+        },
+        {
+          column: 29,
+          name: "C10",
+        },
+        {
+          column: 30,
+          name: "C11",
+        },
+        {
+          column: 31,
+          name: "C12",
+        },
+      ],
+    },
+    // row 9
+    {
+      row: 8,
+      columns: [
+        {
+          column: 0,
+          name: "A3",
+        },
+        {
+          column: 1,
+          name: "A4",
+        },
+        {
+          column: 2,
+          name: "A5",
+        },
+        {
+          column: 3,
+          name: "A6",
+        },
+        {
+          column: 4,
+          name: "A7",
+        },
+        {
+          column: 6,
+          name: "B19",
+        },
+        {
+          column: 7,
+          name: "B20",
+        },
+        {
+          column: 8,
+          name: "B21",
+        },
+        {
+          column: 9,
+          name: "B22",
+        },
+        {
+          column: 10,
+          name: "B23",
+        },
+        {
+          column: 11,
+          name: "B24",
+        },
+        {
+          column: 12,
+          name: "B25",
+        },
+        {
+          column: 19,
+          name: "B26",
+        },
+        {
+          column: 20,
+          name: "B27",
+        },
+        {
+          column: 21,
+          name: "B28",
+        },
+        {
+          column: 22,
+          name: "B29",
+        },
+        {
+          column: 23,
+          name: "B30",
+        },
+        {
+          column: 24,
+          name: "B31",
+        },
+        {
+          column: 25,
+          name: "B32",
+        },
+        {
+          column: 27,
+          name: "C3",
+        },
+        {
+          column: 28,
+          name: "C4",
+        },
+        {
+          column: 29,
+          name: "C5",
+        },
+        {
+          column: 30,
+          name: "C6",
+        },
+        {
+          column: 31,
+          name: "C7",
+        },
+      ],
+    },
+    // row 10
+    {
+      row: 9,
+      columns: [
+        {
+          column: 3,
+          name: "A1",
+        },
+        {
+          column: 4,
+          name: "A2",
+        },
+        {
+          column: 6,
+          name: "B1",
+        },
+        {
+          column: 7,
+          name: "B2",
+        },
+        {
+          column: 8,
+          name: "B3",
+        },
+        {
+          column: 9,
+          name: "B4",
+        },
+        {
+          column: 10,
+          name: "B5",
+        },
+        {
+          column: 11,
+          name: "B6",
+        },
+        {
+          column: 12,
+          name: "B7",
+        },
+        {
+          column: 14,
+          name: "B8",
+        },
+        {
+          column: 15,
+          name: "B9",
+        },
+        {
+          column: 16,
+          name: "B10",
+        },
+        {
+          column: 17,
+          name: "B11",
+        },
+        {
+          column: 19,
+          name: "B12",
+        },
+        {
+          column: 20,
+          name: "B13",
+        },
+        {
+          column: 21,
+          name: "B14",
+        },
+        {
+          column: 22,
+          name: "B15",
+        },
+        {
+          column: 23,
+          name: "B16",
+        },
+        {
+          column: 24,
+          name: "B17",
+        },
+        {
+          column: 25,
+          name: "B18",
+        },
+        {
+          column: 27,
+          name: "C1",
+        },
+        {
+          column: 28,
+          name: "C2",
+        },
+      ],
+    },
   ];
   selectedSeats = [];
   column: number = 32;
@@ -1942,11 +2784,12 @@ export class ShowsBookComponent implements OnInit {
   }
 
   getSelectedSeat(row: number, column: number) {
-    let selectedStyle = {
-      backgroundColor: "red",
-      color: "white",
-      borderRadius: "10px",
-    };
+    // let selectedStyle = {
+    //   backgroundColor: "red",
+    //   color: "white",
+    //   borderRadius: "10px",
+    // };
+    let selectedStyle = 'btn-danger';
     for (let i = 0; i < this.selectedSeats.length; i++) {
       if (
         this.selectedSeats[i].row === row &&

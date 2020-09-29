@@ -148,6 +148,7 @@ export class NavbarComponent implements OnInit {
                   "Pendaftaran anda berjaya. Sila log masuk.",
                   "Berjaya"
                 );
+                this.registerModal.hide();
               },
               (err) => {
                 console.error("err", err);

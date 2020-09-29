@@ -19,10 +19,10 @@
   </div>
   <div class="main main-raised">
     <div class="section team-4">
-      <div class="container">
+      <div>
         <div class="row">
           <div class="col-md-12 col-sm-12">
-            <mat-horizontal-stepper [linear]="true" #stepper>
+            <mat-horizontal-stepper [linear]="false" #stepper>
               <mat-step [stepControl]="firstFormGroup">
                 <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
                 <form [formGroup]="firstFormGroup">
@@ -289,25 +289,35 @@
                         </div>
                       </td>
                     </tr> -->
+                    <tr>
+                      <td colspan="5"></td>
+                      <td
+                        colspan="22"
+                        style="background-color: purple; padding: 10px"
+                      >
+                        <h6 class="title text-center text-white m-0">Screen</h6>
+                      </td>
+                      <td colspan="5"></td>
+                    </tr>
+                    <br />
                     <tr *ngFor="let row of arrayOne(row); let i = index">
                       <td
                         *ngFor="let column of arrayOne(column); let j = index"
                         (click)="selectSeat(i, j)"
-                        [ngStyle]="getSelectedSeat(i, j)"
                       >
-                        <div *ngIf="getSeat(i, j)" class="text-center">
+                        <!-- [ngStyle]="getSelectedSeat(i, j)" -->
+                        <button
+                          *ngIf="getSeat(i, j)"
+                          class="btn btn-fab btn-icon"
+                          [ngClass]="getSelectedSeat(i, j)"
+                        >
+                          <small>{{ getSeat(i, j) }}</small>
+                        </button>
+                        <!-- <div *ngIf="getSeat(i, j)" class="text-center">
                           <i class="fas fa-chair fa-2x"></i>
                           <small>{{ getSeat(i, j) }}</small>
-                        </div>
+                        </div> -->
                       </td>
-                    </tr>
-
-                    <tr>
-                      <td colspan="5"></td>
-                      <td colspan="22" style="background-color: purple">
-                        <h4 class="title text-center text-white m-0">Screen</h4>
-                      </td>
-                      <td colspan="5"></td>
                     </tr>
                   </table>
                 </div>

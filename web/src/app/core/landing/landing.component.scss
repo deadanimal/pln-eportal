@@ -38,7 +38,7 @@ p {
 }
 
 video {
-  filter: opacity(70%);
+  // filter: opacity(70%);
 
   h1 {
     filter: opacity(10%);
@@ -54,5 +54,9 @@ video {
 
 tm-ng-odometer {
   color: #ffffff;
+  font-size: 1rem;
+}
+
+bar-rating {
   font-size: 1.4rem;
 }
