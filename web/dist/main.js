@@ -1175,8 +1175,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var environment = {
     production: false,
-    // baseUrl: 'https://pln-eportal-api.pipe.my/',
-    baseUrl: 'http://127.0.0.1:8000/',
+    baseUrl: 'https://pln-eportal-api.pipe.my/',
 };
 /*
  * For easier debugging in development mode, you can import the following file
