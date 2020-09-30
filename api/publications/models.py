@@ -1,5 +1,5 @@
 from __future__ import unicode_literals 
-import uuid 
+import uuid, datetime 
 from django.db import models
 from django.utils.formats import get_format
 #from django import models
@@ -16,10 +16,12 @@ class Publication(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     title = models.CharField(max_length=100, default='NA')
-    description = models.CharField(max_length=255, default='NA')
+    abstract = models.CharField(max_length=255, default='NA')
     author_name = models.CharField(max_length=100, default='NA')
     publisher_name = models.CharField(max_length=100, default='NA')
-    published_date = models.DateTimeField(null=True)
+    published_date = models.DateField(default=datetime.date.today)
+    year = models.IntegerField(default=2020)
+    edition = models.CharField(max_length=20, default='NA')
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
     pdf_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('publication'))
 

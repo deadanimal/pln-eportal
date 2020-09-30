@@ -13,6 +13,17 @@ from .models import (
     SurveyQuestion
 )
 
+from users.serializers import (
+    CustomUserSerializer
+)
+
+class SurveyQuestionSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = SurveyQuestion
+        fields = '__all__'
+        read_only_fields = ['id']
+
 class SurveyAnswerSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -20,11 +31,12 @@ class SurveyAnswerSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id']
 
-
-class SurveyQuestionSerializer(serializers.ModelSerializer):
+class SurveyAnswerExtendedSerializer(serializers.ModelSerializer):
+    survey_question_id = SurveyQuestionSerializer(read_only=True)
+    user_id = CustomUserSerializer(read_only=True)
     
     class Meta:
-        model = SurveyQuestion
+        model = SurveyAnswer
         fields = '__all__'
         read_only_fields = ['id']
     

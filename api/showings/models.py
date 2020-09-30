@@ -1,5 +1,5 @@
 from __future__ import unicode_literals 
-import uuid 
+import uuid, datetime
 from django.db import models
 from django.utils.formats import get_format
 # from django import models
@@ -15,6 +15,17 @@ from users.models import (
 from venues.models import (
     Venue
 )
+
+def increment_ticket_number():
+    return 'hahaha'
+    # last_ticket = ShowTicket.objects.all().order_by('id').last()
+    # if not last_ticket:
+    #     return 'P0000001'
+    # ticket_no = last_ticket.no_ticket
+    # ticket_int = int(ticket_no.split('P')[-1])
+    # new_ticket_int = ticket_int + 1
+    # new_ticket_no = '' + str(new_ticket_int)
+    # return new_ticket_no
 
 class Showing(models.Model):
 
@@ -56,8 +67,10 @@ class Showing(models.Model):
 class Showtime(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    start_datetime = models.DateTimeField(blank=True)
-    end_datetime = models.DateTimeField(blank=True)
+    show_date = models.DateField(default=datetime.date.today)
+    show_time = models.TimeField(null=True)
+    # start_datetime = models.DateTimeField(blank=True)
+    # end_datetime = models.DateTimeField(blank=True)
     showing_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name='showing')
     venue_id = models.ManyToManyField(Venue, related_name='venue')
 
@@ -67,30 +80,67 @@ class Showtime(models.Model):
     class Meta:
         ordering = ['-created_date']
 
-    def __str__(self):
-        return self.showing_id
+    # def __str__(self):
+    #     return self.showing_id
 
 
 class ShowTicket(models.Model):
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    ticket_price = models.IntegerField(default=0)
     
-    CATEGORY = [
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    no_ticket = models.CharField(max_length=500, default=increment_ticket_number, null=True, blank=True)
+    ticket_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    TICKET_CATEGORY = [
         ('AD', 'Adult'),
         ('KD', 'Kid'),
         ('OF', 'Old Folk'),
-        ('SD', 'Student')
+        ('SD', 'Student'),
+        ('OK', 'OKU')
     ]
-    category = models.CharField(max_length=2, choices=CATEGORY, default='AD')
-    
+    ticket_category = models.CharField(max_length=2, choices=TICKET_CATEGORY, default='AD')
+
     TICKET_TYPE = [
         ('CZ', 'Citizen'),
         ('NC', 'Non-citizen')
     ]
     ticket_type = models.CharField(max_length=2, choices=TICKET_TYPE, default='CZ')
-    customer_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='customer')
-    showtime_id = models.ForeignKey(Showtime, on_delete=models.CASCADE, related_name='showtime')
+    qrcode = models.CharField(max_length=100, default='NA')
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="showticket_customer", default="")
+    showtime_id = models.ForeignKey(Showtime, on_delete=models.CASCADE, related_name="showticket_showtime")
+    show_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name="showticket_showing", default="")
+    
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    # def __str__(self):
+    #     return self.user_id
+
+class ShowBooking(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    showtime_id = models.ForeignKey(Showtime, on_delete=models.CASCADE, related_name="showbooking_showtime")
+
+    TICKET_TYPE = [
+        ('CZ', 'Citizen'),
+        ('NC', 'Non-citizen')
+    ]
+    ticket_type = models.CharField(max_length=2, choices=TICKET_TYPE, default='CZ')
+    TICKET_CATEGORY = [
+        ('AD', 'Adult'),
+        ('KD', 'Kid'),
+        ('OF', 'Old Folk'),
+        ('SD', 'Student'),
+        ('OK', 'OKU')
+    ]
+    ticket_category = models.CharField(max_length=2, choices=TICKET_CATEGORY, default='AD')
+    ticket_quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="customer")
+    show_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name="showbooking_showing")
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
@@ -98,6 +148,5 @@ class ShowTicket(models.Model):
     class Meta:
         ordering = ['-created_date']
 
-    def __str__(self):
-        return self.customer_id
-
+    # def __str__(self):
+    #     return self.user_id

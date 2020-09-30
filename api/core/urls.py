@@ -35,6 +35,7 @@ assets_router = router.register(
 from events.views import (
     ExhibitViewSet,
     EducationalProgramViewSet,
+    EducationalProgramDateViewSet,
     EducationalProgramApplicationViewSet,
     VisitApplicationViewSet
 )
@@ -47,8 +48,12 @@ educational_programs_router = router.register(
     'educational-programs', EducationalProgramViewSet
 )
 
+educational_programs_router = router.register(
+    'educational-program-dates', EducationalProgramDateViewSet
+)
+
 educational_program_applications_router = router.register(
-    'education-program-applications', EducationalProgramApplicationViewSet
+    'educational-program-applications', EducationalProgramApplicationViewSet
 )
 
 visit_applications_router = router.register(
@@ -82,11 +87,21 @@ publications_router = router.register(
     'publications', PublicationViewSet
 )
 
+# Virtuallibraries app
+from virtuallibraries.views import (
+    VirtuallibraryViewSet
+)
+
+virtuallibraries_router = router.register(
+    'virtual-libraries', VirtuallibraryViewSet
+)
+
 # Showings app
 from showings.views import (
     ShowingViewSet,
     ShowtimeViewSet,
-    ShowTicketViewSet
+    ShowTicketViewSet,
+    ShowBookingViewSet,
 )
 
 showings_router = router.register(
@@ -94,11 +109,15 @@ showings_router = router.register(
 )
 
 showtimes_router = router.register(
-    'showtimes', ShowtimeViewSet
+    'show-times', ShowtimeViewSet
 )
 
 showt_tickets_router = router.register(
-    'show-tickets', ShowTicketViewSet
+    'show-ticket', ShowTicketViewSet
+)
+
+show_booking_router = router.register(
+    'show-booking', ShowBookingViewSet
 )
 
 # Surveys app
@@ -113,6 +132,15 @@ survey_answers_router = router.register(
 
 survey_questions_router = router.register(
     'survey-questions', SurveyQuestionViewSet
+)
+
+# Feedbacks app
+from feedbacks.views import (
+    FeedbackViewSet
+)
+
+feedbacks_router = router.register(
+    'feedbacks', FeedbackViewSet
 )
 
 # Users app
@@ -141,6 +169,25 @@ facilities_router = router.register(
 
 facility_bookings_router = router.register(
     'facility-bookings', FacilityBookingViewSet
+)
+
+# Simulator rides app
+from simulatorrides.views import (
+    SimulatorRideViewSet,
+    SimulatorRideTimeViewSet,
+    SimulatorRideBookingViewSet
+)
+
+simulator_rides_router = router.register(
+    'simulator-rides', SimulatorRideViewSet
+)
+
+simulator_ride_times_router = router.register(
+    'simulator-ride-times', SimulatorRideTimeViewSet
+)
+
+simulator_ride_bookings_router = router.register(
+    'simulator-ride-bookings', SimulatorRideBookingViewSet
 )
 
 urlpatterns = [

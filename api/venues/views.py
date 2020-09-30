@@ -19,7 +19,9 @@ from .models import (
 from .serializers import (
     VenueSerializer,
     FacilitySerializer,
-    FacilityBookingSerializer
+    FacilityExtendedSerializer,
+    FacilityBookingSerializer,
+    FacilityBookingExtendedSerializer
 )
 
 class VenueViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -68,6 +70,14 @@ class FacilityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = Facility.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = Facility.objects.all()
+        serializer_class = FacilityExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
 
 class FacilityBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = FacilityBooking.objects.all()
@@ -95,4 +105,12 @@ class FacilityBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = FacilityBooking.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = FacilityBooking.objects.all()
+        serializer_class = FacilityBookingExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
 

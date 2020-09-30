@@ -17,6 +17,7 @@ from .models import (
 
 from .serializers import (
     SurveyAnswerSerializer,
+    SurveyAnswerExtendedSerializer,
     SurveyQuestionSerializer
 )
 
@@ -24,7 +25,7 @@ class SurveyAnswerViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SurveyAnswer.objects.all()
     serializer_class = SurveyAnswerSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['question_id', 'customer_id', 'created_date']
+    filterset_fields = ['survey_question_id', 'user_id', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -39,12 +40,20 @@ class SurveyAnswerViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = SurveyAnswer.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = SurveyAnswer.objects.all()
+        serializer_class = SurveyAnswerExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
 
 class SurveyQuestionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SurveyQuestion.objects.all()
     serializer_class = SurveyQuestionSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['survey_type', 'created_date']
+    filterset_fields = ['id', 'questionnaire_type', 'questionnaire_module', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':
