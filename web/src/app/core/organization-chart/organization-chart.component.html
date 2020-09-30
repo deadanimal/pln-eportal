@@ -2,7 +2,13 @@
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
       <!-- <div class="overlay"></div> -->
-      <video autoplay="autoplay" loop="loop" muted="muted">
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+        oncanplay="this.play()"
+        onloadedmetadata="this.muted = true"
+      >
         <source
           src="../../../assets/video/planetarium-homepage-video.mp4"
           type="video/mp4"
@@ -39,7 +45,9 @@
       <div class="container">
         <h2 class="title text-center text-dark">Carta Organisasi</h2>
         <div class="row pb-3">
-          
+          <div class="col">
+            <img src="../../../assets/img/CARTA-ORG-2018.png" />
+          </div>
         </div>
       </div>
     </div>

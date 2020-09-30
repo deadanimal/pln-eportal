@@ -29,9 +29,10 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Teater Angkasa",
       type: "teater-angkasa",
-      desc: "",
-      capacity: "",
-      area: "",
+      desc:
+        "Teater Angkasa boleh memuatkan sehingga 190 orang penonton. Ia mempunyai skrin berbentuk kubah aluminium hesmisfera yang dilengkapi dengan sistem bunyi sekeliling digital 6-saluran. Dua projektor full dome immersive system memberikan pilihan tayangan setiap jam dan setiap hari.",
+      capacity: "190 orang penonton",
+      area: "200 m2",
       images: [
         {
           small: "assets/img/facility/ruangan pameran peerokaan angkasa_2.jpg",
@@ -57,9 +58,10 @@ export class FacilityDetailsComponent implements OnInit {
       ],
     },
     {
-      name: "Galeri Pameran",
+      name: "Pameran Penerokaan Sains Angkasa & Astronomi",
       type: "galeri-pameran",
-      desc: "",
+      desc:
+        "Pameran ini memberikan peluang kepada pelawat meneroka bahan pameran interaktif dan mencipta sendiri pengalaman pembelajaran yang unik. Ia menggalakkan interaksi di kalangan pelawat pada semua peringkat usia.",
       capacity: "",
       area: "",
       images: [
@@ -237,7 +239,8 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Stesen Mikrosatelit",
       type: "stesen-mikrosatelit",
-      desc: "",
+      desc:
+        "Suatu kemudahan yang menempatkan peralatan komunikasi Radio Amatur di Planetarium Negara. Peralatan Radio Amatur yang disediakan di stesen mikrosatelit Planeterium Negara dapat digunakan bagi tujuan perhubungan radio kepada pengguna-pengguna radio amatur dan juga untuk berkomunikasi dengan mikrosatelit yang melintas ruang udara Kuala Lumpur. Stesen ini juga digunakan untuk berkomunikasi dengan angkasawan yang sedang bertugas di Stesen Angkasa Antarabangsa (ISS).",
       capacity: "",
       area: "",
       images: [

@@ -2,7 +2,13 @@
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
       <!-- <div class="overlay"></div> -->
-      <video autoplay="autoplay" loop="loop" muted="muted">
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+        oncanplay="this.play()"
+        onloadedmetadata="this.muted = true"
+      >
         <source
           src="../../../assets/video/planetarium-homepage-video.mp4"
           type="video/mp4"
@@ -39,16 +45,48 @@
       <div class="container">
         <h2 class="title text-center text-dark">Mengenai Kami</h2>
         <div class="row pb-3">
-          <p class="text-justify text-dark" style="font-size: 1.4rem">
-            Planetarium Negara bermula sebagai Bahagian Planetarium di Jabatan
-            Perdana Menteri pada tahun 1989. Pembinaan Negara Kompleks
-            Planetarium bermula pada tahun 1990 dan siap pada tahun 1993.
-            Pelancaran kepada umum bermula pada Mei 1993 dan dibuka secara rasmi
-            oleh
-            <b> Perdana Menteri Malaysia, Mahathir bin Mohamad </b>, pada 7
-            Februari 1994. Pada bulan Julai 1995, Bahagian ini dipindahkan ke
-            Kementerian Sains, Teknologi dan Alam Sekitar (MOSTI), yang juga
-            merupakan pemilik planetarium ini hingga sekarang.
+          <p class="text-justify text-dark pb-3" style="font-size: 1rem">
+            Planetarium Negara bermula sebagai Bahagian Planetarium dalam
+            Jabatan Perdana Menteri pada 1989. Pembinaan kompleks Planetarium
+            Negara bermula pada 1990 dan disiapkan pada 1993. Pelancaran tidak
+            rasmi bermula pada bulan Mei 1993 dan pembukaan rasmi telah
+            dilancarkan oleh Perdana Menteri ke-4, Tun Dr. Mahathir Mohamad,
+            pada 7 Februari 1994. Setelah setahun setengah beroperasi dengan
+            lancar, pada bulan Julai 1995, bahagian ini telah dipindah alih ke
+            Kementerian Sains, Teknologi, dan Alam Sekitar, Malaysia (kini
+            dikenali sebagai Kementerian Sains, Teknologi dan Inovasi (MOSTI).
+            Peristiwa tersebut bukan sekadar memberikan tumpuan kepada keseluruh
+            reka bentuk dan seni bina serta keunikan kemudahan Planetarium
+            bahkan juga menggambarkan kesungguhan Kerajaan ke atas pembangunan
+            sains dan teknologi angkasa.
+          </p>
+
+          <p class="text-justify text-dark pb-3" style="font-size: 1rem">
+            Ia mengambil masa tiga tahun untuk dibina, kompleks Planetarium
+            Negara menempatkan sebuah teater berkubah di tengah-tengahnya.
+            Keunikan reka bentuk teater tersebut telah memberikan cabaran yang
+            hebat kepada jurubina projek, jurutera dan kontraktor bangunan.
+            Ketelitian dan ketepatan yang diperlukan bagi projektor bintang dan
+            filem berformat besar juga memberikan cabaran yang tidak kurang
+            hebatnya. Banyak kesukaran terpaksa diatasi dan tempoh pameran
+            selesai dipasang.
+          </p>
+
+          <p class="text-justify text-dark pb-3" style="font-size: 1rem">
+            Memandangkan kerumitan menyelaras sebegitu banyak oleh pembekal luar
+            negara, ditambah dengan ketiadaan pakar yang berpengalaman dalam
+            kerja-kerja yang perlu disiapkan, kejayaan penyiapan kompleks dan
+            pemasangan kesemua peralatan dengan kelewatan yang minimum
+            sebenarnya merupakan kejayaan yang membanggakan.
+          </p>
+
+          <p class="text-justify text-dark pb-3" style="font-size: 1rem">
+            Di sebalik kesukaran yang dihadapi, Planetarium Negara berjaya
+            mengadakan beberapa projek pendidikan untuk sekolah-sekolah dan
+            orang awam. Planetarium Negara kini memainkan peranan yang penting
+            dalam menghidupkan kesedaran kepentingan bidang sains angkasa di
+            kalangan masyarakat dan menggorak langkah pertama dalam membawa
+            Malaysia menceburi bidang sains angkasa.
           </p>
         </div>
       </div>

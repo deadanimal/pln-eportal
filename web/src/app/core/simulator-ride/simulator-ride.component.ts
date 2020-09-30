@@ -18,7 +18,7 @@ export class SimulatorRideComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.initGlide();
+    // this.initGlide();
   }
 
   initGlide() {

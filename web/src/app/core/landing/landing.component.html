@@ -2,7 +2,7 @@
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
       <!-- <div class="overlay"></div> -->
-      <video autoplay="autoplay" loop="loop" muted="muted">
+      <video autoplay="autoplay" loop="loop" muted="muted" oncanplay="this.play()" onloadedmetadata="this.muted = true">
         <source
           src="../../../assets/video/planetarium-homepage-video.mp4"
           type="video/mp4"
@@ -120,7 +120,7 @@
       <h2 class="title text-center">Apa Yang Menarik</h2>
       <div class="row">
         <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 450px">
+          <div class="card" style="height: 350px">
             <img
               class="card-img-top"
               src="../../../assets/home/peneroka-angkasa.jpg"
@@ -138,7 +138,7 @@
           </div>
         </div>
         <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 450px">
+          <div class="card" style="height: 350px">
             <img
               class="card-img-top"
               src="../../../assets/home/mikrosatelit.jpeg"
@@ -154,13 +154,13 @@
           </div>
         </div>
         <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 450px">
+          <div class="card" style="height: 350px">
             <img
               class="card-img-top"
-              src="../../../assets/home/merdeka-sundial.jpeg"
+              src="../../../assets/home/merdeka-sundial.jpg"
             />
             <div class="card-body text-center">
-              <h2 class="card-title title text-uppercase">Galeri Pameran</h2>
+              <h2 class="card-title title text-uppercase">Matahari Sundial</h2>
               <!-- <p class="card-text text-justify">
                 Planetarium Negara berstruktur kubah biru yang terletak di atas
                 bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
@@ -170,7 +170,7 @@
           </div>
         </div>
         <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 450px">
+          <div class="card" style="height: 350px">
             <img
               class="card-img-top"
               src="../../../assets/home/stonehenge.jpeg"
