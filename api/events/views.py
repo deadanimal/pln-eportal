@@ -12,6 +12,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     Exhibit,
+    ExhibitList,
+    ExhibitDetail,
     EducationalProgram,
     EducationalProgramDate,
     EducationalProgramApplication,
@@ -20,6 +22,8 @@ from .models import (
 
 from .serializers import (
     ExhibitSerializer,
+    ExhibitListSerializer,
+    ExhibitDetailSerializer,
     EducationalProgramSerializer,
     EducationalProgramExtendedSerializer,
     EducationalProgramDateSerializer,
@@ -34,10 +38,8 @@ class ExhibitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = ExhibitSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'start_datetime', 
-        'end_datetime', 
+        'zone',
         'pic_id', 
-        'venue_id', 
         'asset_id', 
         'status', 
         'created_date'
@@ -54,6 +56,53 @@ class ExhibitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Exhibit.objects.all()
+        return queryset
+
+class ExhibitListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = ExhibitList.objects.all()
+    serializer_class = ExhibitListSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'name',
+        'status', 
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = ExhibitList.objects.all()
+        return queryset
+
+class ExhibitDetailViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = ExhibitDetail.objects.all()
+    serializer_class = ExhibitDetailSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'name',
+        'description', 
+        'status', 
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = ExhibitDetail.objects.all()
         return queryset
 
 

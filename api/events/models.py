@@ -23,14 +23,24 @@ from venues.models import (
 class Exhibit(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    title = models.CharField(max_length=255, default='NA')
+    name = models.CharField(max_length=255, default='NA')
     description = models.CharField(max_length=255, default='NA')
-    start_datetime = models.DateTimeField()
-    end_datetime = models.DateTimeField()
-    poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
+    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
     pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='exhibit_pic')
-    venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_venue')
+    # venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_venue')
+    ZONES = [
+        ('A', 'Alam Semesta'),
+        ('B', 'Ruang Kanak-kanak'),
+        ('C', 'Teknologi Satelit'),
+        ('D', 'Misi Angkasa'),
+        ('E', 'Sistem Solar'),
+        ('F', 'Gelombang'),
+        ('N', 'Not Available')
+    ]
+    zone = models.CharField(max_length=1, choices=ZONES, default='N', unique=True)
+
     asset_id = models.ManyToManyField(Asset, related_name='exhibit_asset')
+    qrcode = models.CharField(max_length=255, default='NA')
 
     STATUS = [
         ('AV', 'Available'),
@@ -42,10 +52,60 @@ class Exhibit(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['name']
 
     def __str__(self):
-        return self.title
+        return self.name
+
+
+class ExhibitList(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    name = models.CharField(max_length=255, default='NA')
+    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
+
+    STATUS = [
+        ('AV', 'Available'),
+        ('NA', 'Not Available')
+    ]
+    status = models.CharField(max_length=2, choices=STATUS, default='AV')
+    exhibit_id = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='exhibit_list_exhibit_id')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class ExhibitDetail(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    name = models.CharField(max_length=255, default='NA')
+    description = models.CharField(max_length=255, default='NA')
+    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
+    video_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('video'))
+    venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_detail_venue')
+    qrcode = models.CharField(max_length=255, default='NA')
+
+    STATUS = [
+        ('AV', 'Available'),
+        ('NA', 'Not Available')
+    ]
+    status = models.CharField(max_length=2, choices=STATUS, default='AV')
+    exhibit_list_id = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='exhibit_detail_exhibit_list_id')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
 
 
 class EducationalProgram(models.Model):

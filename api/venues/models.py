@@ -23,6 +23,17 @@ class Venue(models.Model):
     location = models.CharField(max_length=255, default='NA')
     max_capacity = models.IntegerField(default=0)
 
+    ZONES = [
+        ('A', 'Alam Semesta'),
+        ('B', 'Ruang Kanak-kanak'),
+        ('C', 'Teknologi Satelit'),
+        ('D', 'Misi Angkasa'),
+        ('E', 'Sistem Solar'),
+        ('F', 'Gelombang'),
+        ('N', 'Not Available')
+    ]
+    zone = models.CharField(max_length=1, choices=ZONES, default='N')
+
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
 

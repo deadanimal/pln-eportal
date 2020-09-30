@@ -10,6 +10,8 @@ from django.utils.timezone import now
 
 from .models import (
     Exhibit,
+    ExhibitList,
+    ExhibitDetail,
     EducationalProgram,
     EducationalProgramDate,
     EducationalProgramApplication,
@@ -28,6 +30,20 @@ class ExhibitSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Exhibit
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class ExhibitListSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ExhibitList
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class ExhibitDetailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ExhibitDetail
         fields = '__all__'
         read_only_fields = ['id']
     
