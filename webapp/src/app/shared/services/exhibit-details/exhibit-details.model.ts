@@ -1,0 +1,36 @@
+export class ExhibitDetail {
+  public id: string;
+  public name: string;
+  public description: string;
+  public image_link: string;
+  public video_link: string;
+  public venue_id: string;
+  public qrcode: string;
+  public status: string;
+  public created_date: string;
+  public modified_date: string;
+
+  constructor(
+    id: string,
+    name: string,
+    description: string,
+    image_link: string,
+    video_link: string,
+    venue_id: string,
+    qrcode: string,
+    status: string,
+    created_date: string,
+    modified_date: string
+  ) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.image_link = image_link;
+    this.video_link = video_link;
+    this.venue_id = venue_id;
+    this.qrcode = qrcode;
+    this.status = status;
+    this.created_date = created_date;
+    this.modified_date = modified_date;
+  }
+}

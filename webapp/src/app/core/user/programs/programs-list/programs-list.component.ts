@@ -1,15 +1,368 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+} from "@angular/forms";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import swal from "sweetalert2";
+
+import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
+import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
+import { VenuesService } from "src/app/shared/services/venues/venues.service";
+
+export enum SelectionType {
+  single = "single",
+  multi = "multi",
+  multiClick = "multiClick",
+  cell = "cell",
+  checkbox = "checkbox",
+}
 
 @Component({
-  selector: 'app-programs-list',
-  templateUrl: './programs-list.component.html',
-  styleUrls: ['./programs-list.component.scss']
+  selector: "app-programs-list",
+  templateUrl: "./programs-list.component.html",
+  styleUrls: ["./programs-list.component.scss"],
 })
 export class ProgramsListComponent implements OnInit {
+  // Data
+  eduprogramdates = [];
 
-  constructor() { }
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
 
-  ngOnInit() {
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // FormGroup
+  eduprogramFormGroup: FormGroup;
+  eduprogramdateFormGroup: FormGroup;
+
+  // Dropdown
+  programtypes = [
+    {
+      value: "PL",
+      display_name: "Public",
+    },
+    {
+      value: "PV",
+      display_name: "Private",
+    },
+  ];
+  programcategories = [
+    {
+      value: "P1",
+      display_name: "PROGRAM PEMBANGUNAN MURID/GURU",
+    },
+    {
+      value: "P2",
+      display_name: "PROGRAM PENCERAPAN",
+    },
+    {
+      value: "P3",
+      display_name: "PROGRAM KHAS",
+    },
+    {
+      value: "P4",
+      display_name: "PROGRAM KEBANGSAAN",
+    },
+    {
+      value: "P5",
+      display_name: "PROGRAM ANTARABANGSA",
+    },
+    {
+      value: "P6",
+      display_name: "PROGRAM/RAKAN KERJASAMA",
+    },
+    {
+      value: "P7",
+      display_name: "PROGRAM JANGKAUAN (6 ZON)",
+    },
+    {
+      value: "P8",
+      display_name: "SEMINAR, CERAMAH, PLANETARIUM TALKS",
+    },
+    {
+      value: "NA",
+      display_name: "Not Available",
+    },
+  ];
+  users = [];
+  venues = [];
+
+  constructor(
+    public formBuilder: FormBuilder,
+    private modalService: BsModalService,
+    private eduprogramService: EducationalProgramsService,
+    private eduprogramdateService: EducationalProgramDatesService,
+    private userService: UsersService,
+    private venueService: VenuesService
+  ) {
+    this.getUser();
+    this.getVenue();
+
+    this.eduprogramFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      title: new FormControl(""),
+      description: new FormControl(""),
+      program_type: new FormControl(""),
+      program_category: new FormControl(""),
+      program_opento: new FormControl(""),
+      min_participant: new FormControl(""),
+      max_participant: new FormControl(""),
+      price: new FormControl(0),
+      // poster_link: new FormControl(""),
+      // website_link: new FormControl(""),
+      venue_id: new FormControl(""),
+      coordinator_id: new FormControl(""),
+      status: new FormControl(""),
+    });
+
+    this.eduprogramdateFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      program_date: new FormControl(""),
+      program_id: new FormControl(""),
+    });
   }
 
+  getUser() {
+    this.userService.getAll().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.users = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getVenue() {
+    this.venueService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.venues = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  getData() {
+    this.eduprogramService.getAll().subscribe((res) => {
+      this.tableRows = res;
+      this.tableTemp = this.tableRows.map((prop, key) => {
+        return {
+          ...prop,
+          no: key,
+        };
+      });
+    });
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (
+          d[key]
+            .toString()
+            .toLowerCase()
+            .indexOf(val.toString().toLowerCase()) !== -1
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  }
+
+  openModal(modalRef: TemplateRef<any>, process: string, row) {
+    if (process == "create") {
+      this.eduprogramFormGroup.reset();
+    } else if (process == "update") {
+      this.eduprogramFormGroup.patchValue({
+        ...row,
+      });
+    } else if (process == "createupdate") {
+      this.eduprogramdateService.filter("program_id=" + row.id).subscribe(
+        (res) => {
+          console.log("res", res);
+          this.eduprogramdates = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+      this.eduprogramdateFormGroup.patchValue({
+        program_id: row.id,
+      });
+    }
+    this.modal = this.modalService.show(modalRef, this.modalConfig);
+  }
+
+  closeModal() {
+    this.modal.hide();
+  }
+
+  create() {
+    this.eduprogramService.create(this.eduprogramFormGroup.value).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
+  }
+
+  update() {
+    this.eduprogramService
+      .update(this.eduprogramFormGroup.value, this.eduprogramFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya dikemaskini.",
+              type: "success",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-success",
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getData();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
+              type: "warning",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-warning",
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+  }
+
+  createupdatedate() {
+    this.eduprogramdateService
+      .create(this.eduprogramdateFormGroup.value)
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya disimpan.",
+              type: "success",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-success",
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getData();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+              type: "warning",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-warning",
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+  }
+
+  getType(value: string) {
+    let result = this.programtypes.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getCategory(value: string) {
+    let result = this.programcategories.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
 }

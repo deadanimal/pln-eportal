@@ -57,4 +57,13 @@ export class AssetsService {
     )
   }
 
+  extended(): Observable<Asset[]> {
+    return this.http.get<Asset[]>(this.url + 'extended').pipe(
+      tap((res) => {
+        this.assets = res
+        console.log('Assets: ', res)
+      })
+    )
+  }
+
 }

@@ -1,43 +1,441 @@
 <div class="header pb-6">
-    <div class="container-fluid">
-        <div class="header-body">
-            <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-dark d-inline-block mb-0"></h6>
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Permohonan</h6>
 
-                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
-                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item">
-                                <a href="javascript:void(0)">
-                                    <i class="fas fa-align-left text-dark"></i>
-                                </a>
-                            </li>
-                            <!-- <li class="breadcrumb-item">
-                                <a href="javascript:void(0)" class="text-dark"> Finance </a>
-                            </li>
-                            <li aria-current="page" class="breadcrumb-item active">
-                                Fees Management
-                            </li> -->
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
         </div>
+
+        <div class="col-lg-6 col-5 text-right">
+          <a
+            class="btn btn-sm btn-neutral"
+            (click)="openModal(createVisit, 'create', '')"
+          >
+            Tambah
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="container-fluid mt--6">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-header bg-secondary">
-                    <h3 clas="m-0"></h3>
-                </div>
-                <div class="card-body">
-                    <img src="assets/img/default/under-construction.png" style="max-width: 30rem" class="text-center mx-auto d-flex">
-                    <p class="text-center">Page under construction</p>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Senarai Permohonan</h3>
         </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Papar
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="tableEntries == 5">5</option>
+                    <option value="25" [selected]="tableEntries == 10">
+                      10
+                    </option>
+                    <option value="50" [selected]="tableEntries == 15">
+                      15
+                    </option>
+                    <option value="-1" [selected]="tableEntries == -1">
+                      Semua
+                    </option>
+                  </select>
+                  rekod
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Cari rekod"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Nama Pemohon</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.customer_id.full_name }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Nama Organisasi</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.organisation_name }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Bilangan Orang</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.total_participant }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Juru Iring</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.pic_id.full_name }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span
+                  *ngIf="row.status == 'AP'"
+                  class="badge badge-pill badge-success"
+                  >Diterima</span
+                >
+                <span
+                  *ngIf="row.status == 'IP'"
+                  class="badge badge-pill badge-danger"
+                  >Dalam proses</span
+                >
+                <span
+                  *ngIf="row.status == 'RJ'"
+                  class="badge badge-pill badge-danger"
+                  >Ditolak</span
+                >
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tindakan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <button
+                  class="btn btn-sm btn-primary"
+                  (click)="openModal(editVisit, 'update', row)"
+                >
+                  Sunting
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
+
+<ng-template #createVisit>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Tambah
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="visitappFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Nama Pemohon</label>
+        <select
+          class="form-control"
+          formControlName="customer_id"
+          placeholder="Sila pilih"
+        >
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Tarikh</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="visit_date"
+              placeholder="Pilih tarikh"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Masa</label>
+            <input
+              type="time"
+              class="form-control"
+              formControlName="visit_time"
+              placeholder="Pilih masa"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Kategori Organisasi</label>
+            <select
+              class="form-control"
+              formControlName="organisation_category"
+              placeholder="Sila pilih"
+            >
+              <option
+                *ngFor="let organisationcategory of organisationcategories"
+                [value]="organisationcategory.value"
+              >
+                {{ organisationcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Bilangan orang</label>
+            <input
+              class="form-control"
+              formControlName="total_participant"
+              placeholder="Bilangan orang"
+              type="number"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama organisasi</label>
+        <input
+          class="form-control"
+          formControlName="organisation_name"
+          placeholder="Nama organisasi"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Juru Iring</label>
+        <select
+          class="form-control"
+          formControlName="pic_id"
+          placeholder="Sila pilih"
+        >
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Status</label>
+        <select
+          class="form-control"
+          formControlName="status"
+          placeholder="Sila pilih"
+        >
+          <option value="IP">Baru</option>
+          <option value="AP">Diterima</option>
+          <option value="RJ">Ditolak</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="create()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editVisit>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Ubah Suai
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="visitappFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Nama Pemohon</label>
+        <select
+          class="form-control"
+          formControlName="customer_id"
+          placeholder="Sila pilih"
+        >
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Tarikh</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="visit_date"
+              placeholder="Pilih tarikh"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Masa</label>
+            <input
+              type="time"
+              class="form-control"
+              formControlName="visit_time"
+              placeholder="Pilih masa"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Kategori Organisasi</label>
+            <select
+              class="form-control"
+              formControlName="organisation_category"
+              placeholder="Sila pilih"
+            >
+              <option
+                *ngFor="let organisationcategory of organisationcategories"
+                [value]="organisationcategory.value"
+              >
+                {{ organisationcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Bilangan orang</label>
+            <input
+              class="form-control"
+              formControlName="total_participant"
+              placeholder="Bilangan orang"
+              type="number"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama organisasi</label>
+        <input
+          class="form-control"
+          formControlName="organisation_name"
+          placeholder="Nama organisasi"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Juru Iring</label>
+        <select
+          class="form-control"
+          formControlName="pic_id"
+          placeholder="Sila pilih"
+        >
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Status</label>
+        <select
+          class="form-control"
+          formControlName="status"
+          placeholder="Sila pilih"
+        >
+          <option value="AP">Diterima</option>
+          <option value="RJ">Ditolak</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="update()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>

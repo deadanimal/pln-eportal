@@ -57,4 +57,12 @@ export class FacilityBookingsService {
     )
   }
 
+  extended(): Observable<FacilityBooking[]> {
+    return this.http.get<FacilityBooking[]>(this.url + 'extended').pipe(
+      tap((res) => {
+        console.log('Facility bookings: ', res)
+      })
+    )
+  }
+
 }

@@ -57,4 +57,13 @@ export class EducationalProgramApplicationsService {
     )
   }
 
+  extended(): Observable<EducationalProgramApplication[]> {
+    return this.http.get<EducationalProgramApplication[]>(this.url + 'extended').pipe(
+      tap((res) => {
+        this.educationalProgramApplications = res
+        console.log('Educational program applications: ', res)
+      })
+    )
+  }
+
 }

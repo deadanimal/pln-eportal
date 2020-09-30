@@ -57,4 +57,13 @@ export class FacilitiesService {
     )
   }
 
+  extended(): Observable<Facility[]> {
+    return this.http.get<Facility[]>(this.url + 'extended').pipe(
+      tap((res) => {
+        this.facilities = res
+        console.log('Facilities: ', res)
+      })
+    )
+  }
+
 }
