@@ -95,7 +95,7 @@ export class ShowsComponent implements OnInit {
     this.carouselTileItems.forEach((el) => {
       this.carouselTileLoad(el);
     });
-    // this.initGlide();
+    this.initGlide();
   }
 
   initGlide() {
