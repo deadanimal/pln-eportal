@@ -15,7 +15,8 @@ from .models import (
 )
 
 from .serializers import (
-    AssetSerializer
+    AssetSerializer,
+    AssetExtendedSerializer
 )
 
 class AssetViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -36,4 +37,12 @@ class AssetViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Asset.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = Asset.objects.all()
+        serializer_class = AssetExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
 

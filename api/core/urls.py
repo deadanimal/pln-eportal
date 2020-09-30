@@ -34,6 +34,8 @@ assets_router = router.register(
 # Events app
 from events.views import (
     ExhibitViewSet,
+    ExhibitListViewSet,
+    ExhibitDetailViewSet,
     EducationalProgramViewSet,
     EducationalProgramDateViewSet,
     EducationalProgramApplicationViewSet,
@@ -42,6 +44,14 @@ from events.views import (
 
 exhibits_router = router.register(
     'exhibits', ExhibitViewSet
+)
+
+exhibit_lists_router = router.register(
+    'exhibit-lists', ExhibitListViewSet
+)
+
+exhibit_details_router = router.register(
+    'exhibit-details', ExhibitDetailViewSet
 )
 
 educational_programs_router = router.register(

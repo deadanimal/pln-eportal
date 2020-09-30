@@ -22,8 +22,11 @@ from .models import (
 
 from .serializers import (
     ExhibitSerializer,
+    ExhibitExtendedSerializer,
     ExhibitListSerializer,
+    ExhibitListExtendedSerializer,
     ExhibitDetailSerializer,
+    ExhibitDetailExtendedSerializer,
     EducationalProgramSerializer,
     EducationalProgramExtendedSerializer,
     EducationalProgramDateSerializer,
@@ -58,6 +61,14 @@ class ExhibitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = Exhibit.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = Exhibit.objects.all()
+        serializer_class = ExhibitExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
 class ExhibitListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ExhibitList.objects.all()
     serializer_class = ExhibitListSerializer
@@ -80,6 +91,14 @@ class ExhibitListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = ExhibitList.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = ExhibitList.objects.all()
+        serializer_class = ExhibitListExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
 
 class ExhibitDetailViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ExhibitDetail.objects.all()
@@ -104,6 +123,14 @@ class ExhibitDetailViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = ExhibitDetail.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = ExhibitDetail.objects.all()
+        serializer_class = ExhibitDetailExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
 
 
 class EducationalProgramViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

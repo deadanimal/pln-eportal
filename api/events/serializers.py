@@ -26,7 +26,20 @@ from venues.serializers import (
     VenueSerializer
 )
 
+from assets.serializers import (
+    AssetSerializer
+)
+
 class ExhibitSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Exhibit
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class ExhibitExtendedSerializer(serializers.ModelSerializer):
+    pic_id = CustomUserSerializer(read_only=True)
+    asset_id = AssetSerializer(read_only=True)
     
     class Meta:
         model = Exhibit
@@ -40,7 +53,24 @@ class ExhibitListSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id']
 
+class ExhibitListExtendedSerializer(serializers.ModelSerializer):
+    exhibit_id = ExhibitSerializer(read_only=True)
+    
+    class Meta:
+        model = ExhibitList
+        fields = '__all__'
+        read_only_fields = ['id']
+
 class ExhibitDetailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ExhibitDetail
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class ExhibitDetailExtendedSerializer(serializers.ModelSerializer):
+    venue_id = VenueSerializer(read_only=True)
+    exhibit_list_id = ExhibitListSerializer(read_only=True)
     
     class Meta:
         model = ExhibitDetail
