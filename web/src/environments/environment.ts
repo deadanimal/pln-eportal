@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://pln-eportal-api.pipe.my/'
+  baseUrl: 'https://pln-eportal-api.pipe.my/',
+  // baseUrl: 'http://127.0.0.1:8000/',
 };
 
 /*

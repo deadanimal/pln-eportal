@@ -24,7 +24,9 @@ import { PdpaComponent } from "./pdpa/pdpa.component";
 import { FaqComponent } from "./faq/faq.component";
 import { SimulatorRideBookComponent } from "./simulator-ride-book/simulator-ride-book.component";
 import { ShowsBookComponent } from "./shows-book/shows-book.component";
-import { ExhibitListsComponent } from './exhibit-lists/exhibit-lists.component';
+import { ExhibitListsComponent } from "./exhibit-lists/exhibit-lists.component";
+import { OperatingHourComponent } from "./operating-hour/operating-hour.component";
+import { DirectoryComponent } from "./directory/directory.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -48,7 +50,7 @@ export const CoreRoutes: Routes = [
       },
       {
         path: "lists",
-        component: ExhibitListsComponent
+        component: ExhibitListsComponent,
       },
       {
         path: "details",
@@ -137,6 +139,14 @@ export const CoreRoutes: Routes = [
   {
     path: "mission-vision",
     component: MissionVisionComponent,
+  },
+  {
+    path: "operating-hour",
+    component: OperatingHourComponent,
+  },
+  {
+    path: "directory",
+    component: DirectoryComponent,
   },
   {
     path: "pdpa",

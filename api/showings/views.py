@@ -13,13 +13,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
     Showing,
     Showtime,
-    ShowTicket
+    ShowTicket,
+    ShowBooking
 )
 
 from .serializers import (
     ShowingSerializer,
     ShowtimeSerializer,
-    ShowTicketSerializer
+    ShowtimeExtendedSerializer,
+    ShowTicketSerializer,
+    ShowTicketExtendedSerializer,
+    ShowBookingSerializer,
+    ShowBookingExtendedSerializer,
 )
 
 class ShowingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -46,7 +51,7 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Showtime.objects.all()
     serializer_class = ShowtimeSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['start_datetime', 'showing_id', 'venue_id', 'created_date']
+    filterset_fields = ['showing_id', 'venue_id', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -61,19 +66,26 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = Showtime.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = Showtime.objects.all()
+        serializer_class = ShowtimeExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data) 
+
 
 class ShowTicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ShowTicket.objects.all()
     serializer_class = ShowTicketSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'ticket_price', 
-        'category', 
+        'no_ticket',
+        'ticket_price',  
         'ticket_type', 
         'created_date',
-        'customer_id',
+        'user_id',
         'showtime_id',
-        'created_date'
     ]
 
     def get_permissions(self):
@@ -89,3 +101,37 @@ class ShowTicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = ShowTicket.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = ShowTicket.objects.all()
+        serializer_class = ShowTicketExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
+class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = ShowBooking.objects.all()
+    serializer_class = ShowBookingSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = ['showtime_id', 'user_id', 'show_id']
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = ShowBooking.objects.all()
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = ShowBooking.objects.all()
+        serializer_class = ShowBookingExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)

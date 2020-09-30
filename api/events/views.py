@@ -13,6 +13,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
     Exhibit,
     EducationalProgram,
+    EducationalProgramDate,
     EducationalProgramApplication,
     VisitApplication
 )
@@ -20,8 +21,12 @@ from .models import (
 from .serializers import (
     ExhibitSerializer,
     EducationalProgramSerializer,
+    EducationalProgramExtendedSerializer,
+    EducationalProgramDateSerializer,
     EducationalProgramApplicationSerializer,
-    VisitApplicationSerializer
+    EducationalProgramApplicationExtendedSerializer,
+    VisitApplicationSerializer,
+    VisitApplicationExtendedSerializer
 )
 
 class ExhibitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -61,8 +66,6 @@ class EducationalProgramViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'min_participant', 
         'max_participant', 
         'price',
-        'start_datetime',
-        'end_datetime',
         'venue_id',
         'coordinator_id',
         'status',
@@ -82,6 +85,35 @@ class EducationalProgramViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = EducationalProgram.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = EducationalProgram.objects.all()
+        serializer_class = EducationalProgramExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
+class EducationalProgramDateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EducationalProgramDate.objects.all()
+    serializer_class = EducationalProgramDateSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'program_id', 
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = EducationalProgramDate.objects.all()
+        return queryset
 
 class EducationalProgramApplicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EducationalProgramApplication.objects.all()
@@ -109,7 +141,14 @@ class EducationalProgramApplicationViewSet(NestedViewSetMixin, viewsets.ModelVie
     def get_queryset(self):
         queryset = EducationalProgramApplication.objects.all()
         return queryset
-
+    
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = EducationalProgramApplication.objects.all()
+        serializer_class = EducationalProgramApplicationExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
 
 class VisitApplicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VisitApplication.objects.all()
@@ -118,8 +157,6 @@ class VisitApplicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'organisation_name', 
         'organisation_category', 
-        'start_datetime',
-        'end_datetime', 
         'total_participant', 
         'customer_id', 
         'pic_id', 
@@ -139,4 +176,12 @@ class VisitApplicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = VisitApplication.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = VisitApplication.objects.all()
+        serializer_class = VisitApplicationExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
 
