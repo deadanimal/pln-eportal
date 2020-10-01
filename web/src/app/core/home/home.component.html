@@ -11,31 +11,40 @@
       </defs>
     </svg> -->
     <!-- <div class="content-center m-0 p-0"> -->
-      <div>
-        <carousel [noPause]="false" showIndicators="false">
-          <slide>
-            <img src="assets/img/facility/galeri-pameran-3.jpg" style="display: block; width: 100%; height: 600px;">
-            <div class="carousel-caption d-none d-md-block">
-              <h1 class="title">Selamat datang ke Planetarium Negara</h1>
-              <!-- <p class="font-weight-bold">Jelajah angkasa lepas dan alam semesta di sini.</p> -->
-            </div>
-          </slide>
-          <slide>
-            <img src="assets/img/background/facility-2.jpg" style="display: block; width: 100%; height: 600px;">
-            <div class="carousel-caption d-none d-md-block">
-              <h1 class="title">Selamat datang ke Planetarium Negara</h1>
-              <!-- <p class="font-weight-bold">Roket, bintang, cakerawala dan sebagainya ada di sini.</p> -->
-            </div>
-          </slide>
-          <slide>
-            <img src="assets/img/background/facility-4.jpg" style="display: block; width: 100%; height: 600px;">
-            <div class="carousel-caption d-none d-md-block">
-              <h1 class="title">Selamat datang ke Planetarium Negara</h1>
-              <!-- <p class="font-weight-bold">Gambar, video, dan sebagainya sedia untuk dipamerkan kepada anda.</p> -->
-            </div>
-          </slide>
-        </carousel>
-      </div>
+    <div>
+      <carousel [noPause]="false" showIndicators="false">
+        <slide>
+          <img
+            src="assets/img/facility/galeri-pameran-3.jpg"
+            style="display: block; width: 100%; height: 600px"
+          />
+          <div class="carousel-caption d-none d-md-block">
+            <h1 class="title">Selamat datang ke Planetarium Negara</h1>
+            <!-- <p class="font-weight-bold">Jelajah angkasa lepas dan alam semesta di sini.</p> -->
+          </div>
+        </slide>
+        <slide>
+          <img
+            src="assets/img/background/facility-2.jpg"
+            style="display: block; width: 100%; height: 600px"
+          />
+          <div class="carousel-caption d-none d-md-block">
+            <h1 class="title">Selamat datang ke Planetarium Negara</h1>
+            <!-- <p class="font-weight-bold">Roket, bintang, cakerawala dan sebagainya ada di sini.</p> -->
+          </div>
+        </slide>
+        <slide>
+          <img
+            src="assets/img/background/facility-4.jpg"
+            style="display: block; width: 100%; height: 600px"
+          />
+          <div class="carousel-caption d-none d-md-block">
+            <h1 class="title">Selamat datang ke Planetarium Negara</h1>
+            <!-- <p class="font-weight-bold">Gambar, video, dan sebagainya sedia untuk dipamerkan kepada anda.</p> -->
+          </div>
+        </slide>
+      </carousel>
+    </div>
     <!-- </div> -->
   </div>
   <div class="section about-pricing bg-white">
@@ -44,7 +53,7 @@
         <div class="col-lg-12 col-md-12 col-12 ml-auto">
           <div class="row align-items-center mx-auto justify-content-center">
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/simulator-ride']">
+              <!-- <div class="card card-pricing" [routerLink]="['/simulator-ride']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/simulation.svg"
@@ -53,14 +62,28 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Kembara Simulasi</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/shows']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/simulator-ride']"
+              >
+                <div
+                  class="full-background"
+                  style="
+                    background-image: url('assets/home/icon/kembara-simulasi.jpeg');
+                  "
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Kembara Simulasi</h3>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/shows']">
+              <!-- <div class="card card-pricing" [routerLink]="['/shows']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/show.svg"
@@ -69,14 +92,28 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Tayangan</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/shows']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/shows']"
+              >
+                <div
+                  class="full-background"
+                  style="
+                    background-image: url('assets/home/icon/tayangan.jpeg');
+                  "
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Tayangan</h3>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/exhibit']">
+              <!-- <div class="card card-pricing" [routerLink]="['/exhibit']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/exhibit.svg"
@@ -85,16 +122,28 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Pameran</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/exhibit']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/exhibit']"
+              >
+                <div
+                  class="full-background"
+                  style="background-image: url('assets/home/icon/pameran.jpeg')"
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Pameran</h3>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="row align-items-center mx-auto justify-content-center">
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/visit']">
+              <!-- <div class="card card-pricing" [routerLink]="['/visit']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/visit.svg"
@@ -103,14 +152,26 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Lawatan</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/visit']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/visit']"
+              >
+                <div
+                  class="full-background"
+                  style="background-image: url('assets/home/icon/lawatan.jpeg')"
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Lawatan</h3>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/program']">
+              <!-- <div class="card card-pricing" [routerLink]="['/program']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/program.svg"
@@ -119,14 +180,28 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Program</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/program']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/program']"
+              >
+                <div
+                  class="full-background"
+                  style="
+                    background-image: url('assets/home/icon/program-pendidikan.jpeg');
+                  "
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Program Pendidikan</h3>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/survey']">
+              <!-- <div class="card card-pricing" [routerLink]="['/survey']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/survey.svg"
@@ -135,16 +210,30 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Maklum Balas</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/survey']">
-                    Info
-                  </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/survey']"
+              >
+                <div
+                  class="full-background"
+                  style="
+                    background-image: url('assets/home/icon/maklum-balas.jpeg');
+                  "
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Maklum Balas</h3>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="row align-items-center mx-auto justify-content-center">
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/facility']">
+              <!-- <div class="card card-pricing" [routerLink]="['/facility']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/facility.svg"
@@ -153,14 +242,28 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Fasiliti</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/facility']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/facility']"
+              >
+                <div
+                  class="full-background"
+                  style="
+                    background-image: url('assets/home/icon/fasiliti.jpeg');
+                  "
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Fasiliti</h3>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/publication']">
+              <!-- <div class="card card-pricing" [routerLink]="['/publication']">
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/publication.svg"
@@ -169,14 +272,31 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Penerbitan</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/publication']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/publication']"
+              >
+                <div
+                  class="full-background"
+                  style="
+                    background-image: url('assets/home/icon/penerbitan.jpeg');
+                  "
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Penerbitan</h3>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-pricing" [routerLink]="['/virtual-library']">
+              <!-- <div
+                class="card card-pricing"
+                [routerLink]="['/virtual-library']"
+              >
                 <div class="card-header bg-default">
                   <img
                     src="/assets/icon/ticket.svg"
@@ -185,9 +305,23 @@
                 </div>
                 <div class="card-body">
                   <h2 class="m-0">Perpustakaan Maya</h2>
-                  <!-- <a class="btn btn-info mt-4" [routerLink]="['/ticketing']">
-                                        Info
-                                    </a> -->
+                </div>
+              </div> -->
+              <div
+                class="card card-blog card-background"
+                data-animation="true"
+                [routerLink]="['/virtual-library']"
+              >
+                <div
+                  class="full-background"
+                  style="
+                    background-image: url('assets/home/icon/perpustakaan-maya.jpeg');
+                  "
+                ></div>
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h3 class="card-title">Perpustakaan Maya</h3>
+                  </div>
                 </div>
               </div>
             </div>
