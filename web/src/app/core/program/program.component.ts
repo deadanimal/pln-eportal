@@ -112,24 +112,14 @@ export class ProgramComponent implements OnInit {
             "Bengkel ini dirangka khusus kepada sekumpulan guru apabila ada permintaan atau semasa program Kejohanann Roket Kebangsaan dan National Space Challenge. Objektif: Mempelajari dan memahami konsep sains angkasa agar guru mempunyai asas pengetahuan yang kukuh dan mampu mengendalikan kelas.	Berkongsi kaedah pengajaran dan pembelajaran jenis interaktif hands-on melalui bahan pameran, program dan aktiviti dengan guru bagi diterapkan oleh guru semasa mengajar sains di sekolah. Pendedahan kepada guru tentang perkhidmatan/produk yang ditawarkan oleh Planetarium Negara bagi memudahkan guru merancangkan lawatan ke Planetarium Negara.",
           images: [
             {
-              small: "assets/img/program/si cilik 1.jpg",
-              medium: "assets/img/program/si cilik 1.jpg",
-              big: "assets/img/program/si cilik 1.jpg",
+              small: "assets/img/program/bengkel astronomi 1.jpeg",
+              medium: "assets/img/program/bengkel astronomi 1.jpeg",
+              big: "assets/img/program/bengkel astronomi 1.jpeg",
             },
             {
-              small: "assets/img/program/si cilik 2.jpg",
-              medium: "assets/img/program/si cilik 2.jpg",
-              big: "assets/img/program/si cilik 2.jpg",
-            },
-            {
-              small: "assets/img/program/si cilik 3.jpg",
-              medium: "assets/img/program/si cilik 3.jpg",
-              big: "assets/img/program/si cilik 3.jpg",
-            },
-            {
-              small: "assets/img/program/si cilik 4.jpg",
-              medium: "assets/img/program/si cilik 4.jpg",
-              big: "assets/img/program/si cilik 4.jpg",
+              small: "assets/img/program/bengkel astronomi 2.jpg",
+              medium: "assets/img/program/bengkel astronomi 2.jpg",
+              big: "assets/img/program/bengkel astronomi 2.jpg",
             },
           ],
           pic: "Ella",
