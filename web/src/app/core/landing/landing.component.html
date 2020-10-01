@@ -79,6 +79,16 @@
           <carousel [noPause]="false" showIndicators="false">
             <slide>
               <img
+                src="assets/banner/minggu_angkasa_sedunia.jpeg"
+                style="display: block; width: 100%; height: 420px"
+              />
+              <!-- <div class="carousel-caption d-none d-md-block">
+                <h1 class="title text-white">Terokai Angkasa tanpa pergi ke angkasa</h1>
+                <p class="font-weight-bold text-white">Gambar, video, dan sebagainya sedia untuk dipamerkan kepada anda.</p>
+              </div> -->
+            </slide>
+            <slide>
+              <img
                 src="assets/img/facility/galeri-pameran-3.jpg"
                 style="display: block; width: 100%; height: 420px"
               />
@@ -119,6 +129,22 @@
 
       <h2 class="title text-center">Apa Yang Menarik</h2>
       <div class="row">
+        <div class="col-md-3 col-sm-12" *ngFor="let interesting of interestings">
+          <div class="card" style="height: 350px">
+            <img
+              class="card-img-top"
+              [src]="interesting.img"
+            />
+            <div class="card-body text-center">
+              <h2 class="card-title title text-uppercase">
+                {{ interesting.title }}
+              </h2>
+              <button class="btn btn-sm btn-info" (click)="openModal(interestingModal, interesting)">Info</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
         <div class="col-md-3 col-sm-12">
           <div class="card" style="height: 350px">
             <img
@@ -129,11 +155,6 @@
               <h2 class="card-title title text-uppercase">
                 Pameran Sains Angkasa
               </h2>
-              <!-- <p class="card-text text-justify">
-                Planetarium Negara berstruktur kubah biru yang terletak di atas
-                bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
-                sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
-              </p> -->
             </div>
           </div>
         </div>
@@ -145,11 +166,6 @@
             />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">Teater Angkasa</h2>
-              <!-- <p class="card-text text-justify">
-                Planetarium Negara berstruktur kubah biru yang terletak di atas
-                bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
-                sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
-              </p> -->
             </div>
           </div>
         </div>
@@ -161,11 +177,6 @@
             />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">Kembara Simulasi</h2>
-              <!-- <p class="card-text text-justify">
-                Planetarium Negara berstruktur kubah biru yang terletak di atas
-                bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
-                sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
-              </p> -->
             </div>
           </div>
         </div>
@@ -177,15 +188,10 @@
             />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">Taman Rekreasi</h2>
-              <!-- <p class="card-text text-justify">
-                Planetarium Negara berstruktur kubah biru yang terletak di atas
-                bukit di Taman Tasik Jalan Perdana, Kuala Lumpur. Ia berkeluasa
-                sekitar 120,000 kaki persegi (11,000m<sup>2</sup>)
-              </p> -->
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -291,3 +297,23 @@
     </div>
   </div>
 </div>
+
+<ng-template #interestingModal>
+  <div class="modal-header justify-content-center">
+    <button
+      aria-hidden="true"
+      class="close"
+      data-dismiss="modal"
+      (click)="closeModal()"
+      type="button"
+    >
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
+    </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0">{{ interesting.title }}</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <p class="text-dark text-justify">{{ interesting.description }}</p>
+  </div>
+</ng-template>

@@ -1,4 +1,5 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, TemplateRef } from "@angular/core";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "app-landing",
@@ -18,7 +19,44 @@ export class LandingComponent implements OnInit {
   totalyear: number = 590;
   totalall: number = 3098;
 
-  constructor() {}
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  interestings = [
+    {
+      title: "PAMERAN SAINS ANGKASA",
+      description:
+        "Pameran ini memberikan peluang kepada pelawat meneroka bahan pameran interaktif dan mencipta sendiri pengalaman pembelajaran yang unik. Ia menggalakkan interaksi di kalangan pelawat pada semua peringkat usia.",
+      img: "../../../assets/home/peneroka-angkasa.jpg",
+    },
+    {
+      title: "TEATER ANGKASA",
+      description:
+        "Teater Angkasa boleh memuatkan sehingga 190 orang penonton. Ia mempunyai skrin berbentuk kubah aluminium hesmisfera yang dilengkapi dengan sistem bunyi sekeliling digital 6-saluran. Dua projektor full dome immersive system memberikan pilihan tayangan setiap jam dan setiap hari.",
+      img: "../../../assets/home/teater-angkasa.jpg",
+    },
+    {
+      title: "KEMBARA SIMULASI",
+      description:
+        "Kemudahan terkini di ruang pameran Planetarium Negara yang merupakan simulator yang dapat memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas menggunakan simulasi komputer dan dalam masa yang sama pengunjung akan merasai pengalaman pergerakan tiga dimensi dengan kebebasan pergerakan 360 darjah.",
+      img: "../../../assets/home/space-pod.jpg",
+    },
+    {
+      title: "TAMAN REKREASI",
+      description:
+        "Persekitaran bukit yang menghijau itu dihiasi dengan replika balai cerap China dan India dari era terdahulu. Replika Stonehenge tersergam di sebelah pintu masuk utama sementara Jam Matahari Merdeka menghiasi kawasan laluan masuk. Selain dari replika bahan sejarah di kawasan luarnya juga terdapat arca hasil karya seni.",
+      img: "../../../assets/home/stonehenge.jpeg",
+    },
+  ];
+  interesting = {
+    title: "",
+    description: ""
+  };
+
+  constructor(public modalService: BsModalService) {}
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
@@ -29,5 +67,14 @@ export class LandingComponent implements OnInit {
   onResize(event) {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
+  }
+
+  openModal(template: TemplateRef<any>, interesting) {
+    this.modal = this.modalService.show(template, this.modalConfig);
+    this.interesting = interesting;
+  }
+
+  closeModal() {
+    this.modal.hide();
   }
 }
