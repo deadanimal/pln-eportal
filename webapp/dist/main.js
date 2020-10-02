@@ -1798,7 +1798,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var environment = {
     production: false,
-    baseUrl: 'https://pln-eportal-api.pipe.my/v1/',
+    baseUrl: 'https://pln-eportal-api.pipe.my/',
     mapbox: {
         accessToken: 'pk.eyJ1IjoiYWZlZXpheml6IiwiYSI6ImNqNjJ6anlhYzA0bTczM3FvYnppbDh4eTEifQ.AdDRr42bNfNJvQENLrE6eg' // Your access token goes here
     }
