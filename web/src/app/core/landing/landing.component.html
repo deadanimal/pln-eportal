@@ -2,7 +2,13 @@
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
       <!-- <div class="overlay"></div> -->
-      <video autoplay="autoplay" loop="loop" muted="muted" oncanplay="this.play()" onloadedmetadata="this.muted = true">
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+        oncanplay="this.play()"
+        onloadedmetadata="this.muted = true"
+      >
         <source
           src="../../../assets/video/planetarium-homepage-video.mp4"
           type="video/mp4"
@@ -22,7 +28,7 @@
 <div class="wrapper">
   <!-- Basic Info -->
   <div class="basic-info">
-    <div class="container p-3">
+    <div class="container p-4">
       <div class="row">
         <div class="col-md-4 col-sm-12 text-center">
           <h2 class="title">Waktu Operasi</h2>
@@ -129,17 +135,22 @@
 
       <h2 class="title text-center">Apa Yang Menarik</h2>
       <div class="row">
-        <div class="col-md-3 col-sm-12" *ngFor="let interesting of interestings">
+        <div
+          class="col-md-3 col-sm-12"
+          *ngFor="let interesting of interestings"
+        >
           <div class="card" style="height: 350px">
-            <img
-              class="card-img-top"
-              [src]="interesting.img"
-            />
+            <img class="card-img-top" [src]="interesting.img" />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">
                 {{ interesting.title }}
               </h2>
-              <button class="btn btn-sm btn-info" (click)="openModal(interestingModal, interesting)">Info</button>
+              <button
+                class="btn btn-sm btn-info"
+                (click)="openModal(interestingModal, interesting)"
+              >
+                Info
+              </button>
             </div>
           </div>
         </div>
@@ -200,8 +211,8 @@
     <div class="container" style="height: auto">
       <div class="row pb-3">
         <div class="col-md-4 col-sm-12">
-          <h4 class="title text-center">Jumlah Pengunjung</h4>
-          <div class="row">
+          <h4 class="title text-center">Jumlah Pengunjung Portal</h4>
+          <!-- <div class="row">
             <div class="col">
               <h6>Semasa</h6>
             </div>
@@ -211,7 +222,7 @@
                 [config]="{ theme: 'train-station' }"
               ></tm-ng-odometer>
             </div>
-          </div>
+          </div> -->
           <div class="row">
             <div class="col">
               <h6>Hari ini</h6>
@@ -223,7 +234,7 @@
               ></tm-ng-odometer>
             </div>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col">
               <h6>Minggu Ini</h6>
             </div>
@@ -233,8 +244,8 @@
                 [config]="{ theme: 'train-station' }"
               ></tm-ng-odometer>
             </div>
-          </div>
-          <div class="row">
+          </div> -->
+          <!-- <div class="row">
             <div class="col">
               <h6>Bulan Ini</h6>
             </div>
@@ -244,8 +255,8 @@
                 [config]="{ theme: 'train-station' }"
               ></tm-ng-odometer>
             </div>
-          </div>
-          <div class="row">
+          </div> -->
+          <!-- <div class="row">
             <div class="col">
               <h6>Tahun Ini</h6>
             </div>
@@ -255,10 +266,10 @@
                 [config]="{ theme: 'train-station' }"
               ></tm-ng-odometer>
             </div>
-          </div>
+          </div> -->
           <div class="row">
             <div class="col">
-              <h6>Keseluruhan</h6>
+              <h6>Jumlah Pelawat</h6>
             </div>
             <div class="col-auto text-right">
               <tm-ng-odometer
@@ -266,6 +277,9 @@
                 [config]="{ theme: 'train-station' }"
               ></tm-ng-odometer>
             </div>
+          </div>
+          <div class="row">
+            <div class="col text-center"><h4 class="title">01 Oktober 2020</h4></div>
           </div>
         </div>
         <div class="col-md-8 col-sm-12">

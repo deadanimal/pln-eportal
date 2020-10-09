@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.formats import get_format
 # from django import models
 from django.contrib.gis.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from core.helpers import PathAndRename
@@ -104,6 +105,7 @@ class ShowTicket(models.Model):
         ('NC', 'Non-citizen')
     ]
     ticket_type = models.CharField(max_length=2, choices=TICKET_TYPE, default='CZ')
+    ticket_seat = models.CharField(max_length=3, default='NA')
     qrcode = models.CharField(max_length=100, default='NA')
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="showticket_customer", default="")
     showtime_id = models.ForeignKey(Showtime, on_delete=models.CASCADE, related_name="showticket_showtime")
@@ -137,6 +139,7 @@ class ShowBooking(models.Model):
     ]
     ticket_category = models.CharField(max_length=2, choices=TICKET_CATEGORY, default='AD')
     ticket_quantity = models.IntegerField()
+    # ticket_seat = ArrayField(models.CharField(max_length=10), blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="customer")

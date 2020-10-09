@@ -93,5 +93,18 @@ export class AuthService {
       })
     );
   }
+
+  decodedToken() {
+    let accessToken = localStorage.getItem("accessToken");
+    let jwtHelper: JwtHelperService = new JwtHelperService();
+    let decodedToken = jwtHelper.decodeToken(accessToken);
+    let user_obj = {
+      user_id: decodedToken.user_id,
+      username: decodedToken.username,
+      email: decodedToken.email,
+      user_type: decodedToken.user_type,
+    };
+    return user_obj;
+  }
 }
 

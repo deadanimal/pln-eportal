@@ -51,19 +51,29 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-12 col-md-12 col-12 ml-auto">
-          <div class="row align-items-center mx-auto justify-content-center">
+          <div class="row">
+            <div
+              class="col-md-4 col-sm-12"
+              *ngFor="let module of modules"
+            >
+              <div class="card" style="height: 350px" [routerLink]="[module.link]" data-animation="true">
+                <img class="card-img-top" [src]="module.img" />
+                <div class="card-body text-center">
+                  <h2 class="card-title title text-uppercase font-weight-bold">
+                    {{ module.title }}
+                  </h2>
+                  <!-- <button
+                    class="btn btn-sm btn-info"
+                    (click)="openModal(interestingModal, interesting)"
+                  >
+                    Info
+                  </button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row align-items-center mx-auto justify-content-center">
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/simulator-ride']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/simulation.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Kembara Simulasi</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -83,17 +93,6 @@
               </div>
             </div>
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/shows']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/show.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Tayangan</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -113,17 +112,6 @@
               </div>
             </div>
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/exhibit']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/exhibit.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Pameran</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -143,17 +131,6 @@
           </div>
           <div class="row align-items-center mx-auto justify-content-center">
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/visit']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/visit.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Lawatan</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -171,17 +148,6 @@
               </div>
             </div>
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/program']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/program.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Program</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -201,17 +167,6 @@
               </div>
             </div>
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/survey']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/survey.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Maklum Balas</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -233,17 +188,6 @@
           </div>
           <div class="row align-items-center mx-auto justify-content-center">
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/facility']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/facility.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Fasiliti</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -263,17 +207,6 @@
               </div>
             </div>
             <div class="col-md-4">
-              <!-- <div class="card card-pricing" [routerLink]="['/publication']">
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/publication.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Penerbitan</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -293,20 +226,6 @@
               </div>
             </div>
             <div class="col-md-4">
-              <!-- <div
-                class="card card-pricing"
-                [routerLink]="['/virtual-library']"
-              >
-                <div class="card-header bg-default">
-                  <img
-                    src="/assets/icon/ticket.svg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="m-0">Perpustakaan Maya</h2>
-                </div>
-              </div> -->
               <div
                 class="card card-blog card-background"
                 data-animation="true"
@@ -325,162 +244,9 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
-  <!--
-    <div class="section">
-        <div class="team-1">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 ml-auto mr-auto text-center">
-                        <h2 class="title">Our Awesome Team</h2>
-                        <h4 class="description">
-                            This is the paragraph where you can write more details about your
-                            team. Keep you user engaged by providing meaningful information.
-                        </h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <carousel [showIndicators]="false" class="carousel-team">
-                        <slide>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h1 class="title">Charlie Watson</h1>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <img alt="First slide" class="d-block" src="assets/img/charlie.jpg" />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="wrapper">
-                                            <div class="category">
-                                                <strong>Position:</strong> Artist <br />
-
-                                                <strong>Experience:</strong> 5 years
-                                            </div>
-                                            <div class="description">
-                                                Artist is a term applied to a person who engages in an
-                                                activity deemed to be an art. An artist also may be
-                                                defined unofficially as "a person who expresses him- or
-                                                herself through a medium". He is a descriptive term
-                                                applied to a person who engages in an activity deemed to
-                                                be an art. An artist also may be defined unofficially as
-                                                "a person who expresses him- or herself through a
-                                                medium".
-                                            </div>
-                                            <div class="footer">
-                                                <a class="btn btn-icon btn-twitter btn-round" href="javascript:void(0)">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                                <a class="btn btn-icon btn-facebook btn-round"
-                                                    href="javascript:void(0)">
-                                                    <i class="fab fa-facebook-square"></i>
-                                                </a>
-                                                <a class="btn btn-icon btn-dribbble btn-round"
-                                                    href="javascript:void(0)">
-                                                    <i class="fab fa-dribbble"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </slide>
-                        <slide>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h1 class="title">Quavo Austen</h1>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <img alt="First slide" class="d-block" src="assets/img/tom-klein.jpg" />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="wrapper">
-                                            <div class="category">
-                                                <strong>Position:</strong> Actor <br />
-
-                                                <strong>Experience:</strong> 1 year
-                                            </div>
-                                            <div class="description">
-                                                Artist is a term applied to a person who engages in an
-                                                activity deemed to be an art. An artist also may be
-                                                defined unofficially as "a person who expresses him- or
-                                                herself through a medium". He is a descriptive term
-                                                applied to a person who engages in an activity deemed to
-                                                be an art. An artist also may be defined unofficially as
-                                                "a person who expresses him- or herself through a
-                                                medium".
-                                            </div>
-                                            <div class="footer">
-                                                <a class="btn btn-icon btn-twitter btn-round" href="javascript:void(0)">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                                <a class="btn btn-icon btn-facebook btn-round"
-                                                    href="javascript:void(0)">
-                                                    <i class="fab fa-facebook-square"></i>
-                                                </a>
-                                                <a class="btn btn-icon btn-dribbble btn-round"
-                                                    href="javascript:void(0)">
-                                                    <i class="fab fa-dribbble"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </slide>
-                        <slide>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h1 class="title">Lucy</h1>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <img alt="First slide" class="d-block" src="assets/img/lucy.jpg" />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="wrapper">
-                                            <div class="category">
-                                                <strong>Position:</strong> CEO <br />
-
-                                                <strong>Experience:</strong> 7 years
-                                            </div>
-                                            <div class="description">
-                                                Artist is a term applied to a person who engages in an
-                                                activity deemed to be an art. An artist also may be
-                                                defined unofficially as "a person who expresses him- or
-                                                herself through a medium". He is a descriptive term
-                                                applied to a person who engages in an activity deemed to
-                                                be an art. An artist also may be defined unofficially as
-                                                "a person who expresses him- or herself through a
-                                                medium".
-                                            </div>
-                                            <div class="footer">
-                                                <a class="btn btn-icon btn-twitter btn-round" href="javascript:void(0)">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                                <a class="btn btn-icon btn-facebook btn-round"
-                                                    href="javascript:void(0)">
-                                                    <i class="fab fa-facebook-square"></i>
-                                                </a>
-                                                <a class="btn btn-icon btn-dribbble btn-round"
-                                                    href="javascript:void(0)">
-                                                    <i class="fab fa-dribbble"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </slide>
-                    </carousel>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
 </div>

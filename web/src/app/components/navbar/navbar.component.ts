@@ -69,7 +69,7 @@ export class NavbarComponent implements OnInit {
         "",
         Validators.compose([Validators.required, Validators.email]),
       ],
-      email: ["", Validators.compose([Validators.required])],
+      email: ["", Validators.compose([Validators.required, Validators.email])],
       password1: ["", Validators.compose([Validators.required])],
       password2: ["", Validators.compose([Validators.required])],
       phone: ["", Validators.compose([Validators.required])],
@@ -133,7 +133,7 @@ export class NavbarComponent implements OnInit {
   }
 
   clickRegister() {
-    console.log(this.registerFormGroup.value);
+    this.registerFormGroup.value.username = this.registerFormGroup.value.email;
 
     this.auth.registerAccount(this.registerFormGroup.value).subscribe(
       (res) => {

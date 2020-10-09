@@ -13,7 +13,7 @@ import { Showtime } from './showtimes.model';
 export class ShowtimesService {
 
   // URL
-  public url: string = environment.baseUrl + 'v1/showtimes/'
+  public url: string = environment.baseUrl + 'v1/show-times/'
 
   // Data
   public showtimes: Showtime[] = []
@@ -53,6 +53,15 @@ export class ShowtimesService {
     return this.http.delete<Showtime>(urlDelete).pipe(
       tap((res) => {
         console.log('Showtime: ', res)
+      })
+    )
+  }
+
+  filter(field: String): Observable<Showtime[]> {
+    let urlFilter = this.url + '?' + field
+    return this.http.get<Showtime[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log('Showtimes', res)
       })
     )
   }

@@ -1,7 +1,7 @@
 export class Showtime {
     public id: string
-    public start_datetime: string
-    public end_datetime: string
+    public show_date: string
+    public show_time: string
     public showing_id: string
     public venue_id: string
     public created_date: string
@@ -9,16 +9,16 @@ export class Showtime {
 
     constructor(
         id: string,
-        start_datetime: string,
-        end_datetime: string,
+        show_date: string,
+        show_time: string,
         showing_id: string,
         venue_id: string,
         created_date: string,
         modified_date: string,
     ) {
         this.id = id
-        this.start_datetime = start_datetime
-        this.end_datetime = end_datetime
+        this.show_date = show_date
+        this.show_time = show_time
         this.showing_id = showing_id
         this.venue_id = venue_id
         this.created_date = created_date

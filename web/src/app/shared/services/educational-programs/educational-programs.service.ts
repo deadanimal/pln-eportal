@@ -71,7 +71,7 @@ export class EducationalProgramsService {
   }
 
   filter(field: String): Observable<EducationalProgram[]> {
-    let urlFilter = this.url + '?' + field + '/'
+    let urlFilter = this.url + '?' + field
     return this.http.get<EducationalProgram[]>(urlFilter).pipe(
       tap((res) => {
         this.programsFiltered

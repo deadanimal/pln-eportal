@@ -57,4 +57,13 @@ export class ShowingsService {
     )
   }
 
+  filter(field: String): Observable<Showing[]> {
+    let urlFilter = this.url + '?' + field
+    return this.http.get<Showing[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log('Showings', res)
+      })
+    )
+  }
+
 }

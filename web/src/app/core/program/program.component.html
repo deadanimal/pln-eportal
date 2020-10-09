@@ -66,15 +66,20 @@
                         pro.further_detail
                       }}</a>
                     </h4>
-                    <div class="author">
-                      <button
+                    <div>
+                      <div class="row">
+                        <div class="col text-right">
+                          <button class="btn btn-default" (click)="openDefaultModal(modalDefault)">Daftar</button>
+                        </div>
+                      </div>
+                      <!-- <button
                         *ngFor="let date of pro.dates"
                         type="button"
                         class="btn btn-default"
                         (click)="openDefaultModal(modalDefault)"
                       >
                         {{ date.date }}
-                      </button>
+                      </button> -->
                     </div>
                   </div>
                 </div>
@@ -219,7 +224,7 @@
             <br />
 
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-6">
                 <div class="js-form-message mb-6">
                   <label class="labels">
                     Bilangan orang <span class="text-danger"> * </span>
@@ -231,6 +236,21 @@
                     placeholder="Bilangan orang"
                     required=""
                     type="text"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels">
+                    Umur <span class="text-danger"> * </span>
+                  </label>
+                  <input
+                    aria-label="Umur"
+                    class="form-control"
+                    name="streetAddress"
+                    placeholder="Umur"
+                    required=""
+                    type="number"
                   />
                 </div>
               </div>

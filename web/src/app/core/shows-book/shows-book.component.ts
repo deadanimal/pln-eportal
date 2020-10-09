@@ -1,6 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { ShowingsService } from "src/app/shared/services/showings/showings.service";
+import { ShowtimesService } from "src/app/shared/services/showtimes/showtimes.service";
+import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 
 @Component({
   selector: "app-shows-book",
@@ -2693,19 +2699,68 @@ export class ShowsBookComponent implements OnInit {
   selectedSeats = [];
   column: number = 32;
   row: number = 10;
+  ticketcategories = [
+    {
+      value: "AD",
+      display_name: "Adult",
+      formcontrol: "adult",
+      price_citizen: 6.0,
+      price_noncitizen: 12.0,
+    },
+    {
+      value: "KD",
+      display_name: "Kid",
+      formcontrol: "children",
+      price_citizen: 4.0,
+      price_noncitizen: 8.0,
+    },
+    {
+      value: "OF",
+      display_name: "Old Folk",
+      formcontrol: "senior",
+      price_citizen: 0.0,
+      price_noncitizen: 0.0,
+    },
+    {
+      value: "SD",
+      display_name: "Student",
+      formcontrol: "school",
+      price_citizen: 4.0,
+      price_noncitizen: 8.0,
+    },
+    {
+      value: "OK",
+      display_name: "OKU",
+      formcontrol: "oku",
+      price_citizen: 0.0,
+      price_noncitizen: 0.0,
+    },
+  ];
 
+  // FormGroup
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+
+  // Data
+  showings = [];
+  showtimes = [];
+  user_obj: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
+    private showingService: ShowingsService,
+    private showtimeService: ShowtimesService,
+    private showbookingService: ShowbookingsService,
+    private authService: AuthService
   ) {
-    this.route.queryParams.subscribe((params) => {
-      if (this.router.getCurrentNavigation().extras.state)
-        this.show = this.router.getCurrentNavigation().extras.state.show;
-    });
+    this.user_obj = this.authService.decodedToken();
+    // this.route.queryParams.subscribe((params) => {
+    //   if (this.router.getCurrentNavigation().extras.state)
+    //     this.show = this.router.getCurrentNavigation().extras.state.show;
+    // });
 
     this.firstFormGroup = this.formBuilder.group({
       date: ["", Validators.required],
@@ -2720,6 +2775,52 @@ export class ShowsBookComponent implements OnInit {
       oku: [0, Validators.required],
       total: [0, Validators.required],
     });
+
+    this.getShowing();
+  }
+
+  getShowing() {
+    if (this.route.snapshot.paramMap.get("id")) {
+      let filterField = "id=" + this.route.snapshot.paramMap.get("id");
+      this.showingService.filter(filterField).subscribe(
+        (res) => {
+          console.log("res", res);
+          this.showings = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
+  }
+
+  getShowtime(event) {
+    this.firstFormGroup.value.date = event;
+    if (this.firstFormGroup.value.date) {
+      // change from Thu Oct 01 2020 11:43:59 GMT+0800 (Malaysia Time) to 2020-10-01
+      let selectedDate = this.firstFormGroup.value.date;
+      let year = selectedDate.getFullYear();
+      let month = selectedDate.getMonth() + 1;
+      let day =
+        selectedDate.getDate() < 10
+          ? "0" + selectedDate.getDate()
+          : selectedDate.getDate();
+      let formatDate = year + "-" + month + "-" + day;
+      let filterField =
+        "showing_id=" +
+        this.route.snapshot.paramMap.get("id") +
+        "&show_date=" +
+        formatDate;
+      this.showtimeService.filter(filterField).subscribe(
+        (res) => {
+          console.log("res", res);
+          this.showtimes = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
   }
 
   ngOnInit() {}
@@ -2752,7 +2853,57 @@ export class ShowsBookComponent implements OnInit {
         booking,
       },
     };
-    this.router.navigate(["/payment"], navigationExtras);
+
+    for (let value in this.secondFormGroup.value) {
+      if (
+        value == "adult" ||
+        value == "children" ||
+        value == "school" ||
+        value == "senior" ||
+        value == "oku"
+      ) {
+        let selectedTicket = this.ticketcategories.find((obj) => {
+          return obj.formcontrol == value;
+        });
+        let calculateTicketPrice = 0.0;
+        if (this.secondFormGroup.value.citizen) {
+          if (value == "adult" || value == "children" || value == "school") {
+            calculateTicketPrice =
+              this.secondFormGroup.value[value] * selectedTicket.price_citizen;
+          }
+        } else {
+          if (value == "adult" || value == "children" || value == "school") {
+            calculateTicketPrice =
+              this.secondFormGroup.value[value] *
+              selectedTicket.price_noncitizen;
+          }
+        }
+
+        let createArray = {
+          ticket_type: this.secondFormGroup.value.citizen ? "CZ" : "NC",
+          ticket_category: selectedTicket.value,
+          ticket_quantity: this.secondFormGroup.value[value],
+          price: this.secondFormGroup.value.citizen
+            ? selectedTicket.price_citizen
+            : selectedTicket.price_noncitizen,
+          total_price: calculateTicketPrice,
+          showtime_id: this.firstFormGroup.value.time,
+          show_id: this.route.snapshot.paramMap.get("id"),
+          user_id: this.user_obj.user_id,
+        };
+
+        this.showbookingService.post(createArray).subscribe(
+          (res) => {
+            console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
+      }
+    }
+
+    // this.router.navigate(["/payment"], navigationExtras);
   }
 
   arrayOne(n: number): any[] {
@@ -2771,13 +2922,26 @@ export class ShowsBookComponent implements OnInit {
       return value.column === column;
     });
 
+    let totalSeat =
+      this.secondFormGroup.value.adult +
+      this.secondFormGroup.value.children +
+      this.secondFormGroup.value.school +
+      this.secondFormGroup.value.senior +
+      this.secondFormGroup.value.oku;
     if (result.name) {
-      let array = {
-        row,
-        column,
-        name: result.name,
-      };
-      this.selectedSeats.push(array);
+      if (this.selectedSeats.length < totalSeat) {
+        let array = {
+          row,
+          column,
+          name: result.name,
+        };
+        this.selectedSeats.push(array);
+      } else {
+        this.toastr.error(
+          "Harap maaf. Anda telah memilih kerusi lebih daripada tiket yang anda beli.",
+          "Ralat"
+        );
+      }
     }
 
     console.log("selectedSeats", this.selectedSeats);
@@ -2789,7 +2953,7 @@ export class ShowsBookComponent implements OnInit {
     //   color: "white",
     //   borderRadius: "10px",
     // };
-    let selectedStyle = 'btn-danger';
+    let selectedStyle = "btn-danger";
     for (let i = 0; i < this.selectedSeats.length; i++) {
       if (
         this.selectedSeats[i].row === row &&

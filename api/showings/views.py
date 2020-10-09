@@ -31,7 +31,7 @@ class ShowingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Showing.objects.all()
     serializer_class = ShowingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['genre', 'language', 'duration_hours', 'status', 'created_date']
+    filterset_fields = ['id', 'genre', 'language', 'duration_hours', 'status', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -51,7 +51,7 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Showtime.objects.all()
     serializer_class = ShowtimeSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['showing_id', 'venue_id', 'created_date']
+    filterset_fields = ['showing_id', 'venue_id', 'created_date', 'show_date']
 
     def get_permissions(self):
         if self.action == 'list':

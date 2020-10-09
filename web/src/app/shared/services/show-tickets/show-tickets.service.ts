@@ -13,7 +13,7 @@ import { ShowTicket } from './show-tickets.model';
 export class ShowTicketsService {
 
   // URL
-  public url: string = environment.baseUrl + 'v1/show-tickets/'
+  public url: string = environment.baseUrl + 'v1/show-ticket/'
 
   // Data
   public showTickets: ShowTicket[] = []
@@ -53,6 +53,15 @@ export class ShowTicketsService {
     return this.http.delete<ShowTicket>(urlDelete).pipe(
       tap((res) => {
         console.log('Show ticket: ', res)
+      })
+    )
+  }
+
+  filter(field: String): Observable<ShowTicket[]> {
+    let urlFilter = this.url + '?' + field
+    return this.http.get<ShowTicket[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log('ShowTickets', res)
       })
     )
   }

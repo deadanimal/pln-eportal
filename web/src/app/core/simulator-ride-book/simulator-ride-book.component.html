@@ -27,8 +27,8 @@
               <mat-step [stepControl]="firstFormGroup">
                 <form [formGroup]="firstFormGroup">
                   <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
-                  <div class="row">
-                    <div class="col-md-6 col-sm-12">
+                  <div class="row pb-3">
+                    <div class="col-md-12 col-sm-12">
                       <label>Tarikh</label>
                       <input
                         type="text"
@@ -43,9 +43,11 @@
                         }"
                       />
                     </div>
-                    <div class="col-md-6 col-sm-12">
-                      <label>Masa</label>
-                      <div class="form-check form-check-radio">
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                      <label>Masa</label><br/>
+                      <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                           <input
                             class="form-check-input"
@@ -59,7 +61,7 @@
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio">
+                      <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                           <input
                             class="form-check-input"
@@ -73,7 +75,7 @@
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio">
+                      <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                           <input
                             class="form-check-input"
@@ -87,7 +89,7 @@
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio">
+                      <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                           <input
                             class="form-check-input"
@@ -101,7 +103,7 @@
                           <span class="form-check-sign"></span>
                         </label>
                       </div>
-                      <div class="form-check form-check-radio">
+                      <div class="form-check form-check-radio form-check-inline">
                         <label class="form-check-label">
                           <input
                             class="form-check-input"
@@ -285,6 +287,16 @@
                       </tr>
                     </tbody>
                   </table>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <alert [type]="'danger'">
+                      <b
+                        >Nota: Sila berada 10 minit lebih awal sebelum kembara
+                        simulasi bermula. Terima kasih.</b
+                      >
+                    </alert>
+                  </div>
                 </div>
                 <div class="text-center">
                   <button

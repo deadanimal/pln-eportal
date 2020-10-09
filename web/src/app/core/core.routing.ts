@@ -86,7 +86,7 @@ export const CoreRoutes: Routes = [
         component: ShowDetailsComponent,
       },
       {
-        path: "shows-book",
+        path: "shows-book/:id",
         component: ShowsBookComponent,
       },
     ],

@@ -22,7 +22,7 @@
       <div>
         <div class="row">
           <div class="col-md-12 col-sm-12">
-            <mat-horizontal-stepper [linear]="false" #stepper>
+            <mat-horizontal-stepper [linear]="true" #stepper>
               <mat-step [stepControl]="firstFormGroup">
                 <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
                 <form [formGroup]="firstFormGroup">
@@ -40,79 +40,26 @@
                           containerClass: 'theme-dark-blue',
                           dateInputFormat: 'YYYY-MM-DD'
                         }"
+                        (bsValueChange)="getShowtime($event)"
                       />
                     </div>
                     <div class="col-md-6 col-sm-12">
-                      <label>Masa</label>
-                      <div class="form-check form-check-radio">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa1"
-                            value="10.00 AM"
-                            formControlName="time"
-                          />
-                          10.00 AM
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div class="form-check form-check-radio">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa2"
-                            value="10.10 AM"
-                            formControlName="time"
-                          />
-                          10.10 AM
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div class="form-check form-check-radio">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa3"
-                            value="10.20 AM"
-                            formControlName="time"
-                          />
-                          10.20 AM
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div class="form-check form-check-radio">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa4"
-                            value="10.30 AM"
-                            formControlName="time"
-                          />
-                          10.30 AM
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div class="form-check form-check-radio">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa5"
-                            value="10.40 AM"
-                            formControlName="time"
-                          />
-                          10.40 AM
-                          <span class="form-check-sign"></span>
-                        </label>
+                      <label>Masa</label><br/>
+                      <h3 class="text-dark" *ngIf="!firstFormGroup.value.date">Sila pilih tarikh</h3>
+                      <div *ngIf="firstFormGroup.value.date">
+                        <div class="form-check form-check-radio form-check-inline" *ngFor="let showtime of showtimes">
+                          <label class="form-check-label">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="time"
+                              [value]="showtime.id"
+                              formControlName="time"
+                            />
+                            {{ showtime.show_time }}
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
