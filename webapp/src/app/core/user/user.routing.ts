@@ -129,7 +129,7 @@ export const UserRoutes: Routes = [
         path: "simulator-ride",
         children: [
           {
-            path: "applications",
+            path: "schedule/:id",
             component: SimulatorRideApplicationsComponent,
           },
           {

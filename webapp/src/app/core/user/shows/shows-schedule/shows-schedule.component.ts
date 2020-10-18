@@ -108,7 +108,6 @@ export class ShowsScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCharts();
     this.getData();
   }
 
@@ -126,6 +125,7 @@ export class ShowsScheduleComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.tableRows = res;
+        this.getCharts();
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
             ...prop,
@@ -185,67 +185,28 @@ export class ShowsScheduleComponent implements OnInit {
     let colorSet = new am4core.ColorSet();
     colorSet.saturation = 0.4;
 
-    chart.data = [
-      {
-        name: "Isnin",
-        fromDate: "2020-01-01 08:00",
-        toDate: "2020-01-01 10:00",
-        color: colorSet.getIndex(0).brighten(0),
-      },
-      {
-        name: "Selasa",
-        fromDate: "2020-01-01 12:00",
-        toDate: "2020-01-01 15:00",
-        color: colorSet.getIndex(0).brighten(0.4),
-      },
-      {
-        name: "Rabu",
-        fromDate: "2020-01-01 15:30",
-        toDate: "2020-01-01 21:30",
-        color: colorSet.getIndex(0).brighten(0.8),
-      },
-      {
-        name: "Khamis",
-        fromDate: "2020-01-01 09:00",
-        toDate: "2020-01-01 12:00",
-        color: colorSet.getIndex(2).brighten(0),
-      },
-      {
-        name: "Jumaat",
-        fromDate: "2020-01-01 13:00",
-        toDate: "2020-01-01 17:00",
-        color: colorSet.getIndex(2).brighten(0.4),
-      },
-      {
-        name: "Sabtu",
-        fromDate: "2020-01-01 11:00",
-        toDate: "2020-01-01 16:00",
-        color: colorSet.getIndex(4).brighten(0),
-      },
-      {
-        name: "Ahad",
-        fromDate: "2020-01-01 16:00",
-        toDate: "2020-01-01 19:00",
-        color: colorSet.getIndex(4).brighten(0.4),
-      },
-    ];
+    chart.data = this.generateData(colorSet);
+
+    chart.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
+    chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm:ss";
 
     let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = "name";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.inversed = true;
+    categoryAxis.renderer.minGridDistance = 10;
 
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";
+    dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
     dateAxis.renderer.minGridDistance = 70;
     dateAxis.baseInterval = { count: 30, timeUnit: "minute" };
-    dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime();
-    dateAxis.strictMinMax = true;
+    // dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime();
+    // dateAxis.strictMinMax = true;
     dateAxis.renderer.tooltipLocation = 0;
 
     let series1 = chart.series.push(new am4charts.ColumnSeries());
     series1.columns.template.width = am4core.percent(80);
-    series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}";
+    series1.columns.template.tooltipText = "{title}: {openDateX} - {dateX}";
 
     series1.dataFields.openDateX = "fromDate";
     series1.dataFields.dateX = "toDate";
@@ -255,6 +216,32 @@ export class ShowsScheduleComponent implements OnInit {
     series1.columns.template.strokeOpacity = 1;
 
     // chart.scrollbarX = new am4core.Scrollbar();
+  }
+
+  generateData(colorSet) {
+    console.log("tableRows", this.tableRows);
+    let arrayChart = [];
+    for (let i = 0; i < this.tableRows.length; i++) {
+      var days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+      var name = this.getDayName(this.tableRows[i].show_date);
+      var dayIndex = days.indexOf(name);
+      let array = {
+        name,
+        fromDate: this.tableRows[i].show_date + ' ' + this.tableRows[i].show_time,
+        toDate: this.tableRows[i].show_date + ' ' + '16:00:00',
+        color: colorSet.getIndex(dayIndex).brighten(0),
+        title: this.tableRows[i].showing_id.title
+      }
+      arrayChart.push(array);
+    }
+    return arrayChart;
+  }
+
+  getDayName(dateString) {
+    var days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+    var d = new Date(dateString);
+    var dayName = days[d.getDay()];
+    return dayName;
   }
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {

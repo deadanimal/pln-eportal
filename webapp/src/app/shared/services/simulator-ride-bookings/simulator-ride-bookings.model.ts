@@ -1,5 +1,6 @@
 export class SimulatorRideBooking {
   public id: string;
+  public booking_date: string;
   public simulator_ride_time_id: string;
   public ticket_type: string;
   public ticket_category: string;
@@ -12,6 +13,7 @@ export class SimulatorRideBooking {
 
   constructor(
     id: string,
+    booking_date: string,
     simulator_ride_time_id: string,
     ticket_type: string,
     ticket_category: string,
@@ -23,6 +25,7 @@ export class SimulatorRideBooking {
     modified_date: string
   ) {
     this.id = id;
+    this.booking_date = booking_date;
     this.simulator_ride_time_id = simulator_ride_time_id;
     this.ticket_type = ticket_type;
     this.ticket_category = ticket_category;

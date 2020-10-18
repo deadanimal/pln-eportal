@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 
 import { SurveyAnswersService } from "src/app/shared/services/survey-answers/survey-answers.service";
 import { SurveyQuestionsService } from "src/app/shared/services/survey-questions/survey-questions.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
   single = "single",
@@ -110,13 +111,15 @@ export class SurveysAnswerComponent implements OnInit {
     questionnaire_answer: "",
     questionnaire_module: "",
   };
+  users = [];
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private route: ActivatedRoute,
     private surveyanswerService: SurveyAnswersService,
-    private surveyquestionService: SurveyQuestionsService
+    private surveyquestionService: SurveyQuestionsService,
+    private userService: UsersService
   ) {
     this.surveyanswerFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -139,6 +142,20 @@ export class SurveysAnswerComponent implements OnInit {
           console.error("err", err);
         }
       );
+
+    this.getUser();
+  }
+
+  getUser() {
+    this.userService.getAll().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.users = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   ngOnInit() {
@@ -300,5 +317,12 @@ export class SurveysAnswerComponent implements OnInit {
       return obj.value == value;
     });
     return result.display_name;
+  }
+
+  getUserOne(user_id) {
+    let user = this.users.find((obj) => {
+      return obj.id == user_id;
+    });
+    return user.full_name;
   }
 }

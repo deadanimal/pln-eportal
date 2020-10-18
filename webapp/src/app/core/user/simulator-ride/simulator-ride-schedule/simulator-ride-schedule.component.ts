@@ -33,6 +33,12 @@ export class SimulatorRideScheduleComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  entries: number = 5;
+  selected: any[] = [];
+  temp = [];
+  activeRow: any;
+  rows: any[] = [];
+
   // Modal
   modal: BsModalRef;
   modalConfig = {
@@ -152,6 +158,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+    this.getSimulatorRideTime();
   }
 
   getData() {
@@ -293,6 +300,24 @@ export class SimulatorRideScheduleComponent implements OnInit {
     });
   }
 
+  getSimulatorRideTime() {
+    this.simridetimeService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.rows = res;
+        this.temp = this.rows.map((prop, key) => {
+          return {
+            ...prop,
+            no: key,
+          };
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   entriesChange($event) {
     this.tableEntries = $event.target.value;
   }
@@ -335,20 +360,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
   }
 
   closeModal() {
-    // this.modal.hide();
-    swal
-      .fire({
-        title: "Berjaya",
-        text: "Data anda berjaya disimpan.",
-        type: "success",
-        buttonsStyling: false,
-        confirmButtonClass: "btn btn-success",
-      })
-      .then((result) => {
-        if (result.value) {
-          this.modal.hide();
-        }
-      });
+    this.modal.hide();
   }
 
   create() {
@@ -430,5 +442,19 @@ export class SimulatorRideScheduleComponent implements OnInit {
             });
         }
       );
+  }
+
+  getDay(value: string) {
+    let result = this.days.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getRound(value: string) {
+    let result = this.rounds.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
   }
 }

@@ -23,7 +23,6 @@ export class SurveyQuestionsService {
   ) { }
 
   post(body: Form): Observable<SurveyQuestion> {
-    console.log(body);
     return this.http.post<SurveyQuestion>(this.url, body).pipe(
       tap((res) => {
         console.log('Survey question: ', res)
@@ -60,8 +59,6 @@ export class SurveyQuestionsService {
 
   filter(field: String): Observable<SurveyQuestion[]> {
     let urlFilter = this.url + "?" + field;
-    console.log(urlFilter);
-    console.log(urlFilter);
     return this.http.get<SurveyQuestion[]>(urlFilter).pipe(
       tap((res) => {
         console.log("Survey question", res);

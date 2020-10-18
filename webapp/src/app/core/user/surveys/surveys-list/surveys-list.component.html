@@ -88,6 +88,15 @@
             [rows]="tableTemp"
             (activate)="onActivate($event)"
           >
+            <ngx-datatable-column [width]="10">
+              <ng-template ngx-datatable-header-template>
+                <span>No</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.no + 1 }}
+              </ng-template>
+            </ngx-datatable-column>
+
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Soalan</span>
@@ -204,7 +213,10 @@
           formControlName="questionnaire_answer"
           placeholder="Jawapan"
         />
-        <small style="color:red">Setiap jawapan yang baru perlu diakhiri dengan koma (contoh: A,B,C)</small>
+        <small style="color: red"
+          >Setiap jawapan yang baru perlu diakhiri dengan koma (contoh:
+          A,B,C)</small
+        >
       </div>
       <div class="form-group">
         <label class="form-control-label">Jenis</label>
@@ -304,7 +316,10 @@
           formControlName="questionnaire_answer"
           placeholder="Jawapan"
         />
-        <small style="color:red">Setiap jawapan yang baru perlu diakhiri dengan koma (contoh: A,B,C)</small>
+        <small style="color: red"
+          >Setiap jawapan yang baru perlu diakhiri dengan koma (contoh:
+          A,B,C)</small
+        >
       </div>
       <div class="form-group">
         <label class="form-control-label">Jenis</label>

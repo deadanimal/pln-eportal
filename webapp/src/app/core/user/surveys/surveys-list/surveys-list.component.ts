@@ -57,6 +57,10 @@ export class SurveysListComponent implements OnInit {
       display_name: "Textbox",
     },
     {
+      value: "RB",
+      display_name: "Radiobox",
+    },
+    {
       value: "NA",
       display_name: "Not Available",
     },
@@ -120,6 +124,7 @@ export class SurveysListComponent implements OnInit {
 
   getData() {
     this.surveyquestionService.get().subscribe((res) => {
+      console.log("res", res);
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -176,6 +181,11 @@ export class SurveysListComponent implements OnInit {
   }
 
   create() {
+    this.surveyquestionFormGroup.patchValue({
+      questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
+        .replace(", ", ",")
+        .split(","),
+    });
     this.surveyquestionService
       .post(this.surveyquestionFormGroup.value)
       .subscribe(
@@ -216,6 +226,11 @@ export class SurveysListComponent implements OnInit {
   }
 
   update() {
+    this.surveyquestionFormGroup.patchValue({
+      questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
+        .replace(", ", ",")
+        .split(","),
+    });
     this.surveyquestionService
       .update(
         this.surveyquestionFormGroup.value,
