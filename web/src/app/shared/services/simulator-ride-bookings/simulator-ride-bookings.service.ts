@@ -19,7 +19,7 @@ export class SimulatorRideBookingsService {
 
   constructor(private http: HttpClient) {}
 
-  post(body: Form): Observable<SimulatorRideBooking> {
+  post(body): Observable<SimulatorRideBooking> {
     return this.http.post<SimulatorRideBooking>(this.url, body).pipe(
       tap((res) => {
         console.log("SimulatorRideBooking: ", res);

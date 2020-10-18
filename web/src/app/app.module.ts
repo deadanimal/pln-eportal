@@ -33,6 +33,7 @@ import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { PictureUploadComponent } from "./components/picture-upload/picture-upload.component";
+import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
 
 // AOT compilation support
 export function httpTranslateLoader(http: HttpClient) {
@@ -49,6 +50,7 @@ export function getToken(): string {
     NavbarComponent,
     FooterComponent,
     PictureUploadComponent,
+    ScrollTopComponent,
   ],
   imports: [
     CommonModule,

@@ -1,15 +1,24 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
   NgxGalleryOptions,
   NgxGalleryImage,
   NgxGalleryAnimation,
 } from "ngx-gallery";
-import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
   selector: "app-facility-details",
@@ -85,8 +94,9 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Teatret",
       type: "teatret",
-      desc: "",
-      capacity: "",
+      desc:
+        "Kemudahan yang disediakan adalah projektor, kerusi, meja, skrin lebar, komputer dan sebagainya",
+      capacity: "80 orang",
       area: "",
       images: [
         {
@@ -266,11 +276,41 @@ export class FacilityDetailsComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
+  // FormGroup
+  facilitybookingFormGroup: FormGroup;
+
+  // Data
+  users = [];
+
+  // Dropdown
+  organisationcategories = [
+    {
+      value: "GV",
+      display_name: "Kerajaan",
+    },
+    {
+      value: "SC",
+      display_name: "Sekolah",
+    },
+    {
+      value: "UN",
+      display_name: "Universiti",
+    },
+    {
+      value: "NA",
+      display_name: "Tidak ada",
+    },
+  ];
+
   constructor(
+    public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private jwtService: JwtService
+    private authService: AuthService,
+    private jwtService: JwtService,
+    private facilitybookingService: FacilityBookingsService,
+    private userService: UsersService
   ) {
     this.type = this.activatedRoute.snapshot.paramMap.get("id");
     if (this.type) {
@@ -278,6 +318,64 @@ export class FacilityDetailsComponent implements OnInit {
         return value.type == this.type;
       });
     }
+
+    this.facilitybookingFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      full_name: new FormControl(""),
+      email: new FormControl(""),
+      phone: new FormControl(""),
+      title: new FormControl(""),
+      organisation_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      organisation_category: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      booking_date: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      booking_time: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      number_of_people: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      total_price: new FormControl(""),
+      user_id: new FormControl(""),
+      pic_id: new FormControl(""),
+      facility_id: new FormControl(""),
+      status: new FormControl("IP"),
+    });
+  }
+
+  getUser() {
+    this.userService.get(this.authService.decodedToken().user_id).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.facilitybookingFormGroup.patchValue({
+          ...res,
+          user_id: res.id,
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+
+    this.userService.getAll().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.users = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -287,6 +385,8 @@ export class FacilityDetailsComponent implements OnInit {
         height: "600px",
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
+        imageArrows: false,
+        thumbnailsArrows: false,
       },
       // max-width 800
       {
@@ -309,6 +409,7 @@ export class FacilityDetailsComponent implements OnInit {
   openDefaultModal(modalDefault: TemplateRef<any>) {
     if (this.jwtService.getToken("accessToken")) {
       this.defaultModal = this.modalService.show(modalDefault, this.default);
+      this.getUser();
     } else {
       this.toastr.error(
         "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah fasiliti.",
@@ -318,17 +419,44 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   openAfterBooking() {
-    this.defaultModal.hide();
-    swal.fire({
-      icon: "success",
-      title: "Terima kasih",
-      text:
-        "Pihak kami akan memberi maklum balas terhadap permohonan tersebut dalam masa 3 hari bekerja",
-      buttonsStyling: false,
-      confirmButtonText: "Tutup",
-      customClass: {
-        confirmButton: "btn btn-success",
-      },
-    });
+    this.facilitybookingFormGroup.value.booking_date = this.formatDate(
+      this.facilitybookingFormGroup.value.booking_date
+    );
+
+    this.facilitybookingService
+      .post(this.facilitybookingFormGroup.value)
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          this.defaultModal.hide();
+          swal.fire({
+            icon: "success",
+            title: "Terima kasih",
+            text:
+              "Pihak kami akan memberi maklum balas terhadap permohonan tersebut dalam masa 3 hari bekerja",
+            buttonsStyling: false,
+            confirmButtonText: "Tutup",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+  }
+
+  formatDate(date) {
+    let selectedDate = date;
+    let year = selectedDate.getFullYear();
+    let month = selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
+
+    return formatDate;
   }
 }

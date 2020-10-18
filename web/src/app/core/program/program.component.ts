@@ -18,6 +18,7 @@ import { JwtService } from "src/app/shared/jwt/jwt.service";
 export class ProgramComponent implements OnInit {
   defaultModal: BsModalRef;
   readmoreModal: BsModalRef;
+  videoModal: BsModalRef;
   default = {
     keyboard: true,
     class: "modal-dialog-centered",
@@ -63,6 +64,8 @@ export class ProgramComponent implements OnInit {
               date: "2020-09-02",
             },
           ],
+          registration: true,
+          video_link: "https://www.youtube.com/watch?v=e4rBL_arMXE&ab_channel=PlanetariumNegara"
         },
         {
           name: "Astro Spark",
@@ -105,6 +108,7 @@ export class ProgramComponent implements OnInit {
               date: "2020-08-19",
             },
           ],
+          registration: true
         },
         {
           name: "BENGKEL ASTRONOMI UNTUK GURU",
@@ -132,6 +136,7 @@ export class ProgramComponent implements OnInit {
               date: "2020-07-22",
             },
           ],
+          registration: false
         },
       ],
     },
@@ -849,6 +854,7 @@ export class ProgramComponent implements OnInit {
     pic: "",
     announcement: "",
     desc: "",
+    video_link: ""
   };
 
   galleryOptions: NgxGalleryOptions[];
@@ -902,6 +908,11 @@ export class ProgramComponent implements OnInit {
   openReadMoreModal(modalDefault: TemplateRef<any>, program) {
     this.selectedProgram = program;
     this.readmoreModal = this.modalService.show(modalDefault, this.default);
+  }
+
+  openVideoModal(modalDefault: TemplateRef<any>, program) {
+    this.selectedProgram = program;
+    this.videoModal = this.modalService.show(modalDefault, this.default);
   }
 
   openAfterBooking() {

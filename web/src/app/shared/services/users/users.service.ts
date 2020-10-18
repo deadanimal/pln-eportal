@@ -33,6 +33,14 @@ export class UsersService {
     )
   }
 
+  get(id: string): Observable<any> {
+    return this.http.get<any>(this.url + id).pipe(
+      tap((res) => {
+        console.log('User: ', res)
+      })
+    )
+  }
+
   getAll(): Observable<User[]> {
     return this.http.get<User[]>(this.url).pipe(
       tap((res) => {

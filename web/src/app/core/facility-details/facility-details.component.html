@@ -110,37 +110,35 @@
 </div>
 
 <ng-template #modalDefault>
-  <div class="modal-header">
-    <h6 class="modal-title" id="modal-title-default">Tempahan</h6>
-
+  <div class="modal-header justify-content-center">
     <button
-      aria-label="Close"
+      aria-hidden="true"
       class="close"
       data-dismiss="modal"
-      type="button"
       (click)="defaultModal.hide()"
+      type="button"
     >
-      <span aria-hidden="true"> × </span>
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
     </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0">Tempahan</h3>
+    </div>
   </div>
 
   <div class="modal-body">
     <div class="row">
       <div class="col-lg-12">
-        <form class="js-validate">
+        <form class="js-validate" [formGroup]="facilitybookingFormGroup">
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <label class="labels">
-                  Nama penuh <span class="text-danger"> * </span>
-                </label>
+                <label class="labels required-field"> Nama penuh </label>
                 <input
-                  aria-label="Nurul Aiman"
                   class="form-control text-dark"
-                  name="firstName"
-                  placeholder="Nurul Aiman"
-                  required=""
+                  placeholder=""
+                  readonly=""
                   type="text"
+                  formControlName="full_name"
                 />
               </div>
             </div>
@@ -149,27 +147,25 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Alamat emel <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Alamat emel </label>
                   <input
-                    aria-label="thompson@gmail.com"
                     class="form-control text-dark"
-                    name="emailAddress"
-                    placeholder="thompson@gmail.com"
-                    required=""
+                    placeholder=""
+                    readonly=""
                     type="email"
+                    formControlName="email"
                   />
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels"> No. tel </label>
+                  <label class="labels"> Nombor telefon </label>
                   <input
-                    aria-label="+6017666162"
                     class="form-control text-dark"
-                    placeholder="+6017666162"
-                    type="text"
+                    placeholder=""
+                    readonly="true"
+                    type="tel"
+                    formControlName="phone"
                   />
                 </div>
               </div>
@@ -179,14 +175,13 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Bilangan orang <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Bilangan orang </label>
                   <input
                     aria-label="Bilangan orang"
                     class="form-control text-dark"
                     placeholder="Bilangan orang"
                     type="text"
+                    formControlName="number_of_people"
                   />
                 </div>
               </div>
@@ -196,28 +191,35 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Kategori Organisasi <span class="text-danger"> * </span>
+                  <label class="labels required-field">
+                    Kategori Organisasi
                   </label>
-                  <select class="form-control custom-select">
-                    <option hidden selected>Sila pilih</option>
-                    <option>Sekolah</option>
-                    <option>Organisasi</option>
-                    <option>Penyelidikan</option>
+                  <select
+                    class="form-control custom-select text-dark"
+                    formControlName="organisation_category"
+                  >
+                    <option selected value="">Sila pilih</option>
+                    <option
+                      *ngFor="
+                        let organisationcategory of organisationcategories
+                      "
+                      [value]="organisationcategory.value"
+                    >
+                      {{ organisationcategory.display_name }}
+                    </option>
                   </select>
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Nama Organisasi <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Nama Organisasi </label>
                   <input
                     aria-label="Nama organisasi"
                     class="form-control text-dark"
                     placeholder="Nama organisasi"
                     type="text"
+                    formControlName="organisation_name"
                   />
                 </div>
               </div>
@@ -227,25 +229,23 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Tarikh <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Tarikh </label>
                   <input
                     class="form-control text-dark"
                     required=""
                     type="date"
+                    formControlName="booking_date"
                   />
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Waktu <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Waktu </label>
                   <input
                     class="form-control text-dark"
                     required=""
                     type="time"
+                    formControlName="booking_time"
                   />
                 </div>
               </div>
@@ -258,7 +258,12 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-primary" type="button" (click)="openAfterBooking()">
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="openAfterBooking()"
+      [disabled]="!facilitybookingFormGroup.valid"
+    >
       Buat tempahan
     </button>
 

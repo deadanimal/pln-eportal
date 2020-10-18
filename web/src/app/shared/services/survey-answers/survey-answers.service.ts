@@ -22,7 +22,7 @@ export class SurveyAnswersService {
     private http: HttpClient
   ) { }
 
-  post(body: Form): Observable<SurveyAnswer> {
+  post(body): Observable<SurveyAnswer> {
     return this.http.post<SurveyAnswer>(this.url, body).pipe(
       tap((res) => {
         console.log('Survey answer: ', res)

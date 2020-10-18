@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="page-header page-header-small header-filter">
-    <div
+    <!-- <div
       class="page-header-image rellax"
       data-parallax="true"
       style="background-image: url('assets/img/show/nasa.jpg')"
@@ -15,7 +15,30 @@
           </h2>
         </div>
       </div>
-    </div>
+    </div> -->
+    <carousel>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+    </carousel>
   </div>
   <div class="main main-raised">
     <div class="section team-4 bg-white">
@@ -23,6 +46,22 @@
         <div class="row">
           <div class="col-md-2 col-sm-12"></div>
           <div class="col-md-8 col-sm-12">
+            <!-- <alert [type]="'info'"> -->
+            <div class="row">
+              <div class="col">
+                <h4 class="title m-0 text-dark">Arahan Keselamatan</h4>
+                <small class="text-danger">Sila baca terlebih dahulu</small>
+              </div>
+              <div class="col col-auto">
+                <button
+                  class="btn btn-default btn-sm"
+                  (click)="openSafetyModal(modalSafety)"
+                >
+                  Tekan untuk baca
+                </button>
+              </div>
+            </div>
+            <!-- </alert> -->
             <mat-horizontal-stepper [linear]="true" #stepper>
               <mat-step [stepControl]="firstFormGroup">
                 <form [formGroup]="firstFormGroup">
@@ -41,81 +80,33 @@
                           containerClass: 'theme-dark-blue',
                           dateInputFormat: 'YYYY-MM-DD'
                         }"
+                        (bsValueChange)="changeDate($event)"
                       />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12 col-sm-12">
-                      <label>Masa</label><br/>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa1"
-                            value="10.00 AM"
-                            formControlName="time"
-                          />
-                          10.00 AM
-                          <span class="form-check-sign"></span>
-                        </label>
+                      <label>Masa</label><br />
+                      <div *ngIf="times.length == 0">
+                        <small class="text-danger">Sila pilih tarikh terlebih dahulu!</small>
                       </div>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa2"
-                            value="10.10 AM"
-                            formControlName="time"
-                          />
-                          10.10 AM
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa3"
-                            value="10.20 AM"
-                            formControlName="time"
-                          />
-                          10.20 AM
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa4"
-                            value="10.30 AM"
-                            formControlName="time"
-                          />
-                          10.30 AM
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                      <div class="form-check form-check-radio form-check-inline">
-                        <label class="form-check-label">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name="time"
-                            id="masa5"
-                            value="10.40 AM"
-                            formControlName="time"
-                          />
-                          10.40 AM
-                          <span class="form-check-sign"></span>
-                        </label>
+                      <div *ngIf="times.length > 0">
+                        <div
+                          class="form-check form-check-radio form-check-inline"
+                          *ngFor="let time of times"
+                        >
+                          <label class="form-check-label">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="time"
+                              [value]="time.time + '_' + time.id"
+                              formControlName="time"
+                            />
+                            {{ time.time }}
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -265,7 +256,7 @@
                       <tr>
                         <th scope="row" class="text-dark">Masa</th>
                         <td class="text-dark text-right">
-                          {{ firstFormGroup.value.time }}
+                          {{ firstFormGroup.value.time.split('_', 1) }}
                         </td>
                       </tr>
                       <tr>
@@ -323,3 +314,68 @@
     </div>
   </div>
 </div>
+
+<ng-template #modalSafety>
+  <div class="modal-header">
+    <h6 class="modal-title" id="modal-title-default">Arahan Keselamatan</h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="safetyModal.hide()"
+    >
+      <span aria-hidden="true"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <p class="text-justify">
+          Kembara Simulasi ini akan membawa 2 orang dalam satu masa untuk
+          merasai Gerakan 360 darjah pusingan dan keadaan tegak. Sebagai langkah
+          keselamatan kami perlu menghadkan pengguna kembara simulasi
+          berdasarkan berat dan saiz badan. Anda juga mesti berupaya duduk tegak
+          di sepanjang masa.
+        </p>
+
+        <ul>
+          <li>
+            Bagi tujuan keselamatan pengguna hendaklah berketinggian lebih dari
+            <b>1.2m</b>.
+          </li>
+          <li>Jumlah berat badan maksimum yang dibenarkan <b>226kg</b>.</li>
+          <li>
+            Pengguna dengan keadaan berikut tidak digalakkan mencuba alat ini:
+          </li>
+          <ol type="i">
+            <li>Sakit Jantng/Tekanan Darah Tinggi</li>
+            <li>Sakit Belakang/Leher/ Fizikal Lain</li>
+            <li>Mengandung</li>
+            <li>Alahan ubat/ Bawah pengaruh dadah atau alcohol</li>
+            <li>Mabuk Gerakan/Klaustrofobia</li>
+          </ol>
+        </ul>
+
+        <p class="text-justify">
+          Semua barangan yang tidak terikat seperti pen, duit syiling, telefon
+          bimbit, i-pod dan lain-lain yang boleh tertanggal semasa menaiki Space
+          Pod ini hendaklah dikeluarkan.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-link ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="safetyModal.hide()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>

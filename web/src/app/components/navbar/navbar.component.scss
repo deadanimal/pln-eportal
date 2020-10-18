@@ -6,3 +6,8 @@
 .dropdown-item {
   color: black;
 }
+
+.required-field::after {
+  content: " *";
+  color: red;
+}

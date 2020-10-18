@@ -89,30 +89,61 @@
             class="dropdown-menu dropdown-menu-right"
             *dropdownMenu
           >
-            <a class="dropdown-item" [routerLink]="['/about-us']">
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/about-us']"
+            >
               Mengenai kami
             </a>
-            <a class="dropdown-item" [routerLink]="['/organization-chart']">
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/organization-chart']"
+            >
               Carta Organisasi
             </a>
-            <a class="dropdown-item" [routerLink]="['/mission-vision']">
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/mission-vision']"
+            >
               Misi & Visi
             </a>
-            <a class="dropdown-item" [routerLink]="['/operating-hour']">
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/operating-hour']"
+            >
               Waktu Operasi
             </a>
-            <a class="dropdown-item" [routerLink]="['/directory']">
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/directory']"
+            >
               Direktori
             </a>
-            <a class="dropdown-item" [routerLink]="['/pdpa']">
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/pdpa']"
+            >
               Akta Perlindungan Peribadi
             </a>
-            <a class="dropdown-item" [routerLink]="['/faq']"> FAQ </a>
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/faq']"
+            >
+              FAQ
+            </a>
           </div>
         </li>
-        <li class="nav-item"> <!--dropdown-->
+        <li class="nav-item">
+          <!--dropdown-->
           <a class="nav-link" [routerLink]="['/home']">
-            <i class="fas fa-box"></i> Modul
+            <i class="fas fa-rocket"></i> Rancang Lawatan Anda
           </a>
           <!-- <a
             class="nav-link dropdown-toggle dropdown-toggle"
@@ -203,8 +234,12 @@
             class="dropdown-menu dropdown-menu-right"
             *dropdownMenu
           >
-            <a class="dropdown-item" href="#">Permohonan Lawatan anda diterima.</a>
-            <a class="dropdown-item" href="#">Minggu Astronomi (01 - 07 Oktober 2020) sedang berlangsung.</a>
+            <a class="dropdown-item" href="#"
+              >Permohonan Lawatan anda diterima.</a
+            >
+            <a class="dropdown-item" href="#"
+              >Minggu Astronomi (01 - 07 Oktober 2020) sedang berlangsung.</a
+            >
             <a class="dropdown-item" href="#">Pendaftaran anda berjaya.</a>
           </div>
         </li>
@@ -279,17 +314,30 @@
           />
         </div>
       </div>
-      <!-- <div class="form-check mt-3">
-        <label class="form-check-label">
-          <input
-            checked="checked"
-            class="form-check-input"
-            type="checkbox"
-          />
-
-          <span class="form-check-sign"> </span> Remember me!
-        </label>
-      </div> -->
+      <div class="row">
+        <div class="col">
+          <div class="form-check">
+            <label class="form-check-label text-dark">
+              <input
+                checked="checked"
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="rememberMe"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              <span class="form-check-sign"> </span> Ingat saya!
+            </label>
+          </div>
+        </div>
+        <div class="col-auto text-right">
+          <!-- style="margin-top: 0.5rem; padding-right: 19px" -->
+          <div class="form-check" style="padding-right: 19px">
+            <a class="text-primary" (click)="openForgotPasswordModal(forgotPasswordModal)"
+              >Lupa Kata Laluan</a
+            >
+          </div>
+        </div>
+      </div>
       <div class="text-center">
         <button
           class="btn btn-default my-4"
@@ -298,6 +346,57 @@
           [disabled]="!loginFormGroup.valid"
         >
           Log Masuk
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #forgotPasswordModal>
+  <div class="modal-header justify-content-center">
+    <button
+      aria-hidden="true"
+      class="close"
+      data-dismiss="modal"
+      (click)="closeForgotPasswordModal()"
+      type="button"
+    >
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
+    </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0">Lupa Kata Laluan</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="forgotPasswordFormGroup">
+      <div class="form-group mb-3">
+        <div
+          class="input-group input-group-alternative"
+          [ngClass]="{ 'input-group-focus': focus1 === true }"
+        >
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fas fa-at text-dark"> </i>
+            </span>
+          </div>
+          <input
+            class="form-control text-dark"
+            placeholder="Email"
+            type="email"
+            (focus)="focus1 = true"
+            (blur)="focus1 = false"
+            formControlName="email"
+          />
+        </div>
+      </div>
+      <div class="text-center">
+        <button
+          class="btn btn-default my-4"
+          (click)="clickForgotPassword()"
+          type="button"
+          [disabled]="!forgotPasswordFormGroup.valid"
+        >
+          Hantar
         </button>
       </div>
     </form>
@@ -324,6 +423,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
+            <label class="form-label required-field">Nama Penuh</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus1 === true }"
@@ -348,6 +448,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
+            <label class="form-label required-field">Emel</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus4 === true }"
@@ -359,7 +460,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Email"
+                placeholder="Emel"
                 type="email"
                 (focus)="focus4 = true"
                 (blur)="focus4 = false"
@@ -372,6 +473,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
+            <label class="form-label required-field">Nombor Telefon</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus7 === true }"
@@ -396,6 +498,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
+            <label class="form-label required-field">Kata Laluan</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus5 === true }"
@@ -417,7 +520,8 @@
           </div>
         </div>
         <div class="col">
-          <div class="form-group">
+          <div class="form-group mb-3">
+            <label class="form-label required-field">Ulang Kata Laluan</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus6 === true }"
@@ -439,7 +543,17 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <alert [type]="'danger'" class="text-justify">
+            Kata laluan mestilah mempunyai sekurang-kurangnya 1 huruf kecil, 1
+            huruf besar, nombor dan simbol khas. Panjang kata laluan mestilah
+            melebihi 8 patah perkataan.
+          </alert>
+        </div>
+      </div>
       <div class="form-group mb-3">
+        <label class="form-label required-field">Alamat</label>
         <div
           class="input-group input-group-alternative"
           [ngClass]="{ 'input-group-focus': focus9 === true }"
@@ -451,17 +565,58 @@
           </div>
           <input
             class="form-control text-dark"
-            placeholder="Alamat Surat Menyurat"
+            placeholder="Alamat"
             type="tel"
             (focus)="focus9 = true"
             (blur)="focus9 = false"
-            formControlName="address"
+            formControlName="address_1"
+          />
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <div
+          class="input-group input-group-alternative"
+          [ngClass]="{ 'input-group-focus': focus14 === true }"
+        >
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fas fa-address-book text-dark"> </i>
+            </span>
+          </div>
+          <input
+            class="form-control text-dark"
+            placeholder="Alamat"
+            type="tel"
+            (focus)="focus14 = true"
+            (blur)="focus14 = false"
+            formControlName="address_2"
+          />
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <div
+          class="input-group input-group-alternative"
+          [ngClass]="{ 'input-group-focus': focus15 === true }"
+        >
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fas fa-address-book text-dark"> </i>
+            </span>
+          </div>
+          <input
+            class="form-control text-dark"
+            placeholder="Alamat"
+            type="tel"
+            (focus)="focus15 = true"
+            (blur)="focus15 = false"
+            formControlName="address_3"
           />
         </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
+            <label class="form-label required-field">Poskod</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus10 === true }"
@@ -483,7 +638,8 @@
           </div>
         </div>
         <div class="col">
-          <div class="form-group">
+          <div class="form-group mb-3">
+            <label class="form-label required-field">Bandar</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus11 === true }"
@@ -508,6 +664,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
+            <label class="form-label required-field">Negeri</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus12 === true }"
@@ -524,7 +681,7 @@
                 placeholder="Negeri"
                 formControlName="state"
               >
-                <option value="">Negeri</option>
+                <option value="">Sila pilih</option>
                 <option value="01">Johor</option>
                 <option value="02">Kedah</option>
                 <option value="03">Kelantan</option>
@@ -546,7 +703,8 @@
           </div>
         </div>
         <div class="col">
-          <div class="form-group">
+          <div class="form-group mb-3">
+            <label class="form-label required-field">Negara</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus13 === true }"
@@ -564,6 +722,91 @@
                 (blur)="focus13 = false"
                 formControlName="country"
               />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group mb-3">
+            <label class="form-label required-field">Tarikh Lahir</label>
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus16 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-user text-dark"> </i>
+                </span>
+              </div>
+              <input
+                class="form-control text-dark"
+                placeholder="Tarikh Lahir"
+                type="date"
+                (focus)="focus16 = true"
+                (blur)="focus16 = false"
+                formControlName="birth_date"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-label required-field">Bangsa</label>
+            <div
+              class="input-group input-group-alternative"
+              [ngClass]="{ 'input-group-focus': focus17 === true }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-user text-dark"> </i>
+                </span>
+              </div>
+              <select
+                class="form-control text-dark"
+                (focus)="focus17 = true"
+                (blur)="focus17 = false"
+                placeholder="Bangsa"
+                formControlName="race_type"
+              >
+                <option value="">Sila pilih</option>
+                <option *ngFor="let race of races" [value]="race.value">
+                  {{ race.display_name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-label required-field mr-3">Jantina</label>
+            <div class="form-check form-check-radio form-check-inline">
+              <label class="form-check-label text-dark">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="gender_type"
+                  value="FM"
+                  formControlName="gender_type"
+                />
+                Perempuan
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+            <div class="form-check form-check-radio form-check-inline">
+              <label class="form-check-label text-dark">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="gender_type"
+                  value="ML"
+                  formControlName="gender_type"
+                />
+                Lelaki
+                <span class="form-check-sign"></span>
+              </label>
             </div>
           </div>
         </div>

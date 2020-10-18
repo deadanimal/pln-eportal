@@ -2903,7 +2903,7 @@ export class ShowsBookComponent implements OnInit {
       }
     }
 
-    // this.router.navigate(["/payment"], navigationExtras);
+    this.router.navigate(["/payment"], navigationExtras);
   }
 
   arrayOne(n: number): any[] {

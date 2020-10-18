@@ -53,5 +53,14 @@ export class SimulatorRideTimesService {
       })
     );
   }
+
+  filter(field: String): Observable<SimulatorRideTime[]> {
+    let urlFilter = this.url + '?' + field;
+    return this.http.get<SimulatorRideTime[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log("SimulatorRideTimes: ", res);
+      })
+    );
+  }
 }
 

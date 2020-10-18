@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="page-header page-header-small header-filter">
-    <div
+    <!-- <div
       class="page-header-image rellax"
       data-parallax="true"
       style="background-image: url('assets/img/survey/survey.jpg')"
@@ -17,7 +17,18 @@
           </h2>
         </div>
       </div>
-    </div>
+    </div> -->
+    <carousel>
+      <slide>
+        <img src="../../../assets/img/show/show-1.jpg" alt="second slide" style="display: block; width: 100%;">
+      </slide>
+      <slide>
+        <img src="../../../assets/img/show/show-2.jpg" alt="third slide" style="display: block; width: 100%;">
+      </slide>
+      <slide>
+        <img src="../../../assets/img/show/show-3.jpg" alt="first slide" style="display: block; width: 100%;">
+      </slide>
+    </carousel>
   </div>
   <div class="main main-raised bg-white">
     <div class="section">
@@ -70,428 +81,120 @@
           <h1 class="font-weight-bold text-center text-dark">
             Soal Selidik ({{ module }})
           </h1>
-          <table class="table">
-            <!-- <thead>
-          <tr class="text-center">
-            <th></th>
-          </tr>
-        </thead> -->
-            <tbody>
-              <tr>
-                <td class="text-center text-dark">1</td>
-                <td>
-                  <div class="form-group">
-                    <div class="form-label">
-                      Bagaimana tahap layanan/sambutan yang diberikan oleh
-                      petugas PN?
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col-3">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              value="option1"
-                            />
-                            Tidak mesra
-                            <span class="form-check-sign"></span>
-                          </label>
+          <form [formGroup]="surveyFormGroup">
+            <table class="table">
+              <tbody>
+                <tr
+                  *ngFor="let surveyquestion of surveyquestions; let i = index"
+                >
+                  <td class="text-center text-dark">{{ i + 1 }}</td>
+                  <td>
+                    <div class="form-group">
+                      <div class="form-label">
+                        {{ surveyquestion.questionnaire_question }}
+                      </div>
+                      <div
+                        class="row pt-3"
+                        *ngIf="surveyquestion.questionnaire_type == 'SL'"
+                      >
+                        <div class="col">
+                          <div class="form-group">
+                            <select class="form-control text-dark" [formControlName]="surveyquestion.questionnaire_fieldname">
+                              <option value="">Sila pilih</option>
+                              <option
+                                class="text-dark"
+                                *ngFor="
+                                  let answer of surveyquestion.questionnaire_answer;
+                                  let i = index
+                                "
+                                [value]="answer"
+                              >
+                                {{ answer }}
+                              </option>
+                            </select>
+                          </div>
                         </div>
                       </div>
-
-                      <div class="col-3">
+                      <div
+                        class="row pt-3"
+                        *ngIf="surveyquestion.questionnaire_type == 'RB'"
+                      >
                         <div
-                          class="form-check form-check-radio form-check-inline"
+                          class="col"
+                          *ngFor="
+                            let answer of surveyquestion.questionnaire_answer;
+                            let i = index
+                          "
                         >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            Mesra
-                            <span class="form-check-sign"></span>
-                          </label>
+                          <div
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [id]="surveyquestion.questionnaire_fieldname + i"
+                                [name]="surveyquestion.questionnaire_fieldname"
+                                [value]="answer"
+                                [formControlName]="surveyquestion.questionnaire_fieldname"
+                              />
+                              {{ answer }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
                         </div>
                       </div>
-
-                      <div class="col-3">
+                      <div
+                        class="row pt-3"
+                        *ngIf="surveyquestion.questionnaire_type == 'CB'"
+                      >
                         <div
-                          class="form-check form-check-radio form-check-inline"
+                          class="col"
+                          *ngFor="
+                            let answer of surveyquestion.questionnaire_answer;
+                            let i = index
+                          "
                         >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio3"
-                              value="option3"
-                            />
-                            Sederhana
-                            <span class="form-check-sign"></span>
-                          </label>
+                          <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                [name]="surveyquestion.questionnaire_fieldname"
+                                [value]="answer"
+                                [formControlName]="surveyquestion.questionnaire_fieldname"
+                                (change)="changeCheckbox($event, surveyquestion.questionnaire_fieldname)"
+                              />
+                              {{ answer }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
                         </div>
                       </div>
-
-                      <div class="col-3">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio4"
-                              value="option4"
-                            />
-                            Sangat mesra
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="text-center text-dark">2</td>
-                <td>
-                  <div clas="form-group">
-                    <div class="form-label">
-                      Kekerapan anda turut serta dalam program PN?
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              value="option1"
-                            />
-                            Pertama kali
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            5 - 9 kali setahun
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio3"
-                              value="option3"
-                            />
-                            2 - 4 kali setahun
-                            <span class="form-check-sign"></span>
-                          </label>
+                      <div
+                        class="row pt-3"
+                        *ngIf="surveyquestion.questionnaire_type == 'TB'"
+                      >
+                        <div class="col">
+                          <input
+                            [formControlName]="surveyquestion.questionnaire_fieldname"
+                            type="text"
+                            class="form-control text-dark"
+                            placeholder="Sila isi di ruangan yang disediakan"
+                          />
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="text-center text-dark">3</td>
-                <td>
-                  <div class="form-group">
-                    <div class="form-label">
-                      Tahap pengetahuan anda dalam program dan perkhidmatan yang
-                      disediakan oleh PN?
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              value="option1"
-                            />
-                            Tidak tahu
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            Sederhana tahu
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio3"
-                              value="option3"
-                            />
-                            Sangat tahu
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="text-center text-dark">4</td>
-                <td>
-                  <div class="form-group">
-                    <div class="form-label">
-                      Penerangan dan penjelasan oleh petugas PN kepada anda?
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              value="option1"
-                            />
-                            Kurang jelas
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            Sederhana jelas
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio3"
-                              value="option3"
-                            />
-                            Jelas dan mudah difahami
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="text-center text-dark">5</td>
-                <td>
-                  <div class="form-group">
-                    <div class="form-label">
-                      Anda bakal menyaksikan fenomena gerhana ________?
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              value="option1"
-                            />
-                            Matahari
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            Bintang
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio3"
-                              value="option3"
-                            />
-                            Bulan
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="text-center text-dark">6</td>
-                <td>
-                  <div class="form-group">
-                    <div class="form-label">
-                      Tahap kepuasan perkhidmatan penyampaian maklumat yang
-                      disediakan selepas diberi penerangan petugas PN?
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              value="option1"
-                            />
-                            Tidak berpuas hati
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            Berpuas hati
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio3"
-                              value="option3"
-                            />
-                            Sangat berpuas hati
-                            <span class="form-check-sign"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
           <div class="text-center">
             <button
               type="button"
               class="btn btn-default"
-              (click)="hantarSoalSelidik()"
+              (click)="submitSurvey()"
             >
               Hantar
             </button>
@@ -501,69 +204,80 @@
           </div>
         </div>
         <div class="section p-3 mx-auto" *ngIf="typeQuestion == 'maklumbalas'">
-          <h1 class="font-weight-bold text-center text-dark">
-            Maklum Balas/Tinjauan
-          </h1>
-          <div class="p-3">
-            <div class="row" style="display: flex; align-items: center">
-              <div class="col-3"></div>
-              <div class="col-2">
-                <label class="form-control-label text-dark font-weight-bold"
-                  >Nama</label
-                >
+          <form [formGroup]="feedbackFormGroup">
+            <h1 class="font-weight-bold text-center text-dark">
+              Maklum Balas/Tinjauan
+            </h1>
+            <div class="p-3">
+              <div class="row" style="display: flex; align-items: center">
+                <div class="col-3"></div>
+                <div class="col-2">
+                  <label class="form-control-label text-dark font-weight-bold"
+                    >Nama</label
+                  >
+                </div>
+                <div class="col-4">
+                  <input
+                    type="text"
+                    formControlName="full_name"
+                    class="form-control bg-white text-dark"
+                  />
+                </div>
+                <div class="col-3"></div>
               </div>
-              <div class="col-4">
-                <input type="text" class="form-control bg-white text-dark" />
+              <div class="row pt-3">
+                <div class="col-3"></div>
+                <div class="col-2">
+                  <label class="form-control-label text-dark font-weight-bold"
+                    >Emel</label
+                  >
+                </div>
+                <div class="col-4">
+                  <input
+                    type="email"
+                    formControlName="email"
+                    class="form-control bg-white text-dark"
+                  />
+                </div>
+                <div class="col-3"></div>
               </div>
-              <div class="col-3"></div>
+              <div class="row pt-3">
+                <div class="col-3"></div>
+                <div class="col-2">
+                  <label class="form-control-label text-dark font-weight-bold"
+                    >Komen</label
+                  >
+                </div>
+                <div class="col-4">
+                  <textarea
+                    class="form-control bg-white text-dark"
+                    formControlName="comment"
+                    rows="7"
+                  ></textarea>
+                </div>
+                <div class="col-3"></div>
+              </div>
             </div>
-            <div class="row pt-3">
-              <div class="col-3"></div>
-              <div class="col-2">
-                <label class="form-control-label text-dark font-weight-bold"
-                  >Emel</label
-                >
-              </div>
-              <div class="col-4">
-                <input type="email" class="form-control bg-white text-dark" />
-              </div>
-              <div class="col-3"></div>
+            <div class="text-right">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="submitFeedback()"
+              >
+                Inbox
+              </button>
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="submitFeedback()"
+              >
+                Hantar
+              </button>
+              <button type="button" class="btn btn-light" (click)="back()">
+                Kembali
+              </button>
             </div>
-            <div class="row pt-3">
-              <div class="col-3"></div>
-              <div class="col-2">
-                <label class="form-control-label text-dark font-weight-bold"
-                  >Komen</label
-                >
-              </div>
-              <div class="col-4">
-                <textarea
-                  class="form-control bg-white text-dark"
-                  rows="7"
-                ></textarea>
-              </div>
-              <div class="col-3"></div>
-            </div>
-          </div>
-          <div class="text-right">
-            <button
-              type="button"
-              class="btn btn-default"
-              (click)="hantarMaklumBalas()"
-            >
-              Inbox
-            </button>
-            <button
-              type="button"
-              class="btn btn-default"
-              (click)="hantarMaklumBalas()"
-            >
-              Hantar
-            </button>
-            <button type="button" class="btn btn-light" (click)="back()">
-              Kembali
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -590,7 +304,7 @@
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Fasiliti')"
+          (click)="chooseQuestion('soalselidik', 'Fasiliti', 'M08')"
         >
           <div class="card-header bg-default">
             <img
@@ -606,7 +320,7 @@
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Tayangan')"
+          (click)="chooseQuestion('soalselidik', 'Tayangan', 'M01')"
         >
           <div class="card-header bg-default">
             <img
@@ -622,7 +336,7 @@
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Pameran')"
+          (click)="chooseQuestion('soalselidik', 'Pameran', 'M02')"
         >
           <div class="card-header bg-default">
             <img
@@ -640,7 +354,7 @@
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Lawatan')"
+          (click)="chooseQuestion('soalselidik', 'Lawatan', 'M06')"
         >
           <div class="card-header bg-default">
             <img
@@ -656,7 +370,7 @@
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Program')"
+          (click)="chooseQuestion('soalselidik', 'Program Pendidikan', 'M03')"
         >
           <div class="card-header bg-default">
             <img
@@ -666,16 +380,13 @@
           </div>
           <div class="card-body">
             <h6 class="m-0">Program</h6>
-            <!-- <a class="btn btn-info mt-4" [routerLink]="['/program']">
-                                  Info
-                              </a> -->
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Penerbitan')"
+          (click)="chooseQuestion('soalselidik', 'Penerbitan', 'M07')"
         >
           <div class="card-header bg-default">
             <img
@@ -691,24 +402,10 @@
     </div>
     <div class="row pt-3 align-items-center mx-auto justify-content-center">
       <div class="col-md-2"></div>
-      <!-- <div class="col-md-4">
-        <div class="card card-pricing" (click)="chooseQuestion('soalselidik', 'Maklum Balas')">
-          <div class="card-header bg-default">
-            <img
-              src="/assets/icon/survey.svg"
-              style="max-width: 80px; margin-bottom: 1rem"
-            />
-          </div>
-          <div class="card-body">
-            <h6 class="m-0">Maklum Balas</h6>
-          </div>
-        </div>
-      </div> -->
-
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Kembara Simulasi')"
+          (click)="chooseQuestion('soalselidik', 'Kembara Simulasi', 'M05')"
         >
           <div class="card-header bg-default">
             <img
@@ -724,7 +421,7 @@
       <div class="col-md-4">
         <div
           class="card card-pricing"
-          (click)="chooseQuestion('soalselidik', 'Perpustakaan Maya')"
+          (click)="chooseQuestion('soalselidik', 'Perpustakaan Maya', 'M04')"
         >
           <div class="card-header bg-default">
             <img

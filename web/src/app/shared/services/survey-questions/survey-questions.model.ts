@@ -1,21 +1,30 @@
 export class SurveyQuestion {
-    public id: string
-    public question: string
-    public survey_type: string
-    public created_date: string
-    public modified_date: string
+  public id: string;
+  public questionnaire_fieldname: string;
+  public questionnaire_question: string;
+  public questionnaire_type: string;
+  public questionnaire_answer: string;
+  public questionnaire_module: string;
+  public created_date: string;
+  public modified_date: string;
 
-    constructor(
-        id: string,
-        question: string,
-        survey_type: string,
-        created_date: string,
-        modified_date: string
-    ) {
-        this.id = id
-        this.question = question
-        this.survey_type = survey_type
-        this.created_date = created_date
-        this.modified_date = modified_date
-    }
+  constructor(
+    id: string,
+    questionnaire_fieldname: string,
+    questionnaire_question: string,
+    questionnaire_type: string,
+    questionnaire_answer: string,
+    questionnaire_module: string,
+    created_date: string,
+    modified_date: string
+  ) {
+    this.id = id;
+    this.questionnaire_fieldname = questionnaire_fieldname;
+    this.questionnaire_question = questionnaire_question;
+    this.questionnaire_type = questionnaire_type;
+    this.questionnaire_answer = questionnaire_answer;
+    this.questionnaire_module = questionnaire_module;
+    this.created_date = created_date;
+    this.modified_date = modified_date;
+  }
 }

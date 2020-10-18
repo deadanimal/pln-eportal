@@ -57,4 +57,13 @@ export class SurveyQuestionsService {
     )
   }
 
+  filter(field: string): Observable<SurveyQuestion[]> {
+    let urlFilter = this.url + '?' + field;
+    return this.http.get<SurveyQuestion[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log('Survey questions: ', res)
+      })
+    )
+  }
+
 }
