@@ -53,7 +53,7 @@ class SurveyQuestionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SurveyQuestion.objects.all()
     serializer_class = SurveyQuestionSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['id', 'questionnaire_type', 'questionnaire_module', 'created_date']
+    filterset_fields = ['id', 'questionnaire_fieldname', 'questionnaire_type', 'questionnaire_module', 'questionnaire_status', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':

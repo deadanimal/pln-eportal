@@ -129,6 +129,7 @@ class EducationalProgram(models.Model):
         ('P6', 'PROGRAM/RAKAN KERJASAMA'),
         ('P7', 'PROGRAM JANGKAUAN (6 ZON)'),
         ('P8', 'SEMINAR, CERAMAH, PLANETARIUM TALKS'),
+        ('P9', 'LAIN-LAIN'),
         ('NA', 'Not Available')
     ]
     program_category = models.CharField(max_length=2, choices=PROGRAM_CATEGORY, default='NA')
@@ -138,8 +139,10 @@ class EducationalProgram(models.Model):
     price = models.IntegerField(default=0)
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
     website_link = models.URLField(default='NA')
+    video_link = models.URLField(default='NA')
     venue_id = models.ManyToManyField(Venue, related_name='educational_program_venue')
     coordinator_id = models.ManyToManyField(CustomUser, related_name='educational_program_coordinator')
+    registration = models.BooleanField(default=True)
 
     STATUS = [
         ('AV', 'Available'),

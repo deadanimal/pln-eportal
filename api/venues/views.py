@@ -84,9 +84,9 @@ class FacilityBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = FacilityBookingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'start_datetime', 
-        'end_datetime', 
-        'customer_id',
+        'booking_date', 
+        'booking_time', 
+        'user_id',
         'pic_id',
         'facility_id',
         'status',

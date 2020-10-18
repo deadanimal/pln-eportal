@@ -21,7 +21,9 @@ class CustomUser(AbstractUser):
     phone = models.CharField(blank=True, max_length=100)
     birth_date = models.DateTimeField(null=True)
     age = models.IntegerField(default=0)
-    address = models.CharField(blank=True, max_length=255)
+    address_1 = models.CharField(blank=True, max_length=255)
+    address_2 = models.CharField(blank=True, max_length=255)
+    address_3 = models.CharField(blank=True, max_length=255)
     postcode = models.CharField(blank=True, max_length=5)
     city = models.CharField(blank=True, max_length=100)
     state = models.CharField(blank=True, max_length=100)
@@ -52,6 +54,7 @@ class CustomUser(AbstractUser):
         ('CN', 'Chinese'),
         ('ID', 'Indian'),
         ('ML', 'Malay'),
+        ('OT', 'Others'),
         ('NA', 'Not Available')
     ]
     race_type = models.CharField(max_length=2, choices=RACE_TYPE, default='NA')

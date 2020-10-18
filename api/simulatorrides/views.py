@@ -76,7 +76,7 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SimulatorRideBooking.objects.all()
     serializer_class = SimulatorRideBookingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['ticket_type', 'ticket_category', 'created_date']
+    filterset_fields = ['simulator_ride_time_id', 'booking_date', 'ticket_type', 'ticket_category', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':

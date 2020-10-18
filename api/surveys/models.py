@@ -16,12 +16,14 @@ from users.models import (
 class SurveyQuestion(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    questionnaire_fieldname = models.CharField(max_length=50, blank=True)
     questionnaire_question = models.CharField(max_length=100, default='NA')
 
     QUESTIONNAIRE_TYPE = [
         ('CB', 'Checkbox'),
         ('SL', 'Selection'),
         ('TB', 'Textbox'),
+        ('RB', 'Radiobox'),
         ('NA', 'Not Available')
     ]
     questionnaire_type = models.CharField(max_length=2, choices=QUESTIONNAIRE_TYPE, default='NA')
@@ -39,6 +41,7 @@ class SurveyQuestion(models.Model):
         ('NAV', 'Not Available')
     ]
     questionnaire_module = models.CharField(max_length=3, choices=QUESTIONNAIRE_MODULE, default='NAV')
+    questionnaire_status = models.BooleanField(default=True)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)

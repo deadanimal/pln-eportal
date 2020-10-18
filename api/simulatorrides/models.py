@@ -70,6 +70,7 @@ class SimulatorRideTime(models.Model):
 class SimulatorRideBooking(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    booking_date = models.DateField(default=datetime.date.today)
     simulator_ride_time_id = models.ForeignKey(SimulatorRideTime, on_delete=models.CASCADE, related_name='simulator_ride_booking_ride_time_id')
     
     TICKET_TYPE = [
