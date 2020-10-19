@@ -378,7 +378,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
           .then((result) => {
             if (result.value) {
               this.modal.hide();
-              this.getData();
+              this.getSimulatorRideTime();
             }
           });
       },
@@ -421,7 +421,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
             .then((result) => {
               if (result.value) {
                 this.modal.hide();
-                this.getData();
+                this.getSimulatorRideTime();
               }
             });
         },
