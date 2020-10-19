@@ -88,7 +88,9 @@
                     <div class="col-md-12 col-sm-12">
                       <label>Masa</label><br />
                       <div *ngIf="times.length == 0">
-                        <small class="text-danger">Sila pilih tarikh terlebih dahulu!</small>
+                        <small class="text-danger"
+                          >Sila pilih tarikh terlebih dahulu!</small
+                        >
                       </div>
                       <div *ngIf="times.length > 0">
                         <div
@@ -256,7 +258,7 @@
                       <tr>
                         <th scope="row" class="text-dark">Masa</th>
                         <td class="text-dark text-right">
-                          {{ firstFormGroup.value.time.split('_', 1) }}
+                          {{ firstFormGroup.value.time.split("_", 1) }}
                         </td>
                       </tr>
                       <tr>
@@ -284,7 +286,8 @@
                     <alert [type]="'danger'">
                       <b
                         >Nota: Sila berada 10 minit lebih awal sebelum kembara
-                        simulasi bermula. Terima kasih.</b
+                        simulasi bermula. Dan pastikan waktu yang anda pilih,
+                        tidak bertembung dengan waktu tayangan. Terima kasih.</b
                       >
                     </alert>
                   </div>

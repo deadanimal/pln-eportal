@@ -316,8 +316,35 @@
 
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels required-field"> Lawatan berpandu </label>
-                  <select
+                  <label class="labels required-field"> Lawatan berpandu </label
+                  ><br />
+                  <div class="form-check form-check-radio form-check-inline pl-0">
+                    <label class="form-check-label text-dark">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="is_guided"
+                        formControlName="is_guided"
+                        value="true"
+                      />
+                      Ya
+                      <span class="form-check-sign"></span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-radio form-check-inline pl-0">
+                    <label class="form-check-label text-dark">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="is_guided"
+                        formControlName="is_guided"
+                        value="false"
+                      />
+                      Tidak
+                      <span class="form-check-sign"></span>
+                    </label>
+                  </div>
+                  <!-- <select
                     aria-label="Lawatan berpandu"
                     class="form-control custom-select text-dark"
                     formControlName="pic_id"
@@ -326,7 +353,7 @@
                     <option *ngFor="let user of users" [value]="user.id">
                       {{ user.full_name }}
                     </option>
-                  </select>
+                  </select> -->
                 </div>
               </div>
             </div>

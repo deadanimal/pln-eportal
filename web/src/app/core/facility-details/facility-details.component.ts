@@ -44,25 +44,9 @@ export class FacilityDetailsComponent implements OnInit {
       area: "200 m2",
       images: [
         {
-          small: "assets/img/facility/ruangan pameran peerokaan angkasa_2.jpg",
-          medium: "assets/img/facility/ruangan pameran peerokaan angkasa_2.jpg",
-          big: "assets/img/facility/ruangan pameran peerokaan angkasa_2.jpg",
-        },
-        {
-          small: "assets/img/facility/ruangan pameran penerokaan angkasa_3.jpg",
-          medium:
-            "assets/img/facility/ruangan pameran penerokaan angkasa_3.jpg",
-          big: "assets/img/facility/ruangan pameran penerokaan angkasa_3.jpg",
-        },
-        {
-          small: "assets/img/facility/ruangan pameran penerokaan angkasa.jpg",
-          medium: "assets/img/facility/ruangan pameran penerokaan angkasa.jpg",
-          big: "assets/img/facility/ruangan pameran penerokaan angkasa.jpg",
-        },
-        {
-          small: "assets/img/facility/ruangan penerokaan angkasa_3.jpg",
-          medium: "assets/img/facility/ruangan penerokaan angkasa_3.jpg",
-          big: "assets/img/facility/ruangan penerokaan angkasa_3.jpg",
+          small: "assets/home/teater-angkasa.jpg",
+          medium: "assets/home/teater-angkasa.jpg",
+          big: "assets/home/teater-angkasa.jpg",
         },
       ],
     },
@@ -99,11 +83,11 @@ export class FacilityDetailsComponent implements OnInit {
       capacity: "80 orang",
       area: "",
       images: [
-        {
-          small: "assets/img/facility/teatret 2.jpg",
-          medium: "assets/img/facility/teatret 2.jpg",
-          big: "assets/img/facility/teatret 2.jpg",
-        },
+        // {
+        //   small: "assets/img/facility/teatret 2.jpg",
+        //   medium: "assets/img/facility/teatret 2.jpg",
+        //   big: "assets/img/facility/teatret 2.jpg",
+        // },
         {
           small: "assets/img/facility/teatret3.jpg",
           medium: "assets/img/facility/teatret3.jpg",

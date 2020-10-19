@@ -129,6 +129,7 @@ export class VisitComponent implements OnInit {
       ),
       customer_id: new FormControl(""),
       pic_id: new FormControl("", Validators.compose([Validators.required])),
+      is_guided: new FormControl(false, Validators.required),
       status: new FormControl("IP"),
     });
   }

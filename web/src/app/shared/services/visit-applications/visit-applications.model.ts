@@ -7,6 +7,7 @@ export class VisitApplication {
   public total_participant: number;
   public customer_id: string;
   public pic_id: string;
+  public is_guided: boolean;
   public status: string;
   public created_date: string;
   public modified_date: string;
@@ -20,6 +21,7 @@ export class VisitApplication {
     total_participant: number,
     customer_id: string,
     pic_id: string,
+    is_guided: boolean,
     status: string,
     created_date: string,
     modified_date: string
@@ -33,6 +35,7 @@ export class VisitApplication {
     this.customer_id = customer_id;
     this.pic_id = pic_id;
     this.status = status;
+    this.is_guided = is_guided;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }
