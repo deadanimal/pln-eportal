@@ -14,7 +14,10 @@ from .models import (
     ExhibitDetail,
     EducationalProgram,
     EducationalProgramDate,
+    EducationalProgramImage,
+    EducationalProgramActivity,
     EducationalProgramApplication,
+    EducationalProgramForm,
     VisitApplication
 )
 
@@ -100,6 +103,20 @@ class EducationalProgramDateSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id']
 
+class EducationalProgramImageSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = EducationalProgramImage
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class EducationalProgramActivitySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = EducationalProgramActivity
+        fields = '__all__'
+        read_only_fields = ['id']
+
 class EducationalProgramApplicationSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -114,6 +131,22 @@ class EducationalProgramApplicationExtendedSerializer(serializers.ModelSerialize
     
     class Meta:
         model = EducationalProgramApplication
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class EducationalProgramFormSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = EducationalProgramForm
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class EducationalProgramFormExtendedSerializer(serializers.ModelSerializer):
+    customer_id = CustomUserSerializer(read_only=True)
+    educational_program_id = EducationalProgramSerializer(read_only=True)
+    
+    class Meta:
+        model = EducationalProgramForm
         fields = '__all__'
         read_only_fields = ['id']
 

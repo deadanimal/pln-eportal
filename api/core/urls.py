@@ -39,7 +39,10 @@ from events.views import (
     ExhibitDetailViewSet,
     EducationalProgramViewSet,
     EducationalProgramDateViewSet,
+    EducationalProgramImageViewSet,
+    EducationalProgramActivityViewSet,
     EducationalProgramApplicationViewSet,
+    EducationalProgramFormViewSet,
     VisitApplicationViewSet
 )
 
@@ -59,12 +62,24 @@ educational_programs_router = router.register(
     'educational-programs', EducationalProgramViewSet
 )
 
-educational_programs_router = router.register(
+educational_program_dates_router = router.register(
     'educational-program-dates', EducationalProgramDateViewSet
+)
+
+educational_program_images_router = router.register(
+    'educational-program-images', EducationalProgramImageViewSet
+)
+
+educational_program_activities_router = router.register(
+    'educational-program-activities', EducationalProgramActivityViewSet
 )
 
 educational_program_applications_router = router.register(
     'educational-program-applications', EducationalProgramApplicationViewSet
+)
+
+educational_program_forms_router = router.register(
+    'educational-program-forms', EducationalProgramFormViewSet
 )
 
 visit_applications_router = router.register(
@@ -167,6 +182,8 @@ users_router = router.register(
 from venues.views import (
     VenueViewSet,
     FacilityViewSet,
+    FacilityPriceViewSet,
+    FacilityImageViewSet,
     FacilityBookingViewSet
 )
 
@@ -176,6 +193,14 @@ venues_router = router.register(
 
 facilities_router = router.register(
     'facilities', FacilityViewSet
+)
+
+facility_prices_router = router.register(
+    'facility-prices', FacilityPriceViewSet
+)
+
+facility_images_router = router.register(
+    'facility-images', FacilityImageViewSet
 )
 
 facility_bookings_router = router.register(

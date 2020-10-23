@@ -48,20 +48,35 @@ class Facility(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     name = models.CharField(max_length=255, default='NA')
-    description = models.CharField(max_length=255, default='NA')
+    description = models.TextField(blank=True)
 
-    FACILITY_TYPE = [
+    FACILITY_CATEGORY = [
+        ('TA', 'Teater Angkasa'),
+        ('GP', 'Galeri Pameran'),
+        ('TT', 'Teatret'),
+        ('BC', 'Bilik Centaurus'),
+        ('KR', 'Kawasan Rekreasi'),
+        ('SM', 'Stesen Mikrosatelit'),
         ('NA', 'Not Available')
     ]
-    facility_type = models.CharField(max_length=2, choices=FACILITY_TYPE, default='NA')
-    price = models.IntegerField(default=0)
-    size = models.IntegerField(default=0)
+    facility_category = models.CharField(max_length=2, choices=FACILITY_CATEGORY, default='NA')
+
+    FACILITY_SUBCATEGORY = [
+        ('ZONE', 'Titan'),
+        ('ZTWO', 'Milky Way'),
+        ('ZTHR', 'Sculpture'),
+        ('ZFOU', 'Callisto'),
+        ('ZFIV', 'Balai Cerap Purba'),
+        ('NA', 'Not Available')
+    ]
+    facility_subcategory = models.CharField(max_length=4, choices=FACILITY_SUBCATEGORY, default='NA')
+    area_size = models.CharField(max_length=100, default='NA', blank=True)
     max_capacity = models.IntegerField(default=0)
-    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('facility'))
+    have_price = models.BooleanField(default=False)
     pdf_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('facility_pdf'))
     promo_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('facility_promo'))
     pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_pic_id')
-    asset_id = models.ManyToManyField(Asset, related_name='facility_asset_id')
+    # asset_id = models.ManyToManyField(Asset, related_name='facility_asset_id')
     venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='facility_venue_id', null=True)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
@@ -74,12 +89,51 @@ class Facility(models.Model):
         return self.name
 
 
+class FacilityPrice(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    facility_description = models.CharField(max_length=255, default='NA', blank=True)
+    facility_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    DAY = [
+        ('HALF', 'Separuh Hari'),
+        ('FULL', 'Satu Hari'),
+        ('NONE', 'Tiada')
+    ]
+
+    facility_days = models.CharField(max_length=4, choices=DAY, default='NONE')
+    facility_id = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='facility_price_facility_id')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.facility_description
+
+
+class FacilityImage(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    facility_image = models.ImageField(null=True, blank=True, upload_to=PathAndRename('facility'))
+    facility_id = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='facility_image_facility_id')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    # def __str__(self):
+    #     return self.facility_image
+
+
 class FacilityBooking(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    title = models.CharField(max_length=255, default='NA')
-    # start_datetime = models.DateTimeField(blank=True)
-    # end_datetime = models.DateTimeField(blank=True)
+    title = models.CharField(max_length=255, default='NA', blank=True)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_app_customer_id')
     pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_app_pic_id', null=True)
     facility_id = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='facility_id')
@@ -93,9 +147,16 @@ class FacilityBooking(models.Model):
     ]
     organisation_category = models.CharField(max_length=2, choices=ORGANISATION_CATEGORY, default='NA')
     booking_date = models.DateField(default=datetime.date.today)
-    booking_time = models.TimeField(null=True)
+
+    DAY = [
+        ('HALF', 'Separuh Hari'),
+        ('FULL', 'Satu Hari'),
+        ('NONE', 'Tiada')
+    ]
+
+    booking_days = models.CharField(max_length=4, choices=DAY, default='NONE')
     number_of_people = models.IntegerField(default=0)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)
 
     STATUS = [
         ('AP', 'Approved'),

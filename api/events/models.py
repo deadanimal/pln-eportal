@@ -109,10 +109,10 @@ class ExhibitDetail(models.Model):
 
 
 class EducationalProgram(models.Model):
-
+    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     title = models.CharField(max_length=255, default='NA')
-    description = models.CharField(max_length=255, default='NA')
+    description = models.TextField(default='NA')
 
     PROGRAM_TYPE = [
         ('PL', 'Public'),
@@ -133,16 +133,24 @@ class EducationalProgram(models.Model):
         ('NA', 'Not Available')
     ]
     program_category = models.CharField(max_length=2, choices=PROGRAM_CATEGORY, default='NA')
+
+    PROGRAM_SUBCATEGORY = [
+        ('NSC', 'National Space Challenge'),
+        ('KRK', 'Kejohanan Roket Kebangsaan'),
+        ('NAV', 'Not Available')
+    ]
+    program_subcategory = models.CharField(max_length=3, choices=PROGRAM_SUBCATEGORY, default='NAV')
     program_opento = models.CharField(max_length=100, default='')
-    min_participant = models.IntegerField(default=0)
-    max_participant = models.IntegerField(default=0)
-    price = models.IntegerField(default=0)
+    min_participant = models.IntegerField(default=0, null=True)
+    max_participant = models.IntegerField(default=0, null=True)
+    price = models.DecimalField(decimal_places=2, max_digits=3, default=0.00, null=True)
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
-    website_link = models.URLField(default='NA')
-    video_link = models.URLField(default='NA')
+    website_link = models.URLField(blank=True)
+    video_link = models.URLField(blank=True)
     venue_id = models.ManyToManyField(Venue, related_name='educational_program_venue')
     coordinator_id = models.ManyToManyField(CustomUser, related_name='educational_program_coordinator')
     registration = models.BooleanField(default=True)
+    activity = models.BooleanField(default=False)
 
     STATUS = [
         ('AV', 'Available'),
@@ -174,6 +182,36 @@ class EducationalProgramDate(models.Model):
     # def __str__(self):
     #     return self.title
 
+class EducationalProgramImage(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    program_image = models.ImageField(null=True, blank=True, upload_to=PathAndRename('program'))
+    program_id = models.ForeignKey(EducationalProgram, on_delete=models.CASCADE, related_name='educational_program_image_program_id')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    # def __str__(self):
+    #     return self.title
+
+class EducationalProgramActivity(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    program_activity = models.CharField(max_length=255, blank=True)
+    program_id = models.ForeignKey(EducationalProgram, on_delete=models.CASCADE, related_name='educational_program_activity_program_id')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    # def __str__(self):
+    #     return self.title
+
 class EducationalProgramApplication(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
@@ -190,6 +228,8 @@ class EducationalProgramApplication(models.Model):
     educational_program_id = models.ForeignKey(EducationalProgram, on_delete=models.CASCADE, related_name='educational_program')
     educational_program_date_id = models.ForeignKey(EducationalProgramDate, on_delete=models.CASCADE, related_name='educational_program_date', null=True)
     participant = models.IntegerField(default=0)
+    age = models.IntegerField(default=0)
+    activity = models.ForeignKey(EducationalProgramActivity, on_delete=models.CASCADE, related_name="educational_program_app_activity", null=True)
 
     STATUS = [
         ('AP', 'Approved'),
@@ -206,6 +246,117 @@ class EducationalProgramApplication(models.Model):
 
     def __str__(self):
         return self.organisation_name
+
+
+class EducationalProgramForm(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    educational_program_id = models.ForeignKey(EducationalProgram, on_delete=models.CASCADE, related_name='educational_program_form_educational_program')
+    customer_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='educational_program_form_customuser')
+    teacher_name = models.CharField(max_length=100, blank=True)
+    teacher_school_name = models.CharField(max_length=100, blank=True)
+    teacher_school_address = models.CharField(max_length=255, blank=True)
+    teacher_school_postcode = models.CharField(max_length=5, blank=True)
+    teacher_school_division = models.CharField(max_length=100, blank=True)
+    teacher_school_state = models.CharField(max_length=100, blank=True)
+    teacher_tel = models.CharField(max_length=20, blank=True)
+    teacher_hp = models.CharField(max_length=20, blank=True)
+    teacher_email = models.CharField(max_length=100, blank=True)
+    teacher_fax = models.CharField(max_length=20, blank=True)
+    teacher_dob = models.DateField(default=datetime.datetime.today, blank=True)
+    teacher_age = models.IntegerField(default=0, null=True)
+
+    RELIGION = [
+        ('IS', 'Islam'),
+        ('HD', 'Hindu'),
+        ('BD', 'Buddha'),
+        ('CT', 'Christian'),
+        ('OT', 'Other')
+    ]
+    teacher_religion = models.CharField(max_length=2, choices=RELIGION, default='OT')
+
+    GENDER = [
+        ('FM', 'Female'),
+        ('ML', 'Male'),
+        ('NA', 'Not Available')
+    ]
+    teacher_gender = models.CharField(max_length=2, choices=GENDER, default='NA')
+
+    CITIZENSHIP = [
+        ('CZ', 'Citizen'),
+        ('NC', 'Non Citizen'),
+        ('NA', 'Not Available')
+    ]
+    teacher_citizenship = models.CharField(max_length=2, choices=CITIZENSHIP, default='NA')
+    teacher_nric_passportno = models.CharField(max_length=50, blank=True)
+
+    MARITAL_STATUS = [
+        ('S', 'Single'),
+        ('M', 'Married'),
+        ('O', 'Other')
+    ]
+    teacher_maritalstatus = models.CharField(max_length=1, choices=MARITAL_STATUS, default='O')
+
+    TSHIRT_SIZE = [
+        ('S', 'S'),
+        ('M', 'M'),
+        ('L', 'L'),
+        ('XL', 'XL'),
+        ('2XL', '2XL'),
+        ('3XL', '3XL'),
+    ]
+    teacher_tshirt_size = models.CharField(max_length=3, choices=TSHIRT_SIZE, default='S')
+    teacher_contactperson_name = models.CharField(max_length=100, blank=True)
+    teacher_contactperson_tel = models.CharField(max_length=20, blank=True)
+    teacher_anysickness = models.CharField(max_length=255, blank=True)
+    teacher_anyallergies = models.CharField(max_length=255, blank=True)
+    teacher_vegetarian = models.BooleanField(default=False)
+
+    student_1_name = models.CharField(max_length=100, blank=True)
+    student_1_dob = models.DateField(default=datetime.datetime.today, blank=True)
+    student_1_age = models.IntegerField(default=0, null=True)
+    student_1_year = models.IntegerField(default=0, null=True)
+    student_1_religion = models.CharField(max_length=2, choices=RELIGION, default='OT')
+    student_1_gender = models.CharField(max_length=2, choices=GENDER, default='NA')
+    student_1_citizenship = models.CharField(max_length=2, choices=CITIZENSHIP, default='NA')
+    student_1_nric_passportno = models.CharField(max_length=50, blank=True)
+    student_1_tshirt_size = models.CharField(max_length=3, choices=TSHIRT_SIZE, default='S')
+    student_1_contactperson_name = models.CharField(max_length=100, blank=True)
+    student_1_contactperson_tel = models.CharField(max_length=20, blank=True)
+    student_1_anysickness = models.CharField(max_length=255, blank=True)
+    student_1_anyallergies = models.CharField(max_length=255, blank=True)
+    student_1_vegetarian = models.BooleanField(default=False)
+
+    student_2_name = models.CharField(max_length=100, blank=True)
+    student_2_dob = models.DateField(default=datetime.datetime.today, blank=True)
+    student_2_age = models.IntegerField(default=0, null=True)
+    student_2_year = models.IntegerField(default=0, null=True)
+    student_2_religion = models.CharField(max_length=2, choices=RELIGION, default='OT')
+    student_2_gender = models.CharField(max_length=2, choices=GENDER, default='NA')
+    student_2_citizenship = models.CharField(max_length=2, choices=CITIZENSHIP, default='NA')
+    student_2_nric_passportno = models.CharField(max_length=50, blank=True)
+    student_2_tshirt_size = models.CharField(max_length=3, choices=TSHIRT_SIZE, default='S')
+    student_2_contactperson_name = models.CharField(max_length=100, blank=True)
+    student_2_contactperson_tel = models.CharField(max_length=20, blank=True)
+    student_2_anysickness = models.CharField(max_length=255, blank=True)
+    student_2_anyallergies = models.CharField(max_length=255, blank=True)
+    student_2_vegetarian = models.BooleanField(default=False)
+
+    STATUS = [
+        ('AP', 'Approved'),
+        ('IP', 'In process'),
+        ('RJ', 'Rejected')
+    ]
+    status = models.CharField(max_length=2, choices=STATUS, default='IP')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.teacher_name
 
 
 class VisitApplication(models.Model):

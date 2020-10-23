@@ -11,6 +11,8 @@ from django.utils.timezone import now
 from .models import (
     Venue,
     Facility,
+    FacilityPrice,
+    FacilityImage,
     FacilityBooking
 )
 
@@ -47,7 +49,41 @@ class FacilityExtendedSerializer(serializers.ModelSerializer):
         model = Facility
         fields = '__all__'
         read_only_fields = ['id']
+
+
+class FacilityPriceSerializer(serializers.ModelSerializer):
     
+    class Meta:
+        model = FacilityPrice
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
+class FacilityPriceExtendedSerializer(serializers.ModelSerializer):
+    facility_id = FacilitySerializer(read_only=True)
+    
+    class Meta:
+        model = FacilityPrice
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
+class FacilityImageSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = FacilityImage
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
+class FacilityImageExtendedSerializer(serializers.ModelSerializer):
+    facility_id = FacilitySerializer(read_only=True)
+    
+    class Meta:
+        model = FacilityImage
+        fields = '__all__'
+        read_only_fields = ['id']
+
 
 class FacilityBookingSerializer(serializers.ModelSerializer):
     

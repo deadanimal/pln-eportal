@@ -16,7 +16,10 @@ from .models import (
     ExhibitDetail,
     EducationalProgram,
     EducationalProgramDate,
+    EducationalProgramImage,
+    EducationalProgramActivity,
     EducationalProgramApplication,
+    EducationalProgramForm,
     VisitApplication
 )
 
@@ -30,8 +33,12 @@ from .serializers import (
     EducationalProgramSerializer,
     EducationalProgramExtendedSerializer,
     EducationalProgramDateSerializer,
+    EducationalProgramImageSerializer,
+    EducationalProgramActivitySerializer,
     EducationalProgramApplicationSerializer,
     EducationalProgramApplicationExtendedSerializer,
+    EducationalProgramFormSerializer,
+    EducationalProgramFormExtendedSerializer,
     VisitApplicationSerializer,
     VisitApplicationExtendedSerializer
 )
@@ -138,6 +145,7 @@ class EducationalProgramViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = EducationalProgramSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
+        'id',
         'program_type', 
         'min_participant', 
         'max_participant', 
@@ -191,6 +199,50 @@ class EducationalProgramDateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = EducationalProgramDate.objects.all()
         return queryset
 
+class EducationalProgramImageViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EducationalProgramImage.objects.all()
+    serializer_class = EducationalProgramImageSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'program_id', 
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = EducationalProgramImage.objects.all()
+        return queryset
+
+class EducationalProgramActivityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EducationalProgramActivity.objects.all()
+    serializer_class = EducationalProgramActivitySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'program_id', 
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = EducationalProgramActivity.objects.all()
+        return queryset
+
 class EducationalProgramApplicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EducationalProgramApplication.objects.all()
     serializer_class = EducationalProgramApplicationSerializer
@@ -223,6 +275,38 @@ class EducationalProgramApplicationViewSet(NestedViewSetMixin, viewsets.ModelVie
         
         queryset = EducationalProgramApplication.objects.all()
         serializer_class = EducationalProgramApplicationExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
+class EducationalProgramFormViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EducationalProgramForm.objects.all()
+    serializer_class = EducationalProgramFormSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'customer_id',
+        'educational_program_id',
+        'status',
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = EducationalProgramForm.objects.all()
+        return queryset
+    
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = EducationalProgramForm.objects.all()
+        serializer_class = EducationalProgramFormExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)
 

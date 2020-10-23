@@ -13,6 +13,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
     Venue,
     Facility,
+    FacilityPrice,
+    FacilityImage,
     FacilityBooking
 )
 
@@ -20,6 +22,10 @@ from .serializers import (
     VenueSerializer,
     FacilitySerializer,
     FacilityExtendedSerializer,
+    FacilityPriceSerializer,
+    FacilityPriceExtendedSerializer,
+    FacilityImageSerializer,
+    FacilityImageExtendedSerializer,
     FacilityBookingSerializer,
     FacilityBookingExtendedSerializer
 )
@@ -49,9 +55,9 @@ class FacilityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = FacilitySerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'facility_type', 
-        'price', 
-        'size',
+        'facility_category', 
+        'facility_subcategory',
+        'area_size',
         'max_capacity',
         'pic_id',
         'created_date'
@@ -79,13 +85,75 @@ class FacilityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return Response(serializer_class.data)
 
 
+class FacilityPriceViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = FacilityPrice.objects.all()
+    serializer_class = FacilityPriceSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [ 
+        'facility_id',
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = FacilityPrice.objects.all()
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = FacilityPrice.objects.all()
+        serializer_class = FacilityPriceExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
+
+class FacilityImageViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = FacilityImage.objects.all()
+    serializer_class = FacilityImageSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [ 
+        'facility_id',
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = FacilityImage.objects.all()
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = FacilityImage.objects.all()
+        serializer_class = FacilityImageExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
+
 class FacilityBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = FacilityBooking.objects.all()
     serializer_class = FacilityBookingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'booking_date', 
-        'booking_time', 
+        'booking_days', 
         'user_id',
         'pic_id',
         'facility_id',
