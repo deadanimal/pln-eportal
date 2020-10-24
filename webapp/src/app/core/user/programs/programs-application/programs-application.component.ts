@@ -49,19 +49,19 @@ export class ProgramsApplicationComponent implements OnInit {
   organisationcategories = [
     {
       value: "GV",
-      display_name: "Government",
+      display_name: "Kerajaan",
     },
     {
       value: "SC",
-      display_name: "School",
+      display_name: "Sekolah",
     },
     {
       value: "UN",
-      display_name: "University",
+      display_name: "Universiti",
     },
     {
       value: "NA",
-      display_name: "Not Available",
+      display_name: "Tiada",
     },
   ];
   statuses = [

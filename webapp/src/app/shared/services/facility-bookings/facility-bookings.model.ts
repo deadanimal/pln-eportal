@@ -8,7 +8,7 @@ export class FacilityBooking {
   public organisation_name: string;
   public organisation_category: string;
   public booking_date: string;
-  public booking_time: string;
+  public booking_days: string;
   public number_of_people: number;
   public total_price: number;
   public created_date: string;
@@ -24,7 +24,7 @@ export class FacilityBooking {
     organisation_name: string,
     organisation_category: string,
     booking_date: string,
-    booking_time: string,
+    booking_days: string,
     number_of_people: number,
     total_price: number,
     created_date: string,
@@ -39,7 +39,7 @@ export class FacilityBooking {
     this.organisation_name = organisation_name;
     this.organisation_category = organisation_category;
     this.booking_date = booking_date;
-    this.booking_time = booking_time;
+    this.booking_days = booking_days;
     this.number_of_people = number_of_people;
     this.total_price = total_price;
     this.created_date = created_date;

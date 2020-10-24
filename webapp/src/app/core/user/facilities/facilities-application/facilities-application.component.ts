@@ -47,6 +47,52 @@ export class FacilitiesApplicationComponent implements OnInit {
   // Dropdown
   facilities = [];
   users = [];
+  organisationcategories = [
+    {
+      value: "GV",
+      display_name: "Kerajaan",
+    },
+    {
+      value: "SC",
+      display_name: "Sekolah",
+    },
+    {
+      value: "UN",
+      display_name: "Universiti",
+    },
+    {
+      value: "NA",
+      display_name: "Tiada",
+    },
+  ];
+  bookingdays = [
+    {
+      value: "HALF",
+      display_name: "Separuh Hari",
+    },
+    {
+      value: "FULL",
+      display_name: "Satu Hari",
+    },
+    {
+      value: "NONE",
+      display_name: "Tiada",
+    },
+  ];
+  statuses = [
+    {
+      value: "AP",
+      display_name: "Diterima",
+    },
+    {
+      value: "IP",
+      display_name: "Dalam proses",
+    },
+    {
+      value: "RJ",
+      display_name: "Ditolak",
+    },
+  ];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -68,9 +114,9 @@ export class FacilitiesApplicationComponent implements OnInit {
       organisation_name: new FormControl(""),
       organisation_category: new FormControl(""),
       booking_date: new FormControl(""),
-      booking_time: new FormControl(""),
+      booking_days: new FormControl(""),
       number_of_people: new FormControl(""),
-      total_price: new FormControl(""),
+      total_price: new FormControl(0.00),
     });
   }
 
@@ -103,7 +149,7 @@ export class FacilitiesApplicationComponent implements OnInit {
   }
 
   getData() {
-    this.facilityService.extended().subscribe((res) => {
+    this.facilitybookingService.extended().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -151,7 +197,7 @@ export class FacilitiesApplicationComponent implements OnInit {
       this.facilityFormGroup.patchValue({
         ...row,
         user_id: row.user_id.id,
-        pic_id: row.pic_id.id,
+        pic_id: row.pic_id != null ? row.pic_id.id : null,
         facility_id: row.facility_id.id,
       });
     }
@@ -238,5 +284,19 @@ export class FacilitiesApplicationComponent implements OnInit {
             });
         }
       );
+  }
+
+  getOrganisationCategory(value: string) {
+    let result = this.organisationcategories.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getBookingDay(value: string) {
+    let result = this.bookingdays.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
   }
 }

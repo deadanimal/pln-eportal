@@ -99,14 +99,14 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column>
+            <!-- <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Deskripsi</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.description }}
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
@@ -150,10 +150,23 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
+                  class="btn btn-sm btn-info"
+                  (click)="openModal(programImage, 'upload', row)"
+                >
+                  Gambar
+                </button>
+                <button
                   class="btn btn-sm btn-default"
-                  (click)="openModal(programDate, 'createupdate', row)"
+                  (click)="openModal(programDate, 'createupdatedate', row)"
                 >
                   Tarikh
+                </button>
+                <button
+                  class="btn btn-sm btn-warning"
+                  (click)="openModal(programActivity, 'createupdateactivity', row)"
+                  *ngIf="row.activity"
+                >
+                  Aktiviti
                 </button>
                 <button
                   class="btn btn-sm btn-primary"
@@ -204,7 +217,46 @@
           class="form-control"
           formControlName="description"
           placeholder="Deskripsi"
+          rows="10"
         ></textarea>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Kategori</label>
+            <select
+              class="form-control"
+              formControlName="program_category"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let programcategory of programcategories"
+                [value]="programcategory.value"
+              >
+                {{ programcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Sub-Kategori</label>
+            <select
+              class="form-control"
+              formControlName="program_subcategory"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let programsubcategory of programsubcategories"
+                [value]="programsubcategory.value"
+              >
+                {{ programsubcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col">
@@ -227,19 +279,29 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Kategori</label>
+            <label class="form-control-label">Pendaftaran?</label>
             <select
               class="form-control"
-              formControlName="program_category"
+              formControlName="registration"
               placeholder="Sila pilih"
             >
               <option value="">Sila pilih</option>
-              <option
-                *ngFor="let programcategory of programcategories"
-                [value]="programcategory.value"
-              >
-                {{ programcategory.display_name }}
-              </option>
+              <option value="true">Ya</option>
+              <option value="false">Tidak</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Aktiviti?</label>
+            <select
+              class="form-control"
+              formControlName="activity"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option value="true">Ya</option>
+              <option value="false">Tidak</option>
             </select>
           </div>
         </div>
@@ -381,7 +443,46 @@
           class="form-control"
           formControlName="description"
           placeholder="Deskripsi"
+          rows="10"
         ></textarea>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Kategori</label>
+            <select
+              class="form-control"
+              formControlName="program_category"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let programcategory of programcategories"
+                [value]="programcategory.value"
+              >
+                {{ programcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Sub-Kategori</label>
+            <select
+              class="form-control"
+              formControlName="program_subcategory"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let programsubcategory of programsubcategories"
+                [value]="programsubcategory.value"
+              >
+                {{ programsubcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col">
@@ -404,19 +505,29 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Kategori</label>
+            <label class="form-control-label">Pendaftaran?</label>
             <select
               class="form-control"
-              formControlName="program_category"
+              formControlName="registration"
               placeholder="Sila pilih"
             >
               <option value="">Sila pilih</option>
-              <option
-                *ngFor="let programcategory of programcategories"
-                [value]="programcategory.value"
-              >
-                {{ programcategory.display_name }}
-              </option>
+              <option value="true">Ya</option>
+              <option value="false">Tidak</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Aktiviti?</label>
+            <select
+              class="form-control"
+              formControlName="activity"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option value="true">Ya</option>
+              <option value="false">Tidak</option>
             </select>
           </div>
         </div>
@@ -527,7 +638,7 @@
 <ng-template #programDate>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Tambah
+      Tarikh
     </h6>
 
     <button
@@ -581,6 +692,140 @@
 
   <div class="modal-footer">
     <button class="btn btn-success" type="button" (click)="createupdatedate()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #programActivity>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Aktiviti
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="eduprogramactivityFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Nama Aktiviti</label>
+        <input
+          type="text"
+          placeholder="Nama Aktiviti"
+          class="form-control"
+          formControlName="program_activity"
+        />
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <td>No</td>
+          <td>Aktiviti</td>
+          <td>Tindakan</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let eduprogramactivity of eduprogramactivities; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ eduprogramactivity.program_activity }}</td>
+          <td><button class="btn btn-sm btn-primary">Sunting</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="createupdateactivity()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #programImage>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Gambar
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="eduprogramimageFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih gambar</label><br />
+        <input type="file" name="program_image" (change)="onChange($event)" />
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <td>No</td>
+          <td>Gambar</td>
+          <td>Tindakan</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let eduprogramimage of eduprogramimages; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            <img [src]="eduprogramimage.program_image" style="width: 50%" />
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteimage(eduprogramimage)"
+            >
+              Buang
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="uploadimage()">
       Simpan
     </button>
 

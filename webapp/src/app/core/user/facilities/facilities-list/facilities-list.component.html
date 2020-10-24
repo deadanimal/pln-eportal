@@ -97,14 +97,14 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column>
+            <!-- <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Deskripsi</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.description }}
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
@@ -117,19 +117,24 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Saiz (m<sup>2</sup>)</span>
+                <span>Keluasan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.size }}
+                {{ row.area_size }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Harga (RM)</span>
+                <span>Harga?</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.price }}
+                <span *ngIf="row.have_price" class="badge badge-success"
+                  >Ada</span
+                >
+                <span *ngIf="!row.have_price" class="badge badge-danger"
+                  >Tidak ada</span
+                >
               </ng-template>
             </ngx-datatable-column>
 
@@ -156,6 +161,19 @@
                 <span>Tindakan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
+                <button
+                  class="btn btn-sm btn-info"
+                  (click)="openModal(facilityImage, 'upload', row)"
+                >
+                  Gambar
+                </button>
+                <button
+                  class="btn btn-sm btn-default"
+                  (click)="openModal(facilityPrice, 'createupdateprice', row)"
+                  *ngIf="row.have_price"
+                >
+                  Harga
+                </button>
                 <button
                   class="btn btn-sm btn-primary"
                   (click)="openModal(editFacility, 'update', row)"
@@ -202,42 +220,103 @@
       <div class="form-group">
         <label class="form-control-label">Deskripsi</label>
         <textarea
+          rows="5"
           class="form-control"
           formControlName="description"
           placeholder="Deskripsi"
         ></textarea>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Jenis Fasiliti</label>
-        <select
-          class="form-control"
-          formControlName="facility_type"
-          placeholder="Sila pilih"
-        >
-          <option value="NA">Tidak ada</option>
-        </select>
-      </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Harga (RM)</label>
+            <label class="form-control-label">Kategori</label>
+            <select
+              class="form-control"
+              formControlName="facility_category"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let facilitycategory of facilitycategories"
+                [value]="facilitycategory.value"
+              >
+                {{ facilitycategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Sub-kategori</label>
+            <select
+              class="form-control"
+              formControlName="facility_subcategory"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let facilitysubcategory of facilitysubcategories"
+                [value]="facilitysubcategory.value"
+              >
+                {{ facilitysubcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Kapasiti (orang)</label>
             <input
               class="form-control"
-              formControlName="price"
-              placeholder="contoh: 50.00"
+              formControlName="max_capacity"
+              placeholder="contoh: 100"
               type="number"
             />
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-4 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Saiz (m<sup>2</sup>)</label>
+            <label class="form-control-label">Keluasan (m<sup>2</sup>)</label>
             <input
               class="form-control"
-              formControlName="size"
-              placeholder="contoh: 5000"
-              type="number"
+              formControlName="area_size"
+              placeholder="contoh: 500 m2"
+              type="text"
             />
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Harga?</label><br />
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="have_price_true"
+                name="have_price"
+                formControlName="have_price"
+                class="custom-control-input"
+                value="true"
+              />
+              <label class="custom-control-label" for="have_price_true"
+                >Ya</label
+              >
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="have_price_false"
+                name="have_price"
+                formControlName="have_price"
+                class="custom-control-input"
+                value="false"
+              />
+              <label class="custom-control-label" for="have_price_false"
+                >Tidak</label
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -267,7 +346,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="form-control-label">Asset</label>
         <select
           class="form-control"
@@ -280,7 +359,7 @@
             {{ asset.name }}
           </option>
         </select>
-      </div>
+      </div> -->
     </form>
   </div>
 
@@ -331,42 +410,103 @@
       <div class="form-group">
         <label class="form-control-label">Deskripsi</label>
         <textarea
+          rows="5"
           class="form-control"
           formControlName="description"
           placeholder="Deskripsi"
         ></textarea>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Jenis Fasiliti</label>
-        <select
-          class="form-control"
-          formControlName="facility_type"
-          placeholder="Sila pilih"
-        >
-          <option value="NA">Tidak ada</option>
-        </select>
-      </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Harga (RM)</label>
+            <label class="form-control-label">Kategori</label>
+            <select
+              class="form-control"
+              formControlName="facility_category"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let facilitycategory of facilitycategories"
+                [value]="facilitycategory.value"
+              >
+                {{ facilitycategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Sub-kategori</label>
+            <select
+              class="form-control"
+              formControlName="facility_subcategory"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option
+                *ngFor="let facilitysubcategory of facilitysubcategories"
+                [value]="facilitysubcategory.value"
+              >
+                {{ facilitysubcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Kapasiti (orang)</label>
             <input
               class="form-control"
-              formControlName="price"
-              placeholder="contoh: 50.00"
+              formControlName="max_capacity"
+              placeholder="contoh: 100"
               type="number"
             />
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-4 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Saiz (m<sup>2</sup>)</label>
+            <label class="form-control-label">Keluasan (m<sup>2</sup>)</label>
             <input
               class="form-control"
-              formControlName="size"
-              placeholder="contoh: 5000"
-              type="number"
+              formControlName="area_size"
+              placeholder="contoh: 500 m2"
+              type="text"
             />
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Harga?</label><br />
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="have_price_true"
+                name="have_price"
+                formControlName="have_price"
+                class="custom-control-input"
+                value="true"
+              />
+              <label class="custom-control-label" for="have_price_true"
+                >Ya</label
+              >
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="have_price_false"
+                name="have_price"
+                formControlName="have_price"
+                class="custom-control-input"
+                value="false"
+              />
+              <label class="custom-control-label" for="have_price_false"
+                >Tidak</label
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -396,7 +536,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="form-control-label">Asset</label>
         <select
           class="form-control"
@@ -409,12 +549,177 @@
             {{ asset.name }}
           </option>
         </select>
-      </div>
+      </div> -->
     </form>
   </div>
 
   <div class="modal-footer">
     <button class="btn btn-success" type="button" (click)="update()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #facilityPrice>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Harga
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="facilitypriceFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi</label>
+        <input
+          type="text"
+          placeholder="Deskripsi"
+          class="form-control"
+          formControlName="facility_description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">Harga</label>
+        <input
+          type="number"
+          placeholder="contoh: 1000.00"
+          class="form-control"
+          formControlName="facility_price"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">Hari</label>
+        <select class="form-control" formControlName="facility_days">
+          <option value="">Sila pilih</option>
+          <option
+            *ngFor="let facilityday of facilitydays"
+            [value]="facilityday.value"
+          >
+            {{ facilityday.display_name }}
+          </option>
+        </select>
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <td>No</td>
+          <td>Deskripsi</td>
+          <td>Harga</td>
+          <td>Hari</td>
+          <td>Tindakan</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let facilityprice of facilityprices; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ facilityprice.facility_description }}</td>
+          <td>{{ facilityprice.facility_price }}</td>
+          <td>{{ getFacilityDay(facilityprice.facility_days) }}</td>
+          <td><button class="btn btn-sm btn-primary">Sunting</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="createupdateprice()"
+    >
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #facilityImage>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Gambar
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="facilityimageFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih gambar</label><br />
+        <input type="file" name="facility_image" (change)="onChange($event)" />
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <td>No</td>
+          <td>Gambar</td>
+          <td>Tindakan</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let facilityimage of facilityimages; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            <img [src]="facilityimage.facility_image" style="width: 50%" />
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteimage(facilityimage)"
+            >
+              Buang
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="uploadimage()">
       Simpan
     </button>
 

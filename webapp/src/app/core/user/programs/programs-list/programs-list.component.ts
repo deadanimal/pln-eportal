@@ -10,6 +10,8 @@ import swal from "sweetalert2";
 
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
 import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
+import { EducationalProgramImagesService } from "src/app/shared/services/educational-program-images/educational-program-images.service";
+import { EducationalProgramActivitiesService } from "src/app/shared/services/educational-program-activities/educational-program-activities.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VenuesService } from "src/app/shared/services/venues/venues.service";
 
@@ -29,6 +31,8 @@ export enum SelectionType {
 export class ProgramsListComponent implements OnInit {
   // Data
   eduprogramdates = [];
+  eduprogramimages = [];
+  eduprogramactivities = [];
 
   // Table
   tableEntries: number = 5;
@@ -48,16 +52,18 @@ export class ProgramsListComponent implements OnInit {
   // FormGroup
   eduprogramFormGroup: FormGroup;
   eduprogramdateFormGroup: FormGroup;
+  eduprogramimageFormGroup: FormGroup;
+  eduprogramactivityFormGroup: FormGroup;
 
   // Dropdown
   programtypes = [
     {
       value: "PL",
-      display_name: "Public",
+      display_name: "Awam",
     },
     {
       value: "PV",
-      display_name: "Private",
+      display_name: "Swasta",
     },
   ];
   programcategories = [
@@ -94,7 +100,25 @@ export class ProgramsListComponent implements OnInit {
       display_name: "SEMINAR, CERAMAH, PLANETARIUM TALKS",
     },
     {
+      value: "P9",
+      display_name: "LAIN-LAIN",
+    },
+    {
       value: "NA",
+      display_name: "TIDAK ADA",
+    },
+  ];
+  programsubcategories = [
+    {
+      value: "NSC",
+      display_name: "National Space Challenge",
+    },
+    {
+      value: "KRK",
+      display_name: "Kejohanan Roket Kebangsaan",
+    },
+    {
+      value: "NAV",
       display_name: "Not Available",
     },
   ];
@@ -106,6 +130,8 @@ export class ProgramsListComponent implements OnInit {
     private modalService: BsModalService,
     private eduprogramService: EducationalProgramsService,
     private eduprogramdateService: EducationalProgramDatesService,
+    private eduprogramimageService: EducationalProgramImagesService,
+    private eduprogramactivityService: EducationalProgramActivitiesService,
     private userService: UsersService,
     private venueService: VenuesService
   ) {
@@ -118,12 +144,16 @@ export class ProgramsListComponent implements OnInit {
       description: new FormControl(""),
       program_type: new FormControl(""),
       program_category: new FormControl(""),
+      program_subcategory: new FormControl(""),
       program_opento: new FormControl(""),
       min_participant: new FormControl(""),
       max_participant: new FormControl(""),
       price: new FormControl(0),
       // poster_link: new FormControl(""),
       // website_link: new FormControl(""),
+      // video_link: new FormControl(""),
+      registration: new FormControl(""),
+      activity: new FormControl(""),
       venue_id: new FormControl(""),
       coordinator_id: new FormControl(""),
       status: new FormControl(""),
@@ -132,6 +162,18 @@ export class ProgramsListComponent implements OnInit {
     this.eduprogramdateFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       program_date: new FormControl(""),
+      program_id: new FormControl(""),
+    });
+
+    this.eduprogramimageFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      program_image: new FormControl(""),
+      program_id: new FormControl(""),
+    });
+
+    this.eduprogramactivityFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      program_activity: new FormControl(""),
       program_id: new FormControl(""),
     });
   }
@@ -213,7 +255,7 @@ export class ProgramsListComponent implements OnInit {
       this.eduprogramFormGroup.patchValue({
         ...row,
       });
-    } else if (process == "createupdate") {
+    } else if (process == "createupdatedate") {
       this.eduprogramdateService.filter("program_id=" + row.id).subscribe(
         (res) => {
           console.log("res", res);
@@ -224,6 +266,32 @@ export class ProgramsListComponent implements OnInit {
         }
       );
       this.eduprogramdateFormGroup.patchValue({
+        program_id: row.id,
+      });
+    } else if (process == "createupdateactivity") {
+      this.eduprogramactivityService.filter("program_id=" + row.id).subscribe(
+        (res) => {
+          console.log("res", res);
+          this.eduprogramactivities = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+      this.eduprogramactivityFormGroup.patchValue({
+        program_id: row.id,
+      });
+    } else if (process == "upload") {
+      this.eduprogramimageService.filter("program_id=" + row.id).subscribe(
+        (res) => {
+          console.log("res", res);
+          this.eduprogramimages = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+      this.eduprogramimageFormGroup.patchValue({
         program_id: row.id,
       });
     }
@@ -350,6 +418,140 @@ export class ProgramsListComponent implements OnInit {
             });
         }
       );
+  }
+
+  createupdateactivity() {
+    this.eduprogramactivityService
+      .create(this.eduprogramactivityFormGroup.value)
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya disimpan.",
+              type: "success",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-success",
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getData();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+              type: "warning",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-warning",
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+  }
+
+  // Image Process
+  onChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.eduprogramimageFormGroup.get("program_image").setValue(file);
+    }
+  }
+
+  uploadimage() {
+    const formData = new FormData();
+    formData.append(
+      "program_image",
+      this.eduprogramimageFormGroup.get("program_image").value
+    );
+    formData.append(
+      "program_id",
+      this.eduprogramimageFormGroup.value.program_id
+    );
+
+    this.eduprogramimageService.create(formData).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.log("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
+  }
+
+  deleteimage(image) {
+    this.eduprogramimageService.delete(image.id).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya dibuang.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya dibuang. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   getType(value: string) {
