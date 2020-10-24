@@ -1,5 +1,5 @@
 SECRET_KEY = BroNakBurgerMcChickenSatuSosLebih
-DATABASE_URL = postgresql://USERNAME:PASSWORD@project-do-user-812878-0.a.db.ondigitalocean.com:25060/TUKARSINI?sslmode=require
+DATABASE_URL = postgresql://api:uhhxlcjuscps90wf@project-do-user-812878-0.a.db.ondigitalocean.com:25060/pln-eportal?sslmode=require
 BUILD_WITH_GEO_LIBRARIES = 1
 DISABLE_COLLECTSTATIC = 1
 DEBUG = True
