@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
   NgxGalleryOptions,
@@ -13,10 +13,14 @@ import {
   NgxGalleryAnimation,
 } from "ngx-gallery";
 import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
+import { FacilityImagesService } from "src/app/shared/services/facility-images/facility-images.service";
+import { FacilityPricesService } from "src/app/shared/services/facility-prices/facility-prices.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
@@ -26,22 +30,18 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./facility-details.component.scss"],
 })
 export class FacilityDetailsComponent implements OnInit {
-  defaultModal: BsModalRef;
-  default = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
-
-  type: string = "";
-  facility;
-  facilities = [
+  // Data
+  facility_category: string = "";
+  facilities$: Observable<any>;
+  facilityimages = [];
+  /* facilities = [
     {
       name: "Teater Angkasa",
       type: "teater-angkasa",
-      desc:
+      description:
         "Teater Angkasa boleh memuatkan sehingga 190 orang penonton. Ia mempunyai skrin berbentuk kubah aluminium hesmisfera yang dilengkapi dengan sistem bunyi sekeliling digital 6-saluran. Dua projektor full dome immersive system memberikan pilihan tayangan setiap jam dan setiap hari.",
-      capacity: "190 orang penonton",
-      area: "200 m2",
+      max_capacity: "190 orang penonton",
+      area_size: "200 m2",
       images: [
         {
           small: "assets/home/teater-angkasa.jpg",
@@ -53,10 +53,10 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Pameran Penerokaan Sains Angkasa & Astronomi",
       type: "galeri-pameran",
-      desc:
+      description:
         "Pameran ini memberikan peluang kepada pelawat meneroka bahan pameran interaktif dan mencipta sendiri pengalaman pembelajaran yang unik. Ia menggalakkan interaksi di kalangan pelawat pada semua peringkat usia.",
-      capacity: "",
-      area: "",
+      max_capacity: "",
+      area_size: "",
       images: [
         {
           small: "assets/img/facility/GALERI PAMERAN_ASTRONOMI 2.jpg",
@@ -78,10 +78,10 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Teatret",
       type: "teatret",
-      desc:
+      description:
         "Kemudahan yang disediakan adalah projektor, kerusi, meja, skrin lebar, komputer dan sebagainya",
-      capacity: "80 orang",
-      area: "",
+      max_capacity: "80 orang",
+      area_size: "",
       images: [
         // {
         //   small: "assets/img/facility/teatret 2.jpg",
@@ -103,10 +103,10 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Bilik Centaurus",
       type: "bilik-centaurus",
-      desc:
+      description:
         "Kutubkhanah Mini Planetarium Negara mempunyai koleksi buku terdiri daripada sebahagian subjek astronomi dan sains angkasa selain subjek-subjek umum yang lain seperti karya am, falsafah, sains kemasyarakatan dan sebagainya. Buku-buku tersebut telah disusun dan dikatalog agar memudahkan orang ramai untuk membuat carian dan rujukan. Kutubkahanah Mini mempunyai ruang bacaan yang boleh menempatkan 20 orang pembaca dalam 1 masa. Namun ruang ini dikongsi bersama Ruang Aktiviti STEM. Semasa penggunaan Ruang Aktiviti STEM, ruang bacaan dikecilkan kepada 2 pengguna sahaja. Kutubkhanah Mini turut menyenaraikan koleksi bahan rujukan di https://www.libib.com dan menyediakan perkhidmatan bacaan atas talian / online melalui blog iaitu di https://pnlibrary.blogspot.com/ .",
-      capacity: "30 orang",
-      area: "46 m2",
+      max_capacity: "30 orang",
+      area_size: "46 m2",
       images: [
         {
           small: "assets/img/facility/1 centaurus.jpg",
@@ -131,10 +131,10 @@ export class FacilityDetailsComponent implements OnInit {
       places: [
         {
           name: "Sculpture",
-          desc:
+          description:
             "Sculpture ini melambangkan ruang dan waktu. Waktu dipotretkan menerusi garis-garis yang mengalir sementara ruang digambarkan oleh kedudukan sfera mewakili planet-planet. Nombor arab menunjukkan usaha manusia memahami alam semesta.",
-          capacity: "50 orang",
-          area: "49 m2",
+          max_capacity: "50 orang",
+          area_size: "49 m2",
           images: [
             {
               small: "assets/img/facility/SCULPTURE/SCULPTURE 1.jpg",
@@ -155,10 +155,10 @@ export class FacilityDetailsComponent implements OnInit {
         },
         {
           name: "Jam Matahari Sundial",
-          desc:
+          description:
             "Merdeka Sundial dibina pada tahun 1957 dan dirasmikan oleh Perdana Menteri Malaysia pertama, Tunku Abdul Rahman Putra bersempena dengan perasmian Taman Tunku Abdul Rahman. Tan Sri Stanley Edward Jewkes adalah arkitek yang merancang dan membina jam matahari. Sekiranya dilihat dari jauh, sundial kelihatan seperti bulan sabit dari lambang kerajaan persekutuan. Penunjuk bayangan dibuat dari bintang terukir tinggi yang mewakili negeri-negeri yang tinggi di Malaysia pada waktu itu. Pada tahun 1997, Merdeka Sundial telah dipindahkan ke Kompleks Planetarium Negara kerana projek pembangunan baru di taman itu.",
-          capacity: "30 orang",
-          area: "29.8 m2",
+          max_capacity: "30 orang",
+          area_size: "29.8 m2",
           images: [
             {
               small: "assets/img/facility/MERDEKA SUNDIAL/MERDEKA SUNDIAL.jpg",
@@ -197,9 +197,9 @@ export class FacilityDetailsComponent implements OnInit {
         },
         {
           name: "Balai Cerap Purba",
-          desc: "",
-          capacity: "",
-          area: "",
+          description: "",
+          max_capacity: "",
+          area_size: "",
           images: [
             {
               small: "assets/img/facility/STONEHENGE/STONEHENGE 1.jpg",
@@ -233,10 +233,10 @@ export class FacilityDetailsComponent implements OnInit {
     {
       name: "Stesen Mikrosatelit",
       type: "stesen-mikrosatelit",
-      desc:
+      description:
         "Suatu kemudahan yang menempatkan peralatan komunikasi Radio Amatur di Planetarium Negara. Peralatan Radio Amatur yang disediakan di stesen mikrosatelit Planeterium Negara dapat digunakan bagi tujuan perhubungan radio kepada pengguna-pengguna radio amatur dan juga untuk berkomunikasi dengan mikrosatelit yang melintas ruang udara Kuala Lumpur. Stesen ini juga digunakan untuk berkomunikasi dengan angkasawan yang sedang bertugas di Stesen Angkasa Antarabangsa (ISS).",
-      capacity: "",
-      area: "",
+      max_capacity: "",
+      area_size: "",
       images: [
         {
           small: "assets/img/facility/MIKROSATELITE 1.jpg",
@@ -255,18 +255,95 @@ export class FacilityDetailsComponent implements OnInit {
         },
       ],
     },
-  ];
-
-  galleryOptions: NgxGalleryOptions[];
-  galleryImages: NgxGalleryImage[];
-
-  // FormGroup
-  facilitybookingFormGroup: FormGroup;
-
-  // Data
-  users = [];
+  ]; */
+  selectedFacility = {
+    value: "",
+    display_name: "",
+    link: "",
+    have_subcategory: false,
+  };
 
   // Dropdown
+  bookingdays = [
+    {
+      value: "HALF",
+      display_name: "Separuh Hari",
+    },
+    {
+      value: "FULL",
+      display_name: "Satu Hari",
+    },
+    {
+      value: "NONE",
+      display_name: "Tiada",
+    },
+  ];
+  facilitycategories = [
+    {
+      value: "TA",
+      display_name: "Teater Angkasa",
+      link: "teater-angkasa",
+      have_subcategory: false,
+    },
+    {
+      value: "GP",
+      display_name: "Galeri Pameran",
+      link: "galeri-pameran",
+      have_subcategory: false,
+    },
+    {
+      value: "TT",
+      display_name: "Teatret",
+      link: "teatret",
+      have_subcategory: false,
+    },
+    {
+      value: "BC",
+      display_name: "Bilik Centaurus",
+      link: "bilik-centaurus",
+      have_subcategory: false,
+    },
+    {
+      value: "KR",
+      display_name: "Kawasan Rekreasi",
+      link: "kawasan-rekreasi",
+      have_subcategory: false,
+    },
+    {
+      value: "SM",
+      display_name: "Stesen Mikrosatelit",
+      link: "stesen-mikrosatelit",
+      have_subcategory: false,
+    },
+    {
+      value: "NA",
+      display_name: "Not Available",
+      link: "not-available",
+      have_subcategory: false,
+    },
+  ];
+  facilitysubcategories = [
+    {
+      value: "ZONE",
+      display_name: "Titan",
+    },
+    {
+      value: "ZTWO",
+      display_name: "Milky Way",
+    },
+    {
+      value: "ZTHR",
+      display_name: "Sculpture",
+    },
+    {
+      value: "ZFOU",
+      display_name: "Callisto",
+    },
+    {
+      value: "ZFIV",
+      display_name: "Balai Cerap Purba",
+    },
+  ];
   organisationcategories = [
     {
       value: "GV",
@@ -286,22 +363,35 @@ export class FacilityDetailsComponent implements OnInit {
     },
   ];
 
+  // FormGroup
+  facilitybookingFormGroup: FormGroup;
+
+  // Modal
+  defaultModal: BsModalRef;
+  default = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // Ngx Gallery
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[];
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
     private jwtService: JwtService,
+    private facilityService: FacilitiesService,
     private facilitybookingService: FacilityBookingsService,
+    private facilityimageService: FacilityImagesService,
+    private facilitypriceService: FacilityPricesService,
     private userService: UsersService
   ) {
-    this.type = this.activatedRoute.snapshot.paramMap.get("id");
-    if (this.type) {
-      this.facility = this.facilities.find((value) => {
-        return value.type == this.type;
-      });
-    }
+    this.facility_category = this.activatedRoute.snapshot.paramMap.get("id");
 
     this.facilitybookingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -321,7 +411,7 @@ export class FacilityDetailsComponent implements OnInit {
         "",
         Validators.compose([Validators.required])
       ),
-      booking_time: new FormControl(
+      booking_days: new FormControl(
         "",
         Validators.compose([Validators.required])
       ),
@@ -329,12 +419,41 @@ export class FacilityDetailsComponent implements OnInit {
         "",
         Validators.compose([Validators.required])
       ),
-      total_price: new FormControl(""),
+      total_price: new FormControl(0.0),
       user_id: new FormControl(""),
       pic_id: new FormControl(""),
       facility_id: new FormControl(""),
       status: new FormControl("IP"),
     });
+  }
+
+  getFacility() {
+    this.facilities$ = this.facilityService.filter(
+      "facility_category=" + this.facility_category
+    );
+    for (let i = 0; i < this.facilitycategories.length; i++) {
+      if (this.facilitycategories[i].value == this.facility_category) {
+        this.selectedFacility = this.facilitycategories[i];
+      }
+    }
+    this.facilities$.forEach((res) => {
+      for (let j = 0; j < res.length; j++) {
+        if (res[j].facility_subcategory != "NA")
+          this.selectedFacility.have_subcategory = true;
+      }
+    });
+  }
+
+  getFacilityImage() {
+    this.facilityimageService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.facilityimages = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   getUser() {
@@ -350,19 +469,12 @@ export class FacilityDetailsComponent implements OnInit {
         console.error("err", err);
       }
     );
-
-    this.userService.getAll().subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.users = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
   }
 
   ngOnInit(): void {
+    this.getFacility();
+    this.getFacilityImage();
+
     this.galleryOptions = [
       {
         width: "600px",
@@ -390,10 +502,14 @@ export class FacilityDetailsComponent implements OnInit {
     ];
   }
 
-  openDefaultModal(modalDefault: TemplateRef<any>) {
+  openDefaultModal(modalDefault: TemplateRef<any>, facility) {
     if (this.jwtService.getToken("accessToken")) {
       this.defaultModal = this.modalService.show(modalDefault, this.default);
       this.getUser();
+
+      this.facilitybookingFormGroup.patchValue({
+        facility_id: facility.id,
+      });
     } else {
       this.toastr.error(
         "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah fasiliti.",
@@ -402,10 +518,18 @@ export class FacilityDetailsComponent implements OnInit {
     }
   }
 
+  openFacilityDetailZone(selectedFacility, facility_zone) {
+    this.router.navigate([
+      "/facility/details/",
+      selectedFacility.value,
+      facility_zone.value,
+    ]);
+  }
+
   openAfterBooking() {
-    this.facilitybookingFormGroup.value.booking_date = this.formatDate(
-      this.facilitybookingFormGroup.value.booking_date
-    );
+    // this.facilitybookingFormGroup.value.booking_date = this.formatDate(
+    //   this.facilitybookingFormGroup.value.booking_date
+    // );
 
     this.facilitybookingService
       .post(this.facilitybookingFormGroup.value)
@@ -442,5 +566,19 @@ export class FacilityDetailsComponent implements OnInit {
     let formatDate = year + "-" + month + "-" + day;
 
     return formatDate;
+  }
+
+  getFacilityCategory(value: string) {
+    let result = this.facilitycategories.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getFacilitySubcategory(value: string) {
+    let result = this.facilitysubcategories.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
   }
 }

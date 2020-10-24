@@ -17,13 +17,25 @@
     </div> -->
     <carousel>
       <slide>
-        <img src="../../../assets/img/show/show-1.jpg" alt="second slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
       </slide>
       <slide>
-        <img src="../../../assets/img/show/show-2.jpg" alt="third slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
       </slide>
       <slide>
-        <img src="../../../assets/img/show/show-3.jpg" alt="first slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
       </slide>
     </carousel>
   </div>
@@ -31,7 +43,7 @@
     <div class="section">
       <div class="container pb-3">
         <h2 class="title text-center text-dark">Senarai Program Pendidikan</h2>
-        <div class="row" *ngFor="let program of programs">
+        <!-- <div class="row" *ngFor="let program of programs">
           <div class="col-md-12 ml-auto mr-auto">
             <h2 class="title ml-1 text-dark">{{ program.title }}</h2>
             <br />
@@ -42,14 +54,6 @@
             >
               <div class="row">
                 <div class="col-lg-5">
-                  <!-- <div class="card-image">
-                    <a href="javascript:void(0)">
-                      <img
-                        class="img rounded"
-                        src="assets/img/mark-harrison.jpg"
-                      />
-                    </a>
-                  </div> -->
                   <ngx-gallery
                     [options]="galleryOptions"
                     [images]="pro.images"
@@ -69,7 +73,6 @@
                         (click)="openReadMoreModal(modalReadMore, pro)"
                         >Baca selanjutnya</a
                       >
-                      <!-- <a href="javascript:void(0)"> Selanjutnya </a> -->
                     </p>
                     <h4 *ngIf="pro.further_detail" class="text-dark">
                       Maklumat lanjut:
@@ -84,14 +87,72 @@
                           <button class="btn btn-default" (click)="openDefaultModal(modalDefault)" *ngIf="pro.registration">Daftar</button>
                         </div>
                       </div>
-                      <!-- <button
-                        *ngFor="let date of pro.dates"
-                        type="button"
-                        class="btn btn-default"
-                        (click)="openDefaultModal(modalDefault)"
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="row" *ngFor="let programcategory of programcategories">
+          <div class="col-md-12 ml-auto mr-auto">
+            <h2 class="title ml-1 text-dark">
+              {{ programcategory.display_name }}
+            </h2>
+            <br />
+
+            <div
+              class="card card-blog card-plain blog-horizontal"
+              *ngFor="
+                let pro of programs
+                  | programfilter: { program_category: programcategory.value }
+              "
+            >
+              <div class="row">
+                <div class="col-lg-5">
+                  <ngx-gallery
+                    [options]="galleryOptions"
+                    [images]="pro.id | programImageFilter: programimages"
+                  ></ngx-gallery>
+                </div>
+                <div class="col-lg-7">
+                  <div class="card-body">
+                    <h3 class="card-title">
+                      <a href="javascript:void(0)" class="text-dark">
+                        {{ pro.title }}
+                      </a>
+                    </h3>
+                    <p class="card-description text-justify text-dark">
+                      {{ pro.description | slice: 0:200 }} ...
+                      <a
+                        style="color: #ba54f5; font-weight: bold"
+                        (click)="openReadMoreModal(modalReadMore, pro)"
+                        >Baca selanjutnya</a
                       >
-                        {{ date.date }}
-                      </button> -->
+                    </p>
+                    <h4 *ngIf="pro.website_link" class="text-dark">
+                      Maklumat lanjut:
+                      <a [href]="pro.website_link">{{ pro.website_link }}</a>
+                    </h4>
+                    <div>
+                      <div class="row">
+                        <div class="col text-right">
+                          <button
+                            class="btn btn-danger"
+                            (click)="openVideoModal(modalVideo, pro)"
+                            *ngIf="pro.video_link"
+                          >
+                            Lihat
+                          </button>
+                          <button
+                            class="btn btn-default"
+                            (click)="openDefaultModal(modalDefault, pro)"
+                            *ngIf="pro.registration"
+                          >
+                            Daftar
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -122,20 +183,17 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-lg-12">
-        <form class="js-validate">
+        <form class="js-validate" [formGroup]="eduprogramappFormGroup">
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <label class="labels">
-                  Nama penuh <span class="text-danger"> * </span>
-                </label>
+                <label class="labels required-field"> Nama penuh </label>
                 <input
-                  aria-label="Nurul Aiman"
-                  class="form-control"
-                  name="firstName"
-                  placeholder="Nurul Aiman"
-                  required=""
+                  class="form-control text-dark"
+                  placeholder=""
+                  readonly="true"
                   type="text"
+                  formControlName="full_name"
                 />
               </div>
             </div>
@@ -144,27 +202,25 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Alamat emel <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Alamat emel </label>
                   <input
-                    aria-label="thompson@gmail.com"
-                    class="form-control"
-                    name="emailAddress"
-                    placeholder="thompson@gmail.com"
-                    required=""
+                    class="form-control text-dark"
+                    placeholder=""
+                    readonly="true"
                     type="email"
+                    formControlName="email"
                   />
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels"> No. tel </label>
+                  <label class="labels"> Nombor telefon </label>
                   <input
-                    aria-label="+6017666162"
-                    class="form-control"
-                    placeholder="+6017666162"
-                    type="text"
+                    class="form-control text-dark"
+                    placeholder=""
+                    readonly="true"
+                    type="tel"
+                    formControlName="phone"
                   />
                 </div>
               </div>
@@ -172,52 +228,47 @@
             <br />
 
             <div class="row">
-              <div class="col-md-6">
+              <div class="col">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Tarikh <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Tarikh </label>
                   <input
-                    aria-label="date"
-                    class="form-control"
+                    class="form-control text-dark"
                     type="text"
-                    bsDaterangepicker
+                    formControlName="educational_program_date_id"
                     placeholder="Sila pilih tarikh"
+                    bsDatepicker
+                    [datesEnabled]="enabledProgramDates"
                     [bsConfig]="{
                       isAnimated: true,
-                      containerClass: 'theme-red'
+                      containerClass: 'theme-dark-blue',
+                      dateInputFormat: 'YYYY-MM-DD'
                     }"
                   />
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="js-form-message mb-6">
-                  <label class="labels"> Waktu </label>
-                  <input
-                    aria-label="time"
-                    class="form-control"
-                    placeholder="Sila pilih waktu"
-                    type="time"
-                  />
-                </div>
-              </div>
             </div>
             <br />
 
             <div class="row">
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Kategori Organisasi <span class="text-danger"> * </span>
+                  <label class="labels required-field">
+                    Kategori Organisasi
                   </label>
                   <select
                     aria-label="Kategori Organisasi"
-                    class="form-control custom-select"
+                    class="form-control custom-select text-dark"
+                    formControlName="organisation_category"
                   >
-                    <option selected hidden>Sila pilih</option>
-                    <option>Sekolah</option>
-                    <option>Organisasi</option>
-                    <option>Penyelidikan</option>
+                    <option selected hidden value="">Sila pilih</option>
+                    <option
+                      *ngFor="
+                        let organisationcategory of organisationcategories
+                      "
+                      [value]="organisationcategory.value"
+                    >
+                      {{ organisationcategory.display_name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -225,10 +276,11 @@
                 <div class="js-form-message mb-6">
                   <label class="labels"> Nama Organisasi </label>
                   <input
-                    aria-label="Universiti Kuala Lumpur"
-                    class="form-control"
-                    placeholder="Universiti Kuala Lumpur"
+                    aria-label="Nama Organisasi"
+                    class="form-control text-dark"
+                    placeholder="Nama Organisasi"
                     type="text"
+                    formControlName="organisation_name"
                   />
                 </div>
               </div>
@@ -238,51 +290,51 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Bilangan orang <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Bilangan orang </label>
                   <input
                     aria-label="Bilangan orang"
-                    class="form-control"
-                    name="streetAddress"
+                    class="form-control text-dark"
                     placeholder="Bilangan orang"
                     required=""
-                    type="text"
+                    type="number"
+                    formControlName="participant"
                   />
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Umur <span class="text-danger"> * </span>
-                  </label>
+                  <label class="labels required-field"> Umur </label>
                   <input
                     aria-label="Umur"
-                    class="form-control"
-                    name="streetAddress"
+                    class="form-control text-dark"
                     placeholder="Umur"
                     required=""
                     type="number"
+                    formControlName="age"
                   />
                 </div>
               </div>
             </div>
             <br />
 
-            <div class="row">
+            <div class="row" *ngIf="selectedProgram.activity">
               <div class="col-md-12">
                 <div class="js-form-message mb-6">
                   <label class="labels">
-                    Senarai Program <span class="text-danger"> * </span>
+                    Aktiviti <span class="text-danger"> * </span>
                   </label>
                   <select
-                    aria-label="Kategori Organisasi"
-                    class="form-control custom-select"
+                    aria-label="Pilih aktiviti"
+                    class="form-control custom-select text-dark"
+                    formControlName="activity"
                   >
-                    <option selected hidden>Sila pilih</option>
-                    <option>Pertandingan Mewarna</option>
-                    <option>Pertandingan Kuiz</option>
-                    <option>Pertandingan Explorace</option>
+                    <option selected value="">Sila pilih</option>
+                    <option
+                      *ngFor="let programactivity of programactivities"
+                      [value]="programactivity.id"
+                    >
+                      {{ programactivity.program_activity }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -312,9 +364,9 @@
 
 <ng-template #modalReadMore>
   <div class="modal-header">
-    <h6 class="modal-title" id="modal-title-default">
-      {{ selectedProgram.name }}
-    </h6>
+    <h2 class="modal-title" id="modal-title-default">
+      {{ selectedProgram.title }}
+    </h2>
 
     <button
       aria-label="Close"
@@ -330,7 +382,7 @@
   <div class="modal-body">
     <div class="row">
       <div class="col">
-        <p class="text-justify text-dark">{{ selectedProgram.desc }}</p>
+        <p class="text-justify text-dark">{{ selectedProgram.description }}</p>
       </div>
     </div>
   </div>
@@ -349,9 +401,7 @@
 
 <ng-template #modalVideo>
   <div class="modal-header">
-    <h6 class="modal-title" id="modal-title-default">
-      
-    </h6>
+    <h6 class="modal-title" id="modal-title-default"></h6>
 
     <button
       aria-label="Close"
@@ -368,7 +418,7 @@
     <div class="row">
       <div class="col">
         <video width="320" height="240" controls>
-          <source [src]="selectedProgram.video_link" type="video/mp4">
+          <source [src]="selectedProgram.video_link" type="video/mp4" />
         </video>
       </div>
     </div>

@@ -73,7 +73,7 @@
 
   <!-- Page Content -->
   <div class="page-content">
-    <div class="container p-3">
+    <div class="p-5">
       <ng-marquee speed="drowsy">
         <h4 class="title text-dark">
           Pengumuman: Waktu Operasi dari 9.00 pagi - 4.30 petang
@@ -133,7 +133,7 @@
         </p></alert
       > -->
 
-      <h2 class="title text-center">Apa Yang Menarik</h2>
+      <h1 class="title text-center">Apa Yang Menarik</h1>
       <div class="row">
         <div
           class="col-md-3 col-sm-12"
@@ -208,34 +208,24 @@
 
   <!-- Rakan Kerjasama -->
   <h2 class="title text-center">Rakan Kerjasama</h2>
-  <div class="row pb-3">
-    <div class="col text-center">
-      <img src="../../../assets/img/partners/apadilangit.jpg" />
-      <h5 class="title">Apadilangit</h5>
-    </div>
-    <div class="col text-center">
-      <img src="../../../assets/img/partners/falakonline.jpg" />
-      <h5 class="title">Falakonline</h5>
-    </div>
-    <div class="col text-center">
-      <img src="../../../assets/img/partners/gostem.jpg" />
-      <h5 class="title">GoSTEM</h5>
-    </div>
-    <div class="col text-center">
-      <img src="../../../assets/img/partners/kpm.jpg" />
-      <h5 class="title">Kementerian Pendidikan Malaysia</h5>
-    </div>
-    <div class="col text-center">
-      <img src="../../../assets/img/partners/marts.jpg" />
-      <h5 class="title">Malaysian Amateur Radio Transmitters' Society</h5>
-    </div>
-    <div class="col text-center">
-      <img src="../../../assets/img/partners/ukm.jpg" />
-      <h5 class="title">Universiti Kebangsaan Malaysia</h5>
-    </div>
-    <div class="col text-center">
-      <img src="../../../assets/img/partners/um.jpg" />
-      <h5 class="title">Universiti Malaya</h5>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <carousel
+          [itemsPerSlide]="itemsPerSlide"
+          [singleSlideOffset]="false"
+          
+          [interval]="false"
+          [showIndicators]="false"
+        >
+          <slide class="mx-auto" *ngFor="let collaboration of collaborations">
+            <div style="display: block; text-align: center">
+              <img [src]="collaboration.image" style="width: 40%" />
+              <h5 class="title">{{ collaboration.name }}</h5>
+            </div>
+          </slide>
+        </carousel>
+      </div>
     </div>
   </div>
 
@@ -320,7 +310,7 @@
         <div class="col-md-8 col-sm-12">
           <h3 class="title text-center">Nilai perkhidmatan kami</h3>
           <div class="row">
-            <div class="col p-0">
+            <div class="col-md-6 col-sm-12 p-0">
               <bar-rating
                 style="display: flex; justify-content: center"
                 [(rate)]="rate"
@@ -328,7 +318,7 @@
                 [theme]="'smiley'"
               ></bar-rating>
             </div>
-            <div class="col p-0">
+            <div class="col-md-6 col-sm-12 p-0">
               <div style="height: auto">
                 <textarea
                   class="form-control bg-white text-dark"

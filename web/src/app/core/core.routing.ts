@@ -27,6 +27,8 @@ import { ShowsBookComponent } from "./shows-book/shows-book.component";
 import { ExhibitListsComponent } from "./exhibit-lists/exhibit-lists.component";
 import { OperatingHourComponent } from "./operating-hour/operating-hour.component";
 import { DirectoryComponent } from "./directory/directory.component";
+import { ProgramFormsComponent } from "./program-forms/program-forms.component";
+import { FacilityDetailZonesComponent } from "./facility-detail-zones/facility-detail-zones.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -60,7 +62,20 @@ export const CoreRoutes: Routes = [
   },
   {
     path: "facility",
-    component: FacilityComponent,
+    children: [
+      {
+        path: "",
+        component: FacilityComponent,
+      },
+      {
+        path: "details/:id",
+        component: FacilityDetailsComponent,
+      },
+      {
+        path: "details/:id/:zone",
+        component: FacilityDetailZonesComponent,
+      },
+    ],
   },
   {
     path: "payment",
@@ -68,7 +83,16 @@ export const CoreRoutes: Routes = [
   },
   {
     path: "program",
-    component: ProgramComponent,
+    children: [
+      {
+        path: "",
+        component: ProgramComponent,
+      },
+      {
+        path: "forms/:id",
+        component: ProgramFormsComponent,
+      },
+    ],
   },
   {
     path: "publication",
@@ -102,10 +126,6 @@ export const CoreRoutes: Routes = [
   {
     path: "visit",
     component: VisitComponent,
-  },
-  {
-    path: "facility-details/:id",
-    component: FacilityDetailsComponent,
   },
   {
     path: "payment-facility",

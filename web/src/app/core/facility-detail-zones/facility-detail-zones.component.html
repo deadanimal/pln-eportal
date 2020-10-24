@@ -1,0 +1,276 @@
+<div class="wrapper">
+  <div class="section about-description">
+    <img class="path path4" src="assets/img/path4.png" />
+
+    <div class="container pt-5">
+      <div class="row mb-5">
+        <div class="col-md-8 ml-auto mr-auto text-center">
+          <h2 class="title">{{ selectedFacility.display_name }}</h2>
+          <h4 class="description">
+            Tempah {{ selectedFacility.display_name }} untuk pelbagai kegunaan!
+          </h4>
+        </div>
+      </div>
+      <div *ngIf="facilities$ | async as facilities; else loading">
+        <div *ngFor="let facility of facilities">
+          <div class="row">
+            <div class="col-md-8 col-sm-12 ml-auto mr-auto text-center">
+              <ngx-gallery
+                [options]="galleryOptions"
+                [images]="facility.id | facilityImageFilter: facilityimages"
+              ></ngx-gallery>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <h1 class="title">{{ facility.name }}</h1>
+              <p class="description text-justify">
+                {{ facility.description }}
+              </p>
+              <p class="description pt-3">
+                • Kapasiti: {{ facility.max_capacity }} orang
+              </p>
+              <p class="description">• Keluasan: {{ facility.area_size }}</p>
+              <div class="row pt-3">
+                <div class="col text-right">
+                  <a
+                    class="btn btn-info btn-round text-white"
+                    (click)="openDefaultModal(modalDefault, facility)"
+                  >
+                    Tempah sekarang
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #loading>
+        <h1 class="title text-center">Sila tunggu sebentar...</h1>
+      </ng-template>
+      <!-- <div class="row">
+          <div class="col-md-8 ml-auto mr-auto text-center" *ngFor="let facility of facilities$ | async">
+            <ngx-gallery
+              [options]="galleryOptions"
+              [images]="facility.id | facilityImageFilter: facilityimages"
+            ></ngx-gallery>
+          </div>
+          <div class="col-md-4">
+            <h1 class="title">{{ facility.name }}</h1>
+            <p class="description text-justify">{{ facility.description }}</p>
+            <p class="description">• Kapasiti: {{ facility.max_capacity }} orang</p>
+            <p class="description">• Keluasan: {{ facility.area_size }}</p>
+            <div class="row pt-3">
+              <div class="col text-right">
+                <a
+                  class="btn btn-info btn-round text-white"
+                  (click)="openDefaultModal(modalDefault)"
+                >
+                  Tempah sekarang
+                </a>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      <!-- <div *ngIf="facility.places">
+          <div class="row pb-5" *ngFor="let place of facility.places">
+            <div class="col-md-8 ml-auto mr-auto text-center">
+              <ngx-gallery
+                [options]="galleryOptions"
+                [images]="place.images"
+              ></ngx-gallery>
+            </div>
+            <div class="col-md-4">
+              <h1 class="title">{{ place.name }}</h1>
+              <p class="description text-justify">{{ place.desc }}</p>
+              <p class="description">• Kapasiti: {{ place.capacity }}</p>
+              <p class="description">• Keluasan: {{ place.area }}</p>
+              <div class="row">
+                <div class="col-md-12 col-sm-8 mb-3">
+                  <a
+                    class="btn btn-info btn-round text-white"
+                    (click)="openDefaultModal(modalDefault)"
+                  >
+                    Tempah sekarang
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+    </div>
+  </div>
+</div>
+
+<ng-template #modalDefault>
+  <div class="modal-header justify-content-center">
+    <button
+      aria-hidden="true"
+      class="close"
+      data-dismiss="modal"
+      (click)="defaultModal.hide()"
+      type="button"
+    >
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
+    </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0">Tempahan</h3>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <form class="js-validate" [formGroup]="facilitybookingFormGroup">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="labels required-field"> Nama penuh </label>
+                <input
+                  class="form-control text-dark"
+                  placeholder=""
+                  readonly=""
+                  type="text"
+                  formControlName="full_name"
+                />
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field"> Alamat emel </label>
+                  <input
+                    class="form-control text-dark"
+                    placeholder=""
+                    readonly=""
+                    type="email"
+                    formControlName="email"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels"> Nombor telefon </label>
+                  <input
+                    class="form-control text-dark"
+                    placeholder=""
+                    readonly="true"
+                    type="tel"
+                    formControlName="phone"
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field"> Bilangan orang </label>
+                  <input
+                    aria-label="Bilangan orang"
+                    class="form-control text-dark"
+                    placeholder="Bilangan orang"
+                    type="number"
+                    formControlName="number_of_people"
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field">
+                    Kategori Organisasi
+                  </label>
+                  <select
+                    class="form-control custom-select text-dark"
+                    formControlName="organisation_category"
+                  >
+                    <option selected value="">Sila pilih</option>
+                    <option
+                      *ngFor="
+                        let organisationcategory of organisationcategories
+                      "
+                      [value]="organisationcategory.value"
+                    >
+                      {{ organisationcategory.display_name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field"> Nama Organisasi </label>
+                  <input
+                    aria-label="Nama organisasi"
+                    class="form-control text-dark"
+                    placeholder="Nama organisasi"
+                    type="text"
+                    formControlName="organisation_name"
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field"> Tarikh </label>
+                  <input
+                    class="form-control text-dark"
+                    required=""
+                    type="date"
+                    formControlName="booking_date"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field"> Waktu </label>
+                  <select
+                    class="form-control text-dark"
+                    formControlName="booking_days"
+                  >
+                    <option value="">Sila pilih</option>
+                    <option
+                      *ngFor="let bookingday of bookingdays"
+                      [value]="bookingday.value"
+                    >
+                      {{ bookingday.display_name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="openAfterBooking()"
+      [disabled]="!facilitybookingFormGroup.valid"
+    >
+      Buat tempahan
+    </button>
+
+    <button
+      class="btn btn-link ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="defaultModal.hide()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>

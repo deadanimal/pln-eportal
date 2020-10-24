@@ -61,6 +61,11 @@ import { ShowsBookComponent } from "./shows-book/shows-book.component";
 import { ExhibitListsComponent } from "./exhibit-lists/exhibit-lists.component";
 import { DirectoryComponent } from "./directory/directory.component";
 import { OperatingHourComponent } from "./operating-hour/operating-hour.component";
+import { ProgramFilterPipe } from '../shared/pipes/program/program-filter.pipe';
+import { ProgramImageFilterPipe } from '../shared/pipes/program/program-image-filter.pipe';
+import { ProgramFormsComponent } from './program-forms/program-forms.component';
+import { FacilityImageFilterPipe } from '../shared/pipes/facility/facility-image-filter.pipe';
+import { FacilityDetailZonesComponent } from './facility-detail-zones/facility-detail-zones.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +97,11 @@ import { OperatingHourComponent } from "./operating-hour/operating-hour.componen
     ExhibitListsComponent,
     DirectoryComponent,
     OperatingHourComponent,
+    ProgramFilterPipe,
+    ProgramImageFilterPipe,
+    ProgramFormsComponent,
+    FacilityImageFilterPipe,
+    FacilityDetailZonesComponent,
   ],
   imports: [
     CommonModule,

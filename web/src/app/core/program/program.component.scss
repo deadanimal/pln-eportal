@@ -5,3 +5,12 @@
 .section {
   padding: 1px 0;
 }
+
+.required-field::after {
+  content: " *";
+  color: red;
+}
+
+.form-control[readonly] {
+  background-color: #e9ecef !important;
+}

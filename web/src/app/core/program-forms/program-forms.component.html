@@ -1,0 +1,921 @@
+<div class="wrapper">
+  <div class="page-header page-header-small header-filter">
+    <carousel>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+    </carousel>
+  </div>
+  <div class="main main-raised">
+    <div class="section team-4">
+      <div>
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <mat-horizontal-stepper [linear]="true" #stepper>
+              <mat-step [stepControl]="firstFormGroup">
+                <ng-template matStepLabel>Maklumat Guru</ng-template>
+                <form [formGroup]="firstFormGroup">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Nama</label>
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="teacher_name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label">Nama Sekolah</label>
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="teacher_school_name"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Alamat Sekolah</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="teacher_school_address"
+                          />
+                        </div>
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label class="form-control-label">Poskod</label>
+                              <input
+                                type="number"
+                                class="form-control text-dark"
+                                formControlName="teacher_school_postcode"
+                              />
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label class="form-control-label">Daerah</label>
+                              <input
+                                type="text"
+                                class="form-control text-dark"
+                                formControlName="teacher_school_division"
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label class="form-control-label">Negeri</label>
+                              <input
+                                type="text"
+                                class="form-control text-dark"
+                                formControlName="teacher_school_state"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Telefon</label
+                          >
+                          <input
+                            type="tel"
+                            class="form-control text-dark"
+                            formControlName="teacher_tel"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Telefon Bimbit</label
+                          >
+                          <input
+                            type="tel"
+                            class="form-control text-dark"
+                            formControlName="teacher_hp"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label">Alamat Emel</label>
+                          <input
+                            type="email"
+                            class="form-control text-dark"
+                            formControlName="teacher_email"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label">Nombor Fax</label>
+                          <input
+                            type="tel"
+                            class="form-control text-dark"
+                            formControlName="teacher_fax"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Tarikh Lahir</label>
+                          <input
+                            type="date"
+                            class="form-control text-dark"
+                            formControlName="teacher_dob"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Umur</label>
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="teacher_age"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Jantina</label
+                          ><br />
+                          <div
+                            *ngFor="let gender of genders"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="gender.value"
+                                formControlName="teacher_gender"
+                              />
+                              {{ gender.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Kad Pengenalan / Pasport</label
+                          >
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="teacher_nric_passportno"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Status Perkahwinan</label
+                          ><br />
+                          <div
+                            *ngFor="let maritalstatus of maritalstatuses"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="maritalstatus.value"
+                                formControlName="teacher_maritalstatus"
+                              />
+                              {{ maritalstatus.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Agama</label><br />
+                          <select
+                            class="form-control text-dark"
+                            formControlName="teacher_religion"
+                          >
+                            <option value="">Sila pilih</option>
+                            <option
+                              *ngFor="let religion of religions"
+                              [value]="religion.value"
+                            >
+                              {{ religion.display_name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Saiz Baju T-shirt</label
+                          ><br />
+                          <div
+                            *ngFor="let tshirtsize of tshirtsizes"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="tshirtsize.value"
+                                formControlName="teacher_tshirt_size"
+                              />
+                              {{ tshirtsize.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Warganegara</label
+                          ><br />
+                          <div
+                            *ngFor="let citizenship of citizenships"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="citizenship.value"
+                                formControlName="teacher_citizenship"
+                              />
+                              {{ citizenship.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Orang yang dihubungi sekiranya berlaku
+                            kecemasan</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="teacher_contactperson_name"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Telefon</label
+                          >
+                          <input
+                            type="tel"
+                            class="form-control text-dark"
+                            formControlName="teacher_contactperson_tel"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Ada alahan atau makanan yang tidak boleh anda
+                            makan?</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="teacher_anyallergies"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Sebarang penyakit dan / atau ubat</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="teacher_anysickness"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Vegetarian</label
+                          ><br />
+                          <div
+                            *ngFor="let truefalse of truefalses"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="truefalse.value"
+                                formControlName="teacher_vegetarian"
+                              />
+                              {{ truefalse.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pt-3 text-center">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      matStepperNext
+                      [disabled]="!firstFormGroup.valid"
+                    >
+                      Seterusnya
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="secondFormGroup">
+                <ng-template matStepLabel>Maklumat Pelajar (1)</ng-template>
+                <form [formGroup]="secondFormGroup">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Nama</label>
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_1_name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Tarikh Lahir</label>
+                          <input
+                            type="date"
+                            class="form-control text-dark"
+                            formControlName="student_1_dob"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Umur</label>
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="student_1_age"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Tahun</label>
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="student_1_year"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Jantina</label
+                          ><br />
+                          <div
+                            *ngFor="let gender of genders"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="gender.value"
+                                formControlName="student_1_gender"
+                              />
+                              {{ gender.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Kad Pengenalan / Pasport</label
+                          >
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="student_1_nric_passportno"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Agama</label>
+                          <select
+                            class="form-control text-dark"
+                            formControlName="student_1_religion"
+                          >
+                            <option value="">Sila pilih</option>
+                            <option
+                              *ngFor="let religion of religions"
+                              [value]="religion.value"
+                            >
+                              {{ religion.display_name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Warganegara</label
+                          ><br />
+                          <div
+                            *ngFor="let citizenship of citizenships"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="citizenship.value"
+                                formControlName="student_1_citizenship"
+                              />
+                              {{ citizenship.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Saiz Baju T-shirt</label
+                          ><br />
+                          <div
+                            *ngFor="let tshirtsize of tshirtsizes"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="tshirtsize.value"
+                                formControlName="student_1_tshirt_size"
+                              />
+                              {{ tshirtsize.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Orang yang dihubungi sekiranya berlaku
+                            kecemasan</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_1_contactperson_name"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Telefon</label
+                          >
+                          <input
+                            type="tel"
+                            class="form-control text-dark"
+                            formControlName="student_1_contactperson_tel"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Ada alahan atau makanan yang tidak boleh anda
+                            makan?</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_1_anyallergies"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Sebarang penyakit dan / atau ubat</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_1_anysickness"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Vegetarian</label
+                          ><br />
+                          <div
+                            *ngFor="let truefalse of truefalses"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="truefalse.value"
+                                formControlName="student_1_vegetarian"
+                              />
+                              {{ truefalse.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pt-3 text-center">
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      matStepperPrevious
+                    >
+                      Kembali
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      matStepperNext
+                      [disabled]="!secondFormGroup.valid"
+                    >
+                      Seterusnya
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="thirdFormGroup">
+                <ng-template matStepLabel>Maklumat Pelajar (2)</ng-template>
+                <form [formGroup]="thirdFormGroup">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Nama</label>
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_2_name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Tarikh Lahir</label>
+                          <input
+                            type="date"
+                            class="form-control text-dark"
+                            formControlName="student_2_dob"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Umur</label>
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="student_2_age"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Tahun</label>
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="student_2_year"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Jantina</label
+                          ><br />
+                          <div
+                            *ngFor="let gender of genders"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="gender.value"
+                                formControlName="student_2_gender"
+                              />
+                              {{ gender.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Kad Pengenalan / Pasport</label
+                          >
+                          <input
+                            type="number"
+                            class="form-control text-dark"
+                            formControlName="student_2_nric_passportno"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Agama</label>
+                          <select
+                            class="form-control text-dark"
+                            formControlName="student_2_religion"
+                          >
+                            <option value="">Sila pilih</option>
+                            <option
+                              *ngFor="let religion of religions"
+                              [value]="religion.value"
+                            >
+                              {{ religion.display_name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label">Warganegara</label
+                          ><br />
+                          <div
+                            *ngFor="let citizenship of citizenships"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="citizenship.value"
+                                formControlName="student_2_citizenship"
+                              />
+                              {{ citizenship.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Saiz Baju T-shirt</label
+                          ><br />
+                          <div
+                            *ngFor="let tshirtsize of tshirtsizes"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="tshirtsize.value"
+                                formControlName="student_2_tshirt_size"
+                              />
+                              {{ tshirtsize.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Orang yang dihubungi sekiranya berlaku
+                            kecemasan</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_2_contactperson_name"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Nombor Telefon</label
+                          >
+                          <input
+                            type="tel"
+                            class="form-control text-dark"
+                            formControlName="student_2_contactperson_tel"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Ada alahan atau makanan yang tidak boleh anda
+                            makan?</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_2_anyallergies"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label"
+                            >Sebarang penyakit dan / atau ubat</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control text-dark"
+                            formControlName="student_2_anysickness"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="form-control-label required-field"
+                            >Vegetarian</label
+                          ><br />
+                          <div
+                            *ngFor="let truefalse of truefalses"
+                            class="form-check form-check-radio form-check-inline"
+                          >
+                            <label class="form-check-label text-dark">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                [value]="truefalse.value"
+                                formControlName="student_2_vegetarian"
+                              />
+                              {{ truefalse.display_name }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="pt-3 text-center">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    matStepperPrevious
+                  >
+                    Kembali
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    matStepperNext
+                    [disabled]="!thirdFormGroup.valid"
+                  >
+                    Seterusnya
+                  </button>
+                </div>
+              </mat-step>
+              <mat-step [stepControl]="fourthFormGroup">
+                <ng-template matStepLabel>Pengesahan</ng-template>
+                <form [formGroup]="fourthFormGroup">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col">
+                        <p
+                          class="text-justify text-dark"
+                          style="font-size: 20px"
+                        >
+                          Saya menegaskan bahawa semua pernyataan yang dibuat
+                          pada borang ini adalah betul. Saya faham bahawa
+                          sebarang maklumat yang tidak tepat atau salah atau
+                          ketinggalan maklumat material akan menjadikan
+                          penyertaan ini tidak sah dan bahawa, jika mengakui
+                          pertandingan berdasarkan maklumat tersebut, pencalonan
+                          pasukan saya dapat ditamatkan.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col text-center">
+                        <div class="form-check">
+                          <label class="form-check-label text-dark">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              formControlName="accept"
+                            />
+                            Saya setuju dengan pernyataan di atas.
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pt-3 text-center">
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      matStepperPrevious
+                    >
+                      Kembali
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      (click)="submitEntry()"
+                      [disabled]="!fourthFormGroup.valid"
+                    >
+                      Hantar Penyertaan
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
+            </mat-horizontal-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,15 +19,22 @@ export class LandingComponent implements OnInit {
   totalyear: number = 590;
   totalall: number = 3098;
 
+  // Modal
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
+  // Carousel
+  itemsPerSlide = 5;
+  singleSlideOffset = true;
+  noWrap = false;
+
+  // Data
   interestings = [
     {
-      title: "PAMERAN SAINS ANGKASA",
+      title: "PAMERAN SAINS",
       description:
         "Pameran ini memberikan peluang kepada pelawat meneroka bahan pameran interaktif dan mencipta sendiri pengalaman pembelajaran yang unik. Ia menggalakkan interaksi di kalangan pelawat pada semua peringkat usia.",
       img: "../../../assets/home/peneroka-angkasa.jpg",
@@ -53,8 +60,38 @@ export class LandingComponent implements OnInit {
   ];
   interesting = {
     title: "",
-    description: ""
+    description: "",
   };
+  collaborations = [
+    {
+      image: "../../../assets/img/partners/apadilangit.jpg",
+      name: "Apadilangit",
+    },
+    {
+      image: "../../../assets/img/partners/falakonline.jpg",
+      name: "Falakonline",
+    },
+    {
+      image: "../../../assets/img/partners/gostem.jpg",
+      name: "GoSTEM",
+    },
+    {
+      image: "../../../assets/img/partners/kpm.jpg",
+      name: "Kementerian Pendidikan Malaysia",
+    },
+    {
+      image: "../../../assets/img/partners/marts.jpg",
+      name: "Malaysian Amateur Radio Transmitters' Society",
+    },
+    {
+      image: "../../../assets/img/partners/ukm.jpg",
+      name: "Universiti Kebangsaan Malaysia",
+    },
+    {
+      image: "../../../assets/img/partners/um.jpg",
+      name: "Universiti Malaya",
+    },
+  ];
 
   constructor(public modalService: BsModalService) {}
 

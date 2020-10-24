@@ -43,6 +43,10 @@ export class NavbarComponent implements OnInit {
   loginModal: BsModalRef;
   registerModal: BsModalRef;
   forgotPasswordModal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog",
+  };
 
   // Dropdown
   races = [
@@ -277,7 +281,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openLoginModal(template: TemplateRef<any>) {
-    this.loginModal = this.modalService.show(template);
+    this.loginModal = this.modalService.show(template, this.modalConfig);
   }
 
   closeLoginModal() {
@@ -286,7 +290,7 @@ export class NavbarComponent implements OnInit {
 
   openForgotPasswordModal(template: TemplateRef<any>) {
     this.closeLoginModal();
-    this.forgotPasswordModal = this.modalService.show(template);
+    this.forgotPasswordModal = this.modalService.show(template, this.modalConfig);
   }
 
   closeForgotPasswordModal() {
@@ -294,7 +298,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openRegisterModal(template: TemplateRef<any>) {
-    this.registerModal = this.modalService.show(template);
+    this.registerModal = this.modalService.show(template, this.modalConfig);
   }
 
   closeRegisterModal() {

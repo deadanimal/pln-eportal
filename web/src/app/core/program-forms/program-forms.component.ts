@@ -1,0 +1,307 @@
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import swal from "sweetalert2";
+
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { EducationalProgramFormsService } from "src/app/shared/services/educational-program-forms/educational-program-forms.service";
+import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
+
+@Component({
+  selector: "app-program-forms",
+  templateUrl: "./program-forms.component.html",
+  styleUrls: ["./program-forms.component.scss"],
+})
+export class ProgramFormsComponent implements OnInit {
+  // FormGroup
+  zeroFormGroup: FormGroup;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+  fourthFormGroup: FormGroup;
+
+  // Data
+  program_id: string;
+  program = [];
+
+  // Dropdown
+  religions = [
+    {
+      value: "IS",
+      display_name: "Islam",
+    },
+    {
+      value: "HD",
+      display_name: "Hindu",
+    },
+    {
+      value: "BD",
+      display_name: "Buddha",
+    },
+    {
+      value: "CT",
+      display_name: "Christian",
+    },
+    {
+      value: "OT",
+      display_name: "Other",
+    },
+  ];
+  genders = [
+    {
+      value: "FM",
+      display_name: "Perempuan",
+    },
+    {
+      value: "ML",
+      display_name: "Lelaki",
+    },
+  ];
+  citizenships = [
+    {
+      value: "CZ",
+      display_name: "Warganegara",
+    },
+    {
+      value: "NC",
+      display_name: "Bukan Warganegara",
+    },
+  ];
+  maritalstatuses = [
+    {
+      value: "S",
+      display_name: "Bujang",
+    },
+    {
+      value: "M",
+      display_name: "Kahwin",
+    },
+  ];
+  tshirtsizes = [
+    {
+      value: "S",
+      display_name: "S",
+    },
+    {
+      value: "M",
+      display_name: "M",
+    },
+    {
+      value: "L",
+      display_name: "L",
+    },
+    {
+      value: "XL",
+      display_name: "XL",
+    },
+    {
+      value: "2XL",
+      display_name: "2XL",
+    },
+    {
+      value: "3XL",
+      display_name: "3XL",
+    },
+  ];
+  truefalses = [
+    {
+      value: "true",
+      display_name: "Ya",
+    },
+    {
+      value: "false",
+      display_name: "Tidak",
+    },
+  ];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+    private eduprogramService: EducationalProgramsService,
+    private eduprogramformService: EducationalProgramFormsService
+  ) {
+    this.zeroFormGroup = this.formBuilder.group({
+      educational_program_id: new FormControl(""),
+      customer_id: new FormControl(""),
+      status: new FormControl("IP"),
+    });
+
+    this.firstFormGroup = this.formBuilder.group({
+      teacher_name: new FormControl(""),
+      teacher_school_name: new FormControl(""),
+      teacher_school_address: new FormControl(""),
+      teacher_school_postcode: new FormControl(""),
+      teacher_school_division: new FormControl(""),
+      teacher_school_state: new FormControl(""),
+      teacher_tel: new FormControl(""),
+      teacher_hp: new FormControl(""),
+      teacher_email: new FormControl(""),
+      teacher_fax: new FormControl(""),
+      teacher_dob: new FormControl(""),
+      teacher_age: new FormControl(""),
+      teacher_religion: new FormControl(""),
+      teacher_gender: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_citizenship: new FormControl(""),
+      teacher_nric_passportno: new FormControl(""),
+      teacher_maritalstatus: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_tshirt_size: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_contactperson_name: new FormControl(""),
+      teacher_contactperson_tel: new FormControl(""),
+      teacher_anysickness: new FormControl(""),
+      teacher_anyallergies: new FormControl(""),
+      teacher_vegetarian: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+
+    this.secondFormGroup = this.formBuilder.group({
+      student_1_name: new FormControl(""),
+      student_1_dob: new FormControl(""),
+      student_1_age: new FormControl(""),
+      student_1_year: new FormControl(""),
+      student_1_religion: new FormControl(""),
+      student_1_gender: new FormControl(""),
+      student_1_citizenship: new FormControl(""),
+      student_1_nric_passportno: new FormControl(""),
+      student_1_tshirt_size: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_contactperson_name: new FormControl(""),
+      student_1_contactperson_tel: new FormControl(""),
+      student_1_anysickness: new FormControl(""),
+      student_1_anyallergies: new FormControl(""),
+      student_1_vegetarian: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+
+    this.thirdFormGroup = this.formBuilder.group({
+      student_2_name: new FormControl(""),
+      student_2_dob: new FormControl(""),
+      student_2_age: new FormControl(""),
+      student_2_year: new FormControl(""),
+      student_2_religion: new FormControl(""),
+      student_2_gender: new FormControl(""),
+      student_2_citizenship: new FormControl(""),
+      student_2_nric_passportno: new FormControl(""),
+      student_2_tshirt_size: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_contactperson_name: new FormControl(""),
+      student_2_contactperson_tel: new FormControl(""),
+      student_2_anysickness: new FormControl(""),
+      student_2_anyallergies: new FormControl(""),
+      student_2_vegetarian: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+
+    this.fourthFormGroup = this.formBuilder.group({
+      accept: new FormControl(
+        false,
+        Validators.compose([Validators.requiredTrue])
+      ),
+    });
+
+    this.program_id = this.route.snapshot.paramMap.get("id");
+    if (this.program_id) this.getProgram();
+  }
+
+  getProgram() {
+    this.eduprogramService.filter("id=" + this.program_id).subscribe(
+      (res) => {
+        console.log("res", res);
+        this.program = res;
+        this.zeroFormGroup.patchValue({
+          educational_program_id: this.program[0].id,
+          customer_id: this.authService.decodedToken().user_id,
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  ngOnInit() {}
+
+  submitEntry() {
+    this.firstFormGroup.value.teacher_dob = this.formatDate(
+      this.firstFormGroup.value.teacher_dob
+    );
+    this.secondFormGroup.value.student_1_dob = this.formatDate(
+      this.secondFormGroup.value.student_1_dob
+    );
+    this.thirdFormGroup.value.student_2_dob = this.formatDate(
+      this.thirdFormGroup.value.student_2_dob
+    );
+
+    let postArray = {
+      ...this.zeroFormGroup.value,
+      ...this.firstFormGroup.value,
+      ...this.secondFormGroup.value,
+      ...this.thirdFormGroup.value,
+    };
+    console.log("postArray", postArray);
+
+    this.eduprogramformService.create(postArray).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            icon: "success",
+            title: "Terima kasih",
+            text:
+              "Pihak kami akan memberi maklum balas terhadap permohonan tersebut dalam masa 3 hari bekerja",
+            buttonsStyling: false,
+            confirmButtonText: "Tutup",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              this.router.navigate(["/program"]);
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  formatDate(date) {
+    let selectedDate = date;
+    let year = selectedDate.getFullYear();
+    let month = selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
+
+    return formatDate;
+  }
+}

@@ -1,0 +1,8 @@
+.required-field::after {
+  content: " *";
+  color: red;
+}
+
+.section {
+  padding: 0px 0;
+}

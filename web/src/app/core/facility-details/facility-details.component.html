@@ -2,30 +2,93 @@
   <div class="section about-description">
     <img class="path path4" src="assets/img/path4.png" />
 
-    <div class="container">
+    <div class="container pt-5">
       <div class="row mb-5">
         <div class="col-md-8 ml-auto mr-auto text-center">
-          <h2 class="title">{{ facility.name }}</h2>
+          <h2 class="title">{{ selectedFacility.display_name }}</h2>
           <h4 class="description">
-            Tempah {{ facility.name }} untuk pelbagai kegunaan!
+            Tempah {{ selectedFacility.display_name }} untuk pelbagai kegunaan!
           </h4>
         </div>
       </div>
-      <div class="row" *ngIf="facility.images">
-        <div class="col-md-8 ml-auto mr-auto text-center">
-          <!-- <img alt="First slide" class="d-block" src="assets/img/background/facility-2.jpg" /> -->
+      <div *ngIf="facilities$ | async as facilities; else loading">
+        <div *ngFor="let facility of facilities">
+          <!-- Tanpa sub-kategori -->
+          <div *ngIf="facility.facility_subcategory == 'NA'">
+            <div class="row">
+              <div class="col-md-8 col-sm-12 ml-auto mr-auto text-center">
+                <ngx-gallery
+                  [options]="galleryOptions"
+                  [images]="facility.id | facilityImageFilter: facilityimages"
+                ></ngx-gallery>
+              </div>
+              <div class="col-md-4 col-sm-12">
+                <h1 class="title">{{ facility.name }}</h1>
+                <p class="description text-justify">
+                  {{ facility.description }}
+                </p>
+                <p class="description pt-3">
+                  • Kapasiti: {{ facility.max_capacity }} orang
+                </p>
+                <p class="description">• Keluasan: {{ facility.area_size }}</p>
+                <div class="row pt-3">
+                  <div class="col text-right">
+                    <a
+                      class="btn btn-info btn-round text-white"
+                      (click)="openDefaultModal(modalDefault, facility)"
+                    >
+                      Tempah sekarang
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Dengan sub-kategori -->
+      <div class="row" *ngIf="selectedFacility.have_subcategory">
+        <div
+          class="col"
+          *ngFor="let facilitysubcategory of facilitysubcategories"
+        >
+          <div class="card">
+            <!-- <img class="card-img-top" [src]="" /> -->
+            <div class="card-body text-center">
+              <h2 class="card-title title text-uppercase">
+                {{ facilitysubcategory.display_name }}
+              </h2>
+            </div>
+            <div class="card-footer text-center p-3">
+              <button
+                class="btn btn-sm btn-info"
+                (click)="
+                  openFacilityDetailZone(selectedFacility, facilitysubcategory)
+                "
+              >
+                Info
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #loading>
+        <h1 class="title text-center">Sila tunggu sebentar...</h1>
+      </ng-template>
+      <!-- <div class="row">
+        <div class="col-md-8 ml-auto mr-auto text-center" *ngFor="let facility of facilities$ | async">
           <ngx-gallery
             [options]="galleryOptions"
-            [images]="facility.images"
+            [images]="facility.id | facilityImageFilter: facilityimages"
           ></ngx-gallery>
         </div>
         <div class="col-md-4">
           <h1 class="title">{{ facility.name }}</h1>
-          <p class="description text-justify">{{ facility.desc }}</p>
-          <p class="description">• Kapasiti: {{ facility.capacity }}</p>
-          <p class="description">• Keluasan: {{ facility.area }}</p>
-          <div class="row">
-            <div class="col-md-12 col-sm-8 mb-3">
+          <p class="description text-justify">{{ facility.description }}</p>
+          <p class="description">• Kapasiti: {{ facility.max_capacity }} orang</p>
+          <p class="description">• Keluasan: {{ facility.area_size }}</p>
+          <div class="row pt-3">
+            <div class="col text-right">
               <a
                 class="btn btn-info btn-round text-white"
                 (click)="openDefaultModal(modalDefault)"
@@ -35,11 +98,10 @@
             </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="facility.places">
+      </div> -->
+      <!-- <div *ngIf="facility.places">
         <div class="row pb-5" *ngFor="let place of facility.places">
           <div class="col-md-8 ml-auto mr-auto text-center">
-            <!-- <img alt="First slide" class="d-block" src="assets/img/background/facility-2.jpg" /> -->
             <ngx-gallery
               [options]="galleryOptions"
               [images]="place.images"
@@ -62,51 +124,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
-  <!-- <div class="section about-pricing pt-0">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-5 col-md-10 col-12 mx-auto">
-          <h1 class="title">Maklumat Fasiliti</h1>
-          <p class="description">• Kapasiti maksima 80 orang</p>
-          <p class="description">• Aktiviti pelajar sekolah</p>
-          <p class="description">• Sambutan majlis</p>
-          <div class="row">
-            <div class="col-md-12 col-sm-8 mb-3">
-              <a
-                class="btn btn-info btn-round text-white"
-                (click)="openDefaultModal(modalDefault)"
-              >
-                Tempah sekarang
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-12 ml-auto">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="card card-pricing">
-                <img
-                  class="d-block"
-                  src="assets/img/background/facility-3.jpg"
-                />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card card-pricing">
-                <img
-                  class="d-block"
-                  src="assets/img/background/facility-4.jpg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>
 
 <ng-template #modalDefault>
@@ -180,7 +200,7 @@
                     aria-label="Bilangan orang"
                     class="form-control text-dark"
                     placeholder="Bilangan orang"
-                    type="text"
+                    type="number"
                     formControlName="number_of_people"
                   />
                 </div>
@@ -241,12 +261,18 @@
               <div class="col-md-6">
                 <div class="js-form-message mb-6">
                   <label class="labels required-field"> Waktu </label>
-                  <input
+                  <select
                     class="form-control text-dark"
-                    required=""
-                    type="time"
-                    formControlName="booking_time"
-                  />
+                    formControlName="booking_days"
+                  >
+                    <option value="">Sila pilih</option>
+                    <option
+                      *ngFor="let bookingday of bookingdays"
+                      [value]="bookingday.value"
+                    >
+                      {{ bookingday.display_name }}
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
