@@ -14,6 +14,7 @@ from .models import (
     Exhibit,
     ExhibitList,
     ExhibitDetail,
+    ExhibitDetailImage,
     EducationalProgram,
     EducationalProgramDate,
     EducationalProgramImage,
@@ -30,6 +31,8 @@ from .serializers import (
     ExhibitListExtendedSerializer,
     ExhibitDetailSerializer,
     ExhibitDetailExtendedSerializer,
+    ExhibitDetailImageSerializer,
+    ExhibitDetailImageExtendedSerializer,
     EducationalProgramSerializer,
     EducationalProgramExtendedSerializer,
     EducationalProgramDateSerializer,
@@ -48,6 +51,7 @@ class ExhibitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = ExhibitSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
+        'id',
         'zone',
         'pic_id', 
         'asset_id', 
@@ -81,6 +85,8 @@ class ExhibitListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = ExhibitListSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
+        'id',
+        'exhibit_id',
         'name',
         'status', 
         'created_date'
@@ -114,6 +120,7 @@ class ExhibitDetailViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'name',
         'description', 
+        'exhibit_list_id',
         'status', 
         'created_date'
     ]
@@ -136,6 +143,37 @@ class ExhibitDetailViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         queryset = ExhibitDetail.objects.all()
         serializer_class = ExhibitDetailExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
+
+
+class ExhibitDetailImageViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = ExhibitDetailImage.objects.all()
+    serializer_class = ExhibitDetailImageSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'exhibit_detail_id',
+        'created_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = ExhibitDetailImage.objects.all()
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = ExhibitDetailImage.objects.all()
+        serializer_class = ExhibitDetailImageExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)
 

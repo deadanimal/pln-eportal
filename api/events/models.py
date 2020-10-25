@@ -39,7 +39,7 @@ class Exhibit(models.Model):
     ]
     zone = models.CharField(max_length=1, choices=ZONES, default='N', unique=True)
 
-    asset_id = models.ManyToManyField(Asset, related_name='exhibit_asset')
+    asset_id = models.ManyToManyField(Asset, related_name='exhibit_asset', blank=True)
     qrcode = models.CharField(max_length=255, default='NA')
 
     STATUS = [
@@ -85,8 +85,8 @@ class ExhibitDetail(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     name = models.CharField(max_length=255, default='NA')
-    description = models.CharField(max_length=255, default='NA')
-    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
+    description = models.TextField(blank=True)
+    # image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
     video_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('video'))
     venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_detail_venue')
     qrcode = models.CharField(max_length=255, default='NA')
@@ -96,7 +96,7 @@ class ExhibitDetail(models.Model):
         ('NA', 'Not Available')
     ]
     status = models.CharField(max_length=2, choices=STATUS, default='AV')
-    exhibit_list_id = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='exhibit_detail_exhibit_list_id')
+    exhibit_list_id = models.ForeignKey(ExhibitList, on_delete=models.CASCADE, related_name='exhibit_detail_exhibit_list_id')
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
@@ -106,6 +106,22 @@ class ExhibitDetail(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ExhibitDetailImage(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    exhibit_detail_image = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
+    exhibit_detail_id = models.ForeignKey(ExhibitDetail, on_delete=models.CASCADE, related_name='exhibit_detail_image_exhibit_detail')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    # def __str__(self):
+    #     return self.exhibit_detail_image
 
 
 class EducationalProgram(models.Model):
@@ -377,7 +393,8 @@ class VisitApplication(models.Model):
     visit_time = models.TimeField(null=True)
     total_participant = models.IntegerField(default=0)
     customer_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='visit_customer')
-    pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='visit_pic')
+    pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='visit_pic', null=True)
+    tour_guide = models.BooleanField(default=False)
 
     STATUS = [
         ('AP', 'Approved'),
