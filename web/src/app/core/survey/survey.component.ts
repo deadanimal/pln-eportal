@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
+import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { SurveyAnswersService } from "src/app/shared/services/survey-answers/survey-answers.service";
 import { SurveyQuestionsService } from "src/app/shared/services/survey-questions/survey-questions.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -71,10 +72,6 @@ export class SurveyComponent implements OnInit {
       value: "M08",
       display_name: "Fasiliti",
     },
-    {
-      value: "NAV",
-      display_name: "Not Available",
-    },
   ];
 
   constructor(
@@ -82,6 +79,7 @@ export class SurveyComponent implements OnInit {
     private modalService: BsModalService,
     private authService: AuthService,
     private feedbackService: FeedbacksService,
+    private jwtService: JwtService,
     private surveyanswerService: SurveyAnswersService,
     private surveyquestionService: SurveyQuestionsService,
     private userService: UsersService
@@ -95,18 +93,24 @@ export class SurveyComponent implements OnInit {
       user_id: ["", Validators.required],
     });
 
-    this.userService.get(this.authService.decodedToken().user_id).subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.feedbackFormGroup.patchValue({
-          full_name: res.full_name,
-          email: res.email,
-        });
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
+    this.getUser();
+  }
+
+  getUser() {
+    if (this.jwtService.getToken("accessToken")) {
+      this.userService.get(this.authService.decodedToken().user_id).subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.feedbackFormGroup.patchValue({
+            full_name: res.full_name,
+            email: res.email,
+          });
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
   }
 
   ngOnInit() {}
@@ -122,26 +126,24 @@ export class SurveyComponent implements OnInit {
     this.module_code = module_code;
 
     if (this.typeQuestion == "soalselidik") {
-      this.surveyquestionService
-        .filter("questionnaire_module=" + this.module_code)
-        .subscribe(
-          (res) => {
-            // console.log("res", res);
-            this.surveyquestions = res;
-            let group = {};
-            res.forEach((question) => {
-              if (question.questionnaire_type == "CB") {
-                group[question.questionnaire_fieldname] = new FormControl("");
-              } else
-                group[question.questionnaire_fieldname] = new FormControl("");
-            });
-            this.surveyFormGroup = new FormGroup(group);
-            console.log(this.surveyFormGroup);
-          },
-          (err) => {
-            console.error("err", err);
-          }
-        );
+      this.surveyquestionService.get().subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.surveyquestions = res;
+          let group = {};
+          res.forEach((question) => {
+            if (question.questionnaire_type == "CB") {
+              group[question.questionnaire_fieldname] = new FormControl("");
+            } else
+              group[question.questionnaire_fieldname] = new FormControl("");
+          });
+          this.surveyFormGroup = new FormGroup(group);
+          console.log(this.surveyFormGroup);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
     }
   }
 
@@ -155,6 +157,10 @@ export class SurveyComponent implements OnInit {
     }
 
     console.log("surveyFormGroup", this.surveyFormGroup.value);
+  }
+
+  changeTab(event) {
+    this.module = event.heading;
   }
 
   back() {
@@ -180,25 +186,26 @@ export class SurveyComponent implements OnInit {
         },
         (err) => {
           console.error("err", err);
+        },
+        () => {
+          swal
+            .fire({
+              icon: "success",
+              title: "Terima kasih atas kerjasama yang diberikan",
+              buttonsStyling: false,
+              confirmButtonText: "Tutup",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            })
+            .then((result) => {
+              if (result.value) {
+                this.typeQuestion = "";
+              }
+            });
         }
       );
     }
-
-    swal
-      .fire({
-        icon: "success",
-        title: "Terima kasih atas kerjasama yang diberikan",
-        buttonsStyling: false,
-        confirmButtonText: "Tutup",
-        customClass: {
-          confirmButton: "btn btn-success",
-        },
-      })
-      .then((result) => {
-        if (result.value) {
-          this.typeQuestion = "";
-        }
-      });
   }
 
   submitFeedback() {

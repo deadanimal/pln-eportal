@@ -51,11 +51,11 @@ export const CoreRoutes: Routes = [
         component: ExhibitComponent,
       },
       {
-        path: "lists",
+        path: "lists/:zone",
         component: ExhibitListsComponent,
       },
       {
-        path: "details",
+        path: "lists/:zone/:detail",
         component: ExhibitDetailsComponent,
       },
     ],

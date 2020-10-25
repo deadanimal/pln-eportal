@@ -33,8 +33,8 @@
         <div class="col-md-4 col-sm-12 text-center">
           <h2 class="title">Waktu Operasi</h2>
           <p class="text-justify">
-            dari 9.00 PAGI - 4.30 PETANG kecuali Isnin, Hari Raya Puasa, Hari
-            Raya Haji, dan cuti umum yang ditetapkan oleh Planetarium Negara
+            Dibuka setiap hari (kecuali Isnin dan cuti umum terpilih) dari jam
+            9.00 pagi hingga 4.30 petang
           </p>
         </div>
         <div class="col-md-4 col-sm-12 text-center">
@@ -139,12 +139,14 @@
           class="col-md-3 col-sm-12"
           *ngFor="let interesting of interestings"
         >
-          <div class="card" style="height: 350px">
+          <div class="card" style="height: 400px">
             <img class="card-img-top" [src]="interesting.img" />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">
                 {{ interesting.title }}
               </h2>
+            </div>
+            <div class="card-footer p-3 text-center">
               <button
                 class="btn btn-sm btn-info"
                 (click)="openModal(interestingModal, interesting)"
@@ -155,54 +157,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 350px">
-            <img
-              class="card-img-top"
-              src="../../../assets/home/peneroka-angkasa.jpg"
-            />
-            <div class="card-body text-center">
-              <h2 class="card-title title text-uppercase">
-                Pameran Sains Angkasa
-              </h2>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 350px">
-            <img
-              class="card-img-top"
-              src="../../../assets/home/teater-angkasa.jpg"
-            />
-            <div class="card-body text-center">
-              <h2 class="card-title title text-uppercase">Teater Angkasa</h2>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 350px">
-            <img
-              class="card-img-top"
-              src="../../../assets/home/space-pod.jpg"
-            />
-            <div class="card-body text-center">
-              <h2 class="card-title title text-uppercase">Kembara Simulasi</h2>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-          <div class="card" style="height: 350px">
-            <img
-              class="card-img-top"
-              src="../../../assets/home/stonehenge.jpeg"
-            />
-            <div class="card-body text-center">
-              <h2 class="card-title title text-uppercase">Taman Rekreasi</h2>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 
@@ -214,7 +168,6 @@
         <carousel
           [itemsPerSlide]="itemsPerSlide"
           [singleSlideOffset]="false"
-          
           [interval]="false"
           [showIndicators]="false"
         >
@@ -303,7 +256,11 @@
           </div>
           <div class="row">
             <div class="col text-center">
-              <h4 class="title">Tarikh Kemaskini: 01 Oktober 2020</h4>
+              <h4 class="title">
+                Tarikh Kemaskini: {{ currentDate.getDate() }}
+                {{ months[currentDate.getMonth()] }}
+                {{ currentDate.getFullYear() }}
+              </h4>
             </div>
           </div>
         </div>

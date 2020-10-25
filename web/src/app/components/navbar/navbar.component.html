@@ -128,7 +128,7 @@
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/pdpa']"
             >
-              Akta Perlindungan Peribadi
+              Maklumat NOC
             </a>
             <a
               class="dropdown-item"
@@ -194,13 +194,13 @@
           </a>
         </li> -->
         <li class="nav-item" *ngIf="!accessToken">
-          <a class="nav-link" (click)="openLoginModal(loginModal)">
-            <i class="fas fa-sign-in-alt"></i> Log Masuk
+          <a class="nav-link" (click)="openRegisterModal(registerModal)">
+            <i class="fas fa-users"></i> Daftar
           </a>
         </li>
         <li class="nav-item" *ngIf="!accessToken">
-          <a class="nav-link" (click)="openRegisterModal(registerModal)">
-            <i class="fas fa-users"></i> Daftar
+          <a class="nav-link" (click)="openLoginModal(loginModal)">
+            <i class="fas fa-sign-in-alt"></i> Log Masuk
           </a>
         </li>
         <li class="nav-item" *ngIf="accessToken">

@@ -42,12 +42,12 @@
   </div>
   <div class="main main-raised">
     <div class="section team-4 bg-white">
-      <div class="container">
+      <div>
         <div class="row">
-          <div class="col-md-2 col-sm-12"></div>
-          <div class="col-md-8 col-sm-12">
+          <!-- <div class="col-md-2 col-sm-12"></div> -->
+          <div class="col-md-12 col-sm-12">
             <!-- <alert [type]="'info'"> -->
-            <div class="row">
+            <!-- <div class="row">
               <div class="col">
                 <h4 class="title m-0 text-dark">Arahan Keselamatan</h4>
                 <small class="text-danger">Sila baca terlebih dahulu</small>
@@ -60,14 +60,94 @@
                   Tekan untuk baca
                 </button>
               </div>
-            </div>
+            </div> -->
             <!-- </alert> -->
             <mat-horizontal-stepper [linear]="true" #stepper>
+              <mat-step [stepControl]="zeroFormGroup">
+                <ng-template matStepLabel>Arahan Keselamatan</ng-template>
+                <form [formGroup]="zeroFormGroup">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col ml-auto mr-auto">
+                        <p class="text-justify text-dark">
+                          Kembara Simulasi ini akan membawa 2 orang dalam satu
+                          masa untuk merasai Gerakan 360 darjah pusingan dan
+                          keadaan tegak. Sebagai langkah keselamatan kami perlu
+                          menghadkan pengguna kembara simulasi berdasarkan berat
+                          dan saiz badan. Anda juga mesti berupaya duduk tegak
+                          di sepanjang masa.
+                        </p>
+
+                        <ul>
+                          <li>
+                            Bagi tujuan keselamatan pengguna hendaklah
+                            berketinggian lebih dari
+                            <b>1.2m</b>.
+                          </li>
+                          <li>
+                            Jumlah berat badan maksimum yang dibenarkan
+                            <b>226kg</b>.
+                          </li>
+                          <li>
+                            Pengguna dengan keadaan berikut tidak digalakkan
+                            mencuba alat ini:
+                          </li>
+                          <ol type="i">
+                            <li>Sakit Jantng/Tekanan Darah Tinggi</li>
+                            <li>Sakit Belakang/Leher/ Fizikal Lain</li>
+                            <li>Mengandung</li>
+                            <li>
+                              Alahan ubat/ Bawah pengaruh dadah atau alcohol
+                            </li>
+                            <li>Mabuk Gerakan/Klaustrofobia</li>
+                          </ol>
+                        </ul>
+
+                        <p class="text-justify text-dark">
+                          Semua barangan yang tidak terikat seperti pen, duit
+                          syiling, telefon bimbit, i-pod dan lain-lain yang
+                          boleh tertanggal semasa menaiki Space Pod ini
+                          hendaklah dikeluarkan.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col text-center">
+                        <div class="form-check">
+                          <label class="form-check-label text-dark">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              formControlName="accept"
+                            />
+                            Saya setuju dengan pernyataan di atas.
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pt-3 text-center">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      matStepperNext
+                      [disabled]="!zeroFormGroup.valid"
+                    >
+                      Seterusnya
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
               <mat-step [stepControl]="firstFormGroup">
                 <form [formGroup]="firstFormGroup">
                   <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
                   <div class="row pb-3">
-                    <div class="col-md-12 col-sm-12">
+                    <div class="col-md-6 col-sm-12">
                       <label>Tarikh</label>
                       <input
                         type="text"
@@ -83,9 +163,7 @@
                         (bsValueChange)="changeDate($event)"
                       />
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 col-sm-12">
+                    <div class="col-md-6 col-sm-12">
                       <label>Masa</label><br />
                       <div *ngIf="times.length == 0">
                         <small class="text-danger"
@@ -114,6 +192,13 @@
                   </div>
 
                   <div class="p-3 text-center">
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      matStepperPrevious
+                    >
+                      Kembali
+                    </button>
                     <button
                       type="button"
                       class="btn btn-default"
@@ -311,7 +396,7 @@
               </mat-step>
             </mat-horizontal-stepper>
           </div>
-          <div class="col-md-2 col-sm-12"></div>
+          <!-- <div class="col-md-2 col-sm-12"></div> -->
         </div>
       </div>
     </div>
