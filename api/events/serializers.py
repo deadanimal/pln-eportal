@@ -12,6 +12,7 @@ from .models import (
     Exhibit,
     ExhibitList,
     ExhibitDetail,
+    ExhibitDetailImage,
     EducationalProgram,
     EducationalProgramDate,
     EducationalProgramImage,
@@ -42,7 +43,7 @@ class ExhibitSerializer(serializers.ModelSerializer):
 
 class ExhibitExtendedSerializer(serializers.ModelSerializer):
     pic_id = CustomUserSerializer(read_only=True)
-    asset_id = AssetSerializer(read_only=True)
+    asset_id = AssetSerializer(many=True, read_only=True)
     
     class Meta:
         model = Exhibit
@@ -77,6 +78,21 @@ class ExhibitDetailExtendedSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = ExhibitDetail
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class ExhibitDetailImageSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ExhibitDetailImage
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class ExhibitDetailImageExtendedSerializer(serializers.ModelSerializer):
+    exhibit_detail_id = ExhibitDetailSerializer(read_only=True)
+    
+    class Meta:
+        model = ExhibitDetailImage
         fields = '__all__'
         read_only_fields = ['id']
     

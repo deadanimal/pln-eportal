@@ -47,7 +47,8 @@ class Showing(models.Model):
     duration_hours = models.IntegerField(default=0)
     duration_minutes = models.IntegerField(default=0)
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
-    trailer_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('trailers'))
+    # trailer_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('trailers'))
+    trailer_link = models.URLField(null=True)
 
     STATUS = [
         ('AV', 'Available'),

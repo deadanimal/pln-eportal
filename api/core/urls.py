@@ -37,6 +37,7 @@ from events.views import (
     ExhibitViewSet,
     ExhibitListViewSet,
     ExhibitDetailViewSet,
+    ExhibitDetailImageViewSet,
     EducationalProgramViewSet,
     EducationalProgramDateViewSet,
     EducationalProgramImageViewSet,
@@ -56,6 +57,10 @@ exhibit_lists_router = router.register(
 
 exhibit_details_router = router.register(
     'exhibit-details', ExhibitDetailViewSet
+)
+
+exhibit_detail_images_router = router.register(
+    'exhibit-detail-images', ExhibitDetailImageViewSet
 )
 
 educational_programs_router = router.register(

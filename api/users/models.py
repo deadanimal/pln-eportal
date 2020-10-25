@@ -19,7 +19,7 @@ class CustomUser(AbstractUser):
     nric_picture = models.ImageField(null=True, upload_to=PathAndRename('nric'))
     email = models.CharField(blank=True, max_length=100)
     phone = models.CharField(blank=True, max_length=100)
-    birth_date = models.DateTimeField(null=True)
+    birth_date = models.DateField(null=True)
     age = models.IntegerField(default=0)
     address_1 = models.CharField(blank=True, max_length=255)
     address_2 = models.CharField(blank=True, max_length=255)
