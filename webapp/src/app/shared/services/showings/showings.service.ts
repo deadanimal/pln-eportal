@@ -36,7 +36,7 @@ export class ShowingsService {
     );
   }
 
-  update(body: Form, id: string): Observable<Showing> {
+  update(body, id: string): Observable<Showing> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Showing>(urlPatch, body).pipe(
       tap((res) => {

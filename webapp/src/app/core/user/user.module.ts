@@ -40,6 +40,8 @@ import { SurveysListComponent } from './surveys/surveys-list/surveys-list.compon
 import { SurveysAnswerComponent } from './surveys/surveys-answer/surveys-answer.component';
 import { AssetsComponent } from './assets/assets.component';
 import { UsersComponent } from './managements/users/users.component';
+import { ExhibitsComponent } from './exhibits/exhibits/exhibits.component';
+import { ExhibitsDetailComponent } from './exhibits/exhibits-detail/exhibits-detail.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { UsersComponent } from './managements/users/users.component';
     SurveysAnswerComponent,
     AssetsComponent,
     UsersComponent,
+    ExhibitsComponent,
+    ExhibitsDetailComponent,
   ],
   imports: [
     CommonModule,

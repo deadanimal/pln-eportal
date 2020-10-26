@@ -12,7 +12,7 @@ import { ExhibitDetail } from "./exhibit-details.model";
 })
 export class ExhibitDetailsService {
   // URL
-  public url: string = environment.baseUrl + "v1/exhibit-lists/";
+  public url: string = environment.baseUrl + "v1/exhibit-details/";
 
   // Data
   public exhibitdetails: ExhibitDetail[] = [];
@@ -50,6 +50,24 @@ export class ExhibitDetailsService {
     return this.http.delete<ExhibitDetail>(urlDelete).pipe(
       tap((res) => {
         console.log("ExhibitDetail: ", res);
+      })
+    );
+  }
+
+  filter(field: string): Observable<ExhibitDetail[]> {
+    let urlFilter = this.url + "?" + field;
+    return this.http.get<ExhibitDetail[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log("ExhibitDetails: ", res);
+      })
+    );
+  }
+
+  extended(): Observable<ExhibitDetail[]> {
+    return this.http.get<ExhibitDetail[]>(this.url + "extended").pipe(
+      tap((res) => {
+        this.exhibitdetails = res;
+        console.log("ExhibitDetails: ", res);
       })
     );
   }

@@ -55,6 +55,7 @@ export class ShowsListComponent implements OnInit {
 
   // FormGroup
   showingFormGroup: FormGroup;
+  showingposterFormGroup: FormGroup;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -70,9 +71,14 @@ export class ShowsListComponent implements OnInit {
       language: new FormControl(""),
       duration_hours: new FormControl(""),
       duration_minutes: new FormControl(""),
-      poster_link: new FormControl(""),
+      // poster_link: new FormControl(""),
       trailer_link: new FormControl(""),
       status: new FormControl(""),
+    });
+
+    this.showingposterFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      poster_link: new FormControl(""),
     });
   }
 
@@ -227,6 +233,11 @@ export class ShowsListComponent implements OnInit {
       this.showingFormGroup.patchValue({
         ...row,
       });
+    } else if (process == "upload") {
+      this.showingposterFormGroup.patchValue({
+        id: row.id,
+        poster_link: row.poster_link,
+      });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
@@ -311,5 +322,61 @@ export class ShowsListComponent implements OnInit {
             });
         }
       );
+  }
+
+  // Image Process
+  onChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.showingposterFormGroup.get("poster_link").setValue(file);
+    }
+  }
+
+  uploadposter() {
+    const formData = new FormData();
+    formData.append(
+      "poster_link",
+      this.showingposterFormGroup.get("poster_link").value
+    );
+    formData.append(
+      "id",
+      this.showingposterFormGroup.value.id
+    );
+
+    this.showingService.update(formData, this.showingposterFormGroup.value.id).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.log("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 }

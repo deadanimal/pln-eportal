@@ -3,9 +3,7 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-dark d-inline-block mb-0">
-            Senarai Pameran - {{ exhibits[0]?.name }}
-          </h6>
+          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Pameran</h6>
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
@@ -21,7 +19,7 @@
         <div class="col-lg-6 col-5 text-right">
           <a
             class="btn btn-sm btn-neutral"
-            (click)="openModal(createExhibitList, 'create', '')"
+            (click)="openModal(createExhibit, 'create', '')"
           >
             Tambah
           </a>
@@ -36,7 +34,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
-          <h3 class="m-0">Senarai Pameran - {{ exhibits[0]?.name }}</h3>
+          <h3 class="m-0">Senarai Pameran</h3>
         </div>
         <div class="dataTables_wrapper py-4">
           <div class="row">
@@ -92,6 +90,15 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
+                <span>Zon</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                Zon {{ row.zone }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
                 <span>Nama</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
@@ -101,19 +108,10 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Gambar</span>
+                <span>Deskripsi</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <img
-                  [src]="row.image_link"
-                  *ngIf="row.image_link"
-                  style="width: 50%"
-                />
-                <span
-                  *ngIf="!row.image_link"
-                  class="badge badge-pill badge-danger"
-                  >Tiada</span
-                >
+                {{ row.description }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -142,13 +140,13 @@
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
                   class="btn btn-sm btn-default"
-                  [routerLink]="['/exhibits/detail/', row.id]"
+                  [routerLink]="['/exhibits/list/', row.id]"
                 >
-                  Maklumat
+                  Senarai
                 </button>
                 <button
                   class="btn btn-sm btn-primary"
-                  (click)="openModal(editExhibitList, 'update', row)"
+                  (click)="openModal(editExhibit, 'update', row)"
                 >
                   Sunting
                 </button>
@@ -161,7 +159,7 @@
   </div>
 </div>
 
-<ng-template #createExhibitList>
+<ng-template #createExhibit>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Tambah
@@ -179,7 +177,7 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="exhibitlistFormGroup">
+    <form [formGroup]="exhibitFormGroup">
       <div class="form-group">
         <label class="form-control-label">Nama</label>
         <input
@@ -190,17 +188,31 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Gambar</label><br />
-        <input type="file" name="image_link" (change)="onChange($event)" />
+        <label class="form-control-label">Deskripsi</label>
+        <textarea
+          class="form-control"
+          formControlName="description"
+          placeholder="Deskripsi"
+        ></textarea>
       </div>
 
       <div class="row">
         <div class="col">
-          <img [src]="" *ngIf="exhibitlistFormGroup.value.image_link" />
+          <div class="form-group">
+            <label class="form-control-label">Zon</label>
+            <select
+              class="form-control"
+              formControlName="zone"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option *ngFor="let zone of zones" [value]="zone.value">
+                {{ zone.display_name }}
+              </option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
         <div class="col">
           <div class="form-group">
             <label class="form-control-label">Status</label>
@@ -216,6 +228,34 @@
             </select>
           </div>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">PIC</label>
+        <select
+          class="form-control"
+          formControlName="pic_id"
+          placeholder="Sila pilih"
+        >
+          <option value="">Sila pilih</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Aset</label>
+        <select
+          class="form-control"
+          formControlName="asset_id"
+          placeholder="Sila pilih"
+          multiple
+        >
+          <option value="">Sila pilih</option>
+          <option *ngFor="let asset of assets" [value]="asset.id">
+            {{ asset.name }}
+          </option>
+        </select>
       </div>
     </form>
   </div>
@@ -236,7 +276,7 @@
   </div>
 </ng-template>
 
-<ng-template #editExhibitList>
+<ng-template #editExhibit>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Ubah Suai
@@ -254,7 +294,7 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="exhibitlistFormGroup">
+    <form [formGroup]="exhibitFormGroup">
       <div class="form-group">
         <label class="form-control-label">Nama</label>
         <input
@@ -265,17 +305,31 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Gambar</label><br />
-        <input type="file" name="image_link" (change)="onChange($event)" />
+        <label class="form-control-label">Deskripsi</label>
+        <textarea
+          class="form-control"
+          formControlName="description"
+          placeholder="Deskripsi"
+        ></textarea>
       </div>
 
       <div class="row">
         <div class="col">
-          <img [src]="" *ngIf="exhibitlistFormGroup.value.image_link" />
+          <div class="form-group">
+            <label class="form-control-label">Zon</label>
+            <select
+              class="form-control"
+              formControlName="zone"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option *ngFor="let zone of zones" [value]="zone.value">
+                {{ zone.display_name }}
+              </option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
         <div class="col">
           <div class="form-group">
             <label class="form-control-label">Status</label>
@@ -291,6 +345,39 @@
             </select>
           </div>
         </div>
+
+        <!-- <div class="col">
+            <label class="form-control-label">Nombor</label>
+            <input class="form-control" placeholder="Nombor" type="text" />
+          </div> -->
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">PIC</label>
+        <select
+          class="form-control"
+          formControlName="pic_id"
+          placeholder="Sila pilih"
+        >
+          <option value="">Sila pilih</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Aset</label>
+        <select
+          class="form-control"
+          formControlName="asset_id"
+          placeholder="Sila pilih"
+          multiple
+        >
+          <option value="">Sila pilih</option>
+          <option *ngFor="let asset of assets" [value]="asset.id">
+            {{ asset.name }}
+          </option>
+        </select>
       </div>
     </form>
   </div>

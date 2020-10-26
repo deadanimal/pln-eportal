@@ -5,15 +5,12 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
 import { ExhibitsService } from "src/app/shared/services/exhibits/exhibits.service";
-import { ExhibitDetailsService } from "src/app/shared/services/exhibit-details/exhibit-details.service";
-import { ExhibitDetailImagesService } from 'src/app/shared/services/exhibit-detail-images/exhibit-detail-images.service';
-import { ExhibitListsService } from "src/app/shared/services/exhibit-lists/exhibit-lists.service";
-import { VenuesService } from "src/app/shared/services/venues/venues.service";
+import { AssetsService } from "src/app/shared/services/assets/assets.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
   single = "single",
@@ -24,17 +21,15 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-exhibits-list",
-  templateUrl: "./exhibits-list.component.html",
-  styleUrls: ["./exhibits-list.component.scss"],
+  selector: "app-exhibits",
+  templateUrl: "./exhibits.component.html",
+  styleUrls: ["./exhibits.component.scss"],
 })
-export class ExhibitsListComponent implements OnInit {
+export class ExhibitsComponent implements OnInit {
   // Data
-  exhibit_id: string = "";
-  exhibits = [];
-  exhibitdetailimages = [];
 
   // Dropdown
+  assets = [];
   statuses = [
     {
       value: "AV",
@@ -45,10 +40,36 @@ export class ExhibitsListComponent implements OnInit {
       display_name: "Tidak aktif",
     },
   ];
-  venues = [];
+  users = [];
+  zones = [
+    {
+      value: "A",
+      display_name: "Alam Semesta",
+    },
+    {
+      value: "B",
+      display_name: "Ruang Kanak-kanak",
+    },
+    {
+      value: "C",
+      display_name: "Teknologi Satelit",
+    },
+    {
+      value: "D",
+      display_name: "Misi Angkasa",
+    },
+    {
+      value: "E",
+      display_name: "Sistem Solar",
+    },
+    {
+      value: "F",
+      display_name: "Gelombang",
+    },
+  ];
 
   // FormGroup
-  exhibitlistFormGroup: FormGroup;
+  exhibitFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -68,32 +89,31 @@ export class ExhibitsListComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private route: ActivatedRoute,
     private exhibitService: ExhibitsService,
-    private exhibitdetailService: ExhibitDetailsService,
-    private exhibitdetailimagesService: ExhibitDetailImagesService,
-    private exhibitlistService: ExhibitListsService,
-    private venueService: VenuesService
+    private assetService: AssetsService,
+    private userService: UsersService
   ) {
-    this.getVenue();
+    this.getAsset();
+    this.getUser();
 
-    this.exhibit_id = this.route.snapshot.paramMap.get("id");
-    if (this.exhibit_id) this.getExhibit();
-
-    this.exhibitlistFormGroup = this.formBuilder.group({
+    this.exhibitFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       name: new FormControl(""),
-      image_link: new FormControl(""),
+      description: new FormControl(""),
+      // image_link: new FormControl(""),
+      zone: new FormControl(""),
+      pic_id: new FormControl(""),
+      asset_id: new FormControl(""),
+      // qrcode: new FormControl(""),
       status: new FormControl(""),
-      exhibit_id: new FormControl(""),
     });
   }
 
-  getExhibit() {
-    this.exhibitService.filter("id=" + this.exhibit_id).subscribe(
+  getAsset() {
+    this.assetService.get().subscribe(
       (res) => {
         console.log("res", res);
-        this.exhibits = res;
+        this.assets = res;
       },
       (err) => {
         console.error("err", err);
@@ -101,11 +121,11 @@ export class ExhibitsListComponent implements OnInit {
     );
   }
 
-  getVenue() {
-    this.venueService.get().subscribe(
+  getUser() {
+    this.userService.getAll().subscribe(
       (res) => {
         console.log("res", res);
-        this.venues = res;
+        this.users = res;
       },
       (err) => {
         console.error("err", err);
@@ -118,7 +138,7 @@ export class ExhibitsListComponent implements OnInit {
   }
 
   getData() {
-    this.exhibitlistService.filter("exhibit_id=" + this.exhibit_id).subscribe(
+    this.exhibitService.extended().subscribe(
       (res) => {
         console.log("res", res);
         this.tableRows = res;
@@ -167,10 +187,12 @@ export class ExhibitsListComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.exhibitlistFormGroup.reset();
+      this.exhibitFormGroup.reset();
     } else if (process == "update") {
-      this.exhibitlistFormGroup.patchValue({
+      this.exhibitFormGroup.patchValue({
         ...row,
+        asset_id: row.asset_id.id,
+        pic_id: row.pic_id.id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -180,23 +202,8 @@ export class ExhibitsListComponent implements OnInit {
     this.modal.hide();
   }
 
-  // Image Process
-  onChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.exhibitlistFormGroup.get("image_link").setValue(file);
-    }
-  }
-
   create() {
-    const formData = new FormData();
-    formData.append(
-      "image_link",
-      this.exhibitlistFormGroup.get("image_link").value
-    );
-    formData.append("status", this.exhibitlistFormGroup.value.status);
-
-    this.exhibitlistService.post(formData).subscribe(
+    this.exhibitService.post(this.exhibitFormGroup.value).subscribe(
       (res) => {
         console.log("res", res);
         swal
@@ -234,16 +241,9 @@ export class ExhibitsListComponent implements OnInit {
   }
 
   update() {
-    const formData = new FormData();
-    formData.append(
-      "image_link",
-      this.exhibitlistFormGroup.get("image_link").value
-    );
-    formData.append("id", this.exhibitlistFormGroup.value.id);
-    formData.append("status", this.exhibitlistFormGroup.value.status);
-
-    this.exhibitlistService
-      .update(formData, this.exhibitlistFormGroup.value.id)
+    console.log(this.exhibitFormGroup.value);
+    this.exhibitService
+      .update(this.exhibitFormGroup.value, this.exhibitFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -279,5 +279,12 @@ export class ExhibitsListComponent implements OnInit {
             });
         }
       );
+  }
+
+  getZone(value: string) {
+    let result = this.zones.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
   }
 }

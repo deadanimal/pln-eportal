@@ -1,13 +1,15 @@
 import { Routes } from "@angular/router";
-import { AssetsComponent } from './assets/assets.component';
+import { AssetsComponent } from "./assets/assets.component";
 
 import { CalendarComponent } from "./calendar/calendar.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { ExhibitsDetailComponent } from "./exhibits/exhibits-detail/exhibits-detail.component";
 import { ExhibitsListComponent } from "./exhibits/exhibits-list/exhibits-list.component";
+import { ExhibitsComponent } from "./exhibits/exhibits/exhibits.component";
 import { FacilitiesApplicationComponent } from "./facilities/facilities-application/facilities-application.component";
 import { FacilitiesListComponent } from "./facilities/facilities-list/facilities-list.component";
 import { FeedbacksListComponent } from "./feedbacks/feedbacks-list/feedbacks-list.component";
-import { UsersComponent } from './managements/users/users.component';
+import { UsersComponent } from "./managements/users/users.component";
 import { ProgramsApplicationComponent } from "./programs/programs-application/programs-application.component";
 import { ProgramsListComponent } from "./programs/programs-list/programs-list.component";
 import { ProgramsWaitingListComponent } from "./programs/programs-waiting-list/programs-waiting-list.component";
@@ -19,7 +21,7 @@ import { ShowsListComponent } from "./shows/shows-list/shows-list.component";
 import { ShowsScheduleComponent } from "./shows/shows-schedule/shows-schedule.component";
 import { SimulatorRideApplicationsComponent } from "./simulator-ride/simulator-ride-applications/simulator-ride-applications.component";
 import { SimulatorRideScheduleComponent } from "./simulator-ride/simulator-ride-schedule/simulator-ride-schedule.component";
-import { SurveysAnswerComponent } from './surveys/surveys-answer/surveys-answer.component';
+import { SurveysAnswerComponent } from "./surveys/surveys-answer/surveys-answer.component";
 import { SurveysListComponent } from "./surveys/surveys-list/surveys-list.component";
 import { TicketsPriceComponent } from "./tickets/tickets-price/tickets-price.component";
 import { VirtualLibrariesListComponent } from "./virtual-libraries/virtual-libraries-list/virtual-libraries-list.component";
@@ -43,7 +45,15 @@ export const UserRoutes: Routes = [
         children: [
           {
             path: "list",
+            component: ExhibitsComponent,
+          },
+          {
+            path: "list/:id",
             component: ExhibitsListComponent,
+          },
+          {
+            path: "detail/:id",
+            component: ExhibitsDetailComponent,
           },
         ],
       },
@@ -147,8 +157,8 @@ export const UserRoutes: Routes = [
           },
           {
             path: "list/:id",
-            component: SurveysAnswerComponent
-          }
+            component: SurveysAnswerComponent,
+          },
         ],
       },
       {
