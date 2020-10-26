@@ -2,7 +2,13 @@
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
       <!-- <div class="overlay"></div> -->
-      <video autoplay="autoplay" loop="loop" muted="muted" oncanplay="this.play()" onloadedmetadata="this.muted = true">
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+        oncanplay="this.play()"
+        onloadedmetadata="this.muted = true"
+      >
         <source
           src="../../../assets/video/planetarium-homepage-video.mp4"
           type="video/mp4"
@@ -41,7 +47,7 @@
         <div class="row pb-3">
           <div class="col">
             <accordion [isAnimated]="true">
-              <accordion-group>
+              <accordion-group [panelClass]="customClass">
                 <button
                   class="btn btn-link btn-block clearfix"
                   accordion-heading
@@ -51,11 +57,11 @@
                     Apakah tujuan Planetarium Negara ditubuhkan?
                   </div>
                 </button>
-                <p style="color: white">
+                <p class="text-dark text-justify">
                   This content is straight in the template.
                 </p>
               </accordion-group>
-              <accordion-group>
+              <accordion-group [panelClass]="customClass">
                 <button
                   class="btn btn-link btn-block clearfix"
                   accordion-heading
@@ -65,11 +71,11 @@
                     Apa yang ada di Planetarium Negara?
                   </div>
                 </button>
-                <p style="color: white">
+                <p class="text-dark text-justify">
                   This content is straight in the template.
                 </p>
               </accordion-group>
-              <accordion-group>
+              <accordion-group [panelClass]="customClass">
                 <button
                   class="btn btn-link btn-block clearfix"
                   accordion-heading
@@ -79,11 +85,11 @@
                     Bolehkah saya bawa rombongan sekolah ke Planetarium Negara?
                   </div>
                 </button>
-                <p style="color: white">
+                <p class="text-dark text-justify">
                   This content is straight in the template.
                 </p>
               </accordion-group>
-              <accordion-group>
+              <accordion-group [panelClass]="customClass">
                 <button
                   class="btn btn-link btn-block clearfix"
                   accordion-heading
@@ -94,7 +100,7 @@
                     Negara?
                   </div>
                 </button>
-                <p style="color: white">
+                <p class="text-dark text-justify">
                   This content is straight in the template.
                 </p>
               </accordion-group>
