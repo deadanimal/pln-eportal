@@ -156,6 +156,8 @@ export class FacilitiesListComponent implements OnInit {
       pic_id: new FormControl(""),
       // asset_id: new FormControl(""),
       venue_id: new FormControl(""),
+      equipment_name: new FormControl(""),
+      equipment_description: new FormControl("")
     });
 
     this.facilityimageFormGroup = this.formBuilder.group({
@@ -262,8 +264,8 @@ export class FacilitiesListComponent implements OnInit {
       this.facilityFormGroup.patchValue({
         ...row,
         // asset_id: row.asset_id.id,
-        venue_id: row.venue_id.id,
-        pic_id: row.pic_id.id,
+        venue_id: row.venue_id ? row.venue_id.id : null,
+        pic_id: row.pic_id ? row.pic_id.id : null,
       });
     } else if (process == "createupdateprice") {
       this.facilitypriceService.filter("facility_id=" + row.id).subscribe(

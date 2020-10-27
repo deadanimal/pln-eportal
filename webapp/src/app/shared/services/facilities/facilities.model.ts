@@ -11,6 +11,8 @@ export class Facility {
   public promo_link: string;
   public pic_id: string;
   public venue_id: string;
+  public equipment_name: string;
+  public equipment_description: string;
   public created_date: string;
   public modified_date: string;
 
@@ -27,6 +29,8 @@ export class Facility {
     promo_link: string,
     pic_id: string,
     venue_id: string,
+    equipment_name: string,
+    equipment_description: string,
     created_date: string,
     modified_date: string
   ) {
@@ -42,6 +46,8 @@ export class Facility {
     this.promo_link = promo_link;
     this.pic_id = pic_id;
     this.venue_id = venue_id;
+    this.equipment_name = equipment_name;
+    this.equipment_description = equipment_description;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

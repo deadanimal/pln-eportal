@@ -168,6 +168,9 @@ export class ExhibitsListComponent implements OnInit {
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
       this.exhibitlistFormGroup.reset();
+      this.exhibitlistFormGroup.patchValue({
+        exhibit_id: this.exhibit_id,
+      });
     } else if (process == "update") {
       this.exhibitlistFormGroup.patchValue({
         ...row,
@@ -194,6 +197,7 @@ export class ExhibitsListComponent implements OnInit {
       "image_link",
       this.exhibitlistFormGroup.get("image_link").value
     );
+    formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
     formData.append("status", this.exhibitlistFormGroup.value.status);
 
     this.exhibitlistService.post(formData).subscribe(
@@ -240,6 +244,7 @@ export class ExhibitsListComponent implements OnInit {
       this.exhibitlistFormGroup.get("image_link").value
     );
     formData.append("id", this.exhibitlistFormGroup.value.id);
+    formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
     formData.append("status", this.exhibitlistFormGroup.value.status);
 
     this.exhibitlistService
