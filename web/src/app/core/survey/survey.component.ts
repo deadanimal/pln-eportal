@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -77,6 +78,7 @@ export class SurveyComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
+    private toastr: ToastrService,
     private authService: AuthService,
     private feedbackService: FeedbacksService,
     private jwtService: JwtService,
@@ -168,30 +170,65 @@ export class SurveyComponent implements OnInit {
   }
 
   submitSurvey() {
-    for (let key in this.surveyFormGroup.value) {
-      let answer = this.surveyFormGroup.value[key];
-      let surveyquestion = this.surveyquestions.find((obj) => {
-        return obj.questionnaire_fieldname == key;
-      });
+    if (this.jwtService.getToken("accessToken")) {
+      for (let key in this.surveyFormGroup.value) {
+        let answer = this.surveyFormGroup.value[key];
+        let surveyquestion = this.surveyquestions.find((obj) => {
+          return obj.questionnaire_fieldname == key;
+        });
 
-      let postObj = {
-        answer: answer.toString(),
-        survey_question_id: surveyquestion.id,
-        user_id: this.authService.decodedToken().user_id,
-      };
+        let postObj = {
+          answer: answer.toString(),
+          survey_question_id: surveyquestion.id,
+          user_id: this.authService.decodedToken().user_id,
+        };
 
-      this.surveyanswerService.post(postObj).subscribe(
+        this.surveyanswerService.post(postObj).subscribe(
+          (res) => {
+            console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          },
+          () => {
+            swal
+              .fire({
+                icon: "success",
+                title: "Terima kasih atas kerjasama yang diberikan",
+                buttonsStyling: false,
+                confirmButtonText: "Tutup",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  this.typeQuestion = "";
+                }
+              });
+          }
+        );
+      }
+    } else {
+      this.toastr.error(
+        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menghantar soal selidik anda.",
+        "Ralat"
+      );
+    }
+  }
+
+  submitFeedback() {
+    if (this.jwtService.getToken("accessToken")) {
+      this.feedbackFormGroup.value.user_id = this.authService.decodedToken().user_id;
+
+      this.feedbackService.post(this.feedbackFormGroup.value).subscribe(
         (res) => {
           console.log("res", res);
-        },
-        (err) => {
-          console.error("err", err);
-        },
-        () => {
           swal
             .fire({
               icon: "success",
               title: "Terima kasih atas kerjasama yang diberikan",
+              text: "Maklum balas anda akan dibalas dalam waktu 3 hari bekerja",
               buttonsStyling: false,
               confirmButtonText: "Tutup",
               customClass: {
@@ -203,37 +240,16 @@ export class SurveyComponent implements OnInit {
                 this.typeQuestion = "";
               }
             });
+        },
+        (err) => {
+          console.error("err", err);
         }
       );
+    } else {
+      this.toastr.error(
+        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menghantar maklum balas / tinjauan anda.",
+        "Ralat"
+      );
     }
-  }
-
-  submitFeedback() {
-    this.feedbackFormGroup.value.user_id = this.authService.decodedToken().user_id;
-
-    this.feedbackService.post(this.feedbackFormGroup.value).subscribe(
-      (res) => {
-        console.log("res", res);
-        swal
-          .fire({
-            icon: "success",
-            title: "Terima kasih atas kerjasama yang diberikan",
-            text: "Maklum balas anda akan dibalas dalam waktu 3 hari bekerja",
-            buttonsStyling: false,
-            confirmButtonText: "Tutup",
-            customClass: {
-              confirmButton: "btn btn-success",
-            },
-          })
-          .then((result) => {
-            if (result.value) {
-              this.typeQuestion = "";
-            }
-          });
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
   }
 }

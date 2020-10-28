@@ -1,7 +1,4 @@
-<nav
-  class="navbar navbar-expand-lg navbar-default"
-  color-on-scroll="300"
->
+<nav class="navbar navbar-expand-lg navbar-default" color-on-scroll="300">
   <div class="container-fluid">
     <div>
       <a class="" href="/" placement="bottom" target="_blank" tooltip="MOSTI">
@@ -63,7 +60,7 @@
           <input
             type="text"
             class="form-control bg-white text-dark"
-            placeholder="Search"
+            placeholder="Carian"
           />
         </div>
       </form>
@@ -133,9 +130,23 @@
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/noc']"
+            >
+              Maklumat NOC
+            </a>
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/faq']"
             >
               FAQ
+            </a>
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/cio']"
+            >
+              Maklumat CIO
             </a>
             <a
               class="dropdown-item"
@@ -249,6 +260,12 @@
             <a class="dropdown-item" href="#">Pendaftaran anda berjaya.</a>
           </div>
         </li>
+        <li class="nav-item" *ngIf="accessToken">
+          <a class="nav-link" [routerLink]="['/profile']">
+            <i class="fas fa-user-astronaut"></i> Hi,
+            {{ user?.full_name.split(" ")[0] }}
+          </a>
+        </li>
       </ul>
       <bSwitch
         [switch-off-text]="offText"
@@ -338,7 +355,9 @@
         <div class="col-auto text-right">
           <!-- style="margin-top: 0.5rem; padding-right: 19px" -->
           <div class="form-check" style="padding-right: 19px">
-            <a class="text-primary" (click)="openForgotPasswordModal(forgotPasswordModal)"
+            <a
+              class="text-primary"
+              (click)="openForgotPasswordModal(forgotPasswordModal)"
               >Lupa Kata Laluan</a
             >
           </div>

@@ -33,7 +33,29 @@
                 <p class="description">• Keluasan: {{ facility.area_size }}</p>
                 <p class="description pt-3">Nama Peralatan Disediakan</p>
                 <p class="description">{{ facility.equipment_name }}</p>
-                <p class="description">• {{ facility.equipment_description }}</p>
+                <p class="description">
+                  • {{ facility.equipment_description }}
+                </p>
+                <div *ngIf="facility.have_price">
+                  <h4 class="title">Harga</h4>
+                  <table class="table table-bordered">
+                    <thead class="thead-light">
+                      <tr>
+                        <td>Bil Sewaan Kemudahan</td>
+                        <td>Hari</td>
+                        <td>Harga (RM)</td>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let price of facility.id | facilityPriceFilter: facilityprices">
+                        <td>{{ price.facility_description }}</td>
+                        <td>{{ price.facility_days }}</td>
+                        <td>{{ price.facility_price }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 <div class="row pt-3">
                   <div class="col text-right">
                     <a

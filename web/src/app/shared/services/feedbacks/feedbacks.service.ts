@@ -56,4 +56,12 @@ export class FeedbacksService {
       })
     )
   }
+
+  postRating(body: Form): Observable<any> {
+    return this.http.post<any>(environment.baseUrl + 'v1/ratings/', body).pipe(
+      tap((res) => {
+        console.log('Rating: ', res)
+      })
+    )
+  }
 }

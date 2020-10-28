@@ -69,6 +69,13 @@ import { FacilityDetailZonesComponent } from './facility-detail-zones/facility-d
 import { SurveyQuestionFilterPipe } from '../shared/pipes/survey/survey-question-filter.pipe';
 import { NocComponent } from './noc/noc.component';
 import { CharterComponent } from './charter/charter.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { CopyrightNoticeComponent } from './copyright-notice/copyright-notice.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
+import { CioComponent } from './cio/cio.component';
+import { FacilityPriceFilterPipe } from '../shared/pipes/facility/facility-price-filter.pipe';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +115,13 @@ import { CharterComponent } from './charter/charter.component';
     SurveyQuestionFilterPipe,
     NocComponent,
     CharterComponent,
+    PasswordResetComponent,
+    PrivacyPolicyComponent,
+    CopyrightNoticeComponent,
+    DisclaimerComponent,
+    CioComponent,
+    FacilityPriceFilterPipe,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
