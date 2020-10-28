@@ -251,6 +251,9 @@ export class ProgramsListComponent implements OnInit {
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
       this.eduprogramFormGroup.reset();
+      this.eduprogramFormGroup.patchValue({
+        price: 0
+      });
     } else if (process == "update") {
       this.eduprogramFormGroup.patchValue({
         ...row,

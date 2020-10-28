@@ -155,6 +155,15 @@ export const ROUTES: RouteInfo[] = [
     children: [{ path: "list", title: "Senarai", type: "link" }],
   },
   {
+    path: "/venues",
+    title: "Tempat",
+    type: "sub",
+    icontype: "fas fa-monument text-primary",
+    collapse: "assets",
+    isCollapsed: true,
+    children: [{ path: "list", title: "Senarai", type: "link" }],
+  },
+  {
     path: "/reports",
     title: "Laporan",
     type: "sub",

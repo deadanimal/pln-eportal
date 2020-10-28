@@ -24,6 +24,7 @@ import { SimulatorRideScheduleComponent } from "./simulator-ride/simulator-ride-
 import { SurveysAnswerComponent } from "./surveys/surveys-answer/surveys-answer.component";
 import { SurveysListComponent } from "./surveys/surveys-list/surveys-list.component";
 import { TicketsPriceComponent } from "./tickets/tickets-price/tickets-price.component";
+import { VenuesComponent } from './venues/venues.component';
 import { VirtualLibrariesListComponent } from "./virtual-libraries/virtual-libraries-list/virtual-libraries-list.component";
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
 import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
@@ -176,6 +177,15 @@ export const UserRoutes: Routes = [
           {
             path: "list",
             component: AssetsComponent,
+          },
+        ],
+      },
+      {
+        path: "venues",
+        children: [
+          {
+            path: "list",
+            component: VenuesComponent,
           },
         ],
       },

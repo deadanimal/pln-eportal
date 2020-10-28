@@ -9,7 +9,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
 import { UsersService } from "src/app/shared/services/users/users.service";
-import { VisitApplicationsService } from "src/app/shared/services/visit-applications/visit-applications.service";
+import { VenuesService } from "src/app/shared/services/venues/venues.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,11 +20,11 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-visits-applications",
-  templateUrl: "./visits-applications.component.html",
-  styleUrls: ["./visits-applications.component.scss"],
+  selector: "app-venues",
+  templateUrl: "./venues.component.html",
+  styleUrls: ["./venues.component.scss"],
 })
-export class VisitsApplicationsComponent implements OnInit {
+export class VenuesComponent implements OnInit {
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -41,26 +41,37 @@ export class VisitsApplicationsComponent implements OnInit {
   };
 
   // FormGroup
-  visitappFormGroup: FormGroup;
+  venueFormGroup: FormGroup;
 
   // Dropdown
-  users = [];
-  organisationcategories = [
+  zones = [
     {
-      value: "GV",
-      display_name: "Kerajaan",
+      value: "A",
+      display_name: "Alam Semesta",
     },
     {
-      value: "SC",
-      display_name: "Sekolah",
+      value: "B",
+      display_name: "Ruang Kanak-kanak",
     },
     {
-      value: "UN",
-      display_name: "Universiti",
+      value: "C",
+      display_name: "Teknologi Satelit",
     },
     {
-      value: "NA",
-      display_name: "Tiada",
+      value: "D",
+      display_name: "Misi Angkasa",
+    },
+    {
+      value: "E",
+      display_name: "Sistem Solar",
+    },
+    {
+      value: "F",
+      display_name: "Gelombang",
+    },
+    {
+      value: "N",
+      display_name: "Not Available",
     },
   ];
 
@@ -68,35 +79,15 @@ export class VisitsApplicationsComponent implements OnInit {
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private userService: UsersService,
-    private visitappService: VisitApplicationsService
+    private venueService: VenuesService
   ) {
-    this.getUser();
-
-    this.visitappFormGroup = this.formBuilder.group({
+    this.venueFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
-      organisation_name: new FormControl(""),
-      organisation_category: new FormControl(""),
-      visit_date: new FormControl(""),
-      visit_time: new FormControl(""),
-      total_participant: new FormControl(""),
-      customer_id: new FormControl(""),
-      pic_id: new FormControl(""),
-      status: new FormControl(""),
+      name: new FormControl(""),
+      location: new FormControl(""),
+      max_capacity: new FormControl(""),
+      zone: new FormControl(""),
     });
-  }
-
-  getUser() {
-    this.userService.getAll().subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.users = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
   }
 
   ngOnInit() {
@@ -104,7 +95,7 @@ export class VisitsApplicationsComponent implements OnInit {
   }
 
   getData() {
-    this.visitappService.extended().subscribe((res) => {
+    this.venueService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -147,12 +138,10 @@ export class VisitsApplicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.visitappFormGroup.reset();
+      this.venueFormGroup.reset();
     } else if (process == "update") {
-      this.visitappFormGroup.patchValue({
+      this.venueFormGroup.patchValue({
         ...row,
-        customer_id: row.customer_id ? row.customer_id.id : null,
-        pic_id: row.pic_id ? row.pic_id.id : null,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -163,9 +152,9 @@ export class VisitsApplicationsComponent implements OnInit {
   }
 
   create() {
-    this.visitappService.post(this.visitappFormGroup.value).subscribe(
+    this.venueService.post(this.venueFormGroup.value).subscribe(
       (res) => {
-        // console.log("res", res);
+        console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -201,11 +190,11 @@ export class VisitsApplicationsComponent implements OnInit {
   }
 
   update() {
-    this.visitappService
-      .update(this.visitappFormGroup.value, this.visitappFormGroup.value.id)
+    this.venueService
+      .update(this.venueFormGroup.value, this.venueFormGroup.value.id)
       .subscribe(
         (res) => {
-          // console.log("res", res);
+          console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -238,5 +227,12 @@ export class VisitsApplicationsComponent implements OnInit {
             });
         }
       );
+  }
+
+  getZone(value: string) {
+    let result = this.zones.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
   }
 }

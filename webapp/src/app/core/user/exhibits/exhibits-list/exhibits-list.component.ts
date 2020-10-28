@@ -197,6 +197,7 @@ export class ExhibitsListComponent implements OnInit {
       "image_link",
       this.exhibitlistFormGroup.get("image_link").value
     );
+    formData.append("name", this.exhibitlistFormGroup.value.name);
     formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
     formData.append("status", this.exhibitlistFormGroup.value.status);
 
@@ -239,10 +240,13 @@ export class ExhibitsListComponent implements OnInit {
 
   update() {
     const formData = new FormData();
-    formData.append(
-      "image_link",
-      this.exhibitlistFormGroup.get("image_link").value
-    );
+    if (typeof(this.exhibitlistFormGroup.get("image_link").value) != "string") {
+      formData.append(
+        "image_link",
+        this.exhibitlistFormGroup.get("image_link").value
+      );  
+    }
+    formData.append("name", this.exhibitlistFormGroup.value.name);
     formData.append("id", this.exhibitlistFormGroup.value.id);
     formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
     formData.append("status", this.exhibitlistFormGroup.value.status);
