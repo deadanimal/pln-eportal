@@ -10,3 +10,20 @@ video {
 .section {
   padding: 30px 0;
 }
+
+.panel .customClass {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.card .card-header {
+  padding: .5rem .75rem !important;
+}
+
+.card .card-body {
+  padding: .75rem 1.5rem !important;
+}
+
+.btn.btn-link:hover, .btn.btn-link:focus {
+  color: #354675 !important;
+}

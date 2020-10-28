@@ -14,153 +14,47 @@
     </div> -->
     <carousel>
       <slide>
-        <img src="../../../assets/img/show/show-1.jpg" alt="second slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
       </slide>
       <slide>
-        <img src="../../../assets/img/show/show-2.jpg" alt="third slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
       </slide>
       <slide>
-        <img src="../../../assets/img/show/show-3.jpg" alt="first slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
       </slide>
     </carousel>
   </div>
-  <div class="section bg-white related-products">
+  <section class="section bg-white section-lg">
     <div class="container">
-      <div class="col-md-12 text-center">
-        <h2 class="description">
-          Pameran ini berkisarkan kehidupan Sheikh Muszaphar Shukor sebagai
-          Angkasawan Negara. Dato' Dr. Sheikh Muszaphar Shukor Al Masrie bin
-          Sheikh Mustapha dilahirkan pada 27 Julai 1973, merupakan doktor bedah
-          ortopedik Malaysia dan angkasawan Malaysia yang pertama ke angkasa
-          lepas setelah diumumkan oleh Dato' Seri Abdullah bin Haji Ahmad Badawi
-          pada 25 September 2007 (Selasa) tepat jam 12.00 tengah hari.
-        </h2>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 text-center">
+          <h2 class="title">{{ exhibitdetails[0]?.name }}</h2>
+          <ngx-gallery
+            [options]="galleryOptions"
+            [images]="exhibitdetailimages"
+          ></ngx-gallery>
+        </div>
+      </div>
+      <div class="row text-center justify-content-center p-3">
+        <div class="col-md-10 col-sm-12 text-center">
+          <p class="text-justify text-dark">
+            {{ exhibitdetails[0]?.description }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <section class="section bg-white section-lg">
-    <section class="section">
-      <img class="path" src="assets/img/path4.png" />
-
-      <div class="container">
-        <div class="row row-grid justify-content-between">
-          <div class="col-md-4">
-            <div class="card-image">
-              <a>
-                <img class="img rounded" src="assets/img/exhibit/rocket.jpg" />
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="pl-md-1">
-              <p class="my-auto">
-                Sekumpulan penyelidik, jurutera aeroangkasa dari sebuah syarikat
-                teknologi tinggi aeroangkasa yang bertapak di Kuala Lumpur,
-                Independence-X Aerospace Sdn. Bhd. (IDXA) telah mencipta roket
-                untuk dihantar ke angkasa lepas. Roket tersebut dinamakan
-                sebagai Dedicated Nano Launch Vehicle (DNLV) yang akan siap
-                sedia dikomersialkan pada tahun 2023. Jadinya ia akan berlepas
-                dan mendarat ke angkasa lepas dalam tempoh 3 tahun lagi.
-              </p>
-              <br />
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div
-              class="card card-product bg-white"
-              (click)="openDefaultModal(modalDefault)"
-            >
-              <div class="card-image">
-                <a>
-                  <img alt="..." src="assets/img/exhibit/qr-code.png" />
-                </a>
-              </div>
-              <!--<div class="card-body">
-                            </div>-->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-4">
-        <div class="row row-grid justify-content-between">
-          <div class="col-md-2">
-            <div
-              class="card card-product bg-white"
-              (click)="openDefaultModal(modalDefault)"
-            >
-              <div class="card-image">
-                <a>
-                  <img alt="..." src="assets/img/exhibit/qr-code.png" />
-                </a>
-              </div>
-              <!--<div class="card-body">
-                            </div>-->
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="pl-md-1">
-              <p class="my-auto">
-                Dibiayai sebagaiannya oleh Yayasan Sains Kebangsaan, InTelMed
-                mempunyai matlamat untuk mencipta teknologi sensor yang boleh
-                dipakai biofeedback yang terkawal dan keupayaan pengauditan data
-                penjagaan kesihatan, dipasangkan dengan analisis data pintar
-                berasaskan awan, untuk mewujudkan sistem autonomi yang boleh
-                memantau status kesihatan individu secara bebas penyedia
-                penjagaan kesihatan.
-              </p>
-              <br />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card-image">
-              <a>
-                <img class="img rounded" src="assets/img/exhibit/ray.jpg" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-4">
-        <div class="row row-grid justify-content-between">
-          <div class="col-md-4">
-            <div class="card-image">
-              <a href="javascript:void(0)">
-                <img
-                  class="img rounded"
-                  src="assets/img/exhibit/astronaut.jpg"
-                />
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="my-auto">
-              <p class="align-middle">
-                Membangunkan sistem pulangan automatik itu tidak menjadi tugas
-                mudah. Rintangan terbesar adalah untuk mewujudkan sistem
-                navigasi untuk space suit, yang tidak wujud pada masa ini.
-                Itulah rumit kerana sukar untuk menentukan dengan tepat di mana
-                seseorang berada di angkasa.
-              </p>
-              <br />
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div
-              class="card card-product bg-white"
-              (click)="openDefaultModal(modalDefault)"
-            >
-              <div class="card-image">
-                <a>
-                  <img alt="..." src="assets/img/exhibit/qr-code.png" />
-                </a>
-              </div>
-              <!--<div class="card-body">
-                            </div>-->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </section>
 </div>
 

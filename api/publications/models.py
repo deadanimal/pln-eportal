@@ -12,6 +12,23 @@ from users.models import (
     CustomUser
 )
 
+class PublicationCategory(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    name = models.CharField(max_length=255, default='NA', blank=True)
+    icon = models.CharField(max_length=50, default='NA', blank=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    
+    def __str__(self):
+        return self.name
+
+
 class Publication(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
@@ -24,6 +41,7 @@ class Publication(models.Model):
     edition = models.CharField(max_length=20, default='NA')
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
     pdf_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('publication'))
+    publication_category_id = models.ForeignKey(PublicationCategory, on_delete=models.CASCADE, related_name='publication_publication_category_id', null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

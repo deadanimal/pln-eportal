@@ -261,7 +261,7 @@ export class NavbarComponent implements OnInit {
               icon: "success",
               title: "Tukar kata laluan",
               text:
-                "Tukar kata laluan sudah dihantar kepada emel anda. Sila check emel anda. Terima kasih.",
+                "Tukar kata laluan sudah dihantar kepada emel anda. Sila semak emel anda. Terima kasih.",
               buttonsStyling: false,
               confirmButtonText: "Tutup",
               customClass: {

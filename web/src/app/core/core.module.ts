@@ -66,6 +66,9 @@ import { ProgramImageFilterPipe } from '../shared/pipes/program/program-image-fi
 import { ProgramFormsComponent } from './program-forms/program-forms.component';
 import { FacilityImageFilterPipe } from '../shared/pipes/facility/facility-image-filter.pipe';
 import { FacilityDetailZonesComponent } from './facility-detail-zones/facility-detail-zones.component';
+import { SurveyQuestionFilterPipe } from '../shared/pipes/survey/survey-question-filter.pipe';
+import { NocComponent } from './noc/noc.component';
+import { CharterComponent } from './charter/charter.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +105,9 @@ import { FacilityDetailZonesComponent } from './facility-detail-zones/facility-d
     ProgramFormsComponent,
     FacilityImageFilterPipe,
     FacilityDetailZonesComponent,
+    SurveyQuestionFilterPipe,
+    NocComponent,
+    CharterComponent,
   ],
   imports: [
     CommonModule,

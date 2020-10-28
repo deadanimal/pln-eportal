@@ -130,6 +130,12 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
+                  class="btn btn-sm btn-info"
+                  (click)="openModal(showPoster, 'upload', row)"
+                >
+                  Poster
+                </button>
+                <button
                   class="btn btn-sm btn-primary"
                   (click)="openModal(editShow, 'update', row)"
                 >
@@ -340,6 +346,55 @@
 
   <div class="modal-footer">
     <button class="btn btn-success" type="button" (click)="update()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #showPoster>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Poster
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="showingposterFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih poster</label><br />
+        <input type="file" name="poster_link" (change)="onChange($event)" />
+      </div>
+    </form>
+
+    <div class="text-center" *ngIf="showingposterFormGroup.value.poster_link">
+      <img
+        [src]="showingposterFormGroup.value.poster_link"
+        style="width: 100%"
+      />
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="uploadposter()">
       Simpan
     </button>
 

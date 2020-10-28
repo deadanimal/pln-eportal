@@ -273,10 +273,6 @@ export class FacilityDetailsComponent implements OnInit {
       value: "FULL",
       display_name: "Satu Hari",
     },
-    {
-      value: "NONE",
-      display_name: "Tiada",
-    },
   ];
   facilitycategories = [
     {
@@ -420,6 +416,10 @@ export class FacilityDetailsComponent implements OnInit {
         Validators.compose([Validators.required])
       ),
       total_price: new FormControl(0.0),
+      want_equipment: new FormControl(
+        false,
+        Validators.compose([Validators.required])
+      ),
       user_id: new FormControl(""),
       pic_id: new FormControl(""),
       facility_id: new FormControl(""),

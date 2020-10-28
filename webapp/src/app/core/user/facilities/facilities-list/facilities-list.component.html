@@ -346,6 +346,24 @@
           </option>
         </select>
       </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama Peralatan</label>
+        <input
+          class="form-control"
+          formControlName="equipment_name"
+          placeholder="contoh: Meja"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi Peralatan</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          formControlName="equipment_description"
+          placeholder="contoh: Meja bersaiz 40 x 40 untuk disewa"
+        ></textarea>
+      </div>
       <!-- <div class="form-group">
         <label class="form-control-label">Asset</label>
         <select
@@ -536,6 +554,24 @@
           </option>
         </select>
       </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama Peralatan</label>
+        <input
+          class="form-control"
+          formControlName="equipment_name"
+          placeholder="contoh: Meja"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi Peralatan</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          formControlName="equipment_description"
+          placeholder="contoh: Meja bersaiz 40 x 40 untuk disewa"
+        ></textarea>
+      </div>
       <!-- <div class="form-group">
         <label class="form-control-label">Asset</label>
         <select
@@ -646,11 +682,7 @@
   </div>
 
   <div class="modal-footer">
-    <button
-      class="btn btn-success"
-      type="button"
-      (click)="createupdateprice()"
-    >
+    <button class="btn btn-success" type="button" (click)="createupdateprice()">
       Simpan
     </button>
 

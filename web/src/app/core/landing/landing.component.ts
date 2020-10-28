@@ -32,17 +32,19 @@ export class LandingComponent implements OnInit {
   noWrap = false;
 
   // Data
+  months = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+  currentDate = new Date();
   interestings = [
     {
       title: "PAMERAN SAINS",
       description:
-        "Pameran ini memberikan peluang kepada pelawat meneroka bahan pameran interaktif dan mencipta sendiri pengalaman pembelajaran yang unik. Ia menggalakkan interaksi di kalangan pelawat pada semua peringkat usia.",
+        "Pameran yang bertemakan astronomi dan penerokaan angkasa disediakan supaya pengunjung dapat merasai pengalaman pembelajaran yang unik melalui konsep hands-on dan minds-on. Ruangan pameran yang dilengkapi dengan bahan pameran yang interaktif  akan mewujudkan simulasi sebenar persekitaran ruangan angkasa.",
       img: "../../../assets/home/peneroka-angkasa.jpg",
     },
     {
       title: "TEATER ANGKASA",
       description:
-        "Teater Angkasa boleh memuatkan sehingga 190 orang penonton. Ia mempunyai skrin berbentuk kubah aluminium hesmisfera yang dilengkapi dengan sistem bunyi sekeliling digital 6-saluran. Dua projektor full dome immersive system memberikan pilihan tayangan setiap jam dan setiap hari.",
+        "Teater Angkasa menyerupai sebuah panggung wayang yang menjadi penanda aras sesebuah Planetarium.  Ia boleh dilihat dari segi skala saiz yang mampu memuatkan sehingga 200 orang penonton dalam satu masa dan infrastruktur teknologi bagi membantu mensimulasikan pergerakan dan keunikan objek yang berbeza dalam galaksi.  Ia mempunyai kubah aluminium hemisfera yang dilengkapi system bunyi sekelliling digital 6-saluran. Dua projektor full dome immersive system memberikan tayangan astronomi dan simulasi langit malam menyerupai sebuah balai cerap.",
       img: "../../../assets/home/teater-angkasa.jpg",
     },
     {
@@ -55,7 +57,31 @@ export class LandingComponent implements OnInit {
       title: "TAMAN REKREASI",
       description:
         "Persekitaran bukit yang menghijau itu dihiasi dengan replika balai cerap China dan India dari era terdahulu. Replika Stonehenge tersergam di sebelah pintu masuk utama sementara Jam Matahari Merdeka menghiasi kawasan laluan masuk. Selain dari replika bahan sejarah di kawasan luarnya juga terdapat arca hasil karya seni.",
-      img: "../../../assets/home/stonehenge.jpeg",
+      img: "../../../assets/home/stonehenge.jpg",
+    },
+    {
+      title: "KEDUDUKAN STRATEGIK",
+      description:
+        "Planetarium Negara terletak di dalam kawasan hijau Kuala Lumpur yang dikelilingi oleh beberapa mercu tanda iaitu Masjid Negara, Muzium Negara, Muzium Seni Islam, Tugu Negara dan Taman Botani Perdana. Lokasi dan keunikan senibina islam adalah aset terbesar sebagai eco-tourism negara yang menjadi daya tarikan dan tumpuan pelancong. Kemudahan pengangkutan yang mudah kepada pengunjung kerana lokasinya yang hampir dengan stesen Sentral Kuala Lumpur yang merupakan hab transit terbesar negara.",
+      img: "../../../assets/home/kedudukan-strategik.jpg",
+    },
+    {
+      title: "BALAI CERAP",
+      description:
+        "Suatu kemudahan yang menempatkan teleskop dan aksesori untuk orang awam mencerap objek-objek langit dan boleh juga digunakan untuk tujuan penyelidikan. Pada waktu siang para pengunjung boleh menggunakan teleskop di Balaicerap Planetarium Negara untuk melihat permukaan Matahari. Balaicerap Planetarium Negara dibuka kepada awam pada hari-hari tertentu dalam seminggu.",
+      img: "../../../assets/home/balai-cerap-pn.jpg",
+    },
+    {
+      title: "STESEN MIKROSATELIT",
+      description:
+        "Suatu kemudahan yang menempatkan peralatan komunikasi Radio Amatur di Planetarium Negara. Peralatan Radio Amatur yang disediakan di stesen mikrosatelit Planetarium Negara dapat digunakan bagi tujuan perhubungan radio kepada pengguna-pengguna radio amatur dan juga untuk berkomunikasi dengan mikrosatelit yang melintasi ruang udara Kuala Lumpur. Stesen ini juga digunakan untuk berkomunikasi dengan angkasawan yang sedang bertugas di Stesen Angkasa Antarabangsa (ISS).",
+      img: "../../../assets/home/stesen-mikrosatelit.jpg",
+    },
+    {
+      title: "MENARA PEMANDANGAN",
+      description:
+        "Dengan menggunakan binokular yang disediakan, para pengunjung dapat menikmati pemandangan yang indah di persekitaran Tasik Perdana.",
+      img: "../../../assets/home/menara-pemandangan.jpg",
     },
   ];
   interesting = {

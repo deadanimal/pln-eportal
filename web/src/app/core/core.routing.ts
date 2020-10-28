@@ -29,6 +29,8 @@ import { OperatingHourComponent } from "./operating-hour/operating-hour.componen
 import { DirectoryComponent } from "./directory/directory.component";
 import { ProgramFormsComponent } from "./program-forms/program-forms.component";
 import { FacilityDetailZonesComponent } from "./facility-detail-zones/facility-detail-zones.component";
+import { NocComponent } from "./noc/noc.component";
+import { CharterComponent } from './charter/charter.component';
 
 export const CoreRoutes: Routes = [
   {
@@ -51,11 +53,11 @@ export const CoreRoutes: Routes = [
         component: ExhibitComponent,
       },
       {
-        path: "lists",
+        path: "lists/:zone",
         component: ExhibitListsComponent,
       },
       {
-        path: "details",
+        path: "lists/:zone/:detail",
         component: ExhibitDetailsComponent,
       },
     ],
@@ -175,5 +177,13 @@ export const CoreRoutes: Routes = [
   {
     path: "faq",
     component: FaqComponent,
+  },
+  {
+    path: "noc",
+    component: NocComponent,
+  },
+  {
+    path: "charter",
+    component: CharterComponent,
   },
 ];

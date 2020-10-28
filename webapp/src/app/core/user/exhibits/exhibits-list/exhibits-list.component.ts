@@ -5,12 +5,15 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
 import { ExhibitsService } from "src/app/shared/services/exhibits/exhibits.service";
-import { AssetsService } from "src/app/shared/services/assets/assets.service";
-import { UsersService } from "src/app/shared/services/users/users.service";
+import { ExhibitDetailsService } from "src/app/shared/services/exhibit-details/exhibit-details.service";
+import { ExhibitDetailImagesService } from 'src/app/shared/services/exhibit-detail-images/exhibit-detail-images.service';
+import { ExhibitListsService } from "src/app/shared/services/exhibit-lists/exhibit-lists.service";
+import { VenuesService } from "src/app/shared/services/venues/venues.service";
 
 export enum SelectionType {
   single = "single",
@@ -26,13 +29,26 @@ export enum SelectionType {
   styleUrls: ["./exhibits-list.component.scss"],
 })
 export class ExhibitsListComponent implements OnInit {
-  // Table
-  tableEntries: number = 5;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
+  // Data
+  exhibit_id: string = "";
+  exhibits = [];
+  exhibitdetailimages = [];
+
+  // Dropdown
+  statuses = [
+    {
+      value: "AV",
+      display_name: "Aktif",
+    },
+    {
+      value: "NA",
+      display_name: "Tidak aktif",
+    },
+  ];
+  venues = [];
+
+  // FormGroup
+  exhibitlistFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -41,43 +57,43 @@ export class ExhibitsListComponent implements OnInit {
     class: "modal-dialog-centered",
   };
 
-  // FormGroup
-  exhibitFormGroup: FormGroup;
-
-  // Dropdown
-  assets = [];
-  statuses = [];
-  users = [];
-  zones = [];
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
+    private route: ActivatedRoute,
     private exhibitService: ExhibitsService,
-    private assetService: AssetsService,
-    private userService: UsersService
+    private exhibitdetailService: ExhibitDetailsService,
+    private exhibitdetailimagesService: ExhibitDetailImagesService,
+    private exhibitlistService: ExhibitListsService,
+    private venueService: VenuesService
   ) {
-    this.getAsset();
-    this.getUser();
+    this.getVenue();
 
-    this.exhibitFormGroup = this.formBuilder.group({
+    this.exhibit_id = this.route.snapshot.paramMap.get("id");
+    if (this.exhibit_id) this.getExhibit();
+
+    this.exhibitlistFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       name: new FormControl(""),
-      description: new FormControl(""),
-      // image_link: new FormControl(""),
-      zone: new FormControl(""),
-      pic_id: new FormControl(""),
-      asset_id: new FormControl(""),
-      // qrcode: new FormControl(""),
+      image_link: new FormControl(""),
       status: new FormControl(""),
+      exhibit_id: new FormControl(""),
     });
   }
 
-  getAsset() {
-    this.assetService.get().subscribe(
+  getExhibit() {
+    this.exhibitService.filter("id=" + this.exhibit_id).subscribe(
       (res) => {
         console.log("res", res);
-        this.assets = res;
+        this.exhibits = res;
       },
       (err) => {
         console.error("err", err);
@@ -85,11 +101,11 @@ export class ExhibitsListComponent implements OnInit {
     );
   }
 
-  getUser() {
-    this.userService.getAll().subscribe(
+  getVenue() {
+    this.venueService.get().subscribe(
       (res) => {
         console.log("res", res);
-        this.users = res;
+        this.venues = res;
       },
       (err) => {
         console.error("err", err);
@@ -102,44 +118,14 @@ export class ExhibitsListComponent implements OnInit {
   }
 
   getData() {
-    // let fakeData = [
-    //   { zone: "A", number: "1", item: "Lobi", status: "inactive" },
-    //   {
-    //     zone: "A",
-    //     number: "2",
-    //     item: "Bumi, Matahari dan Sistem Suria",
-    //     status: "inactive",
-    //   },
-    //   { zone: "A", number: "3", item: "Terokai Angkasa", status: "active" },
-    //   { zone: "A", number: "4", item: "Star Life Cycle", status: "active" },
-    //   { zone: "A", number: "5", item: "Alam Semesta", status: "active" },
-    //   { zone: "B", number: "6", item: "Lobi", status: "active" },
-    //   {
-    //     zone: "B",
-    //     number: "7",
-    //     item: "Bumi, Matahari dan Sistem Suria",
-    //     status: "active",
-    //   },
-    //   { zone: "B", number: "8", item: "Terokai Angkasa", status: "active" },
-    //   { zone: "B", number: "9", item: "Star Life Cycle", status: "active" },
-    //   { zone: "B", number: "10", item: "Satelit", status: "active" },
-    // ];
-
-    // this.tableRows = [...fakeData];
-    // this.tableTemp = this.tableRows.map((prop, key) => {
-    //   return {
-    //     ...prop,
-    //     id: key,
-    //   };
-    // });
-    this.exhibitService.get().subscribe(
+    this.exhibitlistService.filter("exhibit_id=" + this.exhibit_id).subscribe(
       (res) => {
         console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
             ...prop,
-            id: key,
+            no: key,
           };
         });
       },
@@ -181,12 +167,13 @@ export class ExhibitsListComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.exhibitFormGroup.reset();
+      this.exhibitlistFormGroup.reset();
+      this.exhibitlistFormGroup.patchValue({
+        exhibit_id: this.exhibit_id,
+      });
     } else if (process == "update") {
-      this.exhibitFormGroup.patchValue({
+      this.exhibitlistFormGroup.patchValue({
         ...row,
-        asset_id: row.asset_id.id,
-        pic_id: row.pic_id.id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -196,8 +183,24 @@ export class ExhibitsListComponent implements OnInit {
     this.modal.hide();
   }
 
+  // Image Process
+  onChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.exhibitlistFormGroup.get("image_link").setValue(file);
+    }
+  }
+
   create() {
-    this.exhibitService.post(this.exhibitFormGroup.value).subscribe(
+    const formData = new FormData();
+    formData.append(
+      "image_link",
+      this.exhibitlistFormGroup.get("image_link").value
+    );
+    formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
+    formData.append("status", this.exhibitlistFormGroup.value.status);
+
+    this.exhibitlistService.post(formData).subscribe(
       (res) => {
         console.log("res", res);
         swal
@@ -235,8 +238,17 @@ export class ExhibitsListComponent implements OnInit {
   }
 
   update() {
-    this.exhibitService
-      .update(this.exhibitFormGroup.value, this.exhibitFormGroup.value.id)
+    const formData = new FormData();
+    formData.append(
+      "image_link",
+      this.exhibitlistFormGroup.get("image_link").value
+    );
+    formData.append("id", this.exhibitlistFormGroup.value.id);
+    formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
+    formData.append("status", this.exhibitlistFormGroup.value.status);
+
+    this.exhibitlistService
+      .update(formData, this.exhibitlistFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);

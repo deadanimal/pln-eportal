@@ -180,8 +180,6 @@ export const ROUTES: RouteInfo[] = [
     icontype: "fas fa-cogs text-primary",
     collapse: "managements",
     isCollapsed: true,
-    children: [
-      { path: "users", title: "Pengguna", type: "link" },
-    ],
-  }
+    children: [{ path: "users", title: "Pengguna", type: "link" }],
+  },
 ];

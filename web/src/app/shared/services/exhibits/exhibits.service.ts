@@ -57,4 +57,21 @@ export class ExhibitsService {
     )
   }
 
+  filter(field: string): Observable<Exhibit[]> {
+    let urlFilter = this.url + "?" + field;
+    return this.http.get<Exhibit[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log("Exhibits: ", res);
+      })
+    );
+  }
+
+  extended(): Observable<Exhibit[]> {
+    return this.http.get<Exhibit[]>(this.url + "extended").pipe(
+      tap((res) => {
+        console.log("Exhibits: ", res);
+      })
+    );
+  }
+
 }

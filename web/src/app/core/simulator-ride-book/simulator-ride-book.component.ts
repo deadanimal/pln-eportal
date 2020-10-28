@@ -14,6 +14,7 @@ import { SimulatorRideTimesService } from "src/app/shared/services/simulator-rid
 })
 export class SimulatorRideBookComponent implements OnInit {
   // FormGroup
+  zeroFormGroup: FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
@@ -65,6 +66,9 @@ export class SimulatorRideBookComponent implements OnInit {
     private simulatorridebookingService: SimulatorRideBookingsService,
     private simulatorridetimeService: SimulatorRideTimesService
   ) {
+    this.zeroFormGroup = this.formBuilder.group({
+      accept: [false, Validators.compose([Validators.requiredTrue])],
+    });
     this.firstFormGroup = this.formBuilder.group({
       date: ["", Validators.required],
       time: ["", Validators.required],

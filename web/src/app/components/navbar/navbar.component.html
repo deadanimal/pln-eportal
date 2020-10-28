@@ -114,7 +114,7 @@
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/operating-hour']"
             >
-              Waktu Operasi
+              Waktu Operasi & Harga
             </a>
             <a
               class="dropdown-item"
@@ -126,9 +126,9 @@
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/pdpa']"
+              [routerLink]="['/charter']"
             >
-              Akta Perlindungan Peribadi
+              Piagam Pelanggan
             </a>
             <a
               class="dropdown-item"
@@ -136,6 +136,13 @@
               [routerLink]="['/faq']"
             >
               FAQ
+            </a>
+            <a
+              class="dropdown-item"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              [routerLink]="['/directory']"
+            >
+              Direktori Pegawai
             </a>
           </div>
         </li>
@@ -194,13 +201,13 @@
           </a>
         </li> -->
         <li class="nav-item" *ngIf="!accessToken">
-          <a class="nav-link" (click)="openLoginModal(loginModal)">
-            <i class="fas fa-sign-in-alt"></i> Log Masuk
+          <a class="nav-link" (click)="openRegisterModal(registerModal)">
+            <i class="fas fa-users"></i> Daftar
           </a>
         </li>
         <li class="nav-item" *ngIf="!accessToken">
-          <a class="nav-link" (click)="openRegisterModal(registerModal)">
-            <i class="fas fa-users"></i> Daftar
+          <a class="nav-link" (click)="openLoginModal(loginModal)">
+            <i class="fas fa-sign-in-alt"></i> Log Masuk
           </a>
         </li>
         <li class="nav-item" *ngIf="accessToken">

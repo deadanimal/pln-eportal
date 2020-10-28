@@ -78,6 +78,8 @@ class Facility(models.Model):
     pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_pic_id')
     # asset_id = models.ManyToManyField(Asset, related_name='facility_asset_id')
     venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='facility_venue_id', null=True)
+    equipment_name = models.CharField(max_length=255, blank=True)
+    equipment_description = models.TextField(blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
@@ -157,6 +159,7 @@ class FacilityBooking(models.Model):
     booking_days = models.CharField(max_length=4, choices=DAY, default='NONE')
     number_of_people = models.IntegerField(default=0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)
+    want_equipment = models.BooleanField(default=False)
 
     STATUS = [
         ('AP', 'Approved'),

@@ -2,7 +2,13 @@
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
       <!-- <div class="overlay"></div> -->
-      <video autoplay="autoplay" loop="loop" muted="muted" oncanplay="this.play()" onloadedmetadata="this.muted = true">
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+        oncanplay="this.play()"
+        onloadedmetadata="this.muted = true"
+      >
         <source
           src="../../../assets/video/planetarium-homepage-video.mp4"
           type="video/mp4"
@@ -38,7 +44,32 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">Direktori</h2>
-        <div class="row pb-3"></div>
+        <div class="row pb-3">
+          <div class="col-md-6 col-sm-12">
+            <h2 class="title text-default">Lokasi Kami</h2>
+            <ol>
+              <li><p>Bersebelahan dengan Taman Burung (KL Bird Park)</p></li>
+              <li><p>Muzium Polis</p></li>
+              <li><p>Memorial Tun Abdul Razak</p></li>
+              <li><p>Taman Tasik Perdana</p></li>
+              <li><p>Muzium Negara</p></li>
+              <li>
+                <p>Stesen MRT Muzium Negara (akses jejantas pejalan kaki)</p>
+              </li>
+              <li><p>Tempat letak kereta dan bas percuma disediakan</p></li>
+            </ol>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <iframe
+              width="600"
+              height="450"
+              frameborder="0"
+              style="border: 0"
+              src="https://maps.google.com/maps?q=Planetarium%20Negara%2C%20Kuala%20Lumpur&t=m&z=15&output=embed&iwloc=near"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -23,15 +23,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: './core/user/user.module#UserModule'
+        loadChildren: () => import('./core/user/user.module').then(m => m.UserModule)
       },
       {
         path: 'admin',
-        loadChildren: './core/admin/admin.module#AdminModule'
+        loadChildren: () => import('./core/admin/admin.module').then(m => m.AdminModule)
       },
       {
         path: 'global',
-        loadChildren: './core/global/global.module#GlobalModule'
+        loadChildren: () => import('./core/global/global.module').then(m => m.GlobalModule)
       }
     ]
   },
@@ -41,7 +41,7 @@ const routes: Routes = [
     children: [
       {
         path: 'auth',
-        loadChildren: './auth/auth.module#AuthModule'
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
       }
     ]
   },
