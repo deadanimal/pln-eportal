@@ -11,21 +11,52 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
 from publications.models import (
-    Publication
+    Publication,
+    PublicationCategory
 )
 
 from publications.serializers import (
-    PublicationSerializer
+    PublicationSerializer,
+    PublicationExtendedSerializer,
+    PublicationCategorySerializer
 )
+
+class PublicationCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = PublicationCategory.objects.all()
+    serializer_class = PublicationCategorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'id',
+        'name',
+        'icon',
+        'created_date',
+        'modified_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = PublicationCategory.objects.all()
+        return queryset
+
 
 class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
+        'id',
         'author_name', 
         'publisher_name', 
         'published_date',
+        'publication_category_id',
         'created_date',
         'modified_date'
     ]
@@ -41,21 +72,14 @@ class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     
     def get_queryset(self):
         queryset = Publication.objects.all()
-
-        """
-        if self.request.user.is_anonymous:
-            queryset = Company.objects.none()
-
-        else:
-            user = self.request.user
-            company_employee = CompanyEmployee.objects.filter(employee=user)
-            company = company_employee[0].company
-            
-            if company.company_type == 'AD':
-                queryset = Publication.objects.all()
-            else:
-                queryset = Publication.objects.filter(company=company.id)
-        """
         return queryset    
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = Publication.objects.all()
+        serializer_class = PublicationExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
  
  

@@ -88,7 +88,7 @@ class ExhibitDetail(models.Model):
     description = models.TextField(blank=True)
     # image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
     video_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('video'))
-    venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_detail_venue')
+    venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_detail_venue', null=True)
     qrcode = models.CharField(max_length=255, default='NA')
 
     STATUS = [
@@ -163,7 +163,7 @@ class EducationalProgram(models.Model):
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
     website_link = models.URLField(blank=True)
     video_link = models.URLField(blank=True)
-    venue_id = models.ManyToManyField(Venue, related_name='educational_program_venue')
+    venue_id = models.ManyToManyField(Venue, related_name='educational_program_venue', blank=True)
     coordinator_id = models.ManyToManyField(CustomUser, related_name='educational_program_coordinator')
     registration = models.BooleanField(default=True)
     activity = models.BooleanField(default=False)

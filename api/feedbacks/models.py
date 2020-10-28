@@ -26,3 +26,19 @@ class Feedback(models.Model):
     
     def __str__(self):
         return self.comment
+
+
+class Rating(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    rating = models.IntegerField(default=1)
+    comment = models.CharField(max_length=255, default='NA', blank=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['comment']
+    
+    def __str__(self):
+        return self.comment

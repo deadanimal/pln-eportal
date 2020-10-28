@@ -11,12 +11,14 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
 from feedbacks.models import (
-    Feedback
+    Feedback,
+    Rating
 )
 
 from feedbacks.serializers import (
     FeedbackSerializer,
-    FeedbackExtendedSerializer
+    FeedbackExtendedSerializer,
+    RatingSerializer
 )
 
 class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -65,5 +67,29 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer_class = FeedbackExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)
+
+
+class RatingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'comment', 
+        'created_date',
+        'modified_date'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = Rating.objects.all()
+        return queryset
  
  

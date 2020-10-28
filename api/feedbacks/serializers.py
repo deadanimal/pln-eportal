@@ -9,7 +9,8 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Feedback
+    Feedback,
+    Rating
 )
 
 from users.serializers import (
@@ -28,5 +29,12 @@ class FeedbackExtendedSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Feedback
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class RatingSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Rating
         fields = '__all__'
         read_only_fields = ['id']

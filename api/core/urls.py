@@ -111,11 +111,16 @@ payment_tickets_router = router.register(
 
 # Publications app
 from publications.views import (
-    PublicationViewSet
+    PublicationViewSet,
+    PublicationCategoryViewSet
 )
 
 publications_router = router.register(
     'publications', PublicationViewSet
+)
+
+publication_categories_router = router.register(
+    'publication-categories', PublicationCategoryViewSet
 )
 
 # Virtuallibraries app
@@ -167,11 +172,16 @@ survey_questions_router = router.register(
 
 # Feedbacks app
 from feedbacks.views import (
-    FeedbackViewSet
+    FeedbackViewSet,
+    RatingViewSet
 )
 
 feedbacks_router = router.register(
     'feedbacks', FeedbackViewSet
+)
+
+ratings_router = router.register(
+    'ratings', RatingViewSet
 )
 
 # Users app
@@ -229,6 +239,15 @@ simulator_ride_times_router = router.register(
 
 simulator_ride_bookings_router = router.register(
     'simulator-ride-bookings', SimulatorRideBookingViewSet
+)
+
+# Employee Directory app
+from employeedirectories.views import (
+    EmployeeDirectoryViewSet
+)
+
+employee_directories_router = router.register(
+    'employee-directories', EmployeeDirectoryViewSet
 )
 
 urlpatterns = [
