@@ -8,7 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
+import { VirtualLibraryCategoriesService } from "src/app/shared/services/virtual-library-categories/virtual-library-categories.service";
 import { FontAwesome } from "src/assets/json/font-awesome-dropdown";
 
 export enum SelectionType {
@@ -20,25 +20,35 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-publications",
-  templateUrl: "./publications.component.html",
-  styleUrls: ["./publications.component.scss"],
+  selector: "app-virtual-library-categories-list",
+  templateUrl: "./virtual-library-categories-list.component.html",
+  styleUrls: ["./virtual-library-categories-list.component.scss"],
 })
-export class PublicationsComponent implements OnInit {
-  // Data
-
+export class VirtualLibraryCategoriesListComponent implements OnInit {
   // Dropdown
   fontAwesomes = FontAwesome;
-
-  // FormGroup
-  publicationcategoryFormGroup: FormGroup;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
+  links = [
+    {
+      value: "tentang-kami",
+      display_name: "Tentang Kami",
+    },
+    {
+      value: "artikel-terkini",
+      display_name: "Artikel Terkini",
+    },
+    {
+      value: "koleksi",
+      display_name: "Koleksi",
+    },
+    {
+      value: "perkhidmatan",
+      display_name: "Perkhidmatan",
+    },
+    {
+      value: "not-available",
+      display_name: "Tiada",
+    },
+  ];
 
   // Table
   tableEntries: number = 5;
@@ -48,25 +58,36 @@ export class PublicationsComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // FormGroup
+  virtuallibrarycategoryFormGroup: FormGroup;
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private publicationcategoryService: PublicationCategoriesService
+    private virtuallibrarycategoryService: VirtualLibraryCategoriesService
   ) {
-    this.getData();
-
-    this.publicationcategoryFormGroup = this.formBuilder.group({
+    this.virtuallibrarycategoryFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       name: new FormControl(""),
       icon: new FormControl(""),
+      link: new FormControl(""),
       status: new FormControl(false),
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getData();
+  }
 
   getData() {
-    this.publicationcategoryService.get().subscribe((res) => {
+    this.virtuallibrarycategoryService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -109,9 +130,9 @@ export class PublicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.publicationcategoryFormGroup.reset();
+      this.virtuallibrarycategoryFormGroup.reset();
     } else if (process == "update") {
-      this.publicationcategoryFormGroup.patchValue({
+      this.virtuallibrarycategoryFormGroup.patchValue({
         ...row,
       });
     }
@@ -123,8 +144,8 @@ export class PublicationsComponent implements OnInit {
   }
 
   create() {
-    this.publicationcategoryService
-      .post(this.publicationcategoryFormGroup.value)
+    this.virtuallibrarycategoryService
+      .post(this.virtuallibrarycategoryFormGroup.value)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -163,10 +184,10 @@ export class PublicationsComponent implements OnInit {
   }
 
   update() {
-    this.publicationcategoryService
+    this.virtuallibrarycategoryService
       .update(
-        this.publicationcategoryFormGroup.value,
-        this.publicationcategoryFormGroup.value.id
+        this.virtuallibrarycategoryFormGroup.value,
+        this.virtuallibrarycategoryFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -205,9 +226,10 @@ export class PublicationsComponent implements OnInit {
       );
   }
 
-  onIconPickerSelect(icon: string): void {
-    this.publicationcategoryFormGroup.patchValue({
-      icon,
+  getLink(value: string) {
+    let result = this.links.find((obj) => {
+      return obj.value == value;
     });
+    return result.display_name;
   }
 }

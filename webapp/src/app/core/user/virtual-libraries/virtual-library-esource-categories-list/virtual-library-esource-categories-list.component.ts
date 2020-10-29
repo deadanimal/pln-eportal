@@ -5,10 +5,12 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
+import { VirtualLibraryCollectionsService } from "src/app/shared/services/virtual-library-collections/virtual-library-collections.service";
+import { VirtualLibraryESourceCategoriesService } from "src/app/shared/services/virtual-library-esource-categories/virtual-library-esource-categories.service";
 import { FontAwesome } from "src/assets/json/font-awesome-dropdown";
 
 export enum SelectionType {
@@ -20,25 +22,16 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-publications",
-  templateUrl: "./publications.component.html",
-  styleUrls: ["./publications.component.scss"],
+  selector: "app-virtual-library-esource-categories-list",
+  templateUrl: "./virtual-library-esource-categories-list.component.html",
+  styleUrls: ["./virtual-library-esource-categories-list.component.scss"],
 })
-export class PublicationsComponent implements OnInit {
+export class VirtualLibraryEsourceCategoriesListComponent implements OnInit {
   // Data
+  virtual_library_collection_id = "";
 
   // Dropdown
   fontAwesomes = FontAwesome;
-
-  // FormGroup
-  publicationcategoryFormGroup: FormGroup;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
 
   // Table
   tableEntries: number = 5;
@@ -48,33 +41,58 @@ export class PublicationsComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // FormGroup
+  virtuallibraryesourcecategoryFormGroup: FormGroup;
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private publicationcategoryService: PublicationCategoriesService
+    private route: ActivatedRoute,
+    private virtuallibrarycollectionService: VirtualLibraryCollectionsService,
+    private virtuallibraryesourcecategoryService: VirtualLibraryESourceCategoriesService
   ) {
-    this.getData();
-
-    this.publicationcategoryFormGroup = this.formBuilder.group({
+    this.virtuallibraryesourcecategoryFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       name: new FormControl(""),
       icon: new FormControl(""),
       status: new FormControl(false),
+      virtual_library_collection_id: new FormControl(""),
     });
+
+    this.virtual_library_collection_id = this.route.snapshot.paramMap.get(
+      "esource"
+    );
+    if (this.virtual_library_collection_id) {
+      this.virtuallibraryesourcecategoryFormGroup.patchValue({
+        virtual_library_collection_id: this.virtual_library_collection_id,
+      });
+      this.getData();
+    }
   }
 
   ngOnInit() {}
 
   getData() {
-    this.publicationcategoryService.get().subscribe((res) => {
-      this.tableRows = res;
-      this.tableTemp = this.tableRows.map((prop, key) => {
-        return {
-          ...prop,
-          no: key,
-        };
+    this.virtuallibraryesourcecategoryService
+      .filter(
+        "virtual_library_collection_id=" + this.virtual_library_collection_id
+      )
+      .subscribe((res) => {
+        this.tableRows = res;
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            no: key,
+          };
+        });
       });
-    });
   }
 
   entriesChange($event) {
@@ -109,9 +127,14 @@ export class PublicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.publicationcategoryFormGroup.reset();
+      this.virtuallibraryesourcecategoryFormGroup.reset();
+      if (this.virtual_library_collection_id) {
+        this.virtuallibraryesourcecategoryFormGroup.patchValue({
+          virtual_library_collection_id: this.virtual_library_collection_id,
+        });
+      }
     } else if (process == "update") {
-      this.publicationcategoryFormGroup.patchValue({
+      this.virtuallibraryesourcecategoryFormGroup.patchValue({
         ...row,
       });
     }
@@ -123,8 +146,8 @@ export class PublicationsComponent implements OnInit {
   }
 
   create() {
-    this.publicationcategoryService
-      .post(this.publicationcategoryFormGroup.value)
+    this.virtuallibraryesourcecategoryService
+      .post(this.virtuallibraryesourcecategoryFormGroup.value)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -163,10 +186,10 @@ export class PublicationsComponent implements OnInit {
   }
 
   update() {
-    this.publicationcategoryService
+    this.virtuallibraryesourcecategoryService
       .update(
-        this.publicationcategoryFormGroup.value,
-        this.publicationcategoryFormGroup.value.id
+        this.virtuallibraryesourcecategoryFormGroup.value,
+        this.virtuallibraryesourcecategoryFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -203,11 +226,5 @@ export class PublicationsComponent implements OnInit {
             });
         }
       );
-  }
-
-  onIconPickerSelect(icon: string): void {
-    this.publicationcategoryFormGroup.patchValue({
-      icon,
-    });
   }
 }

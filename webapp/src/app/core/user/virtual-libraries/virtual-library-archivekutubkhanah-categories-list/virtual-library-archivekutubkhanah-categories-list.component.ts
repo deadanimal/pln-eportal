@@ -5,10 +5,12 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
+import { VirtualLibraryCollectionsService } from "src/app/shared/services/virtual-library-collections/virtual-library-collections.service";
+import { VirtualLibraryArchiveKutubkhanahCategoriesService } from "src/app/shared/services/virtual-library-archivekutubkhanah-categories/virtual-library-archivekutubkhanah-categories.service";
 import { FontAwesome } from "src/assets/json/font-awesome-dropdown";
 
 export enum SelectionType {
@@ -20,25 +22,20 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-publications",
-  templateUrl: "./publications.component.html",
-  styleUrls: ["./publications.component.scss"],
+  selector: "app-virtual-library-archivekutubkhanah-categories-list",
+  templateUrl:
+    "./virtual-library-archivekutubkhanah-categories-list.component.html",
+  styleUrls: [
+    "./virtual-library-archivekutubkhanah-categories-list.component.scss",
+  ],
 })
-export class PublicationsComponent implements OnInit {
+export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
+  implements OnInit {
   // Data
+  virtual_library_collection_id = "";
 
   // Dropdown
   fontAwesomes = FontAwesome;
-
-  // FormGroup
-  publicationcategoryFormGroup: FormGroup;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
 
   // Table
   tableEntries: number = 5;
@@ -48,33 +45,60 @@ export class PublicationsComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // FormGroup
+  virtuallibraryarchivekutubkhanahcategoryFormGroup: FormGroup;
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private publicationcategoryService: PublicationCategoriesService
+    private route: ActivatedRoute,
+    private virtuallibrarycollectionService: VirtualLibraryCollectionsService,
+    private virtuallibraryarchivekutubkhanahcategoryService: VirtualLibraryArchiveKutubkhanahCategoriesService
   ) {
-    this.getData();
+    this.virtuallibraryarchivekutubkhanahcategoryFormGroup = this.formBuilder.group(
+      {
+        id: new FormControl(""),
+        name: new FormControl(""),
+        icon: new FormControl(""),
+        status: new FormControl(false),
+        virtual_library_collection_id: new FormControl(""),
+      }
+    );
 
-    this.publicationcategoryFormGroup = this.formBuilder.group({
-      id: new FormControl(""),
-      name: new FormControl(""),
-      icon: new FormControl(""),
-      status: new FormControl(false),
-    });
+    this.virtual_library_collection_id = this.route.snapshot.paramMap.get(
+      "archivekutubkhanah"
+    );
+    if (this.virtual_library_collection_id) {
+      this.virtuallibraryarchivekutubkhanahcategoryFormGroup.patchValue({
+        virtual_library_collection_id: this.virtual_library_collection_id,
+      });
+      this.getData();
+    }
   }
 
   ngOnInit() {}
 
   getData() {
-    this.publicationcategoryService.get().subscribe((res) => {
-      this.tableRows = res;
-      this.tableTemp = this.tableRows.map((prop, key) => {
-        return {
-          ...prop,
-          no: key,
-        };
+    this.virtuallibraryarchivekutubkhanahcategoryService
+      .filter(
+        "virtual_library_collection_id=" + this.virtual_library_collection_id
+      )
+      .subscribe((res) => {
+        this.tableRows = res;
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            no: key,
+          };
+        });
       });
-    });
   }
 
   entriesChange($event) {
@@ -109,9 +133,14 @@ export class PublicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.publicationcategoryFormGroup.reset();
+      this.virtuallibraryarchivekutubkhanahcategoryFormGroup.reset();
+      if (this.virtual_library_collection_id) {
+        this.virtuallibraryarchivekutubkhanahcategoryFormGroup.patchValue({
+          virtual_library_collection_id: this.virtual_library_collection_id,
+        });
+      }
     } else if (process == "update") {
-      this.publicationcategoryFormGroup.patchValue({
+      this.virtuallibraryarchivekutubkhanahcategoryFormGroup.patchValue({
         ...row,
       });
     }
@@ -123,8 +152,8 @@ export class PublicationsComponent implements OnInit {
   }
 
   create() {
-    this.publicationcategoryService
-      .post(this.publicationcategoryFormGroup.value)
+    this.virtuallibraryarchivekutubkhanahcategoryService
+      .post(this.virtuallibraryarchivekutubkhanahcategoryFormGroup.value)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -163,10 +192,10 @@ export class PublicationsComponent implements OnInit {
   }
 
   update() {
-    this.publicationcategoryService
+    this.virtuallibraryarchivekutubkhanahcategoryService
       .update(
-        this.publicationcategoryFormGroup.value,
-        this.publicationcategoryFormGroup.value.id
+        this.virtuallibraryarchivekutubkhanahcategoryFormGroup.value,
+        this.virtuallibraryarchivekutubkhanahcategoryFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -203,11 +232,5 @@ export class PublicationsComponent implements OnInit {
             });
         }
       );
-  }
-
-  onIconPickerSelect(icon: string): void {
-    this.publicationcategoryFormGroup.patchValue({
-      icon,
-    });
   }
 }

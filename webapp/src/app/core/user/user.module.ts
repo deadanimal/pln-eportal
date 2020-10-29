@@ -44,6 +44,15 @@ import { ExhibitsComponent } from './exhibits/exhibits/exhibits.component';
 import { ExhibitsDetailComponent } from './exhibits/exhibits-detail/exhibits-detail.component';
 import { VenuesComponent } from './venues/venues.component';
 import { PublicationsComponent } from './publications/publications/publications.component';
+import { VirtualLibraryCategoriesListComponent } from './virtual-libraries/virtual-library-categories-list/virtual-library-categories-list.component';
+import { VirtualLibraryArticlesListComponent } from './virtual-libraries/virtual-library-articles-list/virtual-library-articles-list.component';
+import { VirtualLibraryCollectionsListComponent } from './virtual-libraries/virtual-library-collections-list/virtual-library-collections-list.component';
+import { VirtualLibraryBooksListComponent } from './virtual-libraries/virtual-library-books-list/virtual-library-books-list.component';
+import { VirtualLibrarySerialpublicationsListComponent } from './virtual-libraries/virtual-library-serialpublications-list/virtual-library-serialpublications-list.component';
+import { VirtualLibraryEsourceCategoriesListComponent } from './virtual-libraries/virtual-library-esource-categories-list/virtual-library-esource-categories-list.component';
+import { VirtualLibraryEsourcesListComponent } from './virtual-libraries/virtual-library-esources-list/virtual-library-esources-list.component';
+import { VirtualLibraryArchivekutubkhanahCategoriesListComponent } from './virtual-libraries/virtual-library-archivekutubkhanah-categories-list/virtual-library-archivekutubkhanah-categories-list.component';
+import { VirtualLibraryArchivekutubkhanahsListComponent } from './virtual-libraries/virtual-library-archivekutubkhanahs-list/virtual-library-archivekutubkhanahs-list.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +85,15 @@ import { PublicationsComponent } from './publications/publications/publications.
     ExhibitsDetailComponent,
     VenuesComponent,
     PublicationsComponent,
+    VirtualLibraryCategoriesListComponent,
+    VirtualLibraryArticlesListComponent,
+    VirtualLibraryCollectionsListComponent,
+    VirtualLibraryBooksListComponent,
+    VirtualLibrarySerialpublicationsListComponent,
+    VirtualLibraryEsourceCategoriesListComponent,
+    VirtualLibraryEsourcesListComponent,
+    VirtualLibraryArchivekutubkhanahCategoriesListComponent,
+    VirtualLibraryArchivekutubkhanahsListComponent,
   ],
   imports: [
     CommonModule,

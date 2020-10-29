@@ -116,7 +116,11 @@ export const ROUTES: RouteInfo[] = [
     icontype: "fas fa-book-open text-primary",
     collapse: "virtual-libraries",
     isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
+    children: [
+      { path: "list", title: "Kategori", type: "link" },
+      { path: "articles", title: "Artikel Terkini", type: "link" },
+      { path: "collections", title: "Koleksi", type: "link" },
+    ],
   },
   {
     path: "/tickets",

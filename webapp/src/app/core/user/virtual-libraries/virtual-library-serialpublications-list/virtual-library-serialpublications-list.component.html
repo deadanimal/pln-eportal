@@ -1,0 +1,601 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">
+            Senarai Terbitan Bersiri
+          </h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="col-lg-6 col-5 text-right">
+          <a
+            class="btn btn-sm btn-neutral"
+            (click)="openModal(createSerialPublication, 'create', '')"
+          >
+            Tambah
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Senarai Terbitan Bersiri</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Papar
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="tableEntries == 5">5</option>
+                    <option value="25" [selected]="tableEntries == 10">
+                      10
+                    </option>
+                    <option value="50" [selected]="tableEntries == 15">
+                      15
+                    </option>
+                    <option value="-1" [selected]="tableEntries == -1">
+                      Semua
+                    </option>
+                  </select>
+                  rekod
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Cari rekod"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tajuk</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.title }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Deskripsi</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.description }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>ISBN</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.isbn }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>ISSN</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.issn }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="row.status" class="badge badge-pill badge-success"
+                  >Aktif</span
+                >
+                <span *ngIf="!row.status" class="badge badge-pill badge-danger"
+                  >Tidak aktif</span
+                >
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tindakan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <button
+                  class="btn btn-sm btn-danger"
+                  (click)="openModal(uploadPdf, 'uploadpdf', row)"
+                >
+                  PDF
+                </button>
+                <button
+                  class="btn btn-sm btn-info"
+                  (click)="openModal(uploadImage, 'uploadimage', row)"
+                >
+                  Gambar
+                </button>
+                <button
+                  class="btn btn-sm btn-primary"
+                  (click)="openModal(editSerialPublication, 'update', row)"
+                >
+                  Sunting
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createSerialPublication>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Tambah
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="virtuallibraryserialpublicationFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Tajuk</label>
+        <input
+          class="form-control"
+          formControlName="title"
+          placeholder="Tajuk"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi</label>
+        <textarea
+          class="form-control"
+          formControlName="description"
+          placeholder="Deskripsi"
+          rows="5"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">Call Number</label>
+        <input
+          class="form-control"
+          formControlName="call_number"
+          placeholder="Call Number"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Penulis</label>
+        <input
+          class="form-control"
+          formControlName="author"
+          placeholder="Penulis"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Penulis Tambahan</label>
+        <input
+          class="form-control"
+          formControlName="author_added"
+          placeholder="Penulis Tambahan"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">ISBN</label>
+        <input
+          class="form-control"
+          formControlName="isbn"
+          placeholder="ISBN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">ISSN</label>
+        <input
+          class="form-control"
+          formControlName="issn"
+          placeholder="ISSN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Tahun</label>
+        <input
+          class="form-control"
+          formControlName="year"
+          placeholder="Tahun"
+          type="number"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama Penerbit</label>
+        <input
+          class="form-control"
+          formControlName="publisher_name"
+          placeholder="Nama Penerbit"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Tarikh Diterbit</label>
+        <input
+          class="form-control"
+          formControlName="published_date"
+          placeholder="Tarikh Diterbit"
+          type="date"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nota</label>
+        <input
+          class="form-control"
+          formControlName="notes"
+          placeholder="Nota"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="create()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editSerialPublication>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Ubah Suai
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="virtuallibraryserialpublicationFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Tajuk</label>
+        <input
+          class="form-control"
+          formControlName="title"
+          placeholder="Tajuk"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi</label>
+        <textarea
+          class="form-control"
+          formControlName="description"
+          placeholder="Deskripsi"
+          rows="5"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">Call Number</label>
+        <input
+          class="form-control"
+          formControlName="call_number"
+          placeholder="Call Number"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Penulis</label>
+        <input
+          class="form-control"
+          formControlName="author"
+          placeholder="Penulis"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Penulis Tambahan</label>
+        <input
+          class="form-control"
+          formControlName="author_added"
+          placeholder="Penulis Tambahan"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">ISBN</label>
+        <input
+          class="form-control"
+          formControlName="isbn"
+          placeholder="ISBN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">ISSN</label>
+        <input
+          class="form-control"
+          formControlName="issn"
+          placeholder="ISSN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Tahun</label>
+        <input
+          class="form-control"
+          formControlName="year"
+          placeholder="Tahun"
+          type="number"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama Penerbit</label>
+        <input
+          class="form-control"
+          formControlName="publisher_name"
+          placeholder="Nama Penerbit"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Tarikh Diterbit</label>
+        <input
+          class="form-control"
+          formControlName="published_date"
+          placeholder="Tarikh Diterbit"
+          type="date"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nota</label>
+        <input
+          class="form-control"
+          formControlName="notes"
+          placeholder="Nota"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="update()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #uploadPdf>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">PDF</h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="virtuallibraryserialpublicationPDFFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih PDF</label><br />
+        <input
+          type="file"
+          name="pdf_link"
+          (change)="onChange($event, 'pdf_link')"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="uploadPDFProcess()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #uploadImage>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Gambar
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="virtuallibraryserialpublicationImageFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih gambar</label><br />
+        <input
+          type="file"
+          name="image_link"
+          (change)="onChange($event, 'image_link')"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="uploadImageProcess()"
+    >
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>

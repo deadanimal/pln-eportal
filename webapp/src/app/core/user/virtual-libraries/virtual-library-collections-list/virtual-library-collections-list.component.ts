@@ -5,10 +5,12 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { Router } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
+import { VirtualLibraryCategoriesService } from "src/app/shared/services/virtual-library-categories/virtual-library-categories.service";
+import { VirtualLibraryCollectionsService } from "src/app/shared/services/virtual-library-collections/virtual-library-collections.service";
 import { FontAwesome } from "src/assets/json/font-awesome-dropdown";
 
 export enum SelectionType {
@@ -20,25 +22,38 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-publications",
-  templateUrl: "./publications.component.html",
-  styleUrls: ["./publications.component.scss"],
+  selector: "app-virtual-library-collections-list",
+  templateUrl: "./virtual-library-collections-list.component.html",
+  styleUrls: ["./virtual-library-collections-list.component.scss"],
 })
-export class PublicationsComponent implements OnInit {
+export class VirtualLibraryCollectionsListComponent implements OnInit {
   // Data
+  categories = [];
 
   // Dropdown
   fontAwesomes = FontAwesome;
-
-  // FormGroup
-  publicationcategoryFormGroup: FormGroup;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
+  links = [
+    {
+      value: "buku",
+      display_name: "Buku",
+    },
+    {
+      value: "terbitan-bersiri",
+      display_name: "Terbitan Bersiri",
+    },
+    {
+      value: "e-sumber",
+      display_name: "eSumber",
+    },
+    {
+      value: "arkib-kutubkhanah",
+      display_name: "Arkib Kutubkhanah",
+    },
+    {
+      value: "not-available",
+      display_name: "Tiada",
+    },
+  ];
 
   // Table
   tableEntries: number = 5;
@@ -48,25 +63,54 @@ export class PublicationsComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // FormGroup
+  virtuallibrarycollectionFormGroup: FormGroup;
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private publicationcategoryService: PublicationCategoriesService
+    private router: Router,
+    private virtuallibrarycategoryService: VirtualLibraryCategoriesService,
+    private virtuallibrarycollectionService: VirtualLibraryCollectionsService
   ) {
-    this.getData();
-
-    this.publicationcategoryFormGroup = this.formBuilder.group({
+    this.virtuallibrarycollectionFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       name: new FormControl(""),
       icon: new FormControl(""),
+      link: new FormControl(""),
       status: new FormControl(false),
+      virtual_library_collection_category_id: new FormControl(""),
     });
+
+    this.virtuallibrarycategoryService.filter("link=koleksi").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.categories = res;
+        if (this.categories) {
+          this.virtuallibrarycollectionFormGroup.patchValue({
+            virtual_library_collection_category_id: this.categories[0].id,
+          });
+        }
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getData();
+  }
 
   getData() {
-    this.publicationcategoryService.get().subscribe((res) => {
+    this.virtuallibrarycollectionService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -109,9 +153,14 @@ export class PublicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.publicationcategoryFormGroup.reset();
+      this.virtuallibrarycollectionFormGroup.reset();
+      if (this.categories) {
+        this.virtuallibrarycollectionFormGroup.patchValue({
+          virtual_library_collection_category_id: this.categories[0].id,
+        });
+      }
     } else if (process == "update") {
-      this.publicationcategoryFormGroup.patchValue({
+      this.virtuallibrarycollectionFormGroup.patchValue({
         ...row,
       });
     }
@@ -123,8 +172,8 @@ export class PublicationsComponent implements OnInit {
   }
 
   create() {
-    this.publicationcategoryService
-      .post(this.publicationcategoryFormGroup.value)
+    this.virtuallibrarycollectionService
+      .post(this.virtuallibrarycollectionFormGroup.value)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -163,10 +212,10 @@ export class PublicationsComponent implements OnInit {
   }
 
   update() {
-    this.publicationcategoryService
+    this.virtuallibrarycollectionService
       .update(
-        this.publicationcategoryFormGroup.value,
-        this.publicationcategoryFormGroup.value.id
+        this.virtuallibrarycollectionFormGroup.value,
+        this.virtuallibrarycollectionFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -205,9 +254,27 @@ export class PublicationsComponent implements OnInit {
       );
   }
 
-  onIconPickerSelect(icon: string): void {
-    this.publicationcategoryFormGroup.patchValue({
-      icon,
+  openPage(row) {
+    if (row.link == "buku")
+      this.router.navigate(["/virtual-libraries/collections/book/", row.id]);
+    else if (row.link == "terbitan-bersiri")
+      this.router.navigate([
+        "/virtual-libraries/collections/serialpublication/",
+        row.id,
+      ]);
+    else if (row.link == "e-sumber")
+      this.router.navigate(["/virtual-libraries/collections/esource/", row.id]);
+    else if (row.link == "arkib-kutubkhanah")
+      this.router.navigate([
+        "/virtual-libraries/collections/archivekutubkhanah/",
+        row.id,
+      ]);
+  }
+
+  getLink(value: string) {
+    let result = this.links.find((obj) => {
+      return obj.value == value;
     });
+    return result.display_name;
   }
 }
