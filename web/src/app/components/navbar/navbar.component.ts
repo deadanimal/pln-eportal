@@ -35,6 +35,7 @@ export class NavbarComponent implements OnInit {
 
   // Data
   rememberMe: boolean = false;
+  user: any;
 
   // Token
   accessToken: string;
@@ -46,6 +47,8 @@ export class NavbarComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    backdrop: false,
+    ignoreBackdropClick: true
   };
 
   // Dropdown
@@ -81,7 +84,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService,
+    public authService: AuthService,
     public jwtService: JwtService,
     public userService: UsersService,
     public translate: TranslateService,
@@ -194,6 +197,18 @@ export class NavbarComponent implements OnInit {
         this.accessToken = res.access;
         this.loginModal.hide();
         this.router.navigate(["/home"]);
+
+        if (this.accessToken) {
+          this.userService.get(this.authService.decodedToken().user_id).subscribe(
+            (res) => {
+              console.log("res", res);
+              this.user = res;
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+        }
       },
       (err) => {
         // console.error("err", err);
@@ -257,21 +272,23 @@ export class NavbarComponent implements OnInit {
         (res) => {
           console.log("res", res);
           if (res) {
-            swal.fire({
-              icon: "success",
-              title: "Tukar kata laluan",
-              text:
-                "Tukar kata laluan sudah dihantar kepada emel anda. Sila semak emel anda. Terima kasih.",
-              buttonsStyling: false,
-              confirmButtonText: "Tutup",
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            }).then(result => {
-              if (result.value) {
-                this.forgotPasswordModal.hide();
-              }
-            });
+            swal
+              .fire({
+                icon: "success",
+                title: "Tukar kata laluan",
+                text:
+                  "Tukar kata laluan sudah dihantar kepada emel anda. Sila semak emel anda. Terima kasih.",
+                buttonsStyling: false,
+                confirmButtonText: "Tutup",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  this.forgotPasswordModal.hide();
+                }
+              });
           }
         },
         (err) => {
@@ -290,7 +307,10 @@ export class NavbarComponent implements OnInit {
 
   openForgotPasswordModal(template: TemplateRef<any>) {
     this.closeLoginModal();
-    this.forgotPasswordModal = this.modalService.show(template, this.modalConfig);
+    this.forgotPasswordModal = this.modalService.show(
+      template,
+      this.modalConfig
+    );
   }
 
   closeForgotPasswordModal() {

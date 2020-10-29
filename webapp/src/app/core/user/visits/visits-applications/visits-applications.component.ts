@@ -151,8 +151,8 @@ export class VisitsApplicationsComponent implements OnInit {
     } else if (process == "update") {
       this.visitappFormGroup.patchValue({
         ...row,
-        customer_id: row.customer_id.id,
-        pic_id: row.pic_id.id,
+        customer_id: row.customer_id ? row.customer_id.id : null,
+        pic_id: row.pic_id ? row.pic_id.id : null,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);

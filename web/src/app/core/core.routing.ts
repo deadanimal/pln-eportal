@@ -30,12 +30,27 @@ import { DirectoryComponent } from "./directory/directory.component";
 import { ProgramFormsComponent } from "./program-forms/program-forms.component";
 import { FacilityDetailZonesComponent } from "./facility-detail-zones/facility-detail-zones.component";
 import { NocComponent } from "./noc/noc.component";
-import { CharterComponent } from './charter/charter.component';
+import { CharterComponent } from "./charter/charter.component";
+import { PasswordResetComponent } from "./password-reset/password-reset.component";
+import { PrivacyPolicyComponent } from "./privacy-policy/privacy-policy.component";
+import { CopyrightNoticeComponent } from "./copyright-notice/copyright-notice.component";
+import { DisclaimerComponent } from "./disclaimer/disclaimer.component";
+import { CioComponent } from "./cio/cio.component";
+import { ProfileComponent } from "./profile/profile.component";
+import { PublicationListsComponent } from "./publication-lists/publication-lists.component";
 
 export const CoreRoutes: Routes = [
   {
     path: "landing",
     component: LandingComponent,
+  },
+  {
+    path: "password-reset/confirm/:uid/:token",
+    component: PasswordResetComponent,
+  },
+  {
+    path: "profile",
+    component: ProfileComponent,
   },
   {
     path: "home",
@@ -98,7 +113,16 @@ export const CoreRoutes: Routes = [
   },
   {
     path: "publication",
-    component: PublicationComponent,
+    children: [
+      {
+        path: "",
+        component: PublicationComponent,
+      },
+      {
+        path: "lists/:id",
+        component: PublicationListsComponent,
+      },
+    ],
   },
   {
     path: "shows",
@@ -185,5 +209,21 @@ export const CoreRoutes: Routes = [
   {
     path: "charter",
     component: CharterComponent,
+  },
+  {
+    path: "privacy-policy",
+    component: PrivacyPolicyComponent,
+  },
+  {
+    path: "copyright-notice",
+    component: CopyrightNoticeComponent,
+  },
+  {
+    path: "disclaimer",
+    component: DisclaimerComponent,
+  },
+  {
+    path: "cio",
+    component: CioComponent,
   },
 ];

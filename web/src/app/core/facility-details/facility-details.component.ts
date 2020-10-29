@@ -34,6 +34,7 @@ export class FacilityDetailsComponent implements OnInit {
   facility_category: string = "";
   facilities$: Observable<any>;
   facilityimages = [];
+  facilityprices = [];
   /* facilities = [
     {
       name: "Teater Angkasa",
@@ -456,6 +457,18 @@ export class FacilityDetailsComponent implements OnInit {
     );
   }
 
+  getFacilityPrice() {
+    this.facilitypriceService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.facilityprices = res;
+      },
+      (err) => {
+        console.log("err", err);
+      }
+    );
+  }
+
   getUser() {
     this.userService.get(this.authService.decodedToken().user_id).subscribe(
       (res) => {
@@ -474,6 +487,7 @@ export class FacilityDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.getFacility();
     this.getFacilityImage();
+    this.getFacilityPrice();
 
     this.galleryOptions = [
       {

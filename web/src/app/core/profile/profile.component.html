@@ -1,0 +1,767 @@
+<div class="header header-4">
+  <div class="header-wrapper">
+    <div class="page-header header-video header-filter">
+      <!-- <div class="overlay"></div> -->
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+        oncanplay="this.play()"
+        onloadedmetadata="this.muted = true"
+      >
+        <source
+          src="../../../assets/video/planetarium-homepage-video.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div class="container text-center">
+        <div class="video-text">
+          <h1 class="title">Portal Rasmi Planetarium Negara</h1>
+          <h4 class="text-center">
+            Kementerian Sains, Teknologi & Inovasi (MOSTI)
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="wrapper">
+  <!-- <div class="page-header page-header-small header-filter">
+          <div
+            class="page-header-image rellax"
+            data-parallax="true"
+            style="background-image: url('assets/img/exhibit/minin.jpg')"
+          ></div>
+          <div class="content-center">
+            <div class="row">
+              <div class="col-md-6 ml-auto mr-auto text-center">
+                <h1 class="title">Mengenai Kami</h1>
+              </div>
+            </div>
+          </div>
+        </div> -->
+  <div class="main main-raised bg-white">
+    <div class="section">
+      <div class="container">
+        <div class="row pb-3">
+          <div class="col-md-4 col-sm-12">
+            <h2 class="title text-dark text-center">
+              Hi, {{ user?.full_name }}
+            </h2>
+
+            <div
+              class="card"
+              [ngClass]="
+                selectedTab == 'maklumat-am' ? 'bg-default' : 'bg-white'
+              "
+              (click)="selectTab('maklumat-am')"
+            >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 text-center">
+                    <i
+                      class="fas fa-user-astronaut fa-2x"
+                      [ngClass]="
+                        selectedTab == 'maklumat-am'
+                          ? 'text-white'
+                          : 'text-dark'
+                      "
+                    ></i>
+                  </div>
+                  <div class="col-md-8 col-sm-12 align-self-center">
+                    <p
+                      class="font-weight-bold"
+                      [ngClass]="
+                        selectedTab == 'maklumat-am'
+                          ? 'text-white'
+                          : 'text-dark'
+                      "
+                    >
+                      Maklumat AM
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="card mt-2"
+              [ngClass]="selectedTab == 'sekuriti' ? 'bg-default' : 'bg-white'"
+              (click)="selectTab('sekuriti')"
+            >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 text-center">
+                    <i
+                      class="fas fa-lock fa-2x"
+                      [ngClass]="
+                        selectedTab == 'sekuriti' ? 'text-white' : 'text-dark'
+                      "
+                    ></i>
+                  </div>
+                  <div class="col-md-8 col-sm-12 align-self-center">
+                    <p
+                      class="font-weight-bold"
+                      [ngClass]="
+                        selectedTab == 'sekuriti' ? 'text-white' : 'text-dark'
+                      "
+                    >
+                      Sekuriti
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="card mt-2"
+              [ngClass]="
+                selectedTab == 'notifikasi' ? 'bg-default' : 'bg-white'
+              "
+              (click)="selectTab('notifikasi')"
+            >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 text-center">
+                    <i
+                      class="fas fa-bell fa-2x"
+                      [ngClass]="
+                        selectedTab == 'notifikasi' ? 'text-white' : 'text-dark'
+                      "
+                    ></i>
+                  </div>
+                  <div class="col-md-8 col-sm-12 align-self-center">
+                    <p
+                      class="font-weight-bold"
+                      [ngClass]="
+                        selectedTab == 'notifikasi' ? 'text-white' : 'text-dark'
+                      "
+                    >
+                      Notifikasi
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="card mt-2"
+              [ngClass]="
+                selectedTab == 'transaksi-bayaran' ? 'bg-default' : 'bg-white'
+              "
+              (click)="selectTab('transaksi-bayaran')"
+            >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 text-center">
+                    <i
+                      class="fas fa-money-check fa-2x"
+                      [ngClass]="
+                        selectedTab == 'transaksi-bayaran'
+                          ? 'text-white'
+                          : 'text-dark'
+                      "
+                    ></i>
+                  </div>
+                  <div class="col-md-8 col-sm-12 align-self-center">
+                    <p
+                      class="font-weight-bold"
+                      [ngClass]="
+                        selectedTab == 'transaksi-bayaran'
+                          ? 'text-white'
+                          : 'text-dark'
+                      "
+                    >
+                      Transaksi Bayaran
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="card mt-2"
+              [ngClass]="
+                selectedTab == 'log-keluar' ? 'bg-default' : 'bg-white'
+              "
+              (click)="selectTab('log-keluar')"
+            >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 text-center">
+                    <i
+                      class="fas fa-money-check fa-2x"
+                      [ngClass]="
+                        selectedTab == 'log-keluar' ? 'text-white' : 'text-dark'
+                      "
+                    ></i>
+                  </div>
+                  <div class="col-md-8 col-sm-12 align-self-center">
+                    <p
+                      class="font-weight-bold"
+                      [ngClass]="
+                        selectedTab == 'log-keluar' ? 'text-white' : 'text-dark'
+                      "
+                    >
+                      Log Keluar
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 col-sm-12">
+            <!-- Maklumat AM -->
+            <div *ngIf="selectedTab == 'maklumat-am'">
+              <form [formGroup]="userFormGroup">
+                <h2 class="title text-dark">Maklumat AM</h2>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Nama Penuh</label>
+                  </div>
+                  <div class="col-9 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="full_name"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Emel</label>
+                  </div>
+                  <div class="col-9 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="email"
+                        class="form-control text-dark"
+                        readonly="true"
+                        required="true"
+                        formControlName="email"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Nombor Telefon</label>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="tel"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="phone"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Alamat</label>
+                  </div>
+                  <div class="col-9 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="address_1"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="address_2"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="address_3"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Poskod</label>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="postcode"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Bandar</label>
+                  </div>
+                  <div class="col-5 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="city"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Negeri</label>
+                  </div>
+                  <div class="col-5 align-self-center">
+                    <div class="form-group">
+                      <select
+                        class="form-control text-dark"
+                        formControlName="state"
+                      >
+                        <option value="">Sila pilih</option>
+                        <option value="01">Johor</option>
+                        <option value="02">Kedah</option>
+                        <option value="03">Kelantan</option>
+                        <option value="04">Melaka</option>
+                        <option value="05">Negeri Sembilan</option>
+                        <option value="06">Pahang</option>
+                        <option value="07">Pulau Pinang</option>
+                        <option value="08">Perak</option>
+                        <option value="09">Perlis</option>
+                        <option value="10">Selangor</option>
+                        <option value="11">Terengganu</option>
+                        <option value="12">Sabah</option>
+                        <option value="13">Sarawak</option>
+                        <option value="14">
+                          Wilayah Persekutuan Kuala Lumpur
+                        </option>
+                        <option value="15">Wilayah Persekutuan Labuan</option>
+                        <option value="16">
+                          Wilayah Persekutuan Putrajaya
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Negara</label>
+                  </div>
+                  <div class="col-5 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="country"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Tarikh Lahir</label>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="date"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="birth_date"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="row">
+                <div class="col-3 align-self-center">
+                  <label class="labels">Bangsa</label>
+                </div>
+                <div class="col-4 align-self-center">
+                  <div class="form-group">
+                    <select
+                      class="form-control text-dark"
+                      placeholder="Bangsa"
+                      formControlName="race_type"
+                    >
+                      <option value="" selected>Sila pilih</option>
+                      <option *ngFor="let race of races" [value]="race.value">
+                        {{ race.display_name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div> -->
+
+                <!-- <div class="row">
+                <div class="col-3 align-self-center">
+                  <label class="labels">Jantina</label>
+                </div>
+                <div class="col-9 align-self-center">
+                  <div class="form-group">
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label text-dark">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="gender_type"
+                          value="FM"
+                          formControlName="gender_type"
+                        />
+                        Perempuan
+                        <span class="form-check-sign"></span>
+                      </label>
+                    </div>
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label text-dark">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="gender_type"
+                          value="ML"
+                          formControlName="gender_type"
+                        />
+                        Lelaki
+                        <span class="form-check-sign"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+                <div class="row pt-3">
+                  <div class="col">
+                    <div class="text-center">
+                      <button class="btn btn-default" (click)="updateProfile()">
+                        Simpan
+                      </button>
+                      <button class="btn btn-neutral">Batal</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Sekuriti -->
+            <div *ngIf="selectedTab == 'sekuriti'">
+              <form [formGroup]="passwordchangeFormGroup">
+                <h2 class="title text-dark">Sekuriti</h2>
+                <h4 class="text-dark">Tukar kata laluan</h4>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Kata laluan baru</label>
+                  </div>
+                  <div class="col-5 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="new_password1"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Ulang kata laluan baru</label>
+                  </div>
+                  <div class="col-5 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="new_password2"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                    <label class="labels">Kata laluan lama</label>
+                  </div>
+                  <div class="col-5 align-self-center">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        class="form-control text-dark"
+                        required="true"
+                        formControlName="old_password"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="card bg-white">
+                      <div class="card-body">
+                        <p
+                          style="font-size: 1.2rem"
+                          [ngClass]="
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('required') ||
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('minlength')
+                              ? 'text-danger'
+                              : 'text-success'
+                          "
+                        >
+                          <i
+                            [ngClass]="
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('required') ||
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('minlength')
+                                ? 'fas fa-times-circle'
+                                : 'fas fa-check-circle'
+                            "
+                          ></i>
+                          Mesti sekurang-kurangnya 8 aksara!
+                        </p>
+
+                        <p
+                          style="font-size: 1.2rem"
+                          [ngClass]="
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('required') ||
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('hasNumber')
+                              ? 'text-danger'
+                              : 'text-success'
+                          "
+                        >
+                          <i
+                            [ngClass]="
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('required') ||
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('hasNumber')
+                                ? 'fas fa-times-circle'
+                                : 'fas fa-check-circle'
+                            "
+                          ></i>
+                          Mesti mengandungi sekurang-kurangnya 1 nombor!
+                        </p>
+
+                        <p
+                          style="font-size: 1.2rem"
+                          [ngClass]="
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('required') ||
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('hasCapitalCase')
+                              ? 'text-danger'
+                              : 'text-success'
+                          "
+                        >
+                          <i
+                            [ngClass]="
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('required') ||
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('hasCapitalCase')
+                                ? 'fas fa-times-circle'
+                                : 'fas fa-check-circle'
+                            "
+                          ></i>
+                          Mesti mengandungi sekurang-kurangnya 1 huruf besar!
+                        </p>
+
+                        <p
+                          style="font-size: 1.2rem"
+                          [ngClass]="
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('required') ||
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('hasSmallCase')
+                              ? 'text-danger'
+                              : 'text-success'
+                          "
+                        >
+                          <i
+                            [ngClass]="
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('required') ||
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('hasSmallCase')
+                                ? 'fas fa-times-circle'
+                                : 'fas fa-check-circle'
+                            "
+                          ></i>
+                          Mesti mengandungi sekurang-kurangnya 1 huruf kecil!
+                        </p>
+
+                        <p
+                          style="font-size: 1.2rem"
+                          [ngClass]="
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('required') ||
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('hasSpecialCharacters')
+                              ? 'text-danger'
+                              : 'text-success'
+                          "
+                        >
+                          <i
+                            [ngClass]="
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('required') ||
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('hasSpecialCharacters')
+                                ? 'fas fa-times-circle'
+                                : 'fas fa-check-circle'
+                            "
+                          ></i>
+                          Mesti mengandungi sekurang-kurangnya 1 simbol khas!
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row pt-3">
+                  <div class="col">
+                    <div class="text-center">
+                      <button
+                        class="btn btn-default"
+                        (click)="changePassword()"
+                        [disabled]="!passwordchangeFormGroup.valid"
+                      >
+                        Simpan
+                      </button>
+                      <button class="btn btn-neutral">Batal</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Notifikasi -->
+            <div *ngIf="selectedTab == 'notifikasi'">
+              <h2 class="title text-dark">Notifikasi</h2>
+              <div class="table-responsive">
+                <table class="table table-bordered table-flush">
+                  <thead>
+                    <tr>
+                      <td>Bil</td>
+                      <td>Perkara</td>
+                      <td>Masa</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Permohonan lawatan anda diterima</td>
+                      <td>10 jam lalu</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>
+                        Minggu Astronomi (01 - 07 Oktober) sedang berlangsung
+                      </td>
+                      <td>2 hari lepas</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Pendaftaran anda berjaya</td>
+                      <td>4 hari lepas</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Transaksi Bayaran -->
+            <div *ngIf="selectedTab == 'transaksi-bayaran'">
+              <h2 class="title text-dark">Transaksi Bayaran</h2>
+              <div class="table-responsive">
+                <table class="table table-bordered table-flush">
+                  <thead>
+                    <tr>
+                      <td>Bil</td>
+                      <td>Perkara</td>
+                      <td>Masa</td>
+                      <td>Status</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Tempah fasiliti</td>
+                      <td>10 jam lalu</td>
+                      <td><span class="badge badge-success">Berjaya</span></td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Tempah lawatan</td>
+                      <td>2 hari lepas</td>
+                      <td><span class="badge badge-success">Berjaya</span></td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Tempah tiket tayangan</td>
+                      <td>4 hari lepas</td>
+                      <td><span class="badge badge-danger">Gagal</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Log Keluar -->
+            <div *ngIf="selectedTab == 'log-keluar'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,9 @@ import {
 } from "@angular/core";
 import { Location } from "@angular/common";
 import { DOCUMENT } from "@angular/common";
+import { NavigationStart, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -15,14 +17,23 @@ import { TranslateService } from "@ngx-translate/core";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
+  subscription: Subscription;
+
   constructor(
     private renderer: Renderer,
     public location: Location,
     @Inject(DOCUMENT) document,
+    private router: Router,
     public translate: TranslateService
   ) {
     this.translate.addLangs(["en", "my"]);
     this.translate.setDefaultLang("my");
+
+    this.subscription = router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        // console.log("navigationStart");
+      }
+    });
   }
 
   @HostListener("window:scroll", ["$event"])

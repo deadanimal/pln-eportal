@@ -133,29 +133,37 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <!-- <ngx-datatable-column>
+            <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span
-                  *ngIf="row.status == 'AV'"
-                  class="badge badge-pill badge-success"
+                <span *ngIf="row.status" class="badge badge-pill badge-success"
                   >Aktif</span
                 >
-                <span
-                  *ngIf="row.status == 'NA'"
-                  class="badge badge-pill badge-danger"
+                <span *ngIf="!row.status" class="badge badge-pill badge-danger"
                   >Tidak aktif</span
                 >
               </ng-template>
-            </ngx-datatable-column> -->
+            </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Tindakan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
+                <button
+                  class="btn btn-sm btn-danger"
+                  (click)="openModal(uploadPdf, 'uploadpdf', row)"
+                >
+                  PDF
+                </button>
+                <button
+                  class="btn btn-sm btn-info"
+                  (click)="openModal(uploadPoster, 'uploadposter', row)"
+                >
+                  Poster
+                </button>
                 <button
                   class="btn btn-sm btn-primary"
                   (click)="openModal(editPublication, 'update', row)"
@@ -260,17 +268,35 @@
           </div>
         </div>
       </div>
-      <!-- <div class="form-group">
+      <div class="form-group">
         <label class="form-control-label">Status</label>
-        <select
-          class="form-control"
-          formControlName="status"
-          placeholder="Sila pilih"
-        >
-          <option value="AV">Aktif</option>
-          <option value="NA">Tidak aktif</option>
-        </select>
-      </div> -->
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
+      </div>
     </form>
   </div>
 
@@ -379,22 +405,134 @@
           </div>
         </div>
       </div>
-      <!-- <div class="form-group">
-          <label class="form-control-label">Status</label>
-          <select
-            class="form-control"
+      <div class="form-group">
+        <label class="form-control-label">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
             formControlName="status"
-            placeholder="Sila pilih"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
           >
-            <option value="AV">Aktif</option>
-            <option value="NA">Tidak aktif</option>
-          </select>
-        </div> -->
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
+      </div>
     </form>
   </div>
 
   <div class="modal-footer">
     <button class="btn btn-success" type="button" (click)="update()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #uploadPdf>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">PDF</h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="publicationPDFFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih PDF</label><br />
+        <input
+          type="file"
+          name="pdf_link"
+          (change)="onChange($event, 'pdf_link')"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="uploadPDFProcess()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #uploadPoster>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Poster
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="publicationPosterFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih poster</label><br />
+        <input
+          type="file"
+          name="poster_link"
+          (change)="onChange($event, 'poster_link')"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="uploadPosterProcess()"
+    >
       Simpan
     </button>
 

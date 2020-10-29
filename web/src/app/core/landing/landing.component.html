@@ -139,7 +139,7 @@
           class="col-md-3 col-sm-12"
           *ngFor="let interesting of interestings"
         >
-          <div class="card" style="height: 400px">
+          <div class="card" style="height: auto">
             <img class="card-img-top" [src]="interesting.img" />
             <div class="card-body text-center">
               <h2 class="card-title title text-uppercase">
@@ -168,8 +168,9 @@
         <carousel
           [itemsPerSlide]="itemsPerSlide"
           [singleSlideOffset]="false"
-          [interval]="false"
+          [interval]="1500"
           [showIndicators]="false"
+          [isAnimated]="true"
         >
           <slide class="mx-auto" *ngFor="let collaboration of collaborations">
             <div style="display: block; text-align: center">
@@ -266,28 +267,41 @@
         </div>
         <div class="col-md-8 col-sm-12">
           <h3 class="title text-center">Nilai perkhidmatan kami</h3>
-          <div class="row">
-            <div class="col-md-6 col-sm-12 p-0">
-              <bar-rating
-                style="display: flex; justify-content: center"
-                [(rate)]="rate"
-                [max]="5"
-                [theme]="'smiley'"
-              ></bar-rating>
-            </div>
-            <div class="col-md-6 col-sm-12 p-0">
-              <div style="height: auto">
-                <textarea
-                  class="form-control bg-white text-dark"
-                  rows="5"
-                  placeholder="Tuliskan komen anda (jika ada)"
-                ></textarea>
+          <form [formGroup]="ratingFormGroup">
+            <div class="row">
+              <div class="col-md-6 col-sm-12 p-0">
+                <bar-rating
+                  style="display: flex; justify-content: center"
+                  [(rate)]="rate"
+                  [max]="5"
+                  [theme]="'smiley'"
+                  formControlName="rating"
+                ></bar-rating>
               </div>
-              <div class="p-3 text-center">
-                <button type="button" class="btn btn-info">Hantar</button>
+              <div class="col-md-6 col-sm-12 p-0">
+                <div style="height: auto">
+                  <textarea
+                    class="form-control bg-white text-dark"
+                    rows="5"
+                    placeholder="Tuliskan komen anda (jika ada)"
+                    formControlName="comment"
+                  ></textarea>
+                </div>
+                <div class="p-3 text-center">
+                  <button type="button" class="btn btn-info" (click)="rating()">
+                    Hantar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    [routerLink]="['/survey']"
+                  >
+                    Maklum Balas
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

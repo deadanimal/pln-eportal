@@ -1,5 +1,14 @@
 import { Component, OnInit, HostListener, TemplateRef } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import swal from "sweetalert2";
+
+import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 
 @Component({
   selector: "app-landing",
@@ -7,6 +16,9 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
   styleUrls: ["./landing.component.scss"],
 })
 export class LandingComponent implements OnInit {
+  // FormGroup
+  ratingFormGroup: FormGroup;
+
   // Screen size
   screenWidth: any;
   screenHeight: any;
@@ -32,11 +44,24 @@ export class LandingComponent implements OnInit {
   noWrap = false;
 
   // Data
-  months = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+  months = [
+    "Januari",
+    "Februari",
+    "Mac",
+    "April",
+    "Mei",
+    "Jun",
+    "Julai",
+    "Ogos",
+    "September",
+    "Oktober",
+    "November",
+    "Disember",
+  ];
   currentDate = new Date();
   interestings = [
     {
-      title: "PAMERAN SAINS",
+      title: "PAMERAN ANGKASA",
       description:
         "Pameran yang bertemakan astronomi dan penerokaan angkasa disediakan supaya pengunjung dapat merasai pengalaman pembelajaran yang unik melalui konsep hands-on dan minds-on. Ruangan pameran yang dilengkapi dengan bahan pameran yang interaktif  akan mewujudkan simulasi sebenar persekitaran ruangan angkasa.",
       img: "../../../assets/home/peneroka-angkasa.jpg",
@@ -50,7 +75,7 @@ export class LandingComponent implements OnInit {
     {
       title: "KEMBARA SIMULASI",
       description:
-        "Kemudahan terkini di ruang pameran Planetarium Negara yang merupakan simulator yang dapat memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas menggunakan simulasi komputer dan dalam masa yang sama pengunjung akan merasai pengalaman pergerakan tiga dimensi dengan kebebasan pergerakan 360 darjah.",
+        "Kembara Simulasi merupakan sebuah simulator kokpit dua tempat duduk yang memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas.  Pengunjung akan merasai pengalaman pergerakan tiga paksi dengan kebebasan pergerakan 360 darjah. Kapasiti: 2 orang/pusingan.",
       img: "../../../assets/home/space-pod.jpg",
     },
     {
@@ -78,9 +103,9 @@ export class LandingComponent implements OnInit {
       img: "../../../assets/home/stesen-mikrosatelit.jpg",
     },
     {
-      title: "MENARA PEMANDANGAN",
+      title: "GALERI PEMANDANGAN",
       description:
-        "Dengan menggunakan binokular yang disediakan, para pengunjung dapat menikmati pemandangan yang indah di persekitaran Tasik Perdana.",
+        "Galeri Pemandangan dengan ketinggian 33 meter ini terletak di Menara Balai Cerap Planetarium Negara. Kedudukan Planetarium Negara yang terletak diatas bukit membolehkan pengunjung berpeluang untuk menikmati pemandangan panaroma 3600 Kuala Lumpur dengan binokular yang disediakan. Keluasan: 46.57m2. Kapasiti: 10 orang.",
       img: "../../../assets/home/menara-pemandangan.jpg",
     },
   ];
@@ -119,7 +144,16 @@ export class LandingComponent implements OnInit {
     },
   ];
 
-  constructor(public modalService: BsModalService) {}
+  constructor(
+    public formBuilder: FormBuilder,
+    public modalService: BsModalService,
+    private feedbackService: FeedbacksService
+  ) {
+    this.ratingFormGroup = this.formBuilder.group({
+      rating: new FormControl(0, Validators.compose([Validators.required])),
+      comment: new FormControl(""),
+    });
+  }
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
@@ -139,5 +173,38 @@ export class LandingComponent implements OnInit {
 
   closeModal() {
     this.modal.hide();
+  }
+
+  rating() {
+    this.feedbackService.postRating(this.ratingFormGroup.value).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal.fire({
+          icon: "success",
+          title: "Nilai perkhidmatan kami",
+          text:
+            "Terima kasih kerana memberi penilaian terhadap perkhidmatan kami. Penilaian anda amat berharga buat kami.",
+          buttonsStyling: false,
+          confirmButtonText: "Tutup",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      },
+      (err) => {
+        console.error("err", err);
+        swal.fire({
+          icon: "warning",
+          title: "Nilai perkhidmatan kami",
+          text:
+            "Terima kasih kerana memberi penilaian terhadap perkhidmatan kami. Penilaian anda amat berharga buat kami.",
+          buttonsStyling: false,
+          confirmButtonText: "Tutup",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    );
   }
 }

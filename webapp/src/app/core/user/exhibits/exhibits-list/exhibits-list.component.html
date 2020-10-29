@@ -164,7 +164,7 @@
 <ng-template #createExhibitList>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Tambah hahaha
+      Tambah
     </h6>
 
     <button
@@ -269,9 +269,17 @@
         <input type="file" name="image_link" (change)="onChange($event)" />
       </div>
 
-      <div class="row">
-        <div class="col">
-          <img [src]="" *ngIf="exhibitlistFormGroup.value.image_link" />
+      <div class="row pb-3">
+        <div class="col text-center">
+          <div class="card">
+            <div class="card-body">
+              <img
+                [src]="exhibitlistFormGroup.value.image_link"
+                *ngIf="exhibitlistFormGroup.value.image_link"
+                style="width: 50%"
+              />
+            </div>
+          </div>
         </div>
       </div>
 

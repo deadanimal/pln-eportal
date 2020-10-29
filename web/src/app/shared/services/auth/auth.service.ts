@@ -18,6 +18,8 @@ export class AuthService {
     environment.baseUrl + "auth/password/change/";
   public urlPasswordReset: string =
     environment.baseUrl + "auth/password/reset/";
+  public urlPasswordResetConfirm: string =
+    environment.baseUrl + "auth/password/reset/confirm/";
   public urlTokenObtain: string = environment.baseUrl + "auth/obtain/";
   public urlTokenRefresh: string = environment.baseUrl + "auth/refresh/";
   public urlTokenVerify: string = environment.baseUrl + "auth/verify/";
@@ -43,9 +45,15 @@ export class AuthService {
   }
 
   changePassword(body: Form): Observable<any> {
-    return this.http.post<any>(this.urlPasswordChange, body).pipe(
+    let httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + this.jwtService.getToken("accessToken"),
+      }),
+    };
+    return this.http.post<any>(this.urlPasswordChange, body, httpOptions).pipe(
       tap((res) => {
-        console.log("Registration: ", res);
+        console.log("Change password: ", res);
       })
     );
   }
@@ -54,6 +62,14 @@ export class AuthService {
     return this.http.post<any>(this.urlPasswordReset, body).pipe(
       tap((res) => {
         console.log("Reset password: ", res);
+      })
+    );
+  }
+
+  resetPasswordConfirm(body: Form): Observable<any> {
+    return this.http.post<any>(this.urlPasswordResetConfirm, body).pipe(
+      tap((res) => {
+        console.log("Reset password confirm: ", res);
       })
     );
   }
@@ -71,7 +87,7 @@ export class AuthService {
         this.username = decodedToken.username;
         this.userID = decodedToken.user_id;
         this.userType = decodedToken.user_type;
-        
+
         this.jwtService.saveToken("accessToken", this.tokenAccess);
         this.jwtService.saveToken("refreshToken", this.tokenRefresh);
       })
@@ -107,4 +123,3 @@ export class AuthService {
     return user_obj;
   }
 }
-

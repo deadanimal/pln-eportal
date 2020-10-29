@@ -42,6 +42,8 @@ import { AssetsComponent } from './assets/assets.component';
 import { UsersComponent } from './managements/users/users.component';
 import { ExhibitsComponent } from './exhibits/exhibits/exhibits.component';
 import { ExhibitsDetailComponent } from './exhibits/exhibits-detail/exhibits-detail.component';
+import { VenuesComponent } from './venues/venues.component';
+import { PublicationsComponent } from './publications/publications/publications.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { ExhibitsDetailComponent } from './exhibits/exhibits-detail/exhibits-det
     UsersComponent,
     ExhibitsComponent,
     ExhibitsDetailComponent,
+    VenuesComponent,
+    PublicationsComponent,
   ],
   imports: [
     CommonModule,

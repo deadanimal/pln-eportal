@@ -14,6 +14,7 @@ import { ProgramsApplicationComponent } from "./programs/programs-application/pr
 import { ProgramsListComponent } from "./programs/programs-list/programs-list.component";
 import { ProgramsWaitingListComponent } from "./programs/programs-waiting-list/programs-waiting-list.component";
 import { PublicationsListComponent } from "./publications/publications-list/publications-list.component";
+import { PublicationsComponent } from "./publications/publications/publications.component";
 import { ReportsAnalysisComponent } from "./reports/reports-analysis/reports-analysis.component";
 import { ReportsOperationComponent } from "./reports/reports-operation/reports-operation.component";
 import { ReportsTicketSalesComponent } from "./reports/reports-ticket-sales/reports-ticket-sales.component";
@@ -24,6 +25,7 @@ import { SimulatorRideScheduleComponent } from "./simulator-ride/simulator-ride-
 import { SurveysAnswerComponent } from "./surveys/surveys-answer/surveys-answer.component";
 import { SurveysListComponent } from "./surveys/surveys-list/surveys-list.component";
 import { TicketsPriceComponent } from "./tickets/tickets-price/tickets-price.component";
+import { VenuesComponent } from "./venues/venues.component";
 import { VirtualLibrariesListComponent } from "./virtual-libraries/virtual-libraries-list/virtual-libraries-list.component";
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
 import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
@@ -92,6 +94,10 @@ export const UserRoutes: Routes = [
         children: [
           {
             path: "list",
+            component: PublicationsComponent,
+          },
+          {
+            path: "list/:publication_category_id",
             component: PublicationsListComponent,
           },
         ],
@@ -176,6 +182,15 @@ export const UserRoutes: Routes = [
           {
             path: "list",
             component: AssetsComponent,
+          },
+        ],
+      },
+      {
+        path: "venues",
+        children: [
+          {
+            path: "list",
+            component: VenuesComponent,
           },
         ],
       },

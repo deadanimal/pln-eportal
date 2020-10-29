@@ -22,7 +22,7 @@ export class ExhibitDetailsService {
   post(body: Form): Observable<ExhibitDetail> {
     return this.http.post<ExhibitDetail>(this.url, body).pipe(
       tap((res) => {
-        console.log("ExhibitDetail: ", res);
+        // console.log("ExhibitDetail: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class ExhibitDetailsService {
     return this.http.get<ExhibitDetail[]>(this.url).pipe(
       tap((res) => {
         this.exhibitdetails = res;
-        console.log("ExhibitDetails: ", res);
+        // console.log("ExhibitDetails: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class ExhibitDetailsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<ExhibitDetail>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("ExhibitDetail: ", res);
+        // console.log("ExhibitDetail: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class ExhibitDetailsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<ExhibitDetail>(urlDelete).pipe(
       tap((res) => {
-        console.log("ExhibitDetail: ", res);
+        // console.log("ExhibitDetail: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class ExhibitDetailsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<ExhibitDetail[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("ExhibitDetails: ", res);
+        // console.log("ExhibitDetails: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class ExhibitDetailsService {
     return this.http.get<ExhibitDetail[]>(this.url + "extended").pipe(
       tap((res) => {
         this.exhibitdetails = res;
-        console.log("ExhibitDetails: ", res);
+        // console.log("ExhibitDetails: ", res);
       })
     );
   }

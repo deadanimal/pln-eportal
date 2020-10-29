@@ -30,9 +30,15 @@
       <div class="col-md-4 col-sm-12 text-left">
         <h3 class="font-weight-bold">Pernyataan Umum</h3>
 
-        <p class="m-0">Dasar privasi dan keselamatan</p>
-        <p class="m-0">Notis Hakcipta</p>
-        <p class="m-0">Penafian</p>
+        <p class="m-0">
+          <a [routerLink]="['/privacy-policy']"
+            >Dasar privasi dan keselamatan</a
+          >
+        </p>
+        <p class="m-0">
+          <a [routerLink]="['/copyright-notice']">Notis Hakcipta</a>
+        </p>
+        <p class="m-0"><a [routerLink]="['/disclaimer']">Penafian</a></p>
 
         <h3 style="font-weight: 600; margin-top: 20px">Ikuti kami:</h3>
         <div>
@@ -102,10 +108,10 @@
       <!-- <div class="col-md-4 col-sm-12">
         <p>&#169; 2020 MAMPU Hak Cipta Terpelihara</p>
       </div> -->
-      <div class="col-md-6 col-sm-12">
-        <p>Syarat Penggunaan | Dasar Privasi</p>
+      <div class="col-md-8 col-sm-12">
+        <p>Paparan terbaik menggunakan pelayar Microsoft Edge, Mozilla Firefox, Google Chrome dan Safari menggunakan resolusi minimum 1366 x 768 pixel</p>
       </div>
-      <div class="col-md-6 col-sm-12">
+      <div class="col-md-4 col-sm-12">
         <p>&#169; Hak Cipta 2020 Planetarium Negara</p>
       </div>
     </div>

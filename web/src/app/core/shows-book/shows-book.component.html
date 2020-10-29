@@ -18,13 +18,25 @@
     </div> -->
     <carousel>
       <slide>
-        <img src="../../../assets/img/show/show-1.jpg" alt="second slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
       </slide>
       <slide>
-        <img src="../../../assets/img/show/show-2.jpg" alt="third slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
       </slide>
       <slide>
-        <img src="../../../assets/img/show/show-3.jpg" alt="first slide" style="display: block; width: 100%;">
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
       </slide>
     </carousel>
   </div>
@@ -55,10 +67,15 @@
                       />
                     </div>
                     <div class="col-md-6 col-sm-12">
-                      <label>Masa</label><br/>
-                      <h3 class="text-dark" *ngIf="!firstFormGroup.value.date">Sila pilih tarikh</h3>
+                      <label>Masa</label><br />
+                      <h3 class="text-dark" *ngIf="!firstFormGroup.value.date">
+                        Sila pilih tarikh
+                      </h3>
                       <div *ngIf="firstFormGroup.value.date">
-                        <div class="form-check form-check-radio form-check-inline" *ngFor="let showtime of showtimes">
+                        <div
+                          class="form-check form-check-radio form-check-inline"
+                          *ngFor="let showtime of showtimes"
+                        >
                           <label class="form-check-label">
                             <input
                               class="form-check-input"
@@ -207,6 +224,17 @@
                       </tbody>
                     </table>
                   </div>
+                  <alert
+                    class="alert-with-icon"
+                    [type]="'default alert-with-icon'"
+                  >
+                    <span class="fas fa-wheelchair" data-notify="icon"> </span>
+                    <span>
+                      <b> Penafian : </b>
+                      Cadangan tempat duduk untuk warga emas dan OKU ialah D56
+                      sehingga D63 dan F56 sehingga F63.
+                    </span>
+                  </alert>
                   <div class="text-center">
                     <button
                       type="button"

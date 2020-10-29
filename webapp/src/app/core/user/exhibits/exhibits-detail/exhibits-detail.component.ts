@@ -185,9 +185,10 @@ export class ExhibitsDetailComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.exhibitdetailimageFormGroup.patchValue({
-        exhibit_detail_id: this.exhibitdetailFormGroup.value.id
-      });
+      console.log("openModal : create :", this.exhibitdetailFormGroup.value);
+      // this.exhibitdetailimageFormGroup.patchValue({
+      //   exhibit_detail_id: this.exhibitdetailFormGroup.value.id
+      // });
     } else if (process == "update") {
       this.exhibitdetailimageFormGroup.patchValue({
         ...row,
@@ -211,6 +212,9 @@ export class ExhibitsDetailComponent implements OnInit {
         .subscribe(
           (res) => {
             console.log("res", res);
+            this.exhibitdetailimageFormGroup.patchValue({
+              exhibit_detail_id: this.exhibitdetailFormGroup.value.id
+            });
             swal
               .fire({
                 title: "Berjaya",
@@ -249,6 +253,12 @@ export class ExhibitsDetailComponent implements OnInit {
         .subscribe(
           (res) => {
             console.log("res", res);
+            this.exhibitdetailFormGroup.patchValue({
+              ...res
+            });
+            this.exhibitdetailimageFormGroup.patchValue({
+              exhibit_detail_id: res.id
+            });
             swal
               .fire({
                 title: "Berjaya",

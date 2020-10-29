@@ -59,6 +59,7 @@ export class ExhibitsService {
 
   filter(field: string): Observable<Exhibit[]> {
     let urlFilter = this.url + "?" + field;
+    console.log("urlFilter", urlFilter);
     return this.http.get<Exhibit[]>(urlFilter).pipe(
       tap((res) => {
         console.log("Exhibits: ", res);
