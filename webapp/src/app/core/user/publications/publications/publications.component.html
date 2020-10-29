@@ -19,7 +19,7 @@
         <div class="col-lg-6 col-5 text-right">
           <a
             class="btn btn-sm btn-neutral"
-            (click)="openModal(createPublication, 'create', '')"
+            (click)="openModal(createPublicationCategory, 'create', '')"
           >
             Tambah
           </a>
@@ -90,46 +90,28 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tajuk</span>
+                <span>Nama</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.title }}
+                {{ row.name }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Abstrak</span>
+                <span>Ikon</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.abstract }}
+                <i [class]="row.icon + ' fa-2x'"></i>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Nama Penulis</span>
+                <span>Tarikh Dicipta</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.publisher_name }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Tarikh Diterbit</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.published_date | date: "mediumDate" }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Tahun</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.year }}
+                {{ row.created_date | date: "mediumDate" }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -153,20 +135,14 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
-                  class="btn btn-sm btn-danger"
-                  (click)="openModal(uploadPdf, 'uploadpdf', row)"
+                  class="btn btn-sm btn-default"
+                  [routerLink]="['/publications/list/', row.id]"
                 >
-                  PDF
-                </button>
-                <button
-                  class="btn btn-sm btn-info"
-                  (click)="openModal(uploadPoster, 'uploadposter', row)"
-                >
-                  Poster
+                  Senarai
                 </button>
                 <button
                   class="btn btn-sm btn-primary"
-                  (click)="openModal(editPublication, 'update', row)"
+                  (click)="openModal(editPublicationCategory, 'update', row)"
                 >
                   Sunting
                 </button>
@@ -179,7 +155,7 @@
   </div>
 </div>
 
-<ng-template #createPublication>
+<ng-template #createPublicationCategory>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Tambah
@@ -197,79 +173,30 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="publicationFormGroup">
+    <form [formGroup]="publicationcategoryFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label">Nama</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="name"
+          placeholder="Nama"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Abstrak</label>
-        <textarea
-          class="form-control"
-          formControlName="abstract"
-          placeholder="Abstrak"
-        ></textarea>
+        <label class="form-control-label">Ikon</label>
+        <select class="form-control" formControlName="icon">
+          <option value="">Sila pilih</option>
+          <option
+            *ngFor="let fontAwesome of fontAwesomes"
+            [value]="fontAwesome"
+          >
+            <p>{{ fontAwesome }}</p>
+          </option>
+        </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama Penulis</label>
-        <input
-          class="form-control"
-          formControlName="author_name"
-          placeholder="Nama Penulis"
-          type="text"
-        />
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Nama Penerbit</label>
-        <input
-          class="form-control"
-          formControlName="publisher_name"
-          placeholder="Nama Penerbit"
-          type="text"
-        />
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Tarikh Diterbit</label>
-            <input
-              class="form-control"
-              formControlName="published_date"
-              placeholder="Sila pilih"
-              type="date"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Edisi</label>
-            <input
-              class="form-control"
-              formControlName="edition"
-              placeholder="Sila pilih"
-              type="text"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Tahun</label>
-            <input
-              class="form-control"
-              formControlName="year"
-              placeholder="Sila pilih"
-              type="number"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Status</label>
+        <label class="form-control-label mr-3">Status</label>
         <div class="custom-control custom-radio custom-control-inline">
           <input
             type="radio"
@@ -316,7 +243,7 @@
   </div>
 </ng-template>
 
-<ng-template #editPublication>
+<ng-template #editPublicationCategory>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Ubah Suai
@@ -334,79 +261,30 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="publicationFormGroup">
+    <form [formGroup]="publicationcategoryFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label">Nama</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="name"
+          placeholder="Nama"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Abstrak</label>
-        <textarea
-          class="form-control"
-          formControlName="abstract"
-          placeholder="Abstrak"
-        ></textarea>
+        <label class="form-control-label">Ikon</label>
+        <select class="form-control" formControlName="icon">
+          <option value="">Sila pilih</option>
+          <option
+            *ngFor="let fontAwesome of fontAwesomes"
+            [value]="fontAwesome"
+          >
+            <p>{{ fontAwesome }}</p>
+          </option>
+        </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama Penulis</label>
-        <input
-          class="form-control"
-          formControlName="author_name"
-          placeholder="Nama Penulis"
-          type="text"
-        />
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Nama Penerbit</label>
-        <input
-          class="form-control"
-          formControlName="publisher_name"
-          placeholder="Nama Penerbit"
-          type="text"
-        />
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Tarikh Diterbit</label>
-            <input
-              class="form-control"
-              formControlName="published_date"
-              placeholder="Sila pilih"
-              type="date"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Edisi</label>
-            <input
-              class="form-control"
-              formControlName="edition"
-              placeholder="Sila pilih"
-              type="text"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Tahun</label>
-            <input
-              class="form-control"
-              formControlName="year"
-              placeholder="Sila pilih"
-              type="number"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Status</label>
+        <label class="form-control-label mr-3">Status</label>
         <div class="custom-control custom-radio custom-control-inline">
           <input
             type="radio"
@@ -439,100 +317,6 @@
 
   <div class="modal-footer">
     <button class="btn btn-success" type="button" (click)="update()">
-      Simpan
-    </button>
-
-    <button
-      class="btn btn-outline-danger ml-auto"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      Batal
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #uploadPdf>
-  <div class="modal-header bg-default">
-    <h6 class="modal-title text-white my-auto" id="modal-title-default">PDF</h6>
-
-    <button
-      aria-label="Close"
-      class="close"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      <span aria-hidden="true" class="text-white my-auto"> × </span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <form [formGroup]="publicationPDFFormGroup">
-      <div class="form-group">
-        <label class="form-control-label">Pilih PDF</label><br />
-        <input
-          type="file"
-          name="pdf_link"
-          (change)="onChange($event, 'pdf_link')"
-        />
-      </div>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="uploadPDFProcess()">
-      Simpan
-    </button>
-
-    <button
-      class="btn btn-outline-danger ml-auto"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      Batal
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #uploadPoster>
-  <div class="modal-header bg-default">
-    <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Poster
-    </h6>
-
-    <button
-      aria-label="Close"
-      class="close"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      <span aria-hidden="true" class="text-white my-auto"> × </span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <form [formGroup]="publicationPosterFormGroup">
-      <div class="form-group">
-        <label class="form-control-label">Pilih poster</label><br />
-        <input
-          type="file"
-          name="poster_link"
-          (change)="onChange($event, 'poster_link')"
-        />
-      </div>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button
-      class="btn btn-success"
-      type="button"
-      (click)="uploadPosterProcess()"
-    >
       Simpan
     </button>
 
