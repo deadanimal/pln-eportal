@@ -76,6 +76,7 @@ import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { CioComponent } from './cio/cio.component';
 import { FacilityPriceFilterPipe } from '../shared/pipes/facility/facility-price-filter.pipe';
 import { ProfileComponent } from './profile/profile.component';
+import { PublicationListsComponent } from './publication-lists/publication-lists.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { ProfileComponent } from './profile/profile.component';
     CioComponent,
     FacilityPriceFilterPipe,
     ProfileComponent,
+    PublicationListsComponent,
   ],
   imports: [
     CommonModule,

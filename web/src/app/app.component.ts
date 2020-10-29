@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        console.log("navigationStart");
+        // console.log("navigationStart");
       }
     });
   }

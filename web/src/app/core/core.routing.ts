@@ -36,7 +36,8 @@ import { PrivacyPolicyComponent } from "./privacy-policy/privacy-policy.componen
 import { CopyrightNoticeComponent } from "./copyright-notice/copyright-notice.component";
 import { DisclaimerComponent } from "./disclaimer/disclaimer.component";
 import { CioComponent } from "./cio/cio.component";
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from "./profile/profile.component";
+import { PublicationListsComponent } from "./publication-lists/publication-lists.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -112,7 +113,16 @@ export const CoreRoutes: Routes = [
   },
   {
     path: "publication",
-    component: PublicationComponent,
+    children: [
+      {
+        path: "",
+        component: PublicationComponent,
+      },
+      {
+        path: "lists/:id",
+        component: PublicationListsComponent,
+      },
+    ],
   },
   {
     path: "shows",

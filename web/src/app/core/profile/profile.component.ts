@@ -5,10 +5,13 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Router, NavigationEnd } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { CustomValidators } from "src/app/shared/class/custom-validators";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
@@ -57,7 +60,10 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private router: Router,
+    private toastr: ToastrService,
     private authService: AuthService,
+    public jwtService: JwtService,
     private userService: UsersService
   ) {
     this.userFormGroup = this.formBuilder.group({
@@ -143,6 +149,12 @@ export class ProfileComponent implements OnInit {
 
   selectTab(tab: string) {
     this.selectedTab = tab;
+
+    if (this.selectedTab == "log-keluar") {
+      this.toastr.info("Anda telah log keluar. Terima kasih.", "Info");
+      this.jwtService.destroyToken();
+      this.router.navigate(["/landing"]);
+    }
   }
 
   updateProfile() {

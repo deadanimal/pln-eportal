@@ -247,7 +247,7 @@ export class SurveyComponent implements OnInit {
       );
     } else {
       this.toastr.error(
-        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menghantar maklum balas / tinjauan anda.",
+        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menghantar maklum balas / aduan anda.",
         "Ralat"
       );
     }

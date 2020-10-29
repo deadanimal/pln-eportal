@@ -178,6 +178,37 @@
                 </div>
               </div>
             </div>
+
+            <div
+              class="card mt-2"
+              [ngClass]="
+                selectedTab == 'log-keluar' ? 'bg-default' : 'bg-white'
+              "
+              (click)="selectTab('log-keluar')"
+            >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 text-center">
+                    <i
+                      class="fas fa-money-check fa-2x"
+                      [ngClass]="
+                        selectedTab == 'log-keluar' ? 'text-white' : 'text-dark'
+                      "
+                    ></i>
+                  </div>
+                  <div class="col-md-8 col-sm-12 align-self-center">
+                    <p
+                      class="font-weight-bold"
+                      [ngClass]="
+                        selectedTab == 'log-keluar' ? 'text-white' : 'text-dark'
+                      "
+                    >
+                      Log Keluar
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-8 col-sm-12">
             <!-- Maklumat AM -->
@@ -725,6 +756,9 @@
                 </table>
               </div>
             </div>
+
+            <!-- Log Keluar -->
+            <div *ngIf="selectedTab == 'log-keluar'"></div>
           </div>
         </div>
       </div>
