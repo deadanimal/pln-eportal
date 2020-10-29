@@ -125,11 +125,51 @@ publication_categories_router = router.register(
 
 # Virtuallibraries app
 from virtuallibraries.views import (
-    VirtuallibraryViewSet
+    VirtualLibraryCategoryViewSet,
+    VirtualLibraryArticleViewSet,
+    VirtualLibraryCollectionViewSet,
+    VirtualLibraryBookViewSet,
+    VirtualLibrarySerialPublicationViewSet,
+    VirtualLibraryESourceCategoryViewSet,
+    VirtualLibraryESourceViewSet,
+    VirtualLibraryArchiveKutubkhanahCategoryViewSet,
+    VirtualLibraryArchiveKutubkhanahViewSet
 )
 
-virtuallibraries_router = router.register(
-    'virtual-libraries', VirtuallibraryViewSet
+virtuallibrary_categories_router = router.register(
+    'virtual-library-categories', VirtualLibraryCategoryViewSet
+)
+
+virtuallibrary_articles_router = router.register(
+    'virtual-library-articles', VirtualLibraryArticleViewSet
+)
+
+virtuallibrary_collections_router = router.register(
+    'virtual-library-collections', VirtualLibraryCollectionViewSet
+)
+
+virtuallibrary_books_router = router.register(
+    'virtual-library-books', VirtualLibraryBookViewSet
+)
+
+virtuallibrary_serialpublications_router = router.register(
+    'virtual-library-serialpublications', VirtualLibrarySerialPublicationViewSet
+)
+
+virtuallibrary_esource_categories_router = router.register(
+    'virtual-library-esource-categories', VirtualLibraryESourceCategoryViewSet
+)
+
+virtuallibrary_esources_router = router.register(
+    'virtual-library-esources', VirtualLibraryESourceViewSet
+)
+
+virtuallibrary_archivekutubkhanah_categories_router = router.register(
+    'virtual-library-archivekutubkhanah-categories', VirtualLibraryArchiveKutubkhanahCategoryViewSet
+)
+
+virtuallibrary_archivekutubkhanahs_router = router.register(
+    'virtual-library-archivekutubkhanahs', VirtualLibraryArchiveKutubkhanahViewSet
 )
 
 # Showings app

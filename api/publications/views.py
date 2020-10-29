@@ -29,6 +29,7 @@ class PublicationCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'id',
         'name',
         'icon',
+        'status',
         'created_date',
         'modified_date'
     ]
@@ -57,6 +58,7 @@ class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'publisher_name', 
         'published_date',
         'publication_category_id',
+        'status',
         'created_date',
         'modified_date'
     ]
