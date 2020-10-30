@@ -1,0 +1,103 @@
+<div class="wrapper">
+  <div class="page-header page-header-small header-filter">
+    <!-- <div
+                  class="page-header-image rellax"
+                  data-parallax="true"
+                  style="background-image: url('assets/img/publication/publication.jpeg')"
+                ></div>
+                <div class="content-center">
+                  <div class="row">
+                    <div class="col-md-6 ml-auto mr-auto text-center">
+                      <h1 class="title">Perpustakaan Maya</h1>
+                      <h2 class="description">Alami perpustakaan secara maya.</h2>
+                    </div>
+                  </div>
+                </div> -->
+    <carousel>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+    </carousel>
+  </div>
+  <div class="main main-raised bg-white">
+    <div class="section">
+      <div class="container">
+        <h2 class="title text-center text-dark">Terbitan Bersiri</h2>
+        <div class="row">
+          <div class="col">
+            <p class="text-dark text-justify" style="font-size: 1rem">
+              Sumber maklumat koleksi terbitan bersiri terdiri daripada
+              bahan-bahan bercetak, bukan bercetak, elektronik dan dalam talian.
+              Antara koleksi bahan yang terdapat adalah majalah, surat khabar,
+              laporan tahunan, buku tahunan, buku panduan, jurnal, indeks,
+              abstrak, statistik, warta kerajaan dan akta.
+            </p>
+          </div>
+        </div>
+        <div
+          class="row pb-5"
+          *ngFor="let vl_terbitanbersiri of vl_terbitanbersiris"
+        >
+          <div class="col-md-1 col-sm-12"></div>
+          <div class="col-md-4 col-sm-12">
+            <div class="card bg-transparent">
+              <div class="card-image">
+                <img [src]="vl_terbitanbersiri.image_link" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <h2 class="title text-dark">{{ vl_terbitanbersiri.title }}</h2>
+            <p class="text-dark">
+              Call Number: {{ vl_terbitanbersiri.call_number }}
+            </p>
+            <p class="text-dark">Penulis: {{ vl_terbitanbersiri.author }}</p>
+            <p class="text-dark">
+              Penulis Tambahan: {{ vl_terbitanbersiri.author_added }}
+            </p>
+            <p class="text-dark">ISBN: {{ vl_terbitanbersiri.isbn }}</p>
+            <p class="text-dark">ISSN: {{ vl_terbitanbersiri.issn }}</p>
+            <p class="text-dark">Tahun: {{ vl_terbitanbersiri.year }}</p>
+            <p class="text-dark">
+              Penerbit: {{ vl_terbitanbersiri.publisher_name }}
+            </p>
+            <p class="text-dark">
+              Deskripsi: {{ vl_terbitanbersiri.description }}
+            </p>
+            <p class="text-dark">Nota: {{ vl_terbitanbersiri.notes }}</p>
+
+            <div class="row">
+              <div class="col text-right">
+                <a
+                  [href]="vl_terbitanbersiri.pdf_link"
+                  download
+                  class="btn btn-danger"
+                  >Muat Turun PDF</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 col-sm-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

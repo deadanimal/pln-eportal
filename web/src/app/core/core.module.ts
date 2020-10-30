@@ -61,22 +61,32 @@ import { ShowsBookComponent } from "./shows-book/shows-book.component";
 import { ExhibitListsComponent } from "./exhibit-lists/exhibit-lists.component";
 import { DirectoryComponent } from "./directory/directory.component";
 import { OperatingHourComponent } from "./operating-hour/operating-hour.component";
-import { ProgramFilterPipe } from '../shared/pipes/program/program-filter.pipe';
-import { ProgramImageFilterPipe } from '../shared/pipes/program/program-image-filter.pipe';
-import { ProgramFormsComponent } from './program-forms/program-forms.component';
-import { FacilityImageFilterPipe } from '../shared/pipes/facility/facility-image-filter.pipe';
-import { FacilityDetailZonesComponent } from './facility-detail-zones/facility-detail-zones.component';
-import { SurveyQuestionFilterPipe } from '../shared/pipes/survey/survey-question-filter.pipe';
-import { NocComponent } from './noc/noc.component';
-import { CharterComponent } from './charter/charter.component';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { CopyrightNoticeComponent } from './copyright-notice/copyright-notice.component';
-import { DisclaimerComponent } from './disclaimer/disclaimer.component';
-import { CioComponent } from './cio/cio.component';
-import { FacilityPriceFilterPipe } from '../shared/pipes/facility/facility-price-filter.pipe';
-import { ProfileComponent } from './profile/profile.component';
-import { PublicationListsComponent } from './publication-lists/publication-lists.component';
+import { ProgramFilterPipe } from "../shared/pipes/program/program-filter.pipe";
+import { ProgramImageFilterPipe } from "../shared/pipes/program/program-image-filter.pipe";
+import { ProgramFormsComponent } from "./program-forms/program-forms.component";
+import { FacilityImageFilterPipe } from "../shared/pipes/facility/facility-image-filter.pipe";
+import { FacilityDetailZonesComponent } from "./facility-detail-zones/facility-detail-zones.component";
+import { SurveyQuestionFilterPipe } from "../shared/pipes/survey/survey-question-filter.pipe";
+import { NocComponent } from "./noc/noc.component";
+import { CharterComponent } from "./charter/charter.component";
+import { PasswordResetComponent } from "./password-reset/password-reset.component";
+import { PrivacyPolicyComponent } from "./privacy-policy/privacy-policy.component";
+import { CopyrightNoticeComponent } from "./copyright-notice/copyright-notice.component";
+import { DisclaimerComponent } from "./disclaimer/disclaimer.component";
+import { CioComponent } from "./cio/cio.component";
+import { FacilityPriceFilterPipe } from "../shared/pipes/facility/facility-price-filter.pipe";
+import { ProfileComponent } from "./profile/profile.component";
+import { PublicationListsComponent } from "./publication-lists/publication-lists.component";
+import { VirtualLibraryTentangKamiComponent } from "./virtual-library-tentang-kami/virtual-library-tentang-kami.component";
+import { VirtualLibraryArtikelTerkiniComponent } from "./virtual-library-artikel-terkini/virtual-library-artikel-terkini.component";
+import { VirtualLibraryKoleksiComponent } from "./virtual-library-koleksi/virtual-library-koleksi.component";
+import { VirtualLibraryPerkhidmatanComponent } from "./virtual-library-perkhidmatan/virtual-library-perkhidmatan.component";
+import { VirtualLibraryArkibKutubkhanahComponent } from "./virtual-library-arkib-kutubkhanah/virtual-library-arkib-kutubkhanah.component";
+import { VirtualLibraryEsumberComponent } from "./virtual-library-esumber/virtual-library-esumber.component";
+import { ArkibKutubkhanahFilterPipe } from "../shared/pipes/virtual-library/arkib-kutubkhanah/arkib-kutubkhanah-filter.pipe";
+import { EsumberFilterPipe } from "../shared/pipes/virtual-library/esumber/esumber-filter.pipe";
+import { VirtualLibraryBukuComponent } from './virtual-library-buku/virtual-library-buku.component';
+import { VirtualLibraryTerbitanBersiriComponent } from './virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +134,16 @@ import { PublicationListsComponent } from './publication-lists/publication-lists
     FacilityPriceFilterPipe,
     ProfileComponent,
     PublicationListsComponent,
+    VirtualLibraryTentangKamiComponent,
+    VirtualLibraryArtikelTerkiniComponent,
+    VirtualLibraryKoleksiComponent,
+    VirtualLibraryPerkhidmatanComponent,
+    VirtualLibraryArkibKutubkhanahComponent,
+    VirtualLibraryEsumberComponent,
+    ArkibKutubkhanahFilterPipe,
+    EsumberFilterPipe,
+    VirtualLibraryBukuComponent,
+    VirtualLibraryTerbitanBersiriComponent,
   ],
   imports: [
     CommonModule,
