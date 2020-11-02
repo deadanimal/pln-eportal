@@ -3,7 +3,9 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-dark d-inline-block mb-0">Jadual Tayangan</h6>
+          <h6 class="h2 text-dark d-inline-block mb-0">
+            Senarai Rakan Kerjasama
+          </h6>
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
@@ -19,7 +21,7 @@
         <div class="col-lg-6 col-5 text-right">
           <a
             class="btn btn-sm btn-neutral"
-            (click)="openModal(createShow, 'create', '')"
+            (click)="openModal(createPartner, 'create', '')"
           >
             Tambah
           </a>
@@ -34,22 +36,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
-          <h3 class="m-0">Jadual</h3>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <div class="amchart" id="chart-show-schedule-1"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header bg-secondary">
-          <h3 class="m-0">Senarai</h3>
+          <h3 class="m-0">Senarai Rakan Kerjasama</h3>
         </div>
         <div class="dataTables_wrapper py-4">
           <div class="row">
@@ -105,48 +92,44 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tarikh</span>
+                <span>Nama</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.show_date }}
+                {{ row.name }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Masa</span>
+                <span>Gambar</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.show_time }}
+                <img [src]="row.image_link" style="width: 50%" />
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tajuk</span>
+                <span>Tarikh Dicipta</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.showing_id.title }}
+                {{ row.created_date | date: "mediumDate" }}
               </ng-template>
             </ngx-datatable-column>
 
-            <!-- <ngx-datatable-column>
+            <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span
-                  *ngIf="row.status == 'active'"
-                  class="badge badge-pill badge-success"
+                <span *ngIf="row.status" class="badge badge-pill badge-success"
                   >Aktif</span
                 >
-                <span
-                  *ngIf="row.status == 'inactive'"
-                  class="badge badge-pill badge-danger"
+                <span *ngIf="!row.status" class="badge badge-pill badge-danger"
                   >Tidak aktif</span
                 >
               </ng-template>
-            </ngx-datatable-column> -->
+            </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
@@ -155,7 +138,7 @@
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
                   class="btn btn-sm btn-primary"
-                  (click)="openModal(editShow, 'update', row)"
+                  (click)="openModal(editPartner, 'update', row)"
                 >
                   Sunting
                 </button>
@@ -168,7 +151,7 @@
   </div>
 </div>
 
-<ng-template #createShow>
+<ng-template #createPartner>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Tambah
@@ -186,60 +169,48 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="showtimeFormGroup">
+    <form [formGroup]="partnerFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
-        <select
+        <label class="form-control-label">Nama</label>
+        <input
           class="form-control"
-          formControlName="showing_id"
-          placeholder="Sila pilih"
-        >
-          <option value="">Sila pilih</option>
-          <option *ngFor="let show of shows" [value]="show.id">
-            {{ show.title }}
-          </option>
-        </select>
+          formControlName="name"
+          placeholder="Nama"
+          type="text"
+        />
       </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Masa</label>
-            <input
-              class="form-control"
-              formControlName="show_time"
-              placeholder="Masa"
-              type="time"
-            />
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Tarikh</label>
-            <input
-              class="form-control"
-              formControlName="show_date"
-              placeholder="Tarikh"
-              type="date"
-            />
-          </div>
-        </div>
-      </div>
-
       <div class="form-group">
-        <label class="form-control-label">Tempat</label>
-        <select
-          class="form-control"
-          formControlName="venue_id"
-          placeholder="Sila pilih"
-          multiple
-        >
-          <option value="">Sila pilih</option>
-          <option *ngFor="let venue of venues" [value]="venue.id">
-            {{ venue.name }}
-          </option>
-        </select>
+        <label class="form-control-label">Gambar</label><br />
+        <input type="file" name="image_link" (change)="onChange($event)" />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
       </div>
     </form>
   </div>
@@ -260,7 +231,7 @@
   </div>
 </ng-template>
 
-<ng-template #editShow>
+<ng-template #editPartner>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Ubah Suai
@@ -278,60 +249,63 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="showtimeFormGroup">
+    <form [formGroup]="partnerFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
-        <select
+        <label class="form-control-label">Nama</label>
+        <input
           class="form-control"
-          formControlName="showing_id"
-          placeholder="Sila pilih"
-        >
-          <option value="">Sila pilih</option>
-          <option *ngFor="let show of shows" [value]="show.id">
-            {{ show.title }}
-          </option>
-        </select>
+          formControlName="name"
+          placeholder="Nama"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Gambar</label><br />
+        <input type="file" name="image_link" (change)="onChange($event)" />
       </div>
 
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Masa</label>
-            <input
-              class="form-control"
-              formControlName="show_time"
-              placeholder="Masa"
-              type="time"
-            />
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Tarikh</label>
-            <input
-              class="form-control"
-              formControlName="show_date"
-              placeholder="Tarikh"
-              type="date"
-            />
+      <div class="row pb-3">
+        <div class="col text-center">
+          <div class="card">
+            <div class="card-body">
+              <img
+                [src]="partnerFormGroup.value.image_link"
+                *ngIf="partnerFormGroup.value.image_link"
+                style="width: 50%"
+              />
+            </div>
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-control-label">Tempat</label>
-        <select
-          class="form-control"
-          formControlName="venue_id"
-          placeholder="Sila pilih"
-          multiple
-        >
-          <option value="">Sila pilih</option>
-          <option *ngFor="let venue of venues" [value]="venue.id">
-            {{ venue.name }}
-          </option>
-        </select>
+        <label class="form-control-label mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
       </div>
     </form>
   </div>

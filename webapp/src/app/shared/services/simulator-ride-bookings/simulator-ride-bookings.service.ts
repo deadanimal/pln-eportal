@@ -63,5 +63,16 @@ export class SimulatorRideBookingsService {
       })
     );
   }
+
+  extended(field: string): Observable<SimulatorRideBooking[]> {
+    let urlExtended = "";
+    if(field) urlExtended = this.url + "extended/?" + field;
+    else urlExtended = this.url + "extended";
+    return this.http.get<SimulatorRideBooking[]>(urlExtended).pipe(
+      tap((res) => {
+        console.log("SimulatorRideBookings: ", res);
+      })
+    );
+  }
 }
 

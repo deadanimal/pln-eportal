@@ -5,13 +5,10 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
-import { SimulatorRideTimesService } from "src/app/shared/services/simulator-ride-times/simulator-ride-times.service";
-import { UsersService } from "src/app/shared/services/users/users.service";
+import { EmployeeDirectoriesService } from "src/app/shared/services/employee-directories/employee-directories.service";
 
 export enum SelectionType {
   single = "single",
@@ -22,18 +19,59 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-simulator-ride-applications",
-  templateUrl: "./simulator-ride-applications.component.html",
-  styleUrls: ["./simulator-ride-applications.component.scss"],
+  selector: "app-employee-directories",
+  templateUrl: "./employee-directories.component.html",
+  styleUrls: ["./employee-directories.component.scss"],
 })
-export class SimulatorRideApplicationsComponent implements OnInit {
-  // Table
-  tableEntries: number = 5;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
+export class EmployeeDirectoriesComponent implements OnInit {
+  // Data
+
+  // Dropdown
+  departments = [
+    {
+      value: "PPP",
+      display_name: "Pejabat Pengarah Planetarium Negara",
+    },
+    {
+      value: "UPA",
+      display_name: "Unit Perhubungan Awam",
+    },
+    {
+      value: "SPD",
+      display_name: "Seksyen Pendidikan",
+    },
+    {
+      value: "UTK",
+      display_name: "Unit Teknikal",
+    },
+    {
+      value: "SPK",
+      display_name: "Seksyen Perkhidmatan",
+    },
+    {
+      value: "UKW",
+      display_name: "Unit Kewangan",
+    },
+    {
+      value: "UTM",
+      display_name: "Unit Teknologi Maklumat",
+    },
+    {
+      value: "UPF",
+      display_name: "Unit Pengurusan Fasiliti",
+    },
+    {
+      value: "UPT",
+      display_name: "Unit Pentadbiran",
+    },
+    {
+      value: "NAV",
+      display_name: "Not Available",
+    },
+  ];
+
+  // FormGroup
+  employeedirectoryFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -42,101 +80,45 @@ export class SimulatorRideApplicationsComponent implements OnInit {
     class: "modal-dialog-centered",
   };
 
-  // FormGroup
-  simridebookingFormGroup: FormGroup;
-
-  // Dropdown
-  tickettypes = [
-    {
-      value: "CZ",
-      display_name: "Warganegara",
-    },
-    {
-      value: "NC",
-      display_name: "Bukan Warganegara",
-    },
-  ];
-  ticketcategories = [
-    {
-      value: "AD",
-      display_name: "Dewasa",
-    },
-    {
-      value: "KD",
-      display_name: "Kanak-kanak",
-    },
-  ];
-  times = [];
-  users = [];
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private route: ActivatedRoute,
-    private simridebookingService: SimulatorRideBookingsService,
-    private simridetiemService: SimulatorRideTimesService,
-    private userService: UsersService
+    private employeedirectoryService: EmployeeDirectoriesService
   ) {
-    this.simridebookingFormGroup = this.formBuilder.group({
+    this.getData();
+
+    this.employeedirectoryFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      booking_date: new FormControl(""),
-      simulator_ride_time_id: new FormControl(""),
-      ticket_type: new FormControl(""),
-      ticket_category: new FormControl(""),
-      ticket_quantity: new FormControl(1),
-      price: new FormControl(""),
-      total_price: new FormControl(""),
-      user_id: new FormControl(""),
+      name: new FormControl(""),
+      position: new FormControl(""),
+      extension: new FormControl(""),
+      email: new FormControl(""),
+      department: new FormControl(""),
+      status: new FormControl(false),
     });
-
-    this.getBooking();
-    this.getTime();
-    this.getUser();
-  }
-
-  getBooking() {
-    this.simridebookingService.extended("").subscribe(
-      (res) => {
-        console.log("res", res);
-        this.tableRows = res;
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            no: key,
-          };
-        });
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
-  getTime() {
-    this.simridetiemService.get().subscribe(
-      (res) => {
-        console.log("res", res);
-        this.times = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
-  getUser() {
-    this.userService.getAll().subscribe(
-      (res) => {
-        console.log("res", res);
-        this.users = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
   }
 
   ngOnInit() {}
+
+  getData() {
+    this.employeedirectoryService.filter("status=true").subscribe((res) => {
+      this.tableRows = res;
+      this.tableTemp = this.tableRows.map((prop, key) => {
+        return {
+          ...prop,
+          no: key,
+        };
+      });
+    });
+  }
 
   entriesChange($event) {
     this.tableEntries = $event.target.value;
@@ -170,14 +152,10 @@ export class SimulatorRideApplicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.simridebookingFormGroup.reset();
+      this.employeedirectoryFormGroup.reset();
     } else if (process == "update") {
-      this.simridebookingFormGroup.patchValue({
+      this.employeedirectoryFormGroup.patchValue({
         ...row,
-        simulator_ride_time_id: row.simulator_ride_time_id
-          ? row.simulator_ride_time_id.id
-          : "",
-        user_id: row.user_id ? row.user_id.id : "",
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -188,8 +166,8 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   }
 
   create() {
-    this.simridebookingService
-      .post(this.simridebookingFormGroup.value)
+    this.employeedirectoryService
+      .post(this.employeedirectoryFormGroup.value)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -204,7 +182,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
             .then((result) => {
               if (result.value) {
                 this.modal.hide();
-                this.getBooking();
+                this.getData();
               }
             });
         },
@@ -228,10 +206,10 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   }
 
   update() {
-    this.simridebookingService
+    this.employeedirectoryService
       .update(
-        this.simridebookingFormGroup.value,
-        this.simridebookingFormGroup.value.id
+        this.employeedirectoryFormGroup.value,
+        this.employeedirectoryFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -247,7 +225,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
             .then((result) => {
               if (result.value) {
                 this.modal.hide();
-                this.getBooking();
+                this.getData();
               }
             });
         },
@@ -270,15 +248,8 @@ export class SimulatorRideApplicationsComponent implements OnInit {
       );
   }
 
-  getType(value: string) {
-    let result = this.tickettypes.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
-  }
-
-  getCategory(value: string) {
-    let result = this.ticketcategories.find((obj) => {
+  getDepartment(value: string) {
+    let result = this.departments.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;

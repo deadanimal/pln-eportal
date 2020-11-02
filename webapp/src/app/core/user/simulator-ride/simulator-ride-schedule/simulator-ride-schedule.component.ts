@@ -25,6 +25,9 @@ export enum SelectionType {
   styleUrls: ["./simulator-ride-schedule.component.scss"],
 })
 export class SimulatorRideScheduleComponent implements OnInit {
+  // Data
+  searchsimridetimes = [];
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -48,29 +51,44 @@ export class SimulatorRideScheduleComponent implements OnInit {
 
   // FormGroup
   simridetimeFormGroup: FormGroup;
+  searchsimridetimeFormGroup: FormGroup;
 
   // Dropdown
   times = [
     {
-      time: "10.00 AM",
+      time: "10:00",
+      en: "AM",
+      my: "PAGI",
     },
     {
-      time: "11.00 AM",
+      time: "11:00",
+      en: "AM",
+      my: "PAGI",
     },
     {
-      time: "12.00 PM",
+      time: "12:00",
+      en: "NOON",
+      my: "TGH",
     },
     {
-      time: "01.00 PM",
+      time: "01:00",
+      en: "PM",
+      my: "PTG",
     },
     {
-      time: "02.00 PM",
+      time: "02:00",
+      en: "PM",
+      my: "PTG",
     },
     {
-      time: "03.00 PM",
+      time: "03:00",
+      en: "PM",
+      my: "PTG",
     },
     {
-      time: "04.00 PM",
+      time: "04:00",
+      en: "PM",
+      my: "PTG",
     },
   ];
   days = [
@@ -141,6 +159,10 @@ export class SimulatorRideScheduleComponent implements OnInit {
       venue_id: new FormControl(""),
       day: new FormControl(""),
       round: new FormControl(""),
+    });
+
+    this.searchsimridetimeFormGroup = this.formBuilder.group({
+      day: new FormControl(""),
     });
   }
 
@@ -456,5 +478,35 @@ export class SimulatorRideScheduleComponent implements OnInit {
       return obj.value == value;
     });
     return result.display_name;
+  }
+
+  getTimeRound(time: string, round: string) {
+    let result = this.searchsimridetimes.find((obj) => {
+      var hours = +obj.time.substring(0, 2) % 12 || 12;
+      return hours == +time.substring(0, 2) && obj.round == round;
+    });
+    if (result) return this.change24to12(result.time);
+  }
+
+  change24to12(time: string) {
+    var hours = +time.substring(0, 2) % 12 || 12;
+    var minutes = time.substring(3, 5);
+    var AmOrPm = +time.substring(0, 2) >= 12 ? "PM" : "AM";
+    var PagiOrPtg = +time.substring(0, 2) >= 12 ? "PTG" : "PAGI";
+
+    return hours + "." + minutes + " " + PagiOrPtg + " / " + AmOrPm;
+  }
+
+  searchSchedule() {
+    this.searchsimridetimes = this.rows.filter((obj) => {
+      return obj.day == this.searchsimridetimeFormGroup.value.day;
+    });
+  }
+
+  resetSchedule() {
+    this.searchsimridetimeFormGroup.setValue({
+      day: "",
+    });
+    this.searchsimridetimes = [];
   }
 }
