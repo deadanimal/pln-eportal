@@ -140,11 +140,23 @@ class ShowBooking(models.Model):
     ]
     ticket_category = models.CharField(max_length=2, choices=TICKET_CATEGORY, default='AD')
     ticket_quantity = models.IntegerField()
-    # ticket_seat = ArrayField(models.CharField(max_length=10), blank=True, null=True)
+    ticket_seat = models.CharField(max_length=3, default='NA')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="customer")
     show_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name="showbooking_showing")
+
+    # status tayangan: dalam proses, diterima, ditolak, terima bayaran, tolak bayaran, pending payment, refund
+    STATUS = [
+        ('SB01', 'In Progress'),
+        ('SB02', 'Approved'),
+        ('SB03', 'Rejected'),
+        ('SB04', 'Pending Payment'),
+        ('SB05', 'Payment Accepted'),
+        ('SB06', 'Payment Rejected'),
+        ('SB07', 'Refund')
+    ]
+    status = models.CharField(max_length=4, choices=STATUS, default='SB01')
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)

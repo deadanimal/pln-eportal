@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'virtuallibraries',
     'feedbacks',
     'simulatorrides',
-    'employeedirectories'
+    'employeedirectories',
+    'partners'
 ]
 
 MIDDLEWARE = [

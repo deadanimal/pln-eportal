@@ -113,7 +113,7 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ShowBooking.objects.all()
     serializer_class = ShowBookingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['showtime_id', 'user_id', 'show_id']
+    filterset_fields = ['showtime_id', 'user_id', 'show_id', 'ticket_seat', 'status']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -132,6 +132,13 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def extended(self, request, *args, **kwargs):
         
         queryset = ShowBooking.objects.all()
+        showtime_id = request.query_params.get('showtime_id', None)
+        user_id = request.query_params.get('user_id', None)
+        if showtime_id is not None:
+            queryset = queryset.filter(showtime_id=showtime_id)
+        if user_id is not None:
+            queryset = queryset.filter(user_id=user_id)
+
         serializer_class = ShowBookingExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)

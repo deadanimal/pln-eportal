@@ -11,24 +11,20 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
-    EmployeeDirectory
+    Partner
 )
 
 from .serializers import (
-    EmployeeDirectorySerializer
+    PartnerSerializer
 )
 
-class EmployeeDirectoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
-    queryset = EmployeeDirectory.objects.all()
-    serializer_class = EmployeeDirectorySerializer
+class PartnerViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Partner.objects.all()
+    serializer_class = PartnerSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
         'name',
-        'position', 
-        'extension', 
-        'email', 
-        'department',
         'status'
     ]
 
@@ -42,6 +38,6 @@ class EmployeeDirectoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
 
     def get_queryset(self):
-        queryset = EmployeeDirectory.objects.all()
+        queryset = Partner.objects.all()
         return queryset
 

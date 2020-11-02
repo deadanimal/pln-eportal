@@ -89,6 +89,16 @@ class SimulatorRideBooking(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="simulator_ride_booking_user_id")
 
+    # status kembara simulasi: diterima, terima bayaran/pending payment, refund
+    STATUS = [
+        ('SRB01', 'Accepted'),
+        ('SRB02', 'Pending Payment'),
+        ('SRB03', 'Payment Accepted'),
+        ('SRB04', 'Payment Rejected'),
+        ('SRB05', 'Refund'),
+    ]
+    status = models.CharField(max_length=5, choices=STATUS, default='SRB01')
+
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 

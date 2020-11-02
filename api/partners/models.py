@@ -12,28 +12,11 @@ from users.models import (
     CustomUser
 )
 
-class EmployeeDirectory(models.Model):
+class Partner(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     name = models.CharField(max_length=255, default='NA', null=True)
-    position = models.CharField(max_length=255, default='NA', null=True)
-    extension = models.CharField(max_length=50, default='NA', null=True)
-    email = models.CharField(max_length=255, default='NA', null=True)
-
-    DEPARTMENT = [
-        ('PPP', 'Pejabat Pengarah Planetarium Negara'),
-        ('UPA', 'Unit Perhubungan Awam'),
-        ('SPD', 'Seksyen Pendidikan'),
-        ('UTK', 'Unit Teknikal'),
-        ('SPK', 'Seksyen Perkhidmatan'),
-        ('UKW', 'Unit Kewangan'),
-        ('UTM', 'Unit Teknologi Maklumat'),
-        ('UPF', 'Unit Pengurusan Fasiliti'),
-        ('UPT', 'Unit Pentadbiran'),
-        ('NAV', 'Not Available')
-    ]
-
-    department = models.CharField(max_length=3, choices=DEPARTMENT, default='NAV')
+    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
     status = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
