@@ -55,6 +55,8 @@ import { VirtualLibraryArchivekutubkhanahCategoriesListComponent } from './virtu
 import { VirtualLibraryArchivekutubkhanahsListComponent } from './virtual-libraries/virtual-library-archivekutubkhanahs-list/virtual-library-archivekutubkhanahs-list.component';
 import { PartnersComponent } from './cms/partners/partners.component';
 import { EmployeeDirectoriesComponent } from './cms/employee-directories/employee-directories.component';
+import { ShowsApplicationsComponent } from './shows/shows-applications/shows-applications.component';
+import { ShowsApplicationsDetailComponent } from './shows/shows-applications-detail/shows-applications-detail.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +100,8 @@ import { EmployeeDirectoriesComponent } from './cms/employee-directories/employe
     VirtualLibraryArchivekutubkhanahsListComponent,
     PartnersComponent,
     EmployeeDirectoriesComponent,
+    ShowsApplicationsComponent,
+    ShowsApplicationsDetailComponent,
   ],
   imports: [
     CommonModule,

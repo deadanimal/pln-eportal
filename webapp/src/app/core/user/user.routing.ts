@@ -20,6 +20,8 @@ import { PublicationsComponent } from "./publications/publications/publications.
 import { ReportsAnalysisComponent } from "./reports/reports-analysis/reports-analysis.component";
 import { ReportsOperationComponent } from "./reports/reports-operation/reports-operation.component";
 import { ReportsTicketSalesComponent } from "./reports/reports-ticket-sales/reports-ticket-sales.component";
+import { ShowsApplicationsDetailComponent } from './shows/shows-applications-detail/shows-applications-detail.component';
+import { ShowsApplicationsComponent } from './shows/shows-applications/shows-applications.component';
 import { ShowsListComponent } from "./shows/shows-list/shows-list.component";
 import { ShowsScheduleComponent } from "./shows/shows-schedule/shows-schedule.component";
 import { SimulatorRideApplicationsComponent } from "./simulator-ride/simulator-ride-applications/simulator-ride-applications.component";
@@ -177,6 +179,14 @@ export const UserRoutes: Routes = [
           {
             path: "list",
             component: ShowsListComponent,
+          },
+          {
+            path: "applications",
+            component: ShowsApplicationsComponent,
+          },
+          {
+            path: "applications/:showtime_id",
+            component: ShowsApplicationsDetailComponent,
           },
           {
             path: "schedule",

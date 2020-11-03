@@ -46,6 +46,80 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   simridebookingFormGroup: FormGroup;
 
   // Dropdown
+  days = [
+    {
+      value: "MON",
+      display_name: "Isnin",
+    },
+    {
+      value: "TUE",
+      display_name: "Selasa",
+    },
+    {
+      value: "WED",
+      display_name: "Rabu",
+    },
+    {
+      value: "THU",
+      display_name: "Khamis",
+    },
+    {
+      value: "FRI",
+      display_name: "Jumaat",
+    },
+    {
+      value: "SAT",
+      display_name: "Sabtu",
+    },
+    {
+      value: "SUN",
+      display_name: "Ahad",
+    },
+  ];
+  rounds = [
+    {
+      value: "P1",
+      display_name: "Pusingan 1",
+    },
+    {
+      value: "P2",
+      display_name: "Pusingan 2",
+    },
+    {
+      value: "P3",
+      display_name: "Pusingan 3",
+    },
+    {
+      value: "P4",
+      display_name: "Pusingan 4",
+    },
+    {
+      value: "P5",
+      display_name: "Pusingan 5",
+    },
+  ];
+  statuses = [
+    {
+      value: "SRB01",
+      display_name: "Diterima",
+    },
+    {
+      value: "SRB02",
+      display_name: "Menunggu Pembayaran",
+    },
+    {
+      value: "SRB03",
+      display_name: "Bayaran Diterima",
+    },
+    {
+      value: "SRB04",
+      display_name: "Bayaran Ditolak",
+    },
+    {
+      value: "SRB05",
+      display_name: "Bayaran Balik",
+    },
+  ];
   tickettypes = [
     {
       value: "CZ",
@@ -87,6 +161,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
       price: new FormControl(""),
       total_price: new FormControl(""),
       user_id: new FormControl(""),
+      status: new FormControl(""),
     });
 
     this.getBooking();
@@ -279,6 +354,27 @@ export class SimulatorRideApplicationsComponent implements OnInit {
 
   getCategory(value: string) {
     let result = this.ticketcategories.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getStatus(value: string) {
+    let result = this.statuses.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getDay(value: string) {
+    let result = this.days.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getRound(value: string) {
+    let result = this.rounds.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;

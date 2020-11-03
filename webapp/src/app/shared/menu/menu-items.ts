@@ -40,6 +40,7 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: "list", title: "Senarai", type: "link" },
       { path: "schedule", title: "Jadual", type: "link" },
+      { path: "applications", title: "Permohonan", type: "link" },
     ],
   },
   {
@@ -51,7 +52,7 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [
       { path: "schedule", title: "Jadual", type: "link" },
-      { path: 'applications', title: 'Permohonan', type: 'link' },
+      { path: "applications", title: "Permohonan", type: "link" },
     ],
   },
   {
