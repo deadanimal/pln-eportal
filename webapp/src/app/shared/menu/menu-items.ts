@@ -38,8 +38,8 @@ export const ROUTES: RouteInfo[] = [
     collapse: "shows",
     isCollapsed: true,
     children: [
-      { path: "schedule", title: "Jadual", type: "link" },
       { path: "list", title: "Senarai", type: "link" },
+      { path: "schedule", title: "Jadual", type: "link" },
     ],
   },
   {
@@ -51,7 +51,7 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [
       { path: "schedule", title: "Jadual", type: "link" },
-      // { path: 'applications', title: 'Permohonan', type: 'link' }
+      { path: 'applications', title: 'Permohonan', type: 'link' },
     ],
   },
   {
@@ -116,7 +116,11 @@ export const ROUTES: RouteInfo[] = [
     icontype: "fas fa-book-open text-primary",
     collapse: "virtual-libraries",
     isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
+    children: [
+      { path: "list", title: "Kategori", type: "link" },
+      { path: "articles", title: "Artikel Terkini", type: "link" },
+      { path: "collections", title: "Koleksi", type: "link" },
+    ],
   },
   {
     path: "/tickets",
@@ -182,6 +186,22 @@ export const ROUTES: RouteInfo[] = [
   //   type: 'link',
   //   icontype: 'fas fa-calendar-alt text-primary'
   // }
+  {
+    path: "/cms",
+    title: "Pentadbiran CMS",
+    type: "sub",
+    icontype: "fas fa-cog text-primary",
+    collapse: "cms",
+    isCollapsed: true,
+    children: [
+      { path: "partners", title: "Rakan Kerjasama", type: "link" },
+      {
+        path: "employee-directories",
+        title: "Direktori Pegawai",
+        type: "link",
+      },
+    ],
+  },
   {
     path: "/managements",
     title: "Pentadbiran",

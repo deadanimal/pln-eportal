@@ -2,6 +2,8 @@ import { Routes } from "@angular/router";
 import { AssetsComponent } from "./assets/assets.component";
 
 import { CalendarComponent } from "./calendar/calendar.component";
+import { EmployeeDirectoriesComponent } from "./cms/employee-directories/employee-directories.component";
+import { PartnersComponent } from "./cms/partners/partners.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ExhibitsDetailComponent } from "./exhibits/exhibits-detail/exhibits-detail.component";
 import { ExhibitsListComponent } from "./exhibits/exhibits-list/exhibits-list.component";
@@ -27,6 +29,15 @@ import { SurveysListComponent } from "./surveys/surveys-list/surveys-list.compon
 import { TicketsPriceComponent } from "./tickets/tickets-price/tickets-price.component";
 import { VenuesComponent } from "./venues/venues.component";
 import { VirtualLibrariesListComponent } from "./virtual-libraries/virtual-libraries-list/virtual-libraries-list.component";
+import { VirtualLibraryArchivekutubkhanahCategoriesListComponent } from "./virtual-libraries/virtual-library-archivekutubkhanah-categories-list/virtual-library-archivekutubkhanah-categories-list.component";
+import { VirtualLibraryArchivekutubkhanahsListComponent } from "./virtual-libraries/virtual-library-archivekutubkhanahs-list/virtual-library-archivekutubkhanahs-list.component";
+import { VirtualLibraryArticlesListComponent } from "./virtual-libraries/virtual-library-articles-list/virtual-library-articles-list.component";
+import { VirtualLibraryBooksListComponent } from "./virtual-libraries/virtual-library-books-list/virtual-library-books-list.component";
+import { VirtualLibraryCategoriesListComponent } from "./virtual-libraries/virtual-library-categories-list/virtual-library-categories-list.component";
+import { VirtualLibraryCollectionsListComponent } from "./virtual-libraries/virtual-library-collections-list/virtual-library-collections-list.component";
+import { VirtualLibraryEsourceCategoriesListComponent } from "./virtual-libraries/virtual-library-esource-categories-list/virtual-library-esource-categories-list.component";
+import { VirtualLibraryEsourcesListComponent } from "./virtual-libraries/virtual-library-esources-list/virtual-library-esources-list.component";
+import { VirtualLibrarySerialpublicationsListComponent } from "./virtual-libraries/virtual-library-serialpublications-list/virtual-library-serialpublications-list.component";
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
 import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
 
@@ -107,7 +118,39 @@ export const UserRoutes: Routes = [
         children: [
           {
             path: "list",
-            component: VirtualLibrariesListComponent,
+            component: VirtualLibraryCategoriesListComponent,
+          },
+          {
+            path: "articles",
+            component: VirtualLibraryArticlesListComponent,
+          },
+          {
+            path: "collections",
+            component: VirtualLibraryCollectionsListComponent,
+          },
+          {
+            path: "collections/book/:book",
+            component: VirtualLibraryBooksListComponent,
+          },
+          {
+            path: "collections/serialpublication/:serialpublication",
+            component: VirtualLibrarySerialpublicationsListComponent,
+          },
+          {
+            path: "collections/esource/:esource",
+            component: VirtualLibraryEsourceCategoriesListComponent,
+          },
+          {
+            path: "collections/esource/:esource/:id",
+            component: VirtualLibraryEsourcesListComponent,
+          },
+          {
+            path: "collections/archivekutubkhanah/:archivekutubkhanah",
+            component: VirtualLibraryArchivekutubkhanahCategoriesListComponent,
+          },
+          {
+            path: "collections/archivekutubkhanah/:archivekutubkhanah/:id",
+            component: VirtualLibraryArchivekutubkhanahsListComponent,
           },
         ],
       },
@@ -145,7 +188,7 @@ export const UserRoutes: Routes = [
         path: "simulator-ride",
         children: [
           {
-            path: "schedule/:id",
+            path: "applications",
             component: SimulatorRideApplicationsComponent,
           },
           {
@@ -213,6 +256,19 @@ export const UserRoutes: Routes = [
           {
             path: "schedule",
             component: VisitsScheduleComponent,
+          },
+        ],
+      },
+      {
+        path: "cms",
+        children: [
+          {
+            path: "partners",
+            component: PartnersComponent,
+          },
+          {
+            path: "employee-directories",
+            component: EmployeeDirectoriesComponent,
           },
         ],
       },

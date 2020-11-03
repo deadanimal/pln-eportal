@@ -34,6 +34,7 @@ class EmployeeDirectory(models.Model):
     ]
 
     department = models.CharField(max_length=3, choices=DEPARTMENT, default='NAV')
+    status = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)

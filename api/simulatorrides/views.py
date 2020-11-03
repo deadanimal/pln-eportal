@@ -76,7 +76,7 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SimulatorRideBooking.objects.all()
     serializer_class = SimulatorRideBookingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['simulator_ride_time_id', 'booking_date', 'ticket_type', 'ticket_category', 'created_date']
+    filterset_fields = ['simulator_ride_time_id', 'booking_date', 'ticket_type', 'ticket_category', 'user_id', 'status']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -93,8 +93,15 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = SimulatorRideBooking.objects.all()
+        simulator_ride_time_id = request.query_params.get('simulator_ride_time_id', None)
+        user_id = request.query_params.get('user_id', None)
+        if simulator_ride_time_id is not None:
+            queryset = queryset.filter(simulator_ride_time_id=simulator_ride_time_id)
+        if user_id is not None:
+            queryset = queryset.filter(user_id=user_id)
+        
         serializer_class = SimulatorRideBookingExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)

@@ -107,9 +107,10 @@ export class SimulatorRideBookComponent implements OnInit {
     var simulatorRideTimeId = this.firstFormGroup.value.time.split("_").pop();
     var ticketType = this.secondFormGroup.value.citizen ? "CZ" : "NC";
 
+    var adultTicket = this.secondFormGroup.value.adult;
+    var childrenTicket = this.secondFormGroup.value.children;
+
     for (let i = 0; i < totalTicket; i++) {
-      var adultTicket = this.secondFormGroup.value.adult;
-      var childrenTicket = this.secondFormGroup.value.children;
       if (adultTicket > 0) {
         var ticketCategory = "AD";
         var price = this.secondFormGroup.value.citizen ? 12 : 24;
@@ -143,16 +144,22 @@ export class SimulatorRideBookComponent implements OnInit {
       );
     }
 
-    let booking = {
-      ...this.firstFormGroup.value,
-      ...this.secondFormGroup.value,
-    };
-    let navigationExtras: NavigationExtras = {
-      state: {
-        booking,
-      },
-    };
-    this.router.navigate(["/payment"], navigationExtras);
+    // let booking = {
+    //   ...this.firstFormGroup.value,
+    //   ...this.secondFormGroup.value,
+    // };
+    // let navigationExtras: NavigationExtras = {
+    //   state: {
+    //     booking,
+    //   },
+    // };
+    // this.router.navigate(["/payment"], navigationExtras);
+    this.router.navigate([
+      "/payment",
+      "simulator-ride",
+      this.authService.decodedToken().user_id,
+      simulatorRideTimeId,
+    ]);
   }
 
   openSafetyModal(modalSafety: TemplateRef<any>) {

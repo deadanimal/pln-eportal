@@ -290,6 +290,15 @@ employee_directories_router = router.register(
     'employee-directories', EmployeeDirectoryViewSet
 )
 
+# Partner app
+from partners.views import (
+    PartnerViewSet
+)
+
+partners_router = router.register(
+    'partners', PartnerViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

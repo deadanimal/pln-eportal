@@ -165,7 +165,7 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <carousel
+        <!-- <carousel
           [itemsPerSlide]="itemsPerSlide"
           [singleSlideOffset]="false"
           [interval]="1500"
@@ -176,6 +176,22 @@
             <div style="display: block; text-align: center">
               <img [src]="collaboration.image" style="width: 40%" />
               <h5 class="title">{{ collaboration.name }}</h5>
+            </div>
+          </slide>
+        </carousel> -->
+        <carousel
+          [itemsPerSlide]="itemsPerSlide"
+          [singleSlideOffset]="false"
+          [interval]="1500"
+          [showIndicators]="false"
+          [isAnimated]="true"
+          [(activeSlide)]="activeSlideIndex"
+          *ngIf="partners.length > 0"
+        >
+          <slide class="mx-auto" *ngFor="let partner of partners">
+            <div style="display: block; text-align: center">
+              <img [src]="partner.image_link" style="width: 40%" />
+              <h5 class="title">{{ partner.name }}</h5>
             </div>
           </slide>
         </carousel>

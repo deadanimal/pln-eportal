@@ -1,0 +1,77 @@
+<div class="wrapper">
+  <div class="page-header page-header-small header-filter">
+    <!-- <div
+            class="page-header-image rellax"
+            data-parallax="true"
+            style="background-image: url('assets/img/publication/publication.jpeg')"
+          ></div>
+          <div class="content-center">
+            <div class="row">
+              <div class="col-md-6 ml-auto mr-auto text-center">
+                <h1 class="title">Perpustakaan Maya</h1>
+                <h2 class="description">Alami perpustakaan secara maya.</h2>
+              </div>
+            </div>
+          </div> -->
+    <carousel>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+    </carousel>
+  </div>
+  <div class="main main-raised bg-white">
+    <div class="section">
+      <div class="container">
+        <h2 class="title text-center text-dark">Arkib Kutubkhanah</h2>
+        <div class="row pb-5">
+          <div
+            class="col-md-4 col-sm-12"
+            *ngFor="let vl_akk_category of vl_akk_categories"
+          >
+            <div class="card">
+              <div class="card-header bg-white p-4 text-center">
+                <i [class]="vl_akk_category.icon + ' fa-7x text-info'"></i>
+              </div>
+              <div class="card-body bg-white text-center pb-3">
+                <h3 class="title text-dark mt-0">{{ vl_akk_category.name }}</h3>
+
+                <p
+                  *ngFor="
+                    let vl_akk of vl_akks
+                      | arkibkutubkhanahfilter
+                        : {
+                            virtual_library_archivekutubkhanah_category_id:
+                              vl_akk_category.id
+                          }
+                  "
+                >
+                  <a [href]="vl_akk.link" class="font-weight-bold">{{
+                    vl_akk.name
+                  }}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

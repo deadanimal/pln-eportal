@@ -10,7 +10,6 @@ import swal from "sweetalert2";
 
 import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
 import { FontAwesome } from "src/assets/json/font-awesome-dropdown";
-// import { FontAwesome } from "src/assets/json/font-awesome-dropdown";
 
 export enum SelectionType {
   single = "single",

@@ -80,7 +80,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
     this.simridebookingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       booking_date: new FormControl(""),
-      simulator_ride_time_id: new FormControl(this.route.snapshot.params.id),
+      simulator_ride_time_id: new FormControl(""),
       ticket_type: new FormControl(""),
       ticket_category: new FormControl(""),
       ticket_quantity: new FormControl(1),
@@ -95,26 +95,21 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   }
 
   getBooking() {
-    this.simridebookingService
-      .filter(
-        "simulator_ride_time_id=" +
-          this.simridebookingFormGroup.value.simulator_ride_time_id
-      )
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          this.tableRows = res;
-          this.tableTemp = this.tableRows.map((prop, key) => {
-            return {
-              ...prop,
-              no: key,
-            };
-          });
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+    this.simridebookingService.extended("").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.tableRows = res;
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            no: key,
+          };
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   getTime() {
@@ -175,10 +170,14 @@ export class SimulatorRideApplicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      // this.simridebookingFormGroup.reset();
+      this.simridebookingFormGroup.reset();
     } else if (process == "update") {
       this.simridebookingFormGroup.patchValue({
         ...row,
+        simulator_ride_time_id: row.simulator_ride_time_id
+          ? row.simulator_ride_time_id.id
+          : "",
+        user_id: row.user_id ? row.user_id.id : "",
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);

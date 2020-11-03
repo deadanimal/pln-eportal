@@ -38,6 +38,15 @@ import { DisclaimerComponent } from "./disclaimer/disclaimer.component";
 import { CioComponent } from "./cio/cio.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { PublicationListsComponent } from "./publication-lists/publication-lists.component";
+import { VirtualLibraryTentangKamiComponent } from "./virtual-library-tentang-kami/virtual-library-tentang-kami.component";
+import { VirtualLibraryArtikelTerkiniComponent } from "./virtual-library-artikel-terkini/virtual-library-artikel-terkini.component";
+import { VirtualLibraryKoleksiComponent } from "./virtual-library-koleksi/virtual-library-koleksi.component";
+import { VirtualLibraryPerkhidmatanComponent } from "./virtual-library-perkhidmatan/virtual-library-perkhidmatan.component";
+import { VirtualLibraryArkibKutubkhanahComponent } from "./virtual-library-arkib-kutubkhanah/virtual-library-arkib-kutubkhanah.component";
+import { VirtualLibraryEsumberComponent } from "./virtual-library-esumber/virtual-library-esumber.component";
+import { VirtualLibraryBukuComponent } from "./virtual-library-buku/virtual-library-buku.component";
+import { VirtualLibraryTerbitanBersiriComponent } from "./virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component";
+import { EmployeeDirectoryComponent } from "./employee-directory/employee-directory.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -95,7 +104,7 @@ export const CoreRoutes: Routes = [
     ],
   },
   {
-    path: "payment",
+    path: "payment/:module/:user_id/:time_id",
     component: PaymentComponent,
   },
   {
@@ -172,7 +181,49 @@ export const CoreRoutes: Routes = [
   },
   {
     path: "virtual-library",
-    component: VirtualLibraryComponent,
+    children: [
+      {
+        path: "",
+        component: VirtualLibraryComponent,
+      },
+      {
+        path: "tentang-kami/:category_id",
+        component: VirtualLibraryTentangKamiComponent,
+      },
+      {
+        path: "artikel-terkini/:category_id",
+        component: VirtualLibraryArtikelTerkiniComponent,
+      },
+      {
+        path: "koleksi/:category_id",
+        children: [
+          {
+            path: "",
+            component: VirtualLibraryKoleksiComponent,
+          },
+          {
+            path: "arkib-kutubkhanah/:collection_id",
+            component: VirtualLibraryArkibKutubkhanahComponent,
+          },
+          {
+            path: "e-sumber/:collection_id",
+            component: VirtualLibraryEsumberComponent,
+          },
+          {
+            path: "buku/:collection_id",
+            component: VirtualLibraryBukuComponent,
+          },
+          {
+            path: "terbitan-bersiri/:collection_id",
+            component: VirtualLibraryTerbitanBersiriComponent,
+          },
+        ],
+      },
+      {
+        path: "perkhidmatan/:category_id",
+        component: VirtualLibraryPerkhidmatanComponent,
+      },
+    ],
   },
   {
     path: "about-us",
@@ -225,5 +276,9 @@ export const CoreRoutes: Routes = [
   {
     path: "cio",
     component: CioComponent,
+  },
+  {
+    path: "employee-directory",
+    component: EmployeeDirectoryComponent,
   },
 ];

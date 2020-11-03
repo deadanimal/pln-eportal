@@ -2697,6 +2697,7 @@ export class ShowsBookComponent implements OnInit {
     },
   ];
   selectedSeats = [];
+  enabledShowingDates = [];
   column: number = 32;
   row: number = 10;
   ticketcategories = [
@@ -2777,6 +2778,7 @@ export class ShowsBookComponent implements OnInit {
     });
 
     this.getShowing();
+    this.getEnableShowtime();
   }
 
   getShowing() {
@@ -2823,6 +2825,22 @@ export class ShowsBookComponent implements OnInit {
     }
   }
 
+  getEnableShowtime() {
+    let filterField = "showing_id=" + this.route.snapshot.paramMap.get("id");
+    this.showtimeService.filter(filterField).subscribe(
+      (res) => {
+        console.log("res", res);
+        for (let i = 0; i < res.length; i++) {
+          let date = new Date(res[i].show_date);
+          this.enabledShowingDates.push(date);
+        }
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   ngOnInit() {}
 
   citizenChange() {
@@ -2844,17 +2862,74 @@ export class ShowsBookComponent implements OnInit {
   }
 
   makePayment() {
-    let booking = {
-      ...this.firstFormGroup.value,
-      ...this.secondFormGroup.value,
-    };
-    let navigationExtras: NavigationExtras = {
-      state: {
-        booking,
-      },
-    };
+    var totalTicket =
+      this.secondFormGroup.value.adult +
+      this.secondFormGroup.value.children +
+      this.secondFormGroup.value.school +
+      this.secondFormGroup.value.senior +
+      this.secondFormGroup.value.oku;
+    var showtimeId = this.firstFormGroup.value.time.split("_").pop();
+    var ticketType = this.secondFormGroup.value.citizen ? "CZ" : "NC";
 
-    for (let value in this.secondFormGroup.value) {
+    var adultTicket = this.secondFormGroup.value.adult;
+    var childrenTicket = this.secondFormGroup.value.children;
+    var schoolTicket = this.secondFormGroup.value.school;
+    var seniorTicket = this.secondFormGroup.value.senior;
+    var okuTicket = this.secondFormGroup.value.oku;
+
+    for (let i = 0; i < totalTicket; i++) {
+      if (adultTicket > 0) {
+        var ticketCategory = "AD";
+        adultTicket--;
+      } else if (childrenTicket > 0) {
+        var ticketCategory = "KD";
+        childrenTicket--;
+      } else if (schoolTicket > 0) {
+        var ticketCategory = "SD";
+        schoolTicket--;
+      } else if (seniorTicket > 0) {
+        var ticketCategory = "OF";
+        seniorTicket--;
+      } else if (okuTicket > 0) {
+        var ticketCategory = "OK";
+        okuTicket--;
+      }
+
+      let selectedTicket = this.ticketcategories.find((obj) => {
+        return obj.value == ticketCategory;
+      });
+
+      var price = this.secondFormGroup.value.citizen
+        ? selectedTicket.price_citizen
+        : selectedTicket.price_noncitizen;
+      var totalPrice = this.secondFormGroup.value.citizen
+        ? selectedTicket.price_citizen
+        : selectedTicket.price_noncitizen;
+
+      let objPost = {
+        ticket_type: ticketType,
+        ticket_category: ticketCategory,
+        ticket_quantity: 1,
+        price: price,
+        total_price: totalPrice,
+        showtime_id: showtimeId,
+        user_id: this.authService.decodedToken().user_id,
+        show_id: this.route.snapshot.paramMap.get("id"),
+        ticket_seat: this.selectedSeats[i].name
+      };
+
+      this.showbookingService.post(objPost).subscribe(
+        (res) => {
+          /* stuck disini untuk membuat bayaran FPX */
+          console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
+
+    /* for (let value in this.secondFormGroup.value) {
       if (
         value == "adult" ||
         value == "children" ||
@@ -2892,18 +2967,35 @@ export class ShowsBookComponent implements OnInit {
           user_id: this.user_obj.user_id,
         };
 
-        this.showbookingService.post(createArray).subscribe(
-          (res) => {
-            console.log("res", res);
-          },
-          (err) => {
-            console.error("err", err);
-          }
-        );
-      }
-    }
+        console.log("createArray", createArray);
 
-    this.router.navigate(["/payment"], navigationExtras);
+        // this.showbookingService.post(createArray).subscribe(
+        //   (res) => {
+        //     console.log("res", res);
+        //   },
+        //   (err) => {
+        //     console.error("err", err);
+        //   }
+        // );
+      }
+    } */
+
+    // let booking = {
+    //   ...this.firstFormGroup.value,
+    //   ...this.secondFormGroup.value,
+    // };
+    // let navigationExtras: NavigationExtras = {
+    //   state: {
+    //     booking,
+    //   },
+    // };
+    // this.router.navigate(["/payment"], navigationExtras);
+    this.router.navigate([
+      "/payment",
+      "shows",
+      this.authService.decodedToken().user_id,
+      showtimeId,
+    ]);
   }
 
   arrayOne(n: number): any[] {
@@ -2930,12 +3022,19 @@ export class ShowsBookComponent implements OnInit {
       this.secondFormGroup.value.oku;
     if (result.name) {
       if (this.selectedSeats.length < totalSeat) {
-        let array = {
-          row,
-          column,
-          name: result.name,
-        };
-        this.selectedSeats.push(array);
+        // to check if the seat is already exist in selection
+        let existSeats = this.selectedSeats.find((obj) => {
+          return obj.name == result.name;
+        });
+
+        if (!existSeats) {
+          let array = {
+            row,
+            column,
+            name: result.name,
+          };
+          this.selectedSeats.push(array);
+        }
       } else {
         this.toastr.error(
           "Harap maaf. Anda telah memilih kerusi lebih daripada tiket yang anda beli.",
@@ -2943,8 +3042,10 @@ export class ShowsBookComponent implements OnInit {
         );
       }
     }
+  }
 
-    console.log("selectedSeats", this.selectedSeats);
+  emptySeats() {
+    this.selectedSeats.splice(0, this.selectedSeats.length);
   }
 
   getSelectedSeat(row: number, column: number) {

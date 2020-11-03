@@ -1,53 +1,126 @@
 <div class="wrapper">
   <div class="section">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-4">
+      <div class="row pt-5">
+        <div class="col-lg-4 col-sm-12">
           <div class="card" style="background-color: #ffffff">
             <div class="card-body">
               <h3 class="title text-dark text-center">Tempahan</h3>
-              <div class="media align-items-center mb-3">
-                <div class="col-md-5 col-6">
-                  <img
-                    alt="Rounded image"
-                    class="img-fluid rounded shadow"
-                    src="assets/img/ticketing/movies.svg"
-                  />
-                </div>
-                <div class="media-body">
-                  <h2 class="h6 text-dark">Tayangan 2</h2>
-                  <small class="d-block text-dark"> 31/12/2019 10.00AM </small>
-                </div>
-                <div class="media-body text-dark text-right">
-                  <span> RM25 </span>
+              <div class="text-center">
+                <img
+                  src="../../../assets/icon/tickets.svg"
+                  style="width: 50%"
+                />
+              </div>
+
+              <div class="row">
+                <div class="col text-center">
+                  <div *ngIf="showings.length > 0" class="media-body">
+                    <h3
+                      class="title text-dark mb-0 mt-3"
+                      *ngIf="module == 'shows'"
+                    >
+                      Tayangan
+                    </h3>
+                    <h4 class="title text-dark mb-1 mt-1">
+                      {{ shows[0]?.title }}
+                    </h4>
+                    <p class="d-block text-dark">
+                      {{
+                        showings[0].showtime_id.show_date | date: "mediumDate"
+                      }}
+                      {{ showings[0].showtime_id.show_time }}
+                    </p>
+                    <p class="font-weight-bold text-dark">
+                      <span *ngFor="let showing of showings">
+                        {{ showing.ticket_seat }}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col text-center">
+                  <div *ngIf="simulatorrides.length > 0" class="media-body">
+                    <h3
+                      class="title text-dark mb-0 mt-3"
+                      *ngIf="module == 'simulator-ride'"
+                    >
+                      Kembara Simulasi
+                    </h3>
+                    <p class="d-block text-dark">
+                      {{
+                        getSimulatorRideDay(
+                          simulatorrides[0]?.simulator_ride_time_id.day
+                        )
+                      }},
+                      {{ simulatorrides[0]?.booking_date | date: "mediumDate" }}
+                      {{ simulatorrides[0]?.simulator_ride_time_id.time }}
+                    </p>
+                    <p class="font-weight-bold text-dark">
+                      {{
+                        getSimulatorRideRound(
+                          simulatorrides[0]?.simulator_ride_time_id.round
+                        )
+                      }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <hr class="line-info mb-3" />
 
-              <div class="media align-items-center">
-                <h3 class="h6 text-dark mr-3">Subtotal</h3>
-                <div class="media-body text-dark text-right">
-                  <span> RM25 </span>
+              <div *ngIf="showings.length > 0">
+                <div *ngFor="let showing of showings" class="row">
+                  <div class="col-md-6">
+                    <p class="font-weight-semi-bold text-dark">
+                      {{ getTicketCategory(showing.ticket_category) }} ({{
+                        showing.ticket_quantity
+                      }})
+                    </p>
+                  </div>
+                  <div class="col-md-6 col-sm-12 text-right">
+                    <span> RM {{ showing.total_price }} </span>
+                  </div>
                 </div>
               </div>
-              <div class="media align-items-center">
-                <h3 class="h6 text-dark mr-3">Pos</h3>
-                <div class="media-body text-dark text-right">
-                  <span> RM0 </span>
+              <div *ngIf="simulatorrides.length > 0">
+                <div *ngFor="let simulatorride of simulatorrides" class="row">
+                  <div class="col-md-6">
+                    <p class="font-weight-semi-bold text-dark">
+                      {{ getTicketCategory(simulatorride.ticket_category) }} ({{
+                        simulatorride.ticket_quantity
+                      }})
+                    </p>
+                  </div>
+                  <div class="col-md-6 col-sm-12 text-right">
+                    <span> RM {{ simulatorride.total_price }} </span>
+                  </div>
                 </div>
               </div>
+              <!-- <div class="media align-items-center">
+                <h3 class="h6 text-dark mr-3"></h3>
+                <div class="media-body text-dark text-right">
+                  <span> RM </span>
+                </div>
+              </div> -->
               <hr class="line-info mb-3" />
 
-              <div class="media align-items-center">
-                <h3 class="h6 text-dark">Jumlah</h3>
-                <div class="media-body text-dark text-right">
-                  <span class="font-weight-semi-bold"> RM25 </span>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <h4 class="text-dark">Jumlah</h4>
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">
+                  <span class="font-weight-bold text-default">
+                    RM {{ totalprice | number: "1.2-2" }}</span
+                  >
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-8 col-sm-12">
           <div class="card" style="background-color: #ffffff">
             <div class="card-body">
               <div class="container text-center">

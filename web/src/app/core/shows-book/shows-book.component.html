@@ -58,6 +58,7 @@
                         class="form-control"
                         formControlName="date"
                         bsDatepicker
+                        [datesEnabled]="enabledShowingDates"
                         [bsConfig]="{
                           isAnimated: true,
                           containerClass: 'theme-dark-blue',
@@ -81,7 +82,7 @@
                               class="form-check-input"
                               type="radio"
                               name="time"
-                              [value]="showtime.id"
+                              [value]="showtime.show_time + '_' + showtime.id"
                               formControlName="time"
                             />
                             {{ showtime.show_time }}
@@ -316,6 +317,13 @@
                   >
                     Kembali
                   </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="emptySeats()"
+                  >
+                    Set semula kerusi
+                  </button>
                   <button type="button" class="btn btn-default" matStepperNext>
                     Seterusnya
                   </button>
@@ -335,7 +343,7 @@
                       <tr>
                         <th scope="row" class="text-dark">Masa</th>
                         <td class="text-dark text-right">
-                          {{ firstFormGroup.value.time }}
+                          {{ firstFormGroup.value.time.split("_", 1) }}
                         </td>
                       </tr>
                       <tr>
@@ -345,7 +353,8 @@
                             secondFormGroup.value.adult +
                               secondFormGroup.value.children +
                               secondFormGroup.value.senior +
-                              secondFormGroup.value.oku
+                              secondFormGroup.value.oku +
+                              secondFormGroup.value.school
                           }}
                         </td>
                       </tr>

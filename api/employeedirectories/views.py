@@ -28,7 +28,8 @@ class EmployeeDirectoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'position', 
         'extension', 
         'email', 
-        'department'
+        'department',
+        'status'
     ]
 
     def get_permissions(self):
