@@ -46,6 +46,7 @@ import { VirtualLibraryArkibKutubkhanahComponent } from "./virtual-library-arkib
 import { VirtualLibraryEsumberComponent } from "./virtual-library-esumber/virtual-library-esumber.component";
 import { VirtualLibraryBukuComponent } from "./virtual-library-buku/virtual-library-buku.component";
 import { VirtualLibraryTerbitanBersiriComponent } from "./virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component";
+import { EmployeeDirectoryComponent } from "./employee-directory/employee-directory.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -103,7 +104,7 @@ export const CoreRoutes: Routes = [
     ],
   },
   {
-    path: "payment",
+    path: "payment/:module/:user_id/:time_id",
     component: PaymentComponent,
   },
   {
@@ -275,5 +276,9 @@ export const CoreRoutes: Routes = [
   {
     path: "cio",
     component: CioComponent,
+  },
+  {
+    path: "employee-directory",
+    component: EmployeeDirectoryComponent,
   },
 ];

@@ -9,6 +9,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
+import { PartnersService } from "src/app/shared/services/partners/partners.service";
 
 @Component({
   selector: "app-landing",
@@ -42,6 +43,7 @@ export class LandingComponent implements OnInit {
   itemsPerSlide = 5;
   singleSlideOffset = true;
   noWrap = false;
+  activeSlideIndex = 0;
 
   // Data
   months = [
@@ -143,16 +145,32 @@ export class LandingComponent implements OnInit {
       name: "Universiti Malaya",
     },
   ];
+  partners = [];
 
   constructor(
     public formBuilder: FormBuilder,
     public modalService: BsModalService,
-    private feedbackService: FeedbacksService
+    private feedbackService: FeedbacksService,
+    private partnerService: PartnersService
   ) {
+    this.getPartner();
+    
     this.ratingFormGroup = this.formBuilder.group({
       rating: new FormControl(0, Validators.compose([Validators.required])),
       comment: new FormControl(""),
     });
+  }
+
+  getPartner() {
+    this.partnerService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.partners = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   ngOnInit() {

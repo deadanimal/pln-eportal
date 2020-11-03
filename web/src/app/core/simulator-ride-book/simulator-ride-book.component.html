@@ -309,6 +309,23 @@
                         </tr>
                       </tbody>
                     </table>
+                    <div
+                      class="row"
+                      *ngIf="
+                        secondFormGroup.value.adult +
+                          secondFormGroup.value.children >
+                        2
+                      "
+                    >
+                      <div class="col">
+                        <alert [type]="'danger'">
+                          <b
+                            >Nota: Harap maaf. Kembara simulasi hanya boleh
+                            dinaiki seramai 2 orang dalam 1 masa.</b
+                          >
+                        </alert>
+                      </div>
+                    </div>
                   </div>
                   <div class="text-center">
                     <button

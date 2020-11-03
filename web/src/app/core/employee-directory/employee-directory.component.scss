@@ -1,0 +1,26 @@
+video {
+  // filter: opacity(70%);
+
+  h1 {
+    filter: opacity(10%);
+    color: black;
+  }
+}
+
+.section {
+  padding: 30px 0;
+}
+
+p {
+  color: #000000;
+  font-size: 1.2rem;
+}
+
+.table > thead > tr > td {
+  color: #000000;
+  font-weight: bolder;
+}
+
+.table > tbody > tr > td {
+  color: #000000;
+}

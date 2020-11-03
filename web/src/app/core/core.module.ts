@@ -87,6 +87,7 @@ import { ArkibKutubkhanahFilterPipe } from "../shared/pipes/virtual-library/arki
 import { EsumberFilterPipe } from "../shared/pipes/virtual-library/esumber/esumber-filter.pipe";
 import { VirtualLibraryBukuComponent } from './virtual-library-buku/virtual-library-buku.component';
 import { VirtualLibraryTerbitanBersiriComponent } from './virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component';
+import { EmployeeDirectoryComponent } from './employee-directory/employee-directory.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +145,7 @@ import { VirtualLibraryTerbitanBersiriComponent } from './virtual-library-terbit
     EsumberFilterPipe,
     VirtualLibraryBukuComponent,
     VirtualLibraryTerbitanBersiriComponent,
+    EmployeeDirectoryComponent,
   ],
   imports: [
     CommonModule,
