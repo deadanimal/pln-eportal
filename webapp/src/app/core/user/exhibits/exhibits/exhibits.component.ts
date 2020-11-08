@@ -44,27 +44,27 @@ export class ExhibitsComponent implements OnInit {
   zones = [
     {
       value: "A",
-      display_name: "Alam Semesta",
+      display_name: "Zon A - Alam Semesta",
     },
     {
       value: "B",
-      display_name: "Ruang Kanak-kanak",
+      display_name: "Zon B - Ruang Kanak-kanak",
     },
     {
       value: "C",
-      display_name: "Teknologi Satelit",
+      display_name: "Zon C - Teknologi Satelit",
     },
     {
       value: "D",
-      display_name: "Misi Angkasa",
+      display_name: "Zon D - Misi Angkasa",
     },
     {
       value: "E",
-      display_name: "Sistem Solar",
+      display_name: "Zon E - Sistem Solar",
     },
     {
       value: "F",
-      display_name: "Gelombang",
+      display_name: "Zon F - Gelombang",
     },
   ];
 
@@ -76,6 +76,29 @@ export class ExhibitsComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog-centered",
+  };
+
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+    ],
   };
 
   // Table
@@ -103,7 +126,8 @@ export class ExhibitsComponent implements OnInit {
       // image_link: new FormControl(""),
       zone: new FormControl(""),
       pic_id: new FormControl(""),
-      asset_id: new FormControl(""),
+      // asset_id: new FormControl(""),
+      equipment: new FormControl(""),
       // qrcode: new FormControl(""),
       status: new FormControl(""),
     });
@@ -191,8 +215,8 @@ export class ExhibitsComponent implements OnInit {
     } else if (process == "update") {
       this.exhibitFormGroup.patchValue({
         ...row,
-        asset_id: row.asset_id.id,
-        pic_id: row.pic_id.id,
+        asset_id: row.asset_id ? row.asset_id.id : "",
+        pic_id: row.pic_id ? row.pic_id.id : "",
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);

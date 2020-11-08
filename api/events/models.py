@@ -40,6 +40,7 @@ class Exhibit(models.Model):
     zone = models.CharField(max_length=1, choices=ZONES, default='N', unique=True)
 
     asset_id = models.ManyToManyField(Asset, related_name='exhibit_asset', blank=True)
+    equipment = models.TextField(blank=True)
     qrcode = models.CharField(max_length=255, default='NA')
 
     STATUS = [
@@ -163,6 +164,7 @@ class EducationalProgram(models.Model):
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
     website_link = models.URLField(blank=True)
     video_link = models.URLField(blank=True)
+    attachment_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('attachment'))
     venue_id = models.ManyToManyField(Venue, related_name='educational_program_venue', blank=True)
     coordinator_id = models.ManyToManyField(CustomUser, related_name='educational_program_coordinator')
     registration = models.BooleanField(default=True)
@@ -246,6 +248,9 @@ class EducationalProgramApplication(models.Model):
     participant = models.IntegerField(default=0)
     age = models.IntegerField(default=0)
     activity = models.ForeignKey(EducationalProgramActivity, on_delete=models.CASCADE, related_name="educational_program_app_activity", null=True)
+    document_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('document'))
+    image_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('image'))
+    video_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('video'))
 
     STATUS = [
         ('AP', 'Approved'),
@@ -375,6 +380,24 @@ class EducationalProgramForm(models.Model):
         return self.teacher_name
 
 
+class Visit(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    title = models.CharField(max_length=255, default='NA')
+    description = models.TextField(default='NA')
+    status = models.BooleanField(default=False)
+    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.title
+
+
 class VisitApplication(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
@@ -395,6 +418,8 @@ class VisitApplication(models.Model):
     customer_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='visit_customer')
     pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='visit_pic', null=True)
     tour_guide = models.BooleanField(default=False)
+    other_activities = models.CharField(max_length=255, default='NA')
+    document_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('document'))
 
     STATUS = [
         ('AP', 'Approved'),

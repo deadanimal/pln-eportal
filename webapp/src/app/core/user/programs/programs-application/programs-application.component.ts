@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 import { EducationalProgramApplicationsService } from "src/app/shared/services/educational-program-applications/educational-program-applications.service";
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
 import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
+import { EducationalProgramActivitiesService } from "src/app/shared/services/educational-program-activities/educational-program-activities.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
@@ -80,8 +81,10 @@ export class ProgramsApplicationComponent implements OnInit {
   ];
   programs = [];
   programdates = [];
+  programactivities = [];
   users = [];
   selectedProgramDates = [];
+  selectedProgramActivity = [];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -89,10 +92,12 @@ export class ProgramsApplicationComponent implements OnInit {
     private eduprogramappService: EducationalProgramApplicationsService,
     private eduprogramService: EducationalProgramsService,
     private eduprogramdateService: EducationalProgramDatesService,
+    private eduprogramactivityService: EducationalProgramActivitiesService,
     private userService: UsersService
   ) {
     this.getProgram();
     this.getProgramDate();
+    this.getProgramActivity();
     this.getUser();
 
     this.eduprogramappFormGroup = this.formBuilder.group({
@@ -103,7 +108,10 @@ export class ProgramsApplicationComponent implements OnInit {
       educational_program_id: new FormControl(""),
       educational_program_date_id: new FormControl(""),
       participant: new FormControl(""),
+      age: new FormControl(""),
+      activity: new FormControl(""),
       status: new FormControl(""),
+      document_link: new FormControl(""),
     });
   }
 
@@ -124,6 +132,18 @@ export class ProgramsApplicationComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.programdates = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getProgramActivity() {
+    this.eduprogramactivityService.getAll().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.programactivities = res;
       },
       (err) => {
         console.error("err", err);
@@ -194,12 +214,20 @@ export class ProgramsApplicationComponent implements OnInit {
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
       this.eduprogramappFormGroup.reset();
+      this.eduprogramappFormGroup.patchValue({
+        document_link: "",
+      });
     } else if (process == "update") {
       this.eduprogramappFormGroup.patchValue({
         ...row,
         customer_id: row.customer_id.id,
-        educational_program_id: row.educational_program_id.id,
-        educational_program_date_id: row.educational_program_date_id.id,
+        educational_program_id: row.educational_program_id
+          ? row.educational_program_id.id
+          : "",
+        educational_program_date_id: row.educational_program_date_id
+          ? row.educational_program_date_id.id
+          : "",
+        document_link: row.document_link != "" ? row.document_link : "",
       });
       this.changeProgram();
     }
@@ -210,8 +238,54 @@ export class ProgramsApplicationComponent implements OnInit {
     this.modal.hide();
   }
 
+  // Image Process
+  onChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.eduprogramappFormGroup.get("document_link").setValue(file);
+    }
+  }
+
   create() {
-    this.eduprogramappService.post(this.eduprogramappFormGroup.value).subscribe(
+    const formData = new FormData();
+    formData.append(
+      "organisation_name",
+      this.eduprogramappFormGroup.value.organisation_name
+    );
+    formData.append(
+      "organisation_category",
+      this.eduprogramappFormGroup.value.organisation_category
+    );
+    formData.append(
+      "customer_id",
+      this.eduprogramappFormGroup.value.customer_id
+    );
+    formData.append(
+      "educational_program_id",
+      this.eduprogramappFormGroup.value.educational_program_id
+    );
+    formData.append(
+      "educational_program_date_id",
+      this.eduprogramappFormGroup.value.educational_program_date_id
+    );
+    formData.append(
+      "participant",
+      this.eduprogramappFormGroup.value.participant
+    );
+    formData.append("age", this.eduprogramappFormGroup.value.age);
+    if (this.eduprogramappFormGroup.value.activity)
+      formData.append("activity", this.eduprogramappFormGroup.value.activity);
+    formData.append("status", this.eduprogramappFormGroup.value.status);
+    if (
+      typeof this.eduprogramappFormGroup.get("document_link").value != "string"
+    ) {
+      formData.append(
+        "document_link",
+        this.eduprogramappFormGroup.get("document_link").value
+      );
+    }
+
+    this.eduprogramappService.post(formData).subscribe(
       (res) => {
         console.log("res", res);
         swal
@@ -249,11 +323,47 @@ export class ProgramsApplicationComponent implements OnInit {
   }
 
   update() {
+    const formData = new FormData();
+    formData.append("id", this.eduprogramappFormGroup.value.id);
+    formData.append(
+      "organisation_name",
+      this.eduprogramappFormGroup.value.organisation_name
+    );
+    formData.append(
+      "organisation_category",
+      this.eduprogramappFormGroup.value.organisation_category
+    );
+    formData.append(
+      "customer_id",
+      this.eduprogramappFormGroup.value.customer_id
+    );
+    formData.append(
+      "educational_program_id",
+      this.eduprogramappFormGroup.value.educational_program_id
+    );
+    formData.append(
+      "educational_program_date_id",
+      this.eduprogramappFormGroup.value.educational_program_date_id
+    );
+    formData.append(
+      "participant",
+      this.eduprogramappFormGroup.value.participant
+    );
+    formData.append("age", this.eduprogramappFormGroup.value.age);
+    if (this.eduprogramappFormGroup.value.activity)
+      formData.append("activity", this.eduprogramappFormGroup.value.activity);
+    formData.append("status", this.eduprogramappFormGroup.value.status);
+    if (
+      typeof this.eduprogramappFormGroup.get("document_link").value != "string"
+    ) {
+      formData.append(
+        "document_link",
+        this.eduprogramappFormGroup.get("document_link").value
+      );
+    }
+
     this.eduprogramappService
-      .update(
-        this.eduprogramappFormGroup.value,
-        this.eduprogramappFormGroup.value.id
-      )
+      .update(formData, this.eduprogramappFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -293,6 +403,13 @@ export class ProgramsApplicationComponent implements OnInit {
 
   changeProgram() {
     this.selectedProgramDates = this.programdates.filter((obj) => {
+      return (
+        obj.program_id ==
+        this.eduprogramappFormGroup.value.educational_program_id
+      );
+    });
+
+    this.selectedProgramActivity = this.programactivities.filter((obj) => {
       return (
         obj.program_id ==
         this.eduprogramappFormGroup.value.educational_program_id

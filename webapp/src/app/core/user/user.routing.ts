@@ -2,8 +2,12 @@ import { Routes } from "@angular/router";
 import { AssetsComponent } from "./assets/assets.component";
 
 import { CalendarComponent } from "./calendar/calendar.component";
+import { AnnouncementsComponent } from "./cms/announcements/announcements.component";
+import { BannersComponent } from "./cms/banners/banners.component";
 import { EmployeeDirectoriesComponent } from "./cms/employee-directories/employee-directories.component";
 import { PartnersComponent } from "./cms/partners/partners.component";
+import { QuickLinksComponent } from "./cms/quick-links/quick-links.component";
+import { RatingsComponent } from "./cms/ratings/ratings.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ExhibitsDetailComponent } from "./exhibits/exhibits-detail/exhibits-detail.component";
 import { ExhibitsListComponent } from "./exhibits/exhibits-list/exhibits-list.component";
@@ -20,6 +24,8 @@ import { PublicationsComponent } from "./publications/publications/publications.
 import { ReportsAnalysisComponent } from "./reports/reports-analysis/reports-analysis.component";
 import { ReportsOperationComponent } from "./reports/reports-operation/reports-operation.component";
 import { ReportsTicketSalesComponent } from "./reports/reports-ticket-sales/reports-ticket-sales.component";
+import { ShowsApplicationsDetailComponent } from "./shows/shows-applications-detail/shows-applications-detail.component";
+import { ShowsApplicationsComponent } from "./shows/shows-applications/shows-applications.component";
 import { ShowsListComponent } from "./shows/shows-list/shows-list.component";
 import { ShowsScheduleComponent } from "./shows/shows-schedule/shows-schedule.component";
 import { SimulatorRideApplicationsComponent } from "./simulator-ride/simulator-ride-applications/simulator-ride-applications.component";
@@ -39,6 +45,7 @@ import { VirtualLibraryEsourceCategoriesListComponent } from "./virtual-librarie
 import { VirtualLibraryEsourcesListComponent } from "./virtual-libraries/virtual-library-esources-list/virtual-library-esources-list.component";
 import { VirtualLibrarySerialpublicationsListComponent } from "./virtual-libraries/virtual-library-serialpublications-list/virtual-library-serialpublications-list.component";
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
+import { VisitsListComponent } from "./visits/visits-list/visits-list.component";
 import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
 
 export const UserRoutes: Routes = [
@@ -179,6 +186,14 @@ export const UserRoutes: Routes = [
             component: ShowsListComponent,
           },
           {
+            path: "applications",
+            component: ShowsApplicationsComponent,
+          },
+          {
+            path: "applications/:showtime_id",
+            component: ShowsApplicationsDetailComponent,
+          },
+          {
             path: "schedule",
             component: ShowsScheduleComponent,
           },
@@ -250,6 +265,10 @@ export const UserRoutes: Routes = [
         path: "visits",
         children: [
           {
+            path: "list",
+            component: VisitsListComponent,
+          },
+          {
             path: "applications",
             component: VisitsApplicationsComponent,
           },
@@ -269,6 +288,22 @@ export const UserRoutes: Routes = [
           {
             path: "employee-directories",
             component: EmployeeDirectoriesComponent,
+          },
+          {
+            path: "quick-links",
+            component: QuickLinksComponent,
+          },
+          {
+            path: "ratings",
+            component: RatingsComponent,
+          },
+          {
+            path: "announcements",
+            component: AnnouncementsComponent,
+          },
+          {
+            path: "banners",
+            component: BannersComponent,
           },
         ],
       },

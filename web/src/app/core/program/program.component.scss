@@ -14,3 +14,23 @@
 .form-control[readonly] {
   background-color: #e9ecef !important;
 }
+
+.inner-html {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    color: black;
+    text-align: justify;
+  }
+
+  ol,
+  ul {
+    li {
+      color: black;
+    }
+  }
+}

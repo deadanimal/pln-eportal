@@ -22,7 +22,7 @@ export class EducationalProgramApplicationsService {
     private http: HttpClient
   ) { }
 
-  post(body: Form): Observable<EducationalProgramApplication> {
+  post(body): Observable<EducationalProgramApplication> {
     return this.http.post<EducationalProgramApplication>(this.url, body).pipe(
       tap((res) => {
         console.log('Educational program application: ', res)
@@ -39,7 +39,7 @@ export class EducationalProgramApplicationsService {
     )
   }
 
-  update(body: Form, id: string): Observable<EducationalProgramApplication>  {
+  update(body, id: string): Observable<EducationalProgramApplication>  {
     let urlPatch = this.url + id + '/'
     return this.http.patch<EducationalProgramApplication>(urlPatch, body).pipe(
       tap((res) => {

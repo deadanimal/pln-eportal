@@ -136,7 +136,7 @@
                 >
                 <span
                   *ngIf="row.status == 'IP'"
-                  class="badge badge-pill badge-danger"
+                  class="badge badge-pill badge-warning"
                   >Dalam proses</span
                 >
                 <span
@@ -261,17 +261,54 @@
           type="text"
         />
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Juru Iring</label>
-        <select
-          class="form-control"
-          formControlName="pic_id"
-          placeholder="Sila pilih"
-        >
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.full_name }}
-          </option>
-        </select>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Juru Iring</label>
+            <select
+              class="form-control"
+              formControlName="pic_id"
+              placeholder="Sila pilih"
+            >
+              <option *ngFor="let user of users" [value]="user.id">
+                {{ user.full_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">
+              Lawatan berpandu (min 10 orang) </label
+            ><br />
+            <div class="form-check form-check-radio form-check-inline pl-0">
+              <label class="form-check-label text-dark">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="tour_guide"
+                  formControlName="tour_guide"
+                  value="true"
+                />
+                Ya
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+            <div class="form-check form-check-radio form-check-inline pl-0">
+              <label class="form-check-label text-dark">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="tour_guide"
+                  formControlName="tour_guide"
+                  value="false"
+                />
+                Tidak
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-control-label">Status</label>
@@ -280,10 +317,28 @@
           formControlName="status"
           placeholder="Sila pilih"
         >
-          <option value="IP">Baru</option>
+          <option value="IP">Dalam Proses</option>
           <option value="AP">Diterima</option>
           <option value="RJ">Ditolak</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"> Lain-lain aktiviti </label>
+        <input
+          class="form-control"
+          placeholder="contoh: Meneropong bintang pada waktu malam"
+          type="text"
+          formControlName="other_activities"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"> Dokumen berkaitan </label><br />
+        <input
+          class="text-dark"
+          type="file"
+          name="document_link"
+          (change)="onChange($event)"
+        />
       </div>
     </form>
   </div>
@@ -398,17 +453,54 @@
           type="text"
         />
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Juru Iring</label>
-        <select
-          class="form-control"
-          formControlName="pic_id"
-          placeholder="Sila pilih"
-        >
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.full_name }}
-          </option>
-        </select>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">Juru Iring</label>
+            <select
+              class="form-control"
+              formControlName="pic_id"
+              placeholder="Sila pilih"
+            >
+              <option *ngFor="let user of users" [value]="user.id">
+                {{ user.full_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label">
+              Lawatan berpandu (min 10 orang) </label
+            ><br />
+            <div class="form-check form-check-radio form-check-inline pl-0">
+              <label class="form-check-label text-dark">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="tour_guide"
+                  formControlName="tour_guide"
+                  value="true"
+                />
+                Ya
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+            <div class="form-check form-check-radio form-check-inline pl-0">
+              <label class="form-check-label text-dark">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="tour_guide"
+                  formControlName="tour_guide"
+                  value="false"
+                />
+                Tidak
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-control-label">Status</label>
@@ -417,9 +509,36 @@
           formControlName="status"
           placeholder="Sila pilih"
         >
+          <option value="IP">Dalam Proses</option>
           <option value="AP">Diterima</option>
           <option value="RJ">Ditolak</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"> Lain-lain aktiviti </label>
+        <input
+          class="form-control"
+          placeholder="contoh: Meneropong bintang pada waktu malam"
+          type="text"
+          formControlName="other_activities"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"> Dokumen berkaitan </label><br />
+        <input
+          class="text-dark"
+          type="file"
+          name="document_link"
+          (change)="onChange($event)"
+        />
+      </div>
+      <div class="row" *ngIf="visitappFormGroup.value.document_link">
+        <div class="col">
+          <a [href]="visitappFormGroup.value.document_link" download
+            ><i class="fas fa-file-alt text-primary"></i> Tekan sini untuk lihat
+            fail</a
+          >
+        </div>
       </div>
     </form>
   </div>

@@ -48,7 +48,7 @@ export class NavbarComponent implements OnInit {
     keyboard: true,
     class: "modal-dialog",
     backdrop: false,
-    ignoreBackdropClick: true
+    ignoreBackdropClick: true,
   };
 
   // Dropdown
@@ -167,6 +167,12 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.accessToken = this.jwtService.getToken("accessToken");
+
+    if (this.authService.subsVar==undefined) {
+      this.authService.subsVar = this.authService.invokeLogoutFunction.subscribe((name: string) => {
+        this.clickLogout();
+      })
+    }
   }
 
   onSwitchChange(event) {

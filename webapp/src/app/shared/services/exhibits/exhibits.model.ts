@@ -6,6 +6,7 @@ export class Exhibit {
   public pic_id: string;
   public zone: string;
   public asset_id: string;
+  public equipment: string;
   public qrcode: string;
   public status: string;
   public created_date: string;
@@ -19,6 +20,7 @@ export class Exhibit {
     pic_id: string,
     zone: string,
     asset_id: string,
+    equipment: string,
     qrcode: string,
     status: string,
     created_date: string,
@@ -31,6 +33,7 @@ export class Exhibit {
     this.pic_id = pic_id;
     this.zone = zone;
     this.asset_id = asset_id;
+    this.equipment = equipment;
     this.qrcode = qrcode;
     this.status = status;
     this.created_date = created_date;

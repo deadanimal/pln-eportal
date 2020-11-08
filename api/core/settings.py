@@ -50,7 +50,10 @@ INSTALLED_APPS = [
     'feedbacks',
     'simulatorrides',
     'employeedirectories',
-    'partners'
+    'partners',
+    'quicklinks',
+    'announcements',
+    'banners'
 ]
 
 MIDDLEWARE = [

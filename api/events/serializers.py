@@ -19,6 +19,7 @@ from .models import (
     EducationalProgramActivity,
     EducationalProgramApplication,
     EducationalProgramForm,
+    Visit,
     VisitApplication
 )
 
@@ -163,6 +164,13 @@ class EducationalProgramFormExtendedSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = EducationalProgramForm
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class VisitSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Visit
         fields = '__all__'
         read_only_fields = ['id']
 

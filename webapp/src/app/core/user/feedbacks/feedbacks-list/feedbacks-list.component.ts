@@ -56,7 +56,8 @@ export class FeedbacksListComponent implements OnInit {
 
     this.feedbackFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      comment: new FormControl(""),
+      comment_user: new FormControl(""),
+      comment_admin: new FormControl(""),
       user_id: new FormControl(""),
     });
   }
@@ -125,7 +126,7 @@ export class FeedbacksListComponent implements OnInit {
     } else if (process == "update") {
       this.feedbackFormGroup.patchValue({
         ...row,
-        user_id: row.user_id.id
+        user_id: row.user_id.id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -211,5 +212,22 @@ export class FeedbacksListComponent implements OnInit {
             });
         }
       );
+  }
+
+  // belum buat lagi
+  reply(row) {
+    swal
+      .fire({
+        title: "Berjaya",
+        text: "Anda berjaya membalas maklum balas pengguna. Terima Kasih",
+        type: "success",
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-success",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.getData();
+        }
+      });
   }
 }

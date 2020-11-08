@@ -1,19 +1,22 @@
 export class Feedback {
   public id: string;
-  public comment: string;
+  public comment_user: string;
+  public comment_admin: string;
   public user_id: string;
   public created_date: string;
   public modified_date: string;
 
   constructor(
     id: string,
-    comment: string,
+    comment_user: string,
+    comment_admin: string,
     user_id: string,
     created_date: string,
     modified_date: string
   ) {
     this.id = id;
-    this.comment = comment;
+    this.comment_user = comment_user;
+    this.comment_admin = comment_admin;
     this.user_id = user_id;
     this.created_date = created_date;
     this.modified_date = modified_date;

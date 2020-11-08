@@ -10,3 +10,11 @@
 .form-control[readonly] {
   background-color: #e9ecef !important;
 }
+
+.modal-content .modal-body form .form-check .form-check-label {
+  padding-left: 0px;
+}
+
+.form-check-radio .form-check-inline .form-check-label {
+  margin-right: 0px;
+}

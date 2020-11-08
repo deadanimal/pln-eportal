@@ -12,6 +12,7 @@ export class EducationalProgram {
   public poster_link: string;
   public website_link: string;
   public video_link: string;
+  public attachment_link: string;
   public registration: boolean;
   public activity: boolean;
   public venue_id: string;
@@ -34,6 +35,7 @@ export class EducationalProgram {
     poster_link: string,
     website_link: string,
     video_link: string,
+    attachment_link: string,
     registration: boolean,
     activity: boolean,
     venue_id: string,
@@ -55,6 +57,7 @@ export class EducationalProgram {
     this.poster_link = poster_link;
     this.website_link = website_link;
     this.video_link = video_link;
+    this.attachment_link = attachment_link;
     this.registration = registration;
     this.activity = activity;
     this.venue_id = venue_id;

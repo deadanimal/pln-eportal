@@ -151,9 +151,10 @@ export class ProfileComponent implements OnInit {
     this.selectedTab = tab;
 
     if (this.selectedTab == "log-keluar") {
-      this.toastr.info("Anda telah log keluar. Terima kasih.", "Info");
-      this.jwtService.destroyToken();
-      this.router.navigate(["/landing"]);
+      this.authService.clickLogout();
+      // this.toastr.info("Anda telah log keluar. Terima kasih.", "Info");
+      // this.jwtService.destroyToken();
+      // this.router.navigate(["/landing"]);
     }
   }
 

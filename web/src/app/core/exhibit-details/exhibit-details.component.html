@@ -38,20 +38,19 @@
   </div>
   <section class="section bg-white section-lg">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 text-center">
+      <div class="row p-3">
+        <div class="col-md-8 col-sm-12">
+          <div
+            class="inner-html"
+            [innerHtml]="exhibitdetails[0]?.description | safe: 'html'"
+          ></div>
+        </div>
+        <div class="col-md-4 col-sm-12 text-center">
           <h2 class="title">{{ exhibitdetails[0]?.name }}</h2>
           <ngx-gallery
             [options]="galleryOptions"
             [images]="exhibitdetailimages"
           ></ngx-gallery>
-        </div>
-      </div>
-      <div class="row text-center justify-content-center p-3">
-        <div class="col-md-10 col-sm-12 text-center">
-          <p class="text-justify text-dark">
-            {{ exhibitdetails[0]?.description }}
-          </p>
         </div>
       </div>
     </div>

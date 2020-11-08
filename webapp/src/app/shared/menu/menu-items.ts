@@ -40,6 +40,7 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: "list", title: "Senarai", type: "link" },
       { path: "schedule", title: "Jadual", type: "link" },
+      { path: "applications", title: "Permohonan", type: "link" },
     ],
   },
   {
@@ -51,7 +52,7 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [
       { path: "schedule", title: "Jadual", type: "link" },
-      { path: 'applications', title: 'Permohonan', type: 'link' },
+      { path: "applications", title: "Permohonan", type: "link" },
     ],
   },
   {
@@ -71,6 +72,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: "visits",
     isCollapsed: true,
     children: [
+      { path: "list", title: "Senarai", type: "link" },
       { path: "applications", title: "Permohonan", type: "link" },
       { path: "schedule", title: "Jadual Penutupan", type: "link" },
     ],
@@ -198,6 +200,26 @@ export const ROUTES: RouteInfo[] = [
       {
         path: "employee-directories",
         title: "Direktori Pegawai",
+        type: "link",
+      },
+      {
+        path: "quick-links",
+        title: "Pautan Pantas",
+        type: "link",
+      },
+      {
+        path: "ratings",
+        title: "Nilai Perkhidmatan Kami",
+        type: "link",
+      },
+      {
+        path: "announcements",
+        title: "Pengumuman",
+        type: "link",
+      },
+      {
+        path: "banners",
+        title: "Banner",
         type: "link",
       },
     ],

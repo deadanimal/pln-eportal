@@ -339,7 +339,14 @@
                       type="button"
                       class="btn btn-default"
                       matStepperNext
-                      [disabled]="!secondFormGroup.valid"
+                      [disabled]="
+                        secondFormGroup.value.adult +
+                          secondFormGroup.value.children >
+                          2 ||
+                        secondFormGroup.value.adult +
+                          secondFormGroup.value.children ==
+                          0
+                      "
                     >
                       Seterusnya
                     </button>

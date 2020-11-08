@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
@@ -15,6 +15,7 @@ import { ExhibitDetailImagesService } from "src/app/shared/services/exhibit-deta
   selector: "app-exhibit-details",
   templateUrl: "./exhibit-details.component.html",
   styleUrls: ["./exhibit-details.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ExhibitDetailsComponent implements OnInit {
   // Data

@@ -1,18 +1,5 @@
 <div class="wrapper">
   <div class="page-header page-header-small header-filter">
-    <!-- <div
-                  class="page-header-image rellax"
-                  data-parallax="true"
-                  style="background-image: url('assets/img/publication/publication.jpeg')"
-                ></div>
-                <div class="content-center">
-                  <div class="row">
-                    <div class="col-md-6 ml-auto mr-auto text-center">
-                      <h1 class="title">Perpustakaan Maya</h1>
-                      <h2 class="description">Alami perpustakaan secara maya.</h2>
-                    </div>
-                  </div>
-                </div> -->
     <carousel>
       <slide>
         <img
@@ -69,20 +56,21 @@
             <p class="text-dark">
               Call Number: {{ vl_terbitanbersiri.call_number }}
             </p>
-            <p class="text-dark">Penulis: {{ vl_terbitanbersiri.author }}</p>
             <p class="text-dark">
-              Penulis Tambahan: {{ vl_terbitanbersiri.author_added }}
+              Penulis/Penyumbang: {{ vl_terbitanbersiri.author }}
             </p>
-            <p class="text-dark">ISBN: {{ vl_terbitanbersiri.isbn }}</p>
-            <p class="text-dark">ISSN: {{ vl_terbitanbersiri.issn }}</p>
+            <p class="text-dark">
+              ISBN/ISSN: {{ vl_terbitanbersiri.isbn }}/{{
+                vl_terbitanbersiri.issn
+              }}
+            </p>
             <p class="text-dark">Tahun: {{ vl_terbitanbersiri.year }}</p>
             <p class="text-dark">
               Penerbit: {{ vl_terbitanbersiri.publisher_name }}
             </p>
             <p class="text-dark">
-              Deskripsi: {{ vl_terbitanbersiri.description }}
+              Deskripsi Bahan: {{ vl_terbitanbersiri.description }}
             </p>
-            <p class="text-dark">Nota: {{ vl_terbitanbersiri.notes }}</p>
 
             <div class="row">
               <div class="col text-right">

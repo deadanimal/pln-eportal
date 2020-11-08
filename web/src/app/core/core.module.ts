@@ -88,6 +88,8 @@ import { EsumberFilterPipe } from "../shared/pipes/virtual-library/esumber/esumb
 import { VirtualLibraryBukuComponent } from './virtual-library-buku/virtual-library-buku.component';
 import { VirtualLibraryTerbitanBersiriComponent } from './virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component';
 import { EmployeeDirectoryComponent } from './employee-directory/employee-directory.component';
+import { QuickLinkComponent } from './quick-link/quick-link.component';
+import { SafePipe } from '../shared/pipes/safe/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -146,6 +148,8 @@ import { EmployeeDirectoryComponent } from './employee-directory/employee-direct
     VirtualLibraryBukuComponent,
     VirtualLibraryTerbitanBersiriComponent,
     EmployeeDirectoryComponent,
+    QuickLinkComponent,
+    SafePipe,
   ],
   imports: [
     CommonModule,

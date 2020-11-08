@@ -19,7 +19,7 @@ export class VisitApplicationsService {
 
   constructor(private http: HttpClient) {}
 
-  post(body: Form): Observable<VisitApplication> {
+  post(body): Observable<VisitApplication> {
     return this.http.post<VisitApplication>(this.url, body).pipe(
       tap((res) => {
         console.log("Visit application: ", res);
@@ -36,7 +36,7 @@ export class VisitApplicationsService {
     );
   }
 
-  update(body: Form, id: string): Observable<VisitApplication> {
+  update(body, id: string): Observable<VisitApplication> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<VisitApplication>(urlPatch, body).pipe(
       tap((res) => {
@@ -54,8 +54,18 @@ export class VisitApplicationsService {
     );
   }
 
+  filter(field: String): Observable<VisitApplication[]> {
+    let urlFilter = this.url + "?" + field;
+    return this.http.get<VisitApplication[]>(urlFilter).pipe(
+      tap((res) => {
+        this.visitApplications = res;
+        console.log("Visit applications: ", res);
+      })
+    );
+  }
+
   extended(): Observable<VisitApplication[]> {
-    return this.http.get<VisitApplication[]>(this.url + 'extended').pipe(
+    return this.http.get<VisitApplication[]>(this.url + "extended").pipe(
       tap((res) => {
         this.visitApplications = res;
         console.log("Visit applications: ", res);

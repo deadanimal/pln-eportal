@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
       img: "../../../assets/home/icon/penerbitan.jpeg",
     },
     {
-      title: "Perpustakaan Maya",
+      title: "Kutubkhanah Mini",
       link: "/virtual-library",
       img: "../../../assets/home/icon/perpustakaan-maya.jpeg",
     },

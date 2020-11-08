@@ -93,15 +93,16 @@
             [limit]="tableEntries != -1 ? tableEntries : undefined"
             [rows]="tableTemp"
             (activate)="onActivate($event)"
+            [scrollbarH]="true"
           >
-            <ngx-datatable-column>
+            <!-- <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>No</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.no + 1 }}
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
@@ -112,7 +113,7 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <!-- <ngx-datatable-column>
+            <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Jenis Tiket</span>
               </ng-template>
@@ -128,14 +129,14 @@
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ getCategory(row.ticket_category) }}
               </ng-template>
-            </ngx-datatable-column> -->
+            </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Hari</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.simulator_ride_time_id.day }}
+                {{ getDay(row.simulator_ride_time_id.day) }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -144,7 +145,7 @@
                 <span>Pusingan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.simulator_ride_time_id.round }}
+                {{ getRound(row.simulator_ride_time_id.round) }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -163,6 +164,15 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.booking_date | date: "mediumDate" }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ getStatus(row.status) }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -337,6 +347,23 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Status</label>
+            <select
+              class="form-control"
+              formControlName="status"
+              placeholder="Sila pilih"
+            >
+              <option value="" selected>Sila pilih</option>
+              <option *ngFor="let status of statuses" [value]="status.value">
+                {{ status.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 
@@ -383,7 +410,6 @@
               class="form-control"
               formControlName="simulator_ride_time_id"
               placeholder="Sila pilih"
-              disabled="true"
             >
               <option value="">Sila pilih</option>
               <option *ngFor="let time of times" [value]="time.id">
@@ -488,6 +514,40 @@
               placeholder="contoh: 3"
               type="number"
             />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Pelanggan</label>
+            <select
+              class="form-control"
+              formControlName="user_id"
+              placeholder="Sila pilih"
+            >
+              <option value="" selected>Sila pilih</option>
+              <option *ngFor="let user of users" [value]="user.id">
+                {{ user.full_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Status</label>
+            <select
+              class="form-control"
+              formControlName="status"
+              placeholder="Sila pilih"
+            >
+              <option value="" selected>Sila pilih</option>
+              <option *ngFor="let status of statuses" [value]="status.value">
+                {{ status.display_name }}
+              </option>
+            </select>
           </div>
         </div>
       </div>

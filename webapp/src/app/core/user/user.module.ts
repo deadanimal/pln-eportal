@@ -5,6 +5,7 @@ import {
   BsDropdownModule,
   ModalModule,
   ProgressbarModule,
+  RatingModule,
   TabsModule,
   TooltipModule,
 } from "ngx-bootstrap";
@@ -12,6 +13,7 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoadingBarModule } from "@ngx-loading-bar/core";
+import { QuillModule } from 'ngx-quill'
 
 import { RouterModule } from "@angular/router";
 import { UserRoutes } from "./user.routing";
@@ -55,6 +57,13 @@ import { VirtualLibraryArchivekutubkhanahCategoriesListComponent } from './virtu
 import { VirtualLibraryArchivekutubkhanahsListComponent } from './virtual-libraries/virtual-library-archivekutubkhanahs-list/virtual-library-archivekutubkhanahs-list.component';
 import { PartnersComponent } from './cms/partners/partners.component';
 import { EmployeeDirectoriesComponent } from './cms/employee-directories/employee-directories.component';
+import { ShowsApplicationsComponent } from './shows/shows-applications/shows-applications.component';
+import { ShowsApplicationsDetailComponent } from './shows/shows-applications-detail/shows-applications-detail.component';
+import { QuickLinksComponent } from './cms/quick-links/quick-links.component';
+import { RatingsComponent } from './cms/ratings/ratings.component';
+import { VisitsListComponent } from './visits/visits-list/visits-list.component';
+import { BannersComponent } from './cms/banners/banners.component';
+import { AnnouncementsComponent } from './cms/announcements/announcements.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +107,13 @@ import { EmployeeDirectoriesComponent } from './cms/employee-directories/employe
     VirtualLibraryArchivekutubkhanahsListComponent,
     PartnersComponent,
     EmployeeDirectoriesComponent,
+    ShowsApplicationsComponent,
+    ShowsApplicationsDetailComponent,
+    QuickLinksComponent,
+    RatingsComponent,
+    VisitsListComponent,
+    BannersComponent,
+    AnnouncementsComponent,
   ],
   imports: [
     CommonModule,
@@ -105,9 +121,11 @@ import { EmployeeDirectoriesComponent } from './cms/employee-directories/employe
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    RatingModule.forRoot(),
     ProgressbarModule.forRoot(),
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
+    QuillModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     LoadingBarModule,

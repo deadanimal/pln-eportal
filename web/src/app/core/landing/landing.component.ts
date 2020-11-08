@@ -8,6 +8,8 @@ import {
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
+import { AnnouncementsService } from "src/app/shared/services/announcements/announcements.service";
+import { BannersService } from "src/app/shared/services/banners/banners.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { PartnersService } from "src/app/shared/services/partners/partners.service";
 
@@ -146,19 +148,49 @@ export class LandingComponent implements OnInit {
     },
   ];
   partners = [];
+  announcements = [];
+  banners = [];
 
   constructor(
     public formBuilder: FormBuilder,
     public modalService: BsModalService,
+    private announcementService: AnnouncementsService,
+    private bannerService: BannersService,
     private feedbackService: FeedbacksService,
     private partnerService: PartnersService
   ) {
+    this.getAnnouncement();
+    this.getBanner();
     this.getPartner();
-    
+
     this.ratingFormGroup = this.formBuilder.group({
       rating: new FormControl(0, Validators.compose([Validators.required])),
       comment: new FormControl(""),
     });
+  }
+
+  getAnnouncement() {
+    this.announcementService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.announcements = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getBanner() {
+    this.bannerService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.banners = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   getPartner() {
@@ -224,5 +256,11 @@ export class LandingComponent implements OnInit {
         });
       }
     );
+  }
+
+  getBannerStyle() {
+    console.log("getBannerStyle", this.screenHeight);
+    if (this.screenHeight < 720) return { 'height': '400px' };
+    else if (this.screenHeight >= 720) return { 'height': '600px' };
   }
 }

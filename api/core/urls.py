@@ -44,6 +44,7 @@ from events.views import (
     EducationalProgramActivityViewSet,
     EducationalProgramApplicationViewSet,
     EducationalProgramFormViewSet,
+    VisitViewSet,
     VisitApplicationViewSet
 )
 
@@ -85,6 +86,10 @@ educational_program_applications_router = router.register(
 
 educational_program_forms_router = router.register(
     'educational-program-forms', EducationalProgramFormViewSet
+)
+
+visits_router = router.register(
+    'visits', VisitViewSet
 )
 
 visit_applications_router = router.register(
@@ -297,6 +302,33 @@ from partners.views import (
 
 partners_router = router.register(
     'partners', PartnerViewSet
+)
+
+# Quick Link app
+from quicklinks.views import (
+    QuickLinkViewSet
+)
+
+quick_links_router = router.register(
+    'quick-links', QuickLinkViewSet
+)
+
+# Announcement app
+from announcements.views import (
+    AnnouncementViewSet
+)
+
+announcements_router = router.register(
+    'announcements', AnnouncementViewSet
+)
+
+# Banner app
+from banners.views import (
+    BannerViewSet
+)
+
+banners_router = router.register(
+    'banners', BannerViewSet
 )
 
 urlpatterns = [

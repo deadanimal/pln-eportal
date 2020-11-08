@@ -55,7 +55,7 @@ export class SurveyComponent implements OnInit {
     },
     {
       value: "M04",
-      display_name: "Perpustakaan Maya",
+      display_name: "Kutubkhanah Mini",
     },
     {
       value: "M05",
@@ -91,7 +91,7 @@ export class SurveyComponent implements OnInit {
     this.feedbackFormGroup = this.formBuilder.group({
       full_name: ["", Validators.required],
       email: ["", Validators.required],
-      comment: ["", Validators.required],
+      comment_user: ["", Validators.required],
       user_id: ["", Validators.required],
     });
 
