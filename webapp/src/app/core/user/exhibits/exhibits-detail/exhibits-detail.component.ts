@@ -56,6 +56,29 @@ export class ExhibitsDetailComponent implements OnInit {
     class: "modal-dialog-centered",
   };
 
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+    ],
+  };
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -109,7 +132,7 @@ export class ExhibitsDetailComponent implements OnInit {
             this.getExhibitDetailImage(this.exhibitdetailFormGroup.value.id);
           } else {
             this.exhibitdetailFormGroup.patchValue({
-              exhibit_list_id: this.exhibit_list_id
+              exhibit_list_id: this.exhibit_list_id,
             });
           }
         },
@@ -213,7 +236,7 @@ export class ExhibitsDetailComponent implements OnInit {
           (res) => {
             console.log("res", res);
             this.exhibitdetailimageFormGroup.patchValue({
-              exhibit_detail_id: this.exhibitdetailFormGroup.value.id
+              exhibit_detail_id: this.exhibitdetailFormGroup.value.id,
             });
             swal
               .fire({
@@ -254,10 +277,10 @@ export class ExhibitsDetailComponent implements OnInit {
           (res) => {
             console.log("res", res);
             this.exhibitdetailFormGroup.patchValue({
-              ...res
+              ...res,
             });
             this.exhibitdetailimageFormGroup.patchValue({
-              exhibit_detail_id: res.id
+              exhibit_detail_id: res.id,
             });
             swal
               .fire({
@@ -296,7 +319,9 @@ export class ExhibitsDetailComponent implements OnInit {
   onChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.exhibitdetailimageFormGroup.get("exhibit_detail_image").setValue(file);
+      this.exhibitdetailimageFormGroup
+        .get("exhibit_detail_image")
+        .setValue(file);
     }
   }
 
@@ -306,7 +331,10 @@ export class ExhibitsDetailComponent implements OnInit {
       "exhibit_detail_image",
       this.exhibitdetailimageFormGroup.get("exhibit_detail_image").value
     );
-    formData.append("exhibit_detail_id", this.exhibitdetailimageFormGroup.value.exhibit_detail_id);
+    formData.append(
+      "exhibit_detail_id",
+      this.exhibitdetailimageFormGroup.value.exhibit_detail_id
+    );
 
     this.exhibitdetailimagesService.post(formData).subscribe(
       (res) => {
@@ -347,10 +375,15 @@ export class ExhibitsDetailComponent implements OnInit {
 
   update() {
     const formData = new FormData();
-    formData.append(
-      "exhibit_detail_image",
-      this.exhibitdetailimageFormGroup.get("exhibit_detail_image").value
-    );
+    if (
+      typeof this.exhibitdetailimageFormGroup.get("exhibit_detail_image")
+        .value != "string"
+    ) {
+      formData.append(
+        "exhibit_detail_image",
+        this.exhibitdetailimageFormGroup.get("exhibit_detail_image").value
+      );
+    }
     formData.append("id", this.exhibitdetailimageFormGroup.value.id);
 
     this.exhibitdetailimagesService
@@ -369,7 +402,9 @@ export class ExhibitsDetailComponent implements OnInit {
             .then((result) => {
               if (result.value) {
                 this.modal.hide();
-                this.getExhibitDetailImage(this.exhibitdetailFormGroup.value.id);
+                this.getExhibitDetailImage(
+                  this.exhibitdetailFormGroup.value.id
+                );
               }
             });
         },

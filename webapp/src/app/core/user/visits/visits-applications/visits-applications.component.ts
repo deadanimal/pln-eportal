@@ -25,24 +25,6 @@ export enum SelectionType {
   styleUrls: ["./visits-applications.component.scss"],
 })
 export class VisitsApplicationsComponent implements OnInit {
-  // Table
-  tableEntries: number = 5;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
-
-  // FormGroup
-  visitappFormGroup: FormGroup;
-
   // Dropdown
   users = [];
   organisationcategories = [
@@ -64,6 +46,24 @@ export class VisitsApplicationsComponent implements OnInit {
     },
   ];
 
+  // FormGroup
+  visitappFormGroup: FormGroup;
+
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+  
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;  
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -83,7 +83,10 @@ export class VisitsApplicationsComponent implements OnInit {
       total_participant: new FormControl(""),
       customer_id: new FormControl(""),
       pic_id: new FormControl(""),
+      tour_guide: new FormControl(false),
       status: new FormControl(""),
+      other_activities: new FormControl(""),
+      document_link: new FormControl(""),
     });
   }
 
@@ -145,14 +148,31 @@ export class VisitsApplicationsComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.visitappFormGroup.patchValue({
+      organisation_name: "",
+      organisation_category: "",
+      visit_date: "",
+      visit_time: "",
+      total_participant: "",
+      customer_id: "",
+      pic_id: "",
+      tour_guide: "",
+      status: "",
+      other_activities: "",
+      document_link: "",
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.visitappFormGroup.reset();
+      // this.visitappFormGroup.reset();
+      this.emptyFormGroup();
     } else if (process == "update") {
       this.visitappFormGroup.patchValue({
         ...row,
-        customer_id: row.customer_id ? row.customer_id.id : null,
-        pic_id: row.pic_id ? row.pic_id.id : null,
+        customer_id: row.customer_id ? row.customer_id.id : "",
+        pic_id: row.pic_id ? row.pic_id.id : "",
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -162,10 +182,48 @@ export class VisitsApplicationsComponent implements OnInit {
     this.modal.hide();
   }
 
+  // Image Process
+  onChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.visitappFormGroup.get("document_link").setValue(file);
+    }
+  }
+
   create() {
-    this.visitappService.post(this.visitappFormGroup.value).subscribe(
+    const formData = new FormData();
+    formData.append(
+      "organisation_name",
+      this.visitappFormGroup.value.organisation_name
+    );
+    formData.append(
+      "organisation_category",
+      this.visitappFormGroup.value.organisation_category
+    );
+    formData.append("visit_date", this.visitappFormGroup.value.visit_date);
+    formData.append("visit_time", this.visitappFormGroup.value.visit_time);
+    formData.append(
+      "total_participant",
+      this.visitappFormGroup.value.total_participant
+    );
+    formData.append("customer_id", this.visitappFormGroup.value.customer_id);
+    formData.append("pic_id", this.visitappFormGroup.value.pic_id);
+    formData.append("tour_guide", this.visitappFormGroup.value.tour_guide);
+    formData.append("status", this.visitappFormGroup.value.status);
+    formData.append(
+      "other_activities",
+      this.visitappFormGroup.value.other_activities
+    );
+    if (typeof this.visitappFormGroup.get("document_link").value != "string") {
+      formData.append(
+        "document_link",
+        this.visitappFormGroup.get("document_link").value
+      );
+    }
+
+    this.visitappService.post(formData).subscribe(
       (res) => {
-        // console.log("res", res);
+        console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -201,8 +259,38 @@ export class VisitsApplicationsComponent implements OnInit {
   }
 
   update() {
+    const formData = new FormData();
+    formData.append(
+      "organisation_name",
+      this.visitappFormGroup.value.organisation_name
+    );
+    formData.append(
+      "organisation_category",
+      this.visitappFormGroup.value.organisation_category
+    );
+    formData.append("visit_date", this.visitappFormGroup.value.visit_date);
+    formData.append("visit_time", this.visitappFormGroup.value.visit_time);
+    formData.append(
+      "total_participant",
+      this.visitappFormGroup.value.total_participant
+    );
+    formData.append("customer_id", this.visitappFormGroup.value.customer_id);
+    formData.append("pic_id", this.visitappFormGroup.value.pic_id);
+    formData.append("tour_guide", this.visitappFormGroup.value.tour_guide);
+    formData.append("status", this.visitappFormGroup.value.status);
+    formData.append(
+      "other_activities",
+      this.visitappFormGroup.value.other_activities
+    );
+    if (typeof this.visitappFormGroup.get("document_link").value != "string") {
+      formData.append(
+        "document_link",
+        this.visitappFormGroup.get("document_link").value
+      );
+    }
+
     this.visitappService
-      .update(this.visitappFormGroup.value, this.visitappFormGroup.value.id)
+      .update(formData, this.visitappFormGroup.value.id)
       .subscribe(
         (res) => {
           // console.log("res", res);

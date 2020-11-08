@@ -66,7 +66,7 @@ export class PartnersComponent implements OnInit {
   ngOnInit() {}
 
   getData() {
-    this.partnerService.filter("status=true").subscribe(
+    this.partnerService.get().subscribe(
       (res) => {
         console.log("res", res);
         this.tableRows = res;

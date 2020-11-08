@@ -99,10 +99,19 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Komen</span>
+                <span>Komen Pengguna</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.comment | slice: 0:200 }} ...
+                {{ row.comment_user | slice: 0:200 }} ...
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Komen Pentadbir</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.comment_admin | slice: 0:200 }} ...
               </ng-template>
             </ngx-datatable-column>
 
@@ -129,6 +138,9 @@
                 <span>Tindakan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
+                <button class="btn btn-sm btn-success" (click)="reply(row)">
+                  Balas
+                </button>
                 <button
                   class="btn btn-sm btn-primary"
                   (click)="openModal(editFeedback, 'update', row)"
@@ -177,12 +189,21 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Komen</label>
+        <label class="form-control-label">Komen Pengguna</label>
         <textarea
           rows="5"
           class="form-control"
-          formControlName="comment"
-          placeholder="Komen"
+          formControlName="comment_user"
+          placeholder="Komen Pengguna"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Komen Pentadbir</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          formControlName="comment_admin"
+          placeholder="Komen Pentadbir"
         ></textarea>
       </div>
       <!-- <div class="form-group">
@@ -248,12 +269,21 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Komen</label>
+        <label class="form-control-label">Komen Pengguna</label>
         <textarea
           rows="5"
           class="form-control"
-          formControlName="comment"
-          placeholder="Komen"
+          formControlName="comment_user"
+          placeholder="Komen Pengguna"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Komen Pentadbir</label>
+        <textarea
+          rows="5"
+          class="form-control"
+          formControlName="comment_admin"
+          placeholder="Komen Pentadbir"
         ></textarea>
       </div>
       <!-- <div class="form-group">

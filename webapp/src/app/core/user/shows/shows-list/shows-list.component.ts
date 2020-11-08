@@ -362,7 +362,7 @@ export class ShowsListComponent implements OnInit {
           });
       },
       (err) => {
-        console.log("err", err);
+        console.error("err", err);
         swal
           .fire({
             title: "Ralat",

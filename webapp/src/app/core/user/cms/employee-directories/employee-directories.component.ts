@@ -109,7 +109,7 @@ export class EmployeeDirectoriesComponent implements OnInit {
   ngOnInit() {}
 
   getData() {
-    this.employeedirectoryService.filter("status=true").subscribe((res) => {
+    this.employeedirectoryService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {

@@ -150,6 +150,14 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
+                  class="btn btn-sm btn-success"
+                  (click)="
+                    openModal(programAttachment, 'createupdateattachment', row)
+                  "
+                >
+                  Lampiran
+                </button>
+                <button
                   class="btn btn-sm btn-info"
                   (click)="openModal(programImage, 'upload', row)"
                 >
@@ -163,7 +171,9 @@
                 </button>
                 <button
                   class="btn btn-sm btn-warning"
-                  (click)="openModal(programActivity, 'createupdateactivity', row)"
+                  (click)="
+                    openModal(programActivity, 'createupdateactivity', row)
+                  "
                   *ngIf="row.activity"
                 >
                   Aktiviti
@@ -213,12 +223,11 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi</label>
-        <textarea
-          class="form-control"
+        <quill-editor
           formControlName="description"
-          placeholder="Deskripsi"
-          rows="10"
-        ></textarea>
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="row">
         <div class="col">
@@ -349,6 +358,13 @@
             />
           </div>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Pautan Video (jika ada)</label><br />
+        <small class="text-danger"
+          >*Masukkan pautan video dari laman youtube sahaja.</small
+        >
+        <input class="form-control" formControlName="video_link" type="text" />
       </div>
       <div class="form-group">
         <label class="form-control-label">Tempat</label>
@@ -439,12 +455,11 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi</label>
-        <textarea
-          class="form-control"
+        <quill-editor
           formControlName="description"
-          placeholder="Deskripsi"
-          rows="10"
-        ></textarea>
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="row">
         <div class="col">
@@ -575,6 +590,13 @@
             />
           </div>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Pautan Video (jika ada)</label><br />
+        <small class="text-danger"
+          >*Masukkan pautan video dari laman youtube sahaja.</small
+        >
+        <input class="form-control" formControlName="video_link" type="text" />
       </div>
       <div class="form-group">
         <label class="form-control-label">Tempat</label>
@@ -746,7 +768,9 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let eduprogramactivity of eduprogramactivities; let i = index">
+        <tr
+          *ngFor="let eduprogramactivity of eduprogramactivities; let i = index"
+        >
           <td>{{ i + 1 }}</td>
           <td>{{ eduprogramactivity.program_activity }}</td>
           <td><button class="btn btn-sm btn-primary">Sunting</button></td>
@@ -756,7 +780,11 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="createupdateactivity()">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="createupdateactivity()"
+    >
       Simpan
     </button>
 
@@ -792,7 +820,11 @@
     <form [formGroup]="eduprogramimageFormGroup">
       <div class="form-group">
         <label class="form-control-label">Pilih gambar</label><br />
-        <input type="file" name="program_image" (change)="onChange($event)" />
+        <input
+          type="file"
+          name="program_image"
+          (change)="onChangeImage($event)"
+        />
       </div>
     </form>
 
@@ -826,6 +858,68 @@
 
   <div class="modal-footer">
     <button class="btn btn-success" type="button" (click)="uploadimage()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #programAttachment>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Lampiran
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="eduprogramattachmentFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Pilih lampiran</label><br />
+        <input
+          type="file"
+          name="attachment_link"
+          (change)="onChangeAttachment($event)"
+        />
+      </div>
+
+      <div
+        class="row"
+        *ngIf="eduprogramattachmentFormGroup.value.attachment_link"
+      >
+        <div class="col">
+          <a [href]="eduprogramattachmentFormGroup.value.attachment_link"
+            ><i class="fas fa-file-alt"></i> Tekan sini untuk lihat lampiran
+            ini</a
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="createupdateattachment()"
+    >
       Simpan
     </button>
 

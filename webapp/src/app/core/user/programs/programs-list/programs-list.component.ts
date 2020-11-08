@@ -34,27 +34,6 @@ export class ProgramsListComponent implements OnInit {
   eduprogramimages = [];
   eduprogramactivities = [];
 
-  // Table
-  tableEntries: number = 5;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
-
-  // FormGroup
-  eduprogramFormGroup: FormGroup;
-  eduprogramdateFormGroup: FormGroup;
-  eduprogramimageFormGroup: FormGroup;
-  eduprogramactivityFormGroup: FormGroup;
-
   // Dropdown
   programtypes = [
     {
@@ -125,6 +104,51 @@ export class ProgramsListComponent implements OnInit {
   users = [];
   venues = [];
 
+  // FormGroup
+  eduprogramFormGroup: FormGroup;
+  eduprogramdateFormGroup: FormGroup;
+  eduprogramimageFormGroup: FormGroup;
+  eduprogramactivityFormGroup: FormGroup;
+  eduprogramattachmentFormGroup: FormGroup;
+
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+    ],
+  };
+
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -151,7 +175,7 @@ export class ProgramsListComponent implements OnInit {
       price: new FormControl(0),
       // poster_link: new FormControl(""),
       // website_link: new FormControl(""),
-      // video_link: new FormControl(""),
+      video_link: new FormControl(""),
       registration: new FormControl(""),
       activity: new FormControl(""),
       venue_id: new FormControl(""),
@@ -175,6 +199,11 @@ export class ProgramsListComponent implements OnInit {
       id: new FormControl(""),
       program_activity: new FormControl(""),
       program_id: new FormControl(""),
+    });
+
+    this.eduprogramattachmentFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      attachment_link: new FormControl(""),
     });
   }
 
@@ -252,7 +281,7 @@ export class ProgramsListComponent implements OnInit {
     if (process == "create") {
       this.eduprogramFormGroup.reset();
       this.eduprogramFormGroup.patchValue({
-        price: 0
+        price: 0,
       });
     } else if (process == "update") {
       this.eduprogramFormGroup.patchValue({
@@ -283,6 +312,11 @@ export class ProgramsListComponent implements OnInit {
       );
       this.eduprogramactivityFormGroup.patchValue({
         program_id: row.id,
+      });
+    } else if (process == "createupdateattachment") {
+      this.eduprogramattachmentFormGroup.patchValue({
+        id: row.id,
+        attachment_link: row.attachment_link != "" ? row.attachment_link : "",
       });
     } else if (process == "upload") {
       this.eduprogramimageService.filter("program_id=" + row.id).subscribe(
@@ -463,11 +497,70 @@ export class ProgramsListComponent implements OnInit {
       );
   }
 
+  createupdateattachment() {
+    const formData = new FormData();
+    formData.append("id", this.eduprogramattachmentFormGroup.value.id);
+    if (
+      typeof this.eduprogramattachmentFormGroup.get("attachment_link").value !=
+      "string"
+    ) {
+      formData.append(
+        "attachment_link",
+        this.eduprogramattachmentFormGroup.get("attachment_link").value
+      );
+    }
+
+    this.eduprogramService
+      .update(formData, this.eduprogramattachmentFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya disimpan.",
+              type: "success",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-success",
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getData();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+              type: "warning",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-warning",
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+  }
+
   // Image Process
-  onChange(event) {
+  onChangeImage(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.eduprogramimageFormGroup.get("program_image").setValue(file);
+    }
+  }
+
+  onChangeAttachment(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.eduprogramattachmentFormGroup.get("attachment_link").setValue(file);
     }
   }
 
@@ -501,7 +594,7 @@ export class ProgramsListComponent implements OnInit {
           });
       },
       (err) => {
-        console.log("err", err);
+        console.error("err", err);
         swal
           .fire({
             title: "Ralat",
