@@ -26,7 +26,9 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = FeedbackSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'comment', 
+        'id',
+        'comment_user',
+        'comment_admin', 
         'user_id', 
         'created_date',
         'modified_date'

@@ -21,6 +21,7 @@ from .models import (
     EducationalProgramActivity,
     EducationalProgramApplication,
     EducationalProgramForm,
+    Visit,
     VisitApplication
 )
 
@@ -42,6 +43,7 @@ from .serializers import (
     EducationalProgramApplicationExtendedSerializer,
     EducationalProgramFormSerializer,
     EducationalProgramFormExtendedSerializer,
+    VisitSerializer,
     VisitApplicationSerializer,
     VisitApplicationExtendedSerializer
 )
@@ -347,6 +349,29 @@ class EducationalProgramFormViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer_class = EducationalProgramFormExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)
+
+class VisitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Visit.objects.all()
+    serializer_class = VisitSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'title', 
+        'description', 
+        'status'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = Visit.objects.all()
+        return queryset
 
 class VisitApplicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VisitApplication.objects.all()
