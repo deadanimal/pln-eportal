@@ -13,6 +13,7 @@ import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VisitApplicationsService } from "src/app/shared/services/visit-applications/visit-applications.service";
+import { VisitsService } from "src/app/shared/services/visits/visits.service";
 
 @Component({
   selector: "app-visit",
@@ -23,7 +24,9 @@ export class VisitComponent implements OnInit {
   defaultModal: BsModalRef;
   default = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
+    backdrop: false,
+    ignoreBackdropClick: true,
   };
 
   data1 = [
@@ -72,6 +75,7 @@ export class VisitComponent implements OnInit {
 
   // Data
   users = [];
+  visits = [];
 
   // Dropdown
   organisationcategories = [
@@ -100,8 +104,11 @@ export class VisitComponent implements OnInit {
     private toastr: ToastrService,
     private authService: AuthService,
     private userService: UsersService,
-    private visitiapplicationService: VisitApplicationsService
+    private visitiapplicationService: VisitApplicationsService,
+    private visitService: VisitsService
   ) {
+    this.getData();
+
     this.visitapplicationFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       full_name: new FormControl(""),
@@ -129,9 +136,23 @@ export class VisitComponent implements OnInit {
       ),
       customer_id: new FormControl(""),
       pic_id: new FormControl(""),
-      is_guided: new FormControl(false, Validators.required),
+      tour_guide: new FormControl(false, Validators.required),
       status: new FormControl("IP"),
+      other_activities: new FormControl(""),
+      document_link: new FormControl(""),
     });
+  }
+
+  getData() {
+    this.visitService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.visits = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   getUser() {
@@ -173,33 +194,79 @@ export class VisitComponent implements OnInit {
     }
   }
 
+  // Image Process
+  onChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.visitapplicationFormGroup.get("document_link").setValue(file);
+    }
+  }
+
   openAfterBooking() {
     this.visitapplicationFormGroup.value.visit_date = this.formatDate(
       this.visitapplicationFormGroup.value.visit_date
     );
 
-    this.visitiapplicationService
-      .post(this.visitapplicationFormGroup.value)
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          this.defaultModal.hide();
-          swal.fire({
-            icon: "success",
-            title: "Terima kasih",
-            text:
-              "Pihak kami akan memberi maklum balas terhadap permohonan tersebut dalam masa 3 hari bekerja",
-            buttonsStyling: false,
-            confirmButtonText: "Tutup",
-            customClass: {
-              confirmButton: "btn btn-success",
-            },
-          });
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+    const formData = new FormData();
+    formData.append(
+      "organisation_name",
+      this.visitapplicationFormGroup.value.organisation_name
+    );
+    formData.append(
+      "organisation_category",
+      this.visitapplicationFormGroup.value.organisation_category
+    );
+    formData.append(
+      "visit_date",
+      this.visitapplicationFormGroup.value.visit_date
+    );
+    formData.append(
+      "visit_time",
+      this.visitapplicationFormGroup.value.visit_time
+    );
+    formData.append(
+      "total_participant",
+      this.visitapplicationFormGroup.value.total_participant
+    );
+    formData.append(
+      "customer_id",
+      this.visitapplicationFormGroup.value.customer_id
+    );
+    formData.append("pic_id", this.visitapplicationFormGroup.value.pic_id);
+    formData.append(
+      "tour_guide",
+      this.visitapplicationFormGroup.value.tour_guide
+    );
+    formData.append(
+      "other_activities",
+      this.visitapplicationFormGroup.value.other_activities
+    );
+    // test dulu
+    formData.append(
+      "document_link",
+      this.visitapplicationFormGroup.get("document_link").value
+    );
+
+    this.visitiapplicationService.post(formData).subscribe(
+      (res) => {
+        console.log("res", res);
+        this.defaultModal.hide();
+        swal.fire({
+          icon: "success",
+          title: "Terima kasih",
+          text:
+            "Pihak kami akan memberi maklum balas terhadap permohonan tersebut dalam masa 3 hari bekerja",
+          buttonsStyling: false,
+          confirmButtonText: "Tutup",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   formatDate(date) {

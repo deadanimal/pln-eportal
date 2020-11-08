@@ -1,18 +1,5 @@
 <div class="wrapper">
   <div class="page-header page-header-small header-filter">
-    <!-- <div
-                class="page-header-image rellax"
-                data-parallax="true"
-                style="background-image: url('assets/img/publication/publication.jpeg')"
-              ></div>
-              <div class="content-center">
-                <div class="row">
-                  <div class="col-md-6 ml-auto mr-auto text-center">
-                    <h1 class="title">Perpustakaan Maya</h1>
-                    <h2 class="description">Alami perpustakaan secara maya.</h2>
-                  </div>
-                </div>
-              </div> -->
     <carousel>
       <slide>
         <img
@@ -61,16 +48,11 @@
           <div class="col-md-6 col-sm-12">
             <h2 class="title text-dark">{{ vl_buku.title }}</h2>
             <p class="text-dark">Call Number: {{ vl_buku.call_number }}</p>
-            <p class="text-dark">Penulis: {{ vl_buku.author }}</p>
-            <p class="text-dark">
-              Penulis Tambahan: {{ vl_buku.author_added }}
-            </p>
-            <p class="text-dark">ISBN: {{ vl_buku.isbn }}</p>
-            <p class="text-dark">ISSN: {{ vl_buku.issn }}</p>
+            <p class="text-dark">Penulis/Penyumbang: {{ vl_buku.author }}</p>
+            <p class="text-dark">ISBN/ISSN: {{ vl_buku.isbn }}/{{ vl_buku.issn }}</p>
             <p class="text-dark">Tahun: {{ vl_buku.year }}</p>
             <p class="text-dark">Penerbit: {{ vl_buku.publisher_name }}</p>
-            <p class="text-dark">Deskripsi: {{ vl_buku.description }}</p>
-            <p class="text-dark">Nota: {{ vl_buku.notes }}</p>
+            <p class="text-dark">Deskripsi Bahan: {{ vl_buku.description }}</p>
 
             <div class="row">
               <div class="col text-right">

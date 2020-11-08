@@ -1,4 +1,9 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewEncapsulation,
+} from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -28,6 +33,7 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   selector: "app-program",
   templateUrl: "./program.component.html",
   styleUrls: ["./program.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProgramComponent implements OnInit {
   // Modal
@@ -37,6 +43,8 @@ export class ProgramComponent implements OnInit {
   default = {
     keyboard: true,
     class: "modal-dialog",
+    backdrop: false,
+    ignoreBackdropClick: true,
   };
 
   // FormGroup
@@ -310,6 +318,9 @@ export class ProgramComponent implements OnInit {
       age: new FormControl("", Validators.compose([Validators.required])),
       activity: new FormControl(""),
       status: new FormControl("IP"),
+      document_link: new FormControl(""),
+      image_link: new FormControl(""),
+      video_link: new FormControl(""),
     });
 
     this.getProgram();
@@ -376,7 +387,7 @@ export class ProgramComponent implements OnInit {
   }
 
   getProgramActivity(program_id: string) {
-    this.eduprogramactivityService.filter("program_id="+program_id).subscribe(
+    this.eduprogramactivityService.filter("program_id=" + program_id).subscribe(
       (res) => {
         console.log("res", res);
         this.programactivities = res;
@@ -449,6 +460,19 @@ export class ProgramComponent implements OnInit {
     this.videoModal = this.modalService.show(modalDefault, this.default);
   }
 
+  // Image Process
+  onChange(event, type: string) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      if (type == "document_link")
+        this.eduprogramappFormGroup.get("document_link").setValue(file);
+      if (type == "image_link")
+        this.eduprogramappFormGroup.get("image_link").setValue(file);
+      if (type == "video_link")
+        this.eduprogramappFormGroup.get("video_link").setValue(file);
+    }
+  }
+
   openAfterBooking() {
     let selectedProgramDate = this.formatDate(
       this.eduprogramappFormGroup.value.educational_program_date_id
@@ -460,7 +484,60 @@ export class ProgramComponent implements OnInit {
     this.eduprogramappFormGroup.value.educational_program_date_id = result.id;
     this.eduprogramappFormGroup.value.educational_program_id = this.selectedProgram.id;
 
-    this.eduprogramappService.post(this.eduprogramappFormGroup.value).subscribe(
+    const formData = new FormData();
+    formData.append(
+      "organisation_name",
+      this.eduprogramappFormGroup.value.organisation_name
+    );
+    formData.append(
+      "organisation_category",
+      this.eduprogramappFormGroup.value.organisation_category
+    );
+    formData.append(
+      "customer_id",
+      this.eduprogramappFormGroup.value.customer_id
+    );
+    formData.append(
+      "educational_program_id",
+      this.eduprogramappFormGroup.value.educational_program_id
+    );
+    formData.append(
+      "educational_program_date_id",
+      this.eduprogramappFormGroup.value.educational_program_date_id
+    );
+    formData.append(
+      "participant",
+      this.eduprogramappFormGroup.value.participant
+    );
+    formData.append("age", this.eduprogramappFormGroup.value.age);
+    formData.append("activity", this.eduprogramappFormGroup.value.activity);
+    formData.append("status", this.eduprogramappFormGroup.value.status);
+    if (
+      typeof this.eduprogramappFormGroup.get("document_link").value != "string"
+    ) {
+      formData.append(
+        "document_link",
+        this.eduprogramappFormGroup.get("document_link").value
+      );
+    }
+    if (
+      typeof this.eduprogramappFormGroup.get("image_link").value != "string"
+    ) {
+      formData.append(
+        "image_link",
+        this.eduprogramappFormGroup.get("image_link").value
+      );
+    }
+    if (
+      typeof this.eduprogramappFormGroup.get("video_link").value != "string"
+    ) {
+      formData.append(
+        "video_link",
+        this.eduprogramappFormGroup.get("video_link").value
+      );
+    }
+
+    this.eduprogramappService.post(formData).subscribe(
       (res) => {
         console.log("res", res);
         this.defaultModal.hide();

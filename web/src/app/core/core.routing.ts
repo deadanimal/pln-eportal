@@ -47,6 +47,7 @@ import { VirtualLibraryEsumberComponent } from "./virtual-library-esumber/virtua
 import { VirtualLibraryBukuComponent } from "./virtual-library-buku/virtual-library-buku.component";
 import { VirtualLibraryTerbitanBersiriComponent } from "./virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component";
 import { EmployeeDirectoryComponent } from "./employee-directory/employee-directory.component";
+import { QuickLinkComponent } from "./quick-link/quick-link.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -280,5 +281,9 @@ export const CoreRoutes: Routes = [
   {
     path: "employee-directory",
     component: EmployeeDirectoryComponent,
+  },
+  {
+    path: "quick-link",
+    component: QuickLinkComponent,
   },
 ];

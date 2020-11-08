@@ -7,8 +7,10 @@ export class VisitApplication {
   public total_participant: number;
   public customer_id: string;
   public pic_id: string;
-  public is_guided: boolean;
+  public tour_guide: boolean;
   public status: string;
+  public other_activities: string;
+  public document_link: string;
   public created_date: string;
   public modified_date: string;
 
@@ -21,8 +23,10 @@ export class VisitApplication {
     total_participant: number,
     customer_id: string,
     pic_id: string,
-    is_guided: boolean,
+    tour_guide: boolean,
     status: string,
+    other_activities: string,
+    document_link: string,
     created_date: string,
     modified_date: string
   ) {
@@ -34,8 +38,10 @@ export class VisitApplication {
     this.total_participant = total_participant;
     this.customer_id = customer_id;
     this.pic_id = pic_id;
+    this.tour_guide = tour_guide;
     this.status = status;
-    this.is_guided = is_guided;
+    this.other_activities = other_activities;
+    this.document_link = document_link;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

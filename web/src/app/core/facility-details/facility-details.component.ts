@@ -290,7 +290,7 @@ export class FacilityDetailsComponent implements OnInit {
     },
     {
       value: "TT",
-      display_name: "Teatret",
+      display_name: "Bilik Orion",
       link: "teatret",
       have_subcategory: false,
     },

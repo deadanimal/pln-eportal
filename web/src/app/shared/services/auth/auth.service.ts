@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Form } from "@angular/forms";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { map, tap, catchError } from "rxjs/operators";
-import { throwError, Observable } from "rxjs";
+import { throwError, Observable, Subscription } from "rxjs";
 import { TokenResponse, Registration } from "./auth.model";
 import { JwtService } from "../../jwt/jwt.service";
 
@@ -12,6 +12,9 @@ import { JwtService } from "../../jwt/jwt.service";
   providedIn: "root",
 })
 export class AuthService {
+  invokeLogoutFunction = new EventEmitter();
+  subsVar: Subscription;
+
   // URL
   public urlRegister: string = environment.baseUrl + "auth/registration/";
   public urlPasswordChange: string =
@@ -35,6 +38,10 @@ export class AuthService {
   public userType: string;
 
   constructor(private jwtService: JwtService, private http: HttpClient) {}
+
+  clickLogout() {
+    this.invokeLogoutFunction.emit();
+  }
 
   registerAccount(body: Form): Observable<any> {
     return this.http.post<any>(this.urlRegister, body).pipe(
@@ -117,6 +124,7 @@ export class AuthService {
     let user_obj = {
       user_id: decodedToken.user_id,
       username: decodedToken.username,
+      full_name: decodedToken.full_name,
       email: decodedToken.email,
       user_type: decodedToken.user_type,
     };

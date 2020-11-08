@@ -8,6 +8,9 @@ export class EducationalProgramApplication {
   public participant: number;
   public age: number;
   public status: string;
+  public document_link: string;
+  public image_link: string;
+  public video_link: string;
   public created_date: string;
   public modified_date: string;
 
@@ -21,6 +24,9 @@ export class EducationalProgramApplication {
     participant: number,
     age: number,
     status: string,
+    document_link: string,
+    image_link: string,
+    video_link: string,
     created_date: string,
     modified_date: string
   ) {
@@ -33,6 +39,9 @@ export class EducationalProgramApplication {
     this.participant = participant;
     this.age = age;
     this.status = status;
+    this.document_link = document_link;
+    this.image_link = image_link;
+    this.video_link = video_link;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }
