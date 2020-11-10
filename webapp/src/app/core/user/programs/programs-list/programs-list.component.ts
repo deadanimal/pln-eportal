@@ -98,7 +98,7 @@ export class ProgramsListComponent implements OnInit {
     },
     {
       value: "NAV",
-      display_name: "Not Available",
+      display_name: "Tiada",
     },
   ];
   users = [];
@@ -166,6 +166,7 @@ export class ProgramsListComponent implements OnInit {
       id: new FormControl(""),
       title: new FormControl(""),
       description: new FormControl(""),
+      program_code: new FormControl(""),
       program_type: new FormControl(""),
       program_category: new FormControl(""),
       program_subcategory: new FormControl(""),
@@ -277,12 +278,34 @@ export class ProgramsListComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.eduprogramFormGroup.patchValue({
+      id: "",
+      title: "",
+      description: "",
+      program_code: "",
+      program_type: "",
+      program_category: "",
+      program_subcategory: "",
+      program_opento: "",
+      min_participant: "",
+      max_participant: "",
+      price: 0,
+      // poster_link: "",
+      // website_link: "",
+      video_link: "",
+      registration: "",
+      activity: "",
+      venue_id: "",
+      coordinator_id: "",
+      status: "",
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.eduprogramFormGroup.reset();
-      this.eduprogramFormGroup.patchValue({
-        price: 0,
-      });
+      // this.eduprogramFormGroup.reset();
+      this.emptyFormGroup();
     } else if (process == "update") {
       this.eduprogramFormGroup.patchValue({
         ...row,
@@ -316,7 +339,7 @@ export class ProgramsListComponent implements OnInit {
     } else if (process == "createupdateattachment") {
       this.eduprogramattachmentFormGroup.patchValue({
         id: row.id,
-        attachment_link: row.attachment_link != "" ? row.attachment_link : "",
+        attachment_link: row.attachment_link ? row.attachment_link : "",
       });
     } else if (process == "upload") {
       this.eduprogramimageService.filter("program_id=" + row.id).subscribe(

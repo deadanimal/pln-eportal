@@ -55,14 +55,14 @@ export class VisitsApplicationsComponent implements OnInit {
     keyboard: true,
     class: "modal-dialog-centered",
   };
-  
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
   tableRows: any[] = [];
-  SelectionType = SelectionType;  
+  SelectionType = SelectionType;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -173,6 +173,7 @@ export class VisitsApplicationsComponent implements OnInit {
         ...row,
         customer_id: row.customer_id ? row.customer_id.id : "",
         pic_id: row.pic_id ? row.pic_id.id : "",
+        document_link: row.document_link ? row.document_link : "",
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);

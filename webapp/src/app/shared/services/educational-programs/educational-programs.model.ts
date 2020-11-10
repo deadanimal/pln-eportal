@@ -2,6 +2,7 @@ export class EducationalProgram {
   public id: string;
   public title: string;
   public description: string;
+  public program_code: string;
   public program_type: string;
   public program_category: string;
   public program_subcategory: string;
@@ -25,6 +26,7 @@ export class EducationalProgram {
     id: string,
     title: string,
     description: string,
+    program_code: string,
     program_type: string,
     program_category: string,
     program_subcategory: string,
@@ -47,6 +49,7 @@ export class EducationalProgram {
     this.id = id;
     this.title = title;
     this.description = description;
+    this.program_code = program_code;
     this.program_type = program_type;
     this.program_category = program_category;
     this.program_subcategory = program_subcategory;

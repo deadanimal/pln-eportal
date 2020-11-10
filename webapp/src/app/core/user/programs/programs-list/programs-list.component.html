@@ -99,6 +99,15 @@
               </ng-template>
             </ngx-datatable-column>
 
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Kod</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.program_code }}
+              </ng-template>
+            </ngx-datatable-column>
+
             <!-- <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Deskripsi</span>
@@ -213,7 +222,7 @@
   <div class="modal-body">
     <form [formGroup]="eduprogramFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label required-field">Tajuk</label>
         <input
           class="form-control"
           formControlName="title"
@@ -222,17 +231,26 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
+        <label class="form-control-label required-field">Deskripsi</label>
         <quill-editor
           formControlName="description"
           [modules]="modules"
           [styles]="{ height: '200px' }"
         ></quill-editor>
       </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Kod</label>
+        <input
+          class="form-control"
+          formControlName="program_code"
+          placeholder="Kod"
+          type="text"
+        />
+      </div>
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Kategori</label>
+            <label class="form-control-label required-field">Kategori</label>
             <select
               class="form-control"
               formControlName="program_category"
@@ -250,7 +268,9 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Sub-Kategori</label>
+            <label class="form-control-label required-field"
+              >Sub-Kategori</label
+            >
             <select
               class="form-control"
               formControlName="program_subcategory"
@@ -270,7 +290,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Jenis</label>
+            <label class="form-control-label required-field">Jenis</label>
             <select
               class="form-control"
               formControlName="program_type"
@@ -288,7 +308,9 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Pendaftaran?</label>
+            <label class="form-control-label required-field"
+              >Pendaftaran?</label
+            >
             <select
               class="form-control"
               formControlName="registration"
@@ -302,7 +324,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Aktiviti?</label>
+            <label class="form-control-label required-field">Aktiviti?</label>
             <select
               class="form-control"
               formControlName="activity"
@@ -316,7 +338,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Terbuka kepada</label>
+        <label class="form-control-label required-field">Terbuka kepada</label>
         <input
           class="form-control"
           formControlName="program_opento"
@@ -327,7 +349,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Min peserta</label>
+            <label class="form-control-label required-field">Min peserta</label>
             <input
               class="form-control"
               formControlName="min_participant"
@@ -338,7 +360,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Max peserta</label>
+            <label class="form-control-label required-field">Max peserta</label>
             <input
               class="form-control"
               formControlName="max_participant"
@@ -349,7 +371,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Harga</label>
+            <label class="form-control-label required-field">Harga</label>
             <input
               class="form-control"
               formControlName="price"
@@ -360,14 +382,14 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Pautan Video (jika ada)</label><br />
+        <label class="form-control-label mb-0">Pautan Video (jika ada)</label><br />
         <small class="text-danger"
-          >*Masukkan pautan video dari laman youtube sahaja.</small
+          >* Masukkan pautan video dari laman youtube sahaja.</small
         >
         <input class="form-control" formControlName="video_link" type="text" />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Tempat</label>
+        <label class="form-control-label required-field">Tempat</label>
         <select
           class="form-control"
           formControlName="venue_id"
@@ -381,7 +403,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Koordinator</label>
+        <label class="form-control-label required-field">Koordinator</label>
         <select
           class="form-control"
           formControlName="coordinator_id"
@@ -395,7 +417,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Status</label>
+        <label class="form-control-label required-field">Status</label>
         <select
           class="form-control"
           formControlName="status"
@@ -445,7 +467,7 @@
   <div class="modal-body">
     <form [formGroup]="eduprogramFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label required-field">Tajuk</label>
         <input
           class="form-control"
           formControlName="title"
@@ -454,17 +476,26 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
+        <label class="form-control-label required-field">Deskripsi</label>
         <quill-editor
           formControlName="description"
           [modules]="modules"
           [styles]="{ height: '200px' }"
         ></quill-editor>
       </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Kod</label>
+        <input
+          class="form-control"
+          formControlName="program_code"
+          placeholder="Kod"
+          type="text"
+        />
+      </div>
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Kategori</label>
+            <label class="form-control-label required-field">Kategori</label>
             <select
               class="form-control"
               formControlName="program_category"
@@ -482,7 +513,9 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Sub-Kategori</label>
+            <label class="form-control-label required-field"
+              >Sub-Kategori</label
+            >
             <select
               class="form-control"
               formControlName="program_subcategory"
@@ -502,7 +535,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Jenis</label>
+            <label class="form-control-label required-field">Jenis</label>
             <select
               class="form-control"
               formControlName="program_type"
@@ -520,7 +553,9 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Pendaftaran?</label>
+            <label class="form-control-label required-field"
+              >Pendaftaran?</label
+            >
             <select
               class="form-control"
               formControlName="registration"
@@ -534,7 +569,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Aktiviti?</label>
+            <label class="form-control-label required-field">Aktiviti?</label>
             <select
               class="form-control"
               formControlName="activity"
@@ -548,7 +583,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Terbuka kepada</label>
+        <label class="form-control-label required-field">Terbuka kepada</label>
         <input
           class="form-control"
           formControlName="program_opento"
@@ -559,7 +594,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Min peserta</label>
+            <label class="form-control-label required-field">Min peserta</label>
             <input
               class="form-control"
               formControlName="min_participant"
@@ -570,7 +605,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Max peserta</label>
+            <label class="form-control-label required-field">Max peserta</label>
             <input
               class="form-control"
               formControlName="max_participant"
@@ -581,7 +616,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Harga</label>
+            <label class="form-control-label required-field">Harga</label>
             <input
               class="form-control"
               formControlName="price"
@@ -592,14 +627,14 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Pautan Video (jika ada)</label><br />
+        <label class="form-control-label mb-0">Pautan Video (jika ada)</label><br />
         <small class="text-danger"
-          >*Masukkan pautan video dari laman youtube sahaja.</small
+          >*Masukkan pautan video dari laman Youtube sahaja.</small
         >
         <input class="form-control" formControlName="video_link" type="text" />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Tempat</label>
+        <label class="form-control-label required-field">Tempat</label>
         <select
           class="form-control"
           formControlName="venue_id"
@@ -613,7 +648,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Koordinator</label>
+        <label class="form-control-label required-field">Koordinator</label>
         <select
           class="form-control"
           formControlName="coordinator_id"
@@ -627,7 +662,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Status</label>
+        <label class="form-control-label required-field">Status</label>
         <select
           class="form-control"
           formControlName="status"

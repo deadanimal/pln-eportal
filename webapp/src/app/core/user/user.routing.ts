@@ -5,6 +5,7 @@ import { CalendarComponent } from "./calendar/calendar.component";
 import { AnnouncementsComponent } from "./cms/announcements/announcements.component";
 import { BannersComponent } from "./cms/banners/banners.component";
 import { EmployeeDirectoriesComponent } from "./cms/employee-directories/employee-directories.component";
+import { FaqsComponent } from "./cms/faqs/faqs.component";
 import { PartnersComponent } from "./cms/partners/partners.component";
 import { QuickLinksComponent } from "./cms/quick-links/quick-links.component";
 import { RatingsComponent } from "./cms/ratings/ratings.component";
@@ -304,6 +305,10 @@ export const UserRoutes: Routes = [
           {
             path: "banners",
             component: BannersComponent,
+          },
+          {
+            path: "faqs",
+            component: FaqsComponent,
           },
         ],
       },

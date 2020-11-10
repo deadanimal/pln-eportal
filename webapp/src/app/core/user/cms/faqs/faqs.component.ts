@@ -8,9 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { ExhibitsService } from "src/app/shared/services/exhibits/exhibits.service";
-import { AssetsService } from "src/app/shared/services/assets/assets.service";
-import { UsersService } from "src/app/shared/services/users/users.service";
+import { FaqsService } from 'src/app/shared/services/faqs/faqs.service';
 
 export enum SelectionType {
   single = "single",
@@ -21,63 +19,13 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-exhibits",
-  templateUrl: "./exhibits.component.html",
-  styleUrls: ["./exhibits.component.scss"],
+  selector: 'app-faqs',
+  templateUrl: './faqs.component.html',
+  styleUrls: ['./faqs.component.scss']
 })
-export class ExhibitsComponent implements OnInit {
-  // Data
-
-  // Dropdown
-  assets = [];
-  statuses = [
-    {
-      value: "AV",
-      display_name: "Aktif",
-    },
-    {
-      value: "NA",
-      display_name: "Tidak aktif",
-    },
-  ];
-  users = [];
-  zones = [
-    {
-      value: "A",
-      display_name: "Zon A - Alam Semesta",
-    },
-    {
-      value: "B",
-      display_name: "Zon B - Ruang Kanak-kanak",
-    },
-    {
-      value: "C",
-      display_name: "Zon C - Teknologi Satelit",
-    },
-    {
-      value: "D",
-      display_name: "Zon D - Misi Angkasa",
-    },
-    {
-      value: "E",
-      display_name: "Zon E - Sistem Solar",
-    },
-    {
-      value: "F",
-      display_name: "Zon F - Gelombang",
-    },
-    {
-      value: "G",
-      display_name: "Zon G - Balai Cerap",
-    },
-    {
-      value: "H",
-      display_name: "Zon H - Menara Pemandangan",
-    },
-  ];
-
+export class FaqsComponent implements OnInit {
   // FormGroup
-  exhibitFormGroup: FormGroup;
+  faqFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -120,71 +68,31 @@ export class ExhibitsComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private exhibitService: ExhibitsService,
-    private assetService: AssetsService,
-    private userService: UsersService
+    private faqService: FaqsService
   ) {
-    this.getAsset();
-    this.getUser();
+    this.getData();
 
-    this.exhibitFormGroup = this.formBuilder.group({
+    this.faqFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
-      description: new FormControl(""),
-      // image_link: new FormControl(""),
-      zone: new FormControl(""),
-      pic_id: new FormControl(""),
-      // asset_id: new FormControl(""),
-      equipment: new FormControl(""),
-      // qrcode: new FormControl(""),
-      status: new FormControl(""),
+      question: new FormControl(""),
+      answer: new FormControl(""),
+      order: new FormControl(0),
+      status: new FormControl(false),
     });
   }
 
-  getAsset() {
-    this.assetService.get().subscribe(
-      (res) => {
-        console.log("res", res);
-        this.assets = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
-  getUser() {
-    this.userService.getAll().subscribe(
-      (res) => {
-        console.log("res", res);
-        this.users = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
-  ngOnInit() {
-    this.getData();
-  }
+  ngOnInit() {}
 
   getData() {
-    this.exhibitService.extended().subscribe(
-      (res) => {
-        console.log("res", res);
-        this.tableRows = res;
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            no: key,
-          };
-        });
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
+    this.faqService.get().subscribe((res) => {
+      this.tableRows = res;
+      this.tableTemp = this.tableRows.map((prop, key) => {
+        return {
+          ...prop,
+          no: key,
+        };
+      });
+    });
   }
 
   entriesChange($event) {
@@ -219,12 +127,10 @@ export class ExhibitsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.exhibitFormGroup.reset();
+      this.faqFormGroup.reset();
     } else if (process == "update") {
-      this.exhibitFormGroup.patchValue({
+      this.faqFormGroup.patchValue({
         ...row,
-        asset_id: row.asset_id ? row.asset_id.id : "",
-        pic_id: row.pic_id ? row.pic_id.id : "",
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -235,7 +141,7 @@ export class ExhibitsComponent implements OnInit {
   }
 
   create() {
-    this.exhibitService.post(this.exhibitFormGroup.value).subscribe(
+    this.faqService.post(this.faqFormGroup.value).subscribe(
       (res) => {
         console.log("res", res);
         swal
@@ -273,9 +179,11 @@ export class ExhibitsComponent implements OnInit {
   }
 
   update() {
-    console.log(this.exhibitFormGroup.value);
-    this.exhibitService
-      .update(this.exhibitFormGroup.value, this.exhibitFormGroup.value.id)
+    this.faqService
+      .update(
+        this.faqFormGroup.value,
+        this.faqFormGroup.value.id
+      )
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -311,12 +219,5 @@ export class ExhibitsComponent implements OnInit {
             });
         }
       );
-  }
-
-  getZone(value: string) {
-    let result = this.zones.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
   }
 }
