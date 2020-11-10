@@ -90,7 +90,7 @@ export class ExhibitDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.galleryOptions = [
       {
-        width: "600px",
+        width: "100%",
         height: "600px",
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
