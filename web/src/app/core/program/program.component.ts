@@ -11,6 +11,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Gallery } from "@ngx-gallery/core";
+import { Lightbox } from "@ngx-gallery/lightbox";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
   NgxGalleryOptions,
@@ -52,124 +54,6 @@ export class ProgramComponent implements OnInit {
 
   // Data
   programs = [];
-  /* programs = [
-    {
-      title: "PROGRAM PEMBANGUNAN MURID/GURU",
-      program: [
-        {
-          name: "Planet Kidz",
-          desc:
-            "Planet Kidz merupakan penjenamaan semula Program Si Cilik Angkasa. Ia adalah merupakan program yang dijalankan secara tempahan oleh pihak sekolah.  Aktiviti – aktiviti Planet Kidz ini mengkhusus kepada para pelajar pra sekolah dan sekolah rendah tahap satu serta menyokong kurikulum standard kebangsaan yang ditetapkan oleh Kementerian Pelajaran Malaysia.<br/>Pelajar akan dapat meningkatkan pemahaman melalui aktiviti hands-on yang dijalankan sekali gus menyemai minat dalam bidang astronomi dan sains angkasa.  Selain itu juga, program ini menggalakkan para pelajar dan guru-guru untuk datang bukan hanya sekali sahaja ke Planetarium Negara.<br/>Program ini juga dapat menghidupkan semula aktiviti – aktiviti harian yang terdapat di Planetarium Negara agar standing dengan institusi/ jabatan lain yang menganjurkan aktiviti pembudayaan serta menjadi sumber rujukan utama di kalangan guru dan para pelajar terutamanya dalam bidang astronomi dan sains angkasa.",
-          images: [
-            {
-              small: "assets/img/program/si cilik 1.jpg",
-              medium: "assets/img/program/si cilik 1.jpg",
-              big: "assets/img/program/si cilik 1.jpg",
-            },
-            {
-              small: "assets/img/program/si cilik 2.jpg",
-              medium: "assets/img/program/si cilik 2.jpg",
-              big: "assets/img/program/si cilik 2.jpg",
-            },
-            {
-              small: "assets/img/program/si cilik 3.jpg",
-              medium: "assets/img/program/si cilik 3.jpg",
-              big: "assets/img/program/si cilik 3.jpg",
-            },
-            {
-              small: "assets/img/program/si cilik 4.jpg",
-              medium: "assets/img/program/si cilik 4.jpg",
-              big: "assets/img/program/si cilik 4.jpg",
-            },
-          ],
-          pic: "Rosnita",
-          announcement: "Terbuka (Tadika & Sekolah Rendah)",
-          dates: [
-            {
-              date: "2020-09-01",
-            },
-            {
-              date: "2020-09-02",
-            },
-          ],
-          registration: true,
-          video_link:
-            "https://www.youtube.com/watch?v=e4rBL_arMXE&ab_channel=PlanetariumNegara",
-        },
-        {
-          name: "Astro Spark",
-          desc:
-            "Astro Spark merupakan menjenamaan semula Kem ALAMI.  Ia merupakan satu aktiviti yang bertujuan mendedahkan para pelajar dengan pengalaman dan pengetahuan yang luas meliputi Bumi dan ruang angkasa. Ia juga bertujuan untuk memberi inspirasi, aspirasi dan peluang kepada golongan murid untuk menerokai pembelajaran melalui berkumpulan, aktiviti hands-on, pembentangan dan juga aktiviti fizikal. Daripada modul dan aktiviti-aktiviti yang diperkenalkan ini para pelajar akan mempelajari teknik membuat pemerhatian. Ianya bertujuan untuk membina kesepaduan kumpulan menerusi kesabaran, ketetapan masa, bekerjasama dan sebagainya. Objektif program ini ialah untuk :- Memberi pendedahan kepada para peserta mengenai kepentingan sains dan teknologi di dalam kehidupan seharian; Menggunakan populariti sains angkasa untuk menarik minat murid dalam bidang STEM (Science, Technology, Engineering, Mathematics); Sebagai galakan untuk mempraktikkan teori yang dipelajari di sekolah dengan aktiviti yang dijalankan di dalam program; Mengasah daya kreativiti dan inovasi ; dan Melahirkan pelajar yang minat  bidang sains, matematik dan teknologi angkasa.",
-          images: [
-            {
-              small: "assets/img/program/kem alami 1.JPG",
-              medium: "assets/img/program/kem alami 1.JPG",
-              big: "assets/img/program/kem alami 1.JPG",
-            },
-            {
-              small: "assets/img/program/kem alami 2.JPG",
-              medium: "assets/img/program/kem alami 2.JPG",
-              big: "assets/img/program/kem alami 2.JPG",
-            },
-            {
-              small: "assets/img/program/kem alami 4.JPG",
-              medium: "assets/img/program/kem alami 4.JPG",
-              big: "assets/img/program/kem alami 4.JPG",
-            },
-            {
-              small: "assets/img/program/kem alami 5.JPG",
-              medium: "assets/img/program/kem alami 5.JPG",
-              big: "assets/img/program/kem alami 5.JPG",
-            },
-            {
-              small: "assets/img/program/kem alami 6.JPG",
-              medium: "assets/img/program/kem alami 6.JPG",
-              big: "assets/img/program/kem alami 6.JPG",
-            },
-          ],
-          pic: "Rosnita",
-          announcement: "Terbuka (sekolah rendah tahun 4 hingga 6)",
-          dates: [
-            {
-              date: "2020-08-18",
-            },
-            {
-              date: "2020-08-19",
-            },
-          ],
-          registration: true,
-        },
-        {
-          name: "BENGKEL ASTRONOMI UNTUK GURU",
-          desc:
-            "Bengkel ini dirangka khusus kepada sekumpulan guru apabila ada permintaan atau semasa program Kejohanann Roket Kebangsaan dan National Space Challenge. Objektif: Mempelajari dan memahami konsep sains angkasa agar guru mempunyai asas pengetahuan yang kukuh dan mampu mengendalikan kelas.	Berkongsi kaedah pengajaran dan pembelajaran jenis interaktif hands-on melalui bahan pameran, program dan aktiviti dengan guru bagi diterapkan oleh guru semasa mengajar sains di sekolah. Pendedahan kepada guru tentang perkhidmatan/produk yang ditawarkan oleh Planetarium Negara bagi memudahkan guru merancangkan lawatan ke Planetarium Negara.",
-          images: [
-            {
-              small: "assets/img/program/bengkel astronomi 1.jpeg",
-              medium: "assets/img/program/bengkel astronomi 1.jpeg",
-              big: "assets/img/program/bengkel astronomi 1.jpeg",
-            },
-            {
-              small: "assets/img/program/bengkel astronomi 2.jpg",
-              medium: "assets/img/program/bengkel astronomi 2.jpg",
-              big: "assets/img/program/bengkel astronomi 2.jpg",
-            },
-          ],
-          pic: "Ella",
-          announcement: "Tertutup",
-          dates: [
-            {
-              date: "2020-07-21",
-            },
-            {
-              date: "2020-07-22",
-            },
-          ],
-          registration: false,
-        },
-      ],
-    },
-  ]; */
   selectedProgram = {
     id: "",
     title: "",
@@ -181,6 +65,7 @@ export class ProgramComponent implements OnInit {
   programimages = [];
   programactivities = [];
   enabledProgramDates = [];
+  selectedDateTooltips = [];
 
   // Dropdown
   organisationcategories = [
@@ -274,12 +159,17 @@ export class ProgramComponent implements OnInit {
     },
   ];
 
+  // Lightbox
+  galleryId = "myLightbox";
+
   // Ngx Gallery
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
   constructor(
     public formBuilder: FormBuilder,
+    public gallery: Gallery,
+    public lightbox: Lightbox,
     private toastr: ToastrService,
     private modalService: BsModalService,
     private router: Router,
@@ -340,14 +230,19 @@ export class ProgramComponent implements OnInit {
     );
   }
 
-  getProgramDate(program_id: string) {
+  getProgramDate(program_id: string, program_code: string) {
     this.eduprogramdateService.filter("program_id=" + program_id).subscribe(
       (res) => {
         console.log("res", res);
         this.programdates = res;
         for (let i = 0; i < res.length; i++) {
           let date = new Date(res[i].program_date);
+          let programDate = {
+            date: date,
+            tooltipText: program_code,
+          };
           this.enabledProgramDates.push(date);
+          // this.selectedDateTooltips.push(programDate);
         }
       },
       (err) => {
@@ -433,7 +328,7 @@ export class ProgramComponent implements OnInit {
         this.defaultModal = this.modalService.show(modalDefault, this.default);
 
         this.selectedProgram = program;
-        this.getProgramDate(program.id);
+        this.getProgramDate(program.id, program.program_code);
         this.getUser();
 
         if (program.activity) {
@@ -457,7 +352,10 @@ export class ProgramComponent implements OnInit {
 
   openVideoModal(modalDefault: TemplateRef<any>, program) {
     this.selectedProgram = program;
-    this.videoModal = this.modalService.show(modalDefault, this.default);
+    // this.videoModal = this.modalService.show(modalDefault, this.default);
+    this.gallery.destroyAll();
+    const lightboxRef = this.gallery.ref();
+    lightboxRef.addYoutube({ src: program.video_link.split("v=")[1] });
   }
 
   // Image Process

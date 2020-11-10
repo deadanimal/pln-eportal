@@ -167,8 +167,11 @@
                       Maklumat lanjut:
                       <a [href]="pro.website_link">{{ pro.website_link }}</a>
                     </h4>
-                    <div>
+                    <div class="pt-3">
                       <div class="row">
+                        <div class="col align-self-center">
+                          <p class="text-dark">{{ pro.program_opento }}</p>
+                        </div>
                         <div class="col text-right">
                           <button
                             class="btn btn-success"
@@ -184,6 +187,7 @@
                           <button
                             class="btn btn-danger"
                             (click)="openVideoModal(modalVideo, pro)"
+                            [lightbox]
                             *ngIf="pro.video_link"
                           >
                             Lihat
