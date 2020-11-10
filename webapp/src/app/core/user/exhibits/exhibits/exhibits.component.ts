@@ -66,6 +66,14 @@ export class ExhibitsComponent implements OnInit {
       value: "F",
       display_name: "Zon F - Gelombang",
     },
+    {
+      value: "G",
+      display_name: "Zon G - Balai Cerap",
+    },
+    {
+      value: "H",
+      display_name: "Zon H - Menara Pemandangan",
+    },
   ];
 
   // FormGroup

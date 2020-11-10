@@ -27,6 +27,8 @@
     "@auth0/angular-jwt": "^3.0.1",
     "@glidejs/glide": "^3.3.0",
     "@ngu/carousel": "^1.5.5",
+    "@ngx-gallery/core": "^4.0.3",
+    "@ngx-gallery/lightbox": "^4.0.3",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "angular2-multiselect-dropdown": "4.6.3",

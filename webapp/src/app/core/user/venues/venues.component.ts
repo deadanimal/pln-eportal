@@ -47,31 +47,35 @@ export class VenuesComponent implements OnInit {
   zones = [
     {
       value: "A",
-      display_name: "Alam Semesta",
+      display_name: "Zon A - Alam Semesta",
     },
     {
       value: "B",
-      display_name: "Ruang Kanak-kanak",
+      display_name: "Zon B - Ruang Kanak-kanak",
     },
     {
       value: "C",
-      display_name: "Teknologi Satelit",
+      display_name: "Zon C - Teknologi Satelit",
     },
     {
       value: "D",
-      display_name: "Misi Angkasa",
+      display_name: "Zon D - Misi Angkasa",
     },
     {
       value: "E",
-      display_name: "Sistem Solar",
+      display_name: "Zon E - Sistem Solar",
     },
     {
       value: "F",
-      display_name: "Gelombang",
+      display_name: "Zon F - Gelombang",
     },
     {
-      value: "N",
-      display_name: "Not Available",
+      value: "G",
+      display_name: "Zon G - Balai Cerap",
+    },
+    {
+      value: "H",
+      display_name: "Zon H - Menara Pemandangan",
     },
   ];
 

@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'partners',
     'quicklinks',
     'announcements',
-    'banners'
+    'banners',
+    'faqs'
 ]
 
 MIDDLEWARE = [

@@ -17,13 +17,33 @@ video {
 }
 
 .card .card-header {
-  padding: .5rem .75rem !important;
+  padding: 0.5rem 0.75rem !important;
 }
 
 .card .card-body {
-  padding: .75rem 1.5rem !important;
+  padding: 0.75rem 1.5rem !important;
 }
 
-.btn.btn-link:hover, .btn.btn-link:focus {
+.btn.btn-link:hover,
+.btn.btn-link:focus {
   color: #354675 !important;
+}
+
+.inner-html {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    color: black;
+  }
+
+  ol,
+  ul {
+    li {
+      color: black;
+    }
+  }
 }

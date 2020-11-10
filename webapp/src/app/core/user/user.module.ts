@@ -15,6 +15,8 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoadingBarModule } from "@ngx-loading-bar/core";
 import { QuillModule } from 'ngx-quill'
 
+import { SafePipe } from 'src/app/shared/pipes/safe/safe.pipe';
+
 import { RouterModule } from "@angular/router";
 import { UserRoutes } from "./user.routing";
 import { CalendarComponent } from "./calendar/calendar.component";
@@ -64,9 +66,11 @@ import { RatingsComponent } from './cms/ratings/ratings.component';
 import { VisitsListComponent } from './visits/visits-list/visits-list.component';
 import { BannersComponent } from './cms/banners/banners.component';
 import { AnnouncementsComponent } from './cms/announcements/announcements.component';
+import { FaqsComponent } from './cms/faqs/faqs.component';
 
 @NgModule({
   declarations: [
+    SafePipe,
     CalendarComponent,
     ExhibitsListComponent,
     FacilitiesListComponent,
@@ -114,6 +118,7 @@ import { AnnouncementsComponent } from './cms/announcements/announcements.compon
     VisitsListComponent,
     BannersComponent,
     AnnouncementsComponent,
+    FaqsComponent,
   ],
   imports: [
     CommonModule,

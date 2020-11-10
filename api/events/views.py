@@ -186,6 +186,7 @@ class EducationalProgramViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
+        'program_code',
         'program_type', 
         'min_participant', 
         'max_participant', 

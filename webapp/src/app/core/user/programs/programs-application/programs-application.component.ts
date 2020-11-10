@@ -227,7 +227,7 @@ export class ProgramsApplicationComponent implements OnInit {
         educational_program_date_id: row.educational_program_date_id
           ? row.educational_program_date_id.id
           : "",
-        document_link: row.document_link != "" ? row.document_link : "",
+        document_link: row.document_link ? row.document_link : "",
       });
       this.changeProgram();
     }

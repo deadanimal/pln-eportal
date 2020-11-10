@@ -331,6 +331,15 @@ banners_router = router.register(
     'banners', BannerViewSet
 )
 
+# FAQ app
+from faqs.views import (
+    FaqViewSet
+)
+
+faqs_router = router.register(
+    'faqs', FaqViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

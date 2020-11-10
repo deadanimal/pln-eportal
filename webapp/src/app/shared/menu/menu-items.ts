@@ -222,6 +222,11 @@ export const ROUTES: RouteInfo[] = [
         title: "Banner",
         type: "link",
       },
+      {
+        path: "faqs",
+        title: "FAQ",
+        type: "link",
+      },
     ],
   },
   {

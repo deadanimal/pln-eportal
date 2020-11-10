@@ -30,6 +30,8 @@ import { MatInputModule } from "@angular/material";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { TranslateModule } from "@ngx-translate/core";
 import { AccordionModule } from "ngx-bootstrap/accordion";
+import { GalleryModule } from '@ngx-gallery/core';
+import { LightboxModule } from '@ngx-gallery/lightbox';
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -171,6 +173,8 @@ import { SafePipe } from '../shared/pipes/safe/safe.pipe';
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     LeafletModule.forRoot(),
+    GalleryModule,
+    LightboxModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,
