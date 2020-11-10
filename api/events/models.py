@@ -35,6 +35,8 @@ class Exhibit(models.Model):
         ('D', 'Misi Angkasa'),
         ('E', 'Sistem Solar'),
         ('F', 'Gelombang'),
+        ('G', 'Balai Cerap'),
+        ('H', 'Menara Pemandangan'),
         ('N', 'Not Available')
     ]
     zone = models.CharField(max_length=1, choices=ZONES, default='N', unique=True)
@@ -169,6 +171,7 @@ class EducationalProgram(models.Model):
     coordinator_id = models.ManyToManyField(CustomUser, related_name='educational_program_coordinator')
     registration = models.BooleanField(default=True)
     activity = models.BooleanField(default=False)
+    program_code = models.CharField(max_length=50, blank=True)
 
     STATUS = [
         ('AV', 'Available'),
