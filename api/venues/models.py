@@ -44,6 +44,35 @@ class Venue(models.Model):
         return self.name
 
 
+class FacilitySubcategory(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    code = models.CharField(max_length=10, blank=True)
+    name = models.CharField(max_length=50, blank=True)
+    image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
+    status = models.BooleanField(default=False)
+
+    FACILITY_CATEGORY = [
+        ('TA', 'Teater Angkasa'),
+        ('GP', 'Galeri Pameran'),
+        ('TT', 'Bilik Orion'),
+        ('BC', 'Bilik Centaurus'),
+        ('KR', 'Kawasan Rekreasi'),
+        ('SM', 'Stesen Mikrosatelit'),
+        ('NA', 'Not Available')
+    ]
+    facility_category = models.CharField(max_length=2, choices=FACILITY_CATEGORY, default='NA')
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['code']
+
+    def __str__(self):
+        return self.code + ' - ' + self.name
+
+
 class Facility(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
@@ -53,7 +82,7 @@ class Facility(models.Model):
     FACILITY_CATEGORY = [
         ('TA', 'Teater Angkasa'),
         ('GP', 'Galeri Pameran'),
-        ('TT', 'Teatret'),
+        ('TT', 'Bilik Orion'),
         ('BC', 'Bilik Centaurus'),
         ('KR', 'Kawasan Rekreasi'),
         ('SM', 'Stesen Mikrosatelit'),
@@ -61,15 +90,16 @@ class Facility(models.Model):
     ]
     facility_category = models.CharField(max_length=2, choices=FACILITY_CATEGORY, default='NA')
 
-    FACILITY_SUBCATEGORY = [
-        ('ZONE', 'Titan'),
-        ('ZTWO', 'Milky Way'),
-        ('ZTHR', 'Sculpture'),
-        ('ZFOU', 'Callisto'),
-        ('ZFIV', 'Balai Cerap Purba'),
-        ('NA', 'Not Available')
-    ]
-    facility_subcategory = models.CharField(max_length=4, choices=FACILITY_SUBCATEGORY, default='NA')
+    # FACILITY_SUBCATEGORY = [
+    #     ('ZONE', 'Titan'),
+    #     ('ZTWO', 'Milky Way'),
+    #     ('ZTHR', 'Sculpture'),
+    #     ('ZFOU', 'Callisto'),
+    #     ('ZFIV', 'Balai Cerap Purba'),
+    #     ('NA', 'Not Available')
+    # ]
+    # facility_subcategory = models.CharField(max_length=4, choices=FACILITY_SUBCATEGORY, default='NA')
+    facility_subcategory = models.ForeignKey(FacilitySubcategory, on_delete=models.CASCADE, related_name='facility_subcategory_id', null=True)
     area_size = models.CharField(max_length=100, default='NA', blank=True)
     max_capacity = models.IntegerField(default=0)
     have_price = models.BooleanField(default=False)

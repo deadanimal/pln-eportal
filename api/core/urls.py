@@ -241,6 +241,7 @@ users_router = router.register(
 # Venues app
 from venues.views import (
     VenueViewSet,
+    FacilitySubcategoryViewSet,
     FacilityViewSet,
     FacilityPriceViewSet,
     FacilityImageViewSet,
@@ -249,6 +250,10 @@ from venues.views import (
 
 venues_router = router.register(
     'venues', VenueViewSet
+)
+
+facility_subcategories_router = router.register(
+    'facility-subcategories', FacilitySubcategoryViewSet
 )
 
 facilities_router = router.register(
@@ -306,7 +311,12 @@ partners_router = router.register(
 
 # Quick Link app
 from quicklinks.views import (
+    QuickLinkCategoryViewSet,
     QuickLinkViewSet
+)
+
+quick_link_categories_router = router.register(
+    'quick-link-categories', QuickLinkCategoryViewSet
 )
 
 quick_links_router = router.register(
@@ -338,6 +348,15 @@ from faqs.views import (
 
 faqs_router = router.register(
     'faqs', FaqViewSet
+)
+
+# Email Template app
+from emailtemplates.views import (
+    EmailTemplateViewSet
+)
+
+email_templates_router = router.register(
+    'email-templates', EmailTemplateViewSet
 )
 
 urlpatterns = [

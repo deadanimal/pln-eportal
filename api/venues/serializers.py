@@ -10,6 +10,7 @@ from django.utils.timezone import now
 
 from .models import (
     Venue,
+    FacilitySubcategory,
     Facility,
     FacilityPrice,
     FacilityImage,
@@ -30,7 +31,15 @@ class VenueSerializer(serializers.ModelSerializer):
         model = Venue
         fields = '__all__'
         read_only_fields = ['id']
+
+
+class FacilitySubcategorySerializer(serializers.ModelSerializer):
     
+    class Meta:
+        model = FacilitySubcategory
+        fields = '__all__'
+        read_only_fields = ['id']
+
 
 class FacilitySerializer(serializers.ModelSerializer):
     
@@ -41,6 +50,7 @@ class FacilitySerializer(serializers.ModelSerializer):
 
 
 class FacilityExtendedSerializer(serializers.ModelSerializer):
+    facility_subcategory = FacilitySubcategorySerializer(read_only=True)
     pic_id = CustomUserSerializer(read_only=True)
     asset_id = AssetSerializer(read_only=True)
     venue_id = VenueSerializer(read_only=True)

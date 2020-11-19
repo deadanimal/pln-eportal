@@ -24,6 +24,7 @@ class SurveyQuestion(models.Model):
         ('SL', 'Selection'),
         ('TB', 'Textbox'),
         ('RB', 'Radiobox'),
+        ('RT', 'Rating'),
         ('NA', 'Not Available')
     ]
     questionnaire_type = models.CharField(max_length=2, choices=QUESTIONNAIRE_TYPE, default='NA')

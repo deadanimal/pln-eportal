@@ -16,7 +16,7 @@ class VirtualLibraryCategory(models.Model):
     icon = models.CharField(max_length=50, default='NA', blank=True)
 
     LINK = [
-        ('tentang-kami', 'Tentang Kami'),
+        ('tentang-kami', 'Mengenai Kami'),
         ('artikel-terkini', 'Artikel Terkini'),
         ('koleksi', 'Koleksi'),
         ('perkhidmatan', 'Perkhidmatan'),
@@ -95,6 +95,7 @@ class VirtualLibraryBook(models.Model):
     call_number = models.CharField(max_length=100, default='NA', blank=True)
     author = models.CharField(max_length=100, default='NA', blank=True)
     author_added = models.CharField(max_length=100, default='NA', blank=True)
+    editor = models.CharField(max_length=100, default='NA', blank=True)
     isbn = models.CharField(max_length=100, default='NA', blank=True)
     issn = models.CharField(max_length=100, default='NA', blank=True)
     year = models.CharField(max_length=4, default='2020', blank=True)
@@ -125,6 +126,7 @@ class VirtualLibrarySerialPublication(models.Model):
     call_number = models.CharField(max_length=100, default='NA', blank=True)
     author = models.CharField(max_length=100, default='NA', blank=True)
     author_added = models.CharField(max_length=100, default='NA', blank=True)
+    editor = models.CharField(max_length=100, default='NA', blank=True)
     isbn = models.CharField(max_length=100, default='NA', blank=True)
     issn = models.CharField(max_length=100, default='NA', blank=True)
     year = models.CharField(max_length=4, default='2020', blank=True)

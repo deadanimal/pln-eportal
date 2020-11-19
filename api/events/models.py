@@ -162,7 +162,7 @@ class EducationalProgram(models.Model):
     program_opento = models.CharField(max_length=100, default='')
     min_participant = models.IntegerField(default=0, null=True)
     max_participant = models.IntegerField(default=0, null=True)
-    price = models.DecimalField(decimal_places=2, max_digits=3, default=0.00, null=True)
+    price = models.DecimalField(decimal_places=2, max_digits=5, null=True)
     poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
     website_link = models.URLField(blank=True)
     video_link = models.URLField(blank=True)

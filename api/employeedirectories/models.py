@@ -23,7 +23,9 @@ class EmployeeDirectory(models.Model):
     DEPARTMENT = [
         ('PPP', 'Pejabat Pengarah Planetarium Negara'),
         ('UPA', 'Unit Perhubungan Awam'),
-        ('SPD', 'Seksyen Pendidikan'),
+        ('SPP', 'Seksyen Pendidikan - Pameran'),
+        ('SPC', 'Seksyen Pendidikan - Pencerapan'),
+        ('SPB', 'Seksyen Pendidikan - Pembudayaan'),
         ('UTK', 'Unit Teknikal'),
         ('SPK', 'Seksyen Perkhidmatan'),
         ('UKW', 'Unit Kewangan'),
@@ -40,7 +42,7 @@ class EmployeeDirectory(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-created_date']
 
     def __str__(self):
         return self.name

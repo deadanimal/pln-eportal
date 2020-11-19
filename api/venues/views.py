@@ -12,6 +12,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     Venue,
+    FacilitySubcategory,
     Facility,
     FacilityPrice,
     FacilityImage,
@@ -20,6 +21,7 @@ from .models import (
 
 from .serializers import (
     VenueSerializer,
+    FacilitySubcategorySerializer,
     FacilitySerializer,
     FacilityExtendedSerializer,
     FacilityPriceSerializer,
@@ -47,6 +49,32 @@ class VenueViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Venue.objects.all()
+        return queryset
+
+
+class FacilitySubcategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = FacilitySubcategory.objects.all()
+    serializer_class = FacilitySubcategorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'id', 
+        'code',
+        'name',
+        'status',
+        'facility_category'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = FacilitySubcategory.objects.all()
         return queryset
 
 

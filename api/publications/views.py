@@ -54,9 +54,13 @@ class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
+        'call_number',
         'author_name', 
+        'editor_name',
         'publisher_name', 
         'published_date',
+        'isbn',
+        'issn',
         'publication_category_id',
         'status',
         'created_date',

@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'quicklinks',
     'announcements',
     'banners',
-    'faqs'
+    'faqs',
+    'emailtemplates'
 ]
 
 MIDDLEWARE = [
@@ -227,4 +228,4 @@ EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'your-email@example.com' # this is the sendgrid email
+DEFAULT_FROM_EMAIL = 'info@planet.gov.my'
