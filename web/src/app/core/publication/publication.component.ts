@@ -21,7 +21,7 @@ export class PublicationComponent implements OnInit {
   ngOnInit() {}
 
   getPublicationCategory() {
-    this.publicationcategoryService.get().subscribe(
+    this.publicationcategoryService.filter("status=true").subscribe(
       (res) => {
         console.log("res", res);
         this.publicationcategories = res;

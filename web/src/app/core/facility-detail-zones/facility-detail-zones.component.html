@@ -164,6 +164,46 @@
             <br />
 
             <div class="row">
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field"> Tarikh </label>
+                  <input
+                    class="form-control text-dark"
+                    type="text"
+                    formControlName="booking_date"
+                    bsDatepicker
+                    [minDate]="today"
+                    [daysDisabled]="[1]"
+                    placeholder="Sila pilih tarikh"
+                    [bsConfig]="{
+                      isAnimated: true,
+                      containerClass: 'theme-dark-blue',
+                      dateInputFormat: 'YYYY-MM-DD'
+                    }"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="js-form-message mb-6">
+                  <label class="labels required-field"> Waktu </label>
+                  <select
+                    class="form-control text-dark"
+                    formControlName="booking_days"
+                  >
+                    <option value="">Sila pilih</option>
+                    <option
+                      *ngFor="let bookingday of bookingdays"
+                      [value]="bookingday.value"
+                    >
+                      {{ bookingday.display_name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="row">
               <div class="col-md-12">
                 <div class="js-form-message mb-6">
                   <label class="labels required-field"> Bilangan orang </label>
@@ -212,38 +252,6 @@
                     type="text"
                     formControlName="organisation_name"
                   />
-                </div>
-              </div>
-            </div>
-            <br />
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="js-form-message mb-6">
-                  <label class="labels required-field"> Tarikh </label>
-                  <input
-                    class="form-control text-dark"
-                    required=""
-                    type="date"
-                    formControlName="booking_date"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="js-form-message mb-6">
-                  <label class="labels required-field"> Waktu </label>
-                  <select
-                    class="form-control text-dark"
-                    formControlName="booking_days"
-                  >
-                    <option value="">Sila pilih</option>
-                    <option
-                      *ngFor="let bookingday of bookingdays"
-                      [value]="bookingday.value"
-                    >
-                      {{ bookingday.display_name }}
-                    </option>
-                  </select>
                 </div>
               </div>
             </div>

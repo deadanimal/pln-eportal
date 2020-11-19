@@ -26,20 +26,6 @@
   </div>
 </div>
 <div class="wrapper">
-  <!-- <div class="page-header page-header-small header-filter">
-                <div
-                  class="page-header-image rellax"
-                  data-parallax="true"
-                  style="background-image: url('assets/img/exhibit/minin.jpg')"
-                ></div>
-                <div class="content-center">
-                  <div class="row">
-                    <div class="col-md-6 ml-auto mr-auto text-center">
-                      <h1 class="title">Mengenai Kami</h1>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
@@ -55,18 +41,19 @@
                 <div class="card">
                   <div class="card-header bg-white p-4 text-center">
                     <h3 class="title text-info font-weight-bold">
-                      {{ category.display_name }}
+                      {{ category.name }}
                     </h3>
                   </div>
                   <div class="card-body bg-white text-center pb-3">
                     <div *ngFor="let quicklink of quicklinks">
-                      <p style="font-size: 1rem">
-                        <a
-                          *ngIf="quicklink.category == category.value"
-                          [href]="quicklink.link"
-                          >{{ quicklink.name }}</a
-                        >
-                      </p>
+                      <div *ngIf="quicklink.category == category.id">
+                        <p style="font-size: 1rem">
+                          <a
+                            [href]="quicklink.link"
+                            >{{ quicklink.name }}</a
+                          >
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

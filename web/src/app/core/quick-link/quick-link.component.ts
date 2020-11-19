@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
+import { QuickLinkCategoriesService } from "src/app/shared/services/quick-link-categories/quick-link-categories.service";
 import { QuickLinksService } from "src/app/shared/services/quick-links/quick-links.service";
 
 @Component({
@@ -12,27 +13,26 @@ export class QuickLinkComponent implements OnInit {
   quicklinks = [];
 
   // Dropdown
-  categories = [
-    {
-      value: "PTMY",
-      display_name: "Planetarium Malaysia",
-    },
-    {
-      value: "PTLN",
-      display_name: "Planetarium Luar Negara",
-    },
-    {
-      value: "BCMY",
-      display_name: "Balai Cerap Malaysia",
-    },
-    {
-      value: "BCLN",
-      display_name: "Balai Cerap Luar Negara",
-    },
-  ];
+  categories = [];
 
-  constructor(private quicklinkService: QuickLinksService) {
+  constructor(
+    private quicklinkcategoryService: QuickLinkCategoriesService,
+    private quicklinkService: QuickLinksService
+  ) {
+    this.getCategory();
     this.getData();
+  }
+
+  getCategory() {
+    this.quicklinkcategoryService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.categories = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   getData() {

@@ -153,7 +153,7 @@
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/faq']"
             >
-              FAQ
+              Soalan Lazim (FAQ)
             </a>
             <a
               class="dropdown-item"
@@ -219,7 +219,8 @@
           </a>
         </li> -->
         <li class="nav-item" *ngIf="!accessToken">
-          <a class="nav-link" (click)="openRegisterModal(registerModal)">
+          <!-- (click)="openRegisterModal(registerModal)" -->
+          <a class="nav-link" [routerLink]="['/signup']">
             <i class="fas fa-users"></i> Daftar
           </a>
         </li>
@@ -270,7 +271,7 @@
         <li class="nav-item" *ngIf="accessToken">
           <a class="nav-link" [routerLink]="['/profile']">
             <i class="fas fa-user-astronaut"></i> Selamat Datang,
-            {{ authService.decodedToken().full_name.split(" ")[0] }}
+            {{ authService.decodedToken().full_name?.split(" ")[0] }}
           </a>
         </li>
       </ul>

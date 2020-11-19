@@ -1,4 +1,9 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewEncapsulation,
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -11,6 +16,7 @@ import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { SurveyAnswersService } from "src/app/shared/services/survey-answers/survey-answers.service";
@@ -21,6 +27,7 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   selector: "app-survey",
   templateUrl: "./survey.component.html",
   styleUrls: ["./survey.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SurveyComponent implements OnInit {
   defaultModal: BsModalRef;
@@ -80,6 +87,7 @@ export class SurveyComponent implements OnInit {
     private modalService: BsModalService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private emailtemplateService: EmailTemplatesService,
     private feedbackService: FeedbacksService,
     private jwtService: JwtService,
     private surveyanswerService: SurveyAnswersService,
@@ -135,7 +143,9 @@ export class SurveyComponent implements OnInit {
           let group = {};
           res.forEach((question) => {
             if (question.questionnaire_type == "CB") {
-              group[question.questionnaire_fieldname] = new FormControl("");
+              group[question.questionnaire_fieldname] = this.arrayFormControl(
+                question.questionnaire_answer
+              );
             } else
               group[question.questionnaire_fieldname] = new FormControl("");
           });
@@ -149,16 +159,17 @@ export class SurveyComponent implements OnInit {
     }
   }
 
+  arrayFormControl(questionnaire_answer) {
+    const arr = questionnaire_answer.map((element) => {
+      return this.formBuilder.control(false);
+    });
+
+    return this.formBuilder.array(arr);
+  }
+
   changeCheckbox(event, field_name) {
     console.log("event", event);
     console.log("field_name", field_name);
-
-    if (event.target.checked) {
-      console.log("checked", event.target.value);
-    } else {
-    }
-
-    console.log("surveyFormGroup", this.surveyFormGroup.value);
   }
 
   changeTab(event) {
@@ -240,6 +251,20 @@ export class SurveyComponent implements OnInit {
                 this.typeQuestion = "";
               }
             });
+
+          let obj = {
+            code: "EMEL01",
+            to: this.authService.decodedToken().email,
+            context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
+          };
+          this.emailtemplateService.sending_mail(obj).subscribe(
+            (res) => {
+              console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
         },
         (err) => {
           console.error("err", err);

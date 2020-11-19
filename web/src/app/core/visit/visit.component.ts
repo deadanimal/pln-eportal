@@ -76,6 +76,7 @@ export class VisitComponent implements OnInit {
   // Data
   users = [];
   visits = [];
+  today: Date = new Date();
 
   // Dropdown
   organisationcategories = [
@@ -107,6 +108,8 @@ export class VisitComponent implements OnInit {
     private visitiapplicationService: VisitApplicationsService,
     private visitService: VisitsService
   ) {
+    this.today.setDate(this.today.getDate() + 1);
+
     this.getData();
 
     this.visitapplicationFormGroup = this.formBuilder.group({

@@ -74,17 +74,21 @@
           </div>
           <div class="col-lg-8 col-sm-12 publication-detail">
             <h2 class="title text-dark">{{ selectedPublication.title }}</h2>
-            <h4 class="title text-dark mb-0">Abstrak</h4>
-            <p>{{ selectedPublication.abstract }}</p>
-            <p class="font-weight-bold pt-3">Penulis: {{ selectedPublication.author_name }}</p>
+            <!-- <h4 class="title text-dark mb-0">Abstrak</h4>
+            <p>{{ selectedPublication.abstract }}</p> -->
+            <p class="font-weight-bold pt-3">Call Number: {{ selectedPublication.call_number }}</p>
+            <p class="font-weight-bold">Penulis/Editor: {{ selectedPublication.author_name }}/{{ selectedPublication.editor_name }}</p>
+            <p class="font-weight-bold">ISBN/ISSN: {{ selectedPublication.isbn }}/{{ selectedPublication.issn }}</p>
+            <p class="font-weight-bold">Tahun: {{ selectedPublication.year }}</p>
             <p class="font-weight-bold">Penerbit: {{ selectedPublication.publisher_name }}</p>
-            <p class="font-weight-bold">Tarikh Diterbit: {{ selectedPublication.published_date }}</p>
-            <p class="font-weight-bold">
+            <!-- <p class="font-weight-bold">Tarikh Diterbit: {{ selectedPublication.published_date }}</p> -->
+            <!-- <p class="font-weight-bold">
               Keluaran:
               <span *ngIf="selectedPublication.edition"
                 >Edisi {{ selectedPublication.edition }}, </span
               >{{ selectedPublication.year }}
-            </p>
+            </p> -->
+            <p class="font-weight-bold">Deskripsi Bahan: {{ selectedPublication.description }}</p>
 
             <div class="text-right">
               <button

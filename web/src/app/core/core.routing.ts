@@ -48,11 +48,16 @@ import { VirtualLibraryBukuComponent } from "./virtual-library-buku/virtual-libr
 import { VirtualLibraryTerbitanBersiriComponent } from "./virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component";
 import { EmployeeDirectoryComponent } from "./employee-directory/employee-directory.component";
 import { QuickLinkComponent } from "./quick-link/quick-link.component";
+import { SignupComponent } from "./signup/signup.component";
 
 export const CoreRoutes: Routes = [
   {
     path: "landing",
     component: LandingComponent,
+  },
+  {
+    path: "signup",
+    component: SignupComponent,
   },
   {
     path: "password-reset/confirm/:uid/:token",

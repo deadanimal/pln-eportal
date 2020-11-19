@@ -16,6 +16,7 @@ import { ShowbookingsService } from "src/app/shared/services/showbookings/showbo
 export class ShowsBookComponent implements OnInit {
   // Data
   show: any;
+  today: Date = new Date();
   /* seats = [
     // row 1
     {
@@ -2757,6 +2758,8 @@ export class ShowsBookComponent implements OnInit {
     private showbookingService: ShowbookingsService,
     private authService: AuthService
   ) {
+    this.today.setDate(this.today.getDate() + 1);
+
     this.user_obj = this.authService.decodedToken();
     // this.route.queryParams.subscribe((params) => {
     //   if (this.router.getCurrentNavigation().extras.state)
@@ -2915,7 +2918,7 @@ export class ShowsBookComponent implements OnInit {
         showtime_id: showtimeId,
         user_id: this.authService.decodedToken().user_id,
         show_id: this.route.snapshot.paramMap.get("id"),
-        ticket_seat: this.selectedSeats[i].name
+        ticket_seat: this.selectedSeats[i].name,
       };
 
       this.showbookingService.post(objPost).subscribe(

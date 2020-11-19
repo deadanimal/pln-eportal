@@ -286,6 +286,8 @@
                     formControlName="educational_program_date_id"
                     placeholder="Sila pilih tarikh"
                     bsDatepicker
+                    [minDate]="today"
+                    [daysDisabled]="[1]"
                     [datesEnabled]="enabledProgramDates"
                     [bsConfig]="{
                       isAnimated: true,
@@ -371,12 +373,14 @@
                 <label class="labels">
                   Dokumen berkaitan
                   <small class="text-danger"
-                    >* hanya fail jenis docx sahaja diterima</small
+                    >* hanya fail jenis DOC, DOCX atau PDF sahaja
+                    diterima</small
                   ></label
                 >
                 <input
                   class="text-dark"
                   type="file"
+                  accept="application/msword, application/pdf, .doc, .docx, .pdf"
                   name="document_link"
                   (change)="onChange($event, 'document_link')"
                 />

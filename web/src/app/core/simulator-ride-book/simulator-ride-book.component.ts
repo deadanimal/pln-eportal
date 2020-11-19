@@ -13,17 +13,8 @@ import { SimulatorRideTimesService } from "src/app/shared/services/simulator-rid
   styleUrls: ["./simulator-ride-book.component.scss"],
 })
 export class SimulatorRideBookComponent implements OnInit {
-  // FormGroup
-  zeroFormGroup: FormGroup;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
-  // Modal
-  safetyModal: BsModalRef;
-  default = {
-    keyboard: true,
-    class: "modal-dialog-centered",
-  };
+  // Data
+  today: Date = new Date();
 
   // Dropdown
   days = [
@@ -58,6 +49,18 @@ export class SimulatorRideBookComponent implements OnInit {
   ];
   times = [];
 
+  // FormGroup
+  zeroFormGroup: FormGroup;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
+  // Modal
+  safetyModal: BsModalRef;
+  default = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -66,6 +69,8 @@ export class SimulatorRideBookComponent implements OnInit {
     private simulatorridebookingService: SimulatorRideBookingsService,
     private simulatorridetimeService: SimulatorRideTimesService
   ) {
+    this.today.setDate(this.today.getDate() + 1);
+
     this.zeroFormGroup = this.formBuilder.group({
       accept: [false, Validators.compose([Validators.requiredTrue])],
     });

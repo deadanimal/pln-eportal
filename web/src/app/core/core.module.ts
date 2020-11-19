@@ -16,6 +16,7 @@ import { AlertModule } from "ngx-bootstrap/alert";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { CarouselModule } from "ngx-bootstrap/carousel";
 import { ModalModule } from "ngx-bootstrap/modal";
+import { RatingModule } from "ngx-bootstrap/rating";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { NgxNumberSpinnerModule } from "ngx-number-spinner";
 import { NguCarouselModule } from "@ngu/carousel";
@@ -32,6 +33,8 @@ import { TranslateModule } from "@ngx-translate/core";
 import { AccordionModule } from "ngx-bootstrap/accordion";
 import { GalleryModule } from '@ngx-gallery/core';
 import { LightboxModule } from '@ngx-gallery/lightbox';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -92,6 +95,11 @@ import { VirtualLibraryTerbitanBersiriComponent } from './virtual-library-terbit
 import { EmployeeDirectoryComponent } from './employee-directory/employee-directory.component';
 import { QuickLinkComponent } from './quick-link/quick-link.component';
 import { SafePipe } from '../shared/pipes/safe/safe.pipe';
+import { SignupComponent } from './signup/signup.component';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -152,6 +160,7 @@ import { SafePipe } from '../shared/pipes/safe/safe.pipe';
     EmployeeDirectoryComponent,
     QuickLinkComponent,
     SafePipe,
+    SignupComponent,
   ],
   imports: [
     CommonModule,
@@ -172,9 +181,11 @@ import { SafePipe } from '../shared/pipes/safe/safe.pipe';
     BsDatepickerModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
+    RatingModule.forRoot(),
     LeafletModule.forRoot(),
     GalleryModule,
     LightboxModule,
+    FullCalendarModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,

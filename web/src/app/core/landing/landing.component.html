@@ -98,14 +98,14 @@
       </div>
 
       <div class="row">
-        <div class="col">
+        <div class="col-md-8 col-sm-12">
           <carousel [noPause]="false" showIndicators="false">
             <slide *ngFor="let banner of banners">
               <img
                 [src]="banner.image_link"
                 style="display: block; width: 100%"
                 [ngStyle]="{
-                  'height.px': screenHeight < '720' ? '400' : '600'
+                  'height.px': screenHeight < '720' ? '400' : '400'
                 }"
               />
               <div class="carousel-caption d-none d-md-block">
@@ -116,6 +116,9 @@
               </div>
             </slide>
           </carousel>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <full-calendar [options]="calendarOptions"></full-calendar>
         </div>
       </div>
 
@@ -134,7 +137,7 @@
           <div class="card" style="height: auto">
             <img class="card-img-top" [src]="interesting.img" />
             <div class="card-body text-center">
-              <h3 class="card-title title text-uppercase">
+              <h3 class="card-title font-weight-bold text-uppercase">
                 {{ interesting.title }}
               </h3>
             </div>
@@ -173,8 +176,8 @@
         </carousel> -->
         <carousel
           [itemsPerSlide]="itemsPerSlide"
-          [singleSlideOffset]="false"
-          [interval]="1500"
+          [singleSlideOffset]="true"
+          [interval]="2000"
           [showIndicators]="false"
           [isAnimated]="true"
           [(activeSlide)]="activeSlideIndex"

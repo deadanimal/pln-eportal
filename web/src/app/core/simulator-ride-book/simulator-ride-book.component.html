@@ -93,11 +93,11 @@
                             mencuba alat ini:
                           </li>
                           <ol type="i">
-                            <li>Sakit Jantng/Tekanan Darah Tinggi</li>
+                            <li>Sakit Jantung/Tekanan Darah Tinggi</li>
                             <li>Sakit Belakang/Leher/ Fizikal Lain</li>
                             <li>Mengandung</li>
                             <li>
-                              Alahan ubat/ Bawah pengaruh dadah atau alcohol
+                              Alahan ubat/ Bawah pengaruh dadah atau alkohol
                             </li>
                             <li>Mabuk Gerakan/Klaustrofobia</li>
                           </ol>
@@ -147,48 +147,57 @@
                 <form [formGroup]="firstFormGroup">
                   <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
                   <div class="row pb-3">
-                    <div class="col-md-6 col-sm-12">
-                      <label>Tarikh</label>
-                      <input
-                        type="text"
-                        placeholder="Tarikh"
-                        class="form-control"
-                        formControlName="date"
-                        bsDatepicker
-                        [bsConfig]="{
-                          isAnimated: true,
-                          containerClass: 'theme-dark-blue',
-                          dateInputFormat: 'YYYY-MM-DD'
-                        }"
-                        (bsValueChange)="changeDate($event)"
-                      />
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                      <label>Masa</label><br />
-                      <div *ngIf="times.length == 0">
-                        <small class="text-danger"
-                          >Sila pilih tarikh terlebih dahulu!</small
-                        >
+                    <div class="col-md-4 col-sm-12"></div>
+                    <div class="col-md-4 col-sm-12">
+                      <alert [type]="'danger'">
+                        <b>Nota: Tiket online perlu ditempah sehari lebih awal untuk memudahkan urusan Planetarium.</b>
+                      </alert>
+                      <div class="form-group">
+                        <label>Tarikh</label>
+                        <input
+                          type="text"
+                          placeholder="Tarikh"
+                          class="form-control"
+                          formControlName="date"
+                          bsDatepicker
+                          [minDate]="today"
+                          [daysDisabled]="[1]"
+                          [bsConfig]="{
+                            isAnimated: true,
+                            containerClass: 'theme-dark-blue',
+                            dateInputFormat: 'YYYY-MM-DD'
+                          }"
+                          (bsValueChange)="changeDate($event)"
+                        />
                       </div>
-                      <div *ngIf="times.length > 0">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                          *ngFor="let time of times"
-                        >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="time"
-                              [value]="time.time + '_' + time.id"
-                              formControlName="time"
-                            />
-                            {{ time.time }}
-                            <span class="form-check-sign"></span>
-                          </label>
+                      <div class="form-group">
+                        <label>Masa</label><br />
+                        <div *ngIf="times.length == 0">
+                          <p class="text-danger">
+                            Sila pilih tarikh terlebih dahulu!
+                          </p>
+                        </div>
+                        <div *ngIf="times.length > 0">
+                          <div
+                            class="form-check form-check-radio form-check-inline"
+                            *ngFor="let time of times"
+                          >
+                            <label class="form-check-label">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                name="time"
+                                [value]="time.time + '_' + time.id"
+                                formControlName="time"
+                              />
+                              {{ time.time }}
+                              <span class="form-check-sign"></span>
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div class="col-md-4 col-sm-12"></div>
                   </div>
 
                   <div class="p-3 text-center">
@@ -463,7 +472,7 @@
             Pengguna dengan keadaan berikut tidak digalakkan mencuba alat ini:
           </li>
           <ol type="i">
-            <li>Sakit Jantng/Tekanan Darah Tinggi</li>
+            <li>Sakit Jantung/Tekanan Darah Tinggi</li>
             <li>Sakit Belakang/Leher/ Fizikal Lain</li>
             <li>Mengandung</li>
             <li>Alahan ubat/ Bawah pengaruh dadah atau alcohol</li>

@@ -1,10 +1,19 @@
-import { Component, OnInit, HostListener, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostListener,
+  TemplateRef,
+  ViewEncapsulation,
+} from "@angular/core";
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { CalendarOptions } from "@fullcalendar/core";
+import dayGridPlugin, { DayGridView } from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
@@ -17,6 +26,7 @@ import { PartnersService } from "src/app/shared/services/partners/partners.servi
   selector: "app-landing",
   templateUrl: "./landing.component.html",
   styleUrls: ["./landing.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LandingComponent implements OnInit {
   // FormGroup
@@ -151,6 +161,23 @@ export class LandingComponent implements OnInit {
   announcements = [];
   banners = [];
 
+  // Calendar
+  calendarOptions: CalendarOptions = {
+    events: [
+      { title: "event 1", date: "2020-11-03" },
+      { title: "event 2", date: "2020-11-07" },
+      { title: "event 3", date: "2020-11-15" },
+      { title: "event 4", date: "2020-11-23" },
+    ],
+    headerToolbar: {
+      left: "prev,next",
+      center: "title",
+      right: "today",
+    },
+    initialView: "dayGridMonth",
+    plugins: [dayGridPlugin, interactionPlugin],
+  };
+
   constructor(
     public formBuilder: FormBuilder,
     public modalService: BsModalService,
@@ -260,7 +287,7 @@ export class LandingComponent implements OnInit {
 
   getBannerStyle() {
     console.log("getBannerStyle", this.screenHeight);
-    if (this.screenHeight < 720) return { 'height': '400px' };
-    else if (this.screenHeight >= 720) return { 'height': '600px' };
+    if (this.screenHeight < 720) return { height: "400px" };
+    else if (this.screenHeight >= 720) return { height: "600px" };
   }
 }

@@ -66,6 +66,7 @@ export class ProgramComponent implements OnInit {
   programactivities = [];
   enabledProgramDates = [];
   selectedDateTooltips = [];
+  today: Date = new Date();
 
   // Dropdown
   organisationcategories = [
@@ -182,6 +183,8 @@ export class ProgramComponent implements OnInit {
     private eduprogramactivityService: EducationalProgramActivitiesService,
     private userService: UsersService
   ) {
+    this.today.setDate(this.today.getDate() + 1);
+    
     this.eduprogramappFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       full_name: new FormControl(""),

@@ -25,10 +25,12 @@ export class ExhibitDetailsComponent implements OnInit {
   exhibitdetailimages$: Observable<any>;
 
   // Modal
-  defaultModal: BsModalRef;
+  readmoreModal: BsModalRef;
   default = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
+    backdrop: false,
+    ignoreBackdropClick: true,
   };
 
   // Ngx Gallery
@@ -115,7 +117,7 @@ export class ExhibitDetailsComponent implements OnInit {
     ];
   }
 
-  openDefaultModal(modalDefault: TemplateRef<any>) {
-    this.defaultModal = this.modalService.show(modalDefault, this.default);
+  openReadMoreModal(modalDefault: TemplateRef<any>) {
+    this.readmoreModal = this.modalService.show(modalDefault, this.default);
   }
 }

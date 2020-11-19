@@ -16,10 +16,15 @@ export class PublicationListsComponent implements OnInit {
   showSelectedPublication: boolean = false;
   selectedPublication = {
     title: "",
+    call_number: "",
+    description: "",
     abstract: "",
     author_name: "",
+    editor_name: "",
     publisher_name: "",
     published_date: "",
+    isbn: "",
+    issn: "",
     poster_link: "",
     pdf_link: "",
     year: "",
@@ -80,10 +85,15 @@ export class PublicationListsComponent implements OnInit {
   emptyPublication() {
     return {
       title: "",
+      call_number: "",
+      description: "",
       abstract: "",
       author_name: "",
+      editor_name: "",
       publisher_name: "",
       published_date: "",
+      isbn: "",
+      issn: "",
       poster_link: "",
       pdf_link: "",
       year: "",
