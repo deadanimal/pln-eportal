@@ -256,9 +256,9 @@
               <option value="">Sila pilih</option>
               <option
                 *ngFor="let facilitysubcategory of facilitysubcategories"
-                [value]="facilitysubcategory.value"
+                [value]="facilitysubcategory.id"
               >
-                {{ facilitysubcategory.display_name }}
+                {{ facilitysubcategory.code }} - {{ facilitysubcategory.name }}
               </option>
             </select>
           </div>
@@ -464,9 +464,9 @@
               <option value="">Sila pilih</option>
               <option
                 *ngFor="let facilitysubcategory of facilitysubcategories"
-                [value]="facilitysubcategory.value"
+                [value]="facilitysubcategory.id"
               >
-                {{ facilitysubcategory.display_name }}
+                {{ facilitysubcategory.code }} - {{ facilitysubcategory.name }}
               </option>
             </select>
           </div>
@@ -718,7 +718,7 @@
     <form [formGroup]="facilityimageFormGroup">
       <div class="form-group">
         <label class="form-control-label">Pilih gambar</label><br />
-        <input type="file" name="facility_image" (change)="onChange($event)" />
+        <input type="file" accept="image/*" name="facility_image" (change)="onChange($event)" />
       </div>
     </form>
 

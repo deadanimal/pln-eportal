@@ -41,7 +41,7 @@ export class VirtualLibraryBooksListComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // FormGroup
@@ -63,6 +63,7 @@ export class VirtualLibraryBooksListComponent implements OnInit {
       call_number: new FormControl(""),
       author: new FormControl(""),
       author_added: new FormControl(""),
+      editor: new FormControl(""),
       isbn: new FormControl(""),
       issn: new FormControl(""),
       year: new FormControl(""),

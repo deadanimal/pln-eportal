@@ -36,7 +36,7 @@ export class SurveysListComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // FormGroup
@@ -59,6 +59,10 @@ export class SurveysListComponent implements OnInit {
     {
       value: "RB",
       display_name: "Radiobox",
+    },
+    {
+      value: "RT",
+      display_name: "Rating",
     },
     {
       value: "NA",
@@ -111,6 +115,7 @@ export class SurveysListComponent implements OnInit {
   ) {
     this.surveyquestionFormGroup = this.formBuilder.group({
       id: new FormControl(""),
+      questionnaire_fieldname: new FormControl(""),
       questionnaire_question: new FormControl(""),
       questionnaire_type: new FormControl(""),
       questionnaire_answer: new FormControl([]),
@@ -171,6 +176,7 @@ export class SurveysListComponent implements OnInit {
     } else if (process == "update") {
       this.surveyquestionFormGroup.patchValue({
         ...row,
+        questionnaire_answer: row.questionnaire_answer ? row.questionnaire_answer.toString() : []
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -181,11 +187,14 @@ export class SurveysListComponent implements OnInit {
   }
 
   create() {
-    this.surveyquestionFormGroup.patchValue({
-      questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
-        .replace(", ", ",")
-        .split(","),
-    });
+    var typesWithoutValue = ['CB', 'SL', 'RB'];
+    if (~ typesWithoutValue.indexOf(this.surveyquestionFormGroup.value.questionnaire_type)) {
+      this.surveyquestionFormGroup.patchValue({
+        questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
+          .replace(", ", ",")
+          .split(","),
+      });
+    }
     this.surveyquestionService
       .post(this.surveyquestionFormGroup.value)
       .subscribe(
@@ -226,11 +235,14 @@ export class SurveysListComponent implements OnInit {
   }
 
   update() {
-    this.surveyquestionFormGroup.patchValue({
-      questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
-        .replace(", ", ",")
-        .split(","),
-    });
+    var typesWithoutValue = ['CB', 'SL', 'RB'];
+    if (~ typesWithoutValue.indexOf(this.surveyquestionFormGroup.value.questionnaire_type)) {
+      this.surveyquestionFormGroup.patchValue({
+        questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
+          .replace(", ", ",")
+          .split(","),
+      });
+    }
     this.surveyquestionService
       .update(
         this.surveyquestionFormGroup.value,

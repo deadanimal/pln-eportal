@@ -37,7 +37,7 @@ export class VenuesComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // FormGroup

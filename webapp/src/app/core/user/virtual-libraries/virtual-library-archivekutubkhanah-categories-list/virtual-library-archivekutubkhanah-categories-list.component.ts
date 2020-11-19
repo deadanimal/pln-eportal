@@ -49,7 +49,7 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // FormGroup

@@ -1,10 +1,15 @@
 export class Publication {
   public id: string;
   public title: string;
+  public description: string;
+  public call_number: string;
   public abstract: string;
   public author_name: string;
+  public editor_name: string;
   public publisher_name: string;
   public published_date: string;
+  public isbn: string;
+  public issn: string;
   public poster_link: string;
   public pdf_link: string;
   public year: string;
@@ -17,10 +22,15 @@ export class Publication {
   constructor(
     id: string,
     title: string,
+    description: string,
+    call_number: string,
     abstract: string,
     author_name: string,
+    editor_name: string,
     publisher_name: string,
     published_date: string,
+    isbn: string,
+    issn: string,
     poster_link: string,
     pdf_link: string,
     year: string,
@@ -32,10 +42,15 @@ export class Publication {
   ) {
     this.id = id;
     this.title = title;
+    this.description = description;
+    this.call_number = call_number;
     this.abstract = abstract;
     this.author_name = author_name;
+    this.editor_name = editor_name;
     this.publisher_name = publisher_name;
     this.published_date = published_date;
+    this.isbn = isbn;
+    this.issn = issn;
     this.poster_link = poster_link;
     this.pdf_link = pdf_link;
     this.year = year;

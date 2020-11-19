@@ -5,6 +5,7 @@ export class VirtualLibraryBook {
   public call_number: string;
   public author: string;
   public author_added: string;
+  public editor: string;
   public isbn: string;
   public issn: string;
   public year: string;
@@ -25,6 +26,7 @@ export class VirtualLibraryBook {
     call_number: string,
     author: string,
     author_added: string,
+    editor: string,
     isbn: string,
     issn: string,
     year: string,
@@ -44,6 +46,7 @@ export class VirtualLibraryBook {
     this.call_number = call_number;
     this.author = author;
     this.author_added = author_added;
+    this.editor = editor;
     this.isbn = isbn;
     this.issn = issn;
     this.year = year;

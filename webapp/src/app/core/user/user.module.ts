@@ -67,6 +67,8 @@ import { VisitsListComponent } from './visits/visits-list/visits-list.component'
 import { BannersComponent } from './cms/banners/banners.component';
 import { AnnouncementsComponent } from './cms/announcements/announcements.component';
 import { FaqsComponent } from './cms/faqs/faqs.component';
+import { FacilitiesSubcategoryComponent } from './facilities/facilities-subcategory/facilities-subcategory.component';
+import { EmailTemplatesComponent } from './managements/email-templates/email-templates.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +121,8 @@ import { FaqsComponent } from './cms/faqs/faqs.component';
     BannersComponent,
     AnnouncementsComponent,
     FaqsComponent,
+    FacilitiesSubcategoryComponent,
+    EmailTemplatesComponent,
   ],
   imports: [
     CommonModule,

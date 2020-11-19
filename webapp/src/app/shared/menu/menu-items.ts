@@ -98,6 +98,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: "facilities",
     isCollapsed: true,
     children: [
+      { path: "subcategory", title: "Subkategori", type: "link" },
       { path: "list", title: "Senarai", type: "link" },
       { path: "applications", title: "Permohonan", type: "link" },
     ],
@@ -106,7 +107,7 @@ export const ROUTES: RouteInfo[] = [
     path: "/publications",
     title: "Penerbitan",
     type: "sub",
-    icontype: "fas fa-book-open text-primary",
+    icontype: "fas fa-book text-primary",
     collapse: "publications",
     isCollapsed: true,
     children: [{ path: "list", title: "Senarai", type: "link" }],
@@ -236,6 +237,9 @@ export const ROUTES: RouteInfo[] = [
     icontype: "fas fa-cogs text-primary",
     collapse: "managements",
     isCollapsed: true,
-    children: [{ path: "users", title: "Pengguna", type: "link" }],
+    children: [
+      { path: "users", title: "Pengguna", type: "link" },
+      { path: "email-templates", title: "Templat Emel", type: "link" },
+    ],
   },
 ];

@@ -37,7 +37,7 @@ export class PublicationsListComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // Table
@@ -63,10 +63,15 @@ export class PublicationsListComponent implements OnInit {
     this.publicationFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       title: new FormControl(""),
+      description: new FormControl(""),
+      call_number: new FormControl(""),
       abstract: new FormControl(""),
       author_name: new FormControl(""),
+      editor_name: new FormControl(""),
       publisher_name: new FormControl(""),
       published_date: new FormControl(""),
+      isbn: new FormControl(""),
+      issn: new FormControl(""),
       poster_link: new FormControl(""),
       pdf_link: new FormControl(""),
       year: new FormControl(""),

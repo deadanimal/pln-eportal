@@ -15,7 +15,9 @@ import { ExhibitsListComponent } from "./exhibits/exhibits-list/exhibits-list.co
 import { ExhibitsComponent } from "./exhibits/exhibits/exhibits.component";
 import { FacilitiesApplicationComponent } from "./facilities/facilities-application/facilities-application.component";
 import { FacilitiesListComponent } from "./facilities/facilities-list/facilities-list.component";
+import { FacilitiesSubcategoryComponent } from "./facilities/facilities-subcategory/facilities-subcategory.component";
 import { FeedbacksListComponent } from "./feedbacks/feedbacks-list/feedbacks-list.component";
+import { EmailTemplatesComponent } from "./managements/email-templates/email-templates.component";
 import { UsersComponent } from "./managements/users/users.component";
 import { ProgramsApplicationComponent } from "./programs/programs-application/programs-application.component";
 import { ProgramsListComponent } from "./programs/programs-list/programs-list.component";
@@ -81,6 +83,10 @@ export const UserRoutes: Routes = [
       {
         path: "facilities",
         children: [
+          {
+            path: "subcategory",
+            component: FacilitiesSubcategoryComponent,
+          },
           {
             path: "applications",
             component: FacilitiesApplicationComponent,
@@ -318,6 +324,10 @@ export const UserRoutes: Routes = [
           {
             path: "users",
             component: UsersComponent,
+          },
+          {
+            path: "email-templates",
+            component: EmailTemplatesComponent,
           },
         ],
       },

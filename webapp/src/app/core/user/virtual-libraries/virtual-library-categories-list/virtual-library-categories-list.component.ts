@@ -30,7 +30,7 @@ export class VirtualLibraryCategoriesListComponent implements OnInit {
   links = [
     {
       value: "tentang-kami",
-      display_name: "Tentang Kami",
+      display_name: "Mengenai Kami",
     },
     {
       value: "artikel-terkini",
@@ -62,7 +62,7 @@ export class VirtualLibraryCategoriesListComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // FormGroup

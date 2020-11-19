@@ -37,8 +37,16 @@ export class EmployeeDirectoriesComponent implements OnInit {
       display_name: "Unit Perhubungan Awam",
     },
     {
-      value: "SPD",
-      display_name: "Seksyen Pendidikan",
+      value: "SPP",
+      display_name: "Seksyen Pendidikan - Pameran",
+    },
+    {
+      value: "SPC",
+      display_name: "Seksyen Pendidikan - Pencerapan",
+    },
+    {
+      value: "SPB",
+      display_name: "Seksyen Pendidikan - Pembudayaan",
     },
     {
       value: "UTK",
@@ -77,7 +85,7 @@ export class EmployeeDirectoriesComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // Table

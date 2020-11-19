@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { FacilityImagesService } from "src/app/shared/services/facility-images/facility-images.service";
 import { FacilityPricesService } from "src/app/shared/services/facility-prices/facility-prices.service";
+import { FacilitySubcategoriesService } from "src/app/shared/services/facility-subcategories/facility-subcategories.service";
 // import { AssetsService } from "src/app/shared/services/assets/assets.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VenuesService } from "src/app/shared/services/venues/venues.service";
@@ -45,7 +46,7 @@ export class FacilitiesListComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
   };
 
   // FormGroup
@@ -87,32 +88,7 @@ export class FacilitiesListComponent implements OnInit {
       display_name: "Tiada",
     },
   ];
-  facilitysubcategories = [
-    {
-      value: "ZONE",
-      display_name: "Titan",
-    },
-    {
-      value: "ZTWO",
-      display_name: "Milky Way",
-    },
-    {
-      value: "ZTHR",
-      display_name: "Sculpture",
-    },
-    {
-      value: "ZFOU",
-      display_name: "Callisto",
-    },
-    {
-      value: "ZFIV",
-      display_name: "Balai Cerap Purba",
-    },
-    {
-      value: "NA",
-      display_name: "Tiada",
-    },
-  ];
+  facilitysubcategories = [];
   facilitydays = [
     {
       value: "HALF",
@@ -134,6 +110,7 @@ export class FacilitiesListComponent implements OnInit {
     private facilityService: FacilitiesService,
     private facilityimageService: FacilityImagesService,
     private facilitypriceService: FacilityPricesService,
+    private facilitysubcategoryService: FacilitySubcategoriesService,
     // private assetService: AssetsService,
     private userService: UsersService,
     private venueService: VenuesService
@@ -141,6 +118,7 @@ export class FacilitiesListComponent implements OnInit {
     // this.getAsset();
     this.getUser();
     this.getVenue();
+    this.getFacilitySubcategory();
 
     this.facilityFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -157,7 +135,7 @@ export class FacilitiesListComponent implements OnInit {
       // asset_id: new FormControl(""),
       venue_id: new FormControl(""),
       equipment_name: new FormControl(""),
-      equipment_description: new FormControl("")
+      equipment_description: new FormControl(""),
     });
 
     this.facilityimageFormGroup = this.formBuilder.group({
@@ -204,6 +182,18 @@ export class FacilitiesListComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.venues = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getFacilitySubcategory() {
+    this.facilitysubcategoryService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.facilitysubcategories = res;
       },
       (err) => {
         console.error("err", err);
@@ -266,6 +256,7 @@ export class FacilitiesListComponent implements OnInit {
         // asset_id: row.asset_id.id,
         venue_id: row.venue_id ? row.venue_id.id : null,
         pic_id: row.pic_id ? row.pic_id.id : null,
+        facility_subcategory: row.facility_subcategory ? row.facility_subcategory.id : ""
       });
     } else if (process == "createupdateprice") {
       this.facilitypriceService.filter("facility_id=" + row.id).subscribe(
@@ -513,13 +504,6 @@ export class FacilitiesListComponent implements OnInit {
 
   getFacilityCategory(value: string) {
     let result = this.facilitycategories.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
-  }
-
-  getFacilitySubcategory(value: string) {
-    let result = this.facilitysubcategories.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;
