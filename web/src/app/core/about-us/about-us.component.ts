@@ -10,7 +10,12 @@ export class AboutUsComponent implements OnInit {
   screenWidth: any;
   screenHeight: any;
 
-  constructor() {}
+  year: number = 0;
+  establishedYear = 1994;
+
+  constructor() {
+    this.year = new Date().getFullYear() - this.establishedYear;
+  }
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;

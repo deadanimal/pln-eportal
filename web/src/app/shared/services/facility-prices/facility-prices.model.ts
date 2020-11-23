@@ -7,7 +7,7 @@ export class FacilityPrice {
   public created_date: string;
   public modified_date: string;
 
-  constuctor(
+  constructor(
     id: string,
     facility_description: string,
     facility_price: number,

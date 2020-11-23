@@ -43,7 +43,7 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Waktu Operasi dan Harga</h2>
+        <h2 class="title text-center text-dark">Waktu Operasi</h2>
         <div class="row">
           <div class="col text-center">
             <!-- <h4 class="title text-dark">
@@ -69,45 +69,66 @@
             </h5>
           </div>
         </div>
+        <h2 class="title text-center text-dark">Kadar Bayaran</h2>
         <div class="row pb-3">
-          <div class="col-md-6 col-sm-12 text-center">
-            <img
-              src="../../../assets/img/pn-ticket-price-bm.jpg"
-              style="width: 100%"
-            />
-          </div>
-          <div class="col-md-6 col-sm-12">
-            <img
-              src="../../../assets/img/pn-ticket-price-en.jpg"
-              style="width: 100%"
-            />
-            <!-- <table class="table table-bordered">
-              <tr>
-                <td>1<sup>st</sup> Februari</td>
-                <td class="font-weight-bold">Hari Wilayah Persekutuan</td>
-              </tr>
-              <tr>
-                <td>1<sup>st</sup> Mei</td>
-                <td class="font-weight-bold">Hari Pekerja</td>
-              </tr>
-              <tr>
-                <td>31<sup>st</sup> Ogos</td>
-                <td class="font-weight-bold">Hari Kebangsaan</td>
-              </tr>
-              <tr>
-                <td>16<sup>th</sup> September</td>
-                <td class="font-weight-bold">Hari Malaysia</td>
-              </tr>
-              <tr>
-                <td colspan="2" class="text-center font-weight-bold">Hari Keputeraan Rasmi Yang Di-Pertuan Agong</td>
-              </tr>
-              <tr>
-                <td colspan="2" class="text-center font-weight-bold">Hari Raya Aidilfitri</td>
-              </tr>
-              <tr>
-                <td colspan="2" class="text-center font-weight-bold">Hari Raya Aidiladha</td>
-              </tr>
-            </table> -->
+          <div class="col-md-10 col-sm-12 mx-auto">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <td rowspan="2" class="theadstyle">VENUE</td>
+                  <td colspan="2" class="theadstyle">
+                    DEWASA<br />(13 TAHUN DAN KEATAS)
+                  </td>
+                  <td colspan="2" class="theadstyle">
+                    KANAK - KANAK<br />(2 SEHINGGA 12 TAHUN)
+                  </td>
+                  <td colspan="2" class="theadstyle">
+                    PELAJAR<br />(18 TAHUN DAN KE BAWAH)
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="theadcategory">BIASA</td>
+                  <td class="theadcategory">MYKAD</td>
+                  <td class="theadcategory">BIASA</td>
+                  <td class="theadcategory">MYKAD</td>
+                  <td class="theadcategory">BIASA</td>
+                  <td class="theadcategory">MYKAD</td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let ticket of tickets">
+                  <td class="theadstyle">{{ ticket.venue }}</td>
+                  <div
+                    *ngIf="
+                      ticket.venue != 'GALERI PAMERAN';
+                      then haveprice;
+                      else allfree
+                    "
+                  ></div>
+                  <ng-template #haveprice>
+                    <td class="tbodyprice">{{ ticket.normalAdult }}</td>
+                    <td class="tbodyprice">{{ ticket.mykadAdult }}</td>
+                    <td class="tbodyprice">{{ ticket.normalChildren }}</td>
+                    <td class="tbodyprice">{{ ticket.mykadChildren }}</td>
+                    <td class="tbodyprice">{{ ticket.normalStudent }}</td>
+                    <td class="tbodyprice">{{ ticket.mykadStudent }}</td>
+                  </ng-template>
+                  <ng-template #allfree>
+                    <td colspan="6" class="tbodyprice">
+                      PERCUMA<br />* TERMASUK WARGA EMAS DAN OKU
+                    </td>
+                  </ng-template>
+                </tr>
+
+                <tr>
+                  <td colspan="7" class="text-center text-dark">
+                    NOTA: BAYARAN DIKENAKAN BAGI SETIAP TEMPAT DUDUK
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

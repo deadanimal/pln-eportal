@@ -38,22 +38,52 @@
                 <i [class]="vl_akk_category.icon + ' fa-7x text-info'"></i>
               </div>
               <div class="card-body bg-white text-center pb-3">
-                <h3 class="title text-dark mt-0">{{ vl_akk_category.name }}</h3>
+                <h3 class="title text-dark mt-0">
+                  {{ vl_akk_category.name }} {{ vl_akk_category.archive_from }}
+                </h3>
 
-                <p
-                  *ngFor="
-                    let vl_akk of vl_akks
-                      | arkibkutubkhanahfilter
-                        : {
-                            virtual_library_archivekutubkhanah_category_id:
-                              vl_akk_category.id
-                          }
-                  "
-                >
-                  <a [href]="vl_akk.link" class="font-weight-bold">{{
-                    vl_akk.name
-                  }}</a>
-                </p>
+                <div *ngIf="vl_akk_category.archive_from == 'NAV'">
+                  <p
+                    *ngFor="
+                      let vl_akk of vl_akks
+                        | arkibkutubkhanahfilter
+                          : {
+                              virtual_library_archivekutubkhanah_category_id:
+                                vl_akk_category.id
+                            }
+                    "
+                  >
+                    <a [href]="vl_akk.link" class="font-weight-bold">{{
+                      vl_akk.name
+                    }}</a>
+                  </p>
+                </div>
+
+                <div *ngIf="vl_akk_category.archive_from == 'KBK'">
+                  <p *ngFor="let archive_book of archive_books">
+                    <a
+                      download
+                      [href]="archive_book.pdf_link"
+                      class="font-weight-bold"
+                      >{{ archive_book.title }}</a
+                    >
+                  </p>
+                </div>
+
+                <div *ngIf="vl_akk_category.archive_from == 'KTB'">
+                  <p
+                    *ngFor="
+                      let archive_serialpublication of archive_serialpublications
+                    "
+                  >
+                    <a
+                      download
+                      [href]="archive_serialpublication.pdf_link"
+                      class="font-weight-bold"
+                      >{{ archive_serialpublication.title }}</a
+                    >
+                  </p>
+                </div>
               </div>
             </div>
           </div>

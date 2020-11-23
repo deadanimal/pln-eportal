@@ -3,6 +3,8 @@ import { ActivatedRoute } from "@angular/router";
 
 import { VirtualLibraryArchiveKutubkhanahCategoriesService } from "src/app/shared/services/virtual-library-archivekutubkhanah-categories/virtual-library-archivekutubkhanah-categories.service";
 import { VirtualLibraryArchiveKutubkhanahsService } from "src/app/shared/services/virtual-library-archivekutubkhanahs/virtual-library-archivekutubkhanahs.service";
+import { VirtualLibraryBooksService } from "src/app/shared/services/virtual-library-books/virtual-library-books.service";
+import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services/virtual-library-serialpublications/virtual-library-serialpublications.service";
 
 @Component({
   selector: "app-virtual-library-arkib-kutubkhanah",
@@ -11,6 +13,8 @@ import { VirtualLibraryArchiveKutubkhanahsService } from "src/app/shared/service
 })
 export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
   // Data
+  archive_books = [];
+  archive_serialpublications = [];
   vl_akk_categories = [];
   vl_akks = [];
   virtual_library_collection_category_id: string = "";
@@ -19,7 +23,9 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private virtuallibraryarchivekutubkhanahcategoryService: VirtualLibraryArchiveKutubkhanahCategoriesService,
-    private virtuallibraryarchivekutubkhanahService: VirtualLibraryArchiveKutubkhanahsService
+    private virtuallibraryarchivekutubkhanahService: VirtualLibraryArchiveKutubkhanahsService,
+    private virtuallibrarybookService: VirtualLibraryBooksService,
+    private virtuallibraryserialpublicationService: VirtualLibrarySerialpublicationsService
   ) {
     this.virtual_library_collection_category_id = this.route.snapshot.paramMap.get(
       "category_id"
@@ -33,6 +39,8 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
     ) {
       this.getData();
       this.getArkibKutubkhanah();
+      this.getArkibBuku();
+      this.getArkibTerbitanBersiri();
     }
   }
 
@@ -66,6 +74,28 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
           console.error("err", err);
         }
       );
+  }
+
+  getArkibBuku() {
+    this.virtuallibrarybookService.filter("status=ARC").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.archive_books = res;
+      }, (err) => {
+        console.error("err", err);
+      }
+    )
+  }
+
+  getArkibTerbitanBersiri() {
+    this.virtuallibraryserialpublicationService.filter("status=ARC").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.archive_serialpublications = res;
+      }, (err) => {
+        console.error("err", err);
+      }
+    )
   }
 
   ngOnInit() {}

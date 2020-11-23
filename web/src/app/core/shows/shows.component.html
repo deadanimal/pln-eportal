@@ -86,7 +86,14 @@
                         >
                           Tempah
                         </button>
-                        <button class="btn btn-danger btn-sm">Lihat</button>
+                        <button
+                          class="btn btn-danger btn-sm"
+                          (click)="openModal(modalVideo, showing)"
+                          [lightbox]
+                          *ngIf="showing.trailer_link"
+                        >
+                          Lihat
+                        </button>
                       </div>
                       <div class="stats stats-right">
                         <i class="fas fa-clock"></i>
@@ -98,141 +105,6 @@
                 </div>
               </div>
             </div>
-            <!-- <section class="center glide-shows">
-              <div class="glide__track" data-glide-el="track">
-                <ul class="glide__slides">
-                  <li class="glide__slide">
-                    <div class="card card-project p-2">
-                      <div class="card-title">
-                        <h4>Dynamic Earth</h4>
-                      </div>
-                      <div class="card-description">
-                        <p>
-                          The award-winning Dynamic Earth explores the inner
-                          workings of Earth's climate system. With
-                          visualizations based on satellite monitoring data and
-                          advanced supercomputer simulations, this cutting-edge
-                          production follows a trail of energy that flows from
-                          the Sun into the interlocking systems that shape our
-                          climate: the atmosphere, oceans, and the biosphere.
-                        </p>
-                      </div>
-                      <div class="card-footer">
-                        <button
-                          class="btn btn-link btn-primary"
-                          type="button"
-                          (click)="openModal(videoM)"
-                        >
-                          Lihat
-                        </button>
-
-                        <button
-                          class="btn btn-link btn-default"
-                          type="button"
-                          (click)="makeBooking(1, 'Dynamic Earth')"
-                        >
-                          Tempah
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-
-                  <li class="glide__slide">
-                    <div class="card card-project p-2">
-                      <div class="card-title">
-                        <h4>The Little Prince</h4>
-                      </div>
-                      <div class="card-description p2">
-                        <p>
-                          A timeless classic... The Little Prince is back in an
-                          extraordinary adventure! Relive the magic of Antoine
-                          de Saint-Exupéry's endearing story in a fully
-                          immersive, spectacular journey. Accompanied by his
-                          hilarious friend the Fox, the Little Prince leaps from
-                          one fanciful universe to another in search of his
-                          beloved Rose.
-                        </p>
-                      </div>
-                      <div class="card-footer">
-                        <button
-                          class="btn btn-link btn-primary"
-                          type="button"
-                          (click)="openModal(videoM)"
-                        >
-                          Lihat
-                        </button>
-
-                        <button
-                          class="btn btn-link btn-default"
-                          type="button"
-                          (click)="makeBooking(2, 'The Little Prince')"
-                        >
-                          Tempah
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-
-                  <li class="glide__slide">
-                    <div class="card card-project p-2">
-                      <div class="card-title">
-                        <h4>Shedding Light On The Universe</h4>
-                      </div>
-                      <div class="card-description">
-                        <p>
-                          The Planetarium show entitled “Shedding Light On The
-                          Universe” is a special project of National Planetarium
-                          to highlight the contribution of Islamic astronomy
-                          figures and their contributions to today’s development
-                          of science, technology and innovation, particularly in
-                          the space sector development.
-                        </p>
-                      </div>
-                      <div class="card-footer">
-                        <button
-                          class="btn btn-link btn-primary"
-                          type="button"
-                          (click)="openModal(videoM)"
-                        >
-                          Lihat
-                        </button>
-
-                        <button
-                          class="btn btn-link btn-default"
-                          type="button"
-                          (click)="
-                            makeBooking(3, 'Shedding Light On The Universe')
-                          "
-                        >
-                          Tempah
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-
-                <div class="text-center">
-                  <div data-glide-el="controls">
-                    <button
-                      class="btn btn-round btn-icon btn-primary btn-simple slick-prev slick-arrow"
-                      data-glide-dir="<"
-                      aria-label="Previous"
-                      type="button"
-                    >
-                      <i class="tim-icons icon-minimal-left"></i>
-                    </button>
-                    <button
-                      class="btn btn-round btn-icon btn-primary btn-simple slick-next slick-arrow"
-                      data-glide-dir=">"
-                      aria-label="Next"
-                      type="button"
-                    >
-                      <i class="tim-icons icon-minimal-right"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section> -->
           </div>
         </div>
       </div>
@@ -366,7 +238,7 @@
   </div>
 </div>
 
-<ng-template #videoM>
+<ng-template #modalVideo>
   <div class="modal-header">
     <h2 class="modal-title pull-left">Modal</h2>
     <button
