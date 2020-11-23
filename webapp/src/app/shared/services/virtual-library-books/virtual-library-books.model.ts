@@ -12,7 +12,7 @@ export class VirtualLibraryBook {
   public publisher_name: string;
   public published_date: string;
   public notes: string;
-  public status: boolean;
+  public status: string;
   public image_link: string;
   public pdf_link: string;
   public virtual_library_collection_id: string;
@@ -33,7 +33,7 @@ export class VirtualLibraryBook {
     publisher_name: string,
     published_date: string,
     notes: string,
-    status: boolean,
+    status: string,
     image_link: string,
     pdf_link: string,
     virtual_library_collection_id: string,

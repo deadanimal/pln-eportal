@@ -3,6 +3,7 @@ export class Feedback {
   public comment_user: string;
   public comment_admin: string;
   public user_id: string;
+  public status: boolean;
   public created_date: string;
   public modified_date: string;
 
@@ -11,6 +12,7 @@ export class Feedback {
     comment_user: string,
     comment_admin: string,
     user_id: string,
+    status: boolean,
     created_date: string,
     modified_date: string
   ) {
@@ -18,6 +20,7 @@ export class Feedback {
     this.comment_user = comment_user;
     this.comment_admin = comment_admin;
     this.user_id = user_id;
+    this.status = status;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

@@ -134,6 +134,7 @@
                     row.virtual_library_collection_id,
                     row.id
                   ]"
+                  *ngIf="row.archive_from == 'NAV'"
                 >
                   Senarai
                 </button>
@@ -144,6 +145,9 @@
                   "
                 >
                   Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
                 </button>
               </ng-template>
             </ngx-datatable-column>
@@ -191,6 +195,18 @@
             [value]="fontAwesome"
           >
             <p>{{ fontAwesome }}</p>
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Arkib Dari</label>
+        <select class="form-control" formControlName="archive_from">
+          <option value="">Sila pilih</option>
+          <option
+            *ngFor="let archivefrom of archivefroms"
+            [value]="archivefrom.value"
+          >
+            <p>{{ archivefrom.display_name }}</p>
           </option>
         </select>
       </div>
@@ -279,6 +295,18 @@
             [value]="fontAwesome"
           >
             <p>{{ fontAwesome }}</p>
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Arkib Dari</label>
+        <select class="form-control" formControlName="archive_from">
+          <option value="">Sila pilih</option>
+          <option
+            *ngFor="let archivefrom of archivefroms"
+            [value]="archivefrom.value"
+          >
+            <p>{{ archivefrom.display_name }}</p>
           </option>
         </select>
       </div>

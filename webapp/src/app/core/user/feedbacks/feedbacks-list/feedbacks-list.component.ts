@@ -8,6 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
@@ -49,6 +50,7 @@ export class FeedbacksListComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
+    private emailtemplateService: EmailTemplatesService,
     private feedbackService: FeedbacksService,
     private userService: UsersService
   ) {
@@ -59,6 +61,7 @@ export class FeedbacksListComponent implements OnInit {
       comment_user: new FormControl(""),
       comment_admin: new FormControl(""),
       user_id: new FormControl(""),
+      status: new FormControl(false),
     });
   }
 
@@ -214,20 +217,90 @@ export class FeedbacksListComponent implements OnInit {
       );
   }
 
-  // belum buat lagi
-  reply(row) {
+  delete(row) {
     swal
       .fire({
-        title: "Berjaya",
-        text: "Anda berjaya membalas maklum balas pengguna. Terima Kasih",
-        type: "success",
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        type: "warning",
+        showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-success",
+        confirmButtonClass: "btn btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
       })
       .then((result) => {
         if (result.value) {
-          this.getData();
+          this.feedbackService.delete(row.id).subscribe(
+            (res) => {
+              console.log("res", res);
+              swal.fire({
+                title: "Proses Buang berjaya",
+                text: "Data anda berjaya dibuang.",
+                type: "success",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+              });
+              this.getData();
+            },
+            (err) => {
+              console.error("err", err);
+              swal.fire({
+                title: "Proses Buang tidak berjaya",
+                text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              });
+            }
+          );
         }
       });
+  }
+
+  reply(row) {
+    let obj = {
+      code: "EMEL02",
+      to: row.user_id.email,
+      context: JSON.stringify({ comment_admin: row.comment_admin }),
+    };
+    this.emailtemplateService.sending_mail(obj).subscribe(
+      (res) => {
+        console.log("res", res);
+        this.feedbackFormGroup.patchValue({
+          ...row,
+          user_id: row.user_id.id,
+          status: true,
+        });
+        this.feedbackService
+          .update(this.feedbackFormGroup.value, row.id)
+          .subscribe(
+            (res) => {
+              console.log("res", res);
+              swal
+                .fire({
+                  title: "Berjaya",
+                  text:
+                    "Anda berjaya membalas maklum balas pengguna. Terima Kasih",
+                  type: "success",
+                  buttonsStyling: false,
+                  confirmButtonClass: "btn btn-success",
+                })
+                .then((result) => {
+                  if (result.value) {
+                    this.getData();
+                  }
+                });
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 }

@@ -162,13 +162,16 @@
                   class="btn btn-sm btn-info"
                   (click)="openModal(uploadPoster, 'uploadposter', row)"
                 >
-                  Poster
+                  Gambar
                 </button>
                 <button
                   class="btn btn-sm btn-primary"
                   (click)="openModal(editPublication, 'update', row)"
                 >
                   Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
                 </button>
               </ng-template>
             </ngx-datatable-column>
@@ -575,6 +578,7 @@
         <input
           type="file"
           name="pdf_link"
+          accept="application/pdf, .pdf"
           (change)="onChange($event, 'pdf_link')"
         />
       </div>
@@ -600,7 +604,7 @@
 <ng-template #uploadPoster>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Poster
+      Gambar
     </h6>
 
     <button
@@ -617,10 +621,11 @@
   <div class="modal-body">
     <form [formGroup]="publicationPosterFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Pilih poster</label><br />
+        <label class="form-control-label">Pilih gambar</label><br />
         <input
           type="file"
           name="poster_link"
+          accept="image/*"
           (change)="onChange($event, 'poster_link')"
         />
       </div>

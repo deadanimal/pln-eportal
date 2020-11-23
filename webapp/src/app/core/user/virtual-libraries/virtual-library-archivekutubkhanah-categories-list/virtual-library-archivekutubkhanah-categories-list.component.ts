@@ -36,6 +36,20 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
 
   // Dropdown
   fontAwesomes = FontAwesome;
+  archivefroms = [
+    {
+      value: "KBK",
+      display_name: "Koleksi - Buku",
+    },
+    {
+      value: "KTB",
+      display_name: "Koleksi - Terbitan Bersiri",
+    },
+    {
+      value: "NAV",
+      display_name: "Tiada",
+    },
+  ];
 
   // Table
   tableEntries: number = 5;
@@ -67,6 +81,7 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
         id: new FormControl(""),
         name: new FormControl(""),
         icon: new FormControl(""),
+        archive_from: new FormControl(""),
         status: new FormControl(false),
         virtual_library_collection_id: new FormControl(""),
       }
@@ -232,5 +247,49 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
             });
         }
       );
+  }
+
+  delete(row) {
+    swal
+      .fire({
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        type: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.virtuallibraryarchivekutubkhanahcategoryService
+            .delete(row.id)
+            .subscribe(
+              (res) => {
+                console.log("res", res);
+                swal.fire({
+                  title: "Proses Buang berjaya",
+                  text: "Data anda berjaya dibuang.",
+                  type: "success",
+                  buttonsStyling: false,
+                  confirmButtonClass: "btn btn-success",
+                });
+                this.getData();
+              },
+              (err) => {
+                console.error("err", err);
+                swal.fire({
+                  title: "Proses Buang tidak berjaya",
+                  text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                  type: "warning",
+                  buttonsStyling: false,
+                  confirmButtonClass: "btn btn-warning",
+                });
+              }
+            );
+        }
+      });
   }
 }

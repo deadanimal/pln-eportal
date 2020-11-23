@@ -149,6 +149,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -278,7 +281,12 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Dokumen berkaitan</label><br />
-        <input type="file" name="document_link" (change)="onChange($event)" />
+        <input
+          type="file"
+          name="document_link"
+          accept="application/msword, application/pdf, .doc, .docx, .pdf"
+          (change)="onChange($event)"
+        />
       </div>
       <div class="form-group" *ngIf="selectedProgramActivity.length > 0">
         <label class="form-control-label">Aktiviti</label>
@@ -435,7 +443,12 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Dokumen berkaitan</label><br />
-        <input type="file" name="document_link" (change)="onChange($event)" />
+        <input
+          type="file"
+          name="document_link"
+          accept="application/msword, application/pdf, .doc, .docx, .pdf"
+          (change)="onChange($event)"
+        />
       </div>
       <div class="form-group" *ngIf="selectedProgramActivity.length > 0">
         <label class="form-control-label">Aktiviti</label>

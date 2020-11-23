@@ -54,15 +54,9 @@
                     (change)="catEntriesChange($event)"
                   >
                     <option value="10" [selected]="entries == 5">5</option>
-                    <option value="25" [selected]="entries == 10">
-                      10
-                    </option>
-                    <option value="50" [selected]="entries == 15">
-                      15
-                    </option>
-                    <option value="-1" [selected]="entries == -1">
-                      Semua
-                    </option>
+                    <option value="25" [selected]="entries == 10">10</option>
+                    <option value="50" [selected]="entries == 15">15</option>
+                    <option value="-1" [selected]="entries == -1">Semua</option>
                   </select>
                   rekod
                 </label>
@@ -104,6 +98,15 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
+                <span>Turutan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.order }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
                 <span>Tarikh Dicipta</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
@@ -135,6 +138,9 @@
                   (click)="openModal(editCategory, 'categoryupdate', row)"
                 >
                   Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteCat(row)">
+                  Buang
                 </button>
               </ng-template>
             </ngx-datatable-column>
@@ -273,6 +279,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -308,6 +317,15 @@
           formControlName="name"
           placeholder="Nama"
           type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Turutan</label>
+        <input
+          class="form-control"
+          formControlName="order"
+          placeholder="Turutan"
+          type="number"
         />
       </div>
       <div class="form-group">
@@ -384,6 +402,15 @@
           formControlName="name"
           placeholder="Nama"
           type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Turutan</label>
+        <input
+          class="form-control"
+          formControlName="order"
+          placeholder="Turutan"
+          type="number"
         />
       </div>
       <div class="form-group">

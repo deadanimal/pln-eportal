@@ -120,7 +120,7 @@
                 <span>Tarikh Dicipta</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.created_date | date:'mediumDate' }}
+                {{ row.created_date | date: "mediumDate" }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -152,6 +152,9 @@
                   (click)="openModal(editAsset, 'update', row)"
                 >
                   Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
                 </button>
               </ng-template>
             </ngx-datatable-column>

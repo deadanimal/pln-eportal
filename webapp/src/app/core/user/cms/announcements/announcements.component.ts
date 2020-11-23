@@ -196,4 +196,46 @@ export class AnnouncementsComponent implements OnInit {
         }
       );
   }
+
+  delete(row) {
+    swal
+      .fire({
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        type: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.announcementService.delete(row.id).subscribe(
+            (res) => {
+              console.log("res", res);
+              swal.fire({
+                title: "Proses Buang berjaya",
+                text: "Data anda berjaya dibuang.",
+                type: "success",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+              });
+              this.getData();
+            },
+            (err) => {
+              console.error("err", err);
+              swal.fire({
+                title: "Proses Buang tidak berjaya",
+                text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              });
+            }
+          );
+        }
+      });
+  }
 }

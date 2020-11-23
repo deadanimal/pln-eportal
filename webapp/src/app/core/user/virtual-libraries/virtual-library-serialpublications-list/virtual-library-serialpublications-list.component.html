@@ -131,11 +131,20 @@
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span *ngIf="row.status" class="badge badge-pill badge-success"
+                <span
+                  *ngIf="row.status == 'ACT'"
+                  class="badge badge-pill badge-success"
                   >Aktif</span
                 >
-                <span *ngIf="!row.status" class="badge badge-pill badge-danger"
+                <span
+                  *ngIf="row.status == 'IAC'"
+                  class="badge badge-pill badge-danger"
                   >Tidak aktif</span
+                >
+                <span
+                  *ngIf="row.status == 'ARC'"
+                  class="badge badge-pill badge-default"
+                  >Arkib</span
                 >
               </ng-template>
             </ngx-datatable-column>
@@ -162,6 +171,9 @@
                   (click)="openModal(editSerialPublication, 'update', row)"
                 >
                   Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
                 </button>
               </ng-template>
             </ngx-datatable-column>
@@ -305,27 +317,40 @@
         <div class="custom-control custom-radio custom-control-inline">
           <input
             type="radio"
-            id="radioStatusTrue"
+            id="radioStatusActive"
             name="status"
             formControlName="status"
             class="custom-control-input"
-            value="true"
+            value="ACT"
           />
-          <label class="custom-control-label" for="radioStatusTrue"
+          <label class="custom-control-label" for="radioStatusActive"
             >Aktif</label
           >
         </div>
         <div class="custom-control custom-radio custom-control-inline">
           <input
             type="radio"
-            id="radioStatusFalse"
+            id="radioStatusInactive"
             name="status"
             formControlName="status"
             class="custom-control-input"
-            value="false"
+            value="IAC"
           />
-          <label class="custom-control-label" for="radioStatusFalse"
+          <label class="custom-control-label" for="radioStatusInactive"
             >Tidak Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusArchive"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="ARC"
+          />
+          <label class="custom-control-label" for="radioStatusArchive"
+            >Arkib</label
           >
         </div>
       </div>
@@ -481,27 +506,40 @@
         <div class="custom-control custom-radio custom-control-inline">
           <input
             type="radio"
-            id="radioStatusTrue"
+            id="radioStatusActive"
             name="status"
             formControlName="status"
             class="custom-control-input"
-            value="true"
+            value="ACT"
           />
-          <label class="custom-control-label" for="radioStatusTrue"
+          <label class="custom-control-label" for="radioStatusActive"
             >Aktif</label
           >
         </div>
         <div class="custom-control custom-radio custom-control-inline">
           <input
             type="radio"
-            id="radioStatusFalse"
+            id="radioStatusInactive"
             name="status"
             formControlName="status"
             class="custom-control-input"
-            value="false"
+            value="IAC"
           />
-          <label class="custom-control-label" for="radioStatusFalse"
+          <label class="custom-control-label" for="radioStatusInactive"
             >Tidak Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusArchive"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="ARC"
+          />
+          <label class="custom-control-label" for="radioStatusArchive"
+            >Arkib</label
           >
         </div>
       </div>
@@ -546,6 +584,7 @@
         <input
           type="file"
           name="pdf_link"
+          accept="application/pdf, .pdf"
           (change)="onChange($event, 'pdf_link')"
         />
       </div>
@@ -592,6 +631,7 @@
         <input
           type="file"
           name="image_link"
+          accept="image/*"
           (change)="onChange($event, 'image_link')"
         />
       </div>

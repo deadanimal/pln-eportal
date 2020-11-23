@@ -193,6 +193,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -382,9 +385,10 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label mb-0">Pautan Video (jika ada)</label><br />
+        <label class="form-control-label mb-0">Pautan Video (jika ada)</label
+        ><br />
         <small class="text-danger"
-          >* Masukkan pautan video dari laman youtube sahaja.</small
+          >* Masukkan pautan video dari laman Youtube sahaja.</small
         >
         <input class="form-control" formControlName="video_link" type="text" />
       </div>
@@ -627,9 +631,10 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label mb-0">Pautan Video (jika ada)</label><br />
+        <label class="form-control-label mb-0">Pautan Video (jika ada)</label
+        ><br />
         <small class="text-danger"
-          >*Masukkan pautan video dari laman Youtube sahaja.</small
+          >* Masukkan pautan video dari laman Youtube sahaja.</small
         >
         <input class="form-control" formControlName="video_link" type="text" />
       </div>
@@ -741,7 +746,15 @@
         <tr *ngFor="let eduprogramdate of eduprogramdates; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ eduprogramdate.program_date }}</td>
-          <td><button class="btn btn-sm btn-primary">Sunting</button></td>
+          <td>
+            <!-- <button class="btn btn-sm btn-primary">Sunting</button> -->
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deletedate(eduprogramdate)"
+            >
+              Buang
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -808,7 +821,15 @@
         >
           <td>{{ i + 1 }}</td>
           <td>{{ eduprogramactivity.program_activity }}</td>
-          <td><button class="btn btn-sm btn-primary">Sunting</button></td>
+          <td>
+            <!-- <button class="btn btn-sm btn-primary">Sunting</button> -->
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteactivity(eduprogramactivity)"
+            >
+              Buang
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -858,6 +879,7 @@
         <input
           type="file"
           name="program_image"
+          accept="image/*"
           (change)="onChangeImage($event)"
         />
       </div>
@@ -931,6 +953,7 @@
         <input
           type="file"
           name="attachment_link"
+          accept="application/msword, application/pdf, .doc, .docx, .pdf"
           (change)="onChangeAttachment($event)"
         />
       </div>

@@ -158,6 +158,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -337,6 +340,7 @@
           class="text-dark"
           type="file"
           name="document_link"
+          accept="application/msword, application/pdf, .doc, .docx, .pdf"
           (change)="onChange($event)"
         />
       </div>
@@ -529,6 +533,7 @@
           class="text-dark"
           type="file"
           name="document_link"
+          accept="application/msword, application/pdf, .doc, .docx, .pdf"
           (change)="onChange($event)"
         />
       </div>

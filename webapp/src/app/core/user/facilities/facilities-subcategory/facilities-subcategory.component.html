@@ -140,6 +140,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -204,8 +207,8 @@
         ><br />
         <input
           type="file"
-          accept="image/*"
           name="image_link"
+          accept="image/*"
           (change)="onChange($event)"
         />
       </div>
@@ -312,8 +315,8 @@
         ><br />
         <input
           type="file"
-          accept="image/*"
           name="image_link"
+          accept="image/*"
           (change)="onChange($event)"
         />
       </div>

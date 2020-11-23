@@ -180,6 +180,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -675,14 +678,30 @@
           <td>{{ facilityprice.facility_description }}</td>
           <td>{{ facilityprice.facility_price }}</td>
           <td>{{ getFacilityDay(facilityprice.facility_days) }}</td>
-          <td><button class="btn btn-sm btn-primary">Sunting</button></td>
+          <td>
+            <!--<button
+              class="btn btn-sm btn-primary"
+              (click)="createupdateprice('update')"
+            >
+              Sunting</button
+            >--><button
+              class="btn btn-sm btn-danger"
+              (click)="deleteprice(facilityprice)"
+            >
+              Buang
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="createupdateprice()">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="createupdateprice('create')"
+    >
       Simpan
     </button>
 
@@ -718,7 +737,12 @@
     <form [formGroup]="facilityimageFormGroup">
       <div class="form-group">
         <label class="form-control-label">Pilih gambar</label><br />
-        <input type="file" accept="image/*" name="facility_image" (change)="onChange($event)" />
+        <input
+          type="file"
+          name="facility_image"
+          accept="image/*"
+          (change)="onChange($event)"
+        />
       </div>
     </form>
 
