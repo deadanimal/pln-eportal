@@ -28,6 +28,7 @@ class QuickLinkCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'id',
         'name',
+        'order',
         'status'
     ]
 

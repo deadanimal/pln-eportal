@@ -300,6 +300,7 @@ class VirtualLibraryArchiveKutubkhanahCategoryViewSet(NestedViewSetMixin, viewse
         'id',
         'name',
         'icon',
+        'archive_from',
         'status',
         'virtual_library_collection_id',
     ]

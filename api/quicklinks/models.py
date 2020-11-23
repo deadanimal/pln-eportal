@@ -16,13 +16,14 @@ class QuickLinkCategory(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     name = models.CharField(max_length=255, default='NA', blank=True)
+    order = models.IntegerField(default=0, null=True)
     status = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['order']
 
     def __str__(self):
         return self.name
