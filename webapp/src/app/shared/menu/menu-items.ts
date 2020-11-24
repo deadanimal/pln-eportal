@@ -74,7 +74,7 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: "list", title: "Senarai", type: "link" },
       { path: "applications", title: "Permohonan", type: "link" },
-      { path: "schedule", title: "Jadual Penutupan", type: "link" },
+      // { path: "schedule", title: "Jadual Penutupan", type: "link" },
     ],
   },
   {
@@ -114,7 +114,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "/virtual-libraries",
-    title: "Perpustakaan Maya",
+    title: "Kutubkhanah Mini",
     type: "sub",
     icontype: "fas fa-book-open text-primary",
     collapse: "virtual-libraries",
@@ -125,15 +125,15 @@ export const ROUTES: RouteInfo[] = [
       { path: "collections", title: "Koleksi", type: "link" },
     ],
   },
-  {
-    path: "/tickets",
-    title: "Tiket",
-    type: "sub",
-    icontype: "fas fa-ticket-alt text-primary",
-    collapse: "tickets",
-    isCollapsed: true,
-    children: [{ path: "prices", title: "Harga", type: "link" }],
-  },
+  // {
+  //   path: "/tickets",
+  //   title: "Tiket",
+  //   type: "sub",
+  //   icontype: "fas fa-ticket-alt text-primary",
+  //   collapse: "tickets",
+  //   isCollapsed: true,
+  //   children: [{ path: "prices", title: "Harga", type: "link" }],
+  // },
   {
     path: "/surveys",
     title: "Soal Selidik",
@@ -152,15 +152,15 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [{ path: "list", title: "Senarai", type: "link" }],
   },
-  {
-    path: "/assets",
-    title: "Aset",
-    type: "sub",
-    icontype: "fas fa-box text-primary",
-    collapse: "assets",
-    isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
-  },
+  // {
+  //   path: "/assets",
+  //   title: "Aset",
+  //   type: "sub",
+  //   icontype: "fas fa-box text-primary",
+  //   collapse: "assets",
+  //   isCollapsed: true,
+  //   children: [{ path: "list", title: "Senarai", type: "link" }],
+  // },
   {
     path: "/venues",
     title: "Tempat",
@@ -174,7 +174,7 @@ export const ROUTES: RouteInfo[] = [
     path: "/reports",
     title: "Laporan",
     type: "sub",
-    icontype: "far fa-file-alt text-primary",
+    icontype: "fas fa-file text-primary",
     collapse: "reports",
     isCollapsed: true,
     children: [
@@ -197,15 +197,19 @@ export const ROUTES: RouteInfo[] = [
     collapse: "cms",
     isCollapsed: true,
     children: [
-      { path: "partners", title: "Rakan Kerjasama", type: "link" },
+      {
+        path: "banners",
+        title: "Banner",
+        type: "link",
+      },
       {
         path: "employee-directories",
         title: "Direktori Pegawai",
         type: "link",
       },
       {
-        path: "quick-links",
-        title: "Pautan Pantas",
+        path: "faqs",
+        title: "FAQ",
         type: "link",
       },
       {
@@ -214,20 +218,17 @@ export const ROUTES: RouteInfo[] = [
         type: "link",
       },
       {
+        path: "quick-links",
+        title: "Pautan Pantas",
+        type: "link",
+      },
+      {
         path: "announcements",
         title: "Pengumuman",
         type: "link",
       },
-      {
-        path: "banners",
-        title: "Banner",
-        type: "link",
-      },
-      {
-        path: "faqs",
-        title: "FAQ",
-        type: "link",
-      },
+      { path: "partners", title: "Rakan Kerjasama", type: "link" },
+      { path: "email-templates", title: "Templat Emel", type: "link" },
     ],
   },
   {
@@ -237,9 +238,6 @@ export const ROUTES: RouteInfo[] = [
     icontype: "fas fa-cogs text-primary",
     collapse: "managements",
     isCollapsed: true,
-    children: [
-      { path: "users", title: "Pengguna", type: "link" },
-      { path: "email-templates", title: "Templat Emel", type: "link" },
-    ],
+    children: [{ path: "users", title: "Pengguna", type: "link" }],
   },
 ];

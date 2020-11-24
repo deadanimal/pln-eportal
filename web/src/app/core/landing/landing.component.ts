@@ -174,6 +174,7 @@ export class LandingComponent implements OnInit {
       center: "title",
       right: "today",
     },
+    height: 400,
     initialView: "dayGridMonth",
     plugins: [dayGridPlugin, interactionPlugin],
   };

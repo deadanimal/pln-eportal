@@ -54,6 +54,15 @@ export class UsersService {
     );
   }
 
+  delete(id: String): Observable<User> {
+    let urlDelete = this.urlUser + id + "/";
+    return this.http.delete<User>(urlDelete).pipe(
+      tap((res) => {
+        console.log("User: ", res);
+      })
+    );
+  }
+
   filter(field: String): Observable<User[]> {
     let urlFilter = this.urlUser + "?" + field;
     return this.http.get<User[]>(urlFilter).pipe(

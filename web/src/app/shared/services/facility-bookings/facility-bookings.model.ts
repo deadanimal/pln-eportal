@@ -14,7 +14,7 @@ export class FacilityBooking {
   public created_date: string;
   public modified_date: string;
 
-  constuctor(
+  constructor(
     id: string,
     title: string,
     user_id: string,

@@ -3,10 +3,11 @@ import {
   ElementRef,
   OnInit,
   TemplateRef,
-  ViewChild,
+  ViewEncapsulation,
 } from "@angular/core";
 import { NavigationExtras, Router } from "@angular/router";
-import Glide from "@glidejs/glide";
+import { Gallery } from "@ngx-gallery/core";
+import { Lightbox } from "@ngx-gallery/lightbox";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 
@@ -17,6 +18,7 @@ import { ShowingsService } from "src/app/shared/services/showings/showings.servi
   selector: "app-shows",
   templateUrl: "./shows.component.html",
   styleUrls: ["./shows.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ShowsComponent implements OnInit {
   // Form
@@ -25,18 +27,21 @@ export class ShowsComponent implements OnInit {
   // Data
   showings = []; //: Show[] = [];
 
-  // Glide
-
   // Carousel
   itemsPerSlide = 3;
   singleSlideOffset = false;
   noWrap = false;
   activeSlideIndex = 0;
 
+  // Lightbox
+  galleryId = "myLightbox";
+
   // Modal
   videoModal: BsModalRef;
 
   constructor(
+    public gallery: Gallery,
+    public lightbox: Lightbox,
     private jwtService: JwtService,
     private modalService: BsModalService,
     private router: Router,
@@ -59,21 +64,7 @@ export class ShowsComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    // this.initGlide();
-  }
-
-  initGlide() {
-    new Glide(".glide-shows", {
-      type: "carousel",
-      perView: 3,
-      startAt: 2,
-      focusAt: 2,
-      animationDuration: 500,
-      autoplay: 5000,
-      clone: false,
-    }).mount();
-  }
+  ngOnInit() {}
 
   navigatePage(path: string, id: string) {
     this.router.navigate([path]);
@@ -91,8 +82,11 @@ export class ShowsComponent implements OnInit {
     console.log(value);
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.videoModal = this.modalService.show(template, { class: "modal-lg" });
+  openModal(template: TemplateRef<any>, showing) {
+    // this.videoModal = this.modalService.show(template, { class: "modal-lg" });
+    this.gallery.destroyAll();
+    const lightboxRef = this.gallery.ref();
+    lightboxRef.addYoutube({ src: showing.trailer_link.split("v=")[1] });
   }
 
   makeBooking(id: number, title: string) {

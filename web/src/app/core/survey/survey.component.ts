@@ -101,6 +101,7 @@ export class SurveyComponent implements OnInit {
       email: ["", Validators.required],
       comment_user: ["", Validators.required],
       user_id: ["", Validators.required],
+      status: [false],
     });
 
     this.getUser();

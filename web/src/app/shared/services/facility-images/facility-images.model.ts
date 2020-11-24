@@ -5,7 +5,7 @@ export class FacilityImage {
   public created_date: string;
   public modified_date: string;
 
-  constuctor(
+  constructor(
     id: string,
     facility_image: string,
     facility_id: string,

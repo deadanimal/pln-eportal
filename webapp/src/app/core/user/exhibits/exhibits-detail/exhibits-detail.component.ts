@@ -208,10 +208,9 @@ export class ExhibitsDetailComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      console.log("openModal : create :", this.exhibitdetailFormGroup.value);
-      // this.exhibitdetailimageFormGroup.patchValue({
-      //   exhibit_detail_id: this.exhibitdetailFormGroup.value.id
-      // });
+      this.exhibitdetailimageFormGroup.patchValue({
+        exhibit_detail_id: this.exhibitdetailFormGroup.value.id,
+      });
     } else if (process == "update") {
       this.exhibitdetailimageFormGroup.patchValue({
         ...row,
@@ -425,5 +424,47 @@ export class ExhibitsDetailComponent implements OnInit {
             });
         }
       );
+  }
+
+  delete(row) {
+    swal
+      .fire({
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        type: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.exhibitdetailimagesService.delete(row.id).subscribe(
+            (res) => {
+              console.log("res", res);
+              swal.fire({
+                title: "Proses Buang berjaya",
+                text: "Data anda berjaya dibuang.",
+                type: "success",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+              });
+              this.getExhibitDetailImage(this.exhibitdetailFormGroup.value.id);
+            },
+            (err) => {
+              console.error("err", err);
+              swal.fire({
+                title: "Proses Buang tidak berjaya",
+                text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              });
+            }
+          );
+        }
+      });
   }
 }

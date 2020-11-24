@@ -148,6 +148,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -364,7 +367,12 @@
     <form [formGroup]="virtuallibraryarticlePDFFormGroup">
       <div class="form-group">
         <label class="form-control-label">Pilih PDF</label><br />
-        <input type="file" name="pdf_link" (change)="onChange($event)" />
+        <input
+          type="file"
+          name="pdf_link"
+          accept="application/pdf, .pdf"
+          (change)="onChange($event)"
+        />
       </div>
     </form>
   </div>

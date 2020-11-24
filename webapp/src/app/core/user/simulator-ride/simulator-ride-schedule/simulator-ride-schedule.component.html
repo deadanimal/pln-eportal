@@ -58,7 +58,9 @@
                 <button class="btn btn-primary" (click)="searchSchedule()">
                   Cari
                 </button>
-                <button class="btn btn-secondary" (click)="resetSchedule()">Set semula</button>
+                <button class="btn btn-secondary" (click)="resetSchedule()">
+                  Set semula
+                </button>
               </div>
             </div>
           </form>
@@ -196,6 +198,9 @@
                   (click)="openModal(editSimulatorRide, 'update', row)"
                 >
                   Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
                 </button>
               </ng-template>
             </ngx-datatable-column>

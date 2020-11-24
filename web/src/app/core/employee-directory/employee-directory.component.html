@@ -53,6 +53,7 @@
                 <thead class="thead-dark">
                   <tr>
                     <td>Nama</td>
+                    <td>Bahagian</td>
                     <td>Jawatan</td>
                     <td>Sambungan</td>
                     <td>Emel</td>
@@ -62,6 +63,7 @@
                 <tbody>
                   <tr *ngFor="let employeedirectory of employeedirectories">
                     <td>{{ employeedirectory.name }}</td>
+                    <td>{{ getDepartment(employeedirectory.department) }}</td>
                     <td>{{ employeedirectory.position }}</td>
                     <td>{{ employeedirectory.extension }}</td>
                     <td>{{ employeedirectory.email }}</td>

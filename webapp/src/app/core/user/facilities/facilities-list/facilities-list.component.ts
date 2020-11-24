@@ -256,9 +256,12 @@ export class FacilitiesListComponent implements OnInit {
         // asset_id: row.asset_id.id,
         venue_id: row.venue_id ? row.venue_id.id : null,
         pic_id: row.pic_id ? row.pic_id.id : null,
-        facility_subcategory: row.facility_subcategory ? row.facility_subcategory.id : ""
+        facility_subcategory: row.facility_subcategory
+          ? row.facility_subcategory.id
+          : "",
       });
     } else if (process == "createupdateprice") {
+      this.facilitypriceFormGroup.reset();
       this.facilitypriceService.filter("facility_id=" + row.id).subscribe(
         (res) => {
           console.log("res", res);
@@ -370,7 +373,54 @@ export class FacilitiesListComponent implements OnInit {
       );
   }
 
-  createupdateprice() {
+  delete(row) {
+    swal
+      .fire({
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        type: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.facilityService.delete(row.id).subscribe(
+            (res) => {
+              console.log("res", res);
+              swal.fire({
+                title: "Proses Buang berjaya",
+                text: "Data anda berjaya dibuang.",
+                type: "success",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+              });
+              this.getData();
+            },
+            (err) => {
+              console.error("err", err);
+              swal.fire({
+                title: "Proses Buang tidak berjaya",
+                text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              });
+            }
+          );
+        }
+      });
+  }
+
+  createupdateprice(process: string) {
+    if (process == "create") this.createprice();
+    if (process == "update") this.updateprice();
+  }
+
+  createprice() {
     this.facilitypriceService.post(this.facilitypriceFormGroup.value).subscribe(
       (res) => {
         console.log("res", res);
@@ -406,6 +456,91 @@ export class FacilitiesListComponent implements OnInit {
           });
       }
     );
+  }
+
+  updateprice() {
+    this.facilitypriceService
+      .update(
+        this.facilitypriceFormGroup.value,
+        this.facilitypriceFormGroup.value.id
+      )
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya dikemaskini.",
+              type: "success",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-success",
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getData();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
+              type: "warning",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-warning",
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+  }
+
+  deleteprice(row) {
+    swal
+      .fire({
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        type: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.facilitypriceService.delete(row.id).subscribe(
+            (res) => {
+              console.log("res", res);
+              swal.fire({
+                title: "Proses Buang berjaya",
+                text: "Data anda berjaya dibuang.",
+                type: "success",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+              });
+              this.getData();
+            },
+            (err) => {
+              console.error("err", err);
+              swal.fire({
+                title: "Proses Buang tidak berjaya",
+                text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              });
+            }
+          );
+        }
+      });
   }
 
   // Image Process

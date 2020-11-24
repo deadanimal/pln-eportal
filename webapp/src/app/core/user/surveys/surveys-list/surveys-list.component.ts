@@ -66,7 +66,7 @@ export class SurveysListComponent implements OnInit {
     },
     {
       value: "NA",
-      display_name: "Not Available",
+      display_name: "Tiada",
     },
   ];
   questionnairemodules = [
@@ -104,7 +104,7 @@ export class SurveysListComponent implements OnInit {
     },
     {
       value: "NAV",
-      display_name: "Not Available",
+      display_name: "Tiada",
     },
   ];
 
@@ -176,7 +176,9 @@ export class SurveysListComponent implements OnInit {
     } else if (process == "update") {
       this.surveyquestionFormGroup.patchValue({
         ...row,
-        questionnaire_answer: row.questionnaire_answer ? row.questionnaire_answer.toString() : []
+        questionnaire_answer: row.questionnaire_answer
+          ? row.questionnaire_answer.toString()
+          : [],
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -187,8 +189,12 @@ export class SurveysListComponent implements OnInit {
   }
 
   create() {
-    var typesWithoutValue = ['CB', 'SL', 'RB'];
-    if (~ typesWithoutValue.indexOf(this.surveyquestionFormGroup.value.questionnaire_type)) {
+    var typesWithoutValue = ["CB", "SL", "RB"];
+    if (
+      ~typesWithoutValue.indexOf(
+        this.surveyquestionFormGroup.value.questionnaire_type
+      )
+    ) {
       this.surveyquestionFormGroup.patchValue({
         questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
           .replace(", ", ",")
@@ -235,8 +241,12 @@ export class SurveysListComponent implements OnInit {
   }
 
   update() {
-    var typesWithoutValue = ['CB', 'SL', 'RB'];
-    if (~ typesWithoutValue.indexOf(this.surveyquestionFormGroup.value.questionnaire_type)) {
+    var typesWithoutValue = ["CB", "SL", "RB"];
+    if (
+      ~typesWithoutValue.indexOf(
+        this.surveyquestionFormGroup.value.questionnaire_type
+      )
+    ) {
       this.surveyquestionFormGroup.patchValue({
         questionnaire_answer: this.surveyquestionFormGroup.value.questionnaire_answer
           .replace(", ", ",")
@@ -283,6 +293,48 @@ export class SurveysListComponent implements OnInit {
             });
         }
       );
+  }
+
+  delete(row) {
+    swal
+      .fire({
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        type: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-danger",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.surveyquestionService.delete(row.id).subscribe(
+            (res) => {
+              console.log("res", res);
+              swal.fire({
+                title: "Proses Buang berjaya",
+                text: "Data anda berjaya dibuang.",
+                type: "success",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+              });
+              this.getData();
+            },
+            (err) => {
+              console.error("err", err);
+              swal.fire({
+                title: "Proses Buang tidak berjaya",
+                text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              });
+            }
+          );
+        }
+      });
   }
 
   getType(value: string) {

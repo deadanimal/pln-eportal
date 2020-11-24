@@ -30,6 +30,7 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'comment_user',
         'comment_admin', 
         'user_id', 
+        'status',
         'created_date',
         'modified_date'
     ]

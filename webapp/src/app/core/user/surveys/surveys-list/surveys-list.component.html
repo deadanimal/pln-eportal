@@ -168,6 +168,9 @@
                 >
                   Sunting
                 </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -213,7 +216,10 @@
             atau lebih daripada 1 pilihan jawapan.
           </li>
           <li><b>SELECTION</b>: Senarai "dropdown"</li>
-          <li><b>RATING</b>: Rating berupa bintang untuk penilaian daripada 1 hingga 5</li>
+          <li>
+            <b>RATING</b>: Rating berupa bintang untuk penilaian daripada 1
+            hingga 5
+          </li>
         </ol>
       </div>
 

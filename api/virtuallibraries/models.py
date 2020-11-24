@@ -102,7 +102,14 @@ class VirtualLibraryBook(models.Model):
     publisher_name = models.CharField(max_length=100, default='NA', blank=True)
     published_date = models.DateField(default=datetime.date.today, null=True)
     notes = models.CharField(max_length=255, default='NA', blank=True)
-    status = models.BooleanField(default=False)
+
+    STATUS = [
+        ('ACT', 'Active'),
+        ('IAC', 'Inactive'),
+        ('ARC', 'Archive'),
+    ]
+
+    status = models.CharField(max_length=3, choices=STATUS, default='ACT')
     image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('virtuallibrary_book_image'))
     pdf_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('virtuallibrary_book_pdf'))
     virtual_library_collection_id = models.ForeignKey(VirtualLibraryCollection, on_delete=models.CASCADE, related_name='virtual_library_book_collection_id')
@@ -133,7 +140,14 @@ class VirtualLibrarySerialPublication(models.Model):
     publisher_name = models.CharField(max_length=100, default='NA', blank=True)
     published_date = models.DateField(default=datetime.date.today, null=True)
     notes = models.CharField(max_length=255, default='NA', blank=True)
-    status = models.BooleanField(default=False)
+    
+    STATUS = [
+        ('ACT', 'Active'),
+        ('IAC', 'Inactive'),
+        ('ARC', 'Archive'),
+    ]
+
+    status = models.CharField(max_length=3, choices=STATUS, default='ACT')
     image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('virtuallibrary_serialpublication_image'))
     pdf_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('virtuallibrary_serialpublication_pdf'))
     virtual_library_collection_id = models.ForeignKey(VirtualLibraryCollection, on_delete=models.CASCADE, related_name='virtual_library_serialpublication_collection_id')
@@ -192,6 +206,13 @@ class VirtualLibraryArchiveKutubkhanahCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     name = models.CharField(max_length=255, default='NA', blank=True)
     icon = models.CharField(max_length=50, default='NA', blank=True)
+
+    ARCHIVE_FROM = [
+        ('KBK', 'Koleksi - Buku'),
+        ('KTB', 'Koleksi - Terbitan Bersiri'),
+        ('NAV', 'Not Available')
+    ]
+    archive_from = models.CharField(max_length=3, choices=ARCHIVE_FROM, default='NAV')
     status = models.BooleanField(default=False)
     virtual_library_collection_id = models.ForeignKey(VirtualLibraryCollection, on_delete=models.CASCADE, related_name='virtual_library_archivekutubkhanah_collection_id')
 

@@ -55,7 +55,9 @@ INSTALLED_APPS = [
     'announcements',
     'banners',
     'faqs',
-    'emailtemplates'
+    'emailtemplates',
+
+    'django_cleanup.apps.CleanupConfig'
 ]
 
 MIDDLEWARE = [
