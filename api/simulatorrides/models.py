@@ -62,7 +62,7 @@ class SimulatorRideTime(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['day']
+        ordering = ['time']
     
     def __str__(self):
         return self.day
