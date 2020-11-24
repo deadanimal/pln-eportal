@@ -27,7 +27,11 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Terbitan Bersiri</h2>
+        <h2 class="title text-center text-dark">
+          Terbitan Bersiri <share-button button="facebook"></share-button
+          ><share-button button="twitter"></share-button
+          ><share-button button="whatsapp"></share-button>
+        </h2>
         <div class="row">
           <div class="col">
             <p class="text-dark text-justify" style="font-size: 1rem">
@@ -57,7 +61,9 @@
               Call Number: {{ vl_terbitanbersiri.call_number }}
             </p>
             <p class="text-dark">
-              Penulis/Editor: {{ vl_terbitanbersiri.author }}/{{ vl_terbitanbersiri.editor }}
+              Penulis/Editor: {{ vl_terbitanbersiri.author }}/{{
+                vl_terbitanbersiri.editor
+              }}
             </p>
             <p class="text-dark">
               ISBN/ISSN: {{ vl_terbitanbersiri.isbn }}/{{

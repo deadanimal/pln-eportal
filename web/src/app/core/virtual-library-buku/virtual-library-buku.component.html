@@ -27,7 +27,11 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Buku</h2>
+        <h2 class="title text-center text-dark">
+          Buku <share-button button="facebook"></share-button
+          ><share-button button="twitter"></share-button
+          ><share-button button="whatsapp"></share-button>
+        </h2>
         <div class="row">
           <div class="col">
             <p class="text-dark text-justify" style="font-size: 1rem">
@@ -48,8 +52,12 @@
           <div class="col-md-6 col-sm-12">
             <h2 class="title text-dark">{{ vl_buku.title }}</h2>
             <p class="text-dark">Call Number: {{ vl_buku.call_number }}</p>
-            <p class="text-dark">Penulis/Editor: {{ vl_buku.author }}/{{ vl_buku.editor }}</p>
-            <p class="text-dark">ISBN/ISSN: {{ vl_buku.isbn }}/{{ vl_buku.issn }}</p>
+            <p class="text-dark">
+              Penulis/Editor: {{ vl_buku.author }}/{{ vl_buku.editor }}
+            </p>
+            <p class="text-dark">
+              ISBN/ISSN: {{ vl_buku.isbn }}/{{ vl_buku.issn }}
+            </p>
             <p class="text-dark">Tahun: {{ vl_buku.year }}</p>
             <p class="text-dark">Penerbit: {{ vl_buku.publisher_name }}</p>
             <p class="text-dark">Deskripsi Bahan: {{ vl_buku.description }}</p>

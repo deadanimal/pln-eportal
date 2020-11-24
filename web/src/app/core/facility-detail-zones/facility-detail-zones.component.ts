@@ -150,7 +150,9 @@ export class FacilityDetailZonesComponent implements OnInit {
   defaultModal: BsModalRef;
   default = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
+    backdrop: false,
+    ignoreBackdropClick: true,
   };
 
   // Ngx Gallery

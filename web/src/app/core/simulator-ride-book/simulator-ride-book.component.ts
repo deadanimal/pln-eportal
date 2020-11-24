@@ -64,7 +64,9 @@ export class SimulatorRideBookComponent implements OnInit {
   safetyModal: BsModalRef;
   default = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: "modal-dialog",
+    backdrop: false,
+    ignoreBackdropClick: true,
   };
 
   constructor(
