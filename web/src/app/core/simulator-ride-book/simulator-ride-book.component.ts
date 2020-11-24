@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatStepper } from "@angular/material/stepper";
 import { NavigationExtras, Router } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
@@ -14,7 +16,11 @@ import { SimulatorRideTimesService } from "src/app/shared/services/simulator-rid
 })
 export class SimulatorRideBookComponent implements OnInit {
   // Data
+  existbookings = [];
+  simridetimes = [];
   today: Date = new Date();
+  totalticket: number = 0;
+  totalexistticket: number = 1;
 
   // Dropdown
   days = [
@@ -71,6 +77,9 @@ export class SimulatorRideBookComponent implements OnInit {
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
+    this.getExistBooking();
+    this.getSimRideTime();
+
     this.zeroFormGroup = this.formBuilder.group({
       accept: [false, Validators.compose([Validators.requiredTrue])],
     });
@@ -88,6 +97,30 @@ export class SimulatorRideBookComponent implements OnInit {
     });
   }
 
+  getExistBooking() {
+    this.simulatorridebookingService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.existbookings = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getSimRideTime() {
+    this.simulatorridetimeService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.simridetimes = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   ngOnInit() {}
 
   citizenChange() {
@@ -95,6 +128,11 @@ export class SimulatorRideBookComponent implements OnInit {
   }
 
   calculateTotal() {
+    this.totalticket =
+      this.totalexistticket +
+      this.secondFormGroup.value.adult +
+      this.secondFormGroup.value.children;
+
     if (this.secondFormGroup.value.citizen) {
       this.secondFormGroup.value.total =
         this.secondFormGroup.value.adult * 12 +
@@ -175,7 +213,22 @@ export class SimulatorRideBookComponent implements OnInit {
     if (value) {
       var selectedDate = new Date(value);
 
-      this.simulatorridetimeService
+      this.times = this.simridetimes.filter((obj) => {
+        var today = new Date();
+        var time =
+          today.getHours() +
+          ":" +
+          today.getMinutes() +
+          ":" +
+          today.getSeconds();
+        if (this.formatDate(today) == this.formatDate(selectedDate))
+          return (
+            obj.day == this.days[selectedDate.getDay()].value && obj.time > time
+          );
+        else return obj.day == this.days[selectedDate.getDay()].value;
+      });
+
+      /* this.simulatorridetimeService
         .filter("day=" + this.days[selectedDate.getDay()].value)
         .subscribe(
           (res) => {
@@ -187,7 +240,84 @@ export class SimulatorRideBookComponent implements OnInit {
           (err) => {
             console.error("err", err);
           }
-        );
+        ); */
     }
+  }
+
+  // To check if existing booking dont mix up with new booking
+  checkExistBooking(stepper: MatStepper) {
+    // stepper.next(); to got next step
+    let currentDateBooking = this.formatDate(this.firstFormGroup.value.date);
+    let currentTimeBooking = this.firstFormGroup.value.time.split("_")[1];
+
+    let result = this.existbookings.filter((obj) => {
+      return (
+        obj.booking_date == currentDateBooking &&
+        obj.simulator_ride_time_id == currentTimeBooking
+      );
+    });
+
+    if (result) {
+      if (result.length == 0) {
+        this.totalexistticket = 0;
+        // this.totalTicket = 0;
+        this.secondFormGroup.patchValue({
+          adult: 0,
+          children: 0,
+        });
+        stepper.next();
+      } else if (result.length == 1) {
+        // this.totalTicket = 0;
+        this.secondFormGroup.patchValue({
+          adult: 0,
+          children: 0,
+        });
+        swal
+          .fire({
+            icon: "info",
+            title: "Tempahan Kembara Simulasi",
+            text:
+              "Tarikh dan waktu tempahan yang anda pilih mempunyai 1 orang yang lain. Adakah anda ingin meneruskan tempahan?",
+            buttonsStyling: false,
+            showCancelButton: true,
+            confirmButtonText: "Ya",
+            customClass: {
+              confirmButton: "btn btn-info",
+              cancelButton: "btn btn-danger",
+            },
+            cancelButtonText: "Tidak",
+          })
+          .then((result) => {
+            if (result.value) {
+              stepper.next();
+            }
+          });
+      } else if (result.length == 2) {
+        swal.fire({
+          icon: "info",
+          title: "Tempahan Kembara Simulasi",
+          text:
+            "Harap maaf, tarikh ATAU waktu tempahan anda sudah ditempah oleh orang lain. Sila pilih tarikh ATAU waktu yang berbeza untuk menempah. Terima kasih.",
+          buttonsStyling: false,
+          confirmButtonText: "Tutup",
+          customClass: {
+            confirmButton: "btn btn-info",
+          },
+        });
+      }
+    }
+  }
+
+  formatDate(date) {
+    let selectedDate = date;
+    let year = selectedDate.getFullYear();
+    let month = selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
+
+    return formatDate;
   }
 }

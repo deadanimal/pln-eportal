@@ -1,7 +1,6 @@
-<div class="header header-4">
+<!-- <div class="header header-4">
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
-      <!-- <div class="overlay"></div> -->
       <video
         autoplay="autoplay"
         loop="loop"
@@ -24,22 +23,8 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <div class="wrapper">
-  <!-- <div class="page-header page-header-small header-filter">
-        <div
-          class="page-header-image rellax"
-          data-parallax="true"
-          style="background-image: url('assets/img/exhibit/minin.jpg')"
-        ></div>
-        <div class="content-center">
-          <div class="row">
-            <div class="col-md-6 ml-auto mr-auto text-center">
-              <h1 class="title">Mengenai Kami</h1>
-            </div>
-          </div>
-        </div>
-      </div> -->
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
@@ -47,7 +32,10 @@
         <div class="row pb-3">
           <div class="col">
             <accordion [isAnimated]="true">
-              <accordion-group [panelClass]="customClass" *ngFor="let faq of faqs">
+              <accordion-group
+                [panelClass]="customClass"
+                *ngFor="let faq of faqs"
+              >
                 <button
                   class="btn btn-link btn-block clearfix"
                   accordion-heading
@@ -58,7 +46,10 @@
                   </div>
                 </button>
                 <p class="text-dark text-justify">
-                  <span class="inner-html" [innerHtml]="faq.answer | safe: 'html'"></span>
+                  <span
+                    class="inner-html"
+                    [innerHtml]="faq.answer | safe: 'html'"
+                  ></span>
                 </p>
               </accordion-group>
             </accordion>

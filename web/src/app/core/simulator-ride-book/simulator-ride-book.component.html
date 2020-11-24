@@ -238,22 +238,24 @@
                             Sila pilih tarikh terlebih dahulu!
                           </p>
                         </div>
-                        <div *ngIf="times.length > 0">
+                        <div class="row">
                           <div
-                            class="form-check form-check-radio form-check-inline"
+                            class="col-md-4 col-sm-12 text-center"
                             *ngFor="let time of times"
                           >
-                            <label class="form-check-label">
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="time"
-                                [value]="time.time + '_' + time.id"
-                                formControlName="time"
-                              />
-                              {{ time.time }}
-                              <span class="form-check-sign"></span>
-                            </label>
+                            <div class="form-check form-check-radio">
+                              <label class="form-check-label">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="time"
+                                  [value]="time.time + '_' + time.id"
+                                  formControlName="time"
+                                />
+                                {{ time.time }}
+                                <span class="form-check-sign"></span>
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -272,11 +274,12 @@
                     <button
                       type="button"
                       class="btn btn-default"
-                      matStepperNext
+                      (click)="checkExistBooking(stepper)"
                       [disabled]="!firstFormGroup.valid"
                     >
                       Seterusnya
                     </button>
+                    <!-- matStepperNext -->
                   </div>
                 </form>
               </mat-step>
@@ -379,14 +382,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    <div
-                      class="row"
-                      *ngIf="
-                        secondFormGroup.value.adult +
-                          secondFormGroup.value.children >
-                        2
-                      "
-                    >
+                    <div class="row" *ngIf="totalticket > 2">
                       <div class="col">
                         <alert [type]="'danger'">
                           <b
@@ -409,14 +405,7 @@
                       type="button"
                       class="btn btn-default"
                       matStepperNext
-                      [disabled]="
-                        secondFormGroup.value.adult +
-                          secondFormGroup.value.children >
-                          2 ||
-                        secondFormGroup.value.adult +
-                          secondFormGroup.value.children ==
-                          0
-                      "
+                      [disabled]="totalticket > 2 || totalticket == 0"
                     >
                       Seterusnya
                     </button>
