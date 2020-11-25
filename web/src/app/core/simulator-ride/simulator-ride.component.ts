@@ -28,11 +28,11 @@ export class SimulatorRideComponent implements OnInit {
         content:
           "Kembara Simulasi merupakan sebuah simulator kokpit dua tempat duduk yang memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas. Pengunjung akan merasai pengalaman pergerakan tiga paksi dengan kebebasan pergerakan 360 darjah.",
       },
-      { name: "og:url", content: environment.baseUrl + "simulator-ride" },
+      { name: "og:url", content: environment.portalUrl + "simulator-ride" },
       { name: "og:site_name", content: "Planetarium Negara" },
       {
         name: "og:image",
-        content: environment.baseUrl + "assets/logo/planetarium-logo.png",
+        content: environment.assetUrl + "logo/planetarium-logo.png",
       },
       { name: "twitter:card", content: "summary" },
       {
@@ -43,9 +43,9 @@ export class SimulatorRideComponent implements OnInit {
       { name: "twitter:title", content: "Kembara Simulasi" },
       {
         name: "twitter:image",
-        content: environment.baseUrl + "assets/logo/planetarium-logo.png",
+        content: environment.assetUrl + "logo/planetarium-logo.png",
       },
-      { name: "twitter:url", content: environment.baseUrl + "simulator-ride" },
+      { name: "twitter:url", content: environment.portalUrl + "simulator-ride" },
     ]);
   }
 

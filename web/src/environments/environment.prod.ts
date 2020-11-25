@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://pln-eportal-api.pipe.my/'
+  assetUrl: "https://portal.planetarium.prototype.com.my/assets/",
+  baseUrl: "https://pln-eportal-api.pipe.my/",
+  portalUrl: "https://portal.planetarium.prototype.com.my/#/",
 };
