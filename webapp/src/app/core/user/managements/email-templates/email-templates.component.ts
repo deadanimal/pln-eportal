@@ -28,11 +28,47 @@ export class EmailTemplatesComponent implements OnInit {
   codes = [
     {
       value: "EMEL01",
-      display_name: "Template Maklum Balas Diterima",
+      display_name: "Templat Maklum Balas - Diterima",
     },
     {
       value: "EMEL02",
-      display_name: "Template Maklum Balas Dijawab",
+      display_name: "Templat Maklum Balas - Dijawab",
+    },
+    {
+      value: "EMEL03",
+      display_name: "Templat Fasiliti - Tempahan Diproses",
+    },
+    {
+      value: "EMEL04",
+      display_name: "Templat Fasiliti - Tempahan Diterima",
+    },
+    {
+      value: "EMEL05",
+      display_name: "Templat Fasiliti - Tempahan Ditolak",
+    },
+    {
+      value: "EMEL06",
+      display_name: "Templat Program - Tempahan Diproses",
+    },
+    {
+      value: "EMEL07",
+      display_name: "Templat Program - Tempahan Diterima",
+    },
+    {
+      value: "EMEL08",
+      display_name: "Templat Program - Tempahan Ditolak",
+    },
+    {
+      value: "EMEL09",
+      display_name: "Templat Lawatan - Tempahan Diproses",
+    },
+    {
+      value: "EMEL10",
+      display_name: "Templat Lawatan - Tempahan Diterima",
+    },
+    {
+      value: "EMEL11",
+      display_name: "Templat Lawatan - Tempahan Ditolak",
     },
     {
       value: "EMEL99",

@@ -140,9 +140,32 @@ export class PublicationsListComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.publicationFormGroup.patchValue({
+      id: "",
+      title: "",
+      description: "",
+      call_number: "",
+      abstract: "",
+      author_name: "",
+      editor_name: "",
+      publisher_name: "",
+      published_date: null,
+      isbn: "",
+      issn: "",
+      poster_link: null,
+      pdf_link: null,
+      year: 2020,
+      edition: "",
+      publication_category_id: "",
+      status: false
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.publicationFormGroup.reset();
+      // this.publicationFormGroup.reset();
+      this.emptyFormGroup();
       this.publicationFormGroup.patchValue({
         publication_category_id: this.publication_category_id,
       });
