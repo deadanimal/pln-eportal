@@ -35,6 +35,8 @@ import { GalleryModule } from '@ngx-gallery/core';
 import { LightboxModule } from '@ngx-gallery/lightbox';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import { ShareButtonModule } from 'ngx-sharebuttons/button';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -186,6 +188,8 @@ FullCalendarModule.registerPlugins([
     GalleryModule,
     LightboxModule,
     FullCalendarModule,
+    ShareButtonModule,
+    ShareIconsModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,

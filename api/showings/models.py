@@ -32,7 +32,8 @@ class Showing(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     title = models.CharField(max_length=255, default='NA')
-    description = models.CharField(max_length=255, default='NA')
+    # description = models.CharField(max_length=255, default='NA')
+    description = models.TextField(blank=True)
 
     GENRE = [
         ('NA', 'Not Available')

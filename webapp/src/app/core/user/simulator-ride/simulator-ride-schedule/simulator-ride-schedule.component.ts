@@ -386,41 +386,78 @@ export class SimulatorRideScheduleComponent implements OnInit {
   }
 
   create() {
-    this.simridetimeService.post(this.simridetimeFormGroup.value).subscribe(
-      (res) => {
-        console.log("res", res);
-        swal
-          .fire({
-            title: "Berjaya",
-            text: "Data anda berjaya disimpan.",
-            type: "success",
-            buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
-          })
-          .then((result) => {
-            if (result.value) {
-              this.modal.hide();
-              this.getSimulatorRideTime();
-            }
-          });
-      },
-      (err) => {
-        console.error("err", err);
-        swal
-          .fire({
-            title: "Ralat",
-            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
-            buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
-          })
-          .then((result) => {
-            if (result.value) {
-              // this.modal.hide();
-            }
-          });
-      }
-    );
+    console.log("simridetimeFormGroup", this.simridetimeFormGroup.value);
+
+    this.simridetimeService
+      .filter(
+        "day=" +
+          this.simridetimeFormGroup.value.day +
+          "&time=" +
+          this.simridetimeFormGroup.value.time +
+          ":00"
+      )
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          if (res.length > 0) {
+            swal
+              .fire({
+                title: "Ralat",
+                text:
+                  "Data anda sudah ada di dalam pangkalan data. Sila masukkan data yang lain",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              })
+              .then((result) => {
+                if (result.value) {
+                  // this.modal.hide();
+                }
+              });
+          } else {
+            this.simridetimeService
+              .post(this.simridetimeFormGroup.value)
+              .subscribe(
+                (res) => {
+                  console.log("res", res);
+                  swal
+                    .fire({
+                      title: "Berjaya",
+                      text: "Data anda berjaya disimpan.",
+                      type: "success",
+                      buttonsStyling: false,
+                      confirmButtonClass: "btn btn-success",
+                    })
+                    .then((result) => {
+                      if (result.value) {
+                        this.modal.hide();
+                        this.getSimulatorRideTime();
+                      }
+                    });
+                },
+                (err) => {
+                  console.error("err", err);
+                  swal
+                    .fire({
+                      title: "Ralat",
+                      text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+                      type: "warning",
+                      buttonsStyling: false,
+                      confirmButtonClass: "btn btn-warning",
+                    })
+                    .then((result) => {
+                      if (result.value) {
+                        // this.modal.hide();
+                      }
+                    });
+                }
+              );
+          }
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   update() {

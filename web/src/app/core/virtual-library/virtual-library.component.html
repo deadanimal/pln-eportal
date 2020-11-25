@@ -27,7 +27,11 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Kutubkhanah Mini</h2>
+        <h2 class="title text-center text-dark">
+          Kutubkhanah Mini <share-button button="facebook"></share-button
+          ><share-button button="twitter"></share-button
+          ><share-button button="whatsapp"></share-button>
+        </h2>
         <div class="row pb-3">
           <div class="col-md-2 col-sm-12"></div>
           <div class="col">
@@ -38,7 +42,10 @@
               >
                 <div
                   class="card"
-                  [routerLink]="['/virtual-library/' + vl_category.link, vl_category.id]"
+                  [routerLink]="[
+                    '/virtual-library/' + vl_category.link,
+                    vl_category.id
+                  ]"
                 >
                   <div class="card-header bg-white p-3 text-center">
                     <i [class]="vl_category.icon + ' fa-10x text-info'"></i>

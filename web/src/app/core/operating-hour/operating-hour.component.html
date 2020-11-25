@@ -1,7 +1,6 @@
-<div class="header header-4">
+<!-- <div class="header header-4">
   <div class="header-wrapper">
     <div class="page-header header-video header-filter">
-      <!-- <div class="overlay"></div> -->
       <video
         autoplay="autoplay"
         loop="loop"
@@ -24,22 +23,8 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <div class="wrapper">
-  <!-- <div class="page-header page-header-small header-filter">
-          <div
-            class="page-header-image rellax"
-            data-parallax="true"
-            style="background-image: url('assets/img/exhibit/minin.jpg')"
-          ></div>
-          <div class="content-center">
-            <div class="row">
-              <div class="col-md-6 ml-auto mr-auto text-center">
-                <h1 class="title">Mengenai Kami</h1>
-              </div>
-            </div>
-          </div>
-        </div> -->
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
@@ -72,63 +57,65 @@
         <h2 class="title text-center text-dark">Kadar Bayaran</h2>
         <div class="row pb-3">
           <div class="col-md-10 col-sm-12 mx-auto">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <td rowspan="2" class="theadstyle">VENUE</td>
-                  <td colspan="2" class="theadstyle">
-                    DEWASA<br />(13 TAHUN DAN KEATAS)
-                  </td>
-                  <td colspan="2" class="theadstyle">
-                    KANAK - KANAK<br />(2 SEHINGGA 12 TAHUN)
-                  </td>
-                  <td colspan="2" class="theadstyle">
-                    PELAJAR<br />(18 TAHUN DAN KE BAWAH)
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="theadcategory">BIASA</td>
-                  <td class="theadcategory">MYKAD</td>
-                  <td class="theadcategory">BIASA</td>
-                  <td class="theadcategory">MYKAD</td>
-                  <td class="theadcategory">BIASA</td>
-                  <td class="theadcategory">MYKAD</td>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr *ngFor="let ticket of tickets">
-                  <td class="theadstyle">{{ ticket.venue }}</td>
-                  <div
-                    *ngIf="
-                      ticket.venue != 'GALERI PAMERAN';
-                      then haveprice;
-                      else allfree
-                    "
-                  ></div>
-                  <ng-template #haveprice>
-                    <td class="tbodyprice">{{ ticket.normalAdult }}</td>
-                    <td class="tbodyprice">{{ ticket.mykadAdult }}</td>
-                    <td class="tbodyprice">{{ ticket.normalChildren }}</td>
-                    <td class="tbodyprice">{{ ticket.mykadChildren }}</td>
-                    <td class="tbodyprice">{{ ticket.normalStudent }}</td>
-                    <td class="tbodyprice">{{ ticket.mykadStudent }}</td>
-                  </ng-template>
-                  <ng-template #allfree>
-                    <td colspan="6" class="tbodyprice">
-                      PERCUMA<br />* TERMASUK WARGA EMAS DAN OKU
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <td rowspan="2" class="theadstyle">VENUE</td>
+                    <td colspan="2" class="theadstyle">
+                      DEWASA<br />(13 TAHUN DAN KEATAS)
                     </td>
-                  </ng-template>
-                </tr>
+                    <td colspan="2" class="theadstyle">
+                      KANAK - KANAK<br />(2 SEHINGGA 12 TAHUN)
+                    </td>
+                    <td colspan="2" class="theadstyle">
+                      PELAJAR<br />(18 TAHUN DAN KE BAWAH)
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td colspan="7" class="text-center text-dark">
-                    NOTA: BAYARAN DIKENAKAN BAGI SETIAP TEMPAT DUDUK
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  <tr>
+                    <td class="theadcategory">BIASA</td>
+                    <td class="theadcategory">MYKAD</td>
+                    <td class="theadcategory">BIASA</td>
+                    <td class="theadcategory">MYKAD</td>
+                    <td class="theadcategory">BIASA</td>
+                    <td class="theadcategory">MYKAD</td>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let ticket of tickets">
+                    <td class="theadstyle">{{ ticket.venue }}</td>
+                    <div
+                      *ngIf="
+                        ticket.venue != 'GALERI PAMERAN';
+                        then haveprice;
+                        else allfree
+                      "
+                    ></div>
+                    <ng-template #haveprice>
+                      <td class="tbodyprice">{{ ticket.normalAdult }}</td>
+                      <td class="tbodyprice">{{ ticket.mykadAdult }}</td>
+                      <td class="tbodyprice">{{ ticket.normalChildren }}</td>
+                      <td class="tbodyprice">{{ ticket.mykadChildren }}</td>
+                      <td class="tbodyprice">{{ ticket.normalStudent }}</td>
+                      <td class="tbodyprice">{{ ticket.mykadStudent }}</td>
+                    </ng-template>
+                    <ng-template #allfree>
+                      <td colspan="6" class="tbodyprice">
+                        PERCUMA<br />* TERMASUK WARGA EMAS DAN OKU
+                      </td>
+                    </ng-template>
+                  </tr>
+
+                  <tr>
+                    <td colspan="7" class="text-center text-dark">
+                      NOTA: BAYARAN DIKENAKAN BAGI SETIAP TEMPAT DUDUK
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

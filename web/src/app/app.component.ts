@@ -10,6 +10,7 @@ import { DOCUMENT } from "@angular/common";
 import { NavigationStart, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
+import { CanonicalService } from "./shared/canonical/canonical.service";
 
 @Component({
   selector: "app-root",
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
     public location: Location,
     @Inject(DOCUMENT) document,
     private router: Router,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private canonicalService: CanonicalService
   ) {
     this.translate.addLangs(["en", "my"]);
     this.translate.setDefaultLang("my");
@@ -55,5 +57,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.onWindowScroll(event);
+    this.canonicalService.setCanonicalURL();
   }
 }

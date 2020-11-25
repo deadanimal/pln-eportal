@@ -400,6 +400,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_canonical_canonical_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shared/canonical/canonical.service */ "./src/app/shared/canonical/canonical.service.ts");
+
 
 
 
@@ -407,11 +409,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AppComponent = /** @class */ (function () {
-    function AppComponent(renderer, location, document, router, translate) {
+    function AppComponent(renderer, location, document, router, translate, canonicalService) {
         this.renderer = renderer;
         this.location = location;
         this.router = router;
         this.translate = translate;
+        this.canonicalService = canonicalService;
         this.translate.addLangs(["en", "my"]);
         this.translate.setDefaultLang("my");
         this.subscription = router.events.subscribe(function (event) {
@@ -438,13 +441,15 @@ var AppComponent = /** @class */ (function () {
     };
     AppComponent.prototype.ngOnInit = function () {
         this.onWindowScroll(event);
+        this.canonicalService.setCanonicalURL();
     };
     AppComponent.ctorParameters = function () { return [
         { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer"] },
         { type: _angular_common__WEBPACK_IMPORTED_MODULE_2__["Location"] },
         { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["DOCUMENT"],] }] },
         { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] },
-        { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] }
+        { type: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"] },
+        { type: _shared_canonical_canonical_service__WEBPACK_IMPORTED_MODULE_5__["CanonicalService"] }
     ]; };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])("window:scroll", ["$event"]),
@@ -461,7 +466,8 @@ var AppComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](2, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_common__WEBPACK_IMPORTED_MODULE_2__["DOCUMENT"])),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["Renderer"],
             _angular_common__WEBPACK_IMPORTED_MODULE_2__["Location"], Object, _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
-            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"]])
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"],
+            _shared_canonical_canonical_service__WEBPACK_IMPORTED_MODULE_5__["CanonicalService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -1169,6 +1175,51 @@ var ScrollTopComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/canonical/canonical.service.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/shared/canonical/canonical.service.ts ***!
+  \*******************************************************/
+/*! exports provided: CanonicalService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CanonicalService", function() { return CanonicalService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+
+// import { DOCUMENT } from '@angular/common';
+var CanonicalService = /** @class */ (function () {
+    function CanonicalService(dom) {
+        this.dom = dom;
+    }
+    CanonicalService.prototype.setCanonicalURL = function (url) {
+        var canURL = url == undefined ? this.dom.URL : url;
+        var link = this.dom.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        this.dom.head.appendChild(link);
+        link.setAttribute('href', canURL);
+    };
+    CanonicalService.ctorParameters = function () { return [
+        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"], args: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["DOCUMENT"],] }] }
+    ]; };
+    CanonicalService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"])(_angular_common__WEBPACK_IMPORTED_MODULE_1__["DOCUMENT"])),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [Object])
+    ], CanonicalService);
+    return CanonicalService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/class/custom-validators.ts":
 /*!***************************************************!*\
   !*** ./src/app/shared/class/custom-validators.ts ***!
@@ -1492,7 +1543,9 @@ __webpack_require__.r(__webpack_exports__);
 var environment = {
     production: false,
     // baseUrl: 'http://127.0.0.1:8000/',
-    baseUrl: 'https://pln-eportal-api.pipe.my/',
+    assetUrl: "https://portal.planetarium.prototype.com.my/assets/",
+    baseUrl: "https://pln-eportal-api.pipe.my/",
+    portalUrl: "https://portal.planetarium.prototype.com.my/#/",
 };
 /*
  * For easier debugging in development mode, you can import the following file

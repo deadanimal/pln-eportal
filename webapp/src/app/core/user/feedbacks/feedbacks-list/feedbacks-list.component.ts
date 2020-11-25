@@ -263,7 +263,10 @@ export class FeedbacksListComponent implements OnInit {
     let obj = {
       code: "EMEL02",
       to: row.user_id.email,
-      context: JSON.stringify({ comment_admin: row.comment_admin }),
+      context: JSON.stringify({
+        comment_admin: row.comment_admin,
+        full_name: row.user_id.full_name,
+      }),
     };
     this.emailtemplateService.sending_mail(obj).subscribe(
       (res) => {

@@ -169,8 +169,8 @@ export class FacilitiesSubcategoryComponent implements OnInit {
     formData.append("name", this.subcategoryFormGroup.value.name);
     formData.append("status", this.subcategoryFormGroup.value.status);
     formData.append(
-      "facility_subcategory",
-      this.subcategoryFormGroup.value.facility_subcategory
+      "facility_category",
+      this.subcategoryFormGroup.value.facility_category
     );
     if (typeof this.subcategoryFormGroup.get("image_link").value != "string") {
       formData.append(
@@ -222,8 +222,8 @@ export class FacilitiesSubcategoryComponent implements OnInit {
     formData.append("name", this.subcategoryFormGroup.value.name);
     formData.append("status", this.subcategoryFormGroup.value.status);
     formData.append(
-      "facility_subcategory",
-      this.subcategoryFormGroup.value.facility_subcategory
+      "facility_category",
+      this.subcategoryFormGroup.value.facility_category
     );
     if (typeof this.subcategoryFormGroup.get("image_link").value != "string") {
       formData.append(

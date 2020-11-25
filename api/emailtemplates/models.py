@@ -18,8 +18,17 @@ class EmailTemplate(models.Model):
     name = models.CharField(max_length=255, default='NA', blank=True)
 
     CODE = [
-        ('EMEL01', 'Template Maklum Balas Diterima'),
-        ('EMEL02', 'Template Maklum Balas Dijawab'),
+        ('EMEL01', 'Templat Maklum Balas - Diterima'),
+        ('EMEL02', 'Templat Maklum Balas - Dijawab'),
+        ('EMEL03', 'Templat Fasiliti - Tempahan Diproses'),
+        ('EMEL04', 'Templat Fasiliti - Tempahan Diterima'),
+        ('EMEL05', 'Templat Fasiliti - Tempahan Ditolak'),
+        ('EMEL06', 'Templat Program - Tempahan Diproses'),
+        ('EMEL07', 'Templat Program - Tempahan Diterima'),
+        ('EMEL08', 'Templat Program - Tempahan Ditolak'),
+        ('EMEL09', 'Templat Lawatan - Tempahan Diproses'),
+        ('EMEL10', 'Templat Lawatan - Tempahan Diterima'),
+        ('EMEL11', 'Templat Lawatan - Tempahan Ditolak'),
         ('EMEL99', 'Tiada')
     ]
     code = models.CharField(max_length=6, choices=CODE, default='EMEL99')

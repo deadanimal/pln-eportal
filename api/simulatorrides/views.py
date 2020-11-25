@@ -48,7 +48,7 @@ class SimulatorRideTimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SimulatorRideTime.objects.all()
     serializer_class = SimulatorRideTimeSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['day', 'round', 'created_date']
+    filterset_fields = ['day', 'time', 'round', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':

@@ -1,9 +1,11 @@
 import { Component, OnInit } from "@angular/core";
+import { Meta } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import Glide from "@glidejs/glide";
 import { ToastrService } from "ngx-toastr";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-simulator-ride",
@@ -13,12 +15,38 @@ import { JwtService } from "src/app/shared/jwt/jwt.service";
 export class SimulatorRideComponent implements OnInit {
   constructor(
     private jwtService: JwtService,
+    private metaTagService: Meta,
     private router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit() {
-    // this.initGlide();
+    this.metaTagService.addTags([
+      { name: "og:title", content: "Kembara Simulasi" },
+      {
+        name: "og:description",
+        content:
+          "Kembara Simulasi merupakan sebuah simulator kokpit dua tempat duduk yang memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas. Pengunjung akan merasai pengalaman pergerakan tiga paksi dengan kebebasan pergerakan 360 darjah.",
+      },
+      { name: "og:url", content: environment.portalUrl + "simulator-ride" },
+      { name: "og:site_name", content: "Planetarium Negara" },
+      {
+        name: "og:image",
+        content: environment.assetUrl + "logo/planetarium-logo.png",
+      },
+      { name: "twitter:card", content: "summary" },
+      {
+        name: "twitter:description",
+        content:
+          "Kembara Simulasi merupakan sebuah simulator kokpit dua tempat duduk yang memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas. Pengunjung akan merasai pengalaman pergerakan tiga paksi dengan kebebasan pergerakan 360 darjah.",
+      },
+      { name: "twitter:title", content: "Kembara Simulasi" },
+      {
+        name: "twitter:image",
+        content: environment.assetUrl + "logo/planetarium-logo.png",
+      },
+      { name: "twitter:url", content: environment.portalUrl + "simulator-ride" },
+    ]);
   }
 
   initGlide() {

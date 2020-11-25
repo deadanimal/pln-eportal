@@ -5,7 +5,12 @@
     <div class="container pt-5">
       <div class="row mb-5">
         <div class="col-md-8 ml-auto mr-auto text-center">
-          <h2 class="title">{{ selectedFacility.display_name }}</h2>
+          <h2 class="title">
+            {{ selectedFacility.display_name }}
+            <share-button button="facebook"></share-button
+            ><share-button button="twitter"></share-button
+            ><share-button button="whatsapp"></share-button>
+          </h2>
           <h4 class="description">
             Tempah {{ selectedFacility.display_name }} untuk pelbagai kegunaan!
           </h4>

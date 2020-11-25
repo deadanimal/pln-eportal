@@ -27,7 +27,11 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Artikel Terkini</h2>
+        <h2 class="title text-center text-dark">
+          Artikel Terkini <share-button button="facebook"></share-button
+          ><share-button button="twitter"></share-button
+          ><share-button button="whatsapp"></share-button>
+        </h2>
         <div class="row pb-3" *ngIf="!showSelectedArticle">
           <div class="col-md-8 col-sm-12 ml-auto mr-auto">
             <table class="table table-striped">
@@ -82,7 +86,9 @@
           <div class="col-md-8 col-sm-12 ml-auto mr-auto">
             <div class="card">
               <div class="card-header bg-default">
-                <h2 class="title text-white mt-0">{{ selectedArticle.name }}</h2>
+                <h2 class="title text-white mt-0">
+                  {{ selectedArticle.name }}
+                </h2>
               </div>
               <div class="card-body bg-white">
                 <p class="text-dark text-justify">

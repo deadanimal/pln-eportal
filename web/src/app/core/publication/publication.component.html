@@ -42,7 +42,11 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Penerbitan Planetarium</h2>
+        <h2 class="title text-center text-dark">
+          Penerbitan Planetarium <share-button button="facebook"></share-button
+          ><share-button button="twitter"></share-button
+          ><share-button button="whatsapp"></share-button>
+        </h2>
         <div class="row pb-5">
           <div
             class="col-md-4 col-sm-12"
@@ -55,7 +59,9 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-4 text-center">
-                    <i [class]="publicationcategory.icon + ' fa-4x text-default'"></i>
+                    <i
+                      [class]="publicationcategory.icon + ' fa-4x text-default'"
+                    ></i>
                   </div>
                   <div class="col-8 align-self-center">
                     <p class="font-weight-bold text-default">

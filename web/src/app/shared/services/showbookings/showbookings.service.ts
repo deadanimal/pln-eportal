@@ -65,7 +65,7 @@ export class ShowbookingsService {
 
   extended(field: string): Observable<Showbooking[]> {
     let urlExtended = "";
-    if(field) urlExtended = this.url + "extended/?" + field;
+    if (field) urlExtended = this.url + "extended/?" + field;
     else urlExtended = this.url + "extended";
     return this.http.get<Showbooking[]>(urlExtended).pipe(
       tap((res) => {

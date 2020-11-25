@@ -316,6 +316,10 @@ export const UserRoutes: Routes = [
             path: "faqs",
             component: FaqsComponent,
           },
+          {
+            path: "email-templates",
+            component: EmailTemplatesComponent,
+          },
         ],
       },
       {
@@ -324,10 +328,6 @@ export const UserRoutes: Routes = [
           {
             path: "users",
             component: UsersComponent,
-          },
-          {
-            path: "email-templates",
-            component: EmailTemplatesComponent,
           },
         ],
       },
