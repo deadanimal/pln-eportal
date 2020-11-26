@@ -10,7 +10,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Meta } from "@angular/platform-browser";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Gallery } from "@ngx-gallery/core";
 import { Lightbox } from "@ngx-gallery/lightbox";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
@@ -23,6 +24,7 @@ import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
 import { EducationalProgramApplicationsService } from "src/app/shared/services/educational-program-applications/educational-program-applications.service";
@@ -173,8 +175,11 @@ export class ProgramComponent implements OnInit {
     public lightbox: Lightbox,
     private toastr: ToastrService,
     private modalService: BsModalService,
+    private metaTagService: Meta,
+    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private emailtemplateService: EmailTemplatesService,
     private jwtService: JwtService,
     private eduprogramService: EducationalProgramsService,
     private eduprogramappService: EducationalProgramApplicationsService,
@@ -184,7 +189,7 @@ export class ProgramComponent implements OnInit {
     private userService: UsersService
   ) {
     this.today.setDate(this.today.getDate() + 1);
-    
+
     this.eduprogramappFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       full_name: new FormControl(""),
@@ -322,6 +327,8 @@ export class ProgramComponent implements OnInit {
         preview: false,
       },
     ];
+
+    this.addMetaTag();
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>, program) {
@@ -453,6 +460,20 @@ export class ProgramComponent implements OnInit {
             confirmButton: "btn btn-success",
           },
         });
+
+        let obj = {
+          code: "EMEL06",
+          to: this.authService.decodedToken().email,
+          context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
+        };
+        this.emailtemplateService.sending_mail(obj).subscribe(
+          (res) => {
+            console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
       },
       (err) => {
         console.error("err", err);
@@ -471,5 +492,41 @@ export class ProgramComponent implements OnInit {
     let formatDate = year + "-" + month + "-" + day;
 
     return formatDate;
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
   }
 }

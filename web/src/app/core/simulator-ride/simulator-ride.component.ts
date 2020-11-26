@@ -1,11 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
-import { Router } from "@angular/router";
-import Glide from "@glidejs/glide";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
-import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-simulator-ride",
@@ -16,49 +14,13 @@ export class SimulatorRideComponent implements OnInit {
   constructor(
     private jwtService: JwtService,
     private metaTagService: Meta,
+    private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit() {
-    this.metaTagService.addTags([
-      { name: "og:title", content: "Kembara Simulasi" },
-      {
-        name: "og:description",
-        content:
-          "Kembara Simulasi merupakan sebuah simulator kokpit dua tempat duduk yang memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas. Pengunjung akan merasai pengalaman pergerakan tiga paksi dengan kebebasan pergerakan 360 darjah.",
-      },
-      { name: "og:url", content: environment.portalUrl + "simulator-ride" },
-      { name: "og:site_name", content: "Planetarium Negara" },
-      {
-        name: "og:image",
-        content: environment.assetUrl + "logo/planetarium-logo.png",
-      },
-      { name: "twitter:card", content: "summary" },
-      {
-        name: "twitter:description",
-        content:
-          "Kembara Simulasi merupakan sebuah simulator kokpit dua tempat duduk yang memberikan pengalaman penerokaan dan penerbangan ke angkasa lepas. Pengunjung akan merasai pengalaman pergerakan tiga paksi dengan kebebasan pergerakan 360 darjah.",
-      },
-      { name: "twitter:title", content: "Kembara Simulasi" },
-      {
-        name: "twitter:image",
-        content: environment.assetUrl + "logo/planetarium-logo.png",
-      },
-      { name: "twitter:url", content: environment.portalUrl + "simulator-ride" },
-    ]);
-  }
-
-  initGlide() {
-    new Glide(".glide-simulator", {
-      type: "carousel",
-      perView: 4,
-      startAt: 2,
-      focusAt: 2,
-      animationDuration: 500,
-      autoplay: 5000,
-      clone: false,
-    }).mount();
+    this.addMetaTag();
   }
 
   changeAdultQuantity(value: number): void {
@@ -82,5 +44,41 @@ export class SimulatorRideComponent implements OnInit {
         "Ralat"
       );
     }
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
   }
 }

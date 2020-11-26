@@ -5,12 +5,15 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Meta } from "@angular/platform-browser";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VisitApplicationsService } from "src/app/shared/services/visit-applications/visit-applications.service";
 import { VisitsService } from "src/app/shared/services/visits/visits.service";
@@ -101,9 +104,12 @@ export class VisitComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private jwtService: JwtService,
+    private metaTagService: Meta,
+    private route: ActivatedRoute,
     private modalService: BsModalService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private emailtemplateService: EmailTemplatesService,
     private userService: UsersService,
     private visitiapplicationService: VisitApplicationsService,
     private visitService: VisitsService
@@ -183,7 +189,9 @@ export class VisitComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.addMetaTag();
+  }
 
   openDefaultModal(modalDefault: TemplateRef<any>) {
     if (this.jwtService.getToken("accessToken")) {
@@ -265,6 +273,20 @@ export class VisitComponent implements OnInit {
             confirmButton: "btn btn-success",
           },
         });
+
+        let obj = {
+          code: "EMEL09",
+          to: this.authService.decodedToken().email,
+          context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
+        };
+        this.emailtemplateService.sending_mail(obj).subscribe(
+          (res) => {
+            console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
       },
       (err) => {
         console.error("err", err);
@@ -283,5 +305,41 @@ export class VisitComponent implements OnInit {
     let formatDate = year + "-" + month + "-" + day;
 
     return formatDate;
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
   }
 }

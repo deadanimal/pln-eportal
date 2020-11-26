@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 
 import { VirtualLibraryArchiveKutubkhanahCategoriesService } from "src/app/shared/services/virtual-library-archivekutubkhanah-categories/virtual-library-archivekutubkhanah-categories.service";
@@ -21,6 +22,7 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
   virtual_library_collection_id: string = "";
 
   constructor(
+    private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibraryarchivekutubkhanahcategoryService: VirtualLibraryArchiveKutubkhanahCategoriesService,
     private virtuallibraryarchivekutubkhanahService: VirtualLibraryArchiveKutubkhanahsService,
@@ -81,10 +83,11 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.archive_books = res;
-      }, (err) => {
+      },
+      (err) => {
         console.error("err", err);
       }
-    )
+    );
   }
 
   getArkibTerbitanBersiri() {
@@ -92,11 +95,50 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.archive_serialpublications = res;
-      }, (err) => {
+      },
+      (err) => {
         console.error("err", err);
       }
-    )
+    );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.addMetaTag();
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
+  }
 }

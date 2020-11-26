@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
@@ -17,6 +18,7 @@ import { Observable } from "rxjs";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { FacilityImagesService } from "src/app/shared/services/facility-images/facility-images.service";
@@ -146,10 +148,12 @@ export class FacilityDetailsComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private activatedRoute: ActivatedRoute,
+    private metaTagService: Meta,
+    private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
+    private emailtemplateService: EmailTemplatesService,
     private jwtService: JwtService,
     private facilityService: FacilitiesService,
     private facilitybookingService: FacilityBookingsService,
@@ -160,7 +164,7 @@ export class FacilityDetailsComponent implements OnInit {
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
-    this.facility_category = this.activatedRoute.snapshot.paramMap.get("id");
+    this.facility_category = this.route.snapshot.paramMap.get("id");
 
     this.facilitybookingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -307,6 +311,8 @@ export class FacilityDetailsComponent implements OnInit {
         preview: false,
       },
     ];
+
+    this.addMetaTag();
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>, facility) {
@@ -355,6 +361,20 @@ export class FacilityDetailsComponent implements OnInit {
               confirmButton: "btn btn-success",
             },
           });
+
+          let obj = {
+            code: "EMEL03",
+            to: this.authService.decodedToken().email,
+            context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
+          };
+          this.emailtemplateService.sending_mail(obj).subscribe(
+            (res) => {
+              console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
         },
         (err) => {
           console.error("err", err);
@@ -380,5 +400,41 @@ export class FacilityDetailsComponent implements OnInit {
       return obj.value == value;
     });
     return result.display_name;
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
   }
 }

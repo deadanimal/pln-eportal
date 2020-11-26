@@ -50,56 +50,75 @@
                 <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
                 <form [formGroup]="firstFormGroup">
                   <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                      <label>Tarikh</label>
-                      <input
-                        type="text"
-                        placeholder="Tarikh"
-                        class="form-control"
-                        formControlName="date"
-                        bsDatepicker
-                        [minDate]="today"
-                        [daysDisabled]="[1]"
-                        [datesEnabled]="enabledShowingDates"
-                        [bsConfig]="{
-                          isAnimated: true,
-                          containerClass: 'theme-dark-blue',
-                          dateInputFormat: 'YYYY-MM-DD'
-                        }"
-                        (bsValueChange)="getShowtime($event)"
-                      />
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                      <label>Masa</label><br />
-                      <h3 class="text-dark" *ngIf="!firstFormGroup.value.date">
-                        Sila pilih tarikh
-                      </h3>
-                      <div *ngIf="firstFormGroup.value.date">
-                        <div
-                          class="form-check form-check-radio form-check-inline"
-                          *ngFor="let showtime of showtimes"
+                    <div class="col-md-4 col-sm-12"></div>
+                    <div class="col-md-4 col-sm-12">
+                      <alert [type]="'danger'">
+                        <b
+                          >Nota: Tiket online perlu ditempah sehari lebih awal
+                          untuk memudahkan urusan Planetarium.</b
                         >
-                          <label class="form-check-label">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="time"
-                              [value]="showtime.show_time + '_' + showtime.id"
-                              formControlName="time"
-                            />
-                            {{ showtime.show_time }}
-                            <span class="form-check-sign"></span>
-                          </label>
+                      </alert>
+                      <div class="form-group">
+                        <label>Tarikh</label>
+                        <input
+                          type="text"
+                          placeholder="Tarikh"
+                          class="form-control"
+                          formControlName="date"
+                          bsDatepicker
+                          [minDate]="today"
+                          [daysDisabled]="[1]"
+                          [datesEnabled]="enabledShowingDates"
+                          [bsConfig]="{
+                            isAnimated: true,
+                            containerClass: 'theme-dark-blue',
+                            dateInputFormat: 'YYYY-MM-DD'
+                          }"
+                          (bsValueChange)="getShowtime($event)"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Masa</label><br />
+                        <p
+                          class="text-danger"
+                          *ngIf="!firstFormGroup.value.date"
+                        >
+                          Sila pilih tarikh terlebih dahulu!
+                        </p>
+                        <div *ngIf="firstFormGroup.value.date">
+                          <div class="row">
+                            <div
+                              class="col-md-4 col-sm-12 text-center"
+                              *ngFor="let showtime of showtimes"
+                            >
+                              <div class="form-check form-check-radio">
+                                <label class="form-check-label">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="time"
+                                    [value]="
+                                      showtime.show_time + '_' + showtime.id
+                                    "
+                                    formControlName="time"
+                                  />
+                                  {{ showtime.show_time }}
+                                  <span class="form-check-sign"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div class="col-md-4 col-sm-12"></div>
                   </div>
 
                   <div class="p-3 text-center">
                     <button
                       type="button"
                       class="btn btn-default"
-                      matStepperNext
+                      (click)="checkExistBooking(stepper)"
                       [disabled]="!firstFormGroup.valid"
                     >
                       Seterusnya
@@ -250,7 +269,7 @@
                       type="button"
                       class="btn btn-default"
                       matStepperNext
-                      [disabled]="!secondFormGroup.valid"
+                      [disabled]="totalticket == 0"
                     >
                       Seterusnya
                     </button>
@@ -280,11 +299,9 @@
                     </tr> -->
                     <tr>
                       <td colspan="5"></td>
-                      <td
-                        colspan="22"
-                        style="background-color: purple; padding: 10px"
-                      >
-                        <h6 class="title text-center text-white m-0">Screen</h6>
+                      <td colspan="22">
+                        <h4 class="title text-center text-dark m-0">SKRIN LAYAR</h4>
+                        <div class="box"></div>
                       </td>
                       <td colspan="5"></td>
                     </tr>
@@ -299,9 +316,19 @@
                           *ngIf="getSeat(i, j)"
                           class="btn btn-fab btn-icon"
                           [ngClass]="getSelectedSeat(i, j)"
+                          [disabled]="disableSeat(i, j)"
                         >
                           <small>{{ getSeat(i, j) }}</small>
                         </button>
+                        <div
+                          *ngIf="getColor(i, j)"
+                          [style.background-color]="
+                            seats[i].columns[j].color != undefined
+                              ? seats[i].columns[j].color
+                              : '#ffffff'
+                          "
+                          style="height: 37px"
+                        ></div>
                         <!-- <div *ngIf="getSeat(i, j)" class="text-center">
                           <i class="fas fa-chair fa-2x"></i>
                           <small>{{ getSeat(i, j) }}</small>
@@ -321,12 +348,24 @@
                   </button>
                   <button
                     type="button"
+                    class="btn btn-info"
+                    (click)="openModal(clueModal)"
+                  >
+                    Petunjuk
+                  </button>
+                  <button
+                    type="button"
                     class="btn btn-danger"
                     (click)="emptySeats()"
                   >
                     Set semula kerusi
                   </button>
-                  <button type="button" class="btn btn-default" matStepperNext>
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    matStepperNext
+                    [disabled]="selectedSeats.length != totalticket"
+                  >
                     Seterusnya
                   </button>
                 </div>
@@ -403,3 +442,61 @@
     </div>
   </div>
 </div>
+
+<ng-template #clueModal>
+  <div class="modal-header justify-content-center">
+    <button
+      aria-hidden="true"
+      class="close"
+      data-dismiss="modal"
+      (click)="closeModal()"
+      type="button"
+    >
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
+    </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0">Petunjuk</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="row pb-3">
+      <div class="col-md-4 col-sm-12">
+        <div style="height: 30px; width: 30px; background-color: #2c8cf8">
+          <p style="padding-left: 40px">Penghalang</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <div style="height: 30px; width: 30px; background-color: #000000">
+          <p style="padding-left: 40px">Projektor</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <div style="height: 30px; width: 30px; background-color: #fcd606">
+          <p style="padding-left: 40px">Starball</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div style="height: 30px; width: 30px; background-color: #308446">
+          <p style="padding-left: 40px; width: max-content">Pintu Keluar</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div style="height: 30px; width: 30px; background-color: #8b4513">
+          <p style="padding-left: 40px">Tangga</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-link ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>

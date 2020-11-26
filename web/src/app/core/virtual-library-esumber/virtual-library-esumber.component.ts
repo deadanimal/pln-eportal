@@ -1,13 +1,14 @@
 import { Component, OnInit } from "@angular/core";
+import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 
-import { VirtualLibraryESourceCategoriesService } from 'src/app/shared/services/virtual-library-esource-categories/virtual-library-esource-categories.service';
-import { VirtualLibraryESourcesService } from 'src/app/shared/services/virtual-library-esources/virtual-library-esources.service';
+import { VirtualLibraryESourceCategoriesService } from "src/app/shared/services/virtual-library-esource-categories/virtual-library-esource-categories.service";
+import { VirtualLibraryESourcesService } from "src/app/shared/services/virtual-library-esources/virtual-library-esources.service";
 
 @Component({
-  selector: 'app-virtual-library-esumber',
-  templateUrl: './virtual-library-esumber.component.html',
-  styleUrls: ['./virtual-library-esumber.component.scss']
+  selector: "app-virtual-library-esumber",
+  templateUrl: "./virtual-library-esumber.component.html",
+  styleUrls: ["./virtual-library-esumber.component.scss"],
 })
 export class VirtualLibraryEsumberComponent implements OnInit {
   // Data
@@ -17,6 +18,7 @@ export class VirtualLibraryEsumberComponent implements OnInit {
   virtual_library_collection_id: string = "";
 
   constructor(
+    private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibraryesourcecategoryService: VirtualLibraryESourceCategoriesService,
     private virtuallibraryesourceService: VirtualLibraryESourcesService
@@ -55,18 +57,54 @@ export class VirtualLibraryEsumberComponent implements OnInit {
   }
 
   getESumber() {
-    this.virtuallibraryesourceService
-      .filter("status=true")
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          this.vl_esumbers = res;
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+    this.virtuallibraryesourceService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.vl_esumbers = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.addMetaTag();
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
+  }
 }

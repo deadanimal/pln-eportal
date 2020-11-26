@@ -18,7 +18,7 @@
       </div>
       <div *ngIf="facilities$ | async as facilities; else loading">
         <div *ngFor="let facility of facilities">
-          <div class="row">
+          <div class="row pt-3">
             <div class="col-md-8 col-sm-12 ml-auto mr-auto text-center">
               <ngx-gallery
                 [options]="galleryOptions"
@@ -46,6 +46,14 @@
               </div>
             </div>
           </div>
+          <hr
+            style="
+              border-bottom: 5px solid #17a2b8;
+              width: 100%;
+              padding-top: 10px;
+              padding-bottom: 10px;
+            "
+          />
         </div>
       </div>
       <ng-template #loading>

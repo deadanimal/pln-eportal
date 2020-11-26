@@ -17,3 +17,11 @@
 ::ng-deep .mat-horizontal-stepper-header {
   pointer-events: none !important;
 }
+
+.box {
+  width: auto;
+  height: 50px;
+  border: solid 15px purple;
+  border-color: purple transparent transparent transparent;
+  border-radius: 50%/100px 100px 0 0;
+}

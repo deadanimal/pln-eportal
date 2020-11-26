@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 
 import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services/virtual-library-serialpublications/virtual-library-serialpublications.service";
@@ -15,6 +16,7 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
   virtual_library_collection_id: string = "";
 
   constructor(
+    private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibraryserialpublicationService: VirtualLibrarySerialpublicationsService
   ) {
@@ -37,7 +39,7 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
       .filter(
         "virtual_library_collection_id=" +
           this.virtual_library_collection_id +
-          "&status=true"
+          "&status=ACT"
       )
       .subscribe(
         (res) => {
@@ -50,5 +52,43 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
       );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.addMetaTag();
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
+  }
 }

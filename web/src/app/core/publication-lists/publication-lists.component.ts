@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import swal from "sweetalert2";
 
@@ -33,6 +34,7 @@ export class PublicationListsComponent implements OnInit {
   };
 
   constructor(
+    private metaTagService: Meta,
     private route: ActivatedRoute,
     private router: Router,
     private publicationService: PublicationsService
@@ -56,7 +58,9 @@ export class PublicationListsComponent implements OnInit {
       );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.addMetaTag();
+  }
 
   downloadPDF(publication) {
     swal.fire({
@@ -100,5 +104,41 @@ export class PublicationListsComponent implements OnInit {
       edition: "",
       publication_category_id: "",
     };
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
   }
 }

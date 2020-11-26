@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { EducationalProgramFormsService } from "src/app/shared/services/educational-program-forms/educational-program-forms.service";
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
 
@@ -124,6 +125,7 @@ export class ProgramFormsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private emailtemplateService: EmailTemplatesService,
     private eduprogramService: EducationalProgramsService,
     private eduprogramformService: EducationalProgramFormsService
   ) {
@@ -285,6 +287,20 @@ export class ProgramFormsComponent implements OnInit {
               this.router.navigate(["/program"]);
             }
           });
+
+        let obj = {
+          code: "EMEL06",
+          to: this.authService.decodedToken().email,
+          context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
+        };
+        this.emailtemplateService.sending_mail(obj).subscribe(
+          (res) => {
+            console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
       },
       (err) => {
         console.error("err", err);

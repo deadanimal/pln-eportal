@@ -5,7 +5,8 @@ import {
   TemplateRef,
   ViewEncapsulation,
 } from "@angular/core";
-import { NavigationExtras, Router } from "@angular/router";
+import { Meta } from "@angular/platform-browser";
+import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { Gallery } from "@ngx-gallery/core";
 import { Lightbox } from "@ngx-gallery/lightbox";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
@@ -44,6 +45,8 @@ export class ShowsComponent implements OnInit {
     public lightbox: Lightbox,
     private jwtService: JwtService,
     private modalService: BsModalService,
+    private metaTagService: Meta,
+    private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
     private showingService: ShowingsService
@@ -64,7 +67,9 @@ export class ShowsComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.addMetaTag();
+  }
 
   navigatePage(path: string, id: string) {
     this.router.navigate([path]);
@@ -107,5 +112,41 @@ export class ShowsComponent implements OnInit {
         "Ralat"
       );
     }
+  }
+
+  addMetaTag() {
+    this.metaTagService.addTags([
+      { name: "og:title", content: this.route.snapshot.data["title"] },
+      {
+        name: "og:description",
+        content: this.route.snapshot.data["description"],
+      },
+      { name: "og:url", content: this.route.snapshot.data["url"] },
+      { name: "og:site_name", content: this.route.snapshot.data["site_name"] },
+      {
+        name: "og:image",
+        content: this.route.snapshot.data["image"],
+      },
+      {
+        name: "twitter:card",
+        content: this.route.snapshot.data["twitter_card"],
+      },
+      {
+        name: "twitter:description",
+        content: this.route.snapshot.data["twitter_description"],
+      },
+      {
+        name: "twitter:title",
+        content: this.route.snapshot.data["twitter_title"],
+      },
+      {
+        name: "twitter:image",
+        content: this.route.snapshot.data["twitter_image"],
+      },
+      {
+        name: "twitter:url",
+        content: this.route.snapshot.data["twitter_url"],
+      },
+    ]);
   }
 }

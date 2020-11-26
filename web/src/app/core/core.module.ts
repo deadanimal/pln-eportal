@@ -31,12 +31,13 @@ import { MatInputModule } from "@angular/material";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { TranslateModule } from "@ngx-translate/core";
 import { AccordionModule } from "ngx-bootstrap/accordion";
-import { GalleryModule } from '@ngx-gallery/core';
-import { LightboxModule } from '@ngx-gallery/lightbox';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import { ShareButtonModule } from 'ngx-sharebuttons/button';
-import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+import { GalleryModule } from "@ngx-gallery/core";
+import { LightboxModule } from "@ngx-gallery/lightbox";
+import { FullCalendarModule } from "@fullcalendar/angular";
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin
+import { ShareButtonsConfig } from "ngx-sharebuttons";
+import { ShareButtonModule } from "ngx-sharebuttons/button";
+import { ShareIconsModule } from "ngx-sharebuttons/icons";
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -92,16 +93,20 @@ import { VirtualLibraryArkibKutubkhanahComponent } from "./virtual-library-arkib
 import { VirtualLibraryEsumberComponent } from "./virtual-library-esumber/virtual-library-esumber.component";
 import { ArkibKutubkhanahFilterPipe } from "../shared/pipes/virtual-library/arkib-kutubkhanah/arkib-kutubkhanah-filter.pipe";
 import { EsumberFilterPipe } from "../shared/pipes/virtual-library/esumber/esumber-filter.pipe";
-import { VirtualLibraryBukuComponent } from './virtual-library-buku/virtual-library-buku.component';
-import { VirtualLibraryTerbitanBersiriComponent } from './virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component';
-import { EmployeeDirectoryComponent } from './employee-directory/employee-directory.component';
-import { QuickLinkComponent } from './quick-link/quick-link.component';
-import { SafePipe } from '../shared/pipes/safe/safe.pipe';
-import { SignupComponent } from './signup/signup.component';
+import { VirtualLibraryBukuComponent } from "./virtual-library-buku/virtual-library-buku.component";
+import { VirtualLibraryTerbitanBersiriComponent } from "./virtual-library-terbitan-bersiri/virtual-library-terbitan-bersiri.component";
+import { EmployeeDirectoryComponent } from "./employee-directory/employee-directory.component";
+import { QuickLinkComponent } from "./quick-link/quick-link.component";
+import { SafePipe } from "../shared/pipes/safe/safe.pipe";
+import { SignupComponent } from "./signup/signup.component";
 
-FullCalendarModule.registerPlugins([
-  dayGridPlugin
-]);
+FullCalendarModule.registerPlugins([dayGridPlugin]);
+
+const customConfig: ShareButtonsConfig = {
+  include: ["facebook", "twitter", "whatsapp"],
+  twitterAccount: "@PlanetariumKL",
+  autoSetMeta: true,
+};
 
 @NgModule({
   declarations: [
@@ -188,7 +193,7 @@ FullCalendarModule.registerPlugins([
     GalleryModule,
     LightboxModule,
     FullCalendarModule,
-    ShareButtonModule,
+    ShareButtonModule.withConfig(customConfig),
     ShareIconsModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,

@@ -56,7 +56,6 @@ export class VirtualLibraryCategoriesService {
 
   filter(field: string): Observable<VirtualLibraryCategory[]> {
     let urlFilter = this.url + "?" + field;
-    console.log(urlFilter);
     return this.http.get<VirtualLibraryCategory[]>(urlFilter).pipe(
       tap((res) => {
         console.log("Virtual libraries: ", res);
