@@ -8,6 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { EducationalProgramApplicationsService } from "src/app/shared/services/educational-program-applications/educational-program-applications.service";
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
 import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
@@ -89,6 +90,7 @@ export class ProgramsApplicationComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
+    private emailtemplateService: EmailTemplatesService,
     private eduprogramappService: EducationalProgramApplicationsService,
     private eduprogramService: EducationalProgramsService,
     private eduprogramdateService: EducationalProgramDatesService,
@@ -381,6 +383,8 @@ export class ProgramsApplicationComponent implements OnInit {
                 this.getData();
               }
             });
+
+          this.sendmail(this.eduprogramappFormGroup.value);
         },
         (err) => {
           console.error("err", err);
@@ -441,6 +445,46 @@ export class ProgramsApplicationComponent implements OnInit {
           );
         }
       });
+  }
+
+  sendmail(row) {
+    let user = this.users.filter((obj) => {
+      return obj.id == row.customer_id;
+    });
+    // AP : "Diterima"
+    // IP : "Dalam proses"
+    // RJ : "Ditolak"
+    if (row.status == "AP") {
+      let obj = {
+        code: "EMEL07",
+        to: user[0].email,
+        context: null,
+      };
+      console.log("obj", obj);
+      this.emailtemplateService.sending_mail(obj).subscribe(
+        (res) => {
+          console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    } else if (row.status == "RJ") {
+      let obj = {
+        code: "EMEL08",
+        to: user[0].email,
+        context: null,
+      };
+      console.log("obj", obj);
+      this.emailtemplateService.sending_mail(obj).subscribe(
+        (res) => {
+          console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
   }
 
   changeProgram() {

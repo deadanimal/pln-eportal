@@ -8,6 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
+import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -97,6 +98,7 @@ export class FacilitiesApplicationComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
+    private emailtemplateService: EmailTemplatesService,
     private facilitybookingService: FacilityBookingsService,
     private facilityService: FacilitiesService,
     private userService: UsersService
@@ -266,6 +268,8 @@ export class FacilitiesApplicationComponent implements OnInit {
                 this.getData();
               }
             });
+
+          this.sendmail(this.facilityFormGroup.value);
         },
         (err) => {
           console.error("err", err);
@@ -326,6 +330,46 @@ export class FacilitiesApplicationComponent implements OnInit {
           );
         }
       });
+  }
+
+  sendmail(row) {
+    let user = this.users.filter((obj) => {
+      return obj.id == row.user_id;
+    });
+    // AP : "Diterima"
+    // IP : "Dalam proses"
+    // RJ : "Ditolak"
+    if (row.status == "AP") {
+      let obj = {
+        code: "EMEL04",
+        to: user[0].email,
+        context: null,
+      };
+      console.log("obj", obj);
+      this.emailtemplateService.sending_mail(obj).subscribe(
+        (res) => {
+          console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    } else if (row.status == "RJ") {
+      let obj = {
+        code: "EMEL05",
+        to: user[0].email,
+        context: null,
+      };
+      console.log("obj", obj);
+      this.emailtemplateService.sending_mail(obj).subscribe(
+        (res) => {
+          console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
   }
 
   getOrganisationCategory(value: string) {

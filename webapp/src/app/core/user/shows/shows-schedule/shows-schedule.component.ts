@@ -16,12 +16,11 @@ import swal from "sweetalert2";
 
 import { ShowtimesService } from "../../../../shared/services/showtimes/showtimes.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
-import { VenuesService } from 'src/app/shared/services/venues/venues.service';
+import { VenuesService } from "src/app/shared/services/venues/venues.service";
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
 
 am4core.useTheme(am4themes_animated);
 
@@ -78,6 +77,8 @@ export class ShowsScheduleComponent implements OnInit {
     this.showtimeFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       show_date: new FormControl(""),
+      show_date_start: new FormControl(""),
+      show_date_end: new FormControl(""),
       show_time: new FormControl(""),
       showing_id: new FormControl(""),
       venue_id: new FormControl(""),
@@ -101,10 +102,11 @@ export class ShowsScheduleComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.venues = res;
-      }, (err) => {
+      },
+      (err) => {
         console.error("err", err);
       }
-    )
+    );
   }
 
   ngOnInit() {
@@ -222,23 +224,32 @@ export class ShowsScheduleComponent implements OnInit {
     console.log("tableRows", this.tableRows);
     let arrayChart = [];
     for (let i = 0; i < this.tableRows.length; i++) {
-      var days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+      var days = [
+        "Ahad",
+        "Isnin",
+        "Selasa",
+        "Rabu",
+        "Khamis",
+        "Jumaat",
+        "Sabtu",
+      ];
       var name = this.getDayName(this.tableRows[i].show_date);
       var dayIndex = days.indexOf(name);
       let array = {
         name,
-        fromDate: this.tableRows[i].show_date + ' ' + this.tableRows[i].show_time,
-        toDate: this.tableRows[i].show_date + ' ' + '16:00:00',
+        fromDate:
+          this.tableRows[i].show_date + " " + this.tableRows[i].show_time,
+        toDate: this.tableRows[i].show_date + " " + "16:00:00",
         color: colorSet.getIndex(dayIndex).brighten(0),
-        title: this.tableRows[i].showing_id.title
-      }
+        title: this.tableRows[i].showing_id.title,
+      };
       arrayChart.push(array);
     }
     return arrayChart;
   }
 
   getDayName(dateString) {
-    var days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+    var days = ["Ahad", "Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu"];
     var d = new Date(dateString);
     var dayName = days[d.getDay()];
     return dayName;
@@ -250,7 +261,7 @@ export class ShowsScheduleComponent implements OnInit {
     } else if (process == "update") {
       this.showtimeFormGroup.patchValue({
         ...row,
-        showing_id: row.showing_id.id
+        showing_id: row.showing_id.id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -261,41 +272,56 @@ export class ShowsScheduleComponent implements OnInit {
   }
 
   create() {
-    this.showtimeService.post(this.showtimeFormGroup.value).subscribe(
-      (res) => {
-        console.log("res", res);
-        swal
-          .fire({
-            title: "Berjaya",
-            text: "Data anda berjaya disimpan.",
-            type: "success",
-            buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
-          })
-          .then((result) => {
-            if (result.value) {
-              this.modal.hide();
-              this.getData();
-            }
-          });
-      },
-      (err) => {
-        console.error("err", err);
-        swal
-          .fire({
-            title: "Ralat",
-            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
-            buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
-          })
-          .then((result) => {
-            if (result.value) {
-              // this.modal.hide();
-            }
-          });
+    var start_date = new Date(this.showtimeFormGroup.value.show_date_start);
+    var end_date = new Date(this.showtimeFormGroup.value.show_date_end);
+
+    var loop = new Date(start_date);
+    while (loop <= end_date) {
+      // console.log("loop", loop);
+
+      // enter the data into DB without Monday
+      if (loop.getDay() != 1) {
+        this.showtimeFormGroup.value.show_date = this.formatDate(loop);
+        this.showtimeService.post(this.showtimeFormGroup.value).subscribe(
+          (res) => {
+            console.log("res", res);
+            swal
+              .fire({
+                title: "Berjaya",
+                text: "Data anda berjaya disimpan.",
+                type: "success",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+              })
+              .then((result) => {
+                if (result.value) {
+                  this.modal.hide();
+                  this.getData();
+                }
+              });
+          },
+          (err) => {
+            console.error("err", err);
+            swal
+              .fire({
+                title: "Ralat",
+                text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+                type: "warning",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-warning",
+              })
+              .then((result) => {
+                if (result.value) {
+                  // this.modal.hide();
+                }
+              });
+          }
+        );
       }
-    );
+
+      var new_date = loop.setDate(loop.getDate() + 1);
+      loop = new Date(new_date);
+    }
   }
 
   update() {
@@ -337,7 +363,7 @@ export class ShowsScheduleComponent implements OnInit {
         }
       );
   }
-  
+
   delete(row) {
     swal
       .fire({
@@ -378,5 +404,18 @@ export class ShowsScheduleComponent implements OnInit {
           );
         }
       });
+  }
+
+  formatDate(date) {
+    let selectedDate = date;
+    let year = selectedDate.getFullYear();
+    let month = selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
+
+    return formatDate;
   }
 }
