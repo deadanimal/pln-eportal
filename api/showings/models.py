@@ -81,7 +81,7 @@ class Showtime(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_date']
+        ordering = ['show_date']
 
     # def __str__(self):
     #     return self.showing_id

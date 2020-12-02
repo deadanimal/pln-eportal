@@ -34,10 +34,10 @@ class SurveyQuestion(models.Model):
         ('M01', 'Tayangan'),
         ('M02', 'Pameran'),
         ('M03', 'Program Pendidikan'),
-        ('M04', 'Perpustakaan Maya'),
+        ('M04', 'Keberkesanan'),
         ('M05', 'Kembara Simulasi'),
         ('M06', 'Lawatan'),
-        ('M07', 'Penerbitan'),
+        ('M07', 'Kutubkhanah Mini/Penerbitan'),
         ('M08', 'Fasiliti'),
         ('NAV', 'Not Available')
     ]

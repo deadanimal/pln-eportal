@@ -31,7 +31,7 @@ class EmailTemplate(models.Model):
         ('EMEL11', 'Templat Lawatan - Tempahan Ditolak'),
         ('EMEL99', 'Tiada')
     ]
-    code = models.CharField(max_length=6, choices=CODE, default='EMEL99')
+    code = models.CharField(max_length=6, choices=CODE, default='EMEL99', unique=True)
     subject = models.CharField(max_length=255, default='NA', blank=True)
     body = models.TextField(blank=True)
     status = models.BooleanField(default=False)
