@@ -99,6 +99,7 @@ import { EmployeeDirectoryComponent } from "./employee-directory/employee-direct
 import { QuickLinkComponent } from "./quick-link/quick-link.component";
 import { SafePipe } from "../shared/pipes/safe/safe.pipe";
 import { SignupComponent } from "./signup/signup.component";
+import { TruncatePipe } from "../shared/pipes/truncate/truncate.pipe";
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -168,6 +169,7 @@ const customConfig: ShareButtonsConfig = {
     QuickLinkComponent,
     SafePipe,
     SignupComponent,
+    TruncatePipe,
   ],
   imports: [
     CommonModule,

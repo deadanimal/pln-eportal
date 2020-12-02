@@ -44,185 +44,186 @@
   </div>
   <div class="main main-raised bg-white">
     <div class="section">
-      <div class="container">
-        <div class="p-5" *ngIf="typeQuestion == ''">
-          <h2 class="text-center text-dark font-weight-bold">
-            Sila pilih <share-button button="facebook"></share-button
-            ><share-button button="twitter"></share-button
-            ><share-button button="whatsapp"></share-button>
-          </h2>
-          <div class="row align-items-center">
-            <div class="col-md-6 text-right">
-              <!-- <button class="btn btn-default" (click)="chooseQuestion('soalselidik')">
+      <div class="row">
+        <div class="col-10 mx-auto">
+          <div class="p-5" *ngIf="typeQuestion == ''">
+            <h2 class="text-center text-dark font-weight-bold">
+              Sila pilih <share-button button="facebook"></share-button
+              ><share-button button="twitter"></share-button
+              ><share-button button="whatsapp"></share-button>
+            </h2>
+            <div class="row align-items-center">
+              <div class="col-md-6 text-right">
+                <!-- <button class="btn btn-default" (click)="chooseQuestion('soalselidik')">
             Soal Selidik
           </button> -->
-              <div
-                class="card card-pricing"
-                (click)="chooseQuestion('soalselidik', 'Tayangan', 'M01')"
-              >
-                <!--(click)="chooseQuestion('soalselidik')"-->
-                <div class="card-header bg-white">
-                  <img
-                    src="../../../assets/icon/survey.jpeg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="title m-0">Soal Selidik</h2>
+                <div
+                  class="card card-pricing"
+                  (click)="chooseQuestion('soalselidik', 'Tayangan', 'M01')"
+                >
+                  <!--(click)="chooseQuestion('soalselidik')"-->
+                  <div class="card-header bg-white">
+                    <img
+                      src="../../../assets/icon/survey.jpeg"
+                      style="max-width: 150px; margin-bottom: 1rem"
+                    />
+                  </div>
+                  <div class="card-body">
+                    <h2 class="title m-0">Soal Selidik</h2>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6 text-left">
-              <!-- <button class="btn btn-default" (click)="chooseQuestion('maklumbalas')">
+              <div class="col-md-6 text-left">
+                <!-- <button class="btn btn-default" (click)="chooseQuestion('maklumbalas')">
             Maklum Balas
           </button> -->
-              <div
-                class="card card-pricing"
-                (click)="chooseQuestion('maklumbalas', '')"
-              >
-                <div class="card-header bg-white">
-                  <img
-                    src="../../../assets/icon/feedback.jpeg"
-                    style="max-width: 150px; margin-bottom: 1rem"
-                  />
-                </div>
-                <div class="card-body">
-                  <h2 class="title m-0">Maklum Balas / Aduan</h2>
+                <div
+                  class="card card-pricing"
+                  (click)="chooseQuestion('maklumbalas', '')"
+                >
+                  <div class="card-header bg-white">
+                    <img
+                      src="../../../assets/icon/feedback.jpeg"
+                      style="max-width: 150px; margin-bottom: 1rem"
+                    />
+                  </div>
+                  <div class="card-body">
+                    <h2 class="title m-0">Maklum Balas / Aduan</h2>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="section" *ngIf="typeQuestion == 'soalselidik'">
-          <h1 class="font-weight-bold text-center text-dark pt-5">
-            Soal Selidik ({{ module }})
-          </h1>
-          <form [formGroup]="surveyFormGroup">
-            <tabset>
-              <tab
-                *ngFor="let module of modules"
-                [heading]="module.display_name"
-                (selectTab)="changeTab($event)"
-              >
-                <div class="row">
-                  <div class="col-md-8 col-sm-12 mx-auto">
-                    <table class="table">
-                      <tbody>
-                        <tr
-                          *ngFor="
-                            let surveyquestion of surveyquestions
-                              | surveyquestionfilter
-                                : { questionnaire_module: module.value };
-                            let i = index
-                          "
-                        >
-                          <td
-                            class="d-flex align-self-top justify-content-center text-dark font-weight-bold"
+          <div class="section" *ngIf="typeQuestion == 'soalselidik'">
+            <h1 class="font-weight-bold text-center text-dark pt-5">
+              Soal Selidik ({{ module }})
+            </h1>
+            <form [formGroup]="surveyFormGroup">
+              <tabset>
+                <tab
+                  *ngFor="let module of modules"
+                  [heading]="module.display_name"
+                  (selectTab)="changeTab($event)"
+                >
+                  <div class="row">
+                    <div class="col-md-8 col-sm-12 mx-auto">
+                      <table class="table">
+                        <tbody>
+                          <tr
+                            *ngFor="
+                              let surveyquestion of surveyquestions
+                                | surveyquestionfilter
+                                  : { questionnaire_module: module.value };
+                              let i = index
+                            "
                           >
-                            {{ i + 1 }}
-                          </td>
-                          <td>
-                            <div class="form-group">
-                              <div class="form-label">
-                                {{ surveyquestion.questionnaire_question }}
-                              </div>
-                              <div
-                                class="row pt-3"
-                                *ngIf="
-                                  surveyquestion.questionnaire_type == 'SL'
-                                "
-                              >
-                                <div class="col">
-                                  <div class="form-group">
-                                    <select
-                                      class="form-control text-dark"
-                                      [formControlName]="
-                                        surveyquestion.questionnaire_fieldname
-                                      "
-                                    >
-                                      <option value="">Sila pilih</option>
-                                      <option
-                                        class="text-dark"
-                                        *ngFor="
-                                          let answer of surveyquestion.questionnaire_answer;
-                                          let i = index
-                                        "
-                                        [value]="answer"
-                                      >
-                                        {{ answer }}
-                                      </option>
-                                    </select>
-                                  </div>
+                            <td
+                              class="d-flex align-self-top justify-content-center text-dark font-weight-bold"
+                            >
+                              {{ i + 1 }}
+                            </td>
+                            <td>
+                              <div class="form-group">
+                                <div class="form-label">
+                                  {{ surveyquestion.questionnaire_question }}
                                 </div>
-                              </div>
-                              <div
-                                class="row pt-3"
-                                *ngIf="
-                                  surveyquestion.questionnaire_type == 'RB'
-                                "
-                              >
                                 <div
-                                  class="col"
-                                  *ngFor="
-                                    let answer of surveyquestion.questionnaire_answer;
-                                    let i = index
+                                  class="row pt-3"
+                                  *ngIf="
+                                    surveyquestion.questionnaire_type == 'SL'
                                   "
                                 >
-                                  <div
-                                    class="form-check form-check-radio form-check-inline"
-                                  >
-                                    <label class="form-check-label text-dark">
-                                      <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        [id]="
-                                          surveyquestion.questionnaire_fieldname +
-                                          i
-                                        "
-                                        [name]="
-                                          surveyquestion.questionnaire_fieldname
-                                        "
-                                        [value]="answer"
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <select
+                                        class="form-control text-dark"
                                         [formControlName]="
                                           surveyquestion.questionnaire_fieldname
                                         "
-                                      />
-                                      {{ answer }}
-                                      <span class="form-check-sign"></span>
-                                    </label>
+                                      >
+                                        <option value="">Sila pilih</option>
+                                        <option
+                                          class="text-dark"
+                                          *ngFor="
+                                            let answer of surveyquestion.questionnaire_answer;
+                                            let i = index
+                                          "
+                                          [value]="answer"
+                                        >
+                                          {{ answer }}
+                                        </option>
+                                      </select>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div
-                                class="row pt-3"
-                                *ngIf="
-                                  surveyquestion.questionnaire_type == 'CB'
-                                "
-                              >
                                 <div
-                                  class="col"
-                                  *ngFor="
-                                    let answer of surveyFormGroup.controls[
-                                      surveyquestion.questionnaire_fieldname
-                                    ].controls;
-                                    let i = index
+                                  class="row pt-3"
+                                  *ngIf="
+                                    surveyquestion.questionnaire_type == 'RB'
                                   "
                                 >
-                                  <div class="form-check form-check-inline">
-                                    <label class="form-check-label text-dark">
-                                      <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        [formControl]="answer"
-                                      />
-                                      {{
-                                        surveyquestion.questionnaire_answer[i]
-                                      }}
-                                      <span class="form-check-sign"></span>
-                                    </label>
+                                  <div
+                                    class="col"
+                                    *ngFor="
+                                      let answer of surveyquestion.questionnaire_answer;
+                                      let i = index
+                                    "
+                                  >
+                                    <div
+                                      class="form-check form-check-radio form-check-inline"
+                                    >
+                                      <label class="form-check-label text-dark">
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          [id]="
+                                            surveyquestion.questionnaire_fieldname +
+                                            i
+                                          "
+                                          [name]="
+                                            surveyquestion.questionnaire_fieldname
+                                          "
+                                          [value]="answer"
+                                          [formControlName]="
+                                            surveyquestion.questionnaire_fieldname
+                                          "
+                                        />
+                                        {{ answer }}
+                                        <span class="form-check-sign"></span>
+                                      </label>
+                                    </div>
                                   </div>
                                 </div>
-                                <!-- <div
+                                <div
+                                  class="row pt-3"
+                                  *ngIf="
+                                    surveyquestion.questionnaire_type == 'CB'
+                                  "
+                                >
+                                  <div
+                                    class="col"
+                                    *ngFor="
+                                      let answer of surveyFormGroup.controls[
+                                        surveyquestion.questionnaire_fieldname
+                                      ].controls;
+                                      let i = index
+                                    "
+                                  >
+                                    <div class="form-check form-check-inline">
+                                      <label class="form-check-label text-dark">
+                                        <input
+                                          class="form-check-input"
+                                          type="checkbox"
+                                          [formControl]="answer"
+                                        />
+                                        {{
+                                          surveyquestion.questionnaire_answer[i]
+                                        }}
+                                        <span class="form-check-sign"></span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <!-- <div
                                   class="col"
                                   *ngFor="
                                     let answer of surveyquestion.questionnaire_answer;
@@ -253,129 +254,54 @@
                                     </label>
                                   </div>
                                 </div> -->
-                              </div>
-                              <div
-                                class="row pt-3"
-                                *ngIf="
-                                  surveyquestion.questionnaire_type == 'TB'
-                                "
-                              >
-                                <div class="col">
-                                  <input
-                                    [formControlName]="
-                                      surveyquestion.questionnaire_fieldname
-                                    "
-                                    type="text"
-                                    class="form-control text-dark"
-                                    placeholder="Sila isi di ruangan yang disediakan"
-                                  />
+                                </div>
+                                <div
+                                  class="row pt-3"
+                                  *ngIf="
+                                    surveyquestion.questionnaire_type == 'TB'
+                                  "
+                                >
+                                  <div class="col">
+                                    <input
+                                      [formControlName]="
+                                        surveyquestion.questionnaire_fieldname
+                                      "
+                                      type="text"
+                                      class="form-control text-dark"
+                                      placeholder="Sila isi di ruangan yang disediakan"
+                                    />
+                                  </div>
+                                </div>
+                                <div
+                                  class="row pt-3"
+                                  *ngIf="
+                                    surveyquestion.questionnaire_type == 'RT'
+                                  "
+                                >
+                                  <div class="col">
+                                    <rating
+                                      [formControlName]="
+                                        surveyquestion.questionnaire_fieldname
+                                      "
+                                      [max]="5"
+                                    ></rating>
+                                  </div>
                                 </div>
                               </div>
-                              <div
-                                class="row pt-3"
-                                *ngIf="
-                                  surveyquestion.questionnaire_type == 'RT'
-                                "
-                              >
-                                <div class="col">
-                                  <rating
-                                    [formControlName]="
-                                      surveyquestion.questionnaire_fieldname
-                                    "
-                                    [max]="5"
-                                  ></rating>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
-              </tab>
-            </tabset>
-          </form>
-          <div class="text-center p-3">
-            <button
-              type="button"
-              class="btn btn-default"
-              (click)="submitSurvey()"
-            >
-              Hantar
-            </button>
-            <button type="button" class="btn btn-neutral" (click)="back()">
-              Kembali
-            </button>
-          </div>
-        </div>
-        <div class="section p-3 mx-auto" *ngIf="typeQuestion == 'maklumbalas'">
-          <form [formGroup]="feedbackFormGroup">
-            <h1 class="font-weight-bold text-center text-dark">
-              Maklum Balas / Aduan
-            </h1>
-            <div class="p-3">
-              <div class="row" style="display: flex; align-items: center">
-                <div class="col-3"></div>
-                <div class="col-2">
-                  <label class="form-control-label text-dark font-weight-bold"
-                    >Nama</label
-                  >
-                </div>
-                <div class="col-4">
-                  <input
-                    type="text"
-                    formControlName="full_name"
-                    class="form-control bg-white text-dark"
-                  />
-                </div>
-                <div class="col-3"></div>
-              </div>
-              <div class="row pt-3">
-                <div class="col-3"></div>
-                <div class="col-2">
-                  <label class="form-control-label text-dark font-weight-bold"
-                    >Emel</label
-                  >
-                </div>
-                <div class="col-4">
-                  <input
-                    type="email"
-                    formControlName="email"
-                    class="form-control bg-white text-dark"
-                  />
-                </div>
-                <div class="col-3"></div>
-              </div>
-              <div class="row pt-3">
-                <div class="col-3"></div>
-                <div class="col-2">
-                  <label class="form-control-label text-dark font-weight-bold"
-                    >Komen</label
-                  >
-                </div>
-                <div class="col-4">
-                  <textarea
-                    class="form-control bg-white text-dark"
-                    formControlName="comment_user"
-                    rows="7"
-                  ></textarea>
-                </div>
-                <div class="col-3"></div>
-              </div>
-            </div>
+                </tab>
+              </tabset>
+            </form>
             <div class="text-center p-3">
-              <!-- <button
-                type="button"
-                class="btn btn-default"
-                (click)="submitFeedback()"
-              >
-                Inbox
-              </button> -->
               <button
                 type="button"
                 class="btn btn-default"
-                (click)="submitFeedback()"
+                (click)="submitSurvey()"
               >
                 Hantar
               </button>
@@ -383,7 +309,86 @@
                 Kembali
               </button>
             </div>
-          </form>
+          </div>
+          <div
+            class="section p-3 mx-auto"
+            *ngIf="typeQuestion == 'maklumbalas'"
+          >
+            <form [formGroup]="feedbackFormGroup">
+              <h1 class="font-weight-bold text-center text-dark">
+                Maklum Balas / Aduan
+              </h1>
+              <div class="p-3">
+                <div class="row" style="display: flex; align-items: center">
+                  <div class="col-3"></div>
+                  <div class="col-2">
+                    <label class="form-control-label text-dark font-weight-bold"
+                      >Nama</label
+                    >
+                  </div>
+                  <div class="col-4">
+                    <input
+                      type="text"
+                      formControlName="full_name"
+                      class="form-control bg-white text-dark"
+                    />
+                  </div>
+                  <div class="col-3"></div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-3"></div>
+                  <div class="col-2">
+                    <label class="form-control-label text-dark font-weight-bold"
+                      >Emel</label
+                    >
+                  </div>
+                  <div class="col-4">
+                    <input
+                      type="email"
+                      formControlName="email"
+                      class="form-control bg-white text-dark"
+                    />
+                  </div>
+                  <div class="col-3"></div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-3"></div>
+                  <div class="col-2">
+                    <label class="form-control-label text-dark font-weight-bold"
+                      >Komen</label
+                    >
+                  </div>
+                  <div class="col-4">
+                    <textarea
+                      class="form-control bg-white text-dark"
+                      formControlName="comment_user"
+                      rows="7"
+                    ></textarea>
+                  </div>
+                  <div class="col-3"></div>
+                </div>
+              </div>
+              <div class="text-center p-3">
+                <!-- <button
+                type="button"
+                class="btn btn-default"
+                (click)="submitFeedback()"
+              >
+                Inbox
+              </button> -->
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="submitFeedback()"
+                >
+                  Hantar
+                </button>
+                <button type="button" class="btn btn-neutral" (click)="back()">
+                  Kembali
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

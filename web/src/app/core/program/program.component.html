@@ -70,57 +70,6 @@
             </p>
           </div>
         </div>
-        <!-- <div class="row" *ngFor="let program of programs">
-          <div class="col-md-12 ml-auto mr-auto">
-            <h2 class="title ml-1 text-dark">{{ program.title }}</h2>
-            <br />
-
-            <div
-              class="card card-blog card-plain blog-horizontal"
-              *ngFor="let pro of program.program"
-            >
-              <div class="row">
-                <div class="col-lg-5">
-                  <ngx-gallery
-                    [options]="galleryOptions"
-                    [images]="pro.images"
-                  ></ngx-gallery>
-                </div>
-                <div class="col-lg-7">
-                  <div class="card-body">
-                    <h3 class="card-title">
-                      <a href="javascript:void(0)" class="text-dark">
-                        {{ pro.name }}
-                      </a>
-                    </h3>
-                    <p class="card-description text-justify text-dark">
-                      {{ pro.desc | slice: 0:200 }} ...
-                      <a
-                        style="color: #ba54f5; font-weight: bold"
-                        (click)="openReadMoreModal(modalReadMore, pro)"
-                        >Baca selanjutnya</a
-                      >
-                    </p>
-                    <h4 *ngIf="pro.further_detail" class="text-dark">
-                      Maklumat lanjut:
-                      <a [href]="pro.further_detail">{{
-                        pro.further_detail
-                      }}</a>
-                    </h4>
-                    <div>
-                      <div class="row">
-                        <div class="col text-right">
-                          <button class="btn btn-danger" (click)="openVideoModal(modalVideo, pro)" *ngIf="pro.video_link">Lihat</button>
-                          <button class="btn btn-default" (click)="openDefaultModal(modalDefault)" *ngIf="pro.registration">Daftar</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div class="row" *ngFor="let programcategory of programcategories">
           <div class="col-md-12 ml-auto mr-auto">
             <h2 class="title ml-1 text-dark">
@@ -152,7 +101,7 @@
                     <div
                       class="inner-html"
                       [innerHtml]="
-                        pro.description | slice: 0:400 | safe: 'html'
+                        pro.description | truncate: 500:true | safe: 'html'
                       "
                     ></div>
                     <a

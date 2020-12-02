@@ -28,6 +28,9 @@ export class QuickLinkComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.categories = res;
+        for (let i = 0; i < this.categories.length; i++) {
+          this.categories[i].show = false;
+        }
       },
       (err) => {
         console.error("err", err);
@@ -48,4 +51,8 @@ export class QuickLinkComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  showMore(index: number) {
+    this.categories[index].show = !this.categories[index].show;
+  }
 }

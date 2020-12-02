@@ -33,31 +33,38 @@
           <!-- <div class="col-md-1 col-sm-12"></div> -->
           <!-- <div class="col">
             <div class="row"> -->
-              <div
-                class="col-md-3 col-sm-12"
-                *ngFor="let category of categories"
-              >
-                <div class="card">
-                  <div class="card-header bg-white p-4 text-center">
-                    <h3 class="title text-info font-weight-bold">
-                      {{ category.name }}
-                    </h3>
+          <div class="col-md-3 col-sm-12" *ngFor="let category of categories; let i = index">
+            <div class="card">
+              <div class="card-header bg-white text-center">
+                <h3 class="title text-info font-weight-bold">
+                  {{ category.name }}
+                </h3>
+              </div>
+              <div class="card-body bg-white text-center pb-3">
+                <div *ngFor="let quicklink of quicklinks; let j = index">
+                  <div *ngIf="quicklink.category == category.id && j + 1 <= 5">
+                    <p class="pt-2" style="font-size: 1rem">
+                      <a [href]="quicklink.link">{{ quicklink.name }}</a>
+                    </p>
                   </div>
-                  <div class="card-body bg-white text-center pb-3">
-                    <div *ngFor="let quicklink of quicklinks">
-                      <div *ngIf="quicklink.category == category.id">
-                        <p style="font-size: 1rem">
-                          <a
-                            [href]="quicklink.link"
-                            >{{ quicklink.name }}</a
-                          >
-                        </p>
-                      </div>
-                    </div>
+
+                  <div *ngIf="quicklink.category == category.id && j + 1 > 5 && category.show">
+                    <p class="pt-2" style="font-size: 1rem">
+                      <a [href]="quicklink.link">{{ quicklink.name }}</a>
+                    </p>
                   </div>
                 </div>
               </div>
-            <!-- </div>
+              <div class="card-footer text-center p-3 bg-white mt-0">
+                <a
+                  style="color: #ba54f5; font-weight: bold"
+                  (click)="showMore(i)"
+                  >Baca selanjutnya</a
+                >
+              </div>
+            </div>
+          </div>
+          <!-- </div>
           </div> -->
           <!-- <div class="col-md-1 col-sm-12"></div> -->
         </div>

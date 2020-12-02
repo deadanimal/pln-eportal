@@ -66,7 +66,7 @@ export class SurveyComponent implements OnInit {
     },
     {
       value: "M04",
-      display_name: "Kutubkhanah Mini",
+      display_name: "Keberkesanan",
     },
     {
       value: "M05",
@@ -78,7 +78,7 @@ export class SurveyComponent implements OnInit {
     },
     {
       value: "M07",
-      display_name: "Penerbitan",
+      display_name: "Kutubkhanah Mini/Penerbitan",
     },
     {
       value: "M08",
