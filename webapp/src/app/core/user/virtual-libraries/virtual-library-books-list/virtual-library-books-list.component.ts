@@ -145,9 +145,30 @@ export class VirtualLibraryBooksListComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.virtuallibrarybookFormGroup.patchValue({
+      title: "",
+      description: "",
+      call_number: "",
+      author: "",
+      author_added: "",
+      editor: "",
+      isbn: "",
+      issn: "",
+      year: "",
+      publisher_name: "",
+      published_date: null,
+      notes: "",
+      status: "IAC",
+      image_link: null,
+      pdf_link: null,
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.virtuallibrarybookFormGroup.reset();
+      // this.virtuallibrarybookFormGroup.reset();
+      this.emptyFormGroup();
       if (this.virtual_library_collection_id) {
         this.virtuallibrarybookFormGroup.patchValue({
           virtual_library_collection_id: this.virtual_library_collection_id,

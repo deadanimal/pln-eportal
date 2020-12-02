@@ -45,10 +45,6 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
       value: "KTB",
       display_name: "Koleksi - Terbitan Bersiri",
     },
-    {
-      value: "NAV",
-      display_name: "Tiada",
-    },
   ];
 
   // Table

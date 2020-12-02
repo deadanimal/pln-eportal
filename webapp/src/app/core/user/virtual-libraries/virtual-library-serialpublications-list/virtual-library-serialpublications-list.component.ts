@@ -147,9 +147,30 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.virtuallibraryserialpublicationFormGroup.patchValue({
+      title: "",
+      description: "",
+      call_number: "",
+      author: "",
+      author_added: "",
+      editor: "",
+      isbn: "",
+      issn: "",
+      year: "",
+      publisher_name: "",
+      published_date: null,
+      notes: "",
+      status: "IAC",
+      image_link: null,
+      pdf_link: null,
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.virtuallibraryserialpublicationFormGroup.reset();
+      // this.virtuallibraryserialpublicationFormGroup.reset();
+      this.emptyFormGroup();
       if (this.virtual_library_collection_id) {
         this.virtuallibraryserialpublicationFormGroup.patchValue({
           virtual_library_collection_id: this.virtual_library_collection_id,
