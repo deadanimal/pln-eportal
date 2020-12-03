@@ -58,8 +58,12 @@ export class ShowsComponent implements OnInit {
     let filterField = "status=AV";
     this.showingService.filter(filterField).subscribe(
       (res) => {
-        this.showings = res;
         console.log("res", res);
+        this.showings = res;
+        for (let i = 0; i < this.showings.length; i++) {
+          this.showings[i].show = false;
+        }
+        console.log("showings", this.showings);
       },
       (err) => {
         console.error("err", err);
@@ -112,6 +116,10 @@ export class ShowsComponent implements OnInit {
         "Ralat"
       );
     }
+  }
+
+  showMore(index: number) {
+    this.showings[index].show = !this.showings[index].show;
   }
 
   addMetaTag() {

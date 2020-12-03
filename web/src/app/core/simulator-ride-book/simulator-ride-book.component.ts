@@ -19,6 +19,7 @@ export class SimulatorRideBookComponent implements OnInit {
   existbookings = [];
   simridetimes = [];
   today: Date = new Date();
+  threemonth: Date = new Date();
   totalticket: number = 0;
   totalexistticket: number = 1;
 
@@ -77,7 +78,10 @@ export class SimulatorRideBookComponent implements OnInit {
     private simulatorridebookingService: SimulatorRideBookingsService,
     private simulatorridetimeService: SimulatorRideTimesService
   ) {
+    // minDate - to set the min date starting day after tomorrow
     this.today.setDate(this.today.getDate() + 1);
+    // maxDate - to set the max date on 3 months starting today
+    this.threemonth.setMonth(this.threemonth.getMonth() + 3);
 
     this.getExistBooking();
     this.getSimRideTime();
@@ -169,6 +173,7 @@ export class SimulatorRideBookComponent implements OnInit {
       }
 
       let objPost = {
+        booking_date: this.formatDate(this.firstFormGroup.value.date),
         ticket_type: ticketType,
         ticket_category: ticketCategory,
         ticket_quantity: 1,
