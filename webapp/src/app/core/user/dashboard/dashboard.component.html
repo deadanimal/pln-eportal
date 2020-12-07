@@ -1,115 +1,272 @@
-<div class="header pb-6">
+<div class="header bg-default pb-6">
   <div class="container-fluid">
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-dark d-inline-block mb-0">Dashboard</h6>
+          <h6 class="h2 text-white d-inline-block mb-0">Dashboard</h6>
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item">
                 <a href="javascript:void(0)">
-                  <i class="fas fa-home text-dark"> </i>
+                  <i class="fas fa-home text-white"> </i>
                 </a>
               </li>
             </ol>
           </nav>
         </div>
+
+        <div class="col-lg-6 col-5 text-right">
+          <h6 class="h4 text-white mb-0">
+            Data setakat hari ini ({{ today | date: "mediumDate" }})
+          </h6>
+        </div>
       </div>
 
       <div class="row">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-4">
           <div class="card card-stats">
             <div class="card-body">
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">
-                    Total User Registered
+                    Jumlah Jualan Tiket Kembara Simulasi
                   </h5>
 
-                  <span class="h2 font-weight-bold mb-0"> 378 </span>
+                  <span class="h1 font-weight-bold mb-0"> RM 420.00 </span>
                 </div>
 
                 <div class="col-auto">
                   <div
                     class="icon icon-shape bg-gradient-red text-white rounded-circle shadow"
                   >
-                    <i class="ni ni-active-40"> </i>
+                    <i class="fas fa-money-bill-alt"> </i>
                   </div>
                 </div>
               </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> RM </span>
+              </p>
             </div>
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-4">
           <div class="card card-stats">
             <div class="card-body">
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">
-                    New tickets
+                    Jumlah Jualan Tiket Kembara Simulasi
                   </h5>
 
-                  <span class="h2 font-weight-bold mb-0"> 2,356 </span>
+                  <span class="h1 font-weight-bold mb-0"> 200 </span>
                 </div>
 
                 <div class="col-auto">
                   <div
                     class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow"
                   >
-                    <i class="ni ni-chart-pie-35"> </i>
+                    <i class="fas fa-desktop"> </i>
                   </div>
                 </div>
               </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> Online </span>
+              </p>
             </div>
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-4">
           <div class="card card-stats">
             <div class="card-body">
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">
-                    Sales
+                    Jumlah Jualan Tiket Kembara Simulasi
                   </h5>
 
-                  <span class="h2 font-weight-bold mb-0">RM 10,780.00 </span>
+                  <span class="h1 font-weight-bold mb-0"> 47 </span>
                 </div>
 
                 <div class="col-auto">
                   <div
-                    class="icon icon-shape bg-gradient-green text-white rounded-circle shadow"
+                    class="icon icon-shape bg-gradient-primary text-white rounded-circle shadow"
                   >
-                    <i class="ni ni-money-coins"> </i>
+                    <i class="fas fa-users"> </i>
                   </div>
                 </div>
               </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> Kaunter </span>
+              </p>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="col-xl-3 col-md-6">
+      <div class="row">
+        <div class="col-xl-4 col-md-4">
           <div class="card card-stats">
             <div class="card-body">
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">
-                    Total Refund (Cumulative)
+                    Jumlah Jualan Tiket Tayangan
                   </h5>
 
-                  <span class="h2 font-weight-bold mb-0"> RM 1,890.00 </span>
+                  <span class="h1 font-weight-bold mb-0">RM 780.00 </span>
+                </div>
+
+                <div class="col-auto">
+                  <div
+                    class="icon icon-shape bg-gradient-yellow text-white rounded-circle shadow"
+                  >
+                    <i class="fas fa-money-bill-wave-alt"> </i>
+                  </div>
+                </div>
+              </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> RM </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-4">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">
+                    Jumlah Jualan Tiket Tayangan
+                  </h5>
+
+                  <span class="h1 font-weight-bold mb-0"> 20 </span>
                 </div>
 
                 <div class="col-auto">
                   <div
                     class="icon icon-shape bg-gradient-info text-white rounded-circle shadow"
                   >
-                    <i class="ni ni-chart-bar-32"> </i>
+                    <i class="fas fa-desktop"> </i>
                   </div>
                 </div>
               </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> Online </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-4">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">
+                    Jumlah Jualan Tiket Tayangan
+                  </h5>
+
+                  <span class="h1 font-weight-bold mb-0"> 87 </span>
+                </div>
+
+                <div class="col-auto">
+                  <div
+                    class="icon icon-shape bg-gradient-default text-white rounded-circle shadow"
+                  >
+                    <i class="fas fa-users"> </i>
+                  </div>
+                </div>
+              </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> Kaunter </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-4 col-md-4">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">
+                    Kutipan Jualan Harian
+                  </h5>
+
+                  <span class="h1 font-weight-bold mb-0">RM 780.00 </span>
+                </div>
+
+                <div class="col-auto">
+                  <div
+                    class="icon icon-shape bg-gradient-green text-white rounded-circle shadow"
+                  >
+                    <i class="fas fa-coins"> </i>
+                  </div>
+                </div>
+              </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> Tayangan (RM) </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-4">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">
+                    Kutipan Jualan Harian
+                  </h5>
+
+                  <span class="h1 font-weight-bold mb-0"> RM 20 </span>
+                </div>
+
+                <div class="col-auto">
+                  <div
+                    class="icon icon-shape bg-gradient-green text-white rounded-circle shadow"
+                  >
+                    <i class="fas fa-coins"> </i>
+                  </div>
+                </div>
+              </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> Kembara Simulasi (RM) </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-4">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">
+                    Kutipan Jualan Harian
+                  </h5>
+
+                  <span class="h1 font-weight-bold mb-0"> RM 100 </span>
+                </div>
+
+                <div class="col-auto">
+                  <div
+                    class="icon icon-shape bg-gradient-green text-white rounded-circle shadow"
+                  >
+                    <i class="fas fa-coins"> </i>
+                  </div>
+                </div>
+              </div>
+              <p class="mb-0 text-sm">
+                <span class="text-nowrap"> Fasiliti (RM) </span>
+              </p>
             </div>
           </div>
         </div>
@@ -120,78 +277,159 @@
 
 <div class="container-fluid mt--6">
   <div class="row">
-    <div class="col-xl-8">
-      <div class="card">
-        <div class="card-header bg-secondary">
-          <div class="row align-items-center">
+    <div class="col-xl-3 col-md-3">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
             <div class="col">
-              <h6 class="text-muted text-uppercase ls-1 mb-1">Chart</h6>
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Muat-Turun (PDF) Penerbitan
+              </h5>
 
-              <h5 class="h3 mb-0">Module</h5>
+              <span class="h1 font-weight-bold mb-0"> 132 </span>
             </div>
-
-            <div class="col">
-              <ul class="nav nav-pills justify-content-end">
-                <li
-                  class="nav-item mr-2 mr-md-0"
-                  data-toggle="chart"
-                  data-target="#chart-sales"
-                >
-                  <a
-                    href="javascript:void(0)"
-                    class="nav-link py-2 px-3"
-                    [ngClass]="{ active: clicked === true }"
-                    data-toggle="tab"
-                    (click)="clicked = true; clicked1 = false"
-                  >
-                    <span class="d-none d-md-block">Monthly</span>
-                    <span class="d-md-none">M</span>
-                  </a>
-                </li>
-                <li
-                  class="nav-item"
-                  data-toggle="chart"
-                  data-target="#chart-sales"
-                >
-                  <a
-                    href="javascript:void(0)"
-                    class="nav-link py-2 px-3"
-                    [ngClass]="{ active: clicked1 === true }"
-                    data-toggle="tab"
-                    (click)="clicked = false; clicked1 = true"
-                  >
-                    <span class="d-none d-md-block">Weekly</span>
-                    <span class="d-md-none">W</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-body">
-          <div class="chart">
-            <div class="amchart" id="chart-dashboard-1"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="col-xl-4">
-      <div class="card">
-        <div class="card-header bg-secondary">
-          <div class="row align-items-center">
+    <div class="col-xl-3 col-md-3">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
             <div class="col">
-              <h6 class="text-uppercase text-muted ls-1 mb-1">Chart</h6>
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Muat-Turun (PDF) Kutubkhanah Mini
+              </h5>
 
-              <h5 class="h3 mb-0">Trend</h5>
+              <span class="h1 font-weight-bold mb-0"> 210 </span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="card-body">
-          <div class="chart">
-            <div class="amchart" id="chart-dashboard-2"></div>
+    <div class="col-xl-3 col-md-3">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Pengunjung (Head Count)
+              </h5>
+
+              <span class="h1 font-weight-bold mb-0"> 45 </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-3">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Pengunjung (Website)
+              </h5>
+
+              <span class="h1 font-weight-bold mb-0"> 33 </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-md-4">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Tempahan Fasiliti (Terima)
+              </h5>
+
+              <span class="h1 font-weight-bold mb-0">
+                {{ facilitynew.length }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-4">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Tempahan Fasiliti (Lulus)
+              </h5>
+
+              <span class="h1 font-weight-bold mb-0">
+                {{ facilityaccept.length }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-4">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Tempahan Fasiliti (Gagal)
+              </h5>
+
+              <span class="h1 font-weight-bold mb-0">
+                {{ facilityreject.length }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-md-6">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Peserta Program Pendidikan (Daftar)
+              </h5>
+
+              <span class="h1 font-weight-bold mb-0">
+                {{ eduprogramsignup.length }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-md-6">
+      <div class="card card-stats">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">
+                Bilangan Peserta Program Pendidikan (Hadir)
+              </h5>
+
+              <span class="h1 font-weight-bold mb-0">
+                {{ eduprogramattend.length }}
+              </span>
+            </div>
           </div>
         </div>
       </div>

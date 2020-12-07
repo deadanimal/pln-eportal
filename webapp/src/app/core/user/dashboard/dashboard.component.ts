@@ -1,176 +1,66 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
 
-import * as am4core from '@amcharts/amcharts4/core';
-import * as am4charts from '@amcharts/amcharts4/charts';
-import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-am4core.useTheme(am4themes_animated);
+import { EducationalProgramApplicationsService } from "src/app/shared/services/educational-program-applications/educational-program-applications.service";
+import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.scss"],
 })
 export class DashboardComponent implements OnInit {
-
-  // Chart
-  private chart: any
-  private chart1: any
-  private chart2: any
-  public clicked: any = true
-  public clicked1: any = false
+  // Data
+  eduprogramsignup = [];
+  eduprogramattend = [];
+  facilitynew = [];
+  facilityaccept = [];
+  facilityreject = [];
+  today = new Date();
 
   constructor(
-    private zone: NgZone
-  ) { }
-
-  ngOnInit() {
-    this.getCharts()
+    private eduprogramappService: EducationalProgramApplicationsService,
+    private facilitybookingService: FacilityBookingsService
+  ) {
+    this.getEduProgram();
+    this.getFacility();
   }
 
-  ngOnDestroy() {
-    this.zone.runOutsideAngular(
-      () => {
-        if (this.chart) {
-          console.log('Chart disposed')
-          this.chart.dispose()
-        }
-        if (this.chart1) {
-          console.log('Chart disposed')
-          this.chart1.dispose()
-        }
+  getEduProgram() {
+    this.eduprogramappService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.eduprogramsignup = res.filter((obj) => {
+          return obj.status == "IP";
+        });
+        this.eduprogramattend = res.filter((obj) => {
+          return obj.status == "AP";
+        });
+      },
+      (err) => {
+        console.error("err", err);
       }
-    )
+    );
   }
 
-  getCharts() {
-    this.zone.runOutsideAngular(() => {
-      this.getChart()
-      this.getChart1()
-    })
-  }
-
-  getChart() {
-    let chart = am4core.create('chart-dashboard-1', am4charts.XYChart);
-    // chart.scrollbarX = new am4core.Scrollbar();
-
-    // Add data
-    chart.data = [
-      {
-        'module': 'eShow',
-        'visits': 3025
-      }, 
-      {
-        'module': 'eExhibit',
-        'visits': 1882
+  getFacility() {
+    this.facilitybookingService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.facilitynew = res.filter((obj) => {
+          return obj.status == "IP";
+        });
+        this.facilityaccept = res.filter((obj) => {
+          return obj.status == "AP";
+        });
+        this.facilityreject = res.filter((obj) => {
+          return obj.status == "RJ";
+        });
       },
-      {
-        'module': 'eVisit',
-        'visits': 1809
-      },
-      {
-        'module': 'eProgram',
-        'visits': 1322
-      },
-      {
-        'module': 'eFacility',
-        'visits': 1122
-      },
-      {
-        'module': 'ePublication',
-        'visits': 1114
+      (err) => {
+        console.error("err", err);
       }
-    ];
-
-    // Create axes
-    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = 'module';
-    categoryAxis.renderer.grid.template.location = 0;
-    categoryAxis.renderer.minGridDistance = 30;
-    categoryAxis.renderer.labels.template.horizontalCenter = 'right';
-    categoryAxis.renderer.labels.template.verticalCenter = 'middle';
-    // categoryAxis.renderer.labels.template.rotation = 270;
-    categoryAxis.tooltip.disabled = true;
-    categoryAxis.renderer.minHeight = 110;
-
-    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.minWidth = 50;
-
-    // Create series
-    let series = chart.series.push(new am4charts.ColumnSeries());
-    series.sequencedInterpolation = true;
-    series.dataFields.valueY = 'visits';
-    series.dataFields.categoryX = 'module';
-    series.tooltipText = '[{categoryX}: bold]{valueY}[/]';
-    series.columns.template.strokeWidth = 0;
-
-    series.tooltip.pointerOrientation = 'vertical';
-
-    series.columns.template.column.cornerRadiusTopLeft = 10;
-    series.columns.template.column.cornerRadiusTopRight = 10;
-    series.columns.template.column.fillOpacity = 0.8;
-
-    // on hover, make corner radiuses bigger
-    let hoverState = series.columns.template.column.states.create('hover');
-    hoverState.properties.cornerRadiusTopLeft = 0;
-    hoverState.properties.cornerRadiusTopRight = 0;
-    hoverState.properties.fillOpacity = 1;
-
-    series.columns.template.adapter.add('fill', function (fill, target) {
-      return chart.colors.getIndex(target.dataItem.index);
-    });
-
-    // Cursor
-    chart.cursor = new am4charts.XYCursor();
-
-    this.chart = chart
+    );
   }
 
-  getChart1() {
-    let chart = am4core.create('chart-dashboard-2', am4charts.PieChart);
-    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-    chart.data = [
-      {
-        item: 'Kanak-kanak',
-        value: 491
-      },
-      {
-        item: 'Pelajar',
-        value: 5002
-      },
-      {
-        item: 'Keluarga',
-        value: 2000
-      },
-      {
-        item: 'Lain-lain',
-        value: 1600
-      }
-    ];
-    chart.radius = am4core.percent(70);
-    chart.innerRadius = am4core.percent(40);
-    chart.startAngle = 180;
-    chart.endAngle = 360;
-
-
-    let series = chart.series.push(new am4charts.PieSeries());
-    series.dataFields.value = 'value';
-    series.dataFields.category = 'item';
-    series.ticks.template.disabled = true;
-    series.labels.template.disabled = true;
-
-    series.slices.template.cornerRadius = 10;
-    series.slices.template.innerCornerRadius = 7;
-    series.slices.template.draggable = true;
-    series.slices.template.inert = true;
-    series.alignLabels = false;
-
-    series.hiddenState.properties.startAngle = 90;
-    series.hiddenState.properties.endAngle = 90;
-
-    //chart.legend = new am4charts.Legend();
-    this.chart1 = chart
-  }
-
+  ngOnInit() {}
 }
