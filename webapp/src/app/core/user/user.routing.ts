@@ -1,4 +1,12 @@
 import { Routes } from "@angular/router";
+import { DailySalesQuotesComponent } from './analytics/daily-sales-quotes/daily-sales-quotes.component';
+import { NumberOfFacilityBookingsComponent } from "./analytics/number-of-facility-bookings/number-of-facility-bookings.component";
+import { NumberOfProgramParticipantsComponent } from './analytics/number-of-program-participants/number-of-program-participants.component';
+import { NumberOfVisitorsComponent } from "./analytics/number-of-visitors/number-of-visitors.component";
+import { TotalDownloadsPdfPublicationComponent } from "./analytics/total-downloads-pdf-publication/total-downloads-pdf-publication.component";
+import { TotalDownloadsPdfVirtualLibraryComponent } from "./analytics/total-downloads-pdf-virtual-library/total-downloads-pdf-virtual-library.component";
+import { TotalTicketSalesShowsComponent } from "./analytics/total-ticket-sales-shows/total-ticket-sales-shows.component";
+import { TotalTicketSalesSimulatorRidesComponent } from "./analytics/total-ticket-sales-simulator-rides/total-ticket-sales-simulator-rides.component";
 import { AssetsComponent } from "./assets/assets.component";
 
 import { CalendarComponent } from "./calendar/calendar.component";
@@ -169,6 +177,43 @@ export const UserRoutes: Routes = [
         ],
       },
       {
+        path: "analytics",
+        children: [
+          {
+            path: "total-ticket-sales-shows",
+            component: TotalTicketSalesShowsComponent,
+          },
+          {
+            path: "total-ticket-sales-simulator-rides",
+            component: TotalTicketSalesSimulatorRidesComponent,
+          },
+          {
+            path: "total-downloads-pdf-publication",
+            component: TotalDownloadsPdfPublicationComponent,
+          },
+          {
+            path: "total-downloads-pdf-virtual-library",
+            component: TotalDownloadsPdfVirtualLibraryComponent,
+          },
+          {
+            path: "number-of-visitors",
+            component: NumberOfVisitorsComponent,
+          },
+          {
+            path: "number-of-facility-bookings",
+            component: NumberOfFacilityBookingsComponent,
+          },
+          {
+            path: "number-of-program-participants",
+            component: NumberOfProgramParticipantsComponent,
+          },
+          {
+            path: "daily-sales-quotes",
+            component: DailySalesQuotesComponent,
+          },
+        ],
+      },
+      {
         path: "reports",
         children: [
           {
@@ -316,10 +361,6 @@ export const UserRoutes: Routes = [
             path: "faqs",
             component: FaqsComponent,
           },
-          {
-            path: "email-templates",
-            component: EmailTemplatesComponent,
-          },
         ],
       },
       {
@@ -328,6 +369,10 @@ export const UserRoutes: Routes = [
           {
             path: "users",
             component: UsersComponent,
+          },
+          {
+            path: "email-templates",
+            component: EmailTemplatesComponent,
           },
         ],
       },

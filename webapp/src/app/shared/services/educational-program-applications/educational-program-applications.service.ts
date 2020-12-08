@@ -66,4 +66,12 @@ export class EducationalProgramApplicationsService {
     )
   }
 
+  number_of_program_participants(body: Form): Observable<any[]> {
+    let url = this.url + "number_of_program_participants/";
+    return this.http.post<any[]>(url, body).pipe(
+      tap((res) => {
+        console.log("Educational program applications: ", res);
+      })
+    );
+  }
 }

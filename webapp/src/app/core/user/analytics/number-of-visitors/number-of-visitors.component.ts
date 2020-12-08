@@ -1,0 +1,181 @@
+import { Component, OnInit, NgZone } from "@angular/core";
+import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
+
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+am4core.useTheme(am4themes_animated);
+
+@Component({
+  selector: 'app-number-of-visitors',
+  templateUrl: './number-of-visitors.component.html',
+  styleUrls: ['./number-of-visitors.component.scss']
+})
+export class NumberOfVisitorsComponent implements OnInit {
+  // Chart
+  private chartone: am4charts.XYChart;
+
+  // FormGroup
+  searchFormGroup: FormGroup;
+
+  constructor(public formBuilder: FormBuilder, private zone: NgZone) {
+    this.searchFormGroup = this.formBuilder.group({
+      monthstart: new FormControl(""),
+      monthend: new FormControl(""),
+    });
+  }
+
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.zone.runOutsideAngular(() => {
+      this.initChartOne();
+    });
+  }
+
+  initChartOne() {
+    let chart = am4core.create("chartdivone", am4charts.XYChart);
+    chart.colors.step = 2;
+
+    chart.legend = new am4charts.Legend();
+    chart.legend.position = "top";
+    chart.legend.paddingBottom = 20;
+    chart.legend.labels.template.maxWidth = 95;
+
+    let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    xAxis.dataFields.category = "month";
+    xAxis.renderer.cellStartLocation = 0.1;
+    xAxis.renderer.cellEndLocation = 0.9;
+    xAxis.renderer.grid.template.location = 0;
+    xAxis.renderer.minGridDistance = 10;
+
+    let yAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    yAxis.min = 0;
+
+    function createSeries(value, name) {
+      let series = chart.series.push(new am4charts.ColumnSeries());
+      series.dataFields.valueY = value;
+      series.dataFields.categoryX = "month";
+      series.name = name;
+
+      series.events.on("hidden", arrangeColumns);
+      series.events.on("shown", arrangeColumns);
+
+      let bullet = series.bullets.push(new am4charts.LabelBullet());
+      bullet.interactionsEnabled = false;
+      bullet.dy = 30;
+      bullet.label.text = "{valueY}";
+      bullet.label.fill = am4core.color("#ffffff");
+
+      return series;
+    }
+
+    chart.data = [
+      {
+        month: "Jun 20'",
+        website: 31,
+        headcount: 29,
+      },
+      {
+        month: "Jul 20'",
+        website: 56,
+        headcount: 32,
+      },
+      {
+        month: "Aug 20'",
+        website: 67,
+        headcount: 58,
+      },
+      {
+        month: "Sep 20'",
+        website: 40,
+        headcount: 55,
+      },
+      {
+        month: "Oct 20'",
+        website: 30,
+        headcount: 78,
+      },
+      {
+        month: "Nov 20'",
+        website: 27,
+        headcount: 40,
+      },
+      {
+        month: "Dec 20'",
+        website: 50,
+        headcount: 33,
+      },
+    ];
+
+    createSeries("website", "Website");
+    createSeries("headcount", "Head Count");
+
+    function arrangeColumns() {
+      let series = chart.series.getIndex(0);
+
+      let w =
+        1 -
+        xAxis.renderer.cellStartLocation -
+        (1 - xAxis.renderer.cellEndLocation);
+      if (series.dataItems.length > 1) {
+        let x0 = xAxis.getX(series.dataItems.getIndex(0), "categoryX");
+        let x1 = xAxis.getX(series.dataItems.getIndex(1), "categoryX");
+        let delta = ((x1 - x0) / chart.series.length) * w;
+        if (am4core.isNumber(delta)) {
+          let middle = chart.series.length / 2;
+
+          let newIndex = 0;
+          chart.series.each(function (series) {
+            if (!series.isHidden && !series.isHiding) {
+              series.dummyData = newIndex;
+              newIndex++;
+            } else {
+              series.dummyData = chart.series.indexOf(series);
+            }
+          });
+          let visibleCount = newIndex;
+          let newMiddle = visibleCount / 2;
+
+          chart.series.each(function (series) {
+            let trueIndex = chart.series.indexOf(series);
+            let newIndex = series.dummyData;
+
+            let dx = (newIndex - trueIndex + middle - newMiddle) * delta;
+
+            series.animate(
+              { property: "dx", to: dx },
+              series.interpolationDuration,
+              series.interpolationEasing
+            );
+            series.bulletsContainer.animate(
+              { property: "dx", to: dx },
+              series.interpolationDuration,
+              series.interpolationEasing
+            );
+          });
+        }
+      }
+    }
+
+    // Enable export
+    chart.exporting.menu = new am4core.ExportMenu();
+
+    this.chartone = chart;
+  }
+
+  ngOnDestroy() {
+    this.zone.runOutsideAngular(() => {
+      if (this.chartone) this.chartone.dispose();
+    });
+  }
+
+  search() {
+    console.log("searchFormGroup", this.searchFormGroup.value);
+  }
+
+  reset() {
+    this.searchFormGroup.reset();
+  }
+}

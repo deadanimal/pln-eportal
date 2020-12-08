@@ -69,6 +69,14 @@ import { AnnouncementsComponent } from './cms/announcements/announcements.compon
 import { FaqsComponent } from './cms/faqs/faqs.component';
 import { FacilitiesSubcategoryComponent } from './facilities/facilities-subcategory/facilities-subcategory.component';
 import { EmailTemplatesComponent } from './managements/email-templates/email-templates.component';
+import { TotalTicketSalesShowsComponent } from './analytics/total-ticket-sales-shows/total-ticket-sales-shows.component';
+import { TotalTicketSalesSimulatorRidesComponent } from './analytics/total-ticket-sales-simulator-rides/total-ticket-sales-simulator-rides.component';
+import { NumberOfVisitorsComponent } from './analytics/number-of-visitors/number-of-visitors.component';
+import { TotalDownloadsPdfPublicationComponent } from './analytics/total-downloads-pdf-publication/total-downloads-pdf-publication.component';
+import { TotalDownloadsPdfVirtualLibraryComponent } from './analytics/total-downloads-pdf-virtual-library/total-downloads-pdf-virtual-library.component';
+import { NumberOfFacilityBookingsComponent } from './analytics/number-of-facility-bookings/number-of-facility-bookings.component';
+import { NumberOfProgramParticipantsComponent } from './analytics/number-of-program-participants/number-of-program-participants.component';
+import { DailySalesQuotesComponent } from './analytics/daily-sales-quotes/daily-sales-quotes.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +131,14 @@ import { EmailTemplatesComponent } from './managements/email-templates/email-tem
     FaqsComponent,
     FacilitiesSubcategoryComponent,
     EmailTemplatesComponent,
+    TotalTicketSalesShowsComponent,
+    TotalTicketSalesSimulatorRidesComponent,
+    NumberOfVisitorsComponent,
+    TotalDownloadsPdfPublicationComponent,
+    TotalDownloadsPdfVirtualLibraryComponent,
+    NumberOfFacilityBookingsComponent,
+    NumberOfProgramParticipantsComponent,
+    DailySalesQuotesComponent,
   ],
   imports: [
     CommonModule,

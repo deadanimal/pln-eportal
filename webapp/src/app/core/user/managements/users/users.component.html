@@ -183,12 +183,12 @@
   </div>
 
   <div class="modal-body">
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-danger" role="alert">
       <strong>Info!</strong> Tetapan password awal adalah planetarium@2020
     </div>
     <form [formGroup]="userFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Penuh</label>
+        <label class="form-control-label required-field">Nama Penuh</label>
         <input
           class="form-control"
           formControlName="full_name"
@@ -197,7 +197,7 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama Pengguna</label>
+        <label class="form-control-label required-field">Nama Pengguna <small class="text-danger"> * nama pengguna adalah sama dengan emel pengguna</small></label>
         <input
           class="form-control"
           formControlName="username"
@@ -208,7 +208,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Emel</label>
+            <label class="form-control-label required-field">Emel</label>
             <input
               class="form-control"
               formControlName="email"
@@ -241,7 +241,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Poskod</label>
+            <label class="form-control-label required-field">Poskod</label>
             <input
               class="form-control"
               formControlName="postcode"
@@ -252,7 +252,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Bandar</label>
+            <label class="form-control-label required-field">Bandar</label>
             <input
               class="form-control"
               formControlName="city"
@@ -265,7 +265,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Negeri</label>
+            <label class="form-control-label required-field">Negeri</label>
             <select
               class="form-control"
               formControlName="state"
@@ -293,7 +293,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Negara</label>
+            <label class="form-control-label required-field">Negara</label>
             <input
               class="form-control"
               formControlName="country"
@@ -306,7 +306,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Jenis Pengguna</label>
+            <label class="form-control-label required-field">Jenis Pengguna</label>
             <select
               class="form-control"
               formControlName="user_type"
@@ -324,7 +324,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Status</label>
+            <label class="form-control-label required-field">Status</label>
             <select
               class="form-control"
               formControlName="is_active"

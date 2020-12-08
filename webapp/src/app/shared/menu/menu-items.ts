@@ -171,6 +171,56 @@ export const ROUTES: RouteInfo[] = [
     children: [{ path: "list", title: "Senarai", type: "link" }],
   },
   {
+    path: "/analytics",
+    title: "Analitik",
+    type: "sub",
+    icontype: "fas fa-chart-bar text-primary",
+    collapse: "reports",
+    isCollapsed: true,
+    children: [
+      {
+        path: "total-ticket-sales-shows",
+        title: "Jumlah Jualan Tiket Tayangan",
+        type: "link",
+      },
+      {
+        path: "total-ticket-sales-simulator-rides",
+        title: "Jumlah Jualan Tiket Kembara Simulasi",
+        type: "link",
+      },
+      {
+        path: "total-downloads-pdf-publication",
+        title: "Bilangan muat-turun (PDF) penerbitan",
+        type: "link",
+      },
+      {
+        path: "total-downloads-pdf-virtual-library",
+        title: "Bilangan muat-turun (PDF) kutubkhanah mini",
+        type: "link",
+      },
+      {
+        path: "number-of-visitors",
+        title: "Bilangan Pengunjung",
+        type: "link",
+      },
+      {
+        path: "number-of-facility-bookings",
+        title: "Bilangan Tempahan Fasiliti",
+        type: "link",
+      },
+      {
+        path: "number-of-program-participants",
+        title: "Bilangan Peserta Program",
+        type: "link",
+      },
+      {
+        path: "daily-sales-quotes",
+        title: "Kutipan Jualan Harian",
+        type: "link",
+      },
+    ],
+  },
+  {
     path: "/reports",
     title: "Laporan",
     type: "sub",
@@ -228,7 +278,6 @@ export const ROUTES: RouteInfo[] = [
         type: "link",
       },
       { path: "partners", title: "Rakan Kerjasama", type: "link" },
-      { path: "email-templates", title: "Templat Emel", type: "link" },
     ],
   },
   {
@@ -238,6 +287,9 @@ export const ROUTES: RouteInfo[] = [
     icontype: "fas fa-cogs text-primary",
     collapse: "managements",
     isCollapsed: true,
-    children: [{ path: "users", title: "Pengguna", type: "link" }],
+    children: [
+      { path: "users", title: "Pengguna", type: "link" },
+      { path: "email-templates", title: "Templat Emel", type: "link" },
+    ],
   },
 ];

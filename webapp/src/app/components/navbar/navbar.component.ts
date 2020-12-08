@@ -6,6 +6,7 @@ import {
   LocationStrategy,
   PathLocationStrategy
 } from "@angular/common";
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { User } from 'src/app/shared/services/users/users.model';
@@ -32,6 +33,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     location: Location,
+    public authService: AuthService,
     private userService: UsersService,
     private jwtService: JwtService,
     private notifyService: NotifyService,

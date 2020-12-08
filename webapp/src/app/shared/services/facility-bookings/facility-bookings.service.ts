@@ -70,4 +70,13 @@ export class FacilityBookingsService {
       })
     );
   }
+
+  number_of_facility_bookings(body: Form): Observable<any[]> {
+    let url = this.url + "number_of_facility_bookings/";
+    return this.http.post<any[]>(url, body).pipe(
+      tap((res) => {
+        console.log("Facility bookings: ", res);
+      })
+    );
+  }
 }
