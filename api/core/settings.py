@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'emailtemplates',
     'modules',
     'whatisinterestings',
+    'dynamiccontents',
 
     'django_cleanup.apps.CleanupConfig'
 ]

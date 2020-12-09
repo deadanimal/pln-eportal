@@ -377,6 +377,15 @@ whatisinterestings_router = router.register(
     'whatisinterestings', WhatIsInterestingViewSet
 )
 
+# Dynamic Content app
+from dynamiccontents.views import (
+    DynamicContentViewSet
+)
+
+dynamiccontents_router = router.register(
+    'dynamic-contents', DynamicContentViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),
