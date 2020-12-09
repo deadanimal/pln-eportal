@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
-import { DailySalesQuotesComponent } from './analytics/daily-sales-quotes/daily-sales-quotes.component';
+import { DailySalesQuotesComponent } from "./analytics/daily-sales-quotes/daily-sales-quotes.component";
 import { NumberOfFacilityBookingsComponent } from "./analytics/number-of-facility-bookings/number-of-facility-bookings.component";
-import { NumberOfProgramParticipantsComponent } from './analytics/number-of-program-participants/number-of-program-participants.component';
+import { NumberOfProgramParticipantsComponent } from "./analytics/number-of-program-participants/number-of-program-participants.component";
 import { NumberOfVisitorsComponent } from "./analytics/number-of-visitors/number-of-visitors.component";
 import { TotalDownloadsPdfPublicationComponent } from "./analytics/total-downloads-pdf-publication/total-downloads-pdf-publication.component";
 import { TotalDownloadsPdfVirtualLibraryComponent } from "./analytics/total-downloads-pdf-virtual-library/total-downloads-pdf-virtual-library.component";
@@ -14,9 +14,11 @@ import { AnnouncementsComponent } from "./cms/announcements/announcements.compon
 import { BannersComponent } from "./cms/banners/banners.component";
 import { EmployeeDirectoriesComponent } from "./cms/employee-directories/employee-directories.component";
 import { FaqsComponent } from "./cms/faqs/faqs.component";
+import { ModulesComponent } from "./cms/modules/modules.component";
 import { PartnersComponent } from "./cms/partners/partners.component";
 import { QuickLinksComponent } from "./cms/quick-links/quick-links.component";
 import { RatingsComponent } from "./cms/ratings/ratings.component";
+import { WhatIsInterestingsComponent } from './cms/what-is-interestings/what-is-interestings.component';
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ExhibitsDetailComponent } from "./exhibits/exhibits-detail/exhibits-detail.component";
 import { ExhibitsListComponent } from "./exhibits/exhibits-list/exhibits-list.component";
@@ -333,6 +335,14 @@ export const UserRoutes: Routes = [
       {
         path: "cms",
         children: [
+          {
+            path: "modules",
+            component: ModulesComponent,
+          },
+          {
+            path: "whatisinterestings",
+            component: WhatIsInterestingsComponent,
+          },
           {
             path: "partners",
             component: PartnersComponent,

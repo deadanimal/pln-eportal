@@ -248,6 +248,16 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [
       {
+        path: "modules",
+        title: "Modul",
+        type: "link",
+      },
+      {
+        path: "whatisinterestings",
+        title: "Apa Yang Menarik",
+        type: "link",
+      },
+      {
         path: "banners",
         title: "Banner",
         type: "link",

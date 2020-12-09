@@ -1,10 +1,9 @@
-export class Banner {
+export class WhatIsInteresting {
   public id: string;
   public title: string;
   public description: string;
   public image_link: string;
   public status: boolean;
-  public program_id: string;
   public created_date: string;
   public modified_date: string;
 
@@ -14,7 +13,6 @@ export class Banner {
     description: string,
     image_link: string,
     status: boolean,
-    program_id: string,
     created_date: string,
     modified_date: string
   ) {
@@ -23,7 +21,6 @@ export class Banner {
     this.description = description;
     this.image_link = image_link;
     this.status = status;
-    this.program_id = program_id;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

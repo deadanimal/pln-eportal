@@ -77,6 +77,8 @@ import { TotalDownloadsPdfVirtualLibraryComponent } from './analytics/total-down
 import { NumberOfFacilityBookingsComponent } from './analytics/number-of-facility-bookings/number-of-facility-bookings.component';
 import { NumberOfProgramParticipantsComponent } from './analytics/number-of-program-participants/number-of-program-participants.component';
 import { DailySalesQuotesComponent } from './analytics/daily-sales-quotes/daily-sales-quotes.component';
+import { ModulesComponent } from './cms/modules/modules.component';
+import { WhatIsInterestingsComponent } from './cms/what-is-interestings/what-is-interestings.component';
 
 @NgModule({
   declarations: [
@@ -139,6 +141,8 @@ import { DailySalesQuotesComponent } from './analytics/daily-sales-quotes/daily-
     NumberOfFacilityBookingsComponent,
     NumberOfProgramParticipantsComponent,
     DailySalesQuotesComponent,
+    ModulesComponent,
+    WhatIsInterestingsComponent,
   ],
   imports: [
     CommonModule,
