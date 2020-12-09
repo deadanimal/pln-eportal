@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
+import { ModulesService } from 'src/app/shared/services/modules/modules.service';
+
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -7,7 +9,8 @@ import { Component, OnInit } from "@angular/core";
 })
 export class HomeComponent implements OnInit {
   // Modules
-  modules = [
+  modules = [];
+  /* modules = [
     {
       title: "Kembara Simulasi",
       link: "/simulator-ride",
@@ -53,9 +56,22 @@ export class HomeComponent implements OnInit {
       link: "/virtual-library",
       img: "../../../assets/home/icon/perpustakaan-maya.jpeg",
     },
-  ];
+  ]; */
 
-  constructor() {}
+  constructor(private moduleService: ModulesService) {
+    this.getData();
+  }
+
+  getData() {
+    this.moduleService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+        this.modules = res;
+      }, (err) => {
+        console.log("err", err);
+      }
+    )
+  }
 
   ngOnInit() {}
 }

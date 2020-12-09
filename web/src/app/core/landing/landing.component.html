@@ -135,7 +135,7 @@
           *ngFor="let interesting of interestings"
         >
           <div class="card" style="height: auto">
-            <img class="card-img-top" [src]="interesting.img" />
+            <img class="card-img-top" [src]="interesting.image_link" />
             <div class="card-body text-center">
               <h3 class="card-title font-weight-bold text-uppercase">
                 {{ interesting.title }}
@@ -335,6 +335,9 @@
     </div>
   </div>
   <div class="modal-body">
-    <p class="text-dark text-justify">{{ interesting.description }}</p>
+    <div
+      class="inner-html"
+      [innerHtml]="interesting.description | safe: 'html'"
+    ></div>
   </div>
 </ng-template>
