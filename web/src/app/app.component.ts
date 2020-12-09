@@ -7,10 +7,12 @@ import {
 } from "@angular/core";
 import { Location } from "@angular/common";
 import { DOCUMENT } from "@angular/common";
-import { NavigationStart, Router } from "@angular/router";
+import { NavigationStart, NavigationEnd, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
 import { CanonicalService } from "./shared/canonical/canonical.service";
+
+declare let gtag: Function;
 
 @Component({
   selector: "app-root",
@@ -34,6 +36,16 @@ export class AppComponent implements OnInit {
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         // console.log("navigationStart");
+      }
+    });
+
+    // Google Analytics
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        console.log(event.urlAfterRedirects);
+        gtag("config", "G-QD8NVBEQQ3", {
+          page_path: event.urlAfterRedirects,
+        });
       }
     });
   }

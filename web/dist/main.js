@@ -422,6 +422,15 @@ var AppComponent = /** @class */ (function () {
                 // console.log("navigationStart");
             }
         });
+        // Google Analytics
+        this.router.events.subscribe(function (event) {
+            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_3__["NavigationEnd"]) {
+                console.log(event.urlAfterRedirects);
+                gtag("config", "G-QD8NVBEQQ3", {
+                    page_path: event.urlAfterRedirects,
+                });
+            }
+        });
     }
     AppComponent.prototype.onWindowScroll = function (e) {
         if (window.pageYOffset > 300) {
