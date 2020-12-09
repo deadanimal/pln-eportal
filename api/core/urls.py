@@ -359,6 +359,24 @@ email_templates_router = router.register(
     'email-templates', EmailTemplateViewSet
 )
 
+# Module app
+from modules.views import (
+    ModuleViewSet
+)
+
+modules_router = router.register(
+    'modules', ModuleViewSet
+)
+
+# WhatIsInteresting app
+from whatisinterestings.views import (
+    WhatIsInterestingViewSet
+)
+
+whatisinterestings_router = router.register(
+    'whatisinterestings', WhatIsInterestingViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'banners',
     'faqs',
     'emailtemplates',
+    'modules',
+    'whatisinterestings',
 
     'django_cleanup.apps.CleanupConfig'
 ]
