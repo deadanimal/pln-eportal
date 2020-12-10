@@ -29,7 +29,19 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">Mengenai Kami</h2>
-        <div class="row pb-3">
+
+        <div class="row pb-3" *ngFor="let dynamiccontent of dynamiccontents">
+          <div class="col">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description | safe: 'html'"
+            ></div>
+          </div>
+        </div>
+        <!-- <div class="row pb-3">
           <div class="col">
             <p class="text-justify text-dark pb-3" style="font-size: 1rem">
               Planetarium Negara bermula sebagai Bahagian Planetarium dalam
@@ -140,14 +152,16 @@
               mendekati bidang Astronomi dan Sains Angkasa.
             </p>
           </div>
-        </div>
+        </div> -->
 
         <h2 class="title text-center text-dark">Fakta Menarik</h2>
         <div class="row pb-3">
           <div class="col-md-4 col-sm-12">
             <div class="card card-pricing">
               <div class="card-header bg-white p-3">
-                <h1 class="card-title font-weight-bolder text-dark">{{ year }}</h1>
+                <h1 class="card-title font-weight-bolder text-dark">
+                  {{ year }}
+                </h1>
               </div>
               <div class="card-body">
                 <p class="font-weight-bold">
@@ -162,7 +176,9 @@
                 <h1 class="card-title font-weight-bolder text-dark">20</h1>
               </div>
               <div class="card-body">
-                <p class="font-weight-bold">Saiz kubah planetarium (diameter)</p>
+                <p class="font-weight-bold">
+                  Saiz kubah planetarium (diameter)
+                </p>
               </div>
             </div>
           </div>
@@ -194,7 +210,9 @@
                 <h1 class="card-title font-weight-bolder text-dark">14</h1>
               </div>
               <div class="card-body">
-                <p class="font-weight-bold">Bukaan (<i>Aperture</i>) Teleskop (inci)</p>
+                <p class="font-weight-bold">
+                  Bukaan (<i>Aperture</i>) Teleskop (inci)
+                </p>
               </div>
             </div>
           </div>
