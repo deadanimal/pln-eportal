@@ -258,6 +258,11 @@ export const ROUTES: RouteInfo[] = [
         type: "link",
       },
       {
+        path: "dynamic-contents",
+        title: "Kandungan Dinamik",
+        type: "link",
+      },
+      {
         path: "banners",
         title: "Banner",
         type: "link",

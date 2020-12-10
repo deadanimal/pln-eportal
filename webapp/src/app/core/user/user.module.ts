@@ -79,6 +79,7 @@ import { NumberOfProgramParticipantsComponent } from './analytics/number-of-prog
 import { DailySalesQuotesComponent } from './analytics/daily-sales-quotes/daily-sales-quotes.component';
 import { ModulesComponent } from './cms/modules/modules.component';
 import { WhatIsInterestingsComponent } from './cms/what-is-interestings/what-is-interestings.component';
+import { DynamicContentsComponent } from './cms/dynamic-contents/dynamic-contents.component';
 
 @NgModule({
   declarations: [
@@ -143,6 +144,7 @@ import { WhatIsInterestingsComponent } from './cms/what-is-interestings/what-is-
     DailySalesQuotesComponent,
     ModulesComponent,
     WhatIsInterestingsComponent,
+    DynamicContentsComponent,
   ],
   imports: [
     CommonModule,
