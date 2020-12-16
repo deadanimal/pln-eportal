@@ -98,8 +98,10 @@ export class DynamicContentsComponent implements OnInit {
 
     this.dynamiccontentFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      description_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_ms: new FormControl(""),
       category: new FormControl(""),
       status: new FormControl(false),
     });

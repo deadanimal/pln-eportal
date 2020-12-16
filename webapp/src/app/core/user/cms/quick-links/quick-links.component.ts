@@ -66,14 +66,16 @@ export class QuickLinksComponent implements OnInit {
 
     this.categoryFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
       order: new FormControl(0),
       status: new FormControl(false),
     });
 
     this.quicklinkFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
       link: new FormControl(""),
       category: new FormControl(""),
       status: new FormControl(false),

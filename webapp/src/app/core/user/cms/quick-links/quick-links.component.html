@@ -89,10 +89,10 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Nama</span>
+                <span>Nama MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.name }}
+                {{ row.name_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -220,10 +220,10 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Nama</span>
+                <span>Nama MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.name }}
+                {{ row.name_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -311,11 +311,20 @@
   <div class="modal-body">
     <form [formGroup]="categoryFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama</label>
+        <label class="form-control-label">Nama MS</label>
         <input
           class="form-control"
-          formControlName="name"
-          placeholder="Nama"
+          formControlName="name_ms"
+          placeholder="Nama MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama EN</label>
+        <input
+          class="form-control"
+          formControlName="name_en"
+          placeholder="Nama EN"
           type="text"
         />
       </div>
@@ -396,11 +405,20 @@
   <div class="modal-body">
     <form [formGroup]="categoryFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama</label>
+        <label class="form-control-label">Nama MS</label>
         <input
           class="form-control"
-          formControlName="name"
-          placeholder="Nama"
+          formControlName="name_ms"
+          placeholder="Nama MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama EN</label>
+        <input
+          class="form-control"
+          formControlName="name_en"
+          placeholder="Nama EN"
           type="text"
         />
       </div>
@@ -481,11 +499,20 @@
   <div class="modal-body">
     <form [formGroup]="quicklinkFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama</label>
+        <label class="form-control-label">Nama MS</label>
         <input
           class="form-control"
-          formControlName="name"
-          placeholder="Nama"
+          formControlName="name_ms"
+          placeholder="Nama MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama EN</label>
+        <input
+          class="form-control"
+          formControlName="name_en"
+          placeholder="Nama EN"
           type="text"
         />
       </div>
@@ -575,11 +602,20 @@
   <div class="modal-body">
     <form [formGroup]="quicklinkFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama</label>
+        <label class="form-control-label">Nama MS</label>
         <input
           class="form-control"
-          formControlName="name"
-          placeholder="Nama"
+          formControlName="name_ms"
+          placeholder="Nama MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama EN</label>
+        <input
+          class="form-control"
+          formControlName="name_en"
+          placeholder="Nama EN"
           type="text"
         />
       </div>

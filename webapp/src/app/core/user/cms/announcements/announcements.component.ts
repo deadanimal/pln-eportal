@@ -51,8 +51,10 @@ export class AnnouncementsComponent implements OnInit {
 
     this.announcementFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      description_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_ms: new FormControl(""),
       status: new FormControl(false),
     });
   }

@@ -1,6 +1,7 @@
 export class QuickLinkCategory {
   public id: string;
-  public name: string;
+  public name_en: string;
+  public name_ms: string;
   public order: number;
   public status: boolean;
   public created_date: string;
@@ -8,14 +9,16 @@ export class QuickLinkCategory {
 
   constructor(
     id: string,
-    name: string,
+    name_en: string,
+    name_ms: string,
     order: number,
     status: boolean,
     created_date: string,
     modified_date: string
   ) {
     this.id = id;
-    this.name = name;
+    this.name_en = name_en;
+    this.name_ms = name_ms;
     this.order = order;
     this.status = status;
     this.created_date = created_date;
