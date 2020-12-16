@@ -17,7 +17,7 @@ spec:
       containers:
       - name: pln-eportal-api
         # image: afizi/pln-eportal-api:1.0.4 
-        image: syafiqpipe/pln-eportal-api:1.0.11 #boleh tambah version
+        image: syafiqpipe/pln-eportal-api:1.0.13 #boleh tambah version
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
