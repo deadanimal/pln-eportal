@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -56,9 +56,15 @@
             simulasi sebenar persekitaran ruangan angkasa.
           </p>
 
-          <h3 class="font-weight-bold text-danger text-center">
+          <small class="font-weight-bold text-danger">
             Nota: Sila klik pada zon untuk melihat dengan lebih lanjut.
-          </h3>
+          </small>
+
+          <a href="https://streetview.my/nibm/planetarium/" target="_blank">
+            <h3 class="font-weight-bold text-primary text-center pt-3">
+              Sila klik di sini untuk melihat dalam bentuk 360&#176;
+            </h3>
+          </a>
         </div>
       </div>
       <div class="row pb-3">

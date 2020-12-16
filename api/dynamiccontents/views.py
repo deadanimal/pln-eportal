@@ -25,8 +25,10 @@ class DynamicContentViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'title',
-        'description',
+        'title_en',
+        'description_en',
+        'title_ms',
+        'description_ms',
         'category',
         'status'
     ]

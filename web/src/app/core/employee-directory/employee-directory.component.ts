@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { TranslateService } from '@ngx-translate/core';
 
 import { EmployeeDirectoriesService } from "src/app/shared/services/employee-directories/employee-directories.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-employee-directory",
@@ -8,6 +10,9 @@ import { EmployeeDirectoriesService } from "src/app/shared/services/employee-dir
   styleUrls: ["./employee-directory.component.scss"],
 })
 export class EmployeeDirectoryComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   employeedirectories = [];
 
@@ -15,51 +20,66 @@ export class EmployeeDirectoryComponent implements OnInit {
   departments = [
     {
       value: "PPP",
-      display_name: "Pejabat Pengarah Planetarium Negara",
+      display_name_ms: "Pejabat Pengarah Planetarium Negara",
+      display_name_en: "Office of the Director of the National Planetarium",
     },
     {
       value: "UPA",
-      display_name: "Unit Perhubungan Awam",
+      display_name_ms: "Unit Perhubungan Awam",
+      display_name_en: "Public Relations Unit",
     },
     {
       value: "SPP",
-      display_name: "Seksyen Pendidikan - Pameran",
+      display_name_ms: "Seksyen Pendidikan - Pameran",
+      display_name_en: "Education Section - Exhibition",
     },
     {
       value: "SPC",
-      display_name: "Seksyen Pendidikan - Pencerapan",
+      display_name_ms: "Seksyen Pendidikan - Pencerapan",
+      display_name_en: "Education Section - Observation",
     },
     {
       value: "SPB",
-      display_name: "Seksyen Pendidikan - Pembudayaan",
+      display_name_ms: "Seksyen Pendidikan - Pembudayaan",
+      display_name_en: "Education Section - Cultivation",
     },
     {
       value: "UTK",
-      display_name: "Unit Teknikal",
+      display_name_ms: "Unit Teknikal",
+      display_name_en: "Technical Unit",
     },
     {
       value: "SPK",
-      display_name: "Seksyen Perkhidmatan",
+      display_name_ms: "Seksyen Perkhidmatan",
+      display_name_en: "Services Unit",
     },
     {
       value: "UKW",
-      display_name: "Unit Kewangan",
+      display_name_ms: "Unit Kewangan",
+      display_name_en: "Financial Unit",
     },
     {
       value: "UTM",
-      display_name: "Unit Teknologi Maklumat",
+      display_name_ms: "Unit Teknologi Maklumat",
+      display_name_en: "Information Technology Unit",
     },
     {
       value: "UPF",
-      display_name: "Unit Pengurusan Fasiliti",
+      display_name_ms: "Unit Pengurusan Fasiliti",
+      display_name_en: "Facilities Management Unit",
     },
     {
       value: "UPT",
-      display_name: "Unit Pentadbiran",
+      display_name_ms: "Unit Pentadbiran",
+      display_name_en: "Administration Unit",
     },
   ];
 
-  constructor(private employeedirectoryService: EmployeeDirectoriesService) {
+  constructor(
+    public translate: TranslateService,
+    private employeedirectoryService: EmployeeDirectoriesService,
+    private w3cService: W3csService
+  ) {
     this.getEmployeeDirectory();
   }
 
@@ -75,12 +95,17 @@ export class EmployeeDirectoryComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
+  }
 
   getDepartment(value: string) {
     let result = this.departments.find((obj) => {
       return obj.value == value;
     });
-    return result.display_name;
+    if (this.translate.currentLang == 'en') return result.display_name_en;
+    if (this.translate.currentLang == 'ms') return result.display_name_ms;
   }
 }

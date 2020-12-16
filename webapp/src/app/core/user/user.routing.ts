@@ -12,6 +12,7 @@ import { AssetsComponent } from "./assets/assets.component";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { AnnouncementsComponent } from "./cms/announcements/announcements.component";
 import { BannersComponent } from "./cms/banners/banners.component";
+import { DynamicContentsComponent } from './cms/dynamic-contents/dynamic-contents.component';
 import { EmployeeDirectoriesComponent } from "./cms/employee-directories/employee-directories.component";
 import { FaqsComponent } from "./cms/faqs/faqs.component";
 import { ModulesComponent } from "./cms/modules/modules.component";
@@ -342,6 +343,10 @@ export const UserRoutes: Routes = [
           {
             path: "whatisinterestings",
             component: WhatIsInterestingsComponent,
+          },
+          {
+            path: "dynamic-contents",
+            component: DynamicContentsComponent,
           },
           {
             path: "partners",

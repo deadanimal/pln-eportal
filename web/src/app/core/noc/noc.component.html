@@ -24,12 +24,28 @@
     </div>
   </div>
 </div> -->
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Maklumat NOC</h2>
-        <div class="row pb-3">
+        <h2 class="title text-center text-dark">
+          {{ "MaklumatNOC" | translate }}
+        </h2>
+        <div class="row pb-3" *ngFor="let dynamiccontent of dynamiccontents">
+          <div class="col">
+            <div
+              *ngIf="translate.currentLang == 'en'"
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_en | safe: 'html'"
+            ></div>
+            <div
+              *ngIf="translate.currentLang == 'ms'"
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_ms | safe: 'html'"
+            ></div>
+          </div>
+        </div>
+        <!-- <div class="row pb-3">
           <div class="col">
             <p>
               Planetarium Negara telah dilantik sebagai
@@ -70,7 +86,7 @@
               perlaksanaan program-program tersebut.
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

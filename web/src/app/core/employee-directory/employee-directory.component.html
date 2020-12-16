@@ -24,11 +24,11 @@
     </div>
   </div>
 </div> -->
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Direktori Pegawai</h2>
+        <h2 class="title text-center text-dark">{{ "DirektoriPegawai" | translate }}</h2>
         <div class="row pb-3">
           <div class="col-md-1 col-sm-12"></div>
           <div class="col-md-10 col-sm-12">
@@ -42,21 +42,21 @@
                 </caption>
                 <thead class="thead-dark">
                   <tr>
-                    <td>Nama</td>
-                    <td>Bahagian</td>
-                    <td>Jawatan</td>
-                    <td>Sambungan</td>
-                    <td>Emel</td>
+                    <td class="text-center">{{ "Nama" | translate }}</td>
+                    <td class="text-center">{{ "Bahagian" | translate }}</td>
+                    <td class="text-center">{{ "Jawatan" | translate }}</td>
+                    <td class="text-center">{{ "Sambungan" | translate }}</td>
+                    <td class="text-center">{{ "Emel" | translate }}</td>
                   </tr>
                 </thead>
 
                 <tbody>
                   <tr *ngFor="let employeedirectory of employeedirectories">
-                    <td>{{ employeedirectory.name }}</td>
-                    <td>{{ getDepartment(employeedirectory.department) }}</td>
-                    <td>{{ employeedirectory.position }}</td>
-                    <td>{{ employeedirectory.extension }}</td>
-                    <td>{{ employeedirectory.email }}</td>
+                    <td><p>{{ employeedirectory.name }}</p></td>
+                    <td><p>{{ getDepartment(employeedirectory.department) }}</p></td>
+                    <td><p>{{ employeedirectory.position }}</p></td>
+                    <td><p>{{ employeedirectory.extension }}</p></td>
+                    <td><p>{{ employeedirectory.email }}</p></td>
                   </tr>
                 </tbody>
               </table>

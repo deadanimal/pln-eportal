@@ -80,8 +80,10 @@ export class WhatIsInterestingsComponent implements OnInit {
 
     this.whatisinterestingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      description_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_ms: new FormControl(""),
       image_link: new FormControl(""),
       status: new FormControl(false),
     });
@@ -174,8 +176,10 @@ export class WhatIsInterestingsComponent implements OnInit {
   create() {
     const formData = new FormData();
     formData.append("image_link", this.whatisinterestingFormGroup.get("image_link").value);
-    formData.append("title", this.whatisinterestingFormGroup.value.title);
-    formData.append("description", this.whatisinterestingFormGroup.value.description);
+    formData.append("title_en", this.whatisinterestingFormGroup.value.title_en);
+    formData.append("description_en", this.whatisinterestingFormGroup.value.description_en);
+    formData.append("title_ms", this.whatisinterestingFormGroup.value.title_ms);
+    formData.append("description_ms", this.whatisinterestingFormGroup.value.description_ms);
     formData.append("status", this.whatisinterestingFormGroup.value.status);
 
     this.whatisinterestingService.post(formData).subscribe(
@@ -224,8 +228,10 @@ export class WhatIsInterestingsComponent implements OnInit {
       );
     }
     formData.append("id", this.whatisinterestingFormGroup.value.id);
-    formData.append("title", this.whatisinterestingFormGroup.value.title);
-    formData.append("description", this.whatisinterestingFormGroup.value.description);
+    formData.append("title_en", this.whatisinterestingFormGroup.value.title_en);
+    formData.append("description_en", this.whatisinterestingFormGroup.value.description_en);
+    formData.append("title_ms", this.whatisinterestingFormGroup.value.title_ms);
+    formData.append("description_ms", this.whatisinterestingFormGroup.value.description_ms);
     formData.append("status", this.whatisinterestingFormGroup.value.status);
 
     this.whatisinterestingService

@@ -8,7 +8,7 @@ video {
 }
 
 .section {
-  padding: 30px 0;
+  padding: 100px 0;
 }
 
 ul {
@@ -17,6 +17,21 @@ ul {
   }
 }
 
-.fungsip {
-  font-size: 1rem;
+.inner-html {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    color: black;
+  }
+
+  ol,
+  ul {
+    li {
+      color: black;
+    }
+  }
 }

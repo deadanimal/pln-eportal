@@ -90,19 +90,19 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Soalan</span>
+                <span>Soalan MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.question }}
+                {{ row.question_ms }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Jawapan</span>
+                <span>Jawapan MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <div [innerHtml]="row.answer | safe: 'html'"></div>
+                <div [innerHtml]="row.answer_ms | safe: 'html'"></div>
               </ng-template>
             </ngx-datatable-column>
 
@@ -181,18 +181,35 @@
   <div class="modal-body">
     <form [formGroup]="faqFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Soalan</label>
+        <label class="form-control-label">Soalan MS</label>
         <input
           class="form-control"
-          formControlName="question"
-          placeholder="Soalan"
+          formControlName="question_ms"
+          placeholder="Soalan MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Jawapan</label>
+        <label class="form-control-label">Jawapan MS</label>
         <quill-editor
-          formControlName="answer"
+          formControlName="answer_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Soalan EN</label>
+        <input
+          class="form-control"
+          formControlName="question_en"
+          placeholder="Soalan EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Jawapan EN</label>
+        <quill-editor
+          formControlName="answer_en"
           [modules]="modules"
           [styles]="{ height: '200px' }"
         ></quill-editor>
@@ -274,18 +291,35 @@
   <div class="modal-body">
     <form [formGroup]="faqFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Soalan</label>
+        <label class="form-control-label">Soalan MS</label>
         <input
           class="form-control"
-          formControlName="question"
-          placeholder="Soalan"
+          formControlName="question_ms"
+          placeholder="Soalan MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Jawapan</label>
+        <label class="form-control-label">Jawapan MS</label>
         <quill-editor
-          formControlName="answer"
+          formControlName="answer_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Soalan EN</label>
+        <input
+          class="form-control"
+          formControlName="question_en"
+          placeholder="Soalan EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Jawapan EN</label>
+        <quill-editor
+          formControlName="answer_en"
           [modules]="modules"
           [styles]="{ height: '200px' }"
         ></quill-editor>

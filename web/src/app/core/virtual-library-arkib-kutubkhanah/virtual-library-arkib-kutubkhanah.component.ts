@@ -6,6 +6,7 @@ import { VirtualLibraryArchiveKutubkhanahCategoriesService } from "src/app/share
 import { VirtualLibraryArchiveKutubkhanahsService } from "src/app/shared/services/virtual-library-archivekutubkhanahs/virtual-library-archivekutubkhanahs.service";
 import { VirtualLibraryBooksService } from "src/app/shared/services/virtual-library-books/virtual-library-books.service";
 import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services/virtual-library-serialpublications/virtual-library-serialpublications.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-virtual-library-arkib-kutubkhanah",
@@ -13,6 +14,9 @@ import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services
   styleUrls: ["./virtual-library-arkib-kutubkhanah.component.scss"],
 })
 export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   archive_books = [];
   archive_serialpublications = [];
@@ -27,7 +31,8 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
     private virtuallibraryarchivekutubkhanahcategoryService: VirtualLibraryArchiveKutubkhanahCategoriesService,
     private virtuallibraryarchivekutubkhanahService: VirtualLibraryArchiveKutubkhanahsService,
     private virtuallibrarybookService: VirtualLibraryBooksService,
-    private virtuallibraryserialpublicationService: VirtualLibrarySerialpublicationsService
+    private virtuallibraryserialpublicationService: VirtualLibrarySerialpublicationsService,
+    private w3cService: W3csService
   ) {
     this.virtual_library_collection_category_id = this.route.snapshot.paramMap.get(
       "category_id"
@@ -104,6 +109,10 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   addMetaTag() {

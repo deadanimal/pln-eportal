@@ -24,11 +24,11 @@
     </div>
   </div>
 </div> -->
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Soalan Lazim (FAQ)</h2>
+        <h2 class="title text-center text-dark">{{ "SoalanLazim" | translate }} (FAQ)</h2>
         <div class="row pb-3">
           <div class="col">
             <accordion [isAnimated]="true">
@@ -42,13 +42,30 @@
                   type="button"
                 >
                   <div class="pull-left float-left">
-                    {{ faq.question }}
+                    <p
+                      class="font-weight-bold text-default"
+                      *ngIf="translate.currentLang == 'en'"
+                    >
+                      {{ faq.question_en }}
+                    </p>
+                    <p
+                      class="font-weight-bold text-default"
+                      *ngIf="translate.currentLang == 'ms'"
+                    >
+                      {{ faq.question_ms }}
+                    </p>
                   </div>
                 </button>
                 <p class="text-dark text-justify">
                   <span
+                    *ngIf="translate.currentLang == 'en'"
                     class="inner-html"
-                    [innerHtml]="faq.answer | safe: 'html'"
+                    [innerHtml]="faq.answer_en | safe: 'html'"
+                  ></span>
+                  <span
+                    *ngIf="translate.currentLang == 'ms'"
+                    class="inner-html"
+                    [innerHtml]="faq.answer_ms | safe: 'html'"
                   ></span>
                 </p>
               </accordion-group>

@@ -1,4 +1,9 @@
-import { Component, OnInit, TemplateRef, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewEncapsulation,
+} from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
@@ -7,10 +12,11 @@ import {
   NgxGalleryImage,
   NgxGalleryAnimation,
 } from "ngx-gallery";
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
 
 import { ExhibitDetailsService } from "src/app/shared/services/exhibit-details/exhibit-details.service";
 import { ExhibitDetailImagesService } from "src/app/shared/services/exhibit-detail-images/exhibit-detail-images.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-exhibit-details",
@@ -19,6 +25,9 @@ import { ExhibitDetailImagesService } from "src/app/shared/services/exhibit-deta
   encapsulation: ViewEncapsulation.None,
 })
 export class ExhibitDetailsComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   exhibit_detail_id: string = "";
   exhibitdetails = [];
@@ -43,7 +52,8 @@ export class ExhibitDetailsComponent implements OnInit {
     private modalService: BsModalService,
     private route: ActivatedRoute,
     private exhibitdetailService: ExhibitDetailsService,
-    private exhibitdetailimageService: ExhibitDetailImagesService
+    private exhibitdetailimageService: ExhibitDetailImagesService,
+    private w3cService: W3csService
   ) {
     this.exhibit_detail_id = this.route.snapshot.paramMap.get("detail");
     this.getExhibitDetail();
@@ -119,6 +129,10 @@ export class ExhibitDetailsComponent implements OnInit {
     ];
 
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   openReadMoreModal(modalDefault: TemplateRef<any>) {

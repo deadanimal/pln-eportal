@@ -19,6 +19,42 @@
 @import "assets/css/br-smiley-theme.css";
 @import '~ngx-bar-rating/themes/br-stars-theme';
 @import '~ngx-sharebuttons/themes/default/default-theme';
+// @import "~nouislider/distribute/nouislider.min.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.fs-09rem {
+  p,
+  span {
+    font-size: 0.9rem;
+  }
+}
+
+.fs-1rem {
+  p,
+  span {
+    font-size: 1rem;
+  }
+}
+
+.fs-11rem {
+  p,
+  span {
+    font-size: 1.1rem;
+  }
+}
+
+.fs-12rem {
+  p,
+  span {
+    font-size: 1.2rem;
+  }
+}
+
+.fs-13rem {
+  p,
+  span {
+    font-size: 1.2rem;
+  }
+}

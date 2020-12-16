@@ -17,6 +17,7 @@ import { EmailTemplatesService } from "src/app/shared/services/email-templates/e
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VisitApplicationsService } from "src/app/shared/services/visit-applications/visit-applications.service";
 import { VisitsService } from "src/app/shared/services/visits/visits.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-visit",
@@ -24,6 +25,9 @@ import { VisitsService } from "src/app/shared/services/visits/visits.service";
   styleUrls: ["./visit.component.scss"],
 })
 export class VisitComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   defaultModal: BsModalRef;
   default = {
     keyboard: true,
@@ -112,7 +116,8 @@ export class VisitComponent implements OnInit {
     private emailtemplateService: EmailTemplatesService,
     private userService: UsersService,
     private visitiapplicationService: VisitApplicationsService,
-    private visitService: VisitsService
+    private visitService: VisitsService,
+    private w3cService: W3csService
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
@@ -191,6 +196,10 @@ export class VisitComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>) {

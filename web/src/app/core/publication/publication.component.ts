@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import swal from "sweetalert2";
 
 import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-publication",
@@ -11,19 +12,27 @@ import { PublicationCategoriesService } from "src/app/shared/services/publicatio
   styleUrls: ["./publication.component.scss"],
 })
 export class PublicationComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   publicationcategories = [];
 
   constructor(
     private metaTagService: Meta,
     private route: ActivatedRoute,
-    private publicationcategoryService: PublicationCategoriesService
+    private publicationcategoryService: PublicationCategoriesService,
+    private w3cService: W3csService
   ) {
     this.getPublicationCategory();
   }
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   getPublicationCategory() {

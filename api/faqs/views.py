@@ -24,8 +24,10 @@ class FaqViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'question',
-        'answer',
+        'question_en',
+        'answer_en',
+        'question_ms',
+        'answer_ms',
         'order',
         'status',
     ]

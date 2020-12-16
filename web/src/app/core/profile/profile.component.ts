@@ -13,6 +13,7 @@ import swal from "sweetalert2";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-profile",
@@ -20,6 +21,9 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   user: any;
   selectedTab: string = "maklumat-am";
@@ -64,7 +68,8 @@ export class ProfileComponent implements OnInit {
     private toastr: ToastrService,
     private authService: AuthService,
     public jwtService: JwtService,
-    private userService: UsersService
+    private userService: UsersService,
+    private w3cService: W3csService
   ) {
     this.userFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -145,7 +150,11 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
+  }
 
   selectTab(tab: string) {
     this.selectedTab = tab;

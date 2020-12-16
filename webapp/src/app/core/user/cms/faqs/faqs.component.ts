@@ -74,8 +74,10 @@ export class FaqsComponent implements OnInit {
 
     this.faqFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      question: new FormControl(""),
-      answer: new FormControl(""),
+      question_en: new FormControl(""),
+      answer_en: new FormControl(""),
+      question_ms: new FormControl(""),
+      answer_ms: new FormControl(""),
       order: new FormControl(0),
       status: new FormControl(false),
     });

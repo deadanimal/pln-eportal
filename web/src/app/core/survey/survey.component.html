@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -125,7 +125,7 @@
                             <td>
                               <div class="form-group">
                                 <div class="form-label">
-                                  {{ surveyquestion.questionnaire_question }}
+                                  <p class="text-dark">{{ surveyquestion.questionnaire_question }}</p>
                                 </div>
                                 <div
                                   class="row pt-3"

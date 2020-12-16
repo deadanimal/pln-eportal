@@ -1,6 +1,7 @@
 export class QuickLink {
   public id: string;
-  public name: string;
+  public name_en: string;
+  public name_ms: string;
   public link: string;
   public category: string;
   public status: boolean;
@@ -9,7 +10,8 @@ export class QuickLink {
 
   constructor(
     id: string,
-    name: string,
+    name_en: string,
+    name_ms: string,
     link: string,
     category: string,
     status: boolean,
@@ -17,7 +19,8 @@ export class QuickLink {
     modified_date: string
   ) {
     this.id = id;
-    this.name = name;
+    this.name_en = name_en;
+    this.name_ms = name_ms;
     this.link = link;
     this.category = category;
     this.status = status;

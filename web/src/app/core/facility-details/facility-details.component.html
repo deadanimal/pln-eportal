@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="section about-description">
     <img class="path path4" src="assets/img/path4.png" />
 
@@ -29,18 +29,16 @@
               </div>
               <div class="col-md-4 col-sm-12">
                 <h1 class="title">{{ facility.name }}</h1>
-                <p class="description text-justify">
+                <p class="text-justify">
                   {{ facility.description }}
                 </p>
-                <p class="description pt-3">
+                <p class="pt-3">
                   • Kapasiti: {{ facility.max_capacity }} orang
                 </p>
-                <p class="description">• Keluasan: {{ facility.area_size }}</p>
-                <p class="description pt-3">Nama Peralatan Disediakan</p>
-                <p class="description">{{ facility.equipment_name }}</p>
-                <p class="description">
-                  • {{ facility.equipment_description }}
-                </p>
+                <p>• Keluasan: {{ facility.area_size }}</p>
+                <p class="pt-3">Nama Peralatan Disediakan</p>
+                <p>{{ facility.equipment_name }}</p>
+                <p>• {{ facility.equipment_description }}</p>
                 <div *ngIf="facility.have_price">
                   <h4 class="title">Harga</h4>
                   <table class="table table-bordered">

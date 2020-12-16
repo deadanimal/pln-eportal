@@ -5,12 +5,17 @@ import { ActivatedRoute } from "@angular/router";
 import { ExhibitsService } from "src/app/shared/services/exhibits/exhibits.service";
 import { ExhibitListsService } from "src/app/shared/services/exhibit-lists/exhibit-lists.service";
 
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
+
 @Component({
   selector: "app-exhibit-lists",
   templateUrl: "./exhibit-lists.component.html",
   styleUrls: ["./exhibit-lists.component.scss"],
 })
 export class ExhibitListsComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   exhibitlists = [
     // {
     //   title: "Langit & kita",
@@ -39,7 +44,8 @@ export class ExhibitListsComponent implements OnInit {
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private exhibitService: ExhibitsService,
-    private exhibitlistService: ExhibitListsService
+    private exhibitlistService: ExhibitListsService,
+    private w3cService: W3csService
   ) {
     this.zone = this.route.snapshot.paramMap.get("zone");
     this.getExhibitList();
@@ -69,6 +75,10 @@ export class ExhibitListsComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   addMetaTag() {

@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -75,7 +75,7 @@
   </section>
 </div>
 
-<ng-template #modalReadMore>
+<ng-template #modalReadMore [ngClass]="fontSize">
   <div class="modal-header">
     <h2 class="modal-title" id="modal-title-default"></h2>
 

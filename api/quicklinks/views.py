@@ -27,7 +27,8 @@ class QuickLinkCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'name',
+        'name_en',
+        'name_ms',
         'order',
         'status'
     ]
@@ -52,7 +53,8 @@ class QuickLinkViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'name',
+        'name_en',
+        'name_ms',
         'link', 
         'category', 
         'status'

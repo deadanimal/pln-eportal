@@ -24,64 +24,60 @@
     </div>
   </div>
 </div> -->
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          Ketua Pegawai Maklumat (CIO)
+          {{ "KetuaPegawaiMaklumat" | translate }}
         </h2>
         <div class="row pb-3">
           <div class="col-md-4 col-sm-12 mr-auto ml-auto">
             <img src="../../../assets/img/mosti-cio.jpg" style="width: 80%" />
             <h4 class="title text-dark mb-0">Roshana Alma Binti Mohd Ali</h4>
             <h4 class="title text-dark m-0">
-              Setiausaha Bahagian Kanan (Pengurusan)
+              {{ "SetiausahaBahagianKanan" | translate }}
             </h4>
-            <p>alma[at]mosti.gov.my</p>
+            <p class="pt-1">alma[at]mosti.gov.my</p>
             <p>03-8885 8201</p>
           </div>
           <div class="col-md-8 col-sm-12">
             <h4 class="title text-dark mt-0">
-              PERANAN DAN TANGGUNGJAWAB KETUA PEGAWAI MAKLUMAT (CIO)
+              {{ "PERANANDANTANGGUNGJAWAB" | translate }}
             </h4>
 
             <ol>
               <li>
                 <p>
-                  Mewujud dan mengetuai pasukan kerja keselamatan ICT
-                  Kementerian;
+                  {{ "Role1" | translate }}
                 </p>
               </li>
               <li>
                 <p>
-                  Membantu Ketua Setiausaha dalam melaksanakan tugas-tugas yang
-                  melibatkan keselamatan ICT;
-                </p>
-              </li>
-              <li><p>Menjadi penasihat keselamatan ICT;</p></li>
-              <li>
-                <p>
-                  Menyelaras pembangunan dan pelaksanaan pelan latihan dan
-                  program kesedaran mengenai keselamatan ICT;
+                  {{ "Role2" | translate }}
                 </p>
               </li>
               <li>
+                <p>{{ "Role3" | translate }}</p>
+              </li>
+              <li>
                 <p>
-                  Memastikan semua pengguna memahami dan mematuhi DKICT
-                  Kementerian;
+                  {{ "Role4" | translate }}
                 </p>
               </li>
               <li>
                 <p>
-                  Memastikan semua keperluan organisasi (sumber kewangan, sumber
-                  pengguna dan perlindungan keselamatan) adalah mencukupi; dan
+                  {{ "Role5" | translate }}
                 </p>
               </li>
               <li>
                 <p>
-                  Memastikan penilaian risiko dan program keselamatan ICT di
-                  dalam DKICT Kementerian mengikut pekeliling yang berkuatkuasa.
+                  {{ "Role6" | translate }}
+                </p>
+              </li>
+              <li>
+                <p>
+                  {{ "Role7" | translate }}
                 </p>
               </li>
             </ol>

@@ -26,6 +26,7 @@ import { FacilityPricesService } from "src/app/shared/services/facility-prices/f
 import { FacilitySubcategoriesService } from "src/app/shared/services/facility-subcategories/facility-subcategories.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-facility-details",
@@ -33,6 +34,9 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./facility-details.component.scss"],
 })
 export class FacilityDetailsComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   facility_category: string = "";
   facilities$: Observable<any>;
@@ -160,7 +164,8 @@ export class FacilityDetailsComponent implements OnInit {
     private facilityimageService: FacilityImagesService,
     private facilitypriceService: FacilityPricesService,
     private facilitysubcategoryService: FacilitySubcategoriesService,
-    private userService: UsersService
+    private userService: UsersService,
+    private w3cService: W3csService
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
@@ -213,17 +218,19 @@ export class FacilityDetailsComponent implements OnInit {
         this.selectedFacility = this.facilitycategories[i];
       }
     }
-    this.facilities$.forEach((res) => {
-      for (let j = 0; j < res.length; j++) {
-        if (res[j].facility_subcategory) {
-          this.selectedFacility.have_subcategory = true;
-          this.selectedFacility.facility_subcategory =
-            res[j].facility_subcategory;
+    this.facilities$
+      .forEach((res) => {
+        for (let j = 0; j < res.length; j++) {
+          if (res[j].facility_subcategory) {
+            this.selectedFacility.have_subcategory = true;
+            this.selectedFacility.facility_subcategory =
+              res[j].facility_subcategory;
+          }
         }
-      }
-    }).finally(() => {
-      this.getFacilitySubcategory();
-    });
+      })
+      .finally(() => {
+        this.getFacilitySubcategory();
+      });
   }
 
   getFacilitySubcategory() {
@@ -313,6 +320,10 @@ export class FacilityDetailsComponent implements OnInit {
     ];
 
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>, facility) {

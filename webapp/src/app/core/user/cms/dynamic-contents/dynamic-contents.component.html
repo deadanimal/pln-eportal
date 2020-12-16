@@ -1,0 +1,384 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">
+            Senarai Kandungan Dinamik
+          </h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="col-lg-6 col-5 text-right">
+          <a
+            class="btn btn-sm btn-neutral"
+            (click)="openModal(createDynamicContent, 'create', '')"
+          >
+            Tambah
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Senarai Kandungan Dinamik</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Papar
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="tableEntries == 5">5</option>
+                    <option value="25" [selected]="tableEntries == 10">
+                      10
+                    </option>
+                    <option value="50" [selected]="tableEntries == 15">
+                      15
+                    </option>
+                    <option value="-1" [selected]="tableEntries == -1">
+                      Semua
+                    </option>
+                  </select>
+                  rekod
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Cari rekod"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tajuk MS</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.title_ms }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Deskripsi MS</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div [innerHtml]="row.description_ms | safe: 'html'"></div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Kategori</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ getCategory(row.category) }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tarikh Dicipta</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.created_date | date: "mediumDate" }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="row.status" class="badge badge-pill badge-success"
+                  >Aktif</span
+                >
+                <span *ngIf="!row.status" class="badge badge-pill badge-danger"
+                  >Tidak aktif</span
+                >
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tindakan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <button
+                  class="btn btn-sm btn-primary"
+                  (click)="openModal(editDynamicContent, 'update', row)"
+                >
+                  Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createDynamicContent>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Tambah
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="dynamiccontentFormGroup">
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk MS</label>
+        <input
+          class="form-control"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi MS</label>
+        <quill-editor
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Kategori</label>
+        <select class="form-control" formControlName="category">
+          <option value="">Sila pilih</option>
+          <option *ngFor="let category of categories" [value]="category.value">
+            {{ category.display_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="create()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editDynamicContent>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Ubah Suai
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="dynamiccontentFormGroup">
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk MS</label>
+        <input
+          class="form-control"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi MS</label>
+        <quill-editor
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Kategori</label>
+        <select class="form-control" formControlName="category">
+          <option value="">Sila pilih</option>
+          <option *ngFor="let category of categories" [value]="category.value">
+            {{ category.display_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="update()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Batal
+    </button>
+  </div>
+</ng-template>

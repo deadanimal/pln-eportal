@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { TranslateService } from '@ngx-translate/core';
 
 import { QuickLinkCategoriesService } from "src/app/shared/services/quick-link-categories/quick-link-categories.service";
 import { QuickLinksService } from "src/app/shared/services/quick-links/quick-links.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-quick-link",
@@ -9,6 +11,9 @@ import { QuickLinksService } from "src/app/shared/services/quick-links/quick-lin
   styleUrls: ["./quick-link.component.scss"],
 })
 export class QuickLinkComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   quicklinks = [];
 
@@ -16,8 +21,10 @@ export class QuickLinkComponent implements OnInit {
   categories = [];
 
   constructor(
+    public translate: TranslateService,
     private quicklinkcategoryService: QuickLinkCategoriesService,
-    private quicklinkService: QuickLinksService
+    private quicklinkService: QuickLinksService,
+    private w3cService: W3csService
   ) {
     this.getCategory();
     this.getData();
@@ -50,7 +57,11 @@ export class QuickLinkComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
+  }
 
   showMore(index: number) {
     this.categories[index].show = !this.categories[index].show;

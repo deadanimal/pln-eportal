@@ -156,11 +156,13 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'https://pln-eportal-api.pipe.my',
+    'https://admin.planetarium.prototype.com.my',
     'http://127.0.0.1',
     'http://localhost'
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     'https://pln-eportal-api.pipe.my',
+    'https://admin.planetarium.prototype.com.my',
     'http://127.0.0.1',
     'http://localhost'
 ]
