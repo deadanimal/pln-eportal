@@ -16,36 +16,36 @@
       </video>
       <div class="container text-center">
         <div class="video-text">
-          <h1 class="title">Portal Rasmi Planetarium Negara</h1>
+          <h1 class="title">
+            {{ "PortalRasmiPlanetariumNegara" | translate }}
+          </h1>
           <h4 class="text-center">
-            Kementerian Sains, Teknologi & Inovasi (MOSTI)
+            {{ "MOSTI" | translate }}
           </h4>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <!-- Basic Info -->
   <div class="basic-info">
     <div class="container p-4">
       <div class="row">
         <div class="col-md-4 col-sm-12 text-center">
-          <h2 class="title">Waktu Operasi</h2>
+          <h2 class="title">{{ "WaktuOperasi" | translate }}</h2>
           <p class="text-justify">
-            Dibuka dari Selasa hingga Ahad, mulai 9.00 pagi hingga 4.30 petang
+            {{ "BukaDari" | translate }}
           </p>
           <p class="text-justify">
-            Ditutup pada setiap hari Isnin dan hari cuti umum terpilih :
+            {{ "DitutupPada" | translate }}
           </p>
           <p class="text-justify">
-            Hari Raya Aidilfitri, Hari Raya Aidiladha, Hari Wilayah Persekutuan,
-            Hari Pekerja, Hari Kebangsaan, Hari Malaysia dan Hari Keputeraan
-            Rasmi Yang Di-Pertuan Agong.
+            {{ "HariCuti" | translate }}
           </p>
         </div>
         <div class="col-md-4 col-sm-12 text-center">
-          <h2 class="title">Lokasi</h2>
+          <h2 class="title">{{ "Lokasi" | translate }}</h2>
           <div class="row">
             <div class="col-3"></div>
             <div class="col">
@@ -65,16 +65,18 @@
             </div>
             <div class="col-3"></div>
           </div>
+          <div class="row pt-3">
+            <div class="col">
+              <small>{{ "NOTALOKASI" | translate }}</small>
+            </div>
+          </div>
         </div>
         <div class="col-md-4 col-sm-12 text-center">
-          <h2 class="title">Mengenai Kami</h2>
+          <h2 class="title text-capitalize">
+            {{ "Mengenaikami" | translate }}
+          </h2>
           <p class="text-justify">
-            Planetarium Negara merupakan sebuah institusi pendidikan tidak
-            formal dalam bidang Astronomi dan Sains Angkasa. Terletak di atas
-            tanah seluas 14 ekar di dalam kawasan Taman Botani Perdana, Kuala
-            Lumpur. Senibinanya yang unik bercirikan senibina Islam
-            berinspirasikan pencapaian Astonomi dan Sains Angkasa semasa
-            kegemilangan tamadun Islam.
+            {{ "Mengenaikamideskripsi" | translate }}
           </p>
         </div>
       </div>
@@ -90,8 +92,19 @@
             *ngFor="let announcement of announcements"
             class="bg-white"
             style="padding-right: 20vw"
-            ><h3 class="title text-dark" style="display: inline">
-              {{ announcement.title }}: {{ announcement.description }}
+            ><h3
+              class="title text-dark"
+              style="display: inline"
+              *ngIf="translate.currentLang == 'en'"
+            >
+              {{ announcement.title_en }}: {{ announcement.description_en }}
+            </h3>
+            <h3
+              class="title text-dark"
+              style="display: inline"
+              *ngIf="translate.currentLang == 'ms'"
+            >
+              {{ announcement.title_ms }}: {{ announcement.description_ms }}
             </h3></mark
           >
         </ng-marquee>
@@ -122,13 +135,7 @@
         </div>
       </div>
 
-      <!-- <alert [type]="'warning'">
-        <p class="text-dark">
-          Pengumuman: Waktu Operasi dari 9.00 pagi - 4.30 petang
-        </p></alert
-      > -->
-
-      <h1 class="title text-center">Apa Yang Menarik</h1>
+      <h1 class="title text-center">{{ "ApaYangMenarik" | translate }}</h1>
       <div class="row">
         <div
           class="col-md-3 col-sm-12"
@@ -137,8 +144,17 @@
           <div class="card" style="height: auto">
             <img class="card-img-top" [src]="interesting.image_link" />
             <div class="card-body text-center">
-              <h3 class="card-title font-weight-bold text-uppercase">
-                {{ interesting.title }}
+              <h3
+                class="card-title font-weight-bold text-uppercase"
+                *ngIf="translate.currentLang == 'en'"
+              >
+                {{ interesting.title_en }}
+              </h3>
+              <h3
+                class="card-title font-weight-bold text-uppercase"
+                *ngIf="translate.currentLang == 'ms'"
+              >
+                {{ interesting.title_ms }}
               </h3>
             </div>
             <div class="card-footer p-3 text-center">
@@ -156,7 +172,7 @@
   </div>
 
   <!-- Rakan Kerjasama -->
-  <h2 class="title text-center">Rakan Kerjasama</h2>
+  <h2 class="title text-center">{{ "RakanKerjasama" | translate }}</h2>
   <div class="container">
     <div class="row">
       <div class="col">
@@ -199,7 +215,9 @@
     <div class="container" style="height: auto">
       <div class="row pb-3">
         <div class="col-md-4 col-sm-12">
-          <h3 class="title text-center">Jumlah Pengunjung Portal</h3>
+          <h3 class="title text-center">
+            {{ "JumlahPengunjungPortal" | translate }}
+          </h3>
           <!-- <div class="row">
             <div class="col">
               <h6>Semasa</h6>
@@ -213,7 +231,7 @@
           </div> -->
           <div class="row">
             <div class="col">
-              <h5>Hari ini</h5>
+              <p>{{ "Hariini" | translate }}</p>
             </div>
             <div class="col-auto text-right">
               <tm-ng-odometer
@@ -257,7 +275,7 @@
           </div> -->
           <div class="row">
             <div class="col">
-              <h5>Jumlah Pelawat</h5>
+              <p>{{ "JumlahPelawat" | translate }}</p>
             </div>
             <div class="col-auto text-right">
               <tm-ng-odometer
@@ -269,7 +287,7 @@
           <div class="row">
             <div class="col text-center">
               <h4 class="title">
-                Tarikh Kemaskini: {{ currentDate.getDate() }}
+                {{ "TarikhKemaskini" | translate }}: {{ currentDate.getDate() }}
                 {{ months[currentDate.getMonth()] }}
                 {{ currentDate.getFullYear() }}
               </h4>
@@ -277,7 +295,9 @@
           </div>
         </div>
         <div class="col-md-8 col-sm-12">
-          <h3 class="title text-center">Nilai perkhidmatan kami</h3>
+          <h3 class="title text-center">
+            {{ "Nilaiperkhidmatankami" | translate }}
+          </h3>
           <form [formGroup]="ratingFormGroup">
             <div class="row">
               <div class="col-md-4 col-sm-12 p-0">
@@ -294,20 +314,25 @@
                   <textarea
                     class="form-control bg-white text-dark"
                     rows="5"
-                    placeholder="Tuliskan komen anda (jika ada)"
+                    placeholder="{{ 'WriteComment' | translate }}"
                     formControlName="comment"
                   ></textarea>
                 </div>
                 <div class="p-3 text-center">
-                  <button type="button" class="btn btn-info" (click)="rating()">
-                    Hantar
+                  <button
+                    type="button"
+                    class="btn btn-info"
+                    (click)="rating()"
+                    [disabled]="ratingFormGroup.value.rating == 0"
+                  >
+                    {{ "Hantar" | translate }}
                   </button>
                   <button
                     type="button"
                     class="btn btn-success"
                     [routerLink]="['/survey']"
                   >
-                    Maklum Balas
+                    {{ "MaklumBalas" | translate }}
                   </button>
                 </div>
               </div>
@@ -331,13 +356,24 @@
       <i class="tim-icons icon-simple-remove text-dark"> </i>
     </button>
     <div class="text-dark text-center ml-auto mr-auto">
-      <h3 class="title mb-0">{{ interesting.title }}</h3>
+      <h3 class="title mb-0" *ngIf="translate.currentLang == 'en'">
+        {{ interesting.title_en }}
+      </h3>
+      <h3 class="title mb-0" *ngIf="translate.currentLang == 'ms'">
+        {{ interesting.title_ms }}
+      </h3>
     </div>
   </div>
   <div class="modal-body">
     <div
       class="inner-html"
-      [innerHtml]="interesting.description | safe: 'html'"
+      *ngIf="translate.currentLang == 'en'"
+      [innerHtml]="interesting.description_en | safe: 'html'"
+    ></div>
+    <div
+      class="inner-html"
+      *ngIf="translate.currentLang == 'ms'"
+      [innerHtml]="interesting.description_ms | safe: 'html'"
     ></div>
   </div>
 </ng-template>

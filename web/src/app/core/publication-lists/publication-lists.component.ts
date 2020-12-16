@@ -4,6 +4,7 @@ import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import swal from "sweetalert2";
 
 import { PublicationsService } from "src/app/shared/services/publications/publications.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-publication-lists",
@@ -11,6 +12,9 @@ import { PublicationsService } from "src/app/shared/services/publications/public
   styleUrls: ["./publication-lists.component.scss"],
 })
 export class PublicationListsComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   publication_category_id: string = "";
   publications = [];
@@ -37,7 +41,8 @@ export class PublicationListsComponent implements OnInit {
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private router: Router,
-    private publicationService: PublicationsService
+    private publicationService: PublicationsService,
+    private w3cService: W3csService
   ) {
     this.publication_category_id = this.route.snapshot.paramMap.get("id");
 
@@ -60,6 +65,10 @@ export class PublicationListsComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   downloadPDF(publication) {

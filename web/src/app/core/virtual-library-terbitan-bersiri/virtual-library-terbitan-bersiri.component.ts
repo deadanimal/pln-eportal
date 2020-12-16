@@ -3,6 +3,7 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 
 import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services/virtual-library-serialpublications/virtual-library-serialpublications.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-virtual-library-terbitan-bersiri",
@@ -10,6 +11,9 @@ import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services
   styleUrls: ["./virtual-library-terbitan-bersiri.component.scss"],
 })
 export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   vl_terbitanbersiris = [];
   virtual_library_collection_category_id: string = "";
@@ -18,7 +22,8 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
   constructor(
     private metaTagService: Meta,
     private route: ActivatedRoute,
-    private virtuallibraryserialpublicationService: VirtualLibrarySerialpublicationsService
+    private virtuallibraryserialpublicationService: VirtualLibrarySerialpublicationsService,
+    private w3cService: W3csService
   ) {
     this.virtual_library_collection_category_id = this.route.snapshot.paramMap.get(
       "category_id"
@@ -54,6 +59,10 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   addMetaTag() {

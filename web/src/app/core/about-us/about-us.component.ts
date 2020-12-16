@@ -5,8 +5,10 @@ import {
   ViewEncapsulation,
 } from "@angular/core";
 import { Router } from "@angular/router";
+import { TranslateService } from '@ngx-translate/core';
 
 import { DynamicContentsService } from "src/app/shared/services/dynamic-contents/dynamic-contents.service";
+import { W3csService } from 'src/app/shared/services/w3cs/w3cs.service';
 
 @Component({
   selector: "app-about-us",
@@ -15,6 +17,9 @@ import { DynamicContentsService } from "src/app/shared/services/dynamic-contents
   encapsulation: ViewEncapsulation.None,
 })
 export class AboutUsComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  
   // Data
   dynamiccontents = [];
   establishedYear = 1994;
@@ -25,7 +30,9 @@ export class AboutUsComponent implements OnInit {
   screenHeight: any;
 
   constructor(
+    public translate: TranslateService,
     private dynamiccontentService: DynamicContentsService,
+    private w3cService: W3csService,
     private router: Router
   ) {
     this.year = new Date().getFullYear() - this.establishedYear;
@@ -50,6 +57,10 @@ export class AboutUsComponent implements OnInit {
   ngOnInit() {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   @HostListener("window:resize", ["$event"])

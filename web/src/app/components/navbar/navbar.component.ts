@@ -21,12 +21,15 @@ export class NavbarComponent implements OnInit {
   isCollapsed = true;
   autoclose = false;
 
-  // Swtich
+  // Switch
   switch = true;
   onText = "BM";
   offText = "EN";
   onColor = "danger";
   offColor = "primary";
+
+  // Language
+  languageSwitcher: string = "ms";
 
   // Forms
   loginFormGroup: FormGroup;
@@ -178,7 +181,7 @@ export class NavbarComponent implements OnInit {
   onSwitchChange(event) {
     // console.log(event);
     if (event.currentValue == true) {
-      this.translate.use("my");
+      this.translate.use("ms");
     } else {
       this.translate.use("en");
     }
@@ -329,5 +332,11 @@ export class NavbarComponent implements OnInit {
 
   closeRegisterModal() {
     this.registerModal.hide();
+  }
+
+  changeLanguageSwitcher(language: string) {
+    this.languageSwitcher = language;
+    this.translate.setDefaultLang(language);
+    this.translate.use(language);
   }
 }

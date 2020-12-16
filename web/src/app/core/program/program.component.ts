@@ -32,6 +32,7 @@ import { EducationalProgramDatesService } from "src/app/shared/services/educatio
 import { EducationalProgramImagesService } from "src/app/shared/services/educational-program-images/educational-program-images.service";
 import { EducationalProgramActivitiesService } from "src/app/shared/services/educational-program-activities/educational-program-activities.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-program",
@@ -40,6 +41,9 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   encapsulation: ViewEncapsulation.None,
 })
 export class ProgramComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Modal
   defaultModal: BsModalRef;
   readmoreModal: BsModalRef;
@@ -186,7 +190,8 @@ export class ProgramComponent implements OnInit {
     private eduprogramdateService: EducationalProgramDatesService,
     private eduprogramimageService: EducationalProgramImagesService,
     private eduprogramactivityService: EducationalProgramActivitiesService,
-    private userService: UsersService
+    private userService: UsersService,
+    private w3cService: W3csService
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
@@ -329,6 +334,10 @@ export class ProgramComponent implements OnInit {
     ];
 
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>, program) {

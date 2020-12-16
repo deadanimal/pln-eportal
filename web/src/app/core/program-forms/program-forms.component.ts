@@ -12,6 +12,7 @@ import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { EducationalProgramFormsService } from "src/app/shared/services/educational-program-forms/educational-program-forms.service";
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-program-forms",
@@ -19,6 +20,9 @@ import { EducationalProgramsService } from "src/app/shared/services/educational-
   styleUrls: ["./program-forms.component.scss"],
 })
 export class ProgramFormsComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // FormGroup
   zeroFormGroup: FormGroup;
   firstFormGroup: FormGroup;
@@ -127,7 +131,8 @@ export class ProgramFormsComponent implements OnInit {
     private authService: AuthService,
     private emailtemplateService: EmailTemplatesService,
     private eduprogramService: EducationalProgramsService,
-    private eduprogramformService: EducationalProgramFormsService
+    private eduprogramformService: EducationalProgramFormsService,
+    private w3cService: W3csService
   ) {
     this.zeroFormGroup = this.formBuilder.group({
       educational_program_id: new FormControl(""),
@@ -246,7 +251,11 @@ export class ProgramFormsComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
+  }
 
   submitEntry() {
     this.firstFormGroup.value.teacher_dob = this.formatDate(

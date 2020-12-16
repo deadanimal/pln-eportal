@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -257,7 +257,7 @@
   </div>
 </div>
 
-<ng-template #modalDefault>
+<ng-template #modalDefault [ngClass]="fontSize">
   <div class="modal-header">
     <h6 class="modal-title" id="modal-title-default">Tempahan</h6>
 

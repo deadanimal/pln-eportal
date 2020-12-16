@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { VirtualLibraryESourceCategoriesService } from "src/app/shared/services/virtual-library-esource-categories/virtual-library-esource-categories.service";
 import { VirtualLibraryESourcesService } from "src/app/shared/services/virtual-library-esources/virtual-library-esources.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-virtual-library-esumber",
@@ -11,6 +12,9 @@ import { VirtualLibraryESourcesService } from "src/app/shared/services/virtual-l
   styleUrls: ["./virtual-library-esumber.component.scss"],
 })
 export class VirtualLibraryEsumberComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   vl_esumber_categories = [];
   vl_esumbers = [];
@@ -21,7 +25,8 @@ export class VirtualLibraryEsumberComponent implements OnInit {
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibraryesourcecategoryService: VirtualLibraryESourceCategoriesService,
-    private virtuallibraryesourceService: VirtualLibraryESourcesService
+    private virtuallibraryesourceService: VirtualLibraryESourcesService,
+    private w3cService: W3csService
   ) {
     this.virtual_library_collection_category_id = this.route.snapshot.paramMap.get(
       "category_id"
@@ -70,6 +75,10 @@ export class VirtualLibraryEsumberComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   addMetaTag() {

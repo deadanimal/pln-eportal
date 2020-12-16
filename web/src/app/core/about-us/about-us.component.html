@@ -24,20 +24,29 @@
     </div>
   </div>
 </div> -->
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Mengenai Kami</h2>
+        <!-- <h2 class="title text-center text-dark">Mengenai Kami</h2> -->
 
         <div class="row pb-3" *ngFor="let dynamiccontent of dynamiccontents">
-          <div class="col">
+          <div class="col" *ngIf="translate.currentLang == 'en'">
             <h2 class="title text-center text-dark">
-              {{ dynamiccontent.title }}
+              {{ dynamiccontent.title_en }}
             </h2>
             <div
               class="inner-html"
-              [innerHtml]="dynamiccontent.description | safe: 'html'"
+              [innerHtml]="dynamiccontent.description_en | safe: 'html'"
+            ></div>
+          </div>
+          <div class="col" *ngIf="translate.currentLang == 'ms'">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title_ms }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_ms | safe: 'html'"
             ></div>
           </div>
         </div>
@@ -154,8 +163,20 @@
           </div>
         </div> -->
 
-        <h2 class="title text-center text-dark">Fakta Menarik</h2>
+        <h2 class="title text-center text-dark">{{ "FaktaMenarik" | translate }}</h2>
         <div class="row pb-3">
+          <div class="col-md-4 col-sm-12">
+            <div class="card card-pricing">
+              <div class="card-header bg-white p-3">
+                <h1 class="card-title font-weight-bolder text-dark">20</h1>
+              </div>
+              <div class="card-body">
+                <p class="font-weight-bold">
+                  {{ "Saizkubahplanetarium" | translate }}
+                </p>
+              </div>
+            </div>
+          </div>
           <div class="col-md-4 col-sm-12">
             <div class="card card-pricing">
               <div class="card-header bg-white p-3">
@@ -165,19 +186,7 @@
               </div>
               <div class="card-body">
                 <p class="font-weight-bold">
-                  Tahun usia penubuhan Planetarium Negara
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-12">
-            <div class="card card-pricing">
-              <div class="card-header bg-white p-3">
-                <h1 class="card-title font-weight-bolder text-dark">20</h1>
-              </div>
-              <div class="card-body">
-                <p class="font-weight-bold">
-                  Saiz kubah planetarium (diameter)
+                  {{ "TahunusiapenubuhanPlanetariumNegara" | translate }}
                 </p>
               </div>
             </div>
@@ -188,7 +197,9 @@
                 <h1 class="card-title font-weight-bolder text-dark">1994</h1>
               </div>
               <div class="card-body">
-                <p class="font-weight-bold">Tahun Penubuhan</p>
+                <p class="font-weight-bold">
+                  {{ "TahunPenubuhan" | translate }}
+                </p>
               </div>
             </div>
           </div>
@@ -200,7 +211,9 @@
                 <h1 class="card-title font-weight-bolder text-dark">11,000</h1>
               </div>
               <div class="card-body">
-                <p class="font-weight-bold">Keluasan kawasan (meter persegi)</p>
+                <p class="font-weight-bold">
+                  {{ "Keluasankawasan" | translate }}
+                </p>
               </div>
             </div>
           </div>
@@ -210,9 +223,10 @@
                 <h1 class="card-title font-weight-bolder text-dark">14</h1>
               </div>
               <div class="card-body">
-                <p class="font-weight-bold">
-                  Bukaan (<i>Aperture</i>) Teleskop (inci)
-                </p>
+                <p
+                  class="font-weight-bold"
+                  [innerHtml]="'BukaanAperture' | translate"
+                ></p>
               </div>
             </div>
           </div>

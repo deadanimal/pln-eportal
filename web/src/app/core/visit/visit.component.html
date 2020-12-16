@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -50,7 +50,7 @@
         </h2>
         <div class="row pb-3">
           <div class="col">
-            <p class="text-dark text-justify" style="font-size: 1rem">
+            <p class="text-dark text-justify">
               Sebagai pusat pendidikan astronomi negara pengunjung dapat
               mempelajari dan memahami astronomi melalui medium penyampaian yang
               interaktif dan menarik. Planetarium Negara menyediakan info dan
@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="row pb-3">
-          <div class="col">
+          <div class="col-8 mx-auto">
             <carousel>
               <slide *ngFor="let visit of visits">
                 <img

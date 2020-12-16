@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { TranslateService } from '@ngx-translate/core';
 
 import { FaqsService } from "src/app/shared/services/faqs/faqs.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-faq",
@@ -9,11 +11,18 @@ import { FaqsService } from "src/app/shared/services/faqs/faqs.service";
   encapsulation: ViewEncapsulation.None,
 })
 export class FaqComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   customClass = "customClass";
   faqs = [];
 
-  constructor(private faqService: FaqsService) {
+  constructor(
+    public translate: TranslateService,
+    private faqService: FaqsService,
+    private w3cService: W3csService
+  ) {
     this.getData();
   }
 
@@ -29,5 +38,9 @@ export class FaqComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
+  }
 }

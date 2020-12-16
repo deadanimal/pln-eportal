@@ -38,7 +38,7 @@
       <div class="navbar-collapse-header">
         <div class="row">
           <div class="col-6 collapse-brand">
-            <a> Planetarium Negara </a>
+            <a>{{ "PlanetariumNegara" | translate }}</a>
           </div>
           <div class="col-6 collapse-close text-right">
             <button
@@ -60,25 +60,25 @@
           <input
             type="text"
             class="form-control bg-white text-dark"
-            placeholder="Carian"
+            placeholder="{{ 'Carian' | translate }}"
           />
         </div>
       </form>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/landing']">
-            <i class="fas fa-home"></i> Utama
+            <i class="fas fa-home"></i> {{ "Utama" | translate }}
           </a>
         </li>
         <li class="nav-item dropdown" dropdown>
           <a
-            class="nav-link dropdown-toggle dropdown-toggle"
+            class="nav-link dropdown-toggle"
             data-toggle="dropdown"
             dropdownToggle
             id="navbarDropdownMenuLink"
           >
             <i aria-hidden="true" class="fas fa-globe-asia"> </i>
-            <p>Profil Korporat</p>
+            <p>{{ "ProfilKorporat" | translate }}</p>
           </a>
           <div
             aria-labelledby="navbarDropdownMenuLink"
@@ -90,87 +90,87 @@
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/about-us']"
             >
-              Mengenai kami
+              {{ "Mengenaikami" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/mission-vision']"
             >
-              Visi & Misi
+              {{ "VisiMisi" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/cio']"
             >
-              Maklumat CIO
+              {{ "MaklumatCIO" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/organization-chart']"
             >
-              Carta Organisasi
+              {{ "CartaOrganisasi" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/charter']"
             >
-              Piagam Pelanggan
+              {{ "PiagamPelanggan" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/directory']"
             >
-              Lokasi Kami
+              {{ "LokasiKami" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/operating-hour']"
             >
-              Waktu Operasi & Harga
+              {{ "WaktuOperasiHarga" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/noc']"
             >
-              Maklumat NOC
+              {{ "MaklumatNOC" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/employee-directory']"
             >
-              Direktori Pegawai
+              {{ "DirektoriPegawai" | translate }}
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/faq']"
             >
-              Soalan Lazim (FAQ)
+              {{ "SoalanLazim" | translate }} (FAQ)
             </a>
             <a
               class="dropdown-item"
               [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
               [routerLink]="['/quick-link']"
             >
-              Pautan Pantas
+              {{ "PautanPantas" | translate }}
             </a>
           </div>
         </li>
         <li class="nav-item">
           <!--dropdown-->
           <a class="nav-link" [routerLink]="['/home']">
-            <i class="fas fa-rocket"></i> Rancang Lawatan Anda
+            <i class="fas fa-rocket"></i> {{ "RancangLawatanAnda" | translate }}
           </a>
           <!-- <a
-            class="nav-link dropdown-toggle dropdown-toggle"
+            class="nav-link dropdown-toggle"
             data-toggle="dropdown"
             dropdownToggle
             id="navbarDropdownMenuLink"
@@ -221,12 +221,12 @@
         <li class="nav-item" *ngIf="!accessToken">
           <!-- (click)="openRegisterModal(registerModal)" -->
           <a class="nav-link" [routerLink]="['/signup']">
-            <i class="fas fa-users"></i> Daftar
+            <i class="fas fa-users"></i> {{ "Daftar" | translate }}
           </a>
         </li>
         <li class="nav-item" *ngIf="!accessToken">
           <a class="nav-link" (click)="openLoginModal(loginModal)">
-            <i class="fas fa-sign-in-alt"></i> Log Masuk
+            <i class="fas fa-sign-in-alt"></i> {{ "LogMasuk" | translate }}
           </a>
         </li>
         <!-- <li class="nav-item" *ngIf="accessToken">
@@ -236,7 +236,7 @@
         </li> -->
         <!-- <li class="nav-item dropdown" dropdown *ngIf="accessToken">
           <a
-            class="nav-link dropdown-toggle dropdown-toggle"
+            class="nav-link dropdown-toggle"
             data-toggle="dropdown"
             dropdownToggle
             id="navbarDropdownNoti"
@@ -270,12 +270,72 @@
         </li> -->
         <li class="nav-item" *ngIf="accessToken">
           <a class="nav-link" [routerLink]="['/profile']">
-            <i class="fas fa-user-astronaut"></i> Selamat Datang,
+            <i class="fas fa-user-astronaut"></i>
+            {{ "SelamatDatang" | translate }},
             {{ authService.decodedToken().full_name?.split(" ")[0] }}
           </a>
         </li>
+        <li class="nav-item dropdown" dropdown>
+          <a
+            class="nav-link"
+            data-toggle="dropdown"
+            dropdownToggle
+            id="navbarDropdownMenuLink"
+          >
+            <!-- <span class="d-flex" *ngIf="languageSwitcher == ''">
+              <i aria-hidden="true" class="fas fa-globe-asia"> </i>
+              <p>Pilih Bahasa</p>
+            </span> -->
+            <span
+              class="d-flex"
+              style="width: min-content"
+              *ngIf="languageSwitcher == 'ms'"
+            >
+              <img class="pr-1" src="../../../assets/logo/malaysia.svg" />
+              MY
+            </span>
+            <span
+              class="d-flex"
+              style="width: min-content"
+              *ngIf="languageSwitcher == 'en'"
+            >
+              <img class="pr-1" src="../../../assets/logo/united-kingdom.svg" />
+              EN
+            </span>
+          </a>
+          <div
+            aria-labelledby="navbarDropdownMenuLink"
+            class="dropdown-menu dropdown-menu-right"
+            *dropdownMenu
+          >
+            <a
+              class="dropdown-item font-weight-bold"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              (click)="changeLanguageSwitcher('ms')"
+            >
+              <img
+                class="pr-3"
+                src="../../../assets/logo/malaysia.svg"
+                style="width: 40%"
+              />
+              MY
+            </a>
+            <a
+              class="dropdown-item font-weight-bold"
+              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+              (click)="changeLanguageSwitcher('en')"
+            >
+              <img
+                class="pr-3"
+                src="../../../assets/logo/united-kingdom.svg"
+                style="width: 40%"
+              />
+              EN
+            </a>
+          </div>
+        </li>
       </ul>
-      <bSwitch
+      <!-- <bSwitch
         [switch-off-text]="offText"
         [switch-on-text]="onText"
         [switch-on-color]="onColor"
@@ -283,7 +343,7 @@
         [(ngModel)]="switch"
         (changeState)="onSwitchChange($event)"
       >
-      </bSwitch>
+      </bSwitch> -->
     </div>
   </div>
 </nav>
@@ -300,7 +360,7 @@
       <i class="tim-icons icon-simple-remove text-dark"> </i>
     </button>
     <div class="text-dark text-center ml-auto mr-auto">
-      <h3 class="title mb-0">Log Masuk</h3>
+      <h3 class="title mb-0">{{ "LogMasuk" | translate }}</h3>
     </div>
   </div>
   <div class="modal-body">
@@ -317,7 +377,7 @@
           </div>
           <input
             class="form-control text-dark"
-            placeholder="Email"
+            placeholder="{{ 'Emel' | translate }}"
             type="email"
             (focus)="focus1 = true"
             (blur)="focus1 = false"
@@ -337,7 +397,7 @@
           </div>
           <input
             class="form-control text-dark"
-            placeholder="Password"
+            placeholder="{{ 'KataLaluan' | translate }}"
             type="password"
             (focus)="focus2 = true"
             (blur)="focus2 = false"
@@ -356,7 +416,8 @@
                 [(ngModel)]="rememberMe"
                 [ngModelOptions]="{ standalone: true }"
               />
-              <span class="form-check-sign"> </span> Ingat saya!
+              <span class="form-check-sign"> </span>
+              {{ "Ingatsaya" | translate }}!
             </label>
           </div>
         </div>
@@ -366,7 +427,7 @@
             <a
               class="text-primary"
               (click)="openForgotPasswordModal(forgotPasswordModal)"
-              >Lupa Kata Laluan</a
+              >{{ "LupaKataLaluan" | translate }}</a
             >
           </div>
         </div>
@@ -378,7 +439,7 @@
           type="button"
           [disabled]="!loginFormGroup.valid"
         >
-          Log Masuk
+          {{ "LogMasuk" | translate }}
         </button>
       </div>
     </form>
@@ -397,7 +458,7 @@
       <i class="tim-icons icon-simple-remove text-dark"> </i>
     </button>
     <div class="text-dark text-center ml-auto mr-auto">
-      <h3 class="title mb-0">Lupa Kata Laluan</h3>
+      <h3 class="title mb-0">{{ "LupaKataLaluan" | translate }}</h3>
     </div>
   </div>
   <div class="modal-body">
@@ -414,7 +475,7 @@
           </div>
           <input
             class="form-control text-dark"
-            placeholder="Email"
+            placeholder="{{ 'Emel' | translate }}"
             type="email"
             (focus)="focus1 = true"
             (blur)="focus1 = false"
@@ -429,7 +490,7 @@
           type="button"
           [disabled]="!forgotPasswordFormGroup.valid"
         >
-          Hantar
+          {{ "Hantar" | translate }}
         </button>
       </div>
     </form>
@@ -448,7 +509,7 @@
       <i class="tim-icons icon-simple-remove text-dark"> </i>
     </button>
     <div class="text-dark text-center ml-auto mr-auto">
-      <h3 class="title mb-0">Daftar</h3>
+      <h3 class="title mb-0">{{ "Daftar" | translate }}</h3>
     </div>
   </div>
   <div class="modal-body">
@@ -456,7 +517,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Nama Penuh</label>
+            <label class="form-label required-field">{{
+              "NamaPenuh" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus1 === true }"
@@ -468,7 +531,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Nama Penuh"
+                placeholder="{{ 'NamaPenuh' | translate }}"
                 type="text"
                 (focus)="focus1 = true"
                 (blur)="focus1 = false"
@@ -481,7 +544,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Emel</label>
+            <label class="form-label required-field">{{
+              "Emel" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus4 === true }"
@@ -493,7 +558,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Emel"
+                placeholder="{{ 'Emel' | translate }}"
                 type="email"
                 (focus)="focus4 = true"
                 (blur)="focus4 = false"
@@ -506,7 +571,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Nombor Telefon</label>
+            <label class="form-label required-field">{{
+              "NomborTelefon" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus7 === true }"
@@ -518,7 +585,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Nombor Telefon"
+                placeholder="{{ 'NomborTelefon' | translate }}"
                 type="tel"
                 (focus)="focus7 = true"
                 (blur)="focus7 = false"
@@ -531,7 +598,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Kata Laluan</label>
+            <label class="form-label required-field">{{
+              "KataLaluan" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus5 === true }"
@@ -543,7 +612,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Kata Laluan"
+                placeholder="{{ 'KataLaluan' | translate }}"
                 type="password"
                 (focus)="focus5 = true"
                 (blur)="focus5 = false"
@@ -554,7 +623,9 @@
         </div>
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Ulang Kata Laluan</label>
+            <label class="form-label required-field">{{
+              "UlangKataLaluan" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus6 === true }"
@@ -566,7 +637,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Ulang Kata Laluan"
+                placeholder="{{ 'UlangKataLaluan' | translate }}"
                 type="password"
                 (focus)="focus6 = true"
                 (blur)="focus6 = false"
@@ -579,14 +650,14 @@
       <div class="row">
         <div class="col">
           <alert [type]="'danger'" class="text-justify">
-            Kata laluan mestilah mempunyai sekurang-kurangnya 1 huruf kecil, 1
-            huruf besar, nombor dan simbol khas. Panjang kata laluan mestilah
-            melebihi 8 patah perkataan.
+            {{ "KataLaluanInfo" | translate }}
           </alert>
         </div>
       </div>
       <div class="form-group mb-3">
-        <label class="form-label required-field">Alamat</label>
+        <label class="form-label required-field">{{
+          "Alamat" | translate
+        }}</label>
         <div
           class="input-group input-group-alternative"
           [ngClass]="{ 'input-group-focus': focus9 === true }"
@@ -598,7 +669,7 @@
           </div>
           <input
             class="form-control text-dark"
-            placeholder="Alamat"
+            placeholder="{{ 'Alamat' | translate }}"
             type="text"
             (focus)="focus9 = true"
             (blur)="focus9 = false"
@@ -618,7 +689,7 @@
           </div>
           <input
             class="form-control text-dark"
-            placeholder="Alamat"
+            placeholder="{{ 'Alamat' | translate }}"
             type="text"
             (focus)="focus14 = true"
             (blur)="focus14 = false"
@@ -638,7 +709,7 @@
           </div>
           <input
             class="form-control text-dark"
-            placeholder="Alamat"
+            placeholder="{{ 'Alamat' | translate }}"
             type="text"
             (focus)="focus15 = true"
             (blur)="focus15 = false"
@@ -649,7 +720,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Poskod</label>
+            <label class="form-label required-field">{{
+              "Poskod" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus10 === true }"
@@ -661,7 +734,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Poskod"
+                placeholder="{{ 'Poskod' | translate }}"
                 type="number"
                 (focus)="focus10 = true"
                 (blur)="focus10 = false"
@@ -672,7 +745,9 @@
         </div>
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Bandar</label>
+            <label class="form-label required-field">{{
+              "Bandar" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus11 === true }"
@@ -684,7 +759,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Bandar"
+                placeholder="{{ 'Bandar' | translate }}"
                 type="text"
                 (focus)="focus11 = true"
                 (blur)="focus11 = false"
@@ -697,7 +772,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Negeri</label>
+            <label class="form-label required-field">{{
+              "Negeri" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus12 === true }"
@@ -711,10 +788,9 @@
                 class="form-control text-dark"
                 (focus)="focus12 = true"
                 (blur)="focus12 = false"
-                placeholder="Negeri"
                 formControlName="state"
               >
-                <option value="">Sila pilih</option>
+                <option value="">{{ "Silapilih" | translate }}</option>
                 <option value="01">Johor</option>
                 <option value="02">Kedah</option>
                 <option value="03">Kelantan</option>
@@ -737,7 +813,9 @@
         </div>
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Negara</label>
+            <label class="form-label required-field">{{
+              "Negara" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus13 === true }"
@@ -749,7 +827,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Negara"
+                placeholder="{{ 'Negara' | translate }}"
                 type="text"
                 (focus)="focus13 = true"
                 (blur)="focus13 = false"
@@ -762,7 +840,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group mb-3">
-            <label class="form-label required-field">Tarikh Lahir</label>
+            <label class="form-label required-field">{{
+              "TarikhLahir" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus16 === true }"
@@ -774,7 +854,7 @@
               </div>
               <input
                 class="form-control text-dark"
-                placeholder="Tarikh Lahir"
+                placeholder="{{ 'TarikhLahir' | translate }}"
                 type="date"
                 (focus)="focus16 = true"
                 (blur)="focus16 = false"
@@ -785,7 +865,9 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-label required-field">Bangsa</label>
+            <label class="form-label required-field">{{
+              "Bangsa" | translate
+            }}</label>
             <div
               class="input-group input-group-alternative"
               [ngClass]="{ 'input-group-focus': focus17 === true }"
@@ -799,10 +881,9 @@
                 class="form-control text-dark"
                 (focus)="focus17 = true"
                 (blur)="focus17 = false"
-                placeholder="Bangsa"
                 formControlName="race_type"
               >
-                <option value="">Sila pilih</option>
+                <option value="">{{ "Silapilih" | translate }}</option>
                 <option *ngFor="let race of races" [value]="race.value">
                   {{ race.display_name }}
                 </option>
@@ -814,7 +895,9 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-label required-field mr-3">Jantina</label>
+            <label class="form-label required-field mr-3">{{
+              "Jantina" | translate
+            }}</label>
             <div class="form-check form-check-radio form-check-inline">
               <label class="form-check-label text-dark">
                 <input
@@ -824,7 +907,7 @@
                   value="FM"
                   formControlName="gender_type"
                 />
-                Perempuan
+                {{ "Perempuan" | translate }}
                 <span class="form-check-sign"></span>
               </label>
             </div>
@@ -837,7 +920,7 @@
                   value="ML"
                   formControlName="gender_type"
                 />
-                Lelaki
+                {{ "Lelaki" | translate }}
                 <span class="form-check-sign"></span>
               </label>
             </div>
@@ -851,7 +934,7 @@
           (click)="clickRegister()"
           [disabled]="!registerFormGroup.valid"
         >
-          Daftar
+          {{ "Daftar" | translate }}
         </button>
       </div>
     </form>

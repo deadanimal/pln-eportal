@@ -118,7 +118,7 @@
     </div>
   </div>
 </div> -->
-<footer class="footer">
+<footer class="footer" [ngClass]="fontSize">
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-sm-12 text-left">
@@ -134,33 +134,41 @@
         </div>
         <div class="row">
           <div class="col">
-            <p class="mt-3 mb-0 font-weight-bold">Planetarium Negara</p>
-            <p class="m-0">Kementerian Sains, Teknologi & Inovasi (MOSTI)</p>
+            <p class="mt-3 mb-0 font-weight-bold">
+              {{ "PlanetariumNegara" | translate }}
+            </p>
+            <p class="m-0">{{ "MOSTI" | translate }}</p>
             <p class="m-0">53, Jalan Perdana, 50480 Kuala Lumpur, MALAYSIA</p>
           </div>
         </div>
         <div class="row">
           <div class="col">
             <p class="m-0">Tel: +603-2273-4303, Fax: +603-2273-5488</p>
-            <p class="m-0">Emel: info[at]planet.gov.my</p>
+            <p class="m-0">{{ "Emel" | translate }}: info[at]planet.gov.my</p>
             <p class="m-0">Web: https://www.planetariumnegara.gov.my</p>
           </div>
         </div>
       </div>
       <div class="col-md-4 col-sm-12 text-left">
-        <h3 class="font-weight-bold">Penyataan Umum</h3>
+        <h3 class="font-weight-bold">{{ "PenyataanUmum" | translate }}</h3>
 
         <p class="m-0">
-          <a [routerLink]="['/privacy-policy']"
-            >Dasar privasi dan keselamatan</a
-          >
+          <a [routerLink]="['/privacy-policy']">{{
+            "Dasarprivasidankeselamatan" | translate
+          }}</a>
         </p>
         <p class="m-0">
-          <a [routerLink]="['/copyright-notice']">Notis Hakcipta</a>
+          <a [routerLink]="['/copyright-notice']">{{
+            "Notishakcipta" | translate
+          }}</a>
         </p>
-        <p class="m-0"><a [routerLink]="['/disclaimer']">Penafian</a></p>
+        <p class="m-0">
+          <a [routerLink]="['/disclaimer']">{{ "Penafian" | translate }}</a>
+        </p>
 
-        <h3 style="font-weight: 600; margin-top: 20px">Ikuti kami:</h3>
+        <h3 style="font-weight: 600; margin-top: 20px">
+          {{ "Ikutikami" | translate }}:
+        </h3>
         <div>
           <div class="btn-wrapper profile">
             <a
@@ -195,21 +203,21 @@
         </div>
       </div>
       <div class="col-md-4 col-sm-12 text-left">
-        <h3 class="font-weight-bold">Pautan Pantas</h3>
+        <h3 class="font-weight-bold">{{ "PautanPantas" | translate }}</h3>
 
         <p class="m-0">
-          <a href="https://www.mosti.gov.my/"
-            >Kementerian Sains, Teknologi, dan Inovasi (MOSTI)</a
-          >
+          <a href="https://www.mosti.gov.my/">{{ "MOSTI" | translate }} </a>
         </p>
         <p class="m-0">
-          <a href="https://www.moe.gov.my/">Kementerian Pendidikan Malaysia</a>
+          <a href="https://www.moe.gov.my/">{{ "MOE" | translate }}</a>
         </p>
         <p class="m-0">
-          <a href="http://www.psn.gov.my/">Pusat Sains Negara</a>
+          <a href="http://www.psn.gov.my/">{{
+            "PusatSainsNegara" | translate
+          }}</a>
         </p>
         <p class="m-0">
-          <a href="http://www.mysa.gov.my/">Agensi Angkasa Negara (MYSA)</a>
+          <a href="http://www.mysa.gov.my/">{{ "MYSA" | translate }}</a>
         </p>
       </div>
     </div>
@@ -230,12 +238,11 @@
       </div> -->
       <div class="col-md-8 col-sm-12">
         <p>
-          Paparan terbaik menggunakan pelayar Microsoft Edge, Mozilla Firefox,
-          Google Chrome dan Safari menggunakan resolusi minimum 1366 x 768 pixel
+          {{ "BestView" | translate }}
         </p>
       </div>
       <div class="col-md-4 col-sm-12">
-        <p>&#169; Hak Cipta 2020 Planetarium Negara</p>
+        <p>&#169; {{ "Copyright" | translate }}</p>
       </div>
     </div>
   </div>

@@ -3,12 +3,17 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
+
 @Component({
   selector: "app-facility",
   templateUrl: "./facility.component.html",
   styleUrls: ["./facility.component.scss"],
 })
 export class FacilityComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   defaultModal: BsModalRef;
   default = {
     keyboard: true,
@@ -20,11 +25,16 @@ export class FacilityComponent implements OnInit {
   constructor(
     private metaTagService: Meta,
     private route: ActivatedRoute,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private w3cService: W3csService
   ) {}
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>) {

@@ -25,6 +25,7 @@ import { FacilityImagesService } from "src/app/shared/services/facility-images/f
 import { FacilityPricesService } from "src/app/shared/services/facility-prices/facility-prices.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-facility-detail-zones",
@@ -32,11 +33,15 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./facility-detail-zones.component.scss"],
 })
 export class FacilityDetailZonesComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   facility_category: string = "";
   facility_subcategory: string = "";
   facilities$: Observable<any>;
   facilityimages = [];
+  facilityprices = [];
   selectedFacility = {
     facility_subcategory: "",
     value: "",
@@ -175,16 +180,13 @@ export class FacilityDetailZonesComponent implements OnInit {
     private facilitybookingService: FacilityBookingsService,
     private facilityimageService: FacilityImagesService,
     private facilitypriceService: FacilityPricesService,
-    private userService: UsersService
+    private userService: UsersService,
+    private w3cService: W3csService
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
     this.facility_category = this.route.snapshot.paramMap.get("id");
-    this.facility_subcategory = this.route.snapshot.paramMap.get(
-      "zone"
-    );
-    console.log("facility_category", this.facility_category);
-    console.log("facility_subcategory", this.facility_subcategory);
+    this.facility_subcategory = this.route.snapshot.paramMap.get("zone");
 
     this.facilitybookingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -246,6 +248,18 @@ export class FacilityDetailZonesComponent implements OnInit {
     );
   }
 
+  getFacilityPrice() {
+    this.facilitypriceService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.facilityprices = res;
+      },
+      (err) => {
+        console.log("err", err);
+      }
+    );
+  }
+
   getUser() {
     this.userService.get(this.authService.decodedToken().user_id).subscribe(
       (res) => {
@@ -264,6 +278,7 @@ export class FacilityDetailZonesComponent implements OnInit {
   ngOnInit(): void {
     this.getFacility();
     this.getFacilityImage();
+    this.getFacilityPrice();
 
     this.galleryOptions = [
       {
@@ -292,6 +307,10 @@ export class FacilityDetailZonesComponent implements OnInit {
     ];
 
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>, facility) {

@@ -14,6 +14,7 @@ import {
 import { CalendarOptions } from "@fullcalendar/core";
 import dayGridPlugin, { DayGridView } from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
@@ -22,6 +23,8 @@ import { BannersService } from "src/app/shared/services/banners/banners.service"
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { PartnersService } from "src/app/shared/services/partners/partners.service";
 import { WhatisinterestingsService } from "src/app/shared/services/whatisinterestings/whatisinterestings.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
+
 
 @Component({
   selector: "app-landing",
@@ -30,6 +33,9 @@ import { WhatisinterestingsService } from "src/app/shared/services/whatisinteres
   encapsulation: ViewEncapsulation.None,
 })
 export class LandingComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // FormGroup
   ratingFormGroup: FormGroup;
 
@@ -126,8 +132,10 @@ export class LandingComponent implements OnInit {
   //   },
   // ];
   interesting = {
-    title: "",
-    description: "",
+    title_en: "",
+    description_en: "",
+    title_ms: "",
+    description_ms: "",
   };
   collaborations = [
     {
@@ -184,11 +192,13 @@ export class LandingComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public modalService: BsModalService,
+    public translate: TranslateService,
     private announcementService: AnnouncementsService,
     private bannerService: BannersService,
     private feedbackService: FeedbacksService,
     private partnerService: PartnersService,
-    private whatisinterestingService: WhatisinterestingsService
+    private whatisinterestingService: WhatisinterestingsService,
+    private w3cService: W3csService
   ) {
     this.getAnnouncement();
     this.getBanner();
@@ -252,6 +262,10 @@ export class LandingComponent implements OnInit {
   ngOnInit() {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   @HostListener("window:resize", ["$event"])

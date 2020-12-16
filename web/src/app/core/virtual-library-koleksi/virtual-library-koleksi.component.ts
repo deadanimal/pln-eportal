@@ -3,6 +3,7 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 
 import { VirtualLibraryCollectionsService } from "src/app/shared/services/virtual-library-collections/virtual-library-collections.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-virtual-library-koleksi",
@@ -10,6 +11,9 @@ import { VirtualLibraryCollectionsService } from "src/app/shared/services/virtua
   styleUrls: ["./virtual-library-koleksi.component.scss"],
 })
 export class VirtualLibraryKoleksiComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   vl_collections = [];
   virtual_library_collection_category_id: string = "";
@@ -17,7 +21,8 @@ export class VirtualLibraryKoleksiComponent implements OnInit {
   constructor(
     private metaTagService: Meta,
     private route: ActivatedRoute,
-    private virtuallibrarycollectionService: VirtualLibraryCollectionsService
+    private virtuallibrarycollectionService: VirtualLibraryCollectionsService,
+    private w3cService: W3csService
   ) {
     this.virtual_library_collection_category_id = this.route.snapshot.paramMap.get(
       "category_id"
@@ -45,6 +50,10 @@ export class VirtualLibraryKoleksiComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   addMetaTag() {

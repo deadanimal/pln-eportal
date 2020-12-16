@@ -24,6 +24,7 @@ import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { SurveyAnswersService } from "src/app/shared/services/survey-answers/survey-answers.service";
 import { SurveyQuestionsService } from "src/app/shared/services/survey-questions/survey-questions.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-survey",
@@ -32,6 +33,9 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   encapsulation: ViewEncapsulation.None,
 })
 export class SurveyComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   defaultModal: BsModalRef;
   default = {
     keyboard: true,
@@ -98,7 +102,8 @@ export class SurveyComponent implements OnInit {
     private jwtService: JwtService,
     private surveyanswerService: SurveyAnswersService,
     private surveyquestionService: SurveyQuestionsService,
-    private userService: UsersService
+    private userService: UsersService,
+    private w3cService: W3csService
   ) {
     this.surveyFormGroup = new FormGroup({});
 
@@ -132,6 +137,10 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>) {

@@ -30,8 +30,9 @@ export class AppComponent implements OnInit {
     public translate: TranslateService,
     private canonicalService: CanonicalService
   ) {
-    this.translate.addLangs(["en", "my"]);
-    this.translate.setDefaultLang("my");
+    this.translate.addLangs(["en", "ms"]);
+    this.translate.setDefaultLang("ms");
+    this.translate.use("ms");
 
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {

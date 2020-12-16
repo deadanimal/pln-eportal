@@ -26,14 +26,16 @@ import { NgxNumberSpinnerModule } from "ngx-number-spinner";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { JwtModule, JwtHelperService } from "@auth0/angular-jwt";
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule } from "ngx-toastr";
+import { NouisliderModule } from "ng2-nouislider";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { PictureUploadComponent } from "./components/picture-upload/picture-upload.component";
-import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
+import { ScrollTopComponent } from "./components/scroll-top/scroll-top.component";
+import { W3cComponent } from "./components/w3c/w3c.component";
 
 // AOT compilation support
 export function httpTranslateLoader(http: HttpClient) {
@@ -51,6 +53,7 @@ export function getToken(): string {
     FooterComponent,
     PictureUploadComponent,
     ScrollTopComponent,
+    W3cComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +80,7 @@ export function getToken(): string {
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
+    NouisliderModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: getToken,

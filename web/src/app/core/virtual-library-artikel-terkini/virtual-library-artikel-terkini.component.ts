@@ -3,6 +3,7 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 
 import { VirtualLibraryArticlesService } from "src/app/shared/services/virtual-library-articles/virtual-library-articles.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-virtual-library-artikel-terkini",
@@ -10,6 +11,9 @@ import { VirtualLibraryArticlesService } from "src/app/shared/services/virtual-l
   styleUrls: ["./virtual-library-artikel-terkini.component.scss"],
 })
 export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   virtual_library_article_category_id: string = "";
   vl_articles = [];
@@ -25,7 +29,8 @@ export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
   constructor(
     private metaTagService: Meta,
     private route: ActivatedRoute,
-    private virtuallibraryarticleService: VirtualLibraryArticlesService
+    private virtuallibraryarticleService: VirtualLibraryArticlesService,
+    private w3cService: W3csService
   ) {
     this.virtual_library_article_category_id = this.route.snapshot.paramMap.get(
       "category_id"
@@ -53,6 +58,10 @@ export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   readMore(article) {

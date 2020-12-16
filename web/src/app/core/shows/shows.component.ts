@@ -14,6 +14,7 @@ import { ToastrService } from "ngx-toastr";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-shows",
@@ -22,6 +23,9 @@ import { ShowingsService } from "src/app/shared/services/showings/showings.servi
   encapsulation: ViewEncapsulation.None,
 })
 export class ShowsComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Form
   focus;
 
@@ -49,7 +53,8 @@ export class ShowsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private showingService: ShowingsService
+    private showingService: ShowingsService,
+    private w3cService: W3csService
   ) {
     this.getShowing();
   }
@@ -73,6 +78,10 @@ export class ShowsComponent implements OnInit {
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   navigatePage(path: string, id: string) {

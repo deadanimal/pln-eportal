@@ -28,14 +28,16 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">Daftar</h2>
+        <h2 class="title text-center text-dark">{{ "Daftar" | translate }}</h2>
         <div class="row">
           <div class="col-md-8 col-sm-12 mx-auto">
             <form [formGroup]="registerFormGroup">
               <div class="row">
                 <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field">Nama Penuh</label>
+                    <label class="form-label required-field">{{
+                      "NamaPenuh" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus1 === true }"
@@ -47,7 +49,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Nama Penuh"
+                        placeholder="{{ 'NamaPenuh' | translate }}"
                         type="text"
                         (focus)="focus1 = true"
                         (blur)="focus1 = false"
@@ -60,7 +62,9 @@
               <div class="row">
                 <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field">Emel</label>
+                    <label class="form-label required-field">{{
+                      "Emel" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus4 === true }"
@@ -72,7 +76,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Emel"
+                        placeholder="{{ 'Emel' | translate }}"
                         type="email"
                         (focus)="focus4 = true"
                         (blur)="focus4 = false"
@@ -85,9 +89,9 @@
               <div class="row">
                 <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field"
-                      >Nombor Telefon</label
-                    >
+                    <label class="form-label required-field">{{
+                      "NomborTelefon" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus7 === true }"
@@ -99,7 +103,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Nombor Telefon"
+                        placeholder="{{ 'NomborTelefon' | translate }}"
                         type="tel"
                         (focus)="focus7 = true"
                         (blur)="focus7 = false"
@@ -110,9 +114,11 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field">Kata Laluan</label>
+                    <label class="form-label required-field">{{
+                      "KataLaluan" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus5 === true }"
@@ -124,7 +130,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Kata Laluan"
+                        placeholder="{{ 'KataLaluan' | translate }}"
                         type="password"
                         (focus)="focus5 = true"
                         (blur)="focus5 = false"
@@ -133,11 +139,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field"
-                      >Ulang Kata Laluan</label
-                    >
+                    <label class="form-label required-field">{{
+                      "UlangKataLaluan" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus6 === true }"
@@ -149,7 +155,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Ulang Kata Laluan"
+                        placeholder="{{ 'UlangKataLaluan' | translate }}"
                         type="password"
                         (focus)="focus6 = true"
                         (blur)="focus6 = false"
@@ -162,14 +168,14 @@
               <div class="row">
                 <div class="col">
                   <alert [type]="'danger'" class="text-justify">
-                    Kata laluan mestilah mempunyai sekurang-kurangnya 1 huruf
-                    kecil, 1 huruf besar, nombor dan simbol khas. Panjang kata
-                    laluan mestilah melebihi 8 patah perkataan.
+                    {{ "KataLaluanInfo" | translate }}
                   </alert>
                 </div>
               </div>
               <div class="form-group mb-3">
-                <label class="form-label required-field">Alamat</label>
+                <label class="form-label required-field">{{
+                  "Alamat" | translate
+                }}</label>
                 <div
                   class="input-group input-group-alternative"
                   [ngClass]="{ 'input-group-focus': focus9 === true }"
@@ -181,7 +187,7 @@
                   </div>
                   <input
                     class="form-control text-dark"
-                    placeholder="Alamat"
+                    placeholder="{{ 'Alamat' | translate }}"
                     type="text"
                     (focus)="focus9 = true"
                     (blur)="focus9 = false"
@@ -201,7 +207,7 @@
                   </div>
                   <input
                     class="form-control text-dark"
-                    placeholder="Alamat"
+                    placeholder="{{ 'Alamat' | translate }}"
                     type="text"
                     (focus)="focus14 = true"
                     (blur)="focus14 = false"
@@ -221,7 +227,7 @@
                   </div>
                   <input
                     class="form-control text-dark"
-                    placeholder="Alamat"
+                    placeholder="{{ 'Alamat' | translate }}"
                     type="text"
                     (focus)="focus15 = true"
                     (blur)="focus15 = false"
@@ -230,9 +236,11 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field">Poskod</label>
+                    <label class="form-label required-field">{{
+                      "Poskod" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus10 === true }"
@@ -244,7 +252,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Poskod"
+                        placeholder="{{ 'Poskod' | translate }}"
                         type="number"
                         (focus)="focus10 = true"
                         (blur)="focus10 = false"
@@ -253,9 +261,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field">Bandar</label>
+                    <label class="form-label required-field">{{
+                      "Bandar" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus11 === true }"
@@ -267,7 +277,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Bandar"
+                        placeholder="{{ 'Bandar' | translate }}"
                         type="text"
                         (focus)="focus11 = true"
                         (blur)="focus11 = false"
@@ -278,9 +288,11 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field">Negeri</label>
+                    <label class="form-label required-field">{{
+                      "Negeri" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus12 === true }"
@@ -294,10 +306,9 @@
                         class="form-control text-dark"
                         (focus)="focus12 = true"
                         (blur)="focus12 = false"
-                        placeholder="Negeri"
                         formControlName="state"
                       >
-                        <option value="">Sila pilih</option>
+                        <option value="">{{ "Silapilih" | translate }}</option>
                         <option value="01">Johor</option>
                         <option value="02">Kedah</option>
                         <option value="03">Kelantan</option>
@@ -322,9 +333,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field">Negara</label>
+                    <label class="form-label required-field">{{
+                      "Negara" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus13 === true }"
@@ -336,7 +349,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Negara"
+                        placeholder="{{ 'Negara' | translate }}"
                         type="text"
                         (focus)="focus13 = true"
                         (blur)="focus13 = false"
@@ -347,11 +360,11 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group mb-3">
-                    <label class="form-label required-field"
-                      >Tarikh Lahir</label
-                    >
+                    <label class="form-label required-field">{{
+                      "TarikhLahir" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus16 === true }"
@@ -363,7 +376,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="Tarikh Lahir"
+                        placeholder="{{ 'TarikhLahir' | translate }}"
                         type="date"
                         (focus)="focus16 = true"
                         (blur)="focus16 = false"
@@ -372,9 +385,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col">
                   <div class="form-group">
-                    <label class="form-label required-field">Bangsa</label>
+                    <label class="form-label required-field">{{
+                      "Bangsa" | translate
+                    }}</label>
                     <div
                       class="input-group input-group-alternative"
                       [ngClass]="{ 'input-group-focus': focus17 === true }"
@@ -388,10 +403,9 @@
                         class="form-control text-dark"
                         (focus)="focus17 = true"
                         (blur)="focus17 = false"
-                        placeholder="Bangsa"
                         formControlName="race_type"
                       >
-                        <option value="">Sila pilih</option>
+                        <option value="">{{ "Silapilih" | translate }}</option>
                         <option *ngFor="let race of races" [value]="race.value">
                           {{ race.display_name }}
                         </option>
@@ -403,9 +417,9 @@
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <label class="form-label required-field mr-3"
-                      >Jantina</label
-                    >
+                    <label class="form-label required-field mr-3">{{
+                      "Jantina" | translate
+                    }}</label>
                     <div class="form-check form-check-radio form-check-inline">
                       <label class="form-check-label text-dark">
                         <input
@@ -415,7 +429,7 @@
                           value="FM"
                           formControlName="gender_type"
                         />
-                        Perempuan
+                        {{ "Perempuan" | translate }}
                         <span class="form-check-sign"></span>
                       </label>
                     </div>
@@ -428,7 +442,7 @@
                           value="ML"
                           formControlName="gender_type"
                         />
-                        Lelaki
+                        {{ "Lelaki" | translate }}
                         <span class="form-check-sign"></span>
                       </label>
                     </div>
@@ -442,7 +456,7 @@
                   (click)="clickRegister()"
                   [disabled]="!registerFormGroup.valid"
                 >
-                  Daftar
+                  {{ "Daftar" | translate }}
                 </button>
               </div>
             </form>

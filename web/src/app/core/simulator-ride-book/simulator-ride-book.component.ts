@@ -8,6 +8,7 @@ import swal from "sweetalert2";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { SimulatorRideTimesService } from "src/app/shared/services/simulator-ride-times/simulator-ride-times.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-simulator-ride-book",
@@ -15,6 +16,9 @@ import { SimulatorRideTimesService } from "src/app/shared/services/simulator-rid
   styleUrls: ["./simulator-ride-book.component.scss"],
 })
 export class SimulatorRideBookComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   // Data
   existbookings = [];
   simridetimes = [];
@@ -76,7 +80,8 @@ export class SimulatorRideBookComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private simulatorridebookingService: SimulatorRideBookingsService,
-    private simulatorridetimeService: SimulatorRideTimesService
+    private simulatorridetimeService: SimulatorRideTimesService,
+    private w3cService: W3csService
   ) {
     // minDate - to set the min date starting day after tomorrow
     this.today.setDate(this.today.getDate() + 1);
@@ -127,7 +132,11 @@ export class SimulatorRideBookComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
+  }
 
   citizenChange() {
     this.calculateTotal();

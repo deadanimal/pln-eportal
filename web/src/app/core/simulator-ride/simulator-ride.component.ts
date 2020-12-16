@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-simulator-ride",
@@ -11,16 +12,24 @@ import { JwtService } from "src/app/shared/jwt/jwt.service";
   styleUrls: ["./simulator-ride.component.scss"],
 })
 export class SimulatorRideComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+
   constructor(
     private jwtService: JwtService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private w3cService: W3csService
   ) {}
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   changeAdultQuantity(value: number): void {

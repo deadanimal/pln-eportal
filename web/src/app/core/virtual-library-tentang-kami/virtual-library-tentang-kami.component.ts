@@ -1,18 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
+
 @Component({
-  selector: 'app-virtual-library-tentang-kami',
-  templateUrl: './virtual-library-tentang-kami.component.html',
-  styleUrls: ['./virtual-library-tentang-kami.component.scss']
+  selector: "app-virtual-library-tentang-kami",
+  templateUrl: "./virtual-library-tentang-kami.component.html",
+  styleUrls: ["./virtual-library-tentang-kami.component.scss"],
 })
 export class VirtualLibraryTentangKamiComponent implements OnInit {
+  // CSS class
+  fontSize: string;
 
-  constructor(private metaTagService: Meta, private route: ActivatedRoute) { }
+  constructor(
+    private metaTagService: Meta,
+    private route: ActivatedRoute,
+    private w3cService: W3csService
+  ) {}
 
   ngOnInit() {
     this.addMetaTag();
+
+    this.w3cService.currentFontSize.subscribe(
+      (fontSize) => (this.fontSize = fontSize)
+    );
   }
 
   addMetaTag() {
