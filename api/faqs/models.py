@@ -15,8 +15,10 @@ from users.models import (
 class Faq(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    question = models.CharField(max_length=255, default='NA', blank=True)
-    answer = models.TextField(blank=True)
+    question_en = models.CharField(max_length=255, default='NA', blank=True)
+    answer_en = models.TextField(blank=True)
+    question_ms = models.CharField(max_length=255, default='NA', blank=True)
+    answer_ms = models.TextField(blank=True)
     order = models.IntegerField(default=0, null=True)
     status = models.BooleanField(default=False)
 
@@ -27,4 +29,4 @@ class Faq(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return self.question
+        return self.question_ms

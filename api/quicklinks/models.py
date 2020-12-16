@@ -15,7 +15,8 @@ from users.models import (
 class QuickLinkCategory(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    name = models.CharField(max_length=255, default='NA', blank=True)
+    name_en = models.CharField(max_length=255, default='NA', blank=True)
+    name_ms = models.CharField(max_length=255, default='NA', blank=True)
     order = models.IntegerField(default=0, null=True)
     status = models.BooleanField(default=False)
 
@@ -26,13 +27,14 @@ class QuickLinkCategory(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return self.name
+        return self.name_ms
 
 
 class QuickLink(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    name = models.CharField(max_length=255, default='NA', null=True)
+    name_en = models.CharField(max_length=255, default='NA', null=True)
+    name_ms = models.CharField(max_length=255, default='NA', null=True)
     link = models.CharField(max_length=255, default='NA', blank=True)
 
     # CATEGORY = [
@@ -50,7 +52,7 @@ class QuickLink(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['name_ms']
 
     def __str__(self):
-        return self.name
+        return self.name_ms

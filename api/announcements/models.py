@@ -15,8 +15,10 @@ from users.models import (
 class Announcement(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    title = models.CharField(max_length=255, default='NA', blank=True)
-    description = models.CharField(max_length=255, default='NA', blank=True)
+    title_en = models.CharField(max_length=255, default='NA', blank=True)
+    description_en = models.CharField(max_length=255, default='NA', blank=True)
+    title_ms = models.CharField(max_length=255, default='NA', blank=True)
+    description_ms = models.CharField(max_length=255, default='NA', blank=True)
     status = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
@@ -26,4 +28,4 @@ class Announcement(models.Model):
         ordering = ['-created_date']
 
     def __str__(self):
-        return self.title
+        return self.title_ms
