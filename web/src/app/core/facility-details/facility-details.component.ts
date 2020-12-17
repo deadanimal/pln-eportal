@@ -154,7 +154,7 @@ export class FacilityDetailsComponent implements OnInit {
     private modalService: BsModalService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
     private emailtemplateService: EmailTemplatesService,

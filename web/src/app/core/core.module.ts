@@ -38,6 +38,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin
 import { ShareButtonsConfig } from "ngx-sharebuttons";
 import { ShareButtonModule } from "ngx-sharebuttons/button";
 import { ShareIconsModule } from "ngx-sharebuttons/icons";
+import { NgxOrgChartModule } from 'ngx-org-chart';
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -197,6 +198,7 @@ const customConfig: ShareButtonsConfig = {
     FullCalendarModule,
     ShareButtonModule.withConfig(customConfig),
     ShareIconsModule,
+    NgxOrgChartModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,

@@ -124,11 +124,11 @@
 
   "RakanKerjasama": "Rakan Kerjasama",
   "RancangLawatanAnda": "Rancang Lawatan Anda",
-  "Role1": "Mewujud dan mengetuai pasukan kerja keselamatan ICT Kementerian;",
+  "Role1": "Mewujud dan mengetuai pasukan kerja keselamatan <i>Information and Communications Technology</i> ICT Kementerian;",
   "Role2": "Membantu Ketua Setiausaha dalam melaksanakan tugas-tugas yang melibatkan keselamatan ICT;",
   "Role3": "Menjadi penasihat keselamatan ICT;",
   "Role4": "Menyelaras pembangunan dan pelaksanaan pelan latihan dan program kesedaran mengenai keselamatan ICT;",
-  "Role5": "Memastikan semua pengguna memahami dan mematuhi DKICT Kementerian;",
+  "Role5": "Memastikan semua pengguna memahami dan mematuhi Dasar Keselamatan ICT (DKICT) Kementerian;",
   "Role6": "Memastikan semua keperluan organisasi (sumber kewangan, sumber pengguna dan perlindungan keselamatan) adalah mencukupi; dan",
   "Role7": "Memastikan penilaian risiko dan program keselamatan ICT di dalam DKICT Kementerian mengikut pekeliling yang berkuatkuasa.",
 
@@ -136,7 +136,7 @@
   "SaizTulisan": "Saiz Tulisan",
   "Sambungan": "Sambungan",
   "SelamatDatang": "Selamat Datang",
-  "SelamatdatangkePlanetariumNegara": "",
+  "SelamatdatangkePlanetariumNegara": "Selamat datang ke Planetarium Negara",
   "ServiceFacility1Title": "PARKIR",
   "ServiceFacility1Description": "Parkir kereta dan bas disediakan secara percuma.",
   "ServiceFacility2Title": "TANDAS",

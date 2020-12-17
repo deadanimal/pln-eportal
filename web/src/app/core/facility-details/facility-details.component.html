@@ -3,7 +3,7 @@
     <img class="path path4" src="assets/img/path4.png" />
 
     <div class="container pt-5">
-      <div class="row mb-5">
+      <div class="row mb-3 pt-1">
         <div class="col-md-8 ml-auto mr-auto text-center">
           <h2 class="title">
             {{ selectedFacility.display_name }}
@@ -14,6 +14,22 @@
           <h4 class="description">
             Tempah {{ selectedFacility.display_name }} untuk pelbagai kegunaan!
           </h4>
+        </div>
+      </div>
+      <div class="row" *ngIf="router.url.includes('KR')">
+        <div class="col">
+          <p class="text-justify">
+            Taman Rekreasi Planetarium Negara dihiasi oleh denai-denai Astronomi
+            seperti Denai Utarid , Denai Zuhal, Denai Neptun dan sebagainya.
+            Pengunjung-pengunjung juga berpeluang melihat batuan yang dihiasi
+            lukisan buruj dan skulptur ruang – masa sebagai seni hiasan taman.
+            Di samping itu ianya turut dihiasi dengan Jam Matahari Merdeka yang
+            telah dibina pada tahun 1957 dan pada asalnya terletak di kawasan
+            Stadium Merdeka. Pemindahan Jam Matahari Merdeka ke Planetarium
+            Negara adalah atas kerjasama Bahagian Sains Angkasa (BAKSA) dan
+            United Engineering Malaysia (UEM) dengan kelulusan Dewan Bandaraya
+            Kuala Lumpur (DBKL).
+          </p>
         </div>
       </div>
       <div *ngIf="facilities$ | async as facilities; else loading">

@@ -23,6 +23,7 @@ import { FacilitiesService } from "src/app/shared/services/facilities/facilities
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { FacilityImagesService } from "src/app/shared/services/facility-images/facility-images.service";
 import { FacilityPricesService } from "src/app/shared/services/facility-prices/facility-prices.service";
+import { FacilitySubcategoriesService } from "src/app/shared/services/facility-subcategories/facility-subcategories.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -42,6 +43,7 @@ export class FacilityDetailZonesComponent implements OnInit {
   facilities$: Observable<any>;
   facilityimages = [];
   facilityprices = [];
+  facilitysubcategory = [];
   selectedFacility = {
     facility_subcategory: "",
     value: "",
@@ -180,6 +182,7 @@ export class FacilityDetailZonesComponent implements OnInit {
     private facilitybookingService: FacilityBookingsService,
     private facilityimageService: FacilityImagesService,
     private facilitypriceService: FacilityPricesService,
+    private facilitysubcategoryService: FacilitySubcategoriesService,
     private userService: UsersService,
     private w3cService: W3csService
   ) {
@@ -187,6 +190,7 @@ export class FacilityDetailZonesComponent implements OnInit {
 
     this.facility_category = this.route.snapshot.paramMap.get("id");
     this.facility_subcategory = this.route.snapshot.paramMap.get("zone");
+    this.getFacilitySub();
 
     this.facilitybookingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -234,6 +238,20 @@ export class FacilityDetailZonesComponent implements OnInit {
         this.selectedFacility = this.facilitycategories[i];
       }
     }
+  }
+
+  getFacilitySub() {
+    this.facilitysubcategoryService
+      .filter("id=" + this.facility_subcategory)
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          this.facilitysubcategory = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   getFacilityImage() {
