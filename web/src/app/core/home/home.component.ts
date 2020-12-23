@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 
-import { ModulesService } from 'src/app/shared/services/modules/modules.service';
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 
 @Component({
   selector: "app-home",
@@ -58,7 +59,10 @@ export class HomeComponent implements OnInit {
     },
   ]; */
 
-  constructor(private moduleService: ModulesService) {
+  constructor(
+    public translate: TranslateService,
+    private moduleService: ModulesService
+  ) {
     this.getData();
   }
 
@@ -67,10 +71,11 @@ export class HomeComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.modules = res;
-      }, (err) => {
+      },
+      (err) => {
         console.log("err", err);
       }
-    )
+    );
   }
 
   ngOnInit() {}

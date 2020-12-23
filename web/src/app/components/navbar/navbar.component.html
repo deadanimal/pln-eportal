@@ -1,175 +1,177 @@
-<nav class="navbar navbar-expand-lg navbar-default" color-on-scroll="300">
-  <div class="container-fluid">
-    <div>
-      <a class="" href="/" placement="bottom" target="_blank" tooltip="MOSTI">
-        <img class="brand-img" src="assets/logo/logo-mosti-white.png" />
-      </a>
-      <a
-        class="navbar-brand"
-        href="/"
-        placement="bottom"
-        target="_blank"
-        tooltip="Planetarium"
-      >
-        <img class="brand-img" src="assets/logo/planetarium-logo.png" />
-      </a>
-      <!-- <div class="navbar-brand">
+<div [ngClass]="themeColor">
+  <nav class="navbar navbar-expand-lg" color-on-scroll="300">
+    <div class="container-fluid">
+      <div>
+        <a class="" href="/" placement="bottom" target="_blank" tooltip="MOSTI">
+          <img class="brand-img" src="assets/logo/logo-mosti-white.png" />
+        </a>
+        <a
+          class="navbar-brand"
+          href="/"
+          placement="bottom"
+          target="_blank"
+          tooltip="Planetarium"
+        >
+          <img class="brand-img" src="assets/logo/planetarium-logo.png" />
+        </a>
+        <!-- <div class="navbar-brand">
         <h6 class="m-0 p-0">Selamat Datang Ke Portal Rasmi</h6>
         <p class="m-0 p-0">ePlanetarium</p>
         <small class="m-0 p-0"
           >Kementerian Sains, Teknologi & Inovasi (MOSTI)</small
         >
       </div> -->
-      <button
-        aria-controls="navigation-index"
-        aria-label="Toggle navigation"
-        class="navbar-toggler"
-        [attr.aria-expanded]="!isCollapsed"
-        (click)="isCollapsed = !isCollapsed"
-        id="navigation"
-        type="button"
-      >
-        <span class="navbar-toggler-bar bar1"> </span>
-        <span class="navbar-toggler-bar bar2"> </span>
-        <span class="navbar-toggler-bar bar3"> </span>
-      </button>
-    </div>
-    <div class="navbar-collapse" [collapse]="isCollapsed" id="navigation">
-      <div class="navbar-collapse-header">
-        <div class="row">
-          <div class="col-6 collapse-brand">
-            <a>{{ "PlanetariumNegara" | translate }}</a>
-          </div>
-          <div class="col-6 collapse-close text-right">
-            <button
-              aria-controls="navigation-index"
-              aria-label="Toggle navigation"
-              class="navbar-toggler text-right"
-              [attr.aria-expanded]="!isCollapsed"
-              (click)="isCollapsed = !isCollapsed"
-              id="navigation"
-              type="button"
-            >
-              <i class="tim-icons icon-simple-remove"> </i>
-            </button>
-          </div>
-        </div>
+        <button
+          aria-controls="navigation-index"
+          aria-label="Toggle navigation"
+          class="navbar-toggler"
+          [attr.aria-expanded]="!isCollapsed"
+          (click)="isCollapsed = !isCollapsed"
+          id="navigation"
+          type="button"
+        >
+          <span class="navbar-toggler-bar bar1"> </span>
+          <span class="navbar-toggler-bar bar2"> </span>
+          <span class="navbar-toggler-bar bar3"> </span>
+        </button>
       </div>
-      <form class="form-inline">
-        <div class="form-group no-border">
-          <input
-            type="text"
-            class="form-control bg-white text-dark"
-            placeholder="{{ 'Carian' | translate }}"
-          />
-        </div>
-      </form>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/landing']">
-            <i class="fas fa-home"></i> {{ "Utama" | translate }}
-          </a>
-        </li>
-        <li class="nav-item dropdown" dropdown>
-          <a
-            class="nav-link dropdown-toggle"
-            data-toggle="dropdown"
-            dropdownToggle
-            id="navbarDropdownMenuLink"
-          >
-            <i aria-hidden="true" class="fas fa-globe-asia"> </i>
-            <p>{{ "ProfilKorporat" | translate }}</p>
-          </a>
-          <div
-            aria-labelledby="navbarDropdownMenuLink"
-            class="dropdown-menu dropdown-menu-right"
-            *dropdownMenu
-          >
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/about-us']"
-            >
-              {{ "Mengenaikami" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/mission-vision']"
-            >
-              {{ "VisiMisi" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/cio']"
-            >
-              {{ "MaklumatCIO" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/organization-chart']"
-            >
-              {{ "CartaOrganisasi" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/charter']"
-            >
-              {{ "PiagamPelanggan" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/directory']"
-            >
-              {{ "LokasiKami" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/operating-hour']"
-            >
-              {{ "WaktuOperasiHarga" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/noc']"
-            >
-              {{ "MaklumatNOC" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/employee-directory']"
-            >
-              {{ "DirektoriPegawai" | translate }}
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/faq']"
-            >
-              {{ "SoalanLazim" | translate }} (FAQ)
-            </a>
-            <a
-              class="dropdown-item"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              [routerLink]="['/quick-link']"
-            >
-              {{ "PautanPantas" | translate }}
-            </a>
+      <div class="navbar-collapse" [collapse]="isCollapsed" id="navigation">
+        <div class="navbar-collapse-header">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a>{{ "PlanetariumNegara" | translate }}</a>
+            </div>
+            <div class="col-6 collapse-close text-right">
+              <button
+                aria-controls="navigation-index"
+                aria-label="Toggle navigation"
+                class="navbar-toggler text-right"
+                [attr.aria-expanded]="!isCollapsed"
+                (click)="isCollapsed = !isCollapsed"
+                id="navigation"
+                type="button"
+              >
+                <i class="tim-icons icon-simple-remove"> </i>
+              </button>
+            </div>
           </div>
-        </li>
-        <li class="nav-item">
-          <!--dropdown-->
-          <a class="nav-link" [routerLink]="['/home']">
-            <i class="fas fa-rocket"></i> {{ "RancangLawatanAnda" | translate }}
-          </a>
-          <!-- <a
+        </div>
+        <form class="form-inline">
+          <div class="form-group no-border">
+            <input
+              type="text"
+              class="form-control bg-white text-dark"
+              placeholder="{{ 'Carian' | translate }}"
+            />
+          </div>
+        </form>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/landing']">
+              <i class="fas fa-home"></i> {{ "Utama" | translate }}
+            </a>
+          </li>
+          <li class="nav-item dropdown" dropdown>
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              dropdownToggle
+              id="navbarDropdownMenuLink"
+            >
+              <i aria-hidden="true" class="fas fa-globe-asia"> </i>
+              <p>{{ "ProfilKorporat" | translate }}</p>
+            </a>
+            <div
+              aria-labelledby="navbarDropdownMenuLink"
+              class="dropdown-menu dropdown-menu-right"
+              *dropdownMenu
+            >
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/about-us']"
+              >
+                {{ "Mengenaikami" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/mission-vision']"
+              >
+                {{ "VisiMisi" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/cio']"
+              >
+                {{ "MaklumatCIO" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/organization-chart']"
+              >
+                {{ "CartaOrganisasi" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/charter']"
+              >
+                {{ "PiagamPelanggan" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/directory']"
+              >
+                {{ "LokasiKami" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/operating-hour']"
+              >
+                {{ "WaktuOperasiHarga" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/noc']"
+              >
+                {{ "MaklumatNOC" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/employee-directory']"
+              >
+                {{ "DirektoriPegawai" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/faq']"
+              >
+                {{ "SoalanLazim" | translate }} (FAQ)
+              </a>
+              <a
+                class="dropdown-item"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                [routerLink]="['/quick-link']"
+              >
+                {{ "PautanPantas" | translate }}
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <!--dropdown-->
+            <a class="nav-link" [routerLink]="['/home']">
+              <i class="fas fa-rocket"></i>
+              {{ "RancangLawatanAnda" | translate }}
+            </a>
+            <!-- <a
             class="nav-link dropdown-toggle"
             data-toggle="dropdown"
             dropdownToggle
@@ -212,29 +214,29 @@
               <i class="fas fa-book-reader fa-sm fa-fw"> </i> Perpustakaan Maya
             </a>
           </div> -->
-        </li>
-        <!-- <li class="nav-item">
+          </li>
+          <!-- <li class="nav-item">
           <a class="nav-link" [routerLink]="['/contact-us']">
             <i class="fas fa-phone-alt"></i> 03-22734303
           </a>
         </li> -->
-        <li class="nav-item" *ngIf="!accessToken">
-          <!-- (click)="openRegisterModal(registerModal)" -->
-          <a class="nav-link" [routerLink]="['/signup']">
-            <i class="fas fa-users"></i> {{ "Daftar" | translate }}
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="!accessToken">
-          <a class="nav-link" (click)="openLoginModal(loginModal)">
-            <i class="fas fa-sign-in-alt"></i> {{ "LogMasuk" | translate }}
-          </a>
-        </li>
-        <!-- <li class="nav-item" *ngIf="accessToken">
+          <li class="nav-item" *ngIf="!accessToken">
+            <!-- (click)="openRegisterModal(registerModal)" -->
+            <a class="nav-link" [routerLink]="['/signup']">
+              <i class="fas fa-users"></i> {{ "Daftar" | translate }}
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="!accessToken">
+            <a class="nav-link" (click)="openLoginModal(loginModal)">
+              <i class="fas fa-sign-in-alt"></i> {{ "LogMasuk" | translate }}
+            </a>
+          </li>
+          <!-- <li class="nav-item" *ngIf="accessToken">
           <a class="nav-link" (click)="clickLogout()">
             <i class="fas fa-sign-out-alt"></i> Log Keluar
           </a>
         </li> -->
-        <!-- <li class="nav-item dropdown" dropdown *ngIf="accessToken">
+          <!-- <li class="nav-item dropdown" dropdown *ngIf="accessToken">
           <a
             class="nav-link dropdown-toggle"
             data-toggle="dropdown"
@@ -268,74 +270,77 @@
             <a class="dropdown-item" href="#">Pendaftaran anda berjaya.</a>
           </div>
         </li> -->
-        <li class="nav-item" *ngIf="accessToken">
-          <a class="nav-link" [routerLink]="['/profile']">
-            <i class="fas fa-user-astronaut"></i>
-            {{ "SelamatDatang" | translate }},
-            {{ authService.decodedToken().full_name?.split(" ")[0] }}
-          </a>
-        </li>
-        <li class="nav-item dropdown" dropdown>
-          <a
-            class="nav-link"
-            data-toggle="dropdown"
-            dropdownToggle
-            id="navbarDropdownMenuLink"
-          >
-            <!-- <span class="d-flex" *ngIf="languageSwitcher == ''">
+          <li class="nav-item" *ngIf="accessToken">
+            <a class="nav-link" [routerLink]="['/profile']">
+              <i class="fas fa-user-astronaut"></i>
+              {{ "SelamatDatang" | translate }},
+              {{ authService.decodedToken().full_name?.split(" ")[0] }}
+            </a>
+          </li>
+          <li class="nav-item dropdown" dropdown>
+            <a
+              class="nav-link"
+              data-toggle="dropdown"
+              dropdownToggle
+              id="navbarDropdownMenuLink"
+            >
+              <!-- <span class="d-flex" *ngIf="languageSwitcher == ''">
               <i aria-hidden="true" class="fas fa-globe-asia"> </i>
               <p>Pilih Bahasa</p>
             </span> -->
-            <span
-              class="d-flex"
-              style="width: min-content"
-              *ngIf="languageSwitcher == 'ms'"
-            >
-              <img class="pr-1" src="../../../assets/logo/malaysia.svg" />
-              MY
-            </span>
-            <span
-              class="d-flex"
-              style="width: min-content"
-              *ngIf="languageSwitcher == 'en'"
-            >
-              <img class="pr-1" src="../../../assets/logo/united-kingdom.svg" />
-              EN
-            </span>
-          </a>
-          <div
-            aria-labelledby="navbarDropdownMenuLink"
-            class="dropdown-menu dropdown-menu-right"
-            *dropdownMenu
-          >
-            <a
-              class="dropdown-item font-weight-bold"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              (click)="changeLanguageSwitcher('ms')"
-            >
-              <img
-                class="pr-3"
-                src="../../../assets/logo/malaysia.svg"
-                style="width: 40%"
-              />
-              MY
+              <span
+                class="d-flex"
+                style="width: min-content"
+                *ngIf="languageSwitcher == 'ms'"
+              >
+                <img class="pr-1" src="../../../assets/logo/malaysia.svg" />
+                MY
+              </span>
+              <span
+                class="d-flex"
+                style="width: min-content"
+                *ngIf="languageSwitcher == 'en'"
+              >
+                <img
+                  class="pr-1"
+                  src="../../../assets/logo/united-kingdom.svg"
+                />
+                EN
+              </span>
             </a>
-            <a
-              class="dropdown-item font-weight-bold"
-              [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
-              (click)="changeLanguageSwitcher('en')"
+            <div
+              aria-labelledby="navbarDropdownMenuLink"
+              class="dropdown-menu dropdown-menu-right"
+              *dropdownMenu
             >
-              <img
-                class="pr-3"
-                src="../../../assets/logo/united-kingdom.svg"
-                style="width: 40%"
-              />
-              EN
-            </a>
-          </div>
-        </li>
-      </ul>
-      <!-- <bSwitch
+              <a
+                class="dropdown-item font-weight-bold"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                (click)="changeLanguageSwitcher('ms')"
+              >
+                <img
+                  class="pr-3"
+                  src="../../../assets/logo/malaysia.svg"
+                  style="width: 40%"
+                />
+                MY
+              </a>
+              <a
+                class="dropdown-item font-weight-bold"
+                [ngClass]="isCollapsed ? 'text-dark' : 'text-white'"
+                (click)="changeLanguageSwitcher('en')"
+              >
+                <img
+                  class="pr-3"
+                  src="../../../assets/logo/united-kingdom.svg"
+                  style="width: 40%"
+                />
+                EN
+              </a>
+            </div>
+          </li>
+        </ul>
+        <!-- <bSwitch
         [switch-off-text]="offText"
         [switch-on-text]="onText"
         [switch-on-color]="onColor"
@@ -344,9 +349,10 @@
         (changeState)="onSwitchChange($event)"
       >
       </bSwitch> -->
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>
 
 <ng-template #loginModal>
   <div class="modal-header justify-content-center">

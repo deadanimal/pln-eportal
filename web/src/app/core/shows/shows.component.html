@@ -44,22 +44,15 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          Tayangan Planetarium <share-button button="facebook"></share-button
+          {{ "TayanganPlanetariumTajuk" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
         <div class="row">
           <div class="col">
             <p class="text-dark text-justify">
-              Teater Angkasa menyerupai sebuah panggung wayang yang menjadi
-              penanda aras sesebuah Planetarium. Ia boleh dilihat dari segi
-              skala saiz yang mampu memuatkan sehingga 200 orang penonton dalam
-              satu masa dan infrastruktur teknologi bagi membantu mensimulasikan
-              pergerakan dan keunikan objek yang berbeza dalam galaksi. Ia
-              mempunyai kubah aluminium hemisfera yang dilengkapi system bunyi
-              sekelliling digital 6-saluran. Dua projektor full dome immersive
-              system memberikan tayangan astronomi dan simulasi langit malam
-              menyerupai sebuah balai cerap.
+              {{ "TayanganPlanetariumDeskripsi" | translate }}
             </p>
           </div>
         </div>
@@ -76,26 +69,52 @@
                   </div>
                   <div class="card-body">
                     <!-- <h6 class="category text-primary">Features</h6> -->
-                    <h4 class="card-title text-info">
-                      {{ showing.title }}
+                    <h4
+                      class="card-title text-info"
+                      *ngIf="translate.currentLang == 'en'"
+                    >
+                      {{ showing.title_en }}
                     </h4>
-                    <p
-                      *ngIf="!showing.show"
-                      class="card-description text-dark text-justify"
-                      style="height: 150px"
+                    <h4
+                      class="card-title text-info"
+                      *ngIf="translate.currentLang == 'ms'"
                     >
-                      {{ showing.description | truncate: 200:true }}
-                    </p>
-                    <p
-                      *ngIf="showing.show"
-                      class="card-description text-dark text-justify"
-                    >
-                      {{ showing.description }}
-                    </p>
+                      {{ showing.title_ms }}
+                    </h4>
+                    <div *ngIf="translate.currentLang == 'en'">
+                      <p
+                        *ngIf="!showing.show"
+                        class="card-description text-dark text-justify"
+                        style="height: 150px"
+                      >
+                        {{ showing.description_en | truncate: 200:true }}
+                      </p>
+                      <p
+                        *ngIf="showing.show"
+                        class="card-description text-dark text-justify"
+                      >
+                        {{ showing.description_en }}
+                      </p>
+                    </div>
+                    <div *ngIf="translate.currentLang == 'ms'">
+                      <p
+                        *ngIf="!showing.show"
+                        class="card-description text-dark text-justify"
+                        style="height: 150px"
+                      >
+                        {{ showing.description_ms | truncate: 200:true }}
+                      </p>
+                      <p
+                        *ngIf="showing.show"
+                        class="card-description text-dark text-justify"
+                      >
+                        {{ showing.description_ms }}
+                      </p>
+                    </div>
                     <a
                       style="color: #ba54f5; font-weight: bold"
                       (click)="showMore(i)"
-                      >Baca selanjutnya</a
+                      >{{ "Bacaselanjutnya" | translate }}</a
                     >
                     <div class="card-footer">
                       <div class="author">
@@ -103,7 +122,7 @@
                           class="btn btn-default btn-sm"
                           (click)="makeBooking(showing.id, showing.title)"
                         >
-                          Tempah
+                          {{ "Tempah" | translate }}
                         </button>
                         <button
                           class="btn btn-danger btn-sm"
@@ -111,13 +130,13 @@
                           [lightbox]
                           *ngIf="showing.trailer_link"
                         >
-                          Lihat
+                          {{ "Lihat" | translate }}
                         </button>
                       </div>
                       <div class="stats stats-right">
                         <i class="fas fa-clock"></i>
-                        {{ showing.duration_hours }} jam
-                        {{ showing.duration_minutes }} minit
+                        {{ showing.duration_hours }} {{ "jam" | translate }}
+                        {{ showing.duration_minutes }} {{ "minit" | translate }}
                       </div>
                     </div>
                   </div>
@@ -126,132 +145,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  aria-hidden="true"
-  aria-labelledby="myModalLabel"
-  bsModal
-  class="modal fade"
-  #myModal="bs-modal"
-  id="myModal"
-  role="dialog"
-  tabindex="-1"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <button
-          aria-hidden="true"
-          class="close"
-          data-dismiss="modal"
-          type="button"
-          (click)="myModal.hide()"
-        >
-          <i class="tim-icons icon-simple-remove"> </i>
-        </button>
-        <h4 class="title title-up">Tempahan Tiket</h4>
-      </div>
-      <div class="modal-body">
-        <div class="table-responsive">
-          <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th scope="col" class="text-dark">Warganegara</th>
-                <th scope="col">
-                  <bSwitch
-                    switch-off-text="Tidak"
-                    switch-on-text="Ya"
-                  ></bSwitch>
-                </th>
-              </tr>
-            </thead>
-            <thead>
-              <tr>
-                <th scope="col" class="text-dark">Jenis Tiket</th>
-                <th scope="col" class="text-right text-dark">Kuantiti</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" class="text-dark">
-                  Dewasa<br /><small>(RM 6.00/Tiket)</small>
-                </th>
-                <td class="text-right text-dark">
-                  <ngx-number-spinner
-                    [value]="0"
-                    (change)="changeAdultQuantity($event)"
-                    [min]="0"
-                  >
-                  </ngx-number-spinner>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" class="text-dark">
-                  Kanak-kanak bawah 12 tahun<br /><small>(RM 4.00/Tiket)</small>
-                </th>
-                <td class="text-right text-dark">
-                  <ngx-number-spinner
-                    [value]="0"
-                    (change)="changeChildrenQuantity($event)"
-                    [min]="0"
-                  >
-                  </ngx-number-spinner>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" class="text-dark">
-                  Warga emas<br /><small>(Percuma)</small>
-                </th>
-                <td class="text-right text-dark">
-                  <ngx-number-spinner
-                    [value]="0"
-                    (change)="changeSeniorQuantity($event)"
-                    [min]="0"
-                  >
-                  </ngx-number-spinner>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" class="text-dark">
-                  OKU<br /><small>(Percuma)</small>
-                </th>
-                <td class="text-right text-dark">
-                  <ngx-number-spinner
-                    [value]="0"
-                    (change)="changeSeniorQuantity($event)"
-                    [min]="0"
-                  >
-                  </ngx-number-spinner>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" class="text-dark">Jumlah</th>
-                <td class="text-right text-dark">RM25.00</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-danger"
-          data-dismiss="modal"
-          type="button"
-          (click)="myModal.hide()"
-        >
-          Batal
-        </button>
-        <button
-          class="btn btn-default"
-          type="button"
-          [routerLink]="['/payment']"
-        >
-          Tempah
-        </button>
       </div>
     </div>
   </div>

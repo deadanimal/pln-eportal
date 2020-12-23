@@ -5,8 +5,13 @@ import { BehaviorSubject } from "rxjs";
   providedIn: "root",
 })
 export class W3csService {
+  // Font Size
   private fontSizeDefault = new BehaviorSubject("fs-09rem");
   currentFontSize = this.fontSizeDefault.asObservable();
+
+  // Theme Color
+  private themeColorDefault = new BehaviorSubject("theme-default");
+  currentThemeColor = this.themeColorDefault.asObservable();
 
   constructor() {}
 
@@ -14,11 +19,7 @@ export class W3csService {
     this.fontSizeDefault.next(className);
   }
 
-  // getFontSize() {
-  //   return window.localStorage['fontSize'];
-  // }
-
-  // setFontSize(className: string) {
-  //   window.localStorage['fontSize'] = className;
-  // }
+  changeThemeColor(className: string) {
+    this.themeColorDefault.next(className);
+  }
 }

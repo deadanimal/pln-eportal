@@ -16,7 +16,10 @@
           </h4>
         </div>
       </div>
-      <div class="row" *ngIf="facilitysubcategory[0].name.includes('Balai Cerap')">
+      <div
+        class="row"
+        *ngIf="facilitysubcategory[0].name.includes('Balai Cerap')"
+      >
         <div class="col">
           <p class="text-justify">
             Taman Balai Cerap Purba merupakan pameran yang terletak di luar
@@ -41,17 +44,17 @@
               </p>
               <p class="pt-3">• Kapasiti: {{ facility.max_capacity }} orang</p>
               <p>• Keluasan: {{ facility.area_size }}</p>
-              <p class="pt-3">Nama Peralatan Disediakan</p>
+              <p class="pt-3">Peralatan yang disediakan</p>
               <p>{{ facility.equipment_name }}</p>
               <p>• {{ facility.equipment_description }}</p>
               <div *ngIf="facility.have_price">
-                <h4 class="title">Harga</h4>
+                <h4 class="title">Kadar Sewaan</h4>
                 <table class="table table-bordered">
                   <thead class="thead-light">
                     <tr>
-                      <td class="font-weight-bold">Bil Sewaan Kemudahan</td>
-                      <td class="font-weight-bold">Hari</td>
-                      <td class="font-weight-bold">Harga (RM)</td>
+                      <td class="font-weight-bold">Kemudahan Sewaan</td>
+                      <td class="font-weight-bold">Tempoh Sewaan</td>
+                      <td class="font-weight-bold">Kadar Sewaan (RM)</td>
                     </tr>
                   </thead>
 
@@ -63,11 +66,17 @@
                       "
                     >
                       <td>{{ price.facility_description }}</td>
-                      <td>{{ price.facility_days }}</td>
+                      <td *ngIf="price.facility_days == 'FULL'">Satu Hari</td>
+                      <td *ngIf="price.facility_days == 'HALF'">
+                        Separuh Hari
+                      </td>
                       <td>{{ price.facility_price }}</td>
                     </tr>
                   </tbody>
                 </table>
+                <small class="text-white"
+                  >Nota: Separuh hari 4 jam & Satu hari 8 Jam</small
+                >
               </div>
               <div class="row pt-3">
                 <div class="col text-right">

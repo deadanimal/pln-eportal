@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
@@ -16,6 +17,7 @@ export class SimulatorRideComponent implements OnInit {
   fontSize: string;
 
   constructor(
+    public translate: TranslateService,
     private jwtService: JwtService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
@@ -49,8 +51,8 @@ export class SimulatorRideComponent implements OnInit {
       this.router.navigate(["/simulator-ride/simulator-ride-book"]);
     } else {
       this.toastr.error(
-        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah tiket.",
-        "Ralat"
+        this.translate.instant("RalatLoginBook"),
+        this.translate.instant("Ralat")
       );
     }
   }
