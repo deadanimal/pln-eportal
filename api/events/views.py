@@ -39,6 +39,7 @@ from .serializers import (
     EducationalProgramSerializer,
     EducationalProgramExtendedSerializer,
     EducationalProgramDateSerializer,
+    EducationalProgramDateExtendedSerializer,
     EducationalProgramImageSerializer,
     EducationalProgramActivitySerializer,
     EducationalProgramApplicationSerializer,
@@ -98,7 +99,8 @@ class ExhibitListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'id',
         'exhibit_id',
-        'name',
+        'name_en',
+        'name_ms',
         'status',
         'created_date'
     ]
@@ -129,8 +131,10 @@ class ExhibitDetailViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = ExhibitDetailSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'name',
-        'description',
+        'name_en',
+        'name_ms',
+        'description_en',
+        'description_ms',
         'exhibit_list_id',
         'status',
         'created_date'
@@ -247,6 +251,15 @@ class EducationalProgramDateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = EducationalProgramDate.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+
+        queryset = EducationalProgramDate.objects.all()
+        serializer_class = EducationalProgramDateExtendedSerializer(
+            queryset, many=True)
+
+        return Response(serializer_class.data)
 
 
 class EducationalProgramImageViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

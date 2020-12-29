@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'modules',
     'whatisinterestings',
     'dynamiccontents',
+    'calendars',
 
     'django_cleanup.apps.CleanupConfig'
 ]

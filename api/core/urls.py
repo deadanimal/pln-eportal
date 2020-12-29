@@ -386,6 +386,15 @@ dynamiccontents_router = router.register(
     'dynamic-contents', DynamicContentViewSet
 )
 
+# Calendar app
+from calendars.views import (
+    CalendarViewSet
+)
+
+calendars_router = router.register(
+    'calendars', CalendarViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

@@ -11,25 +11,24 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
-    Module
+    Calendar
 )
 
 from .serializers import (
-    ModuleSerializer
+    CalendarSerializer
 )
 
-
-class ModuleViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
-    queryset = Module.objects.all()
-    serializer_class = ModuleSerializer
+class CalendarViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Calendar.objects.all()
+    serializer_class = CalendarSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'title_en',
+        'date_start',
+        'date_end',
         'description_en',
-        'title_ms',
         'description_ms',
-        'module',
+        'frequency',
         'status'
     ]
 
@@ -39,8 +38,12 @@ class ModuleViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]
+        return [permission() for permission in permission_classes]    
+
 
     def get_queryset(self):
-        queryset = Module.objects.all()
+        queryset = Calendar.objects.all()
         return queryset
+
+    
+
