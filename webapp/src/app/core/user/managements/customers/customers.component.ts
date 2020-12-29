@@ -5,11 +5,11 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { ModulesService } from "src/app/shared/services/modules/modules.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
+import { AuthService } from "src/app/shared/services/auth/auth.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,63 +20,11 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-modules",
-  templateUrl: "./modules.component.html",
-  styleUrls: ["./modules.component.scss"],
+  selector: 'app-customers',
+  templateUrl: './customers.component.html',
+  styleUrls: ['./customers.component.scss']
 })
-export class ModulesComponent implements OnInit {
-  // Data
-
-  // Dropdown
-  modules = [
-    {
-      value: "simulator-ride",
-      display_name: "Kembara Simulasi",
-    },
-    {
-      value: "shows",
-      display_name: "Tayangan",
-    },
-    {
-      value: "exhibit",
-      display_name: "Pameran",
-    },
-    {
-      value: "visit",
-      display_name: "Lawatan",
-    },
-    {
-      value: "program",
-      display_name: "Program Pendidikan",
-    },
-    {
-      value: "survey",
-      display_name: "Maklum Balas",
-    },
-    {
-      value: "facility",
-      display_name: "Fasiliti",
-    },
-    {
-      value: "publication",
-      display_name: "Penerbitan",
-    },
-    {
-      value: "virtual-library",
-      display_name: "Kutubkhanah Mini",
-    },
-  ];
-
-  // FormGroup
-  moduleFormGroup: FormGroup;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog",
-  };
-
+export class CustomersComponent implements OnInit {
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -85,44 +33,71 @@ export class ModulesComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog",
+  };
+
+  // FormGroup
+  userFormGroup: FormGroup;
+
+  // Dropdown
+  usertypes = [
+    {
+      value: "CS",
+      display_name: "Pelanggan",
+    },
+  ];
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private route: ActivatedRoute,
-    private moduleService: ModulesService
+    private userService: UsersService,
+    private authService: AuthService
   ) {
-    this.getData();
-
-    this.moduleFormGroup = this.formBuilder.group({
+    this.userFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title_en: new FormControl(""),
-      description_en: new FormControl(""),
-      title_ms: new FormControl(""),
-      description_ms: new FormControl(""),
-      image_link: new FormControl(""),
-      module: new FormControl(""),
-      status: new FormControl(false),
+      full_name: new FormControl(""),
+      // nric: new FormControl(""),
+      // nric_picture: new FormControl(""),
+      email: new FormControl(""),
+      phone: new FormControl(""),
+      // birth_date: new FormControl(""),
+      // age: new FormControl(""),
+      address: new FormControl(""),
+      postcode: new FormControl(""),
+      city: new FormControl(""),
+      state: new FormControl(""),
+      country: new FormControl(""),
+      user_type: new FormControl("CS"),
+      is_active: new FormControl(false),
+      // gender_type: new FormControl(""),
+      // race_type: new FormControl(""),
+      username: new FormControl(""),
+      password1: new FormControl(""),
+      password2: new FormControl(""),
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getData();
+  }
 
   getData() {
-    this.moduleService.get().subscribe(
-      (res) => {
-        console.log("res", res);
-        this.tableRows = res;
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            no: key,
-          };
-        });
-      },
-      (err) => {
-        console.error("err", err);
+    this.userService.getAll().subscribe((res) => {
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].user_type != 'CS') res.splice(i, 1);
       }
-    );
+      this.tableRows = res;
+      this.tableTemp = this.tableRows.map((prop, key) => {
+        return {
+          ...prop,
+          no: key,
+        };
+      });
+    });
   }
 
   entriesChange($event) {
@@ -155,22 +130,11 @@ export class ModulesComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
-  emptyFormGroup() {
-    this.moduleFormGroup.patchValue({
-      id: "",
-      title: "",
-      description: "",
-      image_link: "",
-      status: false,
-    });
-  }
-
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      // this.moduleFormGroup.reset();
-      this.emptyFormGroup();
+      this.userFormGroup.reset();
     } else if (process == "update") {
-      this.moduleFormGroup.patchValue({
+      this.userFormGroup.patchValue({
         ...row,
       });
     }
@@ -181,41 +145,52 @@ export class ModulesComponent implements OnInit {
     this.modal.hide();
   }
 
-  // Image Process
-  onChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.moduleFormGroup.get("image_link").setValue(file);
-    }
-  }
-
   create() {
-    const formData = new FormData();
-    formData.append("image_link", this.moduleFormGroup.get("image_link").value);
-    formData.append("title_en", this.moduleFormGroup.value.title_en);
-    formData.append("description_en", this.moduleFormGroup.value.description_en);
-    formData.append("title_ms", this.moduleFormGroup.value.title_ms);
-    formData.append("description_ms", this.moduleFormGroup.value.description_ms);
-    formData.append("module", this.moduleFormGroup.value.module);
-    formData.append("status", this.moduleFormGroup.value.status);
+    this.userFormGroup.value.password1 = "planetarium@2020";
+    this.userFormGroup.value.password2 = "planetarium@2020";
 
-    this.moduleService.post(formData).subscribe(
+    this.authService.register(this.userFormGroup.value).subscribe(
       (res) => {
         console.log("res", res);
-        swal
-          .fire({
-            title: "Berjaya",
-            text: "Data anda berjaya disimpan.",
-            type: "success",
-            buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
-          })
-          .then((result) => {
-            if (result.value) {
-              this.modal.hide();
-              this.getData();
-            }
-          });
+        if (res) {
+          this.userService
+            .update(res.user.pk, this.userFormGroup.value)
+            .subscribe(
+              (res) => {
+                console.log("res", res);
+                swal
+                  .fire({
+                    title: "Berjaya",
+                    text: "Data anda berjaya disimpan.",
+                    type: "success",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                  })
+                  .then((result) => {
+                    if (result.value) {
+                      this.modal.hide();
+                      this.getData();
+                    }
+                  });
+              },
+              (err) => {
+                console.error("err", err);
+                swal
+                  .fire({
+                    title: "Ralat",
+                    text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+                    type: "warning",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-warning",
+                  })
+                  .then((result) => {
+                    if (result.value) {
+                      // this.modal.hide();
+                    }
+                  });
+              }
+            );
+        }
       },
       (err) => {
         console.error("err", err);
@@ -237,23 +212,8 @@ export class ModulesComponent implements OnInit {
   }
 
   update() {
-    const formData = new FormData();
-    if (typeof this.moduleFormGroup.get("image_link").value != "string") {
-      formData.append(
-        "image_link",
-        this.moduleFormGroup.get("image_link").value
-      );
-    }
-    formData.append("id", this.moduleFormGroup.value.id);
-    formData.append("title_en", this.moduleFormGroup.value.title_en);
-    formData.append("description_en", this.moduleFormGroup.value.description_en);
-    formData.append("title_ms", this.moduleFormGroup.value.title_ms);
-    formData.append("description_ms", this.moduleFormGroup.value.description_ms);
-    formData.append("module", this.moduleFormGroup.value.module);
-    formData.append("status", this.moduleFormGroup.value.status);
-
-    this.moduleService
-      .update(formData, this.moduleFormGroup.value.id)
+    this.userService
+      .update(this.userFormGroup.value, this.userFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -306,7 +266,7 @@ export class ModulesComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.moduleService.delete(row.id).subscribe(
+          this.userService.delete(row.id).subscribe(
             (res) => {
               console.log("res", res);
               swal.fire({
@@ -333,8 +293,8 @@ export class ModulesComponent implements OnInit {
       });
   }
 
-  getModule(value: string) {
-    let result = this.modules.find((obj) => {
+  getUserType(value: string) {
+    let result = this.usertypes.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;

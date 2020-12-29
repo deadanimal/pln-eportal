@@ -92,10 +92,10 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tajuk</span>
+                <span>Tajuk MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.title }}
+                {{ row.title_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -117,14 +117,14 @@
               </ng-template>
             </ngx-datatable-column> -->
 
-            <ngx-datatable-column>
+            <!-- <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Jenis</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ getType(row.program_type) }}
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
@@ -225,18 +225,35 @@
   <div class="modal-body">
     <form [formGroup]="eduprogramFormGroup">
       <div class="form-group">
-        <label class="form-control-label required-field">Tajuk</label>
+        <label class="form-control-label required-field">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label required-field">Deskripsi</label>
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Deskripsi MS</label>
         <quill-editor
-          formControlName="description"
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
           [modules]="modules"
           [styles]="{ height: '200px' }"
         ></quill-editor>
@@ -341,11 +358,20 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label required-field">Terbuka kepada</label>
+        <label class="form-control-label required-field">Terbuka kepada MS</label>
         <input
           class="form-control"
-          formControlName="program_opento"
+          formControlName="program_opento_ms"
           placeholder="contoh: Terbuka kepada pelajar 12 tahun"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Terbuka kepada EN</label>
+        <input
+          class="form-control"
+          formControlName="program_opento_en"
+          placeholder="example: Open to 12-year-old students"
           type="text"
         />
       </div>
@@ -471,18 +497,35 @@
   <div class="modal-body">
     <form [formGroup]="eduprogramFormGroup">
       <div class="form-group">
-        <label class="form-control-label required-field">Tajuk</label>
+        <label class="form-control-label required-field">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label required-field">Deskripsi</label>
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Deskripsi MS</label>
         <quill-editor
-          formControlName="description"
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
           [modules]="modules"
           [styles]="{ height: '200px' }"
         ></quill-editor>
@@ -587,11 +630,20 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label required-field">Terbuka kepada</label>
+        <label class="form-control-label required-field">Terbuka kepada MS</label>
         <input
           class="form-control"
-          formControlName="program_opento"
+          formControlName="program_opento_ms"
           placeholder="contoh: Terbuka kepada pelajar 12 tahun"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Terbuka kepada EN</label>
+        <input
+          class="form-control"
+          formControlName="program_opento_en"
+          placeholder="example: Open to 12-year-old students"
           type="text"
         />
       </div>

@@ -1,80 +1,137 @@
-import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from "@angular/forms";
+import swal from "sweetalert2";
+
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: "app-profile",
+  templateUrl: "./profile.component.html",
+  styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
+  // FormGroup
+  userFormGroup: FormGroup;
 
   // Toggle
-  editEnabled: boolean = false
-
-  // Form
-  editForm: FormGroup
-  editFormMessages = {
-    'name': [
-      { type: 'required', message: 'Name is required' }
-    ],
-    'email': [
-      { type: 'required', message: 'Email is required' },
-      { type: 'email', message: 'A valid email is required' }
-    ]
-  }
+  editEnabled: boolean = true;
 
   constructor(
-    private formBuilder: FormBuilder
-  ) { }
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private userService: UsersService
+  ) {
+    this.userFormGroup = this.formBuilder.group({
+      id: new FormControl({ value: "" }),
+      full_name: new FormControl({ value: "" }),
+      // nric: new FormControl({value: ""}),
+      // nric_picture: new FormControl({value: ""}),
+      email: new FormControl({ value: "" }),
+      phone: new FormControl({ value: "" }),
+      // birth_date: new FormControl({value: ""}),
+      // age: new FormControl(0),
+      address_1: new FormControl({ value: "" }),
+      address_2: new FormControl({ value: "" }),
+      address_3: new FormControl({ value: "" }),
+      postcode: new FormControl({ value: "" }),
+      city: new FormControl({ value: "" }),
+      state: new FormControl({ value: "" }),
+      country: new FormControl({ value: "" }),
+      user_type: new FormControl({ value: "" }),
+      gender_type: new FormControl({ value: "" }),
+      race_type: new FormControl({ value: "" }),
+      // is_active: new FormControl(false),
+      // date_joined: new FormControl({value: ""}),
+    });
 
-  ngOnInit() {
-    this.editForm = this.formBuilder.group({
-      name: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.email
-      ]))
-    })
+    this.getData();
+    this.toggleEdit();
   }
 
+  getData() {
+    this.userService.getOne(this.authService.decodedToken().user_id).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.userFormGroup.patchValue({
+          ...res,
+        });
+        console.log("userFormGroup", this.userFormGroup.value);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  ngOnInit() {}
+
   toggleEdit() {
-    this.editEnabled = !this.editEnabled
+    this.editEnabled = !this.editEnabled;
+
+    if (this.editEnabled) {
+      this.userFormGroup.enable();
+    } else {
+      this.userFormGroup.disable();
+    }
   }
 
   confirm() {
-    swal.fire({
-      title: "Confirmation",
-      text: "Are you sure to save this edit?",
-      type: "info",
-      buttonsStyling: false,
-      confirmButtonClass: "btn btn-info",
-      confirmButtonText: "Confirm",
-      showCancelButton: true,
-      cancelButtonClass: "btn btn-danger",
-      cancelButtonText: "Cancel"
-    }).then((result) => {
-      if (result.value) {
-        this.edit()
-      }
-    })
+    swal
+      .fire({
+        title: "Pengesahan",
+        text: "Adakah anda pasti menyimpan kemaskini ini?",
+        type: "info",
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-default",
+        confirmButtonText: "Ya",
+        showCancelButton: true,
+        cancelButtonClass: "btn btn-secondary",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.edit();
+        }
+      });
   }
 
   edit() {
-    swal.fire({
-      title: "Success",
-      text: "Update has been saved",
-      type: "success",
-      buttonsStyling: false,
-      confirmButtonClass: "btn btn-success",
-      confirmButtonText: "Close"
-    }).then((result) => {
-      if (result.value) {
-        this.editForm.reset()
-      }
-    })
+    this.userService
+      .update(this.authService.decodedToken().user_id, this.userFormGroup.value)
+      .subscribe(
+        (res) => {
+          console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya dikemaskini.",
+              type: "success",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-success",
+            })
+            .then((result) => {
+              if (result.value) {
+                this.getData();
+                this.toggleEdit();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal.fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          });
+        }
+      );
   }
-
 }

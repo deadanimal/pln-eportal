@@ -1,6 +1,7 @@
 export class ExhibitList {
   public id: string;
-  public name: string;
+  public name_en: string;
+  public name_ms: string;
   public image_link: string;
   public status: string;
   public exhibit_id: string;
@@ -9,7 +10,8 @@ export class ExhibitList {
 
   constructor(
     id: string,
-    name: string,
+    name_en: string,
+    name_ms: string,
     image_link: string,
     status: string,
     exhibit_id: string,
@@ -17,7 +19,8 @@ export class ExhibitList {
     modified_date: string
   ) {
     this.id = id;
-    this.name = name;
+    this.name_en = name_en;
+    this.name_ms = name_ms;
     this.image_link = image_link;
     this.status = status;
     this.exhibit_id = exhibit_id;

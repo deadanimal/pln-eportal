@@ -233,12 +233,12 @@ export const ROUTES: RouteInfo[] = [
       { path: "ticket-sales", title: "Penjualan Tiket", type: "link" },
     ],
   },
-  // {
-  //   path: '/calendar',
-  //   title: 'Kalendar',
-  //   type: 'link',
-  //   icontype: 'fas fa-calendar-alt text-primary'
-  // }
+  {
+    path: '/calendar',
+    title: 'Kalendar',
+    type: 'link',
+    icontype: 'fas fa-calendar text-primary'
+  },
   {
     path: "/cms",
     title: "Pentadbiran CMS",
@@ -304,6 +304,7 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [
       { path: "users", title: "Pengguna", type: "link" },
+      { path: "customers", title: "Pelanggan", type: "link" },
       { path: "email-templates", title: "Templat Emel", type: "link" },
     ],
   },

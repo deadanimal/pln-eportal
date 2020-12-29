@@ -1,7 +1,9 @@
 export class Showing {
   public id: string;
-  public title: string;
-  public description: string;
+  public title_en: string;
+  public description_en: string;
+  public title_ms: string;
+  public description_ms: string;
   public genre: string;
   public language: string;
   public duration_hours: number;
@@ -14,8 +16,10 @@ export class Showing {
 
   constructor(
     id: string,
-    title: string,
-    description: string,
+    title_en: string,
+    description_en: string,
+    title_ms: string,
+    description_ms: string,
     genre: string,
     language: string,
     duration_hours: number,
@@ -27,8 +31,10 @@ export class Showing {
     modified_date: string
   ) {
     this.id = id;
-    this.title = title;
-    this.description = description;
+    this.title_en = title_en;
+    this.description_en = description_en;
+    this.title_ms = title_ms;
+    this.description_ms = description_ms;
     this.genre = genre;
     this.language = language;
     this.duration_hours = duration_hours;

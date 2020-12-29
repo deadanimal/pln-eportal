@@ -241,7 +241,7 @@ export class ShowsScheduleComponent implements OnInit {
           this.tableRows[i].show_date + " " + this.tableRows[i].show_time,
         toDate: this.tableRows[i].show_date + " " + "16:00:00",
         color: colorSet.getIndex(dayIndex).brighten(0),
-        title: this.tableRows[i].showing_id.title,
+        title: this.tableRows[i].showing_id.title_ms,
       };
       arrayChart.push(array);
     }

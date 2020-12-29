@@ -7,7 +7,9 @@ export class User {
   public phone: string;
   public birth_date: string;
   public age: number;
-  public address: string;
+  public address_1: string;
+  public address_2: string;
+  public address_3: string;
   public postcode: string;
   public city: string;
   public state: string;
@@ -27,7 +29,9 @@ export class User {
     phone: string,
     birth_date: string,
     age: number,
-    address: string,
+    address_1: string,
+    address_2: string,
+    address_3: string,
     postcode: string,
     city: string,
     state: string,
@@ -46,7 +50,9 @@ export class User {
     this.phone = phone;
     this.birth_date = birth_date;
     this.age = age;
-    this.address = address;
+    this.address_1 = address_1;
+    this.address_2 = address_2;
+    this.address_3 = address_3;
     this.postcode = postcode;
     this.city = city;
     this.state = state;

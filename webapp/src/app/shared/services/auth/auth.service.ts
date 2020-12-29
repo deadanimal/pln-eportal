@@ -16,7 +16,7 @@ export class AuthService {
   public urlRegister: string = environment.baseUrl + "auth/registration/";
   public urlPasswordChange: string =
     environment.baseUrl + "auth/password/change/";
-  public urlPasswordReset: string = environment.baseUrl + "auth/password/reset";
+  public urlPasswordReset: string = environment.baseUrl + "auth/password/reset/";
   public urlTokenObtain: string = environment.baseUrl + "auth/obtain/";
   public urlTokenRefresh: string = environment.baseUrl + "auth/refresh/";
   public urlTokenVerify: string = environment.baseUrl + "auth/verify/";
