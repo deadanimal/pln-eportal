@@ -176,6 +176,8 @@ export class PublicationsListComponent implements OnInit {
           ? row.publication_category_id.id
           : null,
       });
+      // ada error kat sini
+      console.log("update", this.publicationFormGroup.value);
     } else if (process == "uploadpdf") {
       this.publicationPDFFormGroup.patchValue({
         id: row.id,

@@ -1,12 +1,15 @@
 export class EducationalProgram {
   public id: string;
-  public title: string;
-  public description: string;
+  public title_en: string;
+  public description_en: string;
+  public title_ms: string;
+  public description_ms: string;
   public program_code: string;
   public program_type: string;
   public program_category: string;
   public program_subcategory: string;
-  public program_opento: string;
+  public program_opento_en: string;
+  public program_opento_ms: string;
   public min_participant: number;
   public max_participant: number;
   public price: number;
@@ -24,13 +27,16 @@ export class EducationalProgram {
 
   constructor(
     id: string,
-    title: string,
-    description: string,
+    title_en: string,
+    description_en: string,
+    title_ms: string,
+    description_ms: string,
     program_code: string,
     program_type: string,
     program_category: string,
     program_subcategory: string,
-    program_opento: string,
+    program_opento_en: string,
+    program_opento_ms: string,
     min_participant: number,
     max_participant: number,
     price: number,
@@ -47,13 +53,16 @@ export class EducationalProgram {
     modified_date: string
   ) {
     this.id = id;
-    this.title = title;
-    this.description = description;
+    this.title_en = title_en;
+    this.description_en = description_en;
+    this.title_ms = title_ms;
+    this.description_ms = description_ms;
     this.program_code = program_code;
     this.program_type = program_type;
     this.program_category = program_category;
     this.program_subcategory = program_subcategory;
-    this.program_opento = program_opento;
+    this.program_opento_en = program_opento_en;
+    this.program_opento_ms = program_opento_ms;
     this.min_participant = min_participant;
     this.max_participant = max_participant;
     this.price = price;

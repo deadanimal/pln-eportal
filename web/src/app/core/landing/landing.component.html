@@ -192,14 +192,13 @@
         </carousel> -->
         <carousel
           [itemsPerSlide]="itemsPerSlide"
-          [singleSlideOffset]="true"
+          [singleSlideOffset]="singleSlideOffset"
           [interval]="2000"
           [showIndicators]="false"
-          [isAnimated]="true"
-          [(activeSlide)]="activeSlideIndex"
+          [noWrap]="noWrap"
           *ngIf="partners.length > 0"
         >
-          <slide class="mx-auto" *ngFor="let partner of partners">
+          <slide *ngFor="let partner of partners">
             <div style="display: block; text-align: center">
               <img [src]="partner.image_link" style="width: 40%" />
               <h5 class="title">{{ partner.name }}</h5>
@@ -287,7 +286,8 @@
           <div class="row">
             <div class="col text-center">
               <h4 class="title">
-                {{ "TarikhKemaskini" | translate }}: {{ currentDate.getDate() }}
+                {{ "TarikhKemaskini" | translate }}:
+                {{ currentDate.getDate() }}
                 {{ months[currentDate.getMonth()] }}
                 {{ currentDate.getFullYear() }}
               </h4>

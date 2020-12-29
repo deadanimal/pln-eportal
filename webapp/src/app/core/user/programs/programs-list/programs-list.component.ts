@@ -68,23 +68,15 @@ export class ProgramsListComponent implements OnInit {
     },
     {
       value: "P6",
-      display_name: "PROGRAM/RAKAN KERJASAMA",
+      display_name: "PROGRAM KERJASAMA",
     },
     {
       value: "P7",
-      display_name: "PROGRAM JANGKAUAN (6 ZON)",
+      display_name: "PROGRAM JANGKAUAN",
     },
     {
       value: "P8",
       display_name: "SEMINAR, CERAMAH, PLANETARIUM TALKS",
-    },
-    {
-      value: "P9",
-      display_name: "LAIN-LAIN",
-    },
-    {
-      value: "NA",
-      display_name: "TIDAK ADA",
     },
   ];
   programsubcategories = [
@@ -164,13 +156,16 @@ export class ProgramsListComponent implements OnInit {
 
     this.eduprogramFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      description_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_ms: new FormControl(""),
       program_code: new FormControl(""),
       program_type: new FormControl(""),
       program_category: new FormControl(""),
       program_subcategory: new FormControl(""),
-      program_opento: new FormControl(""),
+      program_opento_en: new FormControl(""),
+      program_opento_ms: new FormControl(""),
       min_participant: new FormControl(""),
       max_participant: new FormControl(""),
       price: new FormControl(0),
@@ -281,13 +276,16 @@ export class ProgramsListComponent implements OnInit {
   emptyFormGroup() {
     this.eduprogramFormGroup.patchValue({
       id: "",
-      title: "",
-      description: "",
+      title_en: "",
+      description_en: "",
+      title_ms: "",
+      description_ms: "",
       program_code: "",
       program_type: "",
       program_category: "",
       program_subcategory: "",
-      program_opento: "",
+      program_opento_en: "",
+      program_opento_ms: "",
       min_participant: "",
       max_participant: "",
       price: 0,

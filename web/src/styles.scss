@@ -17,12 +17,19 @@
 
 // @import "assets/scss/br-smiley-theme.scss";
 @import "assets/css/br-smiley-theme.css";
-@import '~ngx-bar-rating/themes/br-stars-theme';
-@import '~ngx-sharebuttons/themes/default/default-theme';
+@import "~ngx-bar-rating/themes/br-stars-theme";
+@import "~ngx-sharebuttons/themes/default/default-theme";
+@import "~ngx-org-chart/_theming.scss";
 // @import "~nouislider/distribute/nouislider.min.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .fs-09rem {
   p,
@@ -56,5 +63,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   p,
   span {
     font-size: 1.2rem;
+  }
+}
+
+.theme-default {
+  .navbar, .card {
+    background: #202251;
+  }
+}
+
+.theme-info {
+  .navbar, .card {
+    background: #8f2c2c;
+  }
+}
+
+.theme-primary {
+  .navbar, .card {
+    background: #c96130;
+  }
+}
+
+.theme-success {
+  .navbar, .card {
+    background: #18631b;
   }
 }

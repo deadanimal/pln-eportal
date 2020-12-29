@@ -90,19 +90,19 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tajuk</span>
+                <span>Tajuk MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.title }}
+                {{ row.title_ms }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Deskripsi</span>
+                <span>Deskripsi MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.description }}
+                {{ row.description_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -190,20 +190,38 @@
   <div class="modal-body">
     <form [formGroup]="moduleFormGroup">
       <div class="form-group">
-        <label class="form-control-label required-field">Tajuk</label>
+        <label class="form-control-label required-field">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
+        <label class="form-control-label">Deskripsi MS</label>
         <input
           class="form-control"
-          formControlName="description"
-          placeholder="Deskripsi"
+          formControlName="description_ms"
+          placeholder="Deskripsi MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <input
+          class="form-control"
+          formControlName="description_en"
+          placeholder="Deskripsi EN"
           type="text"
         />
       </div>
@@ -293,20 +311,38 @@
   <div class="modal-body">
     <form [formGroup]="moduleFormGroup">
       <div class="form-group">
-        <label class="form-control-label required-field">Tajuk</label>
+        <label class="form-control-label required-field">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
+        <label class="form-control-label">Deskripsi MS</label>
         <input
           class="form-control"
-          formControlName="description"
-          placeholder="Deskripsi"
+          formControlName="description_ms"
+          placeholder="Deskripsi MS"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <input
+          class="form-control"
+          formControlName="description_en"
+          placeholder="Deskripsi EN"
           type="text"
         />
       </div>

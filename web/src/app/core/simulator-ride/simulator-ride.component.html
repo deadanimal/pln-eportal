@@ -44,20 +44,18 @@
     <div class="section">
       <div class="container pb-3">
         <h2 class="title text-center text-dark">
-          Kembara Simulasi <share-button button="facebook"></share-button
+          {{ "KembaraSimulasiTajuk" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
         <div class="row">
           <div class="col">
             <p class="text-dark text-justify">
-              Kembara Simulasi merupakan sebuah simulator kokpit dua tempat
-              duduk yang memberikan pengalaman penerokaan dan penerbangan ke
-              angkasa lepas. Pengunjung akan merasai pengalaman pergerakan tiga
-              paksi dengan kebebasan pergerakan 360 darjah.
+              {{ "KembaraSimulasiDeskripsi" | translate }}
             </p>
             <h3 class="text-dark text-center">
-              <b>Kapasiti: 2 orang / pusingan</b>
+              <b>{{ "Kapasiti" | translate }}</b>
             </h3>
           </div>
         </div>
@@ -75,7 +73,7 @@
                   <h4 class="card-category">Space Pod</h4>
                   <a href="javascript:void(0)"
                     ><h3 class="card-title">
-                      Rasai pengalaman berada di angkasa
+                      {{ "KembaraSimulasi1Gambar" | translate }}
                     </h3></a
                   >
                 </div>
@@ -95,7 +93,7 @@
                   <h4 class="card-category">Space Pod</h4>
                   <a href="javascript:void(0)"
                     ><h3 class="card-title">
-                      Rasai pengalaman berada di angkasa
+                      {{ "KembaraSimulasi2Gambar" | translate }}
                     </h3></a
                   >
                 </div>
@@ -110,7 +108,7 @@
               data-target="#myModal"
               (click)="clickBook()"
             >
-              <h2 class="m-0 title">Tempah</h2>
+              <h2 class="m-0 title">{{ "Tempah" | translate }}</h2>
             </button>
           </div>
         </div>
@@ -156,154 +154,6 @@
             </carousel>
           </div>
         </div>
-        <!-- <div class="row">
-          <div class="col-lg-12">
-            <section class="center glide-simulator">
-              <div class="glide__track" data-glide-el="track">
-                <ul class="glide__slides">
-                  <li class="glide__slide">
-                    <div class="card p-2">
-                      <div class="card-image">
-                        <img
-                          class="img img-raised rounded"
-                          src="assets/img/space-pod/SPACEPOD.jpg"
-                        />
-                      </div>
-                    </div>
-                  </li>
-
-                  <li class="glide__slide">
-                    <div class="card p-2">
-                      <div class="card-image">
-                        <img
-                          class="img img-raised rounded"
-                          src="assets/img/space-pod/SPACEPOD 2.jpg"
-                        />
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-
-                <div class="text-center pb-3">
-                  <div data-glide-el="controls">
-                    <button
-                      class="btn btn-round btn-icon btn-primary btn-simple slick-prev slick-arrow"
-                      data-glide-dir="<"
-                      aria-label="Previous"
-                      type="button"
-                    >
-                      <i class="tim-icons icon-minimal-left"></i>
-                    </button>
-                    <button
-                      class="btn btn-round btn-icon btn-primary btn-simple slick-next slick-arrow"
-                      data-glide-dir=">"
-                      aria-label="Next"
-                      type="button"
-                    >
-                      <i class="tim-icons icon-minimal-right"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div> -->
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  aria-hidden="true"
-  aria-labelledby="myModalLabel"
-  bsModal
-  class="modal fade"
-  #myModal="bs-modal"
-  id="myModal"
-  role="dialog"
-  tabindex="-1"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <button
-          aria-hidden="true"
-          class="close"
-          data-dismiss="modal"
-          type="button"
-          (click)="myModal.hide()"
-        >
-          <i class="tim-icons icon-simple-remove"> </i>
-        </button>
-        <h4 class="title title-up">Tempahan Tiket</h4>
-      </div>
-      <div class="modal-body">
-        <div class="table-responsive">
-          <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th scope="col">Jenis Tiket</th>
-                <th scope="col" class="text-right">Kuantiti</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Dewasa</th>
-                <td class="text-right">
-                  <ngx-number-spinner
-                    [value]="0"
-                    (change)="changeAdultQuantity($event)"
-                    [min]="0"
-                  >
-                  </ngx-number-spinner>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Kanak-kanak bawah 12 tahun</th>
-                <td class="text-right">
-                  <ngx-number-spinner
-                    [value]="0"
-                    (change)="changeChildrenQuantity($event)"
-                    [min]="0"
-                  >
-                  </ngx-number-spinner>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Warga emas</th>
-                <td class="text-right">
-                  <ngx-number-spinner
-                    [value]="0"
-                    (change)="changeSeniorQuantity($event)"
-                    [min]="0"
-                  >
-                  </ngx-number-spinner>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Jumlah</th>
-                <td class="text-right">RM25.00</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-danger"
-          data-dismiss="modal"
-          type="button"
-          (click)="myModal.hide()"
-        >
-          Batal
-        </button>
-        <button
-          class="btn btn-default"
-          type="button"
-          [routerLink]="['/payment']"
-        >
-          Tempah
-        </button>
       </div>
     </div>
   </div>

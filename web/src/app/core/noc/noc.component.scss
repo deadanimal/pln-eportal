@@ -21,7 +21,7 @@ li {
   color: #000000;
 }
 
-.inner-html {
+::ng-deep .inner-html {
   h1,
   h2,
   h3,
@@ -38,4 +38,12 @@ li {
       color: black;
     }
   }
+}
+
+::ng-deep .ngx-org-box {
+  background-color: #202251;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
 }

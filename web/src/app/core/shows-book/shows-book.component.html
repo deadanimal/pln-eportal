@@ -47,22 +47,21 @@
           <div class="col-md-12 col-sm-12">
             <mat-horizontal-stepper [linear]="true" #stepper>
               <mat-step [stepControl]="firstFormGroup">
-                <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
+                <ng-template matStepLabel>{{
+                  "ShowStep1Label" | translate
+                }}</ng-template>
                 <form [formGroup]="firstFormGroup">
                   <div class="row">
                     <div class="col-md-4 col-sm-12"></div>
                     <div class="col-md-4 col-sm-12">
                       <alert [type]="'danger'">
-                        <b
-                          >Nota: Tiket online perlu ditempah sehari lebih awal
-                          untuk memudahkan urusan Planetarium.</b
-                        >
+                        <b>{{ "ShowStep1Note" | translate }}</b>
                       </alert>
                       <div class="form-group">
-                        <label>Tarikh</label>
+                        <label>{{ "Tarikh" | translate }}</label>
                         <input
                           type="text"
-                          placeholder="Tarikh"
+                          placeholder="{{ 'Tarikh' | translate }}"
                           class="form-control"
                           formControlName="date"
                           bsDatepicker
@@ -78,12 +77,13 @@
                         />
                       </div>
                       <div class="form-group">
-                        <label>Masa</label><br />
+                        <label>{{ "Masa" | translate }}</label
+                        ><br />
                         <p
                           class="text-danger"
                           *ngIf="!firstFormGroup.value.date"
                         >
-                          Sila pilih tarikh terlebih dahulu!
+                          {{ "MasaNota" | translate }}
                         </p>
                         <div *ngIf="firstFormGroup.value.date">
                           <div class="row">
@@ -121,163 +121,182 @@
                       (click)="checkExistBooking(stepper)"
                       [disabled]="!firstFormGroup.valid"
                     >
-                      Seterusnya
+                      {{ "Seterusnya" | translate }}
                     </button>
                   </div>
                 </form>
               </mat-step>
               <mat-step [stepControl]="secondFormGroup">
-                <ng-template matStepLabel>Tempahan Tiket</ng-template>
-                <form [formGroup]="secondFormGroup">
-                  <div class="table-responsive">
-                    <table class="table table-borderless">
-                      <thead>
-                        <tr>
-                          <th scope="col" class="text-dark">Warganegara</th>
-                          <th scope="col">
-                            <bSwitch
-                              switch-off-text="Tidak"
-                              switch-on-text="Ya"
-                              formControlName="citizen"
-                              (changeState)="citizenChange()"
-                            ></bSwitch>
-                          </th>
-                        </tr>
-                      </thead>
-                      <thead>
-                        <tr>
-                          <th scope="col" class="text-dark">Jenis Tiket</th>
-                          <th scope="col" class="text-dark">Kuantiti</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row" class="text-dark">
-                            Dewasa<br /><small
-                              *ngIf="secondFormGroup.value.citizen"
-                              >(RM 6.00/Tiket)</small
-                            ><small *ngIf="!secondFormGroup.value.citizen"
-                              >(RM 12.00/Tiket)</small
-                            >
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="adult"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="text-dark">
-                            Kanak-kanak bawah 12 tahun<br /><small
-                              *ngIf="secondFormGroup.value.citizen"
-                              >(RM 4.00/Tiket)</small
-                            ><small *ngIf="!secondFormGroup.value.citizen"
-                              >(RM 8.00/Tiket)</small
-                            >
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="children"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="text-dark">
-                            30 orang pelajar berumur bawah 18 tahun yang
-                            berpakaian seragam sekolah<br /><small
-                              *ngIf="secondFormGroup.value.citizen"
-                              >(RM 4.00/Tiket)</small
-                            ><small *ngIf="!secondFormGroup.value.citizen"
-                              >(RM 8.00/Tiket)</small
-                            >
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="school"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="text-dark">
-                            Warga emas<br /><small>(Percuma)</small>
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="senior"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="text-dark">
-                            OKU<br /><small>(Percuma)</small>
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="oku"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="text-dark">Jumlah</th>
-                          <td class="text-dark">
-                            RM {{ secondFormGroup.value.total | number }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <ng-template matStepLabel>{{
+                  "ShowStep2Label" | translate
+                }}</ng-template>
+                <div class="row">
+                  <div class="col-8 mx-auto">
+                    <form [formGroup]="secondFormGroup">
+                      <div class="table-responsive">
+                        <table class="table table-borderless">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "Warganegara" | translate }}
+                              </th>
+                              <th scope="col">
+                                <bSwitch
+                                  switch-off-text="{{ 'Tidak' | translate }}"
+                                  switch-on-text="{{ 'Ya' | translate }}"
+                                  formControlName="citizen"
+                                  (changeState)="citizenChange()"
+                                ></bSwitch>
+                              </th>
+                            </tr>
+                          </thead>
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "JenisTiket" | translate }}
+                              </th>
+                              <th scope="col" class="text-dark">
+                                {{ "Kuantiti" | translate }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Dewasa" | translate }}<br /><small
+                                  *ngIf="secondFormGroup.value.citizen"
+                                  >(RM 6.00/{{ "Tiket" | translate }})</small
+                                ><small *ngIf="!secondFormGroup.value.citizen"
+                                  >(RM 12.00/{{ "Tiket" | translate }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  formControlName="adult"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Kanakkanak" | translate }}<br /><small
+                                  *ngIf="secondFormGroup.value.citizen"
+                                  >(RM 4.00/{{ "Tiket" | translate }})</small
+                                ><small *ngIf="!secondFormGroup.value.citizen"
+                                  >(RM 8.00/{{ "Tiket" | translate }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  formControlName="children"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "pelajar" | translate }}<br /><small
+                                  *ngIf="secondFormGroup.value.citizen"
+                                  >(RM 4.00/{{ "Tiket" | translate }})</small
+                                ><small *ngIf="!secondFormGroup.value.citizen"
+                                  >(RM 8.00/{{ "Tiket" | translate }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  formControlName="school"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Wargaemas" | translate }}<br /><small
+                                  >({{ "Percuma" | translate }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  formControlName="senior"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                OKU<br /><small
+                                  >({{ "Percuma" | translate }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  formControlName="oku"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Jumlah" | translate }}
+                              </th>
+                              <td class="text-dark">
+                                RM {{ secondFormGroup.value.total | number }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <alert
+                        class="alert-with-icon"
+                        [type]="'default alert-with-icon'"
+                      >
+                        <span class="fas fa-wheelchair" data-notify="icon">
+                        </span>
+                        <span>
+                          <b> {{ "Penafian" | translate }} : </b>
+                          {{ "CadanganTempatDuduk" | translate }}
+                        </span>
+                      </alert>
+                      <div class="text-center">
+                        <button
+                          type="button"
+                          class="btn btn-warning"
+                          matStepperPrevious
+                        >
+                          {{ "Kembali" | translate }}
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-default"
+                          matStepperNext
+                          [disabled]="totalticket == 0"
+                        >
+                          {{ "Seterusnya" | translate }}
+                        </button>
+                      </div>
+                    </form>
                   </div>
-                  <alert
-                    class="alert-with-icon"
-                    [type]="'default alert-with-icon'"
-                  >
-                    <span class="fas fa-wheelchair" data-notify="icon"> </span>
-                    <span>
-                      <b> Penafian : </b>
-                      Cadangan tempat duduk untuk warga emas dan OKU ialah D56
-                      sehingga D63 dan F56 sehingga F63.
-                    </span>
-                  </alert>
-                  <div class="text-center">
-                    <button
-                      type="button"
-                      class="btn btn-warning"
-                      matStepperPrevious
-                    >
-                      Kembali
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      matStepperNext
-                      [disabled]="totalticket == 0"
-                    >
-                      Seterusnya
-                    </button>
-                  </div>
-                </form>
+                </div>
               </mat-step>
               <mat-step>
-                <ng-template matStepLabel>Pilih Tempat Duduk</ng-template>
+                <ng-template matStepLabel>{{
+                  "ShowStep3Label" | translate
+                }}</ng-template>
                 <div class="table-responsive">
                   <table class="table table-borderless">
                     <!-- <tr *ngFor="let row of arrayOne(row); let i = index">
@@ -300,7 +319,9 @@
                     <tr>
                       <td colspan="5"></td>
                       <td colspan="22">
-                        <h4 class="title text-center text-dark m-0">SKRIN LAYAR</h4>
+                        <h4 class="title text-center text-dark m-0">
+                          {{ "SKRINLAYAR" | translate }}
+                        </h4>
                         <div class="box"></div>
                       </td>
                       <td colspan="5"></td>
@@ -344,21 +365,21 @@
                     class="btn btn-warning"
                     matStepperPrevious
                   >
-                    Kembali
+                    {{ "Kembali" | translate }}
                   </button>
                   <button
                     type="button"
                     class="btn btn-info"
                     (click)="openModal(clueModal)"
                   >
-                    Petunjuk
+                    {{ "Petunjuk" | translate }}
                   </button>
                   <button
                     type="button"
                     class="btn btn-danger"
                     (click)="emptySeats()"
                   >
-                    Set semula kerusi
+                    {{ "Setsemulakerusi" | translate }}
                   </button>
                   <button
                     type="button"
@@ -366,57 +387,72 @@
                     matStepperNext
                     [disabled]="selectedSeats.length != totalticket"
                   >
-                    Seterusnya
+                    {{ "Seterusnya" | translate }}
                   </button>
                 </div>
               </mat-step>
               <mat-step>
-                <ng-template matStepLabel>Pengesahan</ng-template>
-                <div class="table-responsive">
-                  <table class="table table-borderless">
-                    <tbody>
-                      <tr>
-                        <th scope="row" class="text-dark">Tarikh</th>
-                        <td class="text-dark text-right">
-                          {{ firstFormGroup.value.date | date }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-dark">Masa</th>
-                        <td class="text-dark text-right">
-                          {{ firstFormGroup.value.time.split("_", 1) }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-dark">Jumlah Tiket</th>
-                        <td class="text-dark text-right">
-                          {{
-                            secondFormGroup.value.adult +
-                              secondFormGroup.value.children +
-                              secondFormGroup.value.senior +
-                              secondFormGroup.value.oku +
-                              secondFormGroup.value.school
-                          }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-dark">
-                          Jumlah Harga Tiket
-                        </th>
-                        <td class="text-dark text-right">
-                          RM {{ secondFormGroup.value.total }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-dark">Nombor Kerusi</th>
-                        <td class="text-dark text-right">
-                          <span *ngFor="let selectedSeat of selectedSeats">
-                            {{ selectedSeat.name }}
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <ng-template matStepLabel>{{
+                  "ShowStep4Label" | translate
+                }}</ng-template>
+                <div class="row">
+                  <div class="col-6 mx-auto">
+                    <div class="table-responsive">
+                      <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "Tarikh" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              {{ firstFormGroup.value.date | date }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "Masa" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              {{ firstFormGroup.value.time.split("_", 1) }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "Jumlah" | translate }}
+                              {{ "Tiket" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              {{
+                                secondFormGroup.value.adult +
+                                  secondFormGroup.value.children +
+                                  secondFormGroup.value.senior +
+                                  secondFormGroup.value.oku +
+                                  secondFormGroup.value.school
+                              }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "JumlahHargaTiket" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              RM {{ secondFormGroup.value.total }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "NomborKerusi" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              <span *ngFor="let selectedSeat of selectedSeats">
+                                {{ selectedSeat.name }}
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
                 <div class="text-center">
                   <button
@@ -424,14 +460,14 @@
                     class="btn btn-warning"
                     matStepperPrevious
                   >
-                    Kembali
+                    {{ "Kembali" | translate }}
                   </button>
                   <button
                     type="button"
                     class="btn btn-default"
                     (click)="makePayment()"
                   >
-                    Buat Bayaran
+                    {{ "BuatBayaran" | translate }}
                   </button>
                 </div>
               </mat-step>
@@ -455,19 +491,19 @@
       <i class="tim-icons icon-simple-remove text-dark"> </i>
     </button>
     <div class="text-dark text-center ml-auto mr-auto">
-      <h3 class="title mb-0">Petunjuk</h3>
+      <h3 class="title mb-0">{{ "Petunjuk" | translate }}</h3>
     </div>
   </div>
   <div class="modal-body">
     <div class="row pb-3">
       <div class="col-md-4 col-sm-12">
         <div style="height: 30px; width: 30px; background-color: #2c8cf8">
-          <p style="padding-left: 40px">Penghalang</p>
+          <p style="padding-left: 40px">{{ "Penghalang" | translate }}</p>
         </div>
       </div>
       <div class="col-md-4 col-sm-12">
         <div style="height: 30px; width: 30px; background-color: #000000">
-          <p style="padding-left: 40px">Projektor</p>
+          <p style="padding-left: 40px">{{ "Projektor" | translate }}</p>
         </div>
       </div>
       <div class="col-md-4 col-sm-12">
@@ -479,12 +515,14 @@
     <div class="row">
       <div class="col-md-6 col-sm-12">
         <div style="height: 30px; width: 30px; background-color: #308446">
-          <p style="padding-left: 40px; width: max-content">Pintu Keluar</p>
+          <p style="padding-left: 40px; width: max-content">
+            {{ "PintuKeluar" | translate }}
+          </p>
         </div>
       </div>
       <div class="col-md-6 col-sm-12">
         <div style="height: 30px; width: 30px; background-color: #8b4513">
-          <p style="padding-left: 40px">Tangga</p>
+          <p style="padding-left: 40px">{{ "Tangga" | translate }}</p>
         </div>
       </div>
     </div>
@@ -496,7 +534,7 @@
       type="button"
       (click)="closeModal()"
     >
-      Tutup
+      {{ "Tutup" | translate }}
     </button>
   </div>
 </ng-template>

@@ -1,7 +1,9 @@
 export class ExhibitDetail {
   public id: string;
-  public name: string;
-  public description: string;
+  public name_en: string;
+  public description_en: string;
+  public name_ms: string;
+  public description_ms: string;
   public video_link: string;
   public venue_id: string;
   public qrcode: string;
@@ -12,8 +14,10 @@ export class ExhibitDetail {
 
   constructor(
     id: string,
-    name: string,
-    description: string,
+    name_en: string,
+    description_en: string,
+    name_ms: string,
+    description_ms: string,
     video_link: string,
     venue_id: string,
     qrcode: string,
@@ -23,8 +27,10 @@ export class ExhibitDetail {
     modified_date: string
   ) {
     this.id = id;
-    this.name = name;
-    this.description = description;
+    this.name_en = name_en;
+    this.description_en = description_en;
+    this.name_ms = name_ms;
+    this.description_ms = description_ms;
     this.video_link = video_link;
     this.venue_id = venue_id;
     this.qrcode = qrcode;

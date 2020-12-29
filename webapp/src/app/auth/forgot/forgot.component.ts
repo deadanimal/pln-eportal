@@ -1,78 +1,119 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms'
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { LoadingBarService } from '@ngx-loading-bar/core';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
+import { Router } from "@angular/router";
+import { LoadingBarService } from "@ngx-loading-bar/core";
+import { ToastrService } from "ngx-toastr";
+
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
-  selector: 'app-forgot',
-  templateUrl: './forgot.component.html',
-  styleUrls: ['./forgot.component.scss']
+  selector: "app-forgot",
+  templateUrl: "./forgot.component.html",
+  styleUrls: ["./forgot.component.scss"],
 })
 export class ForgotComponent implements OnInit {
+  // Data
+  users = [];
 
   // Image
-  imgLogo: string = 'assets/img/logo/planetarium-logo.png'
+  imgLogo: string = "assets/img/logo/planetarium-logo.png";
 
   // Reset form
-  focusEmail: boolean = false
-  resetForm: FormGroup
+  focusEmail: boolean = false;
+  resetForm: FormGroup;
   resetFormMessages = {
-    'email': [
-      { type: 'required', message: 'Email is required' },
-      { type: 'email', message: 'Please enter a valid email'}
-    ]
-  }
+    email: [
+      { type: "required", message: "Emel diperlukan" },
+      { type: "email", message: "Sila masukkan e-mel yang sah" },
+    ],
+  };
 
   constructor(
-    private authService: AuthService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private authService: AuthService,
+    private userService: UsersService
+  ) {}
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
+
+    this.userService.getAll().subscribe(
+      (res) => {
+        console.log("res", res);
+        res.forEach((value) => {
+          if (value.user_type != "CS") {
+            this.users.push(value);
+          }
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   initForm() {
     this.resetForm = this.formBuilder.group({
-      email: ['', Validators.compose([
-        Validators.required,
-        Validators.email
-      ])]
-    })
+      email: ["", Validators.compose([Validators.required, Validators.email])],
+    });
   }
 
-  submitReset(){
+  submitReset() {
     // console.log(this.resetForm.value)
-    this.loadingBar.start()
-    this.authService.resetPassword(this.resetForm.value).subscribe(
-      () => {
-        // Success
-        this.loadingBar.complete()
-        this.successMessage()
-      },
-      () => {
-        // Failed
-        this.loadingBar.complete()
-      },
-      () => {
-        // After
-      }
-    )
+    this.loadingBar.start();
+
+    let result = this.users.find((obj) => {
+      return obj.email == this.resetForm.value.email;
+    });
+
+    if (result) {
+      this.authService.resetPassword(this.resetForm.value).subscribe(
+        (res) => {
+          // Success
+          console.log("res", res);
+          this.loadingBar.complete();
+          this.successMessage(
+            "Berjaya",
+            "Emel telah dihantar ke " +
+              this.resetForm.value.email +
+              " untuk menetapkan semula kata laluan anda"
+          );
+        },
+        (err) => {
+          // Failed
+          console.error("err", err);
+          this.loadingBar.complete();
+          this.errorMessage(
+            "Ralat",
+            "Terdapat masalah ketika log masuk. Sila cuba sebentar lagi."
+          );
+        },
+        () => {
+          // After
+        }
+      );
+    } else {
+      this.loadingBar.complete();
+      this.errorMessage(
+        "Ralat",
+        "Alamat emel anda tiada di dalam pengkalan data"
+      );
+    }
   }
-  
-  successMessage() {
-    let title = 'Success'
-    let message = 'An email has been sent to ' + this.resetForm.value.email + ' to reset your password'
-    this.toastr.success(message, title)
+
+  successMessage(title, message) {
+    this.toastr.success(message, title);
+  }
+
+  errorMessage(title, message) {
+    this.toastr.error(message, title);
   }
 
   navigatePage(path: string) {
-    return this.router.navigate([path])
+    return this.router.navigate([path]);
   }
-
 }

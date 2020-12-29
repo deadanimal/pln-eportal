@@ -102,8 +102,10 @@ export class ExhibitsDetailComponent implements OnInit {
 
     this.exhibitdetailFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
-      description: new FormControl(""),
+      name_en: new FormControl(""),
+      description_en: new FormControl(""),
+      name_ms: new FormControl(""),
+      description_ms: new FormControl(""),
       video_link: new FormControl(null),
       venue_id: new FormControl(""),
       // qrcode: new FormControl(""),

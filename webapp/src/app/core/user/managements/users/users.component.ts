@@ -77,10 +77,6 @@ export class UsersComponent implements OnInit {
       value: "AM",
       display_name: "Admin Maklum Balas",
     },
-    {
-      value: "CS",
-      display_name: "Customer",
-    },
   ];
 
   constructor(
@@ -119,6 +115,9 @@ export class UsersComponent implements OnInit {
 
   getData() {
     this.userService.getAll().subscribe((res) => {
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].user_type == 'CS') res.splice(i, 1);
+      }
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {

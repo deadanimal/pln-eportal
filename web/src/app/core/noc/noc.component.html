@@ -31,6 +31,11 @@
         <h2 class="title text-center text-dark">
           {{ "MaklumatNOC" | translate }}
         </h2>
+        <div class="row pb-3">
+          <div class="col">
+            <ngx-org-chart [nodes]="nodes" direction="vertical"></ngx-org-chart>
+          </div>
+        </div>
         <div class="row pb-3" *ngFor="let dynamiccontent of dynamiccontents">
           <div class="col">
             <div

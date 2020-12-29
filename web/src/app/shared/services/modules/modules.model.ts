@@ -1,7 +1,9 @@
 export class Module {
   public id: string;
-  public title: string;
-  public description: string;
+  public title_en: string;
+  public description_en: string;
+  public title_ms: string;
+  public description_ms: string;
   public image_link: string;
   public module: string;
   public status: boolean;
@@ -10,8 +12,10 @@ export class Module {
 
   constructor(
     id: string,
-    title: string,
-    description: string,
+    title_en: string,
+    description_en: string,
+    title_ms: string,
+    description_ms: string,
     image_link: string,
     module: string,
     status: boolean,
@@ -19,8 +23,10 @@ export class Module {
     modified_date: string
   ) {
     this.id = id;
-    this.title = title;
-    this.description = description;
+    this.title_en = title_en;
+    this.description_en = description_en;
+    this.title_ms = title_ms;
+    this.description_ms = description_ms;
     this.image_link = image_link;
     this.module = module;
     this.status = status;

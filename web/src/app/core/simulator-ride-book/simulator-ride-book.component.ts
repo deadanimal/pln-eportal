@@ -293,7 +293,7 @@ export class SimulatorRideBookComponent implements OnInit {
             icon: "info",
             title: "Tempahan Kembara Simulasi",
             text:
-              "Tarikh dan waktu tempahan yang anda pilih mempunyai 1 orang yang lain. Adakah anda ingin meneruskan tempahan?",
+              "Tarikh dan waktu tempahan yang anda pilih hanya berbaki 1 kerusi sahaja. Adakah anda ingin meneruskan tempahan?",
             buttonsStyling: false,
             showCancelButton: true,
             confirmButtonText: "Ya",

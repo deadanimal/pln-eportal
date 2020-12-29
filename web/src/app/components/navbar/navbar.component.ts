@@ -10,6 +10,7 @@ import swal from "sweetalert2";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-navbar",
@@ -17,6 +18,9 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
+  // CSS class
+  themeColor: string;
+
   // Default
   isCollapsed = true;
   autoclose = false;
@@ -92,7 +96,8 @@ export class NavbarComponent implements OnInit {
     public userService: UsersService,
     public translate: TranslateService,
     private modalService: BsModalService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private w3cService: W3csService
   ) {
     router.events.subscribe((val) => {
       this.autoclose = true;
@@ -176,6 +181,10 @@ export class NavbarComponent implements OnInit {
         this.clickLogout();
       })
     }
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
   }
 
   onSwitchChange(event) {

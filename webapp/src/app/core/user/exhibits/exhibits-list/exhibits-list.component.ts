@@ -82,7 +82,8 @@ export class ExhibitsListComponent implements OnInit {
 
     this.exhibitlistFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
       image_link: new FormControl(""),
       status: new FormControl(""),
       exhibit_id: new FormControl(""),
@@ -197,7 +198,8 @@ export class ExhibitsListComponent implements OnInit {
       "image_link",
       this.exhibitlistFormGroup.get("image_link").value
     );
-    formData.append("name", this.exhibitlistFormGroup.value.name);
+    formData.append("name_en", this.exhibitlistFormGroup.value.name_en);
+    formData.append("name_ms", this.exhibitlistFormGroup.value.name_ms);
     formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
     formData.append("status", this.exhibitlistFormGroup.value.status);
 
@@ -246,7 +248,8 @@ export class ExhibitsListComponent implements OnInit {
         this.exhibitlistFormGroup.get("image_link").value
       );  
     }
-    formData.append("name", this.exhibitlistFormGroup.value.name);
+    formData.append("name_en", this.exhibitlistFormGroup.value.name_en);
+    formData.append("name_ms", this.exhibitlistFormGroup.value.name_ms);
     formData.append("id", this.exhibitlistFormGroup.value.id);
     formData.append("exhibit_id", this.exhibitlistFormGroup.value.exhibit_id);
     formData.append("status", this.exhibitlistFormGroup.value.status);

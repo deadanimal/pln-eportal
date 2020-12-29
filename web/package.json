@@ -56,6 +56,7 @@
     "ngx-gallery": "^5.10.0",
     "ngx-glide": "^1.1.0",
     "ngx-number-spinner": "^2.0.0",
+    "ngx-org-chart": "^1.1.1",
     "ngx-sharebuttons": "^8.0.0",
     "ngx-toastr": "^11.3.3",
     "nouislider": "11.1.0",

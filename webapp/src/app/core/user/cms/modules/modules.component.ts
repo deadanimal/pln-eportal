@@ -95,8 +95,10 @@ export class ModulesComponent implements OnInit {
 
     this.moduleFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      description_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_ms: new FormControl(""),
       image_link: new FormControl(""),
       module: new FormControl(""),
       status: new FormControl(false),
@@ -190,8 +192,10 @@ export class ModulesComponent implements OnInit {
   create() {
     const formData = new FormData();
     formData.append("image_link", this.moduleFormGroup.get("image_link").value);
-    formData.append("title", this.moduleFormGroup.value.title);
-    formData.append("description", this.moduleFormGroup.value.description);
+    formData.append("title_en", this.moduleFormGroup.value.title_en);
+    formData.append("description_en", this.moduleFormGroup.value.description_en);
+    formData.append("title_ms", this.moduleFormGroup.value.title_ms);
+    formData.append("description_ms", this.moduleFormGroup.value.description_ms);
     formData.append("module", this.moduleFormGroup.value.module);
     formData.append("status", this.moduleFormGroup.value.status);
 
@@ -241,8 +245,10 @@ export class ModulesComponent implements OnInit {
       );
     }
     formData.append("id", this.moduleFormGroup.value.id);
-    formData.append("title", this.moduleFormGroup.value.title);
-    formData.append("description", this.moduleFormGroup.value.description);
+    formData.append("title_en", this.moduleFormGroup.value.title_en);
+    formData.append("description_en", this.moduleFormGroup.value.description_en);
+    formData.append("title_ms", this.moduleFormGroup.value.title_ms);
+    formData.append("description_ms", this.moduleFormGroup.value.description_ms);
     formData.append("module", this.moduleFormGroup.value.module);
     formData.append("status", this.moduleFormGroup.value.status);
 

@@ -9,6 +9,7 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { Gallery } from "@ngx-gallery/core";
 import { Lightbox } from "@ngx-gallery/lightbox";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 
@@ -47,6 +48,7 @@ export class ShowsComponent implements OnInit {
   constructor(
     public gallery: Gallery,
     public lightbox: Lightbox,
+    public translate: TranslateService,
     private jwtService: JwtService,
     private modalService: BsModalService,
     private metaTagService: Meta,
@@ -121,8 +123,8 @@ export class ShowsComponent implements OnInit {
       this.router.navigate(["/shows/shows-book/" + id]);
     } else {
       this.toastr.error(
-        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah tiket.",
-        "Ralat"
+        this.translate.instant("RalatLoginBook"),
+        this.translate.instant("Ralat")
       );
     }
   }

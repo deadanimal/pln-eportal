@@ -123,10 +123,10 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tajuk</span>
+                <span>Tajuk MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.showing_id.title }}
+                {{ row.showing_id.title_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -191,7 +191,7 @@
   <div class="modal-body">
     <form [formGroup]="showtimeFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label">Tajuk MS</label>
         <select
           class="form-control"
           formControlName="showing_id"
@@ -199,7 +199,7 @@
         >
           <option value="">Sila pilih</option>
           <option *ngFor="let show of shows" [value]="show.id">
-            {{ show.title }}
+            {{ show.title_ms }}
           </option>
         </select>
       </div>
@@ -296,7 +296,7 @@
   <div class="modal-body">
     <form [formGroup]="showtimeFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label">Tajuk MS</label>
         <select
           class="form-control"
           formControlName="showing_id"
@@ -304,7 +304,7 @@
         >
           <option value="">Sila pilih</option>
           <option *ngFor="let show of shows" [value]="show.id">
-            {{ show.title }}
+            {{ show.title_ms }}
           </option>
         </select>
       </div>

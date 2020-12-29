@@ -126,19 +126,15 @@ export class ProgramComponent implements OnInit {
     },
     {
       value: "P6",
-      display_name: "PROGRAM/RAKAN KERJASAMA",
+      display_name: "PROGRAM KERJASAMA",
     },
     {
       value: "P7",
-      display_name: "PROGRAM JANGKAUAN (6 ZON)",
+      display_name: "PROGRAM JANGKAUAN",
     },
     {
       value: "P8",
       display_name: "SEMINAR, CERAMAH, PLANETARIUM TALKS",
-    },
-    {
-      value: "P9",
-      display_name: "LAIN-LAIN",
     },
   ];
   programsubcategories = [

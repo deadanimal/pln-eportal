@@ -28,6 +28,7 @@ import { FacilitiesApplicationComponent } from "./facilities/facilities-applicat
 import { FacilitiesListComponent } from "./facilities/facilities-list/facilities-list.component";
 import { FacilitiesSubcategoryComponent } from "./facilities/facilities-subcategory/facilities-subcategory.component";
 import { FeedbacksListComponent } from "./feedbacks/feedbacks-list/feedbacks-list.component";
+import { CustomersComponent } from "./managements/customers/customers.component";
 import { EmailTemplatesComponent } from "./managements/email-templates/email-templates.component";
 import { UsersComponent } from "./managements/users/users.component";
 import { ProgramsApplicationComponent } from "./programs/programs-application/programs-application.component";
@@ -66,10 +67,10 @@ export const UserRoutes: Routes = [
   {
     path: "",
     children: [
-      // {
-      //   path: "calendar",
-      //   component: CalendarComponent,
-      // },
+      {
+        path: "calendar",
+        component: CalendarComponent,
+      },
       {
         path: "dashboard",
         component: DashboardComponent,
@@ -384,6 +385,10 @@ export const UserRoutes: Routes = [
           {
             path: "users",
             component: UsersComponent,
+          },
+          {
+            path: "customers",
+            component: CustomersComponent,
           },
           {
             path: "email-templates",

@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginFormMessages = {
     username: [
-      { type: "required", message: "Email is required" },
-      { type: "email", message: "Please enter a valid email" },
+      { type: "required", message: "Emel diperlukan" },
+      { type: "email", message: "Sila masukkan e-mel yang sah" },
     ],
     password: [
-      { type: "required", message: "Password is required" },
+      { type: "required", message: "Password diperlukan" },
       {
         type: "minLength",
-        message: "Password must have at least 8 characters",
+        message: "Kata laluan mesti mengandungi sekurang-kurangnya 8 aksara",
       },
     ],
   };
@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.serviceSubscription();
   }
 
   initForm() {
@@ -57,11 +56,6 @@ export class LoginComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(8)]),
       ],
     });
-  }
-
-  serviceSubscription() {
-    // this.userService.getAll().subscribe()
-    // this.programService.getAll().subscribe()
   }
 
   login() {
@@ -116,6 +110,8 @@ export class LoginComponent implements OnInit {
     if (path == "/dashboard") {
       this.successMessage();
       return this.router.navigate([path]);
+    } else if (path == "/forgot") {
+      return this.router.navigate(["/auth/forgot"]);
     } else {
       this.errorMessage();
     }

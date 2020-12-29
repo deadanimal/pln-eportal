@@ -64,7 +64,9 @@
             <!-- </alert> -->
             <mat-horizontal-stepper [linear]="true" #stepper>
               <mat-step [stepControl]="zeroFormGroup">
-                <ng-template matStepLabel>Arahan Keselamatan</ng-template>
+                <ng-template matStepLabel>{{
+                  "SpacePodStep1Label" | translate
+                }}</ng-template>
                 <form [formGroup]="zeroFormGroup">
                   <div class="container">
                     <div class="row">
@@ -196,28 +198,27 @@
                       matStepperNext
                       [disabled]="!zeroFormGroup.valid"
                     >
-                      Seterusnya
+                      {{ "Seterusnya" | translate }}
                     </button>
                   </div>
                 </form>
               </mat-step>
               <mat-step [stepControl]="firstFormGroup">
                 <form [formGroup]="firstFormGroup">
-                  <ng-template matStepLabel>Pilih Tarikh & Masa</ng-template>
+                  <ng-template matStepLabel>{{
+                    "SpacePodStep2Label" | translate
+                  }}</ng-template>
                   <div class="row pb-3">
                     <div class="col-md-4 col-sm-12"></div>
                     <div class="col-md-4 col-sm-12">
                       <alert [type]="'danger'">
-                        <b
-                          >Nota: Tiket online perlu ditempah sehari lebih awal
-                          untuk memudahkan urusan Planetarium.</b
-                        >
+                        <b>{{ "SpacePodStep2Note" | translate }}</b>
                       </alert>
                       <div class="form-group">
-                        <label>Tarikh</label>
+                        <label>{{ "Tarikh" | translate }}</label>
                         <input
                           type="text"
-                          placeholder="Tarikh"
+                          placeholder="{{ 'Tarikh' | translate }}"
                           class="form-control"
                           formControlName="date"
                           bsDatepicker
@@ -233,10 +234,11 @@
                         />
                       </div>
                       <div class="form-group">
-                        <label>Masa</label><br />
+                        <label>{{ "Masa" | translate }}</label
+                        ><br />
                         <div *ngIf="times.length == 0">
                           <p class="text-danger">
-                            Sila pilih tarikh terlebih dahulu!
+                            {{ "MasaNota" | translate }}
                           </p>
                         </div>
                         <div class="row">
@@ -270,7 +272,7 @@
                       class="btn btn-warning"
                       matStepperPrevious
                     >
-                      Kembali
+                      {{ "Kembali" | translate }}
                     </button>
                     <button
                       type="button"
@@ -278,76 +280,86 @@
                       (click)="checkExistBooking(stepper)"
                       [disabled]="!firstFormGroup.valid"
                     >
-                      Seterusnya
+                      {{ "Seterusnya" | translate }}
                     </button>
                     <!-- matStepperNext -->
                   </div>
                 </form>
               </mat-step>
               <mat-step [stepControl]="secondFormGroup">
-                <ng-template matStepLabel>Tempahan Tiket</ng-template>
+                <ng-template matStepLabel>{{
+                  "SpacePodStep3Label" | translate
+                }}</ng-template>
                 <form [formGroup]="secondFormGroup">
-                  <div class="table-responsive">
-                    <table class="table table-borderless">
-                      <thead>
-                        <tr>
-                          <th scope="col" class="text-dark">Warganegara</th>
-                          <th scope="col">
-                            <bSwitch
-                              switch-off-text="Tidak"
-                              switch-on-text="Ya"
-                              formControlName="citizen"
-                              (changeState)="citizenChange()"
-                            ></bSwitch>
-                          </th>
-                        </tr>
-                      </thead>
-                      <thead>
-                        <tr>
-                          <th scope="col" class="text-dark">Jenis Tiket</th>
-                          <th scope="col" class="text-dark">Kuantiti</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row" class="text-dark">
-                            Dewasa<br /><small
-                              *ngIf="secondFormGroup.value.citizen"
-                              >(RM 12.00/Tiket)</small
-                            ><small *ngIf="!secondFormGroup.value.citizen"
-                              >(RM 24.00/Tiket)</small
-                            >
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="adult"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="text-dark">
-                            Kanak-kanak bawah 12 tahun<br /><small
-                              *ngIf="secondFormGroup.value.citizen"
-                              >(RM 8.00/Tiket)</small
-                            ><small *ngIf="!secondFormGroup.value.citizen"
-                              >(RM 16.00/Tiket)</small
-                            >
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="children"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr>
-                        <!-- <tr>
+                  <div class="row">
+                    <div class="col-6 mx-auto">
+                      <div class="table-responsive">
+                        <table class="table table-borderless">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "Warganegara" | translate }}
+                              </th>
+                              <th scope="col text-center">
+                                <bSwitch
+                                  switch-off-text="{{ 'Tidak' | translate }}"
+                                  switch-on-text="{{ 'Ya' | translate }}"
+                                  formControlName="citizen"
+                                  (changeState)="citizenChange()"
+                                ></bSwitch>
+                              </th>
+                            </tr>
+                          </thead>
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "JenisTiket" | translate }}
+                              </th>
+                              <th scope="col" class="text-dark">
+                                {{ "Kuantiti" | translate }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Dewasa" | translate }}<br /><small
+                                  *ngIf="secondFormGroup.value.citizen"
+                                  >(RM 12.00/{{ "Tiket" | translate }})</small
+                                ><small *ngIf="!secondFormGroup.value.citizen"
+                                  >(RM 24.00/{{ "Tiket" | translate }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  formControlName="adult"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Kanakkanak" | translate }}<br /><small
+                                  *ngIf="secondFormGroup.value.citizen"
+                                  >(RM 8.00/{{ "Tiket" | translate }})</small
+                                ><small *ngIf="!secondFormGroup.value.citizen"
+                                  >(RM 16.00/{{ "Tiket" | translate }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  formControlName="children"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+                            <!-- <tr>
                           <th scope="row" class="text-dark">
                             Warga emas<br /><small>(Percuma)</small>
                           </th>
@@ -361,7 +373,7 @@
                             </ngx-number-spinner>
                           </td>
                         </tr> -->
-                        <!-- <tr>
+                            <!-- <tr>
                           <th scope="row" class="text-dark">
                             OKU<br /><small>(Percuma)</small>
                           </th>
@@ -375,22 +387,23 @@
                             </ngx-number-spinner>
                           </td>
                         </tr> -->
-                        <tr>
-                          <th scope="row" class="text-dark">Jumlah</th>
-                          <td class="text-dark">
-                            RM {{ secondFormGroup.value.total | number }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div class="row" *ngIf="totalticket > 2">
-                      <div class="col">
-                        <alert [type]="'danger'">
-                          <b
-                            >Nota: Harap maaf. Kembara simulasi hanya boleh
-                            dinaiki seramai 2 orang dalam 1 masa.</b
-                          >
-                        </alert>
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Jumlah" | translate }}
+                              </th>
+                              <td class="text-dark">
+                                RM {{ secondFormGroup.value.total | number }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="row" *ngIf="totalticket > 2">
+                          <div class="col">
+                            <alert [type]="'danger'">
+                              <b>{{ "SpacePodStep3Note" | translate }}</b>
+                            </alert>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -400,7 +413,7 @@
                       class="btn btn-warning"
                       matStepperPrevious
                     >
-                      Kembali
+                      {{ "Kembali" | translate }}
                     </button>
                     <button
                       type="button"
@@ -408,57 +421,66 @@
                       matStepperNext
                       [disabled]="totalticket > 2 || totalticket == 0"
                     >
-                      Seterusnya
+                      {{ "Seterusnya" | translate }}
                     </button>
                   </div>
                 </form>
               </mat-step>
               <mat-step>
-                <ng-template matStepLabel>Pengesahan</ng-template>
-                <div class="table-responsive">
-                  <table class="table table-borderless">
-                    <tbody>
-                      <tr>
-                        <th scope="row" class="text-dark">Tarikh</th>
-                        <td class="text-dark text-right">
-                          {{ firstFormGroup.value.date | date }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-dark">Masa</th>
-                        <td class="text-dark text-right">
-                          {{ firstFormGroup.value.time.split("_", 1) }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-dark">Jumlah Tiket</th>
-                        <td class="text-dark text-right">
-                          {{
-                            secondFormGroup.value.adult +
-                              secondFormGroup.value.children
-                          }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-dark">
-                          Jumlah Harga Tiket
-                        </th>
-                        <td class="text-dark text-right">
-                          RM {{ secondFormGroup.value.total }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <ng-template matStepLabel>{{
+                  "SpacePodStep4Label" | translate
+                }}</ng-template>
                 <div class="row">
-                  <div class="col">
-                    <alert [type]="'danger'">
-                      <b
-                        >Nota: Sila berada 10 minit lebih awal sebelum kembara
-                        simulasi bermula. Dan pastikan waktu yang anda pilih,
-                        tidak bertembung dengan waktu tayangan. Terima kasih.</b
-                      >
-                    </alert>
+                  <div class="col-6 mx-auto">
+                    <div class="table-responsive">
+                      <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "Tarikh" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              {{ firstFormGroup.value.date | date }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "Masa" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              {{ firstFormGroup.value.time.split("_", 1) }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "Jumlah" | translate }}
+                              {{ "Tiket" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              {{
+                                secondFormGroup.value.adult +
+                                  secondFormGroup.value.children
+                              }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" class="text-dark">
+                              {{ "JumlahHargaTiket" | translate }}
+                            </th>
+                            <td class="text-dark text-right">
+                              RM {{ secondFormGroup.value.total }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <alert [type]="'danger'">
+                          <b>{{ "SpacePodStep4Note" | translate }}</b>
+                        </alert>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="text-center">
@@ -467,14 +489,14 @@
                     class="btn btn-warning"
                     matStepperPrevious
                   >
-                    Kembali
+                    {{ "Kembali" | translate }}
                   </button>
                   <button
                     type="button"
                     class="btn btn-default"
                     (click)="makePayment()"
                   >
-                    Buat Bayaran
+                    {{ "BuatBayaran" | translate }}
                   </button>
                 </div>
               </mat-step>
@@ -486,68 +508,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #modalSafety>
-  <div class="modal-header">
-    <h6 class="modal-title" id="modal-title-default">Arahan Keselamatan</h6>
-
-    <button
-      aria-label="Close"
-      class="close"
-      data-dismiss="modal"
-      type="button"
-      (click)="safetyModal.hide()"
-    >
-      <span aria-hidden="true"> × </span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-lg-12">
-        <p class="text-justify">
-          Kembara Simulasi ini akan membawa 2 orang dalam satu masa untuk
-          merasai Gerakan 360 darjah pusingan dan keadaan tegak. Sebagai langkah
-          keselamatan kami perlu menghadkan pengguna kembara simulasi
-          berdasarkan berat dan saiz badan. Anda juga mesti berupaya duduk tegak
-          di sepanjang masa.
-        </p>
-
-        <ul>
-          <li>
-            Bagi tujuan keselamatan pengguna hendaklah berketinggian lebih dari
-            <b>1.2m</b>.
-          </li>
-          <li>Jumlah berat badan maksimum yang dibenarkan <b>226kg</b>.</li>
-          <li>
-            Pengguna dengan keadaan berikut tidak digalakkan mencuba alat ini:
-          </li>
-          <ol type="i">
-            <li>Sakit Jantung/Tekanan Darah Tinggi</li>
-            <li>Sakit Belakang/Leher/ Fizikal Lain</li>
-            <li>Mengandung</li>
-            <li>Alahan ubat/ Bawah pengaruh dadah atau alcohol</li>
-            <li>Mabuk Gerakan/Klaustrofobia</li>
-          </ol>
-        </ul>
-
-        <p class="text-justify">
-          Semua barangan yang tidak terikat seperti pen, duit syiling, telefon
-          bimbit, i-pod dan lain-lain yang boleh tertanggal semasa menaiki Space
-          Pod ini hendaklah dikeluarkan.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-footer">
-    <button
-      class="btn btn-link ml-auto"
-      data-dismiss="modal"
-      type="button"
-      (click)="safetyModal.hide()"
-    >
-      Tutup
-    </button>
-  </div>
-</ng-template>

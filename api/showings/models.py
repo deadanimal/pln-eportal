@@ -31,9 +31,10 @@ def increment_ticket_number():
 class Showing(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    title = models.CharField(max_length=255, default='NA')
-    # description = models.CharField(max_length=255, default='NA')
-    description = models.TextField(blank=True)
+    title_en = models.CharField(max_length=255, default='NA')
+    description_en = models.TextField(blank=True)
+    title_ms = models.CharField(max_length=255, default='NA')
+    description_ms = models.TextField(blank=True)
 
     GENRE = [
         ('NA', 'Not Available')
@@ -61,10 +62,10 @@ class Showing(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['title_ms']
 
     def __str__(self):
-        return self.title
+        return self.title_ms
 
 
 class Showtime(models.Model):

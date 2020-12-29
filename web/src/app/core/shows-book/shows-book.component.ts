@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatStepper } from "@angular/material/stepper";
 import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 
@@ -85,6 +86,7 @@ export class ShowsBookComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public modalService: BsModalService,
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
@@ -409,14 +411,14 @@ export class ShowsBookComponent implements OnInit {
           }
         } else {
           this.toastr.error(
-            "Harap maaf. Anda telah memilih kerusi lebih daripada tiket yang anda beli.",
-            "Ralat"
+            this.translate.instant("RalatMoreThanChosenSeat"),
+            this.translate.instant("Ralat")
           );
         }
       } else {
         this.toastr.error(
-          "Harap maaf. Anda tidak boleh memilih kerusi yang telah ditempah oleh orang lain.",
-          "Ralat"
+          this.translate.instant("RalatBookPeopleSeat"),
+          this.translate.instant("Ralat")
         );
       }
     }

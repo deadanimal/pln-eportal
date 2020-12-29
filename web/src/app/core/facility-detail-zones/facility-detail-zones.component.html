@@ -3,7 +3,7 @@
     <img class="path path4" src="assets/img/path4.png" />
 
     <div class="container pt-5">
-      <div class="row mb-5">
+      <div class="row mb-3 pt-1">
         <div class="col-md-8 ml-auto mr-auto text-center">
           <h2 class="title">
             {{ selectedFacility.display_name }}
@@ -14,6 +14,18 @@
           <h4 class="description">
             Tempah {{ selectedFacility.display_name }} untuk pelbagai kegunaan!
           </h4>
+        </div>
+      </div>
+      <div
+        class="row"
+        *ngIf="facilitysubcategory[0].name.includes('Balai Cerap')"
+      >
+        <div class="col">
+          <p class="text-justify">
+            Taman Balai Cerap Purba merupakan pameran yang terletak di luar
+            bangunan Planetarium Negara. Di taman ini terdapat replika balai –
+            balai cerap purba antaranya, Stonehenge dan Balai Cerap Jai Singh.
+          </p>
         </div>
       </div>
       <div *ngIf="facilities$ | async as facilities; else loading">
@@ -32,17 +44,17 @@
               </p>
               <p class="pt-3">• Kapasiti: {{ facility.max_capacity }} orang</p>
               <p>• Keluasan: {{ facility.area_size }}</p>
-              <p class="pt-3">Nama Peralatan Disediakan</p>
+              <p class="pt-3">Peralatan yang disediakan</p>
               <p>{{ facility.equipment_name }}</p>
               <p>• {{ facility.equipment_description }}</p>
               <div *ngIf="facility.have_price">
-                <h4 class="title">Harga</h4>
+                <h4 class="title">Kadar Sewaan</h4>
                 <table class="table table-bordered">
                   <thead class="thead-light">
                     <tr>
-                      <td class="font-weight-bold">Bil Sewaan Kemudahan</td>
-                      <td class="font-weight-bold">Hari</td>
-                      <td class="font-weight-bold">Harga (RM)</td>
+                      <td class="font-weight-bold">Kemudahan Sewaan</td>
+                      <td class="font-weight-bold">Tempoh Sewaan</td>
+                      <td class="font-weight-bold">Kadar Sewaan (RM)</td>
                     </tr>
                   </thead>
 
@@ -54,11 +66,17 @@
                       "
                     >
                       <td>{{ price.facility_description }}</td>
-                      <td>{{ price.facility_days }}</td>
+                      <td *ngIf="price.facility_days == 'FULL'">Satu Hari</td>
+                      <td *ngIf="price.facility_days == 'HALF'">
+                        Separuh Hari
+                      </td>
                       <td>{{ price.facility_price }}</td>
                     </tr>
                   </tbody>
                 </table>
+                <small class="text-white"
+                  >Nota: Separuh hari 4 jam & Satu hari 8 Jam</small
+                >
               </div>
               <div class="row pt-3">
                 <div class="col text-right">

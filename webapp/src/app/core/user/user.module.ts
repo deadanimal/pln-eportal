@@ -13,9 +13,13 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoadingBarModule } from "@ngx-loading-bar/core";
-import { QuillModule } from 'ngx-quill'
+import { FullCalendarModule } from "@fullcalendar/angular";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { QuillModule } from "ngx-quill";
 
-import { SafePipe } from 'src/app/shared/pipes/safe/safe.pipe';
+import { CheckboxCheckedPipe } from "src/app/shared/pipes/checkbox/checkbox-checked.pipe";
+import { SafePipe } from "src/app/shared/pipes/safe/safe.pipe";
 
 import { RouterModule } from "@angular/router";
 import { UserRoutes } from "./user.routing";
@@ -38,51 +42,58 @@ import { TicketsPriceComponent } from "./tickets/tickets-price/tickets-price.com
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
 import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { VirtualLibrariesListComponent } from './virtual-libraries/virtual-libraries-list/virtual-libraries-list.component';
-import { FeedbacksListComponent } from './feedbacks/feedbacks-list/feedbacks-list.component';
-import { SurveysListComponent } from './surveys/surveys-list/surveys-list.component';
-import { SurveysAnswerComponent } from './surveys/surveys-answer/surveys-answer.component';
-import { AssetsComponent } from './assets/assets.component';
-import { UsersComponent } from './managements/users/users.component';
-import { ExhibitsComponent } from './exhibits/exhibits/exhibits.component';
-import { ExhibitsDetailComponent } from './exhibits/exhibits-detail/exhibits-detail.component';
-import { VenuesComponent } from './venues/venues.component';
-import { PublicationsComponent } from './publications/publications/publications.component';
-import { VirtualLibraryCategoriesListComponent } from './virtual-libraries/virtual-library-categories-list/virtual-library-categories-list.component';
-import { VirtualLibraryArticlesListComponent } from './virtual-libraries/virtual-library-articles-list/virtual-library-articles-list.component';
-import { VirtualLibraryCollectionsListComponent } from './virtual-libraries/virtual-library-collections-list/virtual-library-collections-list.component';
-import { VirtualLibraryBooksListComponent } from './virtual-libraries/virtual-library-books-list/virtual-library-books-list.component';
-import { VirtualLibrarySerialpublicationsListComponent } from './virtual-libraries/virtual-library-serialpublications-list/virtual-library-serialpublications-list.component';
-import { VirtualLibraryEsourceCategoriesListComponent } from './virtual-libraries/virtual-library-esource-categories-list/virtual-library-esource-categories-list.component';
-import { VirtualLibraryEsourcesListComponent } from './virtual-libraries/virtual-library-esources-list/virtual-library-esources-list.component';
-import { VirtualLibraryArchivekutubkhanahCategoriesListComponent } from './virtual-libraries/virtual-library-archivekutubkhanah-categories-list/virtual-library-archivekutubkhanah-categories-list.component';
-import { VirtualLibraryArchivekutubkhanahsListComponent } from './virtual-libraries/virtual-library-archivekutubkhanahs-list/virtual-library-archivekutubkhanahs-list.component';
-import { PartnersComponent } from './cms/partners/partners.component';
-import { EmployeeDirectoriesComponent } from './cms/employee-directories/employee-directories.component';
-import { ShowsApplicationsComponent } from './shows/shows-applications/shows-applications.component';
-import { ShowsApplicationsDetailComponent } from './shows/shows-applications-detail/shows-applications-detail.component';
-import { QuickLinksComponent } from './cms/quick-links/quick-links.component';
-import { RatingsComponent } from './cms/ratings/ratings.component';
-import { VisitsListComponent } from './visits/visits-list/visits-list.component';
-import { BannersComponent } from './cms/banners/banners.component';
-import { AnnouncementsComponent } from './cms/announcements/announcements.component';
-import { FaqsComponent } from './cms/faqs/faqs.component';
-import { FacilitiesSubcategoryComponent } from './facilities/facilities-subcategory/facilities-subcategory.component';
-import { EmailTemplatesComponent } from './managements/email-templates/email-templates.component';
-import { TotalTicketSalesShowsComponent } from './analytics/total-ticket-sales-shows/total-ticket-sales-shows.component';
-import { TotalTicketSalesSimulatorRidesComponent } from './analytics/total-ticket-sales-simulator-rides/total-ticket-sales-simulator-rides.component';
-import { NumberOfVisitorsComponent } from './analytics/number-of-visitors/number-of-visitors.component';
-import { TotalDownloadsPdfPublicationComponent } from './analytics/total-downloads-pdf-publication/total-downloads-pdf-publication.component';
-import { TotalDownloadsPdfVirtualLibraryComponent } from './analytics/total-downloads-pdf-virtual-library/total-downloads-pdf-virtual-library.component';
-import { NumberOfFacilityBookingsComponent } from './analytics/number-of-facility-bookings/number-of-facility-bookings.component';
-import { NumberOfProgramParticipantsComponent } from './analytics/number-of-program-participants/number-of-program-participants.component';
-import { DailySalesQuotesComponent } from './analytics/daily-sales-quotes/daily-sales-quotes.component';
-import { ModulesComponent } from './cms/modules/modules.component';
-import { WhatIsInterestingsComponent } from './cms/what-is-interestings/what-is-interestings.component';
-import { DynamicContentsComponent } from './cms/dynamic-contents/dynamic-contents.component';
+import { VirtualLibrariesListComponent } from "./virtual-libraries/virtual-libraries-list/virtual-libraries-list.component";
+import { FeedbacksListComponent } from "./feedbacks/feedbacks-list/feedbacks-list.component";
+import { SurveysListComponent } from "./surveys/surveys-list/surveys-list.component";
+import { SurveysAnswerComponent } from "./surveys/surveys-answer/surveys-answer.component";
+import { AssetsComponent } from "./assets/assets.component";
+import { UsersComponent } from "./managements/users/users.component";
+import { ExhibitsComponent } from "./exhibits/exhibits/exhibits.component";
+import { ExhibitsDetailComponent } from "./exhibits/exhibits-detail/exhibits-detail.component";
+import { VenuesComponent } from "./venues/venues.component";
+import { PublicationsComponent } from "./publications/publications/publications.component";
+import { VirtualLibraryCategoriesListComponent } from "./virtual-libraries/virtual-library-categories-list/virtual-library-categories-list.component";
+import { VirtualLibraryArticlesListComponent } from "./virtual-libraries/virtual-library-articles-list/virtual-library-articles-list.component";
+import { VirtualLibraryCollectionsListComponent } from "./virtual-libraries/virtual-library-collections-list/virtual-library-collections-list.component";
+import { VirtualLibraryBooksListComponent } from "./virtual-libraries/virtual-library-books-list/virtual-library-books-list.component";
+import { VirtualLibrarySerialpublicationsListComponent } from "./virtual-libraries/virtual-library-serialpublications-list/virtual-library-serialpublications-list.component";
+import { VirtualLibraryEsourceCategoriesListComponent } from "./virtual-libraries/virtual-library-esource-categories-list/virtual-library-esource-categories-list.component";
+import { VirtualLibraryEsourcesListComponent } from "./virtual-libraries/virtual-library-esources-list/virtual-library-esources-list.component";
+import { VirtualLibraryArchivekutubkhanahCategoriesListComponent } from "./virtual-libraries/virtual-library-archivekutubkhanah-categories-list/virtual-library-archivekutubkhanah-categories-list.component";
+import { VirtualLibraryArchivekutubkhanahsListComponent } from "./virtual-libraries/virtual-library-archivekutubkhanahs-list/virtual-library-archivekutubkhanahs-list.component";
+import { PartnersComponent } from "./cms/partners/partners.component";
+import { EmployeeDirectoriesComponent } from "./cms/employee-directories/employee-directories.component";
+import { ShowsApplicationsComponent } from "./shows/shows-applications/shows-applications.component";
+import { ShowsApplicationsDetailComponent } from "./shows/shows-applications-detail/shows-applications-detail.component";
+import { QuickLinksComponent } from "./cms/quick-links/quick-links.component";
+import { RatingsComponent } from "./cms/ratings/ratings.component";
+import { VisitsListComponent } from "./visits/visits-list/visits-list.component";
+import { BannersComponent } from "./cms/banners/banners.component";
+import { AnnouncementsComponent } from "./cms/announcements/announcements.component";
+import { FaqsComponent } from "./cms/faqs/faqs.component";
+import { FacilitiesSubcategoryComponent } from "./facilities/facilities-subcategory/facilities-subcategory.component";
+import { EmailTemplatesComponent } from "./managements/email-templates/email-templates.component";
+import { TotalTicketSalesShowsComponent } from "./analytics/total-ticket-sales-shows/total-ticket-sales-shows.component";
+import { TotalTicketSalesSimulatorRidesComponent } from "./analytics/total-ticket-sales-simulator-rides/total-ticket-sales-simulator-rides.component";
+import { NumberOfVisitorsComponent } from "./analytics/number-of-visitors/number-of-visitors.component";
+import { TotalDownloadsPdfPublicationComponent } from "./analytics/total-downloads-pdf-publication/total-downloads-pdf-publication.component";
+import { TotalDownloadsPdfVirtualLibraryComponent } from "./analytics/total-downloads-pdf-virtual-library/total-downloads-pdf-virtual-library.component";
+import { NumberOfFacilityBookingsComponent } from "./analytics/number-of-facility-bookings/number-of-facility-bookings.component";
+import { NumberOfProgramParticipantsComponent } from "./analytics/number-of-program-participants/number-of-program-participants.component";
+import { DailySalesQuotesComponent } from "./analytics/daily-sales-quotes/daily-sales-quotes.component";
+import { ModulesComponent } from "./cms/modules/modules.component";
+import { WhatIsInterestingsComponent } from "./cms/what-is-interestings/what-is-interestings.component";
+import { DynamicContentsComponent } from "./cms/dynamic-contents/dynamic-contents.component";
+import { CustomersComponent } from "./managements/customers/customers.component";
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 @NgModule({
   declarations: [
+    CheckboxCheckedPipe,
     SafePipe,
     CalendarComponent,
     ExhibitsListComponent,
@@ -145,6 +156,7 @@ import { DynamicContentsComponent } from './cms/dynamic-contents/dynamic-content
     ModulesComponent,
     WhatIsInterestingsComponent,
     DynamicContentsComponent,
+    CustomersComponent,
   ],
   imports: [
     CommonModule,
@@ -157,6 +169,7 @@ import { DynamicContentsComponent } from './cms/dynamic-contents/dynamic-content
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
     QuillModule.forRoot(),
+    FullCalendarModule,
     FormsModule,
     ReactiveFormsModule,
     LoadingBarModule,

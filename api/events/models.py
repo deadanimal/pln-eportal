@@ -64,7 +64,8 @@ class Exhibit(models.Model):
 class ExhibitList(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    name = models.CharField(max_length=255, default='NA')
+    name_en = models.CharField(max_length=255, default='NA')
+    name_ms = models.CharField(max_length=255, default='NA')
     image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
 
     STATUS = [
@@ -78,17 +79,19 @@ class ExhibitList(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['name_ms']
 
     def __str__(self):
-        return self.name
+        return self.name_ms
 
 
 class ExhibitDetail(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    name = models.CharField(max_length=255, default='NA')
-    description = models.TextField(blank=True)
+    name_en = models.CharField(max_length=255, default='NA')
+    name_ms = models.CharField(max_length=255, default='NA')
+    description_en = models.TextField(blank=True)
+    description_ms = models.TextField(blank=True)
     # image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
     video_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('video'))
     venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_detail_venue', null=True)
@@ -105,10 +108,10 @@ class ExhibitDetail(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['name_ms']
 
     def __str__(self):
-        return self.name
+        return self.name_ms
 
 
 class ExhibitDetailImage(models.Model):
@@ -130,8 +133,10 @@ class ExhibitDetailImage(models.Model):
 class EducationalProgram(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    title = models.CharField(max_length=255, default='NA')
-    description = models.TextField(default='NA')
+    title_en = models.CharField(max_length=255, default='NA')
+    description_en = models.TextField(default='NA')
+    title_ms = models.CharField(max_length=255, default='NA')
+    description_ms = models.TextField(default='NA')
 
     PROGRAM_TYPE = [
         ('PL', 'Public'),
@@ -159,7 +164,8 @@ class EducationalProgram(models.Model):
         ('NAV', 'Not Available')
     ]
     program_subcategory = models.CharField(max_length=3, choices=PROGRAM_SUBCATEGORY, default='NAV')
-    program_opento = models.CharField(max_length=100, default='')
+    program_opento_en = models.CharField(max_length=100, default='')
+    program_opento_ms = models.CharField(max_length=100, default='')
     min_participant = models.IntegerField(default=0, null=True)
     max_participant = models.IntegerField(default=0, null=True)
     price = models.DecimalField(decimal_places=2, max_digits=5, null=True)
@@ -183,10 +189,10 @@ class EducationalProgram(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['title_ms']
 
     def __str__(self):
-        return self.title
+        return self.title_ms
 
 class EducationalProgramDate(models.Model):
 

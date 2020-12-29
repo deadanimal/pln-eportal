@@ -65,8 +65,10 @@ export class ShowsListComponent implements OnInit {
   ) {
     this.showingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      description_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_ms: new FormControl(""),
       genre: new FormControl(""),
       language: new FormControl(""),
       duration_hours: new FormControl(""),

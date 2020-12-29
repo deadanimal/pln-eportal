@@ -120,6 +120,14 @@ class EducationalProgramDateSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id']
 
+class EducationalProgramDateExtendedSerializer(serializers.ModelSerializer):
+    program_id = EducationalProgramSerializer(read_only=True)
+    
+    class Meta:
+        model = EducationalProgramDate
+        fields = '__all__'
+        read_only_fields = ['id']
+
 class EducationalProgramImageSerializer(serializers.ModelSerializer):
     
     class Meta:
