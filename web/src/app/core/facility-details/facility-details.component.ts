@@ -396,7 +396,10 @@ export class FacilityDetailsComponent implements OnInit {
   formatDate(date) {
     let selectedDate = date;
     let year = selectedDate.getFullYear();
-    let month = selectedDate.getMonth() + 1;
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
     let day =
       selectedDate.getDate() < 10
         ? "0" + selectedDate.getDate()

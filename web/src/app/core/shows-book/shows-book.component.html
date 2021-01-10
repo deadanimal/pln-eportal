@@ -284,7 +284,7 @@
                           type="button"
                           class="btn btn-default"
                           matStepperNext
-                          [disabled]="totalticket == 0"
+                          [disabled]="totalticket == 0 || schoolMinimum"
                         >
                           {{ "Seterusnya" | translate }}
                         </button>

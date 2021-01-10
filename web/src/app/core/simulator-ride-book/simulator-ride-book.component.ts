@@ -20,6 +20,7 @@ export class SimulatorRideBookComponent implements OnInit {
   fontSize: string;
 
   // Data
+  bookingtimes = ["10", "11", "15", "16"];
   existbookings = [];
   simridetimes = [];
   today: Date = new Date();
@@ -327,7 +328,10 @@ export class SimulatorRideBookComponent implements OnInit {
   formatDate(date) {
     let selectedDate = date;
     let year = selectedDate.getFullYear();
-    let month = selectedDate.getMonth() + 1;
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
     let day =
       selectedDate.getDate() < 10
         ? "0" + selectedDate.getDate()

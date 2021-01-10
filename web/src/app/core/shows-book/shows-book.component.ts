@@ -21,6 +21,7 @@ import { Seats } from "src/assets/json/seats";
 export class ShowsBookComponent implements OnInit {
   // Data
   existbookings = [];
+  schoolMinimum: boolean = true;
   selectedexistbookings = [];
   show: any;
   showings = [];
@@ -202,6 +203,13 @@ export class ShowsBookComponent implements OnInit {
   }
 
   calculateTotal() {
+    // to check either school have minimum 30 or not
+    if (this.secondFormGroup.value.school == 0 || this.secondFormGroup.value.school >= 30) {
+      this.schoolMinimum = false;
+    } else {
+      this.schoolMinimum = true;
+    }
+
     this.totalticket =
       this.secondFormGroup.value.adult +
       this.secondFormGroup.value.children +
@@ -480,7 +488,10 @@ export class ShowsBookComponent implements OnInit {
   formatDate(date) {
     let selectedDate = date;
     let year = selectedDate.getFullYear();
-    let month = selectedDate.getMonth() + 1;
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
     let day =
       selectedDate.getDate() < 10
         ? "0" + selectedDate.getDate()

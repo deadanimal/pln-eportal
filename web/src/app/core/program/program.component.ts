@@ -14,6 +14,7 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Gallery } from "@ngx-gallery/core";
 import { Lightbox } from "@ngx-gallery/lightbox";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
   NgxGalleryOptions,
@@ -62,8 +63,10 @@ export class ProgramComponent implements OnInit {
   programs = [];
   selectedProgram = {
     id: "",
-    title: "",
-    description: "",
+    title_en: "",
+    description_en: "",
+    title_ms: "",
+    description_ms: "",
     video_link: "",
     activity: false,
   };
@@ -78,19 +81,23 @@ export class ProgramComponent implements OnInit {
   organisationcategories = [
     {
       value: "GV",
-      display_name: "Kerajaan",
+      display_name_en: "Government",
+      display_name_ms: "Kerajaan",
     },
     {
       value: "SC",
-      display_name: "Sekolah",
+      display_name_en: "School",
+      display_name_ms: "Sekolah",
     },
     {
       value: "UN",
-      display_name: "Universiti",
+      display_name_en: "University",
+      display_name_ms: "Universiti",
     },
     {
       value: "NA",
-      display_name: "Tidak ada",
+      display_name_en: "None",
+      display_name_ms: "Tiada",
     },
   ];
   programtypes = [
@@ -106,35 +113,43 @@ export class ProgramComponent implements OnInit {
   programcategories = [
     {
       value: "P1",
-      display_name: "PROGRAM PEMBANGUNAN MURID/GURU",
+      display_name_en: "STUDENT / TEACHER DEVELOPMENT PROGRAM",
+      display_name_ms: "PROGRAM PEMBANGUNAN MURID/GURU",
     },
     {
       value: "P2",
-      display_name: "PROGRAM PENCERAPAN",
+      display_name_en: "OBSERVATION PROGRAM",
+      display_name_ms: "PROGRAM PENCERAPAN",
     },
     {
       value: "P3",
-      display_name: "PROGRAM KHAS",
+      display_name_en: "SPECIAL PROGRAM",
+      display_name_ms: "PROGRAM KHAS",
     },
     {
       value: "P4",
-      display_name: "PROGRAM KEBANGSAAN",
+      display_name_en: "NATIONAL PROGRAM",
+      display_name_ms: "PROGRAM KEBANGSAAN",
     },
     {
       value: "P5",
-      display_name: "PROGRAM ANTARABANGSA",
+      display_name_en: "INTERNATIONAL PROGRAM",
+      display_name_ms: "PROGRAM ANTARABANGSA",
     },
     {
       value: "P6",
-      display_name: "PROGRAM KERJASAMA",
+      display_name_en: "COOPERATION PROGRAM",
+      display_name_ms: "PROGRAM KERJASAMA",
     },
     {
       value: "P7",
-      display_name: "PROGRAM JANGKAUAN",
+      display_name_en: "EXPECTION PROGRAM",
+      display_name_ms: "PROGRAM JANGKAUAN",
     },
     {
       value: "P8",
-      display_name: "SEMINAR, CERAMAH, PLANETARIUM TALKS",
+      display_name_en: "SEMINARS, TALKS, PLANETARIUM TALKS",
+      display_name_ms: "SEMINAR, CERAMAH, PLANETARIUM TALKS",
     },
   ];
   programsubcategories = [
@@ -173,6 +188,7 @@ export class ProgramComponent implements OnInit {
     public formBuilder: FormBuilder,
     public gallery: Gallery,
     public lightbox: Lightbox,
+    public translate: TranslateService,
     private toastr: ToastrService,
     private modalService: BsModalService,
     private metaTagService: Meta,
@@ -354,8 +370,8 @@ export class ProgramComponent implements OnInit {
       }
     } else {
       this.toastr.error(
-        "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menyertai program ini.",
-        "Ralat"
+        this.translate.instant("RalatLoginJoin"),
+        this.translate.instant("Ralat")
       );
     }
   }
@@ -456,11 +472,10 @@ export class ProgramComponent implements OnInit {
         this.defaultModal.hide();
         swal.fire({
           icon: "success",
-          title: "Terima kasih",
-          text:
-            "Pihak kami akan memberi maklum balas terhadap permohonan tersebut dalam masa 3 hari bekerja",
+          title: this.translate.instant("TerimaKasih"),
+          text: this.translate.instant("ProgramPendidikanSuccessMessage"),
           buttonsStyling: false,
-          confirmButtonText: "Tutup",
+          confirmButtonText: this.translate.instant("Tutup"),
           customClass: {
             confirmButton: "btn btn-success",
           },
@@ -489,7 +504,10 @@ export class ProgramComponent implements OnInit {
   formatDate(date) {
     let selectedDate = date;
     let year = selectedDate.getFullYear();
-    let month = selectedDate.getMonth() + 1;
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
     let day =
       selectedDate.getDate() < 10
         ? "0" + selectedDate.getDate()

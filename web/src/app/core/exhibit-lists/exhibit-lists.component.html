@@ -43,7 +43,8 @@
     <div class="section related-products">
       <div class="container">
         <h2 class="title text-dark text-center">
-          Senarai Pameran <share-button button="facebook"></share-button
+          {{ "SenaraiPameran" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
@@ -55,8 +56,17 @@
             <div class="card" style="height: auto">
               <img class="card-img-top" [src]="exhibitlist.image_link" />
               <div class="card-body text-center">
-                <h2 class="card-title title text-uppercase font-weight-bold">
-                  {{ exhibitlist.name }}
+                <h2
+                  *ngIf="translate.currentLang == 'en'"
+                  class="card-title title text-uppercase font-weight-bold"
+                >
+                  {{ exhibitlist.name_en }}
+                </h2>
+                <h2
+                  *ngIf="translate.currentLang == 'ms'"
+                  class="card-title title text-uppercase font-weight-bold"
+                >
+                  {{ exhibitlist.name_ms }}
                 </h2>
               </div>
               <div class="card-footer text-center p-3">

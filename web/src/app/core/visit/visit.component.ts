@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
@@ -89,24 +90,29 @@ export class VisitComponent implements OnInit {
   organisationcategories = [
     {
       value: "GV",
-      display_name: "Kerajaan",
+      display_name_en: "Government",
+      display_name_ms: "Kerajaan",
     },
     {
       value: "SC",
-      display_name: "Sekolah",
+      display_name_en: "School",
+      display_name_ms: "Sekolah",
     },
     {
       value: "UN",
-      display_name: "Universiti",
+      display_name_en: "University",
+      display_name_ms: "Universiti",
     },
     {
       value: "NA",
-      display_name: "Tidak ada",
+      display_name_en: "None",
+      display_name_ms: "Tiada",
     },
   ];
 
   constructor(
     public formBuilder: FormBuilder,
+    public translate: TranslateService,
     private jwtService: JwtService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
@@ -306,7 +312,10 @@ export class VisitComponent implements OnInit {
   formatDate(date) {
     let selectedDate = date;
     let year = selectedDate.getFullYear();
-    let month = selectedDate.getMonth() + 1;
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
     let day =
       selectedDate.getDate() < 10
         ? "0" + selectedDate.getDate()

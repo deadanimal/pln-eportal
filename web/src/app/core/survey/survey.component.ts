@@ -13,6 +13,7 @@ import {
 } from "@angular/forms";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
@@ -58,39 +59,48 @@ export class SurveyComponent implements OnInit {
   modules = [
     {
       value: "M01",
-      display_name: "Tayangan",
+      display_name_ms: "Tayangan",
+      display_name_en: "Showing",
     },
     {
       value: "M02",
-      display_name: "Pameran",
+      display_name_ms: "Pameran",
+      display_name_en: "Exhibition",
     },
     {
       value: "M03",
-      display_name: "Program Pendidikan",
+      display_name_ms: "Program Pendidikan",
+      display_name_en: "Education Program",
     },
     {
       value: "M04",
-      display_name: "Keberkesanan",
+      display_name_ms: "Keberkesanan",
+      display_name_en: "Effectiveness",
     },
     {
       value: "M05",
-      display_name: "Kembara Simulasi",
+      display_name_ms: "Kembara Simulasi",
+      display_name_en: "Space Pod",
     },
     {
       value: "M06",
-      display_name: "Lawatan",
+      display_name_ms: "Lawatan",
+      display_name_en: "Visit",
     },
     {
       value: "M07",
-      display_name: "Kutubkhanah Mini/Penerbitan",
+      display_name_ms: "Kutubkhanah Mini/Penerbitan",
+      display_name_en: "Kutubkhanah Mini/Publication",
     },
     {
       value: "M08",
-      display_name: "Fasiliti",
+      display_name_ms: "Fasiliti",
+      display_name_en: "Facility",
     },
   ];
 
   constructor(
+    public translate: TranslateService,
     private formBuilder: FormBuilder,
     private metaTagService: Meta,
     private route: ActivatedRoute,

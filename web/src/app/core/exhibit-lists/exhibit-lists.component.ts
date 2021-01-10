@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 import { ExhibitsService } from "src/app/shared/services/exhibits/exhibits.service";
 import { ExhibitListsService } from "src/app/shared/services/exhibit-lists/exhibit-lists.service";
@@ -41,6 +42,7 @@ export class ExhibitListsComponent implements OnInit {
   zone: string = "";
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private exhibitService: ExhibitsService,
