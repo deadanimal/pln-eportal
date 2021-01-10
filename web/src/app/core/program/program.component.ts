@@ -20,7 +20,7 @@ import {
   NgxGalleryOptions,
   NgxGalleryImage,
   NgxGalleryAnimation,
-} from "ngx-gallery";
+} from "ngx-gallery-9";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 

@@ -12,7 +12,7 @@ import {
   NgxGalleryOptions,
   NgxGalleryImage,
   NgxGalleryAnimation,
-} from "ngx-gallery";
+} from "ngx-gallery-9";
 import { Observable } from "rxjs";
 
 import { ExhibitDetailsService } from "src/app/shared/services/exhibit-details/exhibit-details.service";

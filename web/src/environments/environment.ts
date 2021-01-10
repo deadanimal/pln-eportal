@@ -4,10 +4,9 @@
 
 export const environment = {
   production: false,
-  // baseUrl: 'http://127.0.0.1:8000/',
-  assetUrl: "https://portal.planetarium.prototype.com.my/assets/",
-  baseUrl: "https://pln-eportal-api.pipe.my/",
-  portalUrl: "https://portal.planetarium.prototype.com.my/#/",
+  assetUrl: "http://localhost:4200/assets/",
+  baseUrl: "http://127.0.0.1:8000/",
+  portalUrl: "http://localhost:4200/#/",
 };
 
 /*

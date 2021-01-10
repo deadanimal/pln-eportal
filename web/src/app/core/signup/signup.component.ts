@@ -16,6 +16,22 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./signup.component.scss"],
 })
 export class SignupComponent implements OnInit {
+  // CSS Class
+  focus1;
+  focus4;
+  focus5;
+  focus6;
+  focus7;
+  focus9;
+  focus10;
+  focus11;
+  focus12;
+  focus13;
+  focus14;
+  focus15;
+  focus16;
+  focus17;
+  
   // Dropdown
   races = [
     {

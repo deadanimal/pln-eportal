@@ -1,6 +1,5 @@
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
-import { ContactUsComponent } from "./contact-us/contact-us.component";
 import { ExhibitComponent } from "./exhibit/exhibit.component";
 import { ExhibitDetailsComponent } from "./exhibit-details/exhibit-details.component";
 import { FacilityComponent } from "./facility/facility.component";
@@ -72,10 +71,6 @@ export const CoreRoutes: Routes = [
   {
     path: "home",
     component: HomeComponent,
-  },
-  {
-    path: "contact-us",
-    component: ContactUsComponent,
   },
   {
     path: "exhibit",

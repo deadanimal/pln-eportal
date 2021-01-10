@@ -17,17 +17,15 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { CarouselModule } from "ngx-bootstrap/carousel";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { RatingModule } from "ngx-bootstrap/rating";
-import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { NgxNumberSpinnerModule } from "ngx-number-spinner";
 import { NguCarouselModule } from "@ngu/carousel";
-import { NgxGalleryModule } from "ngx-gallery";
+import { NgxGalleryModule } from "ngx-gallery-9";
 import { YouTubePlayerModule } from "@angular/youtube-player";
 import { BarRatingModule } from "ngx-bar-rating";
 import { TmNgOdometerModule } from "tm-ng-odometer";
 import { NgMarqueeModule } from "ng-marquee";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { TranslateModule } from "@ngx-translate/core";
 import { AccordionModule } from "ngx-bootstrap/accordion";
@@ -50,7 +48,6 @@ import { SurveyComponent } from "./survey/survey.component";
 import { ProgramComponent } from "./program/program.component";
 import { VisitComponent } from "./visit/visit.component";
 import { ExhibitComponent } from "./exhibit/exhibit.component";
-import { ContactUsComponent } from "./contact-us/contact-us.component";
 import { PublicationComponent } from "./publication/publication.component";
 import { PaymentComponent } from "./payment/payment.component";
 import { FacilityDetailsComponent } from "./facility-details/facility-details.component";
@@ -120,7 +117,6 @@ const customConfig: ShareButtonsConfig = {
     ProgramComponent,
     VisitComponent,
     ExhibitComponent,
-    ContactUsComponent,
     PublicationComponent,
     PaymentComponent,
     FacilityDetailsComponent,
@@ -192,7 +188,6 @@ const customConfig: ShareButtonsConfig = {
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     RatingModule.forRoot(),
-    LeafletModule.forRoot(),
     GalleryModule,
     LightboxModule,
     FullCalendarModule,
@@ -209,7 +204,6 @@ const customConfig: ShareButtonsConfig = {
     NgMarqueeModule,
     MatStepperModule,
     MatFormFieldModule,
-    MatInputModule,
     HttpClientModule,
     TranslateModule,
     AccordionModule.forRoot(),
