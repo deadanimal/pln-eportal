@@ -15,3 +15,7 @@ ehthumbs.db
 Thumbs.db
 
 *.pyc
+
+#secrets
+**/secrets.yaml
+**/env
