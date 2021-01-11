@@ -76,4 +76,13 @@ export class EducationalProgramDatesService {
       })
     );
   }
+
+  extended(): Observable<EducationalProgramDate[]> {
+    return this.http.get<EducationalProgramDate[]>(this.url + "extended").pipe(
+      tap((res) => {
+        this.programdatesFiltered;
+        console.log("Educational programs: ", this.programdatesFiltered);
+      })
+    );
+  }
 }

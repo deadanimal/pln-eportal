@@ -5,7 +5,9 @@
         <div class="col-lg-4 col-sm-12">
           <div class="card" style="background-color: #ffffff">
             <div class="card-body">
-              <h3 class="title text-dark text-center">Tempahan</h3>
+              <h3 class="title text-dark text-center">
+                {{ "Tempahan" | translate }}
+              </h3>
               <div class="text-center">
                 <img
                   src="../../../assets/icon/tickets.svg"
@@ -20,7 +22,7 @@
                       class="title text-dark mb-0 mt-3"
                       *ngIf="module == 'shows'"
                     >
-                      Tayangan
+                      {{ "Tayangan" | translate }}
                     </h3>
                     <h4 class="title text-dark mb-1 mt-1">
                       {{ shows[0]?.title }}
@@ -47,7 +49,7 @@
                       class="title text-dark mb-0 mt-3"
                       *ngIf="module == 'simulator-ride'"
                     >
-                      Kembara Simulasi
+                      {{ "KembaraSimulasi" | translate }}
                     </h3>
                     <p class="d-block text-dark">
                       {{
@@ -109,7 +111,7 @@
 
               <div class="row">
                 <div class="col-md-6 col-sm-12">
-                  <h4 class="text-dark">Jumlah</h4>
+                  <h4 class="text-dark">{{ "Jumlah" | translate }}</h4>
                 </div>
                 <div class="col-md-6 col-sm-12 text-right">
                   <span class="font-weight-bold text-default">
@@ -123,376 +125,92 @@
         <div class="col-lg-8 col-sm-12">
           <div class="card" style="background-color: #ffffff">
             <div class="card-body">
-              <div class="container text-center">
-                <h3 class="title text-dark">
-                  Imbas Gambar Kad Pengenalan Bagi Pengisian Automatik
-                </h3>
-                <img
-                  alt="Rounded image"
-                  class="img-fluid rounded shadow"
-                  src="assets/icon/scan.svg"
-                  style="width: 150px"
-                />
-                <br />
-                <button class="btn btn-primary btn-round">Imbas</button>
-              </div>
-              <form class="js-validate">
+              <form class="js-validate" [formGroup]="paymentdetailFormGroup">
                 <div class="container">
-                  <h3 class="title text-dark">Atau Isi Secara Manual</h3>
+                  <h3 class="title text-dark">
+                    {{ "HalamanDaftarKeluar" | translate }}
+                  </h3>
                   <div class="row">
                     <div class="col-md-12">
-                      <label class="labels text-dark">
-                        Nama Penuh <span class="text-danger"> * </span>
+                      <label class="labels text-dark required-field">
+                        {{ "NamaPenuh" | translate }}
                       </label>
                       <input
-                        aria-label="Amin Badrul"
                         class="form-control text-dark"
-                        name="firstName"
-                        placeholder="Amin Badrul"
-                        required=""
+                        formControlName="full_name"
+                        placeholder=""
+                        readonly="true"
                         type="text"
                       />
                     </div>
                   </div>
-                  <br />
-
-                  <div class="row">
-                    <div class="col-md-12">
-                      <label class="labels text-dark">
-                        No. Kad Pengenalan <span class="text-danger"> * </span>
-                      </label>
-                      <input
-                        aria-label="900101110101"
-                        class="form-control text-dark"
-                        name="NRIC"
-                        placeholder="900101110101"
-                        required=""
-                        type="number"
-                      />
-                    </div>
-                  </div>
-                  <br />
 
                   <div class="row">
                     <div class="col-md-6">
                       <div class="js-form-message mb-6">
-                        <label class="labels text-dark">
-                          Alamat emel <span class="text-danger"> * </span>
+                        <label class="labels text-dark required-field">
+                          {{ "AlamatEmel" | translate }}
                         </label>
                         <input
-                          aria-label="thompson@gmail.com"
                           class="form-control text-dark"
-                          name="emailAddress"
-                          placeholder="thompson@gmail.com"
-                          required=""
+                          formControlName="email"
+                          placeholder=""
+                          readonly="true"
                           type="email"
                         />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="js-form-message mb-6">
-                        <label class="labels text-dark"> No. Telefon </label>
+                        <label class="labels text-dark required-field">
+                          {{ "NomborTelefon" | translate }}
+                        </label>
                         <input
-                          aria-label="+60171223123"
                           class="form-control text-dark"
-                          placeholder="+60171223123"
+                          formControlName="phone"
+                          placeholder=""
+                          readonly="true"
                           type="text"
                         />
                       </div>
                     </div>
                   </div>
-                  <br />
 
+                  <h3 class="title text-dark">
+                    {{ "PilihCaraPembayaran" | translate }}
+                  </h3>
                   <div class="row">
-                    <div class="col-md-8">
-                      <div class="js-form-message mb-6">
-                        <label class="labels text-dark">
-                          Alamat rumah <span class="text-danger"> * </span>
-                        </label>
-                        <input
-                          aria-label=""
-                          class="form-control"
-                          name="streetAddress"
-                          placeholder=""
-                          required=""
-                          type="text"
-                        />
+                    <div class="col-md-6 col-sm-12">
+                      <div
+                        class="card bg-transparent mt-0"
+                        (click)="selectPaymentMethod('fpx')"
+                        [ngClass]="{
+                          'card-selected':
+                            paymentdetailFormGroup.value.payment_method == 'fpx'
+                        }"
+                      >
+                        <div class="card-body">
+                          <div class="card-image">
+                            <img
+                              src="../../../assets/img/fpx_logo.png"
+                              alt="FPX"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <div class="js-form-message mb-6">
-                        <label class="labels text-dark">
-                          Poskod <span class="text-danger"> * </span>
-                        </label>
-                        <input
-                          aria-label=""
-                          class="form-control"
-                          name="postcodeAddress"
-                          placeholder=""
-                          required=""
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <br />
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="js-form-message mb-6">
-                        <label class="labels text-dark">
-                          Daerah <span class="text-danger"> * </span>
-                        </label>
-                        <input
-                          aria-label=""
-                          class="form-control"
-                          name="regionAddress"
-                          placeholder=""
-                          required=""
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="js-form-message mb-6">
-                        <label class="labels text-dark">
-                          Negeri <span class="text-danger"> * </span>
-                        </label>
-                        <input
-                          aria-label=""
-                          class="form-control"
-                          name="stateAddress"
-                          placeholder=""
-                          required=""
-                          type="text"
-                        />
-                      </div>
-                    </div>
+                    <div class="col-md-6 col-sm-12"></div>
                   </div>
 
-                  <br />
-                  <h4 class="title text-dark">Cara Pembayaran</h4>
-                  <tabset class="checkout-btn-group">
-                    <tab>
-                      <ng-template tabHeading> Kad Debit </ng-template>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="js-form-message">
-                            <label class="form-label text-dark">
-                              No. Kad
-                            </label>
-                            <input
-                              aria-label="**** **** **** ***"
-                              class="form-control"
-                              name="cardNumber"
-                              placeholder="**** **** **** ***"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-8">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark">
-                              Pemegang Kad
-                            </label>
-                            <input
-                              aria-label="Jack Wayley"
-                              class="form-control"
-                              name="cardHolder"
-                              placeholder="Jack Wayley"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark">
-                              Tarikh Luput
-                            </label>
-                            <input
-                              aria-label="MM/YY"
-                              class="form-control"
-                              name="cardExpirationDate"
-                              placeholder="MM/YY"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark"> CVC </label>
-                            <input
-                              aria-label="***"
-                              class="form-control"
-                              name="cardCVC"
-                              placeholder="***"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark">
-                              Negara Pengeluar Kad
-                            </label>
-                            <select
-                              class="form-control custom-control text-dark"
-                            >
-                              <option hidden select>Sila pilih</option>
-                              <option>Malaysia</option>
-                              <option>USA</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <div
-                        class="d-flex justify-content-between align-items-center pb-5"
-                      >
-                        <button class="btn btn-info btn-sm" type="submit">
-                          Tempah
-                        </button>
-                      </div>
-                    </tab>
-                    <tab>
-                      <ng-template tabHeading> Kad Kredit </ng-template>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="js-form-message">
-                            <label class="form-label text-dark">
-                              No. Kad
-                            </label>
-                            <input
-                              aria-label="**** **** **** ***"
-                              class="form-control"
-                              name="cardNumber"
-                              placeholder="**** **** **** ***"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-8">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark">
-                              Pemegang Kad
-                            </label>
-                            <input
-                              aria-label="Jack Wayley"
-                              class="form-control"
-                              name="cardHolder"
-                              placeholder="Jack Wayley"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark">
-                              Tarikh Luput
-                            </label>
-                            <input
-                              aria-label="MM/YY"
-                              class="form-control"
-                              name="cardExpirationDate"
-                              placeholder="MM/YY"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark"> CVC </label>
-                            <input
-                              aria-label="***"
-                              class="form-control"
-                              name="cardCVC"
-                              placeholder="***"
-                              required=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark">
-                              Negara Pengeluar Kad
-                            </label>
-                            <select
-                              class="form-control custom-control text-dark"
-                            >
-                              <option hidden select>Sila pilih</option>
-                              <option>Malaysia</option>
-                              <option>USA</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <div
-                        class="d-flex justify-content-between align-items-center pb-5"
-                      >
-                        <button class="btn btn-info btn-sm" type="submit">
-                          Tempah
-                        </button>
-                      </div>
-                    </tab>
-                    <!-- <tab>
-                      <ng-template tabHeading> Tunai </ng-template>
-                      <h5 class="text-dark">Nama pemegang tiket</h5>
-                      <input
-                        class="form-control text-dark"
-                        placeholder="Name or email"
-                        required=""
-                        type="text"
-                      />
-                      <br />
-                      <div
-                        class="d-flex justify-content-between align-items-center pb-5"
-                      >
-                        <button class="btn btn-info btn-sm" type="submit">
-                          Tunai
-                        </button>
-                      </div>
-                    </tab>
-                    <tab>
-                      <ng-template tabHeading> FPX </ng-template>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="js-form-message mb-6">
-                            <label class="form-label text-dark"> Bank </label>
-                            <select class="form-control custom-control text-dark">
-                              <option hidden select>Sila pilih</option>
-                              <option>Maybank</option>
-                              <option>CIMB</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <div
-                        class="d-flex justify-content-between align-items-center pb-5"
-                      >
-                        <button class="btn btn-info btn-sm" type="submit">
-                          Bayar
-                        </button>
-                      </div>
-                    </tab> -->
-                  </tabset>
+                  <div class="pt-5 pb-3 text-right">
+                    <button
+                      class="btn btn-info"
+                      (click)="submitPayment()"
+                      [disabled]="!paymentdetailFormGroup.valid"
+                    >
+                      {{ "BuatBayaran" | translate }}
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

@@ -12,7 +12,7 @@ import {
   NgxGalleryOptions,
   NgxGalleryImage,
   NgxGalleryAnimation,
-} from "ngx-gallery";
+} from "ngx-gallery-9";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import swal from "sweetalert2";
@@ -393,7 +393,10 @@ export class FacilityDetailZonesComponent implements OnInit {
   formatDate(date) {
     let selectedDate = date;
     let year = selectedDate.getFullYear();
-    let month = selectedDate.getMonth() + 1;
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
     let day =
       selectedDate.getDate() < 10
         ? "0" + selectedDate.getDate()

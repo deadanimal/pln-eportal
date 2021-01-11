@@ -6,17 +6,19 @@ import {
 } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
   NgxGalleryOptions,
   NgxGalleryImage,
   NgxGalleryAnimation,
-} from "ngx-gallery";
+} from "ngx-gallery-9";
 import { Observable } from "rxjs";
 
 import { ExhibitDetailsService } from "src/app/shared/services/exhibit-details/exhibit-details.service";
 import { ExhibitDetailImagesService } from "src/app/shared/services/exhibit-detail-images/exhibit-detail-images.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
+
 
 @Component({
   selector: "app-exhibit-details",
@@ -48,6 +50,7 @@ export class ExhibitDetailsComponent implements OnInit {
   galleryImages: NgxGalleryImage[];
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private modalService: BsModalService,
     private route: ActivatedRoute,

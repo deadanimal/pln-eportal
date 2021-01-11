@@ -1,9 +1,21 @@
 import { Component, OnInit } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { PaymentTicketsService } from "src/app/shared/services/payment-tickets/payment-tickets.service";
+import { RedirectService } from "src/app/shared/services/redirect/redirect.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
   selector: "app-payment",
@@ -12,6 +24,7 @@ import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-
 })
 export class PaymentComponent implements OnInit {
   // Data
+  htmlEncoded: any;
   module: string = "";
   user_id: string = "";
   time_id: string = "";
@@ -19,6 +32,7 @@ export class PaymentComponent implements OnInit {
   shows = [];
   simulatorrides = [];
   totalprice: number = 0;
+  fpx_confirm: any;
 
   // Dropdown
   simulatorridedays = [
@@ -96,13 +110,36 @@ export class PaymentComponent implements OnInit {
     },
   ];
 
+  // FormGroup
+  paymentdetailFormGroup: FormGroup;
+
   constructor(
+    public formBuilder: FormBuilder,
+    private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
+    private authService: AuthService,
+    private jwtService: JwtService,
+    private paymentticketService: PaymentTicketsService,
+    private redirectService: RedirectService,
     private showingService: ShowingsService,
     private showbookingService: ShowbookingsService,
-    private simulatorridebookingService: SimulatorRideBookingsService
+    private simulatorridebookingService: SimulatorRideBookingsService,
+    private userService: UsersService
   ) {
+    this.getUser();
+
+    this.paymentdetailFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      full_name: new FormControl(""),
+      email: new FormControl(""),
+      phone: new FormControl(""),
+      payment_method: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+
     this.module = this.route.snapshot.paramMap.get("module");
     this.user_id = this.route.snapshot.paramMap.get("user_id");
     this.time_id = this.route.snapshot.paramMap.get("time_id");
@@ -123,6 +160,7 @@ export class PaymentComponent implements OnInit {
             for (let showing of this.showings) {
               this.totalprice += +showing.total_price;
             }
+            this.getFPXConfirm();
           },
           (err) => {
             console.error("err", err);
@@ -141,6 +179,7 @@ export class PaymentComponent implements OnInit {
             for (let simulatorride of this.simulatorrides) {
               this.totalprice += +simulatorride.total_price;
             }
+            this.getFPXConfirm();
           },
           (err) => {
             console.error("err", err);
@@ -161,7 +200,49 @@ export class PaymentComponent implements OnInit {
     );
   }
 
+  getUser() {
+    if (this.jwtService.getToken("accessToken")) {
+      this.userService.get(this.authService.decodedToken().user_id).subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.paymentdetailFormGroup.patchValue({
+            ...res,
+            id: "",
+          });
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
+  }
+
   ngOnInit() {}
+
+  selectPaymentMethod(payment_method: string) {
+    this.paymentdetailFormGroup.patchValue({
+      payment_method,
+    });
+  }
+
+  getFPXConfirm() {
+    let body = {
+      fpx_txnAmount: this.totalprice.toFixed(2),
+    };
+    this.paymentticketService.fpx_confirm(body).subscribe(
+      (res) => {
+        console.log("res", res);
+        this.fpx_confirm = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  submitPayment() {
+    this.redirectService.post(this.fpx_confirm, "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp");
+  }
 
   getSimulatorRideDay(value: string) {
     let result = this.simulatorridedays.find((obj) => {

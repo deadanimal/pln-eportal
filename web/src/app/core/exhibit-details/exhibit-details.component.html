@@ -38,8 +38,20 @@
   </div>
   <section class="section bg-white section-lg">
     <div class="container">
-      <h2 class="title text-dark text-center">
-        {{ exhibitdetails[0]?.name }}
+      <h2
+        *ngIf="translate.currentLang == 'en'"
+        class="title text-dark text-center"
+      >
+        {{ exhibitdetails[0]?.name_en }}
+        <share-button button="facebook"></share-button
+        ><share-button button="twitter"></share-button
+        ><share-button button="whatsapp"></share-button>
+      </h2>
+      <h2
+        *ngIf="translate.currentLang == 'ms'"
+        class="title text-dark text-center"
+      >
+        {{ exhibitdetails[0]?.name_ms }}
         <share-button button="facebook"></share-button
         ><share-button button="twitter"></share-button
         ><share-button button="whatsapp"></share-button>
@@ -49,16 +61,28 @@
           <div class="card mt-0">
             <div class="card-body bg-white" style="height: 450px">
               <div
+                *ngIf="translate.currentLang == 'en'"
                 class="inner-html"
                 [innerHtml]="
-                  exhibitdetails[0]?.description | slice: 0:1000 | safe: 'html'
+                  exhibitdetails[0]?.description_en
+                    | slice: 0:1000
+                    | safe: 'html'
+                "
+              ></div>
+              <div
+                *ngIf="translate.currentLang == 'ms'"
+                class="inner-html"
+                [innerHtml]="
+                  exhibitdetails[0]?.description_ms
+                    | slice: 0:1000
+                    | safe: 'html'
                 "
               ></div>
               <div class="text-right">
                 <a
                   style="color: #ba54f5; font-weight: bold"
                   (click)="openReadMoreModal(modalReadMore)"
-                  >Baca selanjutnya</a
+                  >{{ "Bacaselanjutnya" | translate }}</a
                 >
               </div>
             </div>
@@ -94,8 +118,14 @@
     <div class="row">
       <div class="col">
         <div
+          *ngIf="translate.currentLang == 'en'"
           class="inner-html"
-          [innerHtml]="exhibitdetails[0]?.description | safe: 'html'"
+          [innerHtml]="exhibitdetails[0]?.description_en | safe: 'html'"
+        ></div>
+        <div
+          *ngIf="translate.currentLang == 'ms'"
+          class="inner-html"
+          [innerHtml]="exhibitdetails[0]?.description_ms | safe: 'html'"
         ></div>
       </div>
     </div>

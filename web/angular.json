@@ -32,9 +32,7 @@
               "src/assets/css/nucleo-icons.css",
               "src/assets/demo/demo.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "src/assets/scss/blk-design-system-pro.scss",
-              "node_modules/leaflet/dist/leaflet.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "src/assets/scss/blk-design-system-pro.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true
@@ -59,7 +57,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "4mb",
+                  "maximumWarning": "2mb",
                   "maximumError": "5mb"
                 }
               ]
@@ -91,7 +89,6 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -144,5 +141,8 @@
       }
     }
   },
-  "defaultProject": "blk-design-system-pro-angular"
+  "defaultProject": "blk-design-system-pro-angular",
+  "cli": {
+    "analytics": false
+  }
 }

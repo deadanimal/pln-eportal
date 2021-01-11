@@ -395,6 +395,15 @@ calendars_router = router.register(
     'calendars', CalendarViewSet
 )
 
+# FPX Transaction app
+from fpxtransactions.views import (
+    FpxTransactionViewSet
+)
+
+fpxtransactions_router = router.register(
+    'fpx-transactions', FpxTransactionViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

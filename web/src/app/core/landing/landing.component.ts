@@ -14,17 +14,18 @@ import {
 import { CalendarOptions } from "@fullcalendar/core";
 import dayGridPlugin, { DayGridView } from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { AnnouncementsService } from "src/app/shared/services/announcements/announcements.service";
 import { BannersService } from "src/app/shared/services/banners/banners.service";
+import { CalendarsService } from "src/app/shared/services/calendars/calendars.service";
+import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { PartnersService } from "src/app/shared/services/partners/partners.service";
 import { WhatisinterestingsService } from "src/app/shared/services/whatisinterestings/whatisinterestings.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
-
 
 @Component({
   selector: "app-landing",
@@ -66,6 +67,7 @@ export class LandingComponent implements OnInit {
   activeSlideIndex = 0;
 
   // Data
+  arrayDate = [];
   months = [
     "Januari",
     "Februari",
@@ -173,22 +175,7 @@ export class LandingComponent implements OnInit {
   banners = [];
 
   // Calendar
-  calendarOptions: CalendarOptions = {
-    events: [
-      { title: "event 1", date: "2020-11-03" },
-      { title: "event 2", date: "2020-11-07" },
-      { title: "event 3", date: "2020-11-15" },
-      { title: "event 4", date: "2020-11-23" },
-    ],
-    headerToolbar: {
-      left: "prev,next",
-      center: "title",
-      right: "today",
-    },
-    height: 400,
-    initialView: "dayGridMonth",
-    plugins: [dayGridPlugin, interactionPlugin],
-  };
+  calendarOptions: CalendarOptions;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -196,6 +183,8 @@ export class LandingComponent implements OnInit {
     public translate: TranslateService,
     private announcementService: AnnouncementsService,
     private bannerService: BannersService,
+    private calendarService: CalendarsService,
+    private eduprogramdateService: EducationalProgramDatesService,
     private feedbackService: FeedbacksService,
     private partnerService: PartnersService,
     private whatisinterestingService: WhatisinterestingsService,
@@ -203,6 +192,7 @@ export class LandingComponent implements OnInit {
   ) {
     this.getAnnouncement();
     this.getBanner();
+    this.getCalendar();
     this.getPartner();
     this.getWhatIsInteresting();
 
@@ -234,6 +224,77 @@ export class LandingComponent implements OnInit {
         console.error("err", err);
       }
     );
+  }
+
+  getCalendar() {
+    this.calendarService.filter("status=true").subscribe(
+      (res) => {
+        console.log("res", res);
+
+        for (let i = 0; i < res.length; i++) {
+          let obj = {
+            id: res[i].id,
+            title: res[i].description_ms,
+            start: res[i].date_start,
+            end: res[i].date_end,
+            allDay: true,
+          };
+          this.arrayDate.push(obj);
+        }
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.eduprogramdateService.extended().subscribe(
+          (res) => {
+            // console.log("res", res);
+
+            for (let i = 0; i < res.length; i++) {
+              if (res[i].program_id.status == "AV") {
+                let obj = {
+                  id: res[i].id,
+                  title: res[i].program_id.title_ms,
+                  start: res[i].program_date,
+                  end: res[i].program_date,
+                  allDay: true,
+                };
+                this.arrayDate.push(obj);
+              }
+            }
+          },
+          (err) => {
+            console.error("err", err);
+          },
+          () => {
+            this.calendarOptions = {
+              eventClick: this.handleEventClick.bind(this),
+              events: this.arrayDate,
+              headerToolbar: {
+                left: "prev,next",
+                center: "title",
+                right: "today",
+              },
+              height: 380,
+              initialView: "dayGridMonth",
+              plugins: [dayGridPlugin, interactionPlugin],
+            };
+          }
+        );
+      }
+    );
+  }
+
+  handleEventClick(info) {
+    swal.fire({
+      title: "Info",
+      text: info.event.title,
+      icon: "info",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-info",
+      }
+    });
   }
 
   getPartner() {

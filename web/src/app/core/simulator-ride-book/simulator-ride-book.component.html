@@ -72,60 +72,37 @@
                     <div class="row">
                       <div class="col ml-auto mr-auto">
                         <p class="text-justify text-dark">
-                          Kembara Simulasi merupakan sebuah simulator kokpit dua
-                          tempat duduk yang memberikan pengalaman penerokaan dan
-                          penerbangan ke angkasa lepas kepada penumpang. Sebagai
-                          langkah keselamatan pihak Planetarium Negara telah
-                          menggariskan beberapa peraturan yang perlu dipatuhi
-                          bagi memastikan penumpang dalam keadaan selamat dan
-                          berupaya untuk duduk dalam keadaan tegak di sepanjang
-                          masa. Langkah-langkah keselamatan adalah seperti
-                          berikut:
+                          {{ "SpacePodDescription" | translate }}
                         </p>
 
                         <ol>
                           <li>
-                            Had ketinggian minimum penumpang ialah 1.2 meter.
+                            {{ "SpacePodStepSafety1" | translate }}
                           </li>
                           <li>
-                            Jumlah berat maksimum kedua-dua penumpang pada
-                            satu-satu masa yang dibenarkan ialah 226 kilogram
+                            {{ "SpacePodStepSafety2" | translate }}
                           </li>
                           <li>
-                            Penumpang yang menghidapi penyakit-penyakit
-                            berbahaya seperti berikut adalah tidak dibenarkan:
+                            {{ "SpacePodStepSafety3" | translate }}
 
                             <ul>
-                              <li>Penyakit jantung</li>
-                              <li>Tekanan darah tinggi (Hipertensi)</li>
-                              <li>Sakit Belakang/Leher/Fizikal lain</li>
-                              <li>
-                                Gejala alahan ubatan atau dibawah pengaruh
-                                alkohol
-                              </li>
-                              <li>Gejala kinetosis (mabuk gerakan)</li>
-                              <li>
-                                Gejala Nyctophobia (Fobia Gelap) dan
-                                Claustrophobia (Fobia Ruang Sempit)
-                              </li>
+                              <li>{{ "SpacePodStepSafety3a" | translate }}</li>
+                              <li>{{ "SpacePodStepSafety3b" | translate }}</li>
+                              <li>{{ "SpacePodStepSafety3c" | translate }}</li>
+                              <li>{{ "SpacePodStepSafety3d" | translate }}</li>
+                              <li>{{ "SpacePodStepSafety3e" | translate }}</li>
+                              <li>{{ "SpacePodStepSafety3f" | translate }}</li>
                             </ul>
                           </li>
 
                           <li>
-                            Wanita mengandung dan warga emas melebihi 70 tahun
-                            tidak digalakkan untuk menaiki Kembara Simulasi ini.
+                            {{ "SpacePodStepSafety4" | translate }}
                           </li>
                           <li>
-                            Penumpang perlu memastikan semua barangan yang tidak
-                            terikat seperti pen, duit syiling, telefon bimbit
-                            dan lain-lain yang boleh tertanggal semasa kembara
-                            simulasi ini beroperasi hendaklah dikeluarkan.
+                            {{ "SpacePodStepSafety5" | translate }}
                           </li>
                           <li>
-                            Penumpang perlu dalam kedudukan tegak dan tidak
-                            panik sekiranya Kembara Simulasi ini diberhentikan
-                            secara mengejut oleh pengendali semasa keadaan
-                            kecemasan.
+                            {{ "SpacePodStepSafety6" | translate }}
                           </li>
                         </ol>
 
@@ -181,7 +158,7 @@
                               type="checkbox"
                               formControlName="accept"
                             />
-                            Saya setuju dengan pernyataan di atas.
+                            {{ "SpacePodStep1Agreement" | translate }}
                             <span class="form-check-sign">
                               <span class="check"></span>
                             </span>
@@ -209,8 +186,7 @@
                     "SpacePodStep2Label" | translate
                   }}</ng-template>
                   <div class="row pb-3">
-                    <div class="col-md-4 col-sm-12"></div>
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-7 col-sm-12 mx-auto">
                       <alert [type]="'danger'">
                         <b>{{ "SpacePodStep2Note" | translate }}</b>
                       </alert>
@@ -241,29 +217,33 @@
                             {{ "MasaNota" | translate }}
                           </p>
                         </div>
-                        <div class="row">
-                          <div
-                            class="col-md-4 col-sm-12 text-center"
-                            *ngFor="let time of times"
-                          >
-                            <div class="form-check form-check-radio">
-                              <label class="form-check-label">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="time"
-                                  [value]="time.time + '_' + time.id"
-                                  formControlName="time"
-                                />
-                                {{ time.time }}
-                                <span class="form-check-sign"></span>
-                              </label>
+                        <div
+                          class="row d-flex justify-content-center"
+                          *ngFor="let bookingtime of bookingtimes"
+                        >
+                          <div *ngFor="let time of times">
+                            <div
+                              class="col mx-auto"
+                              *ngIf="bookingtime === time.time.substring(0, 2)"
+                            >
+                              <div class="form-check form-check-radio">
+                                <label class="form-check-label">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="time"
+                                    [value]="time.time + '_' + time.id"
+                                    formControlName="time"
+                                  />
+                                  {{ time.time }}
+                                  <span class="form-check-sign"></span>
+                                </label>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4 col-sm-12"></div>
                   </div>
 
                   <div class="p-3 text-center">

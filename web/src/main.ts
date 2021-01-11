@@ -1,8 +1,7 @@
-import 'hammerjs';
 /*!
 
 =========================================================
-* BLK Design System PRO Angular - v1.0.0
+* BLK Design System PRO Angular - v1.1.1
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/blk-design-system-pro-angular
@@ -14,6 +13,7 @@ import 'hammerjs';
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import 'hammerjs';
 import { enableProdMode } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
