@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'whatisinterestings',
     'dynamiccontents',
     'calendars',
+    'fpxtransactions',
 
     'django_cleanup.apps.CleanupConfig'
 ]
