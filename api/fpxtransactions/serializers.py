@@ -9,17 +9,26 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    FpxTransaction
+    FpxTransaction,
+    BankList
 )
 
 from users.serializers import (
     CustomUserSerializer
 )
 
+
 class FpxTransactionSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = FpxTransaction
         fields = '__all__'
         read_only_fields = ['id']
-    
+
+
+class BankListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BankList
+        fields = '__all__'
+        read_only_fields = ['id']

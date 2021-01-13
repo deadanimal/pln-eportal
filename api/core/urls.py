@@ -397,11 +397,16 @@ calendars_router = router.register(
 
 # FPX Transaction app
 from fpxtransactions.views import (
-    FpxTransactionViewSet
+    FpxTransactionViewSet,
+    BankListViewSet
 )
 
 fpxtransactions_router = router.register(
     'fpx-transactions', FpxTransactionViewSet
+)
+
+banklists_router = router.register(
+    'bank-lists', BankListViewSet
 )
 
 urlpatterns = [
