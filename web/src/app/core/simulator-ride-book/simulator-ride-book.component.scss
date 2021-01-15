@@ -6,7 +6,8 @@
   color: #000000 !important;
 }
 
-ol, ul {
+ol,
+ul {
   li {
     color: #000000;
   }
@@ -18,4 +19,9 @@ ol, ul {
 
 ::ng-deep .mat-horizontal-stepper-header {
   pointer-events: none !important;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.005) translateZ(0);
+  box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11), 0 24px 46px #000000;
 }

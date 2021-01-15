@@ -8,7 +8,7 @@ export class RedirectService {
 
   post(obj, url) {
     var mapForm = document.createElement("form");
-    mapForm.target = "_blank";
+    mapForm.target = "_self";
     mapForm.method = "POST"; // or "post" if appropriate
     mapForm.action = url;
     Object.keys(obj).forEach(function (param) {
@@ -19,6 +19,7 @@ export class RedirectService {
       mapForm.appendChild(mapInput);
     });
     document.body.appendChild(mapForm);
+    console.log("mapForm", mapForm);
     mapForm.submit();
   }
 }

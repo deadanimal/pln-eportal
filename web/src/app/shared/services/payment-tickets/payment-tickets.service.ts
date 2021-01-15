@@ -53,13 +53,4 @@ export class PaymentTicketsService {
       })
     );
   }
-
-  fpx_confirm(body): Observable<PaymentTicket> {
-    let urlFPXConfirm = this.url + "fpx_confirm/";
-    return this.http.post<PaymentTicket>(urlFPXConfirm, body).pipe(
-      tap((res) => {
-        console.log("Payment ticket: ", res);
-      })
-    );
-  }
 }

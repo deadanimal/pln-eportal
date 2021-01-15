@@ -1,0 +1,141 @@
+<div class="wrapper">
+  <div class="section">
+    <div class="container">
+      <div class="row pt-5">
+        <div class="col text-center">
+          <h2 class="title">
+            Terima kasih kerana menempah tayangan bersama kami.
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12 mx-auto">
+          <div class="card" style="background-color: #ffffff">
+            <div class="card-header" style="background-color: #2d71f6">
+              <div class="row">
+                <div class="col">
+                  <h3 class="title text-white mt-0">
+                    {{ "ResitBayaran" | translate }}
+                  </h3>
+                </div>
+                <div class="col-auto text-right">
+                  <h3 class="title text-white mt-0">15 Jan 2021</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row pt-3">
+                <div class="col-md-6 col-sm-12">
+                  <!-- <p class="m-0 font-weight-bold text-dark">
+                    {{ "PlanetariumNegara" | translate }}
+                  </p>
+                  <p class="m-0 text-dark">{{ "MOSTI" | translate }}</p>
+                  <p class="m-0 text-dark">
+                    53, Jalan Perdana, 50480 Kuala Lumpur, MALAYSIA
+                  </p> -->
+                  <img
+                    src="../../../assets/logo/planetarium-logo.png"
+                    style="width: 30%"
+                  />
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">
+                  <p class="m-0 font-weight-bold text-dark">
+                    {{ user?.full_name }}
+                  </p>
+                  <p class="m-0 text-dark">{{ user?.email }}</p>
+                  <p class="m-0 text-dark">
+                    {{ user?.phone }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- <div class="text-center">
+                <img
+                  src="../../../assets/icon/receipt.svg"
+                  style="width: 50%"
+                />
+              </div> -->
+              <hr class="line-info mb-3" />
+
+              <div class="row">
+                <div class="col text-center">
+                  <div class="media-body">
+                    <h3 class="title text-dark mb-0 mt-0">
+                      {{ "Tayangan" | translate }}
+                    </h3>
+                    <h4 class="title text-dark mb-1 mt-1">Dynamic Earth</h4>
+                    <p class="d-block text-dark">
+                      Tarikh: 15 Jan 2021 | Masa: 15:50:00
+                    </p>
+                    <p class="font-weight-bold text-dark">
+                      <span> D24 D25 </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="line-info mb-3" />
+
+              <!-- Transaction Date Seller Order No FPX Transaction ID Transaction
+              Amount Buyer Bank Name Status -->
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <p class="font-weight-semi-bold text-dark">
+                    {{ "TarikhTransaksi" | translate }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">15 Jan 2021</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <p class="font-weight-semi-bold text-dark">
+                    {{ "NomborPesananPenjual" | translate }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">1234567890</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <p class="font-weight-semi-bold text-dark">
+                    {{ "IDTransaksiFPX" | translate }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">0987654321</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <p class="font-weight-semi-bold text-dark">
+                    {{ "JumlahTransaksi" | translate }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">RM 24.00</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <p class="font-weight-semi-bold text-dark">
+                    {{ "NamaBankPembeli" | translate }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">RHB Bank</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <p class="font-weight-semi-bold text-dark">Status</p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-right">Berjaya</div>
+              </div>
+
+              <div class="row pt-3">
+                <div class="col text-center">
+                  <small class="text-danger">{{
+                    "ResitNota" | translate
+                  }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,10 +7,13 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { Observable } from "rxjs";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { FpxTransactionsService } from "src/app/shared/services/fpx-transactions/fpx-transactions.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
-import { PaymentTicketsService } from "src/app/shared/services/payment-tickets/payment-tickets.service";
 import { RedirectService } from "src/app/shared/services/redirect/redirect.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
@@ -28,11 +31,14 @@ export class PaymentComponent implements OnInit {
   module: string = "";
   user_id: string = "";
   time_id: string = "";
-  showings = [];
   shows = [];
-  simulatorrides = [];
+  showings$: Observable<any>;
+  simulatorrides$: Observable<any>;
   totalprice: number = 0;
   fpx_confirm: any;
+  banklists = [];
+  banklistfromdb = [];
+  banklistfromfpx = [];
 
   // Dropdown
   simulatorridedays = [
@@ -112,15 +118,18 @@ export class PaymentComponent implements OnInit {
 
   // FormGroup
   paymentdetailFormGroup: FormGroup;
+  fpxtransactionFormGroup: FormGroup; // Request Message - AR
 
   constructor(
     public formBuilder: FormBuilder,
+    public translate: TranslateService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private banklistService: BankListsService,
+    private fpxtransactionService: FpxTransactionsService,
     private jwtService: JwtService,
-    private paymentticketService: PaymentTicketsService,
     private redirectService: RedirectService,
     private showingService: ShowingsService,
     private showbookingService: ShowbookingsService,
@@ -128,6 +137,7 @@ export class PaymentComponent implements OnInit {
     private userService: UsersService
   ) {
     this.getUser();
+    this.getBankList();
 
     this.paymentdetailFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -138,60 +148,76 @@ export class PaymentComponent implements OnInit {
         "",
         Validators.compose([Validators.required])
       ),
+      bank_selected: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
     });
 
-    this.module = this.route.snapshot.paramMap.get("module");
-    this.user_id = this.route.snapshot.paramMap.get("user_id");
-    this.time_id = this.route.snapshot.paramMap.get("time_id");
-
-    if (this.module && this.user_id && this.time_id) this.getBookingDetail();
+    this.fpxtransactionFormGroup = this.formBuilder.group({
+      fpx_msgType: new FormControl(""),
+      fpx_msgToken: new FormControl(""),
+      fpx_sellerExId: new FormControl(""),
+      fpx_sellerExOrderNo: new FormControl(""),
+      fpx_sellerTxnTime: new FormControl(""),
+      fpx_sellerOrderNo: new FormControl(""),
+      fpx_sellerId: new FormControl(""),
+      fpx_sellerBankCode: new FormControl(""),
+      fpx_txnCurrency: new FormControl(""),
+      fpx_txnAmount: new FormControl(0),
+      fpx_buyerEmail: new FormControl(""),
+      fpx_checkSum: new FormControl(""),
+      fpx_buyerName: new FormControl(""),
+      fpx_buyerBankId: new FormControl(""),
+      fpx_buyerBankBranch: new FormControl(""),
+      fpx_buyerAccNo: new FormControl(""),
+      fpx_buyerId: new FormControl(""),
+      fpx_makerName: new FormControl(""),
+      fpx_buyerIban: new FormControl(""),
+      fpx_productDesc: new FormControl(""),
+      fpx_version: new FormControl(""),
+      fpx_eaccountNum: new FormControl(""),
+      fpx_ebuyerId: new FormControl(""),
+    });
   }
 
   getBookingDetail() {
     if (this.module == "shows") {
-      this.showbookingService
-        .extended("showtime_id=" + this.time_id + "&user_id=" + this.user_id)
-        .subscribe(
-          (res) => {
-            console.log("res", res);
-            this.showings = res;
-            this.getShowingDetail();
-
-            for (let showing of this.showings) {
-              this.totalprice += +showing.total_price;
-            }
-            this.getFPXConfirm();
-          },
-          (err) => {
-            console.error("err", err);
+      this.showings$ = this.showbookingService.extended(
+        "showtime_id=" + this.time_id + "&user_id=" + this.user_id
+      );
+      this.showings$.subscribe(
+        (res) => {
+          if (res) this.getShowingDetail(res);
+          for (let i = 0; i < res.length; i++) {
+            this.totalprice += +res[i].total_price;
           }
-        );
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
     } else if (this.module == "simulator-ride") {
-      this.simulatorridebookingService
-        .extended(
-          "simulator_ride_time_id=" + this.time_id + "&user_id=" + this.user_id
-        )
-        .subscribe(
-          (res) => {
-            console.log("res", res);
-            this.simulatorrides = res;
-
-            for (let simulatorride of this.simulatorrides) {
-              this.totalprice += +simulatorride.total_price;
-            }
-            this.getFPXConfirm();
-          },
-          (err) => {
-            console.error("err", err);
+      this.simulatorrides$ = this.simulatorridebookingService.extended(
+        "simulator_ride_time_id=" + this.time_id + "&user_id=" + this.user_id
+      );
+      this.simulatorrides$.subscribe(
+        (res) => {
+          for (let i = 0; i < res.length; i++) {
+            this.totalprice += +res[i].total_price;
           }
-        );
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
     }
   }
 
-  getShowingDetail() {
-    this.showingService.filter("id=" + this.showings[0].show_id.id).subscribe(
+  getShowingDetail(res) {
+    this.showingService.filter("id=" + res[0].show_id.id).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.shows = res;
       },
       (err) => {
@@ -217,7 +243,48 @@ export class PaymentComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  getBankList() {
+    this.banklistService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.banklistfromdb = res;
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.fpxtransactionService.fpx_get_bank_list().subscribe(
+          (res) => {
+            // console.log("res", res);
+            this.banklistfromfpx = Object.entries(res);
+          },
+          (err) => {
+            console.error("err", err);
+          },
+          () => {
+            // to filter the active bank from FPX and DB
+            this.banklistfromdb.filter((obj_db) => {
+              this.banklistfromfpx.filter((obj_fpx) => {
+                // obj_fpx[0] : Bank ID
+                // obj_fpx[1] : Bank Active
+                if (obj_db.bank_id == obj_fpx[0] && obj_fpx[1] == "A") {
+                  this.banklists.push(obj_db);
+                }
+              });
+            });
+          }
+        );
+      }
+    );
+  }
+
+  ngOnInit() {
+    this.module = this.route.snapshot.paramMap.get("module");
+    this.user_id = this.route.snapshot.paramMap.get("user_id");
+    this.time_id = this.route.snapshot.paramMap.get("time_id");
+
+    if (this.module && this.user_id && this.time_id) this.getBookingDetail();
+  }
 
   selectPaymentMethod(payment_method: string) {
     this.paymentdetailFormGroup.patchValue({
@@ -225,23 +292,48 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  getFPXConfirm() {
+  submitPayment() {
     let body = {
+      fpx_buyerBankId: this.paymentdetailFormGroup.value.bank_selected,
+      fpx_buyerEmail:
+        this.paymentdetailFormGroup.value.email.length <= 50
+          ? this.paymentdetailFormGroup.value.email
+          : "",
+      fpx_buyerName:
+        this.paymentdetailFormGroup.value.full_name.length <= 40
+          ? this.paymentdetailFormGroup.value.full_name
+          : "",
       fpx_txnAmount: this.totalprice.toFixed(2),
     };
-    this.paymentticketService.fpx_confirm(body).subscribe(
+    this.fpxtransactionService.fpx_confirm(body).subscribe(
       (res) => {
-        console.log("res", res);
-        this.fpx_confirm = res;
+        // console.log("res", res);
+        this.fpxtransactionFormGroup.patchValue({
+          ...res,
+        });
       },
       (err) => {
         console.error("err", err);
+      },
+      () => {
+        this.fpxtransactionService
+          .post(this.fpxtransactionFormGroup.value)
+          .subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.redirectService.post(
+                this.fpxtransactionFormGroup.value,
+                "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
+              );
+            }
+          );
       }
     );
-  }
-
-  submitPayment() {
-    this.redirectService.post(this.fpx_confirm, "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp");
   }
 
   getSimulatorRideDay(value: string) {

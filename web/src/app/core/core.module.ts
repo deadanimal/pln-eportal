@@ -37,12 +37,12 @@ import { ShareButtonsConfig } from "ngx-sharebuttons";
 import { ShareButtonModule } from "ngx-sharebuttons/button";
 import { ShareIconsModule } from "ngx-sharebuttons/icons";
 import { NgxOrgChartModule } from 'ngx-org-chart';
+// import { ToastrModule } from 'ngx-toastr';
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
 import { HomeComponent } from "./home/home.component";
 import { ShowsComponent } from "./shows/shows.component";
-import { TicketingComponent } from "./ticketing/ticketing.component";
 import { FacilityComponent } from "./facility/facility.component";
 import { SurveyComponent } from "./survey/survey.component";
 import { ProgramComponent } from "./program/program.component";
@@ -51,8 +51,6 @@ import { ExhibitComponent } from "./exhibit/exhibit.component";
 import { PublicationComponent } from "./publication/publication.component";
 import { PaymentComponent } from "./payment/payment.component";
 import { FacilityDetailsComponent } from "./facility-details/facility-details.component";
-import { PaymentFacilityComponent } from "./payment-facility/payment-facility.component";
-import { ShowDetailsComponent } from "./show-details/show-details.component";
 import { ExhibitDetailsComponent } from "./exhibit-details/exhibit-details.component";
 import { SimulatorRideComponent } from "./simulator-ride/simulator-ride.component";
 import { VirtualLibraryComponent } from "./virtual-library/virtual-library.component";
@@ -98,6 +96,7 @@ import { QuickLinkComponent } from "./quick-link/quick-link.component";
 import { SafePipe } from "../shared/pipes/safe/safe.pipe";
 import { SignupComponent } from "./signup/signup.component";
 import { TruncatePipe } from "../shared/pipes/truncate/truncate.pipe";
+import { ReceiptComponent } from './receipt/receipt.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -111,7 +110,6 @@ const customConfig: ShareButtonsConfig = {
   declarations: [
     HomeComponent,
     ShowsComponent,
-    TicketingComponent,
     FacilityComponent,
     SurveyComponent,
     ProgramComponent,
@@ -120,8 +118,6 @@ const customConfig: ShareButtonsConfig = {
     PublicationComponent,
     PaymentComponent,
     FacilityDetailsComponent,
-    PaymentFacilityComponent,
-    ShowDetailsComponent,
     ExhibitDetailsComponent,
     SimulatorRideComponent,
     VirtualLibraryComponent,
@@ -167,6 +163,7 @@ const customConfig: ShareButtonsConfig = {
     SafePipe,
     SignupComponent,
     TruncatePipe,
+    ReceiptComponent,
   ],
   imports: [
     CommonModule,
@@ -194,6 +191,7 @@ const customConfig: ShareButtonsConfig = {
     ShareButtonModule.withConfig(customConfig),
     ShareIconsModule,
     NgxOrgChartModule,
+    // ToastrModule.forRoot(),
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,

@@ -1,44 +1,33 @@
-import { Injectable } from '@angular/core';
-import { 
-  ActivatedRouteSnapshot,
-  CanActivate, 
-  Router, 
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
-import { take } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { CanActivate, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
+import { JwtService } from "../jwt/jwt.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthGuard implements CanActivate {
-  
-  /*
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
-  }
-  */
-
   constructor(
-    private auth: AuthService,
-    private router: Router
+    private jwt: JwtService,
+    private router: Router,
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot) {
-    const expectedRole = route.data.role
-    console.log('expected: ', expectedRole)
-    if (this.auth.userType == expectedRole) {
-      //console.log('Authenticated')
-      return true
-    }
-    else {
-      //console.log('Not Authenticated')
-      return this.router.navigate(['/auth/login'])
+  canActivate() {
+    let accessToken = this.jwt.getToken("accessToken");
+    if (accessToken) {
+      // console.log("Authenticated");
+      return true;
+    } else {
+      // console.log("Not Authenticated");
+      this.toastr.error(
+        this.translate.instant("RalatProceed"),
+        this.translate.instant("Ralat")
+      );
+      return false;
+      // return this.router.navigate(["/landing"]);
     }
   }
-  
 }

@@ -5,13 +5,10 @@ import { ExhibitDetailsComponent } from "./exhibit-details/exhibit-details.compo
 import { FacilityComponent } from "./facility/facility.component";
 import { FacilityDetailsComponent } from "./facility-details/facility-details.component";
 import { PaymentComponent } from "./payment/payment.component";
-import { PaymentFacilityComponent } from "./payment-facility/payment-facility.component";
 import { ProgramComponent } from "./program/program.component";
 import { PublicationComponent } from "./publication/publication.component";
 import { ShowsComponent } from "./shows/shows.component";
-import { ShowDetailsComponent } from "./show-details/show-details.component";
 import { SurveyComponent } from "./survey/survey.component";
-import { TicketingComponent } from "./ticketing/ticketing.component";
 import { VisitComponent } from "./visit/visit.component";
 import { SimulatorRideComponent } from "./simulator-ride/simulator-ride.component";
 import { VirtualLibraryComponent } from "./virtual-library/virtual-library.component";
@@ -50,6 +47,8 @@ import { QuickLinkComponent } from "./quick-link/quick-link.component";
 import { SignupComponent } from "./signup/signup.component";
 
 import { environment } from "src/environments/environment";
+import { AuthGuard } from "../shared/guard/auth.guard";
+import { ReceiptComponent } from "./receipt/receipt.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -67,6 +66,7 @@ export const CoreRoutes: Routes = [
   {
     path: "profile",
     component: ProfileComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "home",
@@ -187,6 +187,12 @@ export const CoreRoutes: Routes = [
   {
     path: "payment/:module/:user_id/:time_id",
     component: PaymentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "receipt",
+    component: ReceiptComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "program",
@@ -224,6 +230,7 @@ export const CoreRoutes: Routes = [
           twitter_image: environment.assetUrl + "logo/planetarium-logo.png",
           twitter_url: environment.portalUrl + "program",
         },
+        canActivate: [AuthGuard],
       },
     ],
   },
@@ -286,24 +293,6 @@ export const CoreRoutes: Routes = [
         },
       },
       {
-        path: "show-details",
-        component: ShowDetailsComponent,
-        data: {
-          title: "Tayangan",
-          description:
-            "Teater Angkasa menyerupai sebuah panggung wayang yang menjadi penanda aras sesebuah Planetarium. Ia boleh dilihat dari segi skala saiz yang mampu memuatkan sehingga 200 orang penonton dalam satu masa dan infrastruktur teknologi bagi membantu mensimulasikan pergerakan dan keunikan objek yang berbeza dalam galaksi. Ia mempunyai kubah aluminium hemisfera yang dilengkapi system bunyi sekelliling digital 6-saluran. Dua projektor full dome immersive system memberikan tayangan astronomi dan simulasi langit malam menyerupai sebuah balai cerap.",
-          url: environment.portalUrl + "shows",
-          site_name: "Planetarium Negara",
-          image: environment.assetUrl + "logo/planetarium-logo.png",
-          twitter_card: "summary",
-          twitter_description:
-            "Teater Angkasa menyerupai sebuah panggung wayang yang menjadi penanda aras sesebuah Planetarium. Ia boleh dilihat dari segi skala saiz yang mampu memuatkan sehingga 200 orang penonton dalam satu masa dan infrastruktur teknologi bagi membantu mensimulasikan pergerakan dan keunikan objek yang berbeza dalam galaksi. Ia mempunyai kubah aluminium hemisfera yang dilengkapi system bunyi sekelliling digital 6-saluran. Dua projektor full dome immersive system memberikan tayangan astronomi dan simulasi langit malam menyerupai sebuah balai cerap.",
-          twitter_title: "Tayangan",
-          twitter_image: environment.assetUrl + "logo/planetarium-logo.png",
-          twitter_url: environment.portalUrl + "shows",
-        },
-      },
-      {
         path: "shows-book/:id",
         component: ShowsBookComponent,
         data: {
@@ -320,6 +309,7 @@ export const CoreRoutes: Routes = [
           twitter_image: environment.assetUrl + "logo/planetarium-logo.png",
           twitter_url: environment.portalUrl + "shows",
         },
+        canActivate: [AuthGuard],
       },
     ],
   },
@@ -340,10 +330,6 @@ export const CoreRoutes: Routes = [
     },
   },
   {
-    path: "ticketing",
-    component: TicketingComponent,
-  },
-  {
     path: "visit",
     component: VisitComponent,
     data: {
@@ -360,10 +346,6 @@ export const CoreRoutes: Routes = [
       twitter_image: environment.assetUrl + "logo/planetarium-logo.png",
       twitter_url: environment.portalUrl + "visit",
     },
-  },
-  {
-    path: "payment-facility",
-    component: PaymentFacilityComponent,
   },
   {
     path: "simulator-ride",
@@ -389,6 +371,7 @@ export const CoreRoutes: Routes = [
       {
         path: "simulator-ride-book",
         component: SimulatorRideBookComponent,
+        canActivate: [AuthGuard],
       },
     ],
   },

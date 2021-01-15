@@ -18,3 +18,8 @@
 .form-check-radio .form-check-inline .form-check-label {
   margin-right: 0px;
 }
+
+.card:hover {
+  transform: translateY(-10px) scale(1.005) translateZ(0);
+  box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11), 0 24px 46px #000000;
+}
