@@ -234,10 +234,22 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/calendar',
-    title: 'Kalendar',
-    type: 'link',
-    icontype: 'fas fa-calendar text-primary'
+    path: "/calendar",
+    title: "Kalendar",
+    type: "link",
+    icontype: "fas fa-calendar text-primary",
+  },
+  {
+    path: "/fpxs",
+    title: "FPX",
+    type: "sub",
+    icontype: "fas fa-calendar text-primary",
+    collapse: "fpxs",
+    isCollapsed: true,
+    children: [
+      { path: "list", title: "Transaksi FPX", type: "link" },
+      { path: "bank-list", title: "Senarai Bank", type: "link" },
+    ],
   },
   {
     path: "/cms",

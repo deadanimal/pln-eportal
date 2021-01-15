@@ -85,6 +85,8 @@ import { ModulesComponent } from "./cms/modules/modules.component";
 import { WhatIsInterestingsComponent } from "./cms/what-is-interestings/what-is-interestings.component";
 import { DynamicContentsComponent } from "./cms/dynamic-contents/dynamic-contents.component";
 import { CustomersComponent } from "./managements/customers/customers.component";
+import { FpxsListComponent } from './fpxs/fpxs-list/fpxs-list.component';
+import { FpxsBankListComponent } from './fpxs/fpxs-bank-list/fpxs-bank-list.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -157,6 +159,8 @@ FullCalendarModule.registerPlugins([
     WhatIsInterestingsComponent,
     DynamicContentsComponent,
     CustomersComponent,
+    FpxsListComponent,
+    FpxsBankListComponent,
   ],
   imports: [
     CommonModule,

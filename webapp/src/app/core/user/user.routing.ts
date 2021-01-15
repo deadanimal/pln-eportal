@@ -12,14 +12,14 @@ import { AssetsComponent } from "./assets/assets.component";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { AnnouncementsComponent } from "./cms/announcements/announcements.component";
 import { BannersComponent } from "./cms/banners/banners.component";
-import { DynamicContentsComponent } from './cms/dynamic-contents/dynamic-contents.component';
+import { DynamicContentsComponent } from "./cms/dynamic-contents/dynamic-contents.component";
 import { EmployeeDirectoriesComponent } from "./cms/employee-directories/employee-directories.component";
 import { FaqsComponent } from "./cms/faqs/faqs.component";
 import { ModulesComponent } from "./cms/modules/modules.component";
 import { PartnersComponent } from "./cms/partners/partners.component";
 import { QuickLinksComponent } from "./cms/quick-links/quick-links.component";
 import { RatingsComponent } from "./cms/ratings/ratings.component";
-import { WhatIsInterestingsComponent } from './cms/what-is-interestings/what-is-interestings.component';
+import { WhatIsInterestingsComponent } from "./cms/what-is-interestings/what-is-interestings.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ExhibitsDetailComponent } from "./exhibits/exhibits-detail/exhibits-detail.component";
 import { ExhibitsListComponent } from "./exhibits/exhibits-list/exhibits-list.component";
@@ -28,6 +28,8 @@ import { FacilitiesApplicationComponent } from "./facilities/facilities-applicat
 import { FacilitiesListComponent } from "./facilities/facilities-list/facilities-list.component";
 import { FacilitiesSubcategoryComponent } from "./facilities/facilities-subcategory/facilities-subcategory.component";
 import { FeedbacksListComponent } from "./feedbacks/feedbacks-list/feedbacks-list.component";
+import { FpxsBankListComponent } from "./fpxs/fpxs-bank-list/fpxs-bank-list.component";
+import { FpxsListComponent } from "./fpxs/fpxs-list/fpxs-list.component";
 import { CustomersComponent } from "./managements/customers/customers.component";
 import { EmailTemplatesComponent } from "./managements/email-templates/email-templates.component";
 import { UsersComponent } from "./managements/users/users.component";
@@ -376,6 +378,19 @@ export const UserRoutes: Routes = [
           {
             path: "faqs",
             component: FaqsComponent,
+          },
+        ],
+      },
+      {
+        path: "fpxs",
+        children: [
+          {
+            path: "list",
+            component: FpxsListComponent,
+          },
+          {
+            path: "bank-list",
+            component: FpxsBankListComponent,
           },
         ],
       },
