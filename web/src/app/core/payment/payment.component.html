@@ -24,10 +24,16 @@
                     >
                       {{ "Tayangan" | translate }}
                     </h3>
-                    <h4 *ngIf="translate.currentLang == 'en'" class="title text-dark mb-1 mt-1">
+                    <h4
+                      *ngIf="translate.currentLang == 'en'"
+                      class="title text-dark mb-1 mt-1"
+                    >
                       {{ shows[0]?.title_en }}
                     </h4>
-                    <h4 *ngIf="translate.currentLang == 'ms'" class="title text-dark mb-1 mt-1">
+                    <h4
+                      *ngIf="translate.currentLang == 'ms'"
+                      class="title text-dark mb-1 mt-1"
+                    >
                       {{ shows[0]?.title_ms }}
                     </h4>
                     <p class="d-block text-dark">
@@ -249,7 +255,7 @@
                     <button
                       class="btn btn-info"
                       (click)="submitPayment()"
-                      [disabled]="!paymentdetailFormGroup.valid"
+                      [disabled]="!paymentdetailFormGroup.valid || totalprice == 0"
                     >
                       {{ "Seterusnya" | translate }}
                     </button>

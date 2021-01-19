@@ -35,6 +35,7 @@ export class PaymentComponent implements OnInit {
   showings$: Observable<any>;
   simulatorrides$: Observable<any>;
   totalprice: number = 0;
+  timeout: any;
   fpx_confirm: any;
   banklists = [];
   banklistfromdb = [];
@@ -186,32 +187,41 @@ export class PaymentComponent implements OnInit {
       this.showings$ = this.showbookingService.extended(
         "showtime_id=" + this.time_id + "&user_id=" + this.user_id
       );
-      this.showings$.subscribe(
-        (res) => {
-          if (res) this.getShowingDetail(res);
-          for (let i = 0; i < res.length; i++) {
-            this.totalprice += +res[i].total_price;
+      this.timeout = setInterval(() => {
+        this.showings$.subscribe(
+          (res) => {
+            if (res) this.getShowingDetail(res);
+            for (let i = 0; i < res.length; i++) {
+              this.totalprice += +res[i].total_price;
+            }
+          },
+          (err) => {
+            console.error("err", err);
           }
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+        );
+      }, 3000);
     } else if (this.module == "simulator-ride") {
       this.simulatorrides$ = this.simulatorridebookingService.extended(
         "simulator_ride_time_id=" + this.time_id + "&user_id=" + this.user_id
       );
-      this.simulatorrides$.subscribe(
-        (res) => {
-          for (let i = 0; i < res.length; i++) {
-            this.totalprice += +res[i].total_price;
+      this.timeout = setInterval(() => {
+        this.simulatorrides$.subscribe(
+          (res) => {
+            for (let i = 0; i < res.length; i++) {
+              this.totalprice += +res[i].total_price;
+            }
+            if (this.totalprice > 0) this.stopInterval();
+          },
+          (err) => {
+            console.error("err", err);
           }
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+        );
+      }, 3000);
     }
+  }
+
+  stopInterval() {
+    clearInterval(this.timeout);
   }
 
   getShowingDetail(res) {
