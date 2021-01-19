@@ -224,50 +224,32 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['POST'], detail=False)
     def fpx_direct_ac(self, request, *args, **kwargs):
 
-        fpx_buyerBankBranch = request.POST.get(
-            'fpx_buyerBankBranch', self.request.data['fpx_buyerBankBranch'])
-        fpx_buyerBankId = request.POST.get(
-            'fpx_buyerBankId', self.request.data['fpx_buyerBankId'])
-        fpx_buyerIban = request.POST.get(
-            'fpx_buyerIban', self.request.data['fpx_buyerIban'])
-        fpx_buyerId = request.POST.get(
-            'fpx_buyerId', self.request.data['fpx_buyerId'])
-        fpx_buyerName = request.POST.get(
-            'fpx_buyerName', self.request.data['fpx_buyerName'])
-        fpx_creditAuthCode = request.POST.get(
-            'fpx_creditAuthCode', self.request.data['fpx_creditAuthCode'])
-        fpx_creditAuthNo = request.POST.get(
-            'fpx_creditAuthNo', self.request.data['fpx_creditAuthNo'])
-        fpx_debitAuthCode = request.POST.get(
-            'fpx_debitAuthCode', self.request.data['fpx_debitAuthCode'])
-        fpx_debitAuthNo = request.POST.get(
-            'fpx_debitAuthNo', self.request.data['fpx_debitAuthNo'])
-        fpx_fpxTxnId = request.POST.get(
-            'fpx_fpxTxnId', self.request.data['fpx_fpxTxnId'])
-        fpx_fpxTxnTime = request.POST.get(
-            'fpx_fpxTxnTime', self.request.data['fpx_fpxTxnTime'])
-        fpx_makerName = request.POST.get(
-            'fpx_makerName', self.request.data['fpx_makerName'])
-        fpx_msgToken = request.POST.get(
-            'fpx_msgToken', self.request.data['fpx_msgToken'])
-        fpx_msgType = request.POST.get(
-            'fpx_msgType', self.request.data['fpx_msgType'])
-        fpx_sellerExId = request.POST.get(
-            'fpx_sellerExId', self.request.data['fpx_sellerExId'])
-        fpx_sellerExOrderNo = request.POST.get(
-            'fpx_sellerExOrderNo', self.request.data['fpx_sellerExOrderNo'])
-        fpx_sellerId = request.POST.get(
-            'fpx_sellerId', self.request.data['fpx_sellerId'])
-        fpx_sellerOrderNo = request.POST.get(
-            'fpx_sellerOrderNo', self.request.data['fpx_sellerOrderNo'])
-        fpx_sellerTxnTime = request.POST.get(
-            'fpx_sellerTxnTime', self.request.data['fpx_sellerTxnTime'])
-        fpx_txnAmount = request.POST.get(
-            'fpx_txnAmount', self.request.data['fpx_txnAmount'])
-        fpx_txnCurrency = request.POST.get(
-            'fpx_txnCurrency', self.request.data['fpx_txnCurrency'])
-        fpx_checkSum = request.POST.get(
-            'fpx_checkSum', self.request.data['fpx_checkSum'])
+        print('FPX DIRECT AC')
+        print('request.POST.get', request.POST.get)
+        print('self.request.data', self.request.data)
+
+        fpx_buyerBankBranch = request.POST.get('fpx_buyerBankBranch')
+        fpx_buyerBankId = request.POST.get('fpx_buyerBankId')
+        fpx_buyerIban = request.POST.get('fpx_buyerIban')
+        fpx_buyerId = request.POST.get('fpx_buyerId')
+        fpx_buyerName = request.POST.get('fpx_buyerName')
+        fpx_creditAuthCode = request.POST.get('fpx_creditAuthCode')
+        fpx_creditAuthNo = request.POST.get('fpx_creditAuthNo')
+        fpx_debitAuthCode = request.POST.get('fpx_debitAuthCode')
+        fpx_debitAuthNo = request.POST.get('fpx_debitAuthNo')
+        fpx_fpxTxnId = request.POST.get('fpx_fpxTxnId')
+        fpx_fpxTxnTime = request.POST.get('fpx_fpxTxnTime')
+        fpx_makerName = request.POST.get('fpx_makerName')
+        fpx_msgToken = request.POST.get('fpx_msgToken')
+        fpx_msgType = request.POST.get('fpx_msgType')
+        fpx_sellerExId = request.POST.get('fpx_sellerExId')
+        fpx_sellerExOrderNo = request.POST.get('fpx_sellerExOrderNo')
+        fpx_sellerId = request.POST.get('fpx_sellerId')
+        fpx_sellerOrderNo = request.POST.get('fpx_sellerOrderNo')
+        fpx_sellerTxnTime = request.POST.get('fpx_sellerTxnTime')
+        fpx_txnAmount = request.POST.get('fpx_txnAmount')
+        fpx_txnCurrency = request.POST.get('fpx_txnCurrency')
+        fpx_checkSum = request.POST.get('fpx_checkSum')
 
         data = "|".join([fpx_buyerBankBranch, fpx_buyerBankId, fpx_buyerIban, fpx_buyerId, fpx_buyerName, fpx_creditAuthCode, fpx_creditAuthNo, fpx_debitAuthCode, fpx_debitAuthNo, fpx_fpxTxnId,
                          fpx_fpxTxnTime, fpx_makerName, fpx_msgToken, fpx_msgType, fpx_sellerExId, fpx_sellerExOrderNo, fpx_sellerId, fpx_sellerOrderNo, fpx_sellerTxnTime, fpx_txnAmount, fpx_txnCurrency])
@@ -295,6 +277,100 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         print("Verify the SSL", OpenSSL.crypto.verify(
             cert, signature, data, 'sha1'))
+
+        print('fpx_sellerOrderNo', fpx_sellerOrderNo)
+
+        fpx_transaction = FpxTransaction.objects.filter(
+            fpx_sellerOrderNo=fpx_sellerOrderNo).first()
+
+        fpx_transaction.fpx_buyerBankBranch = fpx_buyerBankBranch
+        fpx_transaction.fpx_buyerBankId = fpx_buyerBankId
+        fpx_transaction.fpx_buyerIban = fpx_buyerIban
+        fpx_transaction.fpx_buyerId = fpx_buyerId
+        fpx_transaction.fpx_buyerName = fpx_buyerName
+        fpx_transaction.fpx_creditAuthCode = fpx_creditAuthCode
+        fpx_transaction.fpx_creditAuthNo = fpx_creditAuthNo
+        fpx_transaction.fpx_debitAuthCode = fpx_debitAuthCode
+        fpx_transaction.fpx_debitAuthNo = fpx_debitAuthNo
+        fpx_transaction.fpx_fpxTxnId = fpx_fpxTxnId
+        fpx_transaction.fpx_fpxTxnTime = fpx_fpxTxnTime
+        fpx_transaction.fpx_makerName = fpx_makerName
+        fpx_transaction.fpx_msgToken = fpx_msgToken
+        fpx_transaction.fpx_msgType = fpx_msgType
+        fpx_transaction.fpx_sellerExId = fpx_sellerExId
+        fpx_transaction.fpx_sellerExOrderNo = fpx_sellerExOrderNo
+        fpx_transaction.fpx_sellerId = fpx_sellerId
+        fpx_transaction.fpx_sellerOrderNo = fpx_sellerOrderNo
+        fpx_transaction.fpx_sellerTxnTime = fpx_sellerTxnTime
+        fpx_transaction.fpx_txnAmount = fpx_txnAmount
+        fpx_transaction.fpx_txnCurrency = fpx_txnCurrency
+        fpx_transaction.fpx_checkSum = fpx_checkSum
+
+        fpx_transaction.save()
+
+        serializer = FpxTransactionSerializer(fpx_transaction)
+
+        return JsonResponse(serializer.data)
+
+
+    @action(methods=['POST'], detail=False)
+    def fpx_indirect_ac(self, request, *args, **kwargs):
+
+        print('FPX INDIRECT AC')
+        print('request.POST.get', request.POST.get)
+        print('self.request.data', self.request.data)
+
+        fpx_buyerBankBranch = request.POST.get('fpx_buyerBankBranch')
+        fpx_buyerBankId = request.POST.get('fpx_buyerBankId')
+        fpx_buyerIban = request.POST.get('fpx_buyerIban')
+        fpx_buyerId = request.POST.get('fpx_buyerId')
+        fpx_buyerName = request.POST.get('fpx_buyerName')
+        fpx_creditAuthCode = request.POST.get('fpx_creditAuthCode')
+        fpx_creditAuthNo = request.POST.get('fpx_creditAuthNo')
+        fpx_debitAuthCode = request.POST.get('fpx_debitAuthCode')
+        fpx_debitAuthNo = request.POST.get('fpx_debitAuthNo')
+        fpx_fpxTxnId = request.POST.get('fpx_fpxTxnId')
+        fpx_fpxTxnTime = request.POST.get('fpx_fpxTxnTime')
+        fpx_makerName = request.POST.get('fpx_makerName')
+        fpx_msgToken = request.POST.get('fpx_msgToken')
+        fpx_msgType = request.POST.get('fpx_msgType')
+        fpx_sellerExId = request.POST.get('fpx_sellerExId')
+        fpx_sellerExOrderNo = request.POST.get('fpx_sellerExOrderNo')
+        fpx_sellerId = request.POST.get('fpx_sellerId')
+        fpx_sellerOrderNo = request.POST.get('fpx_sellerOrderNo')
+        fpx_sellerTxnTime = request.POST.get('fpx_sellerTxnTime')
+        fpx_txnAmount = request.POST.get('fpx_txnAmount')
+        fpx_txnCurrency = request.POST.get('fpx_txnCurrency')
+        fpx_checkSum = request.POST.get('fpx_checkSum')
+
+        data = "|".join([fpx_buyerBankBranch, fpx_buyerBankId, fpx_buyerIban, fpx_buyerId, fpx_buyerName, fpx_creditAuthCode, fpx_creditAuthNo, fpx_debitAuthCode, fpx_debitAuthNo, fpx_fpxTxnId,
+                         fpx_fpxTxnTime, fpx_makerName, fpx_msgToken, fpx_msgType, fpx_sellerExId, fpx_sellerExOrderNo, fpx_sellerId, fpx_sellerOrderNo, fpx_sellerTxnTime, fpx_txnAmount, fpx_txnCurrency])
+
+        # cert
+        key_id = open('./csrandkey/EX00012063.cer')
+        key_cert = key_id.read()
+        key_id.close()
+
+        cert = OpenSSL.crypto.load_certificate(crypto.FILETYPE_PEM, key_cert)
+
+        # signature
+        key_file = open('./csrandkey/EX00012063.key')
+        key_signature = key_file.read()
+        key_file.close()
+        # print(key)
+
+        if key_signature.startswith('-----BEGIN '):
+            pkey = crypto.load_privatekey(crypto.FILETYPE_PEM, key_signature)
+        else:
+            pkey = crypto.load_pkcs12(key_signature).get_privatekey()
+        # print(pkey)
+
+        signature = OpenSSL.crypto.sign(pkey, data, "sha1")
+
+        print("Verify the SSL", OpenSSL.crypto.verify(
+            cert, signature, data, 'sha1'))
+
+        print('fpx_sellerOrderNo', fpx_sellerOrderNo)
 
         fpx_transaction = FpxTransaction.objects.filter(
             fpx_sellerOrderNo=fpx_sellerOrderNo).first()
