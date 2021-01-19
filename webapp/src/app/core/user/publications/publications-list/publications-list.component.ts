@@ -77,7 +77,7 @@ export class PublicationsListComponent implements OnInit {
       year: new FormControl(""),
       edition: new FormControl(""),
       publication_category_id: new FormControl(""),
-      status: new FormControl(false)
+      status: new FormControl(false),
     });
 
     this.publicationPDFFormGroup = this.formBuilder.group({
@@ -96,7 +96,6 @@ export class PublicationsListComponent implements OnInit {
   ngOnInit() {}
 
   getData() {
-    console.log("getData", this.publication_category_id);
     this.publicationService
       .filter("publication_category_id=" + this.publication_category_id)
       .subscribe((res) => {
@@ -150,15 +149,15 @@ export class PublicationsListComponent implements OnInit {
       author_name: "",
       editor_name: "",
       publisher_name: "",
-      published_date: null,
+      published_date: "",
       isbn: "",
       issn: "",
-      poster_link: null,
-      pdf_link: null,
+      poster_link: "",
+      pdf_link: "",
       year: 2020,
       edition: "",
       publication_category_id: "",
-      status: false
+      status: false,
     });
   }
 
@@ -172,12 +171,14 @@ export class PublicationsListComponent implements OnInit {
     } else if (process == "update") {
       this.publicationFormGroup.patchValue({
         ...row,
-        publication_category_id: row.publication_category_id
-          ? row.publication_category_id.id
-          : null,
+        published_date: row.published_date != null ? row.published_date : "",
+        poster_link: row.poster_link != null ? row.poster_link : "",
+        pdf_link: row.pdf_link != null ? row.pdf_link : "",
+        publication_category_id:
+          row.publication_category_id != null
+            ? row.publication_category_id
+            : "",
       });
-      // ada error kat sini
-      console.log("update", this.publicationFormGroup.value);
     } else if (process == "uploadpdf") {
       this.publicationPDFFormGroup.patchValue({
         id: row.id,
@@ -195,7 +196,44 @@ export class PublicationsListComponent implements OnInit {
   }
 
   create() {
-    this.publicationService.post(this.publicationFormGroup.value).subscribe(
+    const formData = new FormData();
+    formData.append("title", this.publicationFormGroup.value.title);
+    formData.append("description", this.publicationFormGroup.value.description);
+    formData.append("call_number", this.publicationFormGroup.value.call_number);
+    formData.append("abstract", this.publicationFormGroup.value.abstract);
+    formData.append("author_name", this.publicationFormGroup.value.author_name);
+    formData.append("editor_name", this.publicationFormGroup.value.editor_name);
+    formData.append(
+      "publisher_name",
+      this.publicationFormGroup.value.publisher_name
+    );
+    formData.append(
+      "published_date",
+      this.publicationFormGroup.value.published_date
+    );
+    formData.append("isbn", this.publicationFormGroup.value.isbn);
+    formData.append("issn", this.publicationFormGroup.value.issn);
+    if (typeof this.publicationFormGroup.get("poster_link").value != "string") {
+      formData.append(
+        "poster_link",
+        this.publicationFormGroup.get("poster_link").value
+      );
+    }
+    if (typeof this.publicationFormGroup.get("pdf_link").value != "string") {
+      formData.append(
+        "pdf_link",
+        this.publicationFormGroup.get("pdf_link").value
+      );
+    }
+    formData.append("year", this.publicationFormGroup.value.year);
+    formData.append("edition", this.publicationFormGroup.value.edition);
+    formData.append(
+      "publication_category_id",
+      this.publicationFormGroup.value.publication_category_id
+    );
+    formData.append("status", this.publicationFormGroup.value.status);
+
+    this.publicationService.post(formData).subscribe(
       (res) => {
         console.log("res", res);
         swal
@@ -233,11 +271,45 @@ export class PublicationsListComponent implements OnInit {
   }
 
   update() {
+    const formData = new FormData();
+    formData.append("title", this.publicationFormGroup.value.title);
+    formData.append("description", this.publicationFormGroup.value.description);
+    formData.append("call_number", this.publicationFormGroup.value.call_number);
+    formData.append("abstract", this.publicationFormGroup.value.abstract);
+    formData.append("author_name", this.publicationFormGroup.value.author_name);
+    formData.append("editor_name", this.publicationFormGroup.value.editor_name);
+    formData.append(
+      "publisher_name",
+      this.publicationFormGroup.value.publisher_name
+    );
+    formData.append(
+      "published_date",
+      this.publicationFormGroup.value.published_date
+    );
+    formData.append("isbn", this.publicationFormGroup.value.isbn);
+    formData.append("issn", this.publicationFormGroup.value.issn);
+    if (typeof this.publicationFormGroup.get("poster_link").value != "string") {
+      formData.append(
+        "poster_link",
+        this.publicationFormGroup.get("poster_link").value
+      );
+    }
+    if (typeof this.publicationFormGroup.get("pdf_link").value != "string") {
+      formData.append(
+        "pdf_link",
+        this.publicationFormGroup.get("pdf_link").value
+      );
+    }
+    formData.append("year", this.publicationFormGroup.value.year);
+    formData.append("edition", this.publicationFormGroup.value.edition);
+    formData.append(
+      "publication_category_id",
+      this.publicationFormGroup.value.publication_category_id
+    );
+    formData.append("status", this.publicationFormGroup.value.status);
+
     this.publicationService
-      .update(
-        this.publicationFormGroup.value,
-        this.publicationFormGroup.value.id
-      )
+      .update(formData, this.publicationFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);

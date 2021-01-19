@@ -19,7 +19,7 @@ export class PublicationsService {
 
   constructor(private http: HttpClient) {}
 
-  post(body: Form): Observable<Publication> {
+  post(body): Observable<Publication> {
     return this.http.post<Publication>(this.url, body).pipe(
       tap((res) => {
         console.log("Publication: ", res);

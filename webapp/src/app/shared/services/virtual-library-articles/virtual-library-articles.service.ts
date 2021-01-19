@@ -19,7 +19,7 @@ export class VirtualLibraryArticlesService {
 
   constructor(private http: HttpClient) {}
 
-  post(body: Form): Observable<VirtualLibraryArticle> {
+  post(body): Observable<VirtualLibraryArticle> {
     return this.http.post<VirtualLibraryArticle>(this.url, body).pipe(
       tap((res) => {
         console.log("Virtual library: ", res);

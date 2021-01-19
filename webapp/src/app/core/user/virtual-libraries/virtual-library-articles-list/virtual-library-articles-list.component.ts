@@ -131,9 +131,21 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.virtuallibraryarticleFormGroup.patchValue({
+      name: "",
+      description: "",
+      date: "",
+      status: false,
+      pdf_link: "",
+      virtual_library_article_category_id: "",
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.virtuallibraryarticleFormGroup.reset();
+      // this.virtuallibraryarticleFormGroup.reset();
+      this.emptyFormGroup();
       if (this.categories) {
         this.virtuallibraryarticleFormGroup.patchValue({
           virtual_library_article_category_id: this.categories[0].id,
@@ -142,6 +154,7 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
     } else if (process == "update") {
       this.virtuallibraryarticleFormGroup.patchValue({
         ...row,
+        pdf_link: row.pdf_link != null ? row.pdf_link : "",
       });
     } else if (process == "uploadpdf") {
       this.virtuallibraryarticlePDFFormGroup.patchValue({
@@ -156,51 +169,92 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
   }
 
   create() {
-    this.virtuallibraryarticleService
-      .post(this.virtuallibraryarticleFormGroup.value)
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya disimpan.",
-              type: "success",
-              buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-              type: "warning",
-              buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
+    const formData = new FormData();
+    formData.append("name", this.virtuallibraryarticleFormGroup.value.name);
+    formData.append(
+      "description",
+      this.virtuallibraryarticleFormGroup.value.description
+    );
+    formData.append("date", this.virtuallibraryarticleFormGroup.value.date);
+    formData.append("status", this.virtuallibraryarticleFormGroup.value.status);
+    if (
+      typeof this.virtuallibraryarticleFormGroup.get("pdf_link").value !=
+      "string"
+    ) {
+      formData.append(
+        "pdf_link",
+        this.virtuallibraryarticleFormGroup.get("pdf_link").value
       );
+    }
+    formData.append(
+      "virtual_library_article_category_id",
+      this.virtuallibraryarticleFormGroup.value
+        .virtual_library_article_category_id
+    );
+
+    this.virtuallibraryarticleService.post(formData).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   update() {
+    const formData = new FormData();
+    formData.append("name", this.virtuallibraryarticleFormGroup.value.name);
+    formData.append(
+      "description",
+      this.virtuallibraryarticleFormGroup.value.description
+    );
+    formData.append("date", this.virtuallibraryarticleFormGroup.value.date);
+    formData.append("status", this.virtuallibraryarticleFormGroup.value.status);
+    if (
+      typeof this.virtuallibraryarticleFormGroup.get("pdf_link").value !=
+      "string"
+    ) {
+      formData.append(
+        "pdf_link",
+        this.virtuallibraryarticleFormGroup.get("pdf_link").value
+      );
+    }
+    formData.append(
+      "virtual_library_article_category_id",
+      this.virtuallibraryarticleFormGroup.value
+        .virtual_library_article_category_id
+    );
+
     this.virtuallibraryarticleService
-      .update(
-        this.virtuallibraryarticleFormGroup.value,
-        this.virtuallibraryarticleFormGroup.value.id
-      )
+      .update(formData, this.virtuallibraryarticleFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);

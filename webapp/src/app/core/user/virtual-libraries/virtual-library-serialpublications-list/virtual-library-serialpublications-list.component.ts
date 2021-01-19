@@ -159,11 +159,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
       issn: "",
       year: "",
       publisher_name: "",
-      published_date: null,
+      published_date: "",
       notes: "",
       status: "IAC",
-      image_link: null,
-      pdf_link: null,
+      image_link: "",
+      pdf_link: "",
     });
   }
 
@@ -179,6 +179,9 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
     } else if (process == "update") {
       this.virtuallibraryserialpublicationFormGroup.patchValue({
         ...row,
+        published_date: row.published_date != null ? row.published_date : "",
+        image_link: row.image_link != null ? row.image_link : "",
+        pdf_link: row.pdf_link != null ? row.pdf_link : "",
       });
     } else if (process == "uploadpdf") {
       this.virtuallibraryserialpublicationPDFFormGroup.patchValue({
@@ -197,51 +200,200 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
   }
 
   create() {
-    this.virtuallibraryserialpublicationService
-      .post(this.virtuallibraryserialpublicationFormGroup.value)
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya disimpan.",
-              type: "success",
-              buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-              type: "warning",
-              buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
+    const formData = new FormData();
+    formData.append(
+      "title",
+      this.virtuallibraryserialpublicationFormGroup.value.title
+    );
+    formData.append(
+      "description",
+      this.virtuallibraryserialpublicationFormGroup.value.description
+    );
+    formData.append(
+      "call_number",
+      this.virtuallibraryserialpublicationFormGroup.value.call_number
+    );
+    formData.append(
+      "author",
+      this.virtuallibraryserialpublicationFormGroup.value.author
+    );
+    formData.append(
+      "author_added",
+      this.virtuallibraryserialpublicationFormGroup.value.author_added
+    );
+    formData.append(
+      "editor",
+      this.virtuallibraryserialpublicationFormGroup.value.editor
+    );
+    formData.append(
+      "isbn",
+      this.virtuallibraryserialpublicationFormGroup.value.isbn
+    );
+    formData.append(
+      "issn",
+      this.virtuallibraryserialpublicationFormGroup.value.issn
+    );
+    formData.append(
+      "year",
+      this.virtuallibraryserialpublicationFormGroup.value.year
+    );
+    formData.append(
+      "publisher_name",
+      this.virtuallibraryserialpublicationFormGroup.value.publisher_name
+    );
+    formData.append(
+      "published_date",
+      this.virtuallibraryserialpublicationFormGroup.value.published_date
+    );
+    formData.append(
+      "notes",
+      this.virtuallibraryserialpublicationFormGroup.value.notes
+    );
+    formData.append(
+      "status",
+      this.virtuallibraryserialpublicationFormGroup.value.status
+    );
+    if (
+      typeof this.virtuallibraryserialpublicationFormGroup.get("image_link")
+        .value != "string"
+    ) {
+      formData.append(
+        "image_link",
+        this.virtuallibraryserialpublicationFormGroup.get("image_link").value
       );
+    }
+    if (
+      typeof this.virtuallibraryserialpublicationFormGroup.get("pdf_link")
+        .value != "string"
+    ) {
+      formData.append(
+        "pdf_link",
+        this.virtuallibraryserialpublicationFormGroup.get("pdf_link").value
+      );
+    }
+    formData.append(
+      "virtual_library_collection_id",
+      this.virtuallibraryserialpublicationFormGroup.value
+        .virtual_library_collection_id
+    );
+
+    this.virtuallibraryserialpublicationService.post(formData).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   update() {
+    const formData = new FormData();
+    formData.append(
+      "title",
+      this.virtuallibraryserialpublicationFormGroup.value.title
+    );
+    formData.append(
+      "description",
+      this.virtuallibraryserialpublicationFormGroup.value.description
+    );
+    formData.append(
+      "call_number",
+      this.virtuallibraryserialpublicationFormGroup.value.call_number
+    );
+    formData.append(
+      "author",
+      this.virtuallibraryserialpublicationFormGroup.value.author
+    );
+    formData.append(
+      "author_added",
+      this.virtuallibraryserialpublicationFormGroup.value.author_added
+    );
+    formData.append(
+      "editor",
+      this.virtuallibraryserialpublicationFormGroup.value.editor
+    );
+    formData.append(
+      "isbn",
+      this.virtuallibraryserialpublicationFormGroup.value.isbn
+    );
+    formData.append(
+      "issn",
+      this.virtuallibraryserialpublicationFormGroup.value.issn
+    );
+    formData.append(
+      "year",
+      this.virtuallibraryserialpublicationFormGroup.value.year
+    );
+    formData.append(
+      "publisher_name",
+      this.virtuallibraryserialpublicationFormGroup.value.publisher_name
+    );
+    formData.append(
+      "published_date",
+      this.virtuallibraryserialpublicationFormGroup.value.published_date
+    );
+    formData.append(
+      "notes",
+      this.virtuallibraryserialpublicationFormGroup.value.notes
+    );
+    formData.append(
+      "status",
+      this.virtuallibraryserialpublicationFormGroup.value.status
+    );
+    if (
+      typeof this.virtuallibraryserialpublicationFormGroup.get("image_link")
+        .value != "string"
+    ) {
+      formData.append(
+        "image_link",
+        this.virtuallibraryserialpublicationFormGroup.get("image_link").value
+      );
+    }
+    if (
+      typeof this.virtuallibraryserialpublicationFormGroup.get("pdf_link")
+        .value != "string"
+    ) {
+      formData.append(
+        "pdf_link",
+        this.virtuallibraryserialpublicationFormGroup.get("pdf_link").value
+      );
+    }
+    formData.append(
+      "virtual_library_collection_id",
+      this.virtuallibraryserialpublicationFormGroup.value
+        .virtual_library_collection_id
+    );
+
     this.virtuallibraryserialpublicationService
-      .update(
-        this.virtuallibraryserialpublicationFormGroup.value,
-        this.virtuallibraryserialpublicationFormGroup.value.id
-      )
+      .update(formData, this.virtuallibraryserialpublicationFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);
