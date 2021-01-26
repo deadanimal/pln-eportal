@@ -86,7 +86,7 @@
               <hr class="line-info mb-3" />
 
               <div *ngIf="showings$ | async as showings">
-                <div *ngFor="let showing of showings" class="row">
+                <!-- <div *ngFor="let showing of showings" class="row">
                   <div class="col-md-6">
                     <p class="font-weight-semi-bold text-dark">
                       {{ getTicketCategory(showing.ticket_category) }} ({{
@@ -97,11 +97,25 @@
                   <div class="col-md-6 col-sm-12 text-right">
                     <span> RM {{ showing.total_price }} </span>
                   </div>
+                </div> -->
+
+                <div *ngFor="let ticketlist of ticketlists" class="row">
+                  <div class="col-md-6">
+                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'en'">
+                      {{ ticketlist.ticket_category_en }} ({{ ticketlist.total_ticket }})
+                    </p>
+                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'ms'">
+                      {{ ticketlist.ticket_category_ms }} ({{ ticketlist.total_ticket }})
+                    </p>
+                  </div>
+                  <div class="col-md-6 col-sm-12 text-right">
+                    <span> RM {{ ticketlist.total_price }} </span>
+                  </div>
                 </div>
               </div>
 
               <div *ngIf="simulatorrides$ | async as simulatorrides">
-                <div *ngFor="let simulatorride of simulatorrides" class="row">
+                <!-- <div *ngFor="let simulatorride of simulatorrides" class="row">
                   <div class="col-md-6">
                     <p class="font-weight-semi-bold text-dark">
                       {{ getTicketCategory(simulatorride.ticket_category) }}
@@ -110,6 +124,20 @@
                   </div>
                   <div class="col-md-6 col-sm-12 text-right">
                     <span> RM {{ simulatorride.total_price }} </span>
+                  </div>
+                </div> -->
+
+                <div *ngFor="let ticketlist of ticketlists" class="row">
+                  <div class="col-md-6">
+                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'en'">
+                      {{ ticketlist.ticket_category_en }} ({{ ticketlist.total_ticket }})
+                    </p>
+                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'ms'">
+                      {{ ticketlist.ticket_category_ms }} ({{ ticketlist.total_ticket }})
+                    </p>
+                  </div>
+                  <div class="col-md-6 col-sm-12 text-right">
+                    <span> RM {{ ticketlist.total_price }} </span>
                   </div>
                 </div>
               </div>
@@ -137,6 +165,9 @@
                   <h3 class="title text-dark">
                     {{ "HalamanDaftarKeluar" | translate }}
                   </h3>
+                  <alert [type]="'danger'">
+                    <b>{{ "PaymentNote" | translate }}</b>
+                  </alert>
                   <div class="row">
                     <div class="col-md-12">
                       <label class="labels text-dark required-field">

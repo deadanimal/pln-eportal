@@ -23,6 +23,7 @@ export class SimulatorRideBookComponent implements OnInit {
   bookingtimes = ["10", "11", "15", "16"];
   existbookings = [];
   simridetimes = [];
+  acceptedbookings = [];
   today: Date = new Date();
   threemonth: Date = new Date();
   totalticket: number = 0;
@@ -196,10 +197,38 @@ export class SimulatorRideBookComponent implements OnInit {
       this.simulatorridebookingService.post(objPost).subscribe(
         (res) => {
           /* stuck disini untuk membuat bayaran FPX */
-          console.log("res", res);
+          // console.log("res", res);
+          this.acceptedbookings.push(res);
         },
         (err) => {
           console.log("err", err);
+        },
+        () => {
+          // to update the status of simulator ride booking from SRB01 to 
+          for (let i = 0; i < this.acceptedbookings.length; i++) {
+            let obj = {
+              status: "SRB02",
+            };
+            this.simulatorridebookingService
+              .update(obj, this.acceptedbookings[i].id)
+              .subscribe(
+                (res) => {
+                  console.log("res", res);
+                },
+                (err) => {
+                  console.error("err", err);
+                }
+              );
+
+            if (i === this.acceptedbookings.length - 1) {
+              this.router.navigate([
+                "/payment",
+                "simulator-ride",
+                this.authService.decodedToken().user_id,
+                simulatorRideTimeId,
+              ]);
+            }
+          }
         }
       );
     }
@@ -214,12 +243,6 @@ export class SimulatorRideBookComponent implements OnInit {
     //   },
     // };
     // this.router.navigate(["/payment"], navigationExtras);
-    this.router.navigate([
-      "/payment",
-      "simulator-ride",
-      this.authService.decodedToken().user_id,
-      simulatorRideTimeId,
-    ]);
   }
 
   openSafetyModal(modalSafety: TemplateRef<any>) {

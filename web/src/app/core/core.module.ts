@@ -97,6 +97,7 @@ import { SafePipe } from "../shared/pipes/safe/safe.pipe";
 import { SignupComponent } from "./signup/signup.component";
 import { TruncatePipe } from "../shared/pipes/truncate/truncate.pipe";
 import { ReceiptComponent } from './receipt/receipt.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -164,6 +165,7 @@ const customConfig: ShareButtonsConfig = {
     SignupComponent,
     TruncatePipe,
     ReceiptComponent,
+    CheckoutComponent,
   ],
   imports: [
     CommonModule,

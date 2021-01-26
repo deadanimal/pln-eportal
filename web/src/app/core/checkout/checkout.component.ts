@@ -21,22 +21,25 @@ import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
-  selector: "app-payment",
-  templateUrl: "./payment.component.html",
-  styleUrls: ["./payment.component.scss"],
+  selector: "app-checkout",
+  templateUrl: "./checkout.component.html",
+  styleUrls: ["./checkout.component.scss"],
 })
-export class PaymentComponent implements OnInit {
+export class CheckoutComponent implements OnInit {
   // Data
   htmlEncoded: any;
-  module: string = "";
+  // module: string = "";
   user_id: string = "";
-  time_id: string = "";
+  // time_id: string = "";
   shows = [];
   showings$: Observable<any>;
   simulatorrides$: Observable<any>;
   totalprice: number = 0;
+  totalpriceShowing: number = 0;
+  totalpriceSimulatorRide: number = 0;
   ticketlists = [];
-  timeout: any;
+  timeoutShowing: any;
+  timeoutSimulatorRide: any;
   fpx_confirm: any;
   fpx_created: any;
   banklists = [];
@@ -195,85 +198,86 @@ export class PaymentComponent implements OnInit {
   }
 
   getBookingDetail() {
-    if (this.module == "shows") {
+    // if (this.module == "shows") {
       // To get showing's booking where status is SB01 = In Progress
-      this.timeout = setInterval(() => {
+      // this.timeoutShowing = setInterval(() => {
+        // this.showings$ = this.showbookingService.extended(
+        //   "showtime_id=" +
+        //     this.time_id +
+        //     "&user_id=" +
+        //     this.user_id +
+        //     "&status=SB01"
+        // );
         this.showings$ = this.showbookingService.extended(
-          "showtime_id=" +
-            this.time_id +
-            "&user_id=" +
-            this.user_id +
-            "&status=SB01"
+          "user_id=" + this.user_id + "&status=SB01"
         );
         this.showings$.subscribe(
           (res) => {
             if (res) this.getShowingDetail(res);
-            if (this.countTicket(res, "AD") != null) {
-              this.ticketlists.push(this.countTicket(res, "AD"));
+            if (this.countTicket(res, "AD", "showing") != null) {
+              this.ticketlists.push(this.countTicket(res, "AD", "showing"));
             }
-            if (this.countTicket(res, "KD") != null) {
-              this.ticketlists.push(this.countTicket(res, "KD"));
+            if (this.countTicket(res, "KD", "showing") != null) {
+              this.ticketlists.push(this.countTicket(res, "KD", "showing"));
             }
-            if (this.countTicket(res, "OF") != null) {
-              this.ticketlists.push(this.countTicket(res, "OF"));
+            if (this.countTicket(res, "OF", "showing") != null) {
+              this.ticketlists.push(this.countTicket(res, "OF", "showing"));
             }
-            if (this.countTicket(res, "SD") != null) {
-              this.ticketlists.push(this.countTicket(res, "SD"));
+            if (this.countTicket(res, "SD", "showing") != null) {
+              this.ticketlists.push(this.countTicket(res, "SD", "showing"));
             }
-            if (this.countTicket(res, "OK") != null) {
-              this.ticketlists.push(this.countTicket(res, "OK"));
+            if (this.countTicket(res, "OK", "showing") != null) {
+              this.ticketlists.push(this.countTicket(res, "OK", "showing"));
             }
             for (let i = 0; i < res.length; i++) {
-              this.totalprice += +res[i].total_price;
+              this.totalpriceShowing += +res[i].total_price;
             }
-            if (this.totalprice > 0) this.stopInterval();
+            if (this.totalpriceShowing > 0) this.stopIntervalShowing();
           },
           (err) => {
             console.error("err", err);
           }
         );
-      }, 3000);
-    } else if (this.module == "simulator-ride") {
+      // }, 3000);
+    // } else if (this.module == "simulator-ride") {
       // To get simulator ride's booking where status is SRB02 - Pending Payment
-      this.timeout = setInterval(() => {
+      // this.timeoutSimulatorRide = setInterval(() => {
+        // this.simulatorrides$ = this.simulatorridebookingService.extended(
+        //   "simulator_ride_time_id=" +
+        //     this.time_id +
+        //     "&user_id=" +
+        //     this.user_id +
+        //     "&status=SRB02"
+        // );
         this.simulatorrides$ = this.simulatorridebookingService.extended(
-          "simulator_ride_time_id=" +
-            this.time_id +
-            "&user_id=" +
-            this.user_id +
-            "&status=SRB02"
+          "user_id=" + this.user_id + "&status=SRB02"
         );
         this.simulatorrides$.subscribe(
           (res) => {
-            if (this.countTicket(res, "AD") != null) {
-              this.ticketlists.push(this.countTicket(res, "AD"));
+            if (this.countTicket(res, "AD", "simulator-ride") != null) {
+              this.ticketlists.push(this.countTicket(res, "AD", "simulator-ride"));
             }
-            if (this.countTicket(res, "KD") != null) {
-              this.ticketlists.push(this.countTicket(res, "KD"));
-            }
-            if (this.countTicket(res, "OF") != null) {
-              this.ticketlists.push(this.countTicket(res, "OF"));
-            }
-            if (this.countTicket(res, "SD") != null) {
-              this.ticketlists.push(this.countTicket(res, "SD"));
-            }
-            if (this.countTicket(res, "OK") != null) {
-              this.ticketlists.push(this.countTicket(res, "OK"));
+            if (this.countTicket(res, "KD", "simulator-ride") != null) {
+              this.ticketlists.push(this.countTicket(res, "KD", "simulator-ride"));
             }
             for (let i = 0; i < res.length; i++) {
-              this.totalprice += +res[i].total_price;
+              this.totalpriceSimulatorRide += +res[i].total_price;
             }
-            if (this.totalprice > 0) this.stopInterval();
+            if (this.totalpriceSimulatorRide > 0) this.stopIntervalSimulatorRide();
           },
           (err) => {
             console.error("err", err);
           }
         );
-      }, 3000);
-    }
+      // }, 3000);
+    // }
   }
 
-  countTicket(res, type) {
+  countTicket(res, type, module) {
+    console.log("countTicket");
+    console.log("res", res);
+    console.log("type", type);
+    console.log("module", module);
     let countCategory: number = 0;
     let countPrice: number = 0;
     res.filter((obj) => {
@@ -297,8 +301,12 @@ export class PaymentComponent implements OnInit {
     }
   }
 
-  stopInterval() {
-    clearInterval(this.timeout);
+  stopIntervalShowing() {
+    clearInterval(this.timeoutShowing);
+  }
+
+  stopIntervalSimulatorRide() {
+    clearInterval(this.timeoutSimulatorRide);
   }
 
   getShowingDetail(res) {
@@ -368,11 +376,13 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.module = this.route.snapshot.paramMap.get("module");
-    this.user_id = this.route.snapshot.paramMap.get("user_id");
-    this.time_id = this.route.snapshot.paramMap.get("time_id");
+    // this.module = this.route.snapshot.paramMap.get("module");
+    // this.user_id = this.route.snapshot.paramMap.get("user_id");
+    this.user_id = this.authService.decodedToken().user_id;
+    // this.time_id = this.route.snapshot.paramMap.get("time_id");
 
-    if (this.module && this.user_id && this.time_id) this.getBookingDetail();
+    // if (this.module && this.user_id && this.time_id) this.getBookingDetail();
+    this.getBookingDetail();
   }
 
   selectPaymentMethod(payment_method: string) {
@@ -419,13 +429,41 @@ export class PaymentComponent implements OnInit {
             },
             () => {
               // To update foreign key column fpx_transaction_id on table show_booking
-              if (this.module == "shows") {
-                this.showings$.forEach((res) => {
-                  let obj = {
-                    fpx_transaction_id: this.fpx_created.id,
-                  };
-                  for (let i = 0; i < res.length; i++) {
-                    this.showbookingService.update(obj, res[i].id).subscribe(
+              // if (this.module == "shows") {
+              this.showings$.forEach((res) => {
+                let obj = {
+                  fpx_transaction_id: this.fpx_created.id,
+                };
+                for (let i = 0; i < res.length; i++) {
+                  this.showbookingService.update(obj, res[i].id).subscribe(
+                    (res) => {
+                      // console.log("res", res);
+                    },
+                    (err) => {
+                      console.error("err", err);
+                    },
+                    () => {
+                      if (i === res.length - 1) {
+                        this.redirectService.post(
+                          this.fpxtransactionFormGroup.value,
+                          "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
+                        );
+                      }
+                    }
+                  );
+                }
+              });
+              // }
+              // To update foreign key column fpx_transaction_id on table simulator_ride_booking
+              // else if (this.module == "simulator-ride") {
+              this.simulatorrides$.forEach((res) => {
+                let obj = {
+                  fpx_transaction_id: this.fpx_created.id,
+                };
+                for (let i = 0; i < res.length; i++) {
+                  this.simulatorridebookingService
+                    .update(obj, res[i].id)
+                    .subscribe(
                       (res) => {
                         // console.log("res", res);
                       },
@@ -441,37 +479,9 @@ export class PaymentComponent implements OnInit {
                         }
                       }
                     );
-                  }
-                });
-              }
-              // To update foreign key column fpx_transaction_id on table simulator_ride_booking
-              else if (this.module == "simulator-ride") {
-                this.simulatorrides$.forEach((res) => {
-                  let obj = {
-                    fpx_transaction_id: this.fpx_created.id,
-                  };
-                  for (let i = 0; i < res.length; i++) {
-                    this.simulatorridebookingService
-                      .update(obj, res[i].id)
-                      .subscribe(
-                        (res) => {
-                          // console.log("res", res);
-                        },
-                        (err) => {
-                          console.error("err", err);
-                        },
-                        () => {
-                          if (i === res.length - 1) {
-                            this.redirectService.post(
-                              this.fpxtransactionFormGroup.value,
-                              "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-                            );
-                          }
-                        }
-                      );
-                  }
-                });
-              }
+                }
+              });
+              // }
             }
           );
       }
