@@ -409,6 +409,15 @@ banklists_router = router.register(
     'bank-lists', BankListViewSet
 )
 
+# Cart app
+from carts.views import (
+    CartViewSet
+)
+
+carts_router = router.register(
+    'carts', CartViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

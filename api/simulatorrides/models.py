@@ -16,6 +16,10 @@ from venues.models import (
     Venue
 )
 
+from fpxtransactions.models import (
+    FpxTransaction
+)
+
 class SimulatorRide(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
@@ -89,7 +93,12 @@ class SimulatorRideBooking(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="simulator_ride_booking_user_id")
 
-    # status kembara simulasi: diterima, terima bayaran/pending payment, refund
+    # status kembara simulasi: diterima, pending payment, payment diterima, payment gagal, refund
+    # diterima - selepas pengguna tekan butang buat bayaran di langkah 4 tempahan kembara simulasi
+    # pending payment - selepas pengguna mula-mula berada di halaman checkout page
+    # payment diterima - selepas FPX menghantar status 00 (Berjaya) ke dalam sistem
+    # payment ditolak - selepas FPX menghantar status selain 00 ke dalam sistem
+    # refund - pengguna ingat refund tempahan mereka
     STATUS = [
         ('SRB01', 'Accepted'),
         ('SRB02', 'Pending Payment'),
@@ -98,6 +107,7 @@ class SimulatorRideBooking(models.Model):
         ('SRB05', 'Refund'),
     ]
     status = models.CharField(max_length=5, choices=STATUS, default='SRB01')
+    fpx_transaction_id = models.ForeignKey(FpxTransaction, on_delete=models.CASCADE, null=True, related_name='simulator_ride_booking_fpx_transaction_id')
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

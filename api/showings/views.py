@@ -134,10 +134,13 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = ShowBooking.objects.all()
         showtime_id = request.query_params.get('showtime_id', None)
         user_id = request.query_params.get('user_id', None)
+        status = request.query_params.get('status', None)
         if showtime_id is not None:
             queryset = queryset.filter(showtime_id=showtime_id)
         if user_id is not None:
             queryset = queryset.filter(user_id=user_id)
+        if status is not None:
+            queryset = queryset.filter(status=status)
 
         serializer_class = ShowBookingExtendedSerializer(queryset, many=True)
         

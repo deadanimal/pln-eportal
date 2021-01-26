@@ -1,0 +1,47 @@
+from django.shortcuts import render
+from django.db.models import Q
+
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework import viewsets, status
+from rest_framework_extensions.mixins import NestedViewSetMixin
+
+from django_filters.rest_framework import DjangoFilterBackend
+
+from .models import (
+    Cart
+)
+
+from .serializers import (
+    CartSerializer,
+    CartExtendedSerializer
+)
+
+class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = ['user', 'cart_status', 'show_booking_id', 'simulator_ride_booking_id']
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+
+    def get_queryset(self):
+        queryset = Cart.objects.all()
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = Cart.objects.all()
+        serializer_class = CartExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)

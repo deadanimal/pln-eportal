@@ -1,0 +1,43 @@
+from datetime import datetime
+from calendar import timegm
+import json
+
+from django.contrib.auth.forms import PasswordResetForm
+from django.conf import settings
+from django.utils.translation import gettext as _
+from rest_framework import serializers
+from django.utils.timezone import now
+
+from .models import (
+    Cart
+)
+
+from users.serializers import (
+    CustomUserSerializer
+)
+
+from showings.serializers import (
+    ShowBookingSerializer
+)
+
+from simulatorrides.serializers import (
+    SimulatorRideBookingSerializer
+)
+
+class CartSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Cart
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
+class CartExtendedSerializer(serializers.ModelSerializer):
+    user_id = CustomUserSerializer(read_only=True)
+    show_booking_id = ShowBookingSerializer(read_only=True)
+    simulator_ride_booking_id = SimulatorRideBookingSerializer(read_only=True)
+
+    class Meta:
+        model = Cart
+        fields = '__all__'
+        read_only_fields = ['id']
