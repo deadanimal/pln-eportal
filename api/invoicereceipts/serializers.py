@@ -9,37 +9,36 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Cart
+    InvoiceReceipt
 )
 
 from users.serializers import (
     CustomUserSerializer
 )
 
-from showings.serializers import (
-    ShowBookingSerializer,
-    ShowBookingExtendedSerializer
+from carts.serializers import (
+    CartSerializer,
+    CartExtendedSerializer
 )
 
-from simulatorrides.serializers import (
-    SimulatorRideBookingSerializer,
-    SimulatorRideBookingExtendedSerializer
+from fpxtransactions.serializers import (
+    FpxTransactionSerializer
 )
 
-class CartSerializer(serializers.ModelSerializer):
+class InvoiceReceiptSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = Cart
+        model = InvoiceReceipt
         fields = '__all__'
         read_only_fields = ['id']
 
 
-class CartExtendedSerializer(serializers.ModelSerializer):
+class InvoiceReceiptExtendedSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
-    show_booking_id = ShowBookingExtendedSerializer(read_only=True, many=True)
-    simulator_ride_booking_id = SimulatorRideBookingExtendedSerializer(read_only=True, many=True)
+    cart_id = CartExtendedSerializer(read_only=True, many=True)
+    fpx_transaction_id = FpxTransactionSerializer(read_only=True)
 
     class Meta:
-        model = Cart
+        model = InvoiceReceipt
         fields = '__all__'
         read_only_fields = ['id']

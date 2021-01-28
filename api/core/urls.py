@@ -418,6 +418,15 @@ carts_router = router.register(
     'carts', CartViewSet
 )
 
+# Invoice Receipt app
+from invoicereceipts.views import (
+    InvoiceReceiptViewSet
+)
+
+invoice_receipts_router = router.register(
+    'invoice-receipts', InvoiceReceiptViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

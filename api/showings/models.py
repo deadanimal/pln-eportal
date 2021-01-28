@@ -170,7 +170,6 @@ class ShowBooking(models.Model):
         ('SB07', 'Refund')
     ]
     status = models.CharField(max_length=4, choices=STATUS, default='SB01')
-    fpx_transaction_id = models.ForeignKey(FpxTransaction, on_delete=models.CASCADE, null=True, related_name='show_booking_fpx_transaction_id')
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)

@@ -42,6 +42,14 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def extended(self, request, *args, **kwargs):
         
         queryset = Cart.objects.all()
+        cart_status = request.query_params.get('cart_status', None)
+        user = request.query_params.get('user', None)
+        
+        if cart_status is not None:
+            queryset = queryset.filter(cart_status=cart_status)
+        if user is not None:
+            queryset = queryset.filter(user=user)
+
         serializer_class = CartExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)

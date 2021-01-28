@@ -19,10 +19,6 @@ from users.serializers import (
     CustomUserSerializer
 )
 
-from fpxtransactions.serializers import (
-    FpxTransactionSerializer
-)
-
 class ShowingSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -73,7 +69,6 @@ class ShowBookingExtendedSerializer(serializers.ModelSerializer):
     show_id = ShowingSerializer(read_only=True)
     user_id = CustomUserSerializer(read_only=True)
     showtime_id = ShowtimeSerializer(read_only=True)
-    fpx_transaction_id = FpxTransactionSerializer(read_only=True)
 
     class Meta:
         model = ShowBooking

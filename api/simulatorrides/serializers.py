@@ -22,10 +22,6 @@ from users.serializers import (
     CustomUserSerializer
 )
 
-from fpxtransactions.serializers import (
-    FpxTransactionSerializer
-)
-
 class SimulatorRideSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -58,7 +54,6 @@ class SimulatorRideBookingSerializer(serializers.ModelSerializer):
 class SimulatorRideBookingExtendedSerializer(serializers.ModelSerializer):
     simulator_ride_time_id = SimulatorRideTimeSerializer(read_only=True)
     user_id = CustomUserSerializer(read_only=True)
-    fpx_transaction_id = FpxTransactionSerializer(read_only=True)
     
     class Meta:
         model = SimulatorRideBooking

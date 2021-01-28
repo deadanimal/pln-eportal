@@ -107,7 +107,6 @@ class SimulatorRideBooking(models.Model):
         ('SRB05', 'Refund'),
     ]
     status = models.CharField(max_length=5, choices=STATUS, default='SRB01')
-    fpx_transaction_id = models.ForeignKey(FpxTransaction, on_delete=models.CASCADE, null=True, related_name='simulator_ride_booking_fpx_transaction_id')
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
