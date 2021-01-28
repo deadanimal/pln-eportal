@@ -10,7 +10,6 @@ export class Showbooking {
   public showtime_id: string;
   public user_id: string;
   public status: string;
-  public fpx_transaction_id: string;
   public created_date: string;
   public modified_date: string;
 
@@ -26,7 +25,6 @@ export class Showbooking {
     showtime_id: string,
     user_id: string,
     status: string,
-    fpx_transaction_id: string,
     created_date: string,
     modified_date: string
   ) {
@@ -41,7 +39,6 @@ export class Showbooking {
     this.showtime_id = showtime_id;
     this.user_id = user_id;
     this.status = status;
-    this.fpx_transaction_id = fpx_transaction_id;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

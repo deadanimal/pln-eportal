@@ -265,7 +265,7 @@
             <a class="dropdown-item" href="#">Pendaftaran anda berjaya.</a>
           </div>
         </li> -->
-          <!-- <li class="nav-item dropdown" dropdown *ngIf="accessToken">
+          <li class="nav-item dropdown" dropdown *ngIf="accessToken">
             <a class="nav-link" [routerLink]="['/checkout']">
               <i
                 aria-hidden="true"
@@ -277,10 +277,10 @@
                 class="badge badge-pill badge-danger"
                 style="position: absolute; top: 1px; right: -5px"
               >
-                3
+                {{ addToCartCount }}
               </span>
             </a>
-          </li> -->
+          </li>
           <li class="nav-item" *ngIf="accessToken">
             <a class="nav-link" [routerLink]="['/profile']">
               <i class="fas fa-user-astronaut"></i>

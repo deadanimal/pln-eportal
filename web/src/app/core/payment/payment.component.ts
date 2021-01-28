@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import {
   FormBuilder,
   FormControl,
@@ -8,14 +7,16 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { FpxTransactionsService } from "src/app/shared/services/fpx-transactions/fpx-transactions.service";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { RedirectService } from "src/app/shared/services/redirect/redirect.service";
-import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -27,107 +28,15 @@ import { UsersService } from "src/app/shared/services/users/users.service";
 })
 export class PaymentComponent implements OnInit {
   // Data
-  htmlEncoded: any;
-  module: string = "";
+  invoice_receipt_id: string = "";
   user_id: string = "";
-  time_id: string = "";
-  shows = [];
-  showings$: Observable<any>;
-  simulatorrides$: Observable<any>;
+  timeout: number = 0;
   totalprice: number = 0;
-  ticketlists = [];
-  timeout: any;
   fpx_confirm: any;
   fpx_created: any;
   banklists = [];
   banklistfromdb = [];
   banklistfromfpx = [];
-
-  // Dropdown
-  simulatorridedays = [
-    {
-      value: "MON",
-      display_name: "Isnin",
-    },
-    {
-      value: "TUE",
-      display_name: "Selasa",
-    },
-    {
-      value: "WED",
-      display_name: "Rabu",
-    },
-    {
-      value: "THU",
-      display_name: "Khamis",
-    },
-    {
-      value: "FRI",
-      display_name: "Jumaat",
-    },
-    {
-      value: "SAT",
-      display_name: "Sabtu",
-    },
-    {
-      value: "SUN",
-      display_name: "Ahad",
-    },
-  ];
-  simulatorriderounds = [
-    {
-      value: "P1",
-      display_name_en: "Round 1",
-      display_name_ms: "Pusingan 1",
-    },
-    {
-      value: "P2",
-      display_name_en: "Round 2",
-      display_name_ms: "Pusingan 2",
-    },
-    {
-      value: "P3",
-      display_name_en: "Round 3",
-      display_name_ms: "Pusingan 3",
-    },
-    {
-      value: "P4",
-      display_name_en: "Round 4",
-      display_name_ms: "Pusingan 4",
-    },
-    {
-      value: "P5",
-      display_name_en: "Round 5",
-      display_name_ms: "Pusingan 5",
-    },
-  ];
-  ticketcategories = [
-    {
-      value: "AD",
-      display_name_en: "Adult",
-      display_name_ms: "Dewasa",
-    },
-    {
-      value: "KD",
-      display_name_en: "Children",
-      display_name_ms: "Kanak-kanak",
-    },
-    {
-      value: "OF",
-      display_name_en: "Senior citizen",
-      display_name_ms: "Warga emas",
-    },
-    {
-      value: "SD",
-      display_name_en: "Student",
-      display_name_ms: "Pelajar",
-    },
-    {
-      value: "OK",
-      display_name_en: "OKU",
-      display_name_ms: "OKU",
-    },
-  ];
 
   // FormGroup
   paymentdetailFormGroup: FormGroup;
@@ -136,15 +45,16 @@ export class PaymentComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public translate: TranslateService,
-    private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
+    private toastr: ToastrService,
     private authService: AuthService,
     private banklistService: BankListsService,
+    private cartService: CartsService,
     private fpxtransactionService: FpxTransactionsService,
+    private invoicereceiptService: InvoiceReceiptsService,
     private jwtService: JwtService,
     private redirectService: RedirectService,
-    private showingService: ShowingsService,
     private showbookingService: ShowbookingsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
     private userService: UsersService
@@ -192,125 +102,6 @@ export class PaymentComponent implements OnInit {
       fpx_eaccountNum: new FormControl(""),
       fpx_ebuyerId: new FormControl(""),
     });
-  }
-
-  getBookingDetail() {
-    if (this.module == "shows") {
-      // To get showing's booking where status is SB01 = In Progress
-      this.timeout = setInterval(() => {
-        this.showings$ = this.showbookingService.extended(
-          "showtime_id=" +
-            this.time_id +
-            "&user_id=" +
-            this.user_id +
-            "&status=SB01"
-        );
-        this.showings$.subscribe(
-          (res) => {
-            if (res) this.getShowingDetail(res);
-            if (this.countTicket(res, "AD") != null) {
-              this.ticketlists.push(this.countTicket(res, "AD"));
-            }
-            if (this.countTicket(res, "KD") != null) {
-              this.ticketlists.push(this.countTicket(res, "KD"));
-            }
-            if (this.countTicket(res, "OF") != null) {
-              this.ticketlists.push(this.countTicket(res, "OF"));
-            }
-            if (this.countTicket(res, "SD") != null) {
-              this.ticketlists.push(this.countTicket(res, "SD"));
-            }
-            if (this.countTicket(res, "OK") != null) {
-              this.ticketlists.push(this.countTicket(res, "OK"));
-            }
-            for (let i = 0; i < res.length; i++) {
-              this.totalprice += +res[i].total_price;
-            }
-            if (this.totalprice > 0) this.stopInterval();
-          },
-          (err) => {
-            console.error("err", err);
-          }
-        );
-      }, 3000);
-    } else if (this.module == "simulator-ride") {
-      // To get simulator ride's booking where status is SRB02 - Pending Payment
-      this.timeout = setInterval(() => {
-        this.simulatorrides$ = this.simulatorridebookingService.extended(
-          "simulator_ride_time_id=" +
-            this.time_id +
-            "&user_id=" +
-            this.user_id +
-            "&status=SRB02"
-        );
-        this.simulatorrides$.subscribe(
-          (res) => {
-            if (this.countTicket(res, "AD") != null) {
-              this.ticketlists.push(this.countTicket(res, "AD"));
-            }
-            if (this.countTicket(res, "KD") != null) {
-              this.ticketlists.push(this.countTicket(res, "KD"));
-            }
-            if (this.countTicket(res, "OF") != null) {
-              this.ticketlists.push(this.countTicket(res, "OF"));
-            }
-            if (this.countTicket(res, "SD") != null) {
-              this.ticketlists.push(this.countTicket(res, "SD"));
-            }
-            if (this.countTicket(res, "OK") != null) {
-              this.ticketlists.push(this.countTicket(res, "OK"));
-            }
-            for (let i = 0; i < res.length; i++) {
-              this.totalprice += +res[i].total_price;
-            }
-            if (this.totalprice > 0) this.stopInterval();
-          },
-          (err) => {
-            console.error("err", err);
-          }
-        );
-      }, 3000);
-    }
-  }
-
-  countTicket(res, type) {
-    let countCategory: number = 0;
-    let countPrice: number = 0;
-    res.filter((obj) => {
-      if (obj.ticket_category == type) countCategory++;
-    });
-    res.filter((obj) => {
-      if (obj.ticket_category == type) countPrice += +obj.total_price;
-    });
-    if (countCategory > 0) {
-      let categoryName = this.ticketcategories.find((obj) => {
-        return obj.value == type;
-      });
-      return {
-        ticket_category_en: categoryName.display_name_en,
-        ticket_category_ms: categoryName.display_name_ms,
-        total_ticket: countCategory,
-        total_price: countPrice,
-      };
-    } else {
-      return null;
-    }
-  }
-
-  stopInterval() {
-    clearInterval(this.timeout);
-  }
-
-  getShowingDetail(res) {
-    this.showingService.filter("id=" + res[0].show_id.id).subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.shows = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
   }
 
   getUser() {
@@ -368,11 +159,102 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.module = this.route.snapshot.paramMap.get("module");
-    this.user_id = this.route.snapshot.paramMap.get("user_id");
-    this.time_id = this.route.snapshot.paramMap.get("time_id");
+    this.user_id = this.authService.decodedToken().user_id;
 
-    if (this.module && this.user_id && this.time_id) this.getBookingDetail();
+    this.route.queryParams.subscribe((params) => {
+      this.invoice_receipt_id = params.id;
+
+      // to check if the invoice and receipt belongs to the person who logged in
+      this.invoicereceiptService
+        .extended("id=" + this.invoice_receipt_id)
+        .subscribe(
+          (res) => {
+            // console.log("res", res);
+            this.totalprice = res[0].total_all_price;
+            this.getInvoiceCreatedDateTime(
+              res[0].invoice_created_datetime,
+              res[0].id,
+              res[0].cart_id
+            );
+
+            if (res[0].user.id != this.user_id) {
+              this.toastr.error(
+                "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah fasiliti.",
+                "Ralat"
+              );
+              this.router.navigate(["/landing"]);
+            }
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
+    });
+  }
+
+  getInvoiceCreatedDateTime(invoice_created_datetime, id, cart) {
+    // to get datetime from invoice_created_datetime
+    let date = invoice_created_datetime.substring(0, 10);
+    let time = invoice_created_datetime.substring(11, 19);
+    var datetime15min = new Date(date + "T" + time);
+
+    // add more security - detect first GMT +08:00 for Malaysia Time
+    var currentdatetime = new Date();
+
+    // add 15 minute for payment timeout
+    datetime15min.setMinutes(datetime15min.getMinutes() + 15);
+
+    // get diff_minutes and times with 60 to get seconds
+    this.timeout = this.diff_minutes(currentdatetime, datetime15min) * 60;
+
+    // to delete show booking, simulator ride booking, cart, and invoice receipt if timeout more than 15 minutes
+    if (this.timeout > 15) {
+      let cart_id = [];
+      let show_booking_id = [];
+      let simulator_ride_booking_id = [];
+      cart.forEach((obj) => {
+        cart_id.push(obj.id);
+        if (obj.show_booking_id.length > 0) {
+          obj.show_booking_id.forEach((obj) => {
+            show_booking_id.push(obj.id);
+          });
+        }
+        if (obj.simulator_ride_booking_id.length > 0) {
+          obj.simulator_ride_booking_id.forEach((obj) => {
+            simulator_ride_booking_id.push(obj.id);
+          });
+        }
+      });
+
+      let obj = {
+        id,
+        cart_id,
+        show_booking_id,
+        simulator_ride_booking_id,
+      };
+
+      this.invoicereceiptService.delete_invoice_receipt(obj).subscribe(
+        (res) => {
+          // console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        },
+        () => {
+          this.toastr.error(
+            "Harap maaf. Tempahan anda terbatal kerana tempoh masa telah melebihi 15 minit.",
+            "Ralat"
+          );
+          this.router.navigate(["/landing"]);
+        }
+      );
+    }
+  }
+
+  diff_minutes(dt2, dt1) {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60;
+    return Math.abs(Math.round(diff));
   }
 
   selectPaymentMethod(payment_method: string) {
@@ -418,84 +300,46 @@ export class PaymentComponent implements OnInit {
               console.error("err", err);
             },
             () => {
-              // To update foreign key column fpx_transaction_id on table show_booking
-              if (this.module == "shows") {
-                this.showings$.forEach((res) => {
-                  let obj = {
-                    fpx_transaction_id: this.fpx_created.id,
-                  };
-                  for (let i = 0; i < res.length; i++) {
-                    this.showbookingService.update(obj, res[i].id).subscribe(
-                      (res) => {
-                        // console.log("res", res);
-                      },
-                      (err) => {
-                        console.error("err", err);
-                      },
-                      () => {
-                        if (i === res.length - 1) {
-                          this.redirectService.post(
-                            this.fpxtransactionFormGroup.value,
-                            "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-                          );
-                        }
-                      }
+              // to update fpx_transaction_id on table invoice_receipt
+              let obj = {
+                pending_payment_datetime: this.getCurrentDateTime(),
+                fpx_transaction_id: this.fpx_created.id,
+              };
+              this.invoicereceiptService
+                .update(obj, this.invoice_receipt_id)
+                .subscribe(
+                  (res) => {
+                    // console.log("res", res);
+                  },
+                  (err) => {
+                    console.error("err", err);
+                  },
+                  () => {
+                    this.redirectService.post(
+                      this.fpxtransactionFormGroup.value,
+                      "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
                     );
                   }
-                });
-              }
-              // To update foreign key column fpx_transaction_id on table simulator_ride_booking
-              else if (this.module == "simulator-ride") {
-                this.simulatorrides$.forEach((res) => {
-                  let obj = {
-                    fpx_transaction_id: this.fpx_created.id,
-                  };
-                  for (let i = 0; i < res.length; i++) {
-                    this.simulatorridebookingService
-                      .update(obj, res[i].id)
-                      .subscribe(
-                        (res) => {
-                          // console.log("res", res);
-                        },
-                        (err) => {
-                          console.error("err", err);
-                        },
-                        () => {
-                          if (i === res.length - 1) {
-                            this.redirectService.post(
-                              this.fpxtransactionFormGroup.value,
-                              "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-                            );
-                          }
-                        }
-                      );
-                  }
-                });
-              }
+                );
             }
           );
       }
     );
   }
 
-  getSimulatorRideDay(value: string) {
-    let result = this.simulatorridedays.find((obj) => {
-      return obj.value == value;
-    });
-    if (result) return result.display_name;
-  }
+  getCurrentDateTime() {
+    let selectedDate = new Date();
+    let year = selectedDate.getFullYear();
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
 
-  getSimulatorRideRound(value: string) {
-    let result = this.simulatorriderounds.find((obj) => {
-      return obj.value == value;
-    });
-    if (result) return result.display_name_ms;
-  }
-
-  getTicketCategory(value: string) {
-    let result = this.ticketcategories.find((obj) => {
-      return obj.value == value;
-    });
-    if (result) return result.display_name_ms;
+    return formatDate + "T" + new Date().toLocaleTimeString() + "Z";
   }
 }

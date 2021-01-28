@@ -15,163 +15,174 @@
                 />
               </div> -->
 
-              <div class="row">
-                <div class="col text-center">
-                  <div *ngIf="showings$ | async as showings" class="media-body">
-                    <h3
-                      class="title text-dark mb-0 mt-3"
-                      *ngIf="module == 'shows'"
-                    >
-                      {{ "Tayangan" | translate }}
-                    </h3>
-                    <h4
-                      *ngIf="translate.currentLang == 'en'"
-                      class="title text-dark mb-1 mt-1"
-                    >
-                      {{ shows[0]?.title_en }}
-                    </h4>
-                    <h4
-                      *ngIf="translate.currentLang == 'ms'"
-                      class="title text-dark mb-1 mt-1"
-                    >
-                      {{ shows[0]?.title_ms }}
-                    </h4>
-                    <p class="d-block text-dark">
-                      {{
-                        showings[0].showtime_id.show_date | date: "mediumDate"
-                      }}
-                      {{ showings[0].showtime_id.show_time }}
-                    </p>
-                    <p class="font-weight-bold text-dark">
-                      <span *ngFor="let showing of showings">
-                        {{ showing.ticket_seat }}
-                      </span>
-                    </p>
-                  </div>
-                </div>
+              <div class="table-responsive">
+                <table class="table" style="border: 1px solid gainsboro">
+                  <thead>
+                    <tr>
+                      <td></td>
+                      <td class="text-dark">Item</td>
+                      <td class="text-dark text-center">
+                        {{ "Kuantiti" | translate }}
+                      </td>
+                      <td class="text-dark text-center">
+                        {{ "JumlahHarga" | translate }}
+                      </td>
+                      <td class="text-dark text-center">
+                        {{ "Tindakan" | translate }}
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let cart of carts; let i = index">
+                      <td class="text-dark text-center">{{ i + 1 }}</td>
+                      <td>
+                        <!-- Booking Detail -->
+                        <div
+                          class="row"
+                          *ngIf="summarycarts[i][0].type == 'showing'"
+                        >
+                          <div class="col-auto">
+                            <img
+                              class="img-fluid rounded shadow-lg"
+                              [src]="summarycarts[i][0].showing_poster_link"
+                              style="width: 100px"
+                              *ngIf="summarycarts[i][0].showing_poster_link"
+                            />
+                          </div>
+                          <div class="col-auto">
+                            <h5
+                              *ngIf="summarycarts[i][0].type == 'showing'"
+                              class="title text-dark mt-0 mb-3"
+                            >
+                              <span *ngIf="translate.currentLang == 'en'"
+                                >{{ summarycarts[i][0].showing_title_en }},
+                                {{ summarycarts[i][0].showtime_show_date }},
+                                {{ summarycarts[i][0].showtime_show_time }} ({{
+                                  summarycarts[i][0].showing_duration_hours
+                                }}
+                                hour
+                                {{
+                                  summarycarts[i][0].showing_duration_minutes
+                                }}
+                                minutes)</span
+                              >
+                              <span *ngIf="translate.currentLang == 'ms'"
+                                >{{ summarycarts[i][0].showing_title_ms }},
+                                {{ summarycarts[i][0].showtime_show_date }},
+                                {{ summarycarts[i][0].showtime_show_time }} ({{
+                                  summarycarts[i][0].showing_duration_hours
+                                }}
+                                jam
+                                {{
+                                  summarycarts[i][0].showing_duration_minutes
+                                }}
+                                minit)</span
+                              >
+                            </h5>
+                            <p
+                              class="text-dark m-0"
+                              *ngFor="let summary of summarycarts[i]"
+                            >
+                              <span *ngIf="translate.currentLang == 'en'"
+                                >{{ summary.ticket_seat }}
+                                {{ summary.ticket_category_en }} RM
+                                {{
+                                  summary.total_price | number: "1.2-2"
+                                }}</span
+                              >
+                              <span *ngIf="translate.currentLang == 'ms'"
+                                >{{ summary.ticket_seat }}
+                                {{ summary.ticket_category_ms }} RM
+                                {{
+                                  summary.total_price | number: "1.2-2"
+                                }}</span
+                              >
+                            </p>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="summarycarts[i][0].type == 'simulator-ride'"
+                        >
+                          <h5
+                            *ngIf="summarycarts[i][0].type == 'simulator-ride'"
+                            class="title text-dark mt-0 mb-3"
+                          >
+                            <span *ngIf="translate.currentLang == 'en'"
+                              >{{ summarycarts[i][0].simulator_ride_day_en }},
+                              {{ summarycarts[i][0].simulator_ride_time }} ({{
+                                summarycarts[i][0].simulator_ride_round_en
+                              }})</span
+                            >
+                            <span *ngIf="translate.currentLang == 'ms'"
+                              >{{ summarycarts[i][0].simulator_ride_day_ms }},
+                              {{ summarycarts[i][0].simulator_ride_time }} ({{
+                                summarycarts[i][0].simulator_ride_round_ms
+                              }})</span
+                            >
+                          </h5>
+                          <p
+                            class="text-dark m-0"
+                            *ngFor="let summary of summarycarts[i]"
+                          >
+                            <span *ngIf="translate.currentLang == 'en'"
+                              >{{ summary.ticket_seat }}
+                              {{ summary.ticket_category_en }} RM
+                              {{ summary.total_price | number: "1.2-2" }}</span
+                            >
+                            <span *ngIf="translate.currentLang == 'ms'"
+                              >{{ summary.ticket_seat }}
+                              {{ summary.ticket_category_ms }} RM
+                              {{ summary.total_price | number: "1.2-2" }}</span
+                            >
+                          </p>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <!-- Booking Quantity -->
+                        <h4 class="title text-dark m-0">
+                          {{ summarycarts[i].length }}
+                        </h4>
+                      </td>
+                      <td class="text-center">
+                        <!-- Booking Price -->
+                        <h4 class="title text-default m-0">
+                          {{ calculatoPriceEachCart(summarycarts[i]) }}
+                        </h4>
+                      </td>
+                      <td class="text-center">
+                        <!-- Delete Button -->
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                          (click)="clickDeleteCart(cart)"
+                        >
+                          {{ "Padam" | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
-              <div class="row">
-                <div class="col text-center">
-                  <div
-                    *ngIf="simulatorrides$ | async as simulatorrides"
-                    class="media-body"
+              <hr class="line-info mb-3" style="border-top: 3px solid;" />
+
+              <div class="row mb-3">
+                <div class="col-9 text-right">
+                  <h4 class="title text-dark m-0">
+                    {{ "Jumlah" | translate }}
+                  </h4>
+                  <h2 class="font-weight-bold text-default m-0">
+                    RM {{ totalprice | number: "1.2-2" }}
+                  </h2>
+                </div>
+                <div class="col text-right">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    (click)="clickMakePayment()"
                   >
-                    <h3
-                      class="title text-dark mb-0 mt-3"
-                      *ngIf="module == 'simulator-ride'"
-                    >
-                      {{ "KembaraSimulasi" | translate }}
-                    </h3>
-                    <p class="d-block text-dark">
-                      {{
-                        getSimulatorRideDay(
-                          simulatorrides[0]?.simulator_ride_time_id.day
-                        )
-                      }},
-                      {{ simulatorrides[0]?.booking_date | date: "mediumDate" }}
-                      {{ simulatorrides[0]?.simulator_ride_time_id.time }}
-                    </p>
-                    <p class="font-weight-bold text-dark">
-                      {{
-                        getSimulatorRideRound(
-                          simulatorrides[0]?.simulator_ride_time_id.round
-                        )
-                      }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <hr class="line-info mb-3" />
-
-              <div *ngIf="showings$ | async as showings">
-                <!-- <div *ngFor="let showing of showings" class="row">
-                    <div class="col-md-6">
-                      <p class="font-weight-semi-bold text-dark">
-                        {{ getTicketCategory(showing.ticket_category) }} ({{
-                          showing.ticket_quantity
-                        }})
-                      </p>
-                    </div>
-                    <div class="col-md-6 col-sm-12 text-right">
-                      <span> RM {{ showing.total_price }} </span>
-                    </div>
-                  </div> -->
-
-                <div *ngFor="let ticketlist of ticketlists" class="row">
-                  <div class="col-md-6">
-                    <p
-                      class="font-weight-semi-bold text-dark"
-                      *ngIf="translate.currentLang == 'en'"
-                    >
-                      {{ ticketlist.ticket_category_en }} ({{
-                        ticketlist.total_ticket
-                      }})
-                    </p>
-                    <p
-                      class="font-weight-semi-bold text-dark"
-                      *ngIf="translate.currentLang == 'ms'"
-                    >
-                      {{ ticketlist.ticket_category_ms }} ({{
-                        ticketlist.total_ticket
-                      }})
-                    </p>
-                  </div>
-                  <div class="col-md-6 col-sm-12 text-right">
-                    <span> RM {{ ticketlist.total_price }} </span>
-                  </div>
-                </div>
-              </div>
-
-              <div *ngIf="simulatorrides$ | async as simulatorrides">
-                <!-- <div *ngFor="let simulatorride of simulatorrides" class="row">
-                    <div class="col-md-6">
-                      <p class="font-weight-semi-bold text-dark">
-                        {{ getTicketCategory(simulatorride.ticket_category) }}
-                        ({{ simulatorride.ticket_quantity }})
-                      </p>
-                    </div>
-                    <div class="col-md-6 col-sm-12 text-right">
-                      <span> RM {{ simulatorride.total_price }} </span>
-                    </div>
-                  </div> -->
-
-                <div *ngFor="let ticketlist of ticketlists" class="row">
-                  <div class="col-md-6">
-                    <p
-                      class="font-weight-semi-bold text-dark"
-                      *ngIf="translate.currentLang == 'en'"
-                    >
-                      {{ ticketlist.ticket_category_en }} ({{
-                        ticketlist.total_ticket
-                      }})
-                    </p>
-                    <p
-                      class="font-weight-semi-bold text-dark"
-                      *ngIf="translate.currentLang == 'ms'"
-                    >
-                      {{ ticketlist.ticket_category_ms }} ({{
-                        ticketlist.total_ticket
-                      }})
-                    </p>
-                  </div>
-                  <div class="col-md-6 col-sm-12 text-right">
-                    <span> RM {{ ticketlist.total_price }} </span>
-                  </div>
-                </div>
-              </div>
-
-              <hr class="line-info mb-3" />
-
-              <div class="row">
-                <div class="col-md-6 col-sm-12">
-                  <h4 class="text-dark">{{ "Jumlah" | translate }}</h4>
-                </div>
-                <div class="col-md-6 col-sm-12 text-right">
-                  <span class="font-weight-bold text-default">
-                    RM {{ totalprice | number: "1.2-2" }}</span
-                  >
+                    {{ "BuatBayaran" | translate }}
+                  </button>
                 </div>
               </div>
             </div>

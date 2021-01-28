@@ -9,7 +9,6 @@ export class SimulatorRideBooking {
   public total_price: number;
   public user_id: string;
   public status: string;
-  public fpx_transaction_id: string;
   public created_date: string;
   public modified_date: string;
 
@@ -24,7 +23,6 @@ export class SimulatorRideBooking {
     total_price: number,
     user_id: string,
     status: string,
-    fpx_transaction_id: string,
     created_date: string,
     modified_date: string
   ) {
@@ -38,7 +36,6 @@ export class SimulatorRideBooking {
     this.total_price = total_price;
     this.user_id = user_id;
     this.status = status;
-    this.fpx_transaction_id = fpx_transaction_id;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

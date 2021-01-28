@@ -1,7 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { ModulesService } from "src/app/shared/services/modules/modules.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-home",
@@ -61,9 +64,13 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
-    private moduleService: ModulesService
+    private authService: AuthService,
+    private cartService: CartsService,
+    private moduleService: ModulesService,
+    private w3cService: W3csService
   ) {
     this.getData();
+    this.getAddToCartCount();
   }
 
   getData() {
@@ -76,6 +83,19 @@ export class HomeComponent implements OnInit {
         console.log("err", err);
       }
     );
+  }
+
+  getAddToCartCount() {
+    this.cartService
+      .filter("cart_status=CR&user=" + this.authService.decodedToken().user_id)
+      .subscribe(
+        (res) => {
+          this.w3cService.changeAddToCartCount(res.length);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   ngOnInit() {}

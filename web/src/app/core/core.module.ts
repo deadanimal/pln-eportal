@@ -38,6 +38,7 @@ import { ShareButtonModule } from "ngx-sharebuttons/button";
 import { ShareIconsModule } from "ngx-sharebuttons/icons";
 import { NgxOrgChartModule } from 'ngx-org-chart';
 // import { ToastrModule } from 'ngx-toastr';
+import { CountdownModule } from 'ngx-countdown';
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -194,6 +195,7 @@ const customConfig: ShareButtonsConfig = {
     ShareIconsModule,
     NgxOrgChartModule,
     // ToastrModule.forRoot(),
+    CountdownModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,

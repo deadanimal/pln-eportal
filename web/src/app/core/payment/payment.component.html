@@ -2,169 +2,23 @@
   <div class="section">
     <div class="container">
       <div class="row pt-5">
-        <div class="col-lg-4 col-sm-12">
-          <div class="card" style="background-color: #ffffff">
-            <div class="card-body">
-              <h3 class="title text-dark text-center">
-                {{ "Tempahan" | translate }}
-              </h3>
-              <div class="text-center">
-                <img
-                  src="../../../assets/icon/tickets.svg"
-                  style="width: 50%"
-                />
-              </div>
-
-              <div class="row">
-                <div class="col text-center">
-                  <div *ngIf="showings$ | async as showings" class="media-body">
-                    <h3
-                      class="title text-dark mb-0 mt-3"
-                      *ngIf="module == 'shows'"
-                    >
-                      {{ "Tayangan" | translate }}
-                    </h3>
-                    <h4
-                      *ngIf="translate.currentLang == 'en'"
-                      class="title text-dark mb-1 mt-1"
-                    >
-                      {{ shows[0]?.title_en }}
-                    </h4>
-                    <h4
-                      *ngIf="translate.currentLang == 'ms'"
-                      class="title text-dark mb-1 mt-1"
-                    >
-                      {{ shows[0]?.title_ms }}
-                    </h4>
-                    <p class="d-block text-dark">
-                      {{
-                        showings[0].showtime_id.show_date | date: "mediumDate"
-                      }}
-                      {{ showings[0].showtime_id.show_time }}
-                    </p>
-                    <p class="font-weight-bold text-dark">
-                      <span *ngFor="let showing of showings">
-                        {{ showing.ticket_seat }}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col text-center">
-                  <div
-                    *ngIf="simulatorrides$ | async as simulatorrides"
-                    class="media-body"
-                  >
-                    <h3
-                      class="title text-dark mb-0 mt-3"
-                      *ngIf="module == 'simulator-ride'"
-                    >
-                      {{ "KembaraSimulasi" | translate }}
-                    </h3>
-                    <p class="d-block text-dark">
-                      {{
-                        getSimulatorRideDay(
-                          simulatorrides[0]?.simulator_ride_time_id.day
-                        )
-                      }},
-                      {{ simulatorrides[0]?.booking_date | date: "mediumDate" }}
-                      {{ simulatorrides[0]?.simulator_ride_time_id.time }}
-                    </p>
-                    <p class="font-weight-bold text-dark">
-                      {{
-                        getSimulatorRideRound(
-                          simulatorrides[0]?.simulator_ride_time_id.round
-                        )
-                      }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <hr class="line-info mb-3" />
-
-              <div *ngIf="showings$ | async as showings">
-                <!-- <div *ngFor="let showing of showings" class="row">
-                  <div class="col-md-6">
-                    <p class="font-weight-semi-bold text-dark">
-                      {{ getTicketCategory(showing.ticket_category) }} ({{
-                        showing.ticket_quantity
-                      }})
-                    </p>
-                  </div>
-                  <div class="col-md-6 col-sm-12 text-right">
-                    <span> RM {{ showing.total_price }} </span>
-                  </div>
-                </div> -->
-
-                <div *ngFor="let ticketlist of ticketlists" class="row">
-                  <div class="col-md-6">
-                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'en'">
-                      {{ ticketlist.ticket_category_en }} ({{ ticketlist.total_ticket }})
-                    </p>
-                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'ms'">
-                      {{ ticketlist.ticket_category_ms }} ({{ ticketlist.total_ticket }})
-                    </p>
-                  </div>
-                  <div class="col-md-6 col-sm-12 text-right">
-                    <span> RM {{ ticketlist.total_price }} </span>
-                  </div>
-                </div>
-              </div>
-
-              <div *ngIf="simulatorrides$ | async as simulatorrides">
-                <!-- <div *ngFor="let simulatorride of simulatorrides" class="row">
-                  <div class="col-md-6">
-                    <p class="font-weight-semi-bold text-dark">
-                      {{ getTicketCategory(simulatorride.ticket_category) }}
-                      ({{ simulatorride.ticket_quantity }})
-                    </p>
-                  </div>
-                  <div class="col-md-6 col-sm-12 text-right">
-                    <span> RM {{ simulatorride.total_price }} </span>
-                  </div>
-                </div> -->
-
-                <div *ngFor="let ticketlist of ticketlists" class="row">
-                  <div class="col-md-6">
-                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'en'">
-                      {{ ticketlist.ticket_category_en }} ({{ ticketlist.total_ticket }})
-                    </p>
-                    <p class="font-weight-semi-bold text-dark" *ngIf="translate.currentLang == 'ms'">
-                      {{ ticketlist.ticket_category_ms }} ({{ ticketlist.total_ticket }})
-                    </p>
-                  </div>
-                  <div class="col-md-6 col-sm-12 text-right">
-                    <span> RM {{ ticketlist.total_price }} </span>
-                  </div>
-                </div>
-              </div>
-
-              <hr class="line-info mb-3" />
-
-              <div class="row">
-                <div class="col-md-6 col-sm-12">
-                  <h4 class="text-dark">{{ "Jumlah" | translate }}</h4>
-                </div>
-                <div class="col-md-6 col-sm-12 text-right">
-                  <span class="font-weight-bold text-default">
-                    RM {{ totalprice | number: "1.2-2" }}</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8 col-sm-12">
+        <div class="col-lg-8 col-sm-12 mx-auto">
           <div class="card" style="background-color: #ffffff">
             <div class="card-body">
               <form class="js-validate" [formGroup]="paymentdetailFormGroup">
                 <div class="container">
-                  <h3 class="title text-dark">
-                    {{ "HalamanDaftarKeluar" | translate }}
-                  </h3>
+                  <div class="row">
+                    <div class="col">
+                      <h3 class="title text-dark">
+                        {{ "HalamanDaftarKeluar" | translate }}
+                      </h3>
+                    </div>
+                    <div class="col-auto text-right">
+                      <h3 class="title text-danger">
+                        <countdown [config]="{ leftTime: timeout }"></countdown>
+                      </h3>
+                    </div>
+                  </div>
                   <alert [type]="'danger'">
                     <b>{{ "PaymentNote" | translate }}</b>
                   </alert>
@@ -286,7 +140,9 @@
                     <button
                       class="btn btn-info"
                       (click)="submitPayment()"
-                      [disabled]="!paymentdetailFormGroup.valid || totalprice == 0"
+                      [disabled]="
+                        !paymentdetailFormGroup.valid || totalprice == 0
+                      "
                     >
                       {{ "Seterusnya" | translate }}
                     </button>

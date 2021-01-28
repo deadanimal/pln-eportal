@@ -7,9 +7,11 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowtimesService } from "src/app/shared/services/showtimes/showtimes.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 import { Seats } from "src/assets/json/seats";
 
@@ -26,6 +28,7 @@ export class ShowsBookComponent implements OnInit {
   show: any;
   showings = [];
   showtimes = [];
+  acceptedbookings = [];
   today: Date = new Date();
   totalticket: number = 0;
   user_obj: any;
@@ -91,10 +94,12 @@ export class ShowsBookComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
+    private authService: AuthService,
+    private cartService: CartsService,
     private showingService: ShowingsService,
     private showtimeService: ShowtimesService,
     private showbookingService: ShowbookingsService,
-    private authService: AuthService
+    private w3cService: W3csService
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
@@ -127,7 +132,7 @@ export class ShowsBookComponent implements OnInit {
   getExistBooking() {
     this.showbookingService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.existbookings = res;
       },
       (err) => {
@@ -141,7 +146,7 @@ export class ShowsBookComponent implements OnInit {
       let filterField = "id=" + this.route.snapshot.paramMap.get("id");
       this.showingService.filter(filterField).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.showings = res;
         },
         (err) => {
@@ -170,7 +175,7 @@ export class ShowsBookComponent implements OnInit {
         formatDate;
       this.showtimeService.filter(filterField).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.showtimes = res;
         },
         (err) => {
@@ -184,7 +189,7 @@ export class ShowsBookComponent implements OnInit {
     let filterField = "showing_id=" + this.route.snapshot.paramMap.get("id");
     this.showtimeService.filter(filterField).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         for (let i = 0; i < res.length; i++) {
           let date = new Date(res[i].show_date);
           this.enabledShowingDates.push(date);
@@ -204,7 +209,10 @@ export class ShowsBookComponent implements OnInit {
 
   calculateTotal() {
     // to check either school have minimum 30 or not
-    if (this.secondFormGroup.value.school == 0 || this.secondFormGroup.value.school >= 30) {
+    if (
+      this.secondFormGroup.value.school == 0 ||
+      this.secondFormGroup.value.school >= 30
+    ) {
       this.schoolMinimum = false;
     } else {
       this.schoolMinimum = true;
@@ -290,10 +298,20 @@ export class ShowsBookComponent implements OnInit {
       this.showbookingService.post(objPost).subscribe(
         (res) => {
           /* stuck disini untuk membuat bayaran FPX */
-          console.log("res", res);
+          // console.log("res", res);
+          this.acceptedbookings.push(res);
         },
         (err) => {
           console.error("err", err);
+        },
+        () => {
+          if (i === totalTicket - 1) {
+            // make a condition here
+            // if totalTicket < 30 = no voucher = status - SB02
+            // else totalTicket >= 30 = voucher = status - SB01
+            if (totalTicket < 30) this.updateStatusToSB02();
+            else this.maintainStatusSB01();
+          }
         }
       );
     }
@@ -348,23 +366,87 @@ export class ShowsBookComponent implements OnInit {
         // );
       }
     } */
+  }
 
-    // let booking = {
-    //   ...this.firstFormGroup.value,
-    //   ...this.secondFormGroup.value,
-    // };
-    // let navigationExtras: NavigationExtras = {
-    //   state: {
-    //     booking,
-    //   },
-    // };
-    // this.router.navigate(["/payment"], navigationExtras);
-    this.router.navigate([
-      "/payment",
-      "shows",
-      this.authService.decodedToken().user_id,
-      showtimeId,
-    ]);
+  // to maintain the status of showing booking SB01 only
+  maintainStatusSB01() {
+    let showing_cart = [];
+    for (let i = 0; i < this.acceptedbookings.length; i++) {
+      showing_cart.push(this.acceptedbookings[i].id);
+      if (i === this.acceptedbookings.length - 1) {
+        this.addToCart(showing_cart);
+      }
+    }
+  }
+
+  // to update the status of showing booking from SB01 to SB02
+  updateStatusToSB02() {
+    let showing_cart = [];
+    for (let i = 0; i < this.acceptedbookings.length; i++) {
+      showing_cart.push(this.acceptedbookings[i].id);
+      let obj = {
+        status: "SB02",
+      };
+      this.showbookingService
+        .update(obj, this.acceptedbookings[i].id)
+        .subscribe(
+          (res) => {
+            // console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          },
+          () => {
+            if (i === this.acceptedbookings.length - 1) {
+              this.addToCart(showing_cart);
+            }
+          }
+        );
+    }
+  }
+
+  // add to cart function
+  addToCart(showing_cart) {
+    let obj = {
+      user: this.authService.decodedToken().user_id,
+      show_booking_id: showing_cart,
+      simulator_ride_booking_id: [],
+    };
+    this.cartService.post(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.cartService
+          .filter(
+            "cart_status=CR&user=" + this.authService.decodedToken().user_id
+          )
+          .subscribe(
+            (res) => {
+              this.w3cService.changeAddToCartCount(res.length);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.toastr.info(
+                this.translate.instant("TambahKeTroliBerjaya"),
+                "Info"
+              );
+              this.router.navigate(["/checkout"]);
+            }
+          );
+        // this.router.navigate([
+        //   "/payment",
+        //   "shows",
+        //   this.authService.decodedToken().user_id,
+        //   showtimeId,
+        // ]);
+      }
+    );
   }
 
   arrayOne(n: number): any[] {

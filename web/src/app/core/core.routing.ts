@@ -191,7 +191,7 @@ export const CoreRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: "payment/:module/:user_id/:time_id",
+    path: "payment",
     component: PaymentComponent,
     canActivate: [AuthGuard],
   },

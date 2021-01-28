@@ -6,19 +6,16 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-import { Observable } from "rxjs";
+import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
-import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
-import { FpxTransactionsService } from "src/app/shared/services/fpx-transactions/fpx-transactions.service";
-import { JwtService } from "src/app/shared/jwt/jwt.service";
-import { RedirectService } from "src/app/shared/services/redirect/redirect.service";
-import { ShowingsService } from "src/app/shared/services/showings/showings.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
-import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-checkout",
@@ -27,54 +24,48 @@ import { UsersService } from "src/app/shared/services/users/users.service";
 })
 export class CheckoutComponent implements OnInit {
   // Data
-  htmlEncoded: any;
-  // module: string = "";
   user_id: string = "";
-  // time_id: string = "";
-  shows = [];
-  showings$: Observable<any>;
-  simulatorrides$: Observable<any>;
+  carts = [];
+  summarycarts = [];
   totalprice: number = 0;
-  totalpriceShowing: number = 0;
-  totalpriceSimulatorRide: number = 0;
-  ticketlists = [];
-  timeoutShowing: any;
-  timeoutSimulatorRide: any;
-  fpx_confirm: any;
-  fpx_created: any;
-  banklists = [];
-  banklistfromdb = [];
-  banklistfromfpx = [];
+  queryParams: any;
 
   // Dropdown
   simulatorridedays = [
     {
       value: "MON",
-      display_name: "Isnin",
+      display_name_en: "Monday",
+      display_name_ms: "Isnin",
     },
     {
       value: "TUE",
-      display_name: "Selasa",
+      display_name_en: "Tuesday",
+      display_name_ms: "Selasa",
     },
     {
       value: "WED",
-      display_name: "Rabu",
+      display_name_en: "Wednesday",
+      display_name_ms: "Rabu",
     },
     {
       value: "THU",
-      display_name: "Khamis",
+      display_name_en: "Thursday",
+      display_name_ms: "Khamis",
     },
     {
       value: "FRI",
-      display_name: "Jumaat",
+      display_name_en: "Friday",
+      display_name_ms: "Jumaat",
     },
     {
       value: "SAT",
-      display_name: "Sabtu",
+      display_name_en: "Saturday",
+      display_name_ms: "Sabtu",
     },
     {
       value: "SUN",
-      display_name: "Ahad",
+      display_name_en: "Sunday",
+      display_name_ms: "Ahad",
     },
   ];
   simulatorriderounds = [
@@ -132,310 +123,182 @@ export class CheckoutComponent implements OnInit {
     },
   ];
 
-  // FormGroup
-  paymentdetailFormGroup: FormGroup;
-  fpxtransactionFormGroup: FormGroup; // Request Message - AR
-
   constructor(
     public formBuilder: FormBuilder,
     public translate: TranslateService,
-    private http: HttpClient,
-    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private banklistService: BankListsService,
-    private fpxtransactionService: FpxTransactionsService,
-    private jwtService: JwtService,
-    private redirectService: RedirectService,
-    private showingService: ShowingsService,
+    private cartService: CartsService,
+    private invoicereceiptService: InvoiceReceiptsService,
     private showbookingService: ShowbookingsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
-    private userService: UsersService
+    private w3cService: W3csService
   ) {
-    this.getUser();
-    this.getBankList();
-
-    this.paymentdetailFormGroup = this.formBuilder.group({
-      id: new FormControl(""),
-      full_name: new FormControl(""),
-      email: new FormControl(""),
-      phone: new FormControl(""),
-      payment_method: new FormControl(
-        "",
-        Validators.compose([Validators.required])
-      ),
-      bank_selected: new FormControl(
-        "",
-        Validators.compose([Validators.required])
-      ),
-    });
-
-    this.fpxtransactionFormGroup = this.formBuilder.group({
-      fpx_msgType: new FormControl(""),
-      fpx_msgToken: new FormControl(""),
-      fpx_sellerExId: new FormControl(""),
-      fpx_sellerExOrderNo: new FormControl(""),
-      fpx_sellerTxnTime: new FormControl(""),
-      fpx_sellerOrderNo: new FormControl(""),
-      fpx_sellerId: new FormControl(""),
-      fpx_sellerBankCode: new FormControl(""),
-      fpx_txnCurrency: new FormControl(""),
-      fpx_txnAmount: new FormControl(0),
-      fpx_buyerEmail: new FormControl(""),
-      fpx_checkSum: new FormControl(""),
-      fpx_buyerName: new FormControl(""),
-      fpx_buyerBankId: new FormControl(""),
-      fpx_buyerBankBranch: new FormControl(""),
-      fpx_buyerAccNo: new FormControl(""),
-      fpx_buyerId: new FormControl(""),
-      fpx_makerName: new FormControl(""),
-      fpx_buyerIban: new FormControl(""),
-      fpx_productDesc: new FormControl(""),
-      fpx_version: new FormControl(""),
-      fpx_eaccountNum: new FormControl(""),
-      fpx_ebuyerId: new FormControl(""),
-    });
+    this.getCart();
   }
 
-  getBookingDetail() {
-    // if (this.module == "shows") {
-      // To get showing's booking where status is SB01 = In Progress
-      // this.timeoutShowing = setInterval(() => {
-        // this.showings$ = this.showbookingService.extended(
-        //   "showtime_id=" +
-        //     this.time_id +
-        //     "&user_id=" +
-        //     this.user_id +
-        //     "&status=SB01"
-        // );
-        this.showings$ = this.showbookingService.extended(
-          "user_id=" + this.user_id + "&status=SB01"
-        );
-        this.showings$.subscribe(
-          (res) => {
-            if (res) this.getShowingDetail(res);
-            if (this.countTicket(res, "AD", "showing") != null) {
-              this.ticketlists.push(this.countTicket(res, "AD", "showing"));
-            }
-            if (this.countTicket(res, "KD", "showing") != null) {
-              this.ticketlists.push(this.countTicket(res, "KD", "showing"));
-            }
-            if (this.countTicket(res, "OF", "showing") != null) {
-              this.ticketlists.push(this.countTicket(res, "OF", "showing"));
-            }
-            if (this.countTicket(res, "SD", "showing") != null) {
-              this.ticketlists.push(this.countTicket(res, "SD", "showing"));
-            }
-            if (this.countTicket(res, "OK", "showing") != null) {
-              this.ticketlists.push(this.countTicket(res, "OK", "showing"));
-            }
-            for (let i = 0; i < res.length; i++) {
-              this.totalpriceShowing += +res[i].total_price;
-            }
-            if (this.totalpriceShowing > 0) this.stopIntervalShowing();
-          },
-          (err) => {
-            console.error("err", err);
-          }
-        );
-      // }, 3000);
-    // } else if (this.module == "simulator-ride") {
-      // To get simulator ride's booking where status is SRB02 - Pending Payment
-      // this.timeoutSimulatorRide = setInterval(() => {
-        // this.simulatorrides$ = this.simulatorridebookingService.extended(
-        //   "simulator_ride_time_id=" +
-        //     this.time_id +
-        //     "&user_id=" +
-        //     this.user_id +
-        //     "&status=SRB02"
-        // );
-        this.simulatorrides$ = this.simulatorridebookingService.extended(
-          "user_id=" + this.user_id + "&status=SRB02"
-        );
-        this.simulatorrides$.subscribe(
-          (res) => {
-            if (this.countTicket(res, "AD", "simulator-ride") != null) {
-              this.ticketlists.push(this.countTicket(res, "AD", "simulator-ride"));
-            }
-            if (this.countTicket(res, "KD", "simulator-ride") != null) {
-              this.ticketlists.push(this.countTicket(res, "KD", "simulator-ride"));
-            }
-            for (let i = 0; i < res.length; i++) {
-              this.totalpriceSimulatorRide += +res[i].total_price;
-            }
-            if (this.totalpriceSimulatorRide > 0) this.stopIntervalSimulatorRide();
-          },
-          (err) => {
-            console.error("err", err);
-          }
-        );
-      // }, 3000);
-    // }
-  }
-
-  countTicket(res, type, module) {
-    console.log("countTicket");
-    console.log("res", res);
-    console.log("type", type);
-    console.log("module", module);
-    let countCategory: number = 0;
-    let countPrice: number = 0;
-    res.filter((obj) => {
-      if (obj.ticket_category == type) countCategory++;
-    });
-    res.filter((obj) => {
-      if (obj.ticket_category == type) countPrice += +obj.total_price;
-    });
-    if (countCategory > 0) {
-      let categoryName = this.ticketcategories.find((obj) => {
-        return obj.value == type;
-      });
-      return {
-        ticket_category_en: categoryName.display_name_en,
-        ticket_category_ms: categoryName.display_name_ms,
-        total_ticket: countCategory,
-        total_price: countPrice,
-      };
-    } else {
-      return null;
-    }
-  }
-
-  stopIntervalShowing() {
-    clearInterval(this.timeoutShowing);
-  }
-
-  stopIntervalSimulatorRide() {
-    clearInterval(this.timeoutSimulatorRide);
-  }
-
-  getShowingDetail(res) {
-    this.showingService.filter("id=" + res[0].show_id.id).subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.shows = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
-  getUser() {
-    if (this.jwtService.getToken("accessToken")) {
-      this.userService.get(this.authService.decodedToken().user_id).subscribe(
+  // to get cart detail
+  getCart() {
+    this.cartService
+      .extended(
+        "cart_status=CR&user=" + this.authService.decodedToken().user_id
+      )
+      .subscribe(
         (res) => {
           // console.log("res", res);
-          this.paymentdetailFormGroup.patchValue({
-            ...res,
-            id: "",
-          });
+          this.w3cService.changeAddToCartCount(res.length);
+          this.carts = res;
+          this.getBookingDetail();
         },
         (err) => {
           console.error("err", err);
         }
       );
+  }
+
+  getBookingDetail() {
+    for (let i = 0; i < this.carts.length; i++) {
+      // to check if show_booking_id have a value
+      if (this.carts[i].show_booking_id.length > 0) {
+        this.summarycarts.push(
+          this.summaryShowing(this.carts[i].show_booking_id)
+        );
+      }
+      // to check if simulator_ride_booking_id have a value
+      else if (this.carts[i].simulator_ride_booking_id.length > 0) {
+        this.summarycarts.push(
+          this.summarySimulatorRide(this.carts[i].simulator_ride_booking_id)
+        );
+      }
+
+      // to calculate total price of all carts
+      if (i === this.carts.length - 1) {
+        this.calculateTotalPriceAllCart();
+      }
     }
   }
 
-  getBankList() {
-    this.banklistService.get().subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.banklistfromdb = res;
-      },
-      (err) => {
-        console.error("err", err);
-      },
-      () => {
-        this.fpxtransactionService.fpx_get_bank_list().subscribe(
-          (res) => {
-            // console.log("res", res);
-            this.banklistfromfpx = Object.entries(res);
-          },
-          (err) => {
-            console.error("err", err);
-          },
-          () => {
-            // to filter the active bank from FPX and DB
-            this.banklistfromdb.filter((obj_db) => {
-              this.banklistfromfpx.filter((obj_fpx) => {
-                // obj_fpx[0] : Bank ID
-                // obj_fpx[1] : Bank Active
-                // A - Active
-                // B - Blocked
-                if (obj_db.bank_id == obj_fpx[0] && obj_fpx[1] == "A") {
-                  this.banklists.push(obj_db);
-                }
-              });
-            });
-          }
-        );
+  summaryShowing(show_booking_id) {
+    let array = [];
+    for (let i = 0; i < show_booking_id.length; i++) {
+      let obj = {
+        ticket_category_en: this.getTicketCategory(
+          show_booking_id[i].ticket_category,
+          "en"
+        ),
+        ticket_category_ms: this.getTicketCategory(
+          show_booking_id[i].ticket_category,
+          "ms"
+        ),
+        ticket_seat: show_booking_id[i].ticket_seat,
+        showing_title_en: show_booking_id[i].show_id.title_en,
+        showing_title_ms: show_booking_id[i].show_id.title_ms,
+        showing_duration_hours: show_booking_id[i].show_id.duration_hours,
+        showing_duration_minutes: show_booking_id[i].show_id.duration_minutes,
+        showtime_show_date: show_booking_id[i].showtime_id.show_date,
+        showtime_show_time: show_booking_id[i].showtime_id.show_time,
+        total_price: +show_booking_id[i].total_price,
+        type: "showing",
+        showing_poster_link: show_booking_id[i].show_id.poster_link,
+      };
+      array.push(obj);
+    }
+    return array;
+  }
+
+  summarySimulatorRide(simulator_ride_booking_id) {
+    let array = [];
+    for (let i = 0; i < simulator_ride_booking_id.length; i++) {
+      let obj = {
+        ticket_category_en: this.getTicketCategory(
+          simulator_ride_booking_id[i].ticket_category,
+          "en"
+        ),
+        ticket_category_ms: this.getTicketCategory(
+          simulator_ride_booking_id[i].ticket_category,
+          "ms"
+        ),
+        simulator_ride_time:
+          simulator_ride_booking_id[i].simulator_ride_time_id.time,
+        simulator_ride_day_en: this.getSimulatorRideDay(
+          simulator_ride_booking_id[i].simulator_ride_time_id.day,
+          "en"
+        ),
+        simulator_ride_day_ms: this.getSimulatorRideDay(
+          simulator_ride_booking_id[i].simulator_ride_time_id.day,
+          "ms"
+        ),
+        simulator_ride_round_en: this.getSimulatorRideRound(
+          simulator_ride_booking_id[i].simulator_ride_time_id.round,
+          "en"
+        ),
+        simulator_ride_round_ms: this.getSimulatorRideRound(
+          simulator_ride_booking_id[i].simulator_ride_time_id.round,
+          "ms"
+        ),
+        total_price: +simulator_ride_booking_id[i].total_price,
+        type: "simulator-ride",
+      };
+      array.push(obj);
+    }
+    return array;
+  }
+
+  calculatoPriceEachCart(summarycarts) {
+    let total_price = 0;
+    for (let i = 0; i < summarycarts.length; i++) {
+      total_price += +summarycarts[i].total_price;
+    }
+    return total_price.toFixed(2);
+  }
+
+  calculateTotalPriceAllCart() {
+    for (let i = 0; i < this.summarycarts.length; i++) {
+      for (let j = 0; j < this.summarycarts[i].length; j++) {
+        this.totalprice += +this.summarycarts[i][j].total_price;
       }
-    );
+    }
   }
 
-  ngOnInit() {
-    // this.module = this.route.snapshot.paramMap.get("module");
-    // this.user_id = this.route.snapshot.paramMap.get("user_id");
-    this.user_id = this.authService.decodedToken().user_id;
-    // this.time_id = this.route.snapshot.paramMap.get("time_id");
+  // to delete many2manyfield and other table that linked with many2manyfield
+  clickDeleteCart(cart) {
+    let child_array: any;
+    let child_type: string;
+    if (cart.show_booking_id.length > 0) {
+      child_array = cart.show_booking_id;
+      child_type = "showing";
+    } else if (cart.simulator_ride_booking_id.length > 0) {
+      child_array = cart.simulator_ride_booking_id;
+      child_type = "simulator-ride";
+    }
 
-    // if (this.module && this.user_id && this.time_id) this.getBookingDetail();
-    this.getBookingDetail();
-  }
-
-  selectPaymentMethod(payment_method: string) {
-    this.paymentdetailFormGroup.patchValue({
-      payment_method,
-    });
-  }
-
-  submitPayment() {
-    let body = {
-      fpx_buyerBankId: this.paymentdetailFormGroup.value.bank_selected,
-      fpx_buyerEmail:
-        this.paymentdetailFormGroup.value.email.length <= 50
-          ? this.paymentdetailFormGroup.value.email
-          : "",
-      fpx_buyerName:
-        this.paymentdetailFormGroup.value.full_name.length <= 40
-          ? this.paymentdetailFormGroup.value.full_name
-          : "",
-      fpx_txnAmount: this.totalprice.toFixed(2),
-    };
-    // To generate checksum and other information for FPX from backend
-    this.fpxtransactionService.fpx_confirm(body).subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.fpxtransactionFormGroup.patchValue({
-          ...res,
-        });
-      },
-      (err) => {
-        console.error("err", err);
-      },
-      () => {
-        // To submit the generated information from backend into fpx_transaction table
-        this.fpxtransactionService
-          .post(this.fpxtransactionFormGroup.value)
-          .subscribe(
+    swal
+      .fire({
+        icon: "info",
+        title: this.translate.instant("BuangItem"),
+        text: this.translate.instant("BuangItemDeskripsi"),
+        buttonsStyling: false,
+        showCancelButton: true,
+        confirmButtonText: this.translate.instant("Ya"),
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-light",
+        },
+        cancelButtonText: this.translate.instant("Tidak"),
+      })
+      .then((result) => {
+        if (result.value) {
+          this.cartService.delete(cart.id).subscribe(
             (res) => {
               // console.log("res", res);
-              this.fpx_created = res;
             },
             (err) => {
-              console.error("err", err);
+              console.error("error", err);
             },
             () => {
-              // To update foreign key column fpx_transaction_id on table show_booking
-              // if (this.module == "shows") {
-              this.showings$.forEach((res) => {
-                let obj = {
-                  fpx_transaction_id: this.fpx_created.id,
-                };
-                for (let i = 0; i < res.length; i++) {
-                  this.showbookingService.update(obj, res[i].id).subscribe(
+              for (let i = 0; i < child_array.length; i++) {
+                if (child_type == "showing") {
+                  this.showbookingService.delete(child_array[i].id).subscribe(
                     (res) => {
                       // console.log("res", res);
                     },
@@ -443,26 +306,14 @@ export class CheckoutComponent implements OnInit {
                       console.error("err", err);
                     },
                     () => {
-                      if (i === res.length - 1) {
-                        this.redirectService.post(
-                          this.fpxtransactionFormGroup.value,
-                          "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-                        );
+                      if (i === child_array.length - 1) {
+                        location.reload();
                       }
                     }
                   );
-                }
-              });
-              // }
-              // To update foreign key column fpx_transaction_id on table simulator_ride_booking
-              // else if (this.module == "simulator-ride") {
-              this.simulatorrides$.forEach((res) => {
-                let obj = {
-                  fpx_transaction_id: this.fpx_created.id,
-                };
-                for (let i = 0; i < res.length; i++) {
+                } else if (child_type == "simulator-ride") {
                   this.simulatorridebookingService
-                    .update(obj, res[i].id)
+                    .delete(child_array[i].id)
                     .subscribe(
                       (res) => {
                         // console.log("res", res);
@@ -471,41 +322,90 @@ export class CheckoutComponent implements OnInit {
                         console.error("err", err);
                       },
                       () => {
-                        if (i === res.length - 1) {
-                          this.redirectService.post(
-                            this.fpxtransactionFormGroup.value,
-                            "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-                          );
+                        if (i === child_array.length - 1) {
+                          location.reload();
                         }
                       }
                     );
                 }
-              });
-              // }
+              }
             }
           );
-      }
-    );
+        }
+      });
   }
 
-  getSimulatorRideDay(value: string) {
+  clickMakePayment() {
+    // to create invoice on table invoice_receipt
+    let cart_id = [];
+    this.carts.forEach((obj) => {
+      cart_id.push(obj.id);
+    });
+    if (cart_id.length > 0) {
+      let obj = {
+        invoice_created_datetime: this.getCurrentDateTime(),
+        user: this.authService.decodedToken().user_id,
+        cart_id: cart_id,
+        total_all_price: this.totalprice.toFixed(2),
+      };
+      this.invoicereceiptService.post(obj).subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.queryParams = res.id;
+        },
+        (err) => {
+          console.error("err", err);
+        },
+        () => {
+          this.router.navigate(["/payment"], {
+            queryParams: { id: this.queryParams },
+          });
+        }
+      );
+    }
+  }
+
+  ngOnInit() {
+    this.user_id = this.authService.decodedToken().user_id;
+  }
+
+  getCurrentDateTime() {
+    let selectedDate = new Date();
+    let year = selectedDate.getFullYear();
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
+
+    return formatDate + "T" + new Date().toLocaleTimeString() + "Z";
+  }
+
+  getSimulatorRideDay(value: string, lang: string) {
     let result = this.simulatorridedays.find((obj) => {
       return obj.value == value;
     });
-    if (result) return result.display_name;
+    if (result && lang == "en") return result.display_name_en;
+    if (result && lang == "ms") return result.display_name_ms;
   }
 
-  getSimulatorRideRound(value: string) {
+  getSimulatorRideRound(value: string, lang: string) {
     let result = this.simulatorriderounds.find((obj) => {
       return obj.value == value;
     });
-    if (result) return result.display_name_ms;
+    if (result && lang == "en") return result.display_name_en;
+    if (result && lang == "ms") return result.display_name_ms;
   }
 
-  getTicketCategory(value: string) {
+  getTicketCategory(value: string, lang: string) {
     let result = this.ticketcategories.find((obj) => {
       return obj.value == value;
     });
-    if (result) return result.display_name_ms;
+    if (result && lang == "en") return result.display_name_en;
+    if (result && lang == "ms") return result.display_name_ms;
   }
 }

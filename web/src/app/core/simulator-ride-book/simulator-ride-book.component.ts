@@ -2,10 +2,13 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatStepper } from "@angular/material/stepper";
 import { NavigationExtras, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { SimulatorRideTimesService } from "src/app/shared/services/simulator-ride-times/simulator-ride-times.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -77,10 +80,13 @@ export class SimulatorRideBookComponent implements OnInit {
   };
 
   constructor(
+    public translate: TranslateService,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
+    private toastr: ToastrService,
     private authService: AuthService,
+    private cartService: CartsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
     private simulatorridetimeService: SimulatorRideTimesService,
     private w3cService: W3csService
@@ -113,7 +119,7 @@ export class SimulatorRideBookComponent implements OnInit {
   getExistBooking() {
     this.simulatorridebookingService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.existbookings = res;
       },
       (err) => {
@@ -125,7 +131,7 @@ export class SimulatorRideBookComponent implements OnInit {
   getSimRideTime() {
     this.simulatorridetimeService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.simridetimes = res;
       },
       (err) => {
@@ -201,48 +207,85 @@ export class SimulatorRideBookComponent implements OnInit {
           this.acceptedbookings.push(res);
         },
         (err) => {
-          console.log("err", err);
+          console.error("err", err);
         },
         () => {
-          // to update the status of simulator ride booking from SRB01 to 
-          for (let i = 0; i < this.acceptedbookings.length; i++) {
-            let obj = {
-              status: "SRB02",
-            };
-            this.simulatorridebookingService
-              .update(obj, this.acceptedbookings[i].id)
-              .subscribe(
-                (res) => {
-                  console.log("res", res);
-                },
-                (err) => {
-                  console.error("err", err);
-                }
-              );
-
-            if (i === this.acceptedbookings.length - 1) {
-              this.router.navigate([
-                "/payment",
-                "simulator-ride",
-                this.authService.decodedToken().user_id,
-                simulatorRideTimeId,
-              ]);
-            }
+          if (i === totalTicket - 1) {
+            this.updateStatusToSRB02();
           }
         }
       );
     }
+  }
 
-    // let booking = {
-    //   ...this.firstFormGroup.value,
-    //   ...this.secondFormGroup.value,
-    // };
-    // let navigationExtras: NavigationExtras = {
-    //   state: {
-    //     booking,
-    //   },
-    // };
-    // this.router.navigate(["/payment"], navigationExtras);
+  // to update the status of simulator ride booking from SRB01 to SRB02
+  updateStatusToSRB02() {
+    let simulator_ride_cart = [];
+    for (let i = 0; i < this.acceptedbookings.length; i++) {
+      simulator_ride_cart.push(this.acceptedbookings[i].id);
+      let obj = {
+        status: "SRB02",
+      };
+      this.simulatorridebookingService
+        .update(obj, this.acceptedbookings[i].id)
+        .subscribe(
+          (res) => {
+            // console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          },
+          () => {
+            if (i === this.acceptedbookings.length - 1) {
+              this.addToCart(simulator_ride_cart);
+            }
+          }
+        );
+    }
+  }
+
+  // add to cart function
+  addToCart(simulator_ride_cart) {
+    let obj = {
+      user: this.authService.decodedToken().user_id,
+      show_booking_id: [],
+      simulator_ride_booking_id: simulator_ride_cart,
+    };
+    this.cartService.post(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.cartService
+          .filter(
+            "cart_status=CR&user=" + this.authService.decodedToken().user_id
+          )
+          .subscribe(
+            (res) => {
+              this.w3cService.changeAddToCartCount(res.length);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.toastr.info(
+                this.translate.instant("TambahKeTroliBerjaya"),
+                "Info"
+              );
+              this.router.navigate(["/checkout"]);
+            }
+          );
+        //   this.router.navigate([
+        //     "/payment",
+        //     "simulator-ride",
+        //     this.authService.decodedToken().user_id,
+        //     simulatorRideTimeId,
+        //   ]);
+      }
+    );
   }
 
   openSafetyModal(modalSafety: TemplateRef<any>) {
