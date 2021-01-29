@@ -398,7 +398,8 @@ calendars_router = router.register(
 # FPX Transaction app
 from fpxtransactions.views import (
     FpxTransactionViewSet,
-    BankListViewSet
+    BankListViewSet,
+    ResponseCodeViewSet
 )
 
 fpxtransactions_router = router.register(
@@ -407,6 +408,10 @@ fpxtransactions_router = router.register(
 
 banklists_router = router.register(
     'bank-lists', BankListViewSet
+)
+
+responsecodes_router = router.register(
+    'response-codes', ResponseCodeViewSet
 )
 
 # Cart app

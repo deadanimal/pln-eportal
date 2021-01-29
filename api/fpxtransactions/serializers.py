@@ -10,7 +10,8 @@ from django.utils.timezone import now
 
 from .models import (
     FpxTransaction,
-    BankList
+    BankList,
+    ResponseCode
 )
 
 from users.serializers import (
@@ -30,5 +31,13 @@ class BankListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BankList
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
+class ResponseCodeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ResponseCode
         fields = '__all__'
         read_only_fields = ['id']
