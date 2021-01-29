@@ -49,6 +49,7 @@ import { SignupComponent } from "./signup/signup.component";
 import { environment } from "src/environments/environment";
 import { AuthGuard } from "../shared/guard/auth.guard";
 import { ReceiptComponent } from "./receipt/receipt.component";
+import { CheckoutComponent } from "./checkout/checkout.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -185,7 +186,12 @@ export const CoreRoutes: Routes = [
     ],
   },
   {
-    path: "payment/:module/:user_id/:time_id",
+    path: "checkout",
+    component: CheckoutComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "payment",
     component: PaymentComponent,
     canActivate: [AuthGuard],
   },

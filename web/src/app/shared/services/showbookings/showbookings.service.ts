@@ -36,7 +36,7 @@ export class ShowbookingsService {
     );
   }
 
-  update(body: Form, id: string): Observable<Showbooking> {
+  update(body, id: string): Observable<Showbooking> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Showbooking>(urlPatch, body).pipe(
       tap((res) => {

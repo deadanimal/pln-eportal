@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import {
   FormBuilder,
   FormControl,
@@ -8,14 +7,16 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { FpxTransactionsService } from "src/app/shared/services/fpx-transactions/fpx-transactions.service";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { RedirectService } from "src/app/shared/services/redirect/redirect.service";
-import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -27,94 +28,15 @@ import { UsersService } from "src/app/shared/services/users/users.service";
 })
 export class PaymentComponent implements OnInit {
   // Data
-  htmlEncoded: any;
-  module: string = "";
+  invoice_receipt_id: string = "";
   user_id: string = "";
-  time_id: string = "";
-  shows = [];
-  showings$: Observable<any>;
-  simulatorrides$: Observable<any>;
+  timeout: number = 0;
   totalprice: number = 0;
   fpx_confirm: any;
+  fpx_created: any;
   banklists = [];
   banklistfromdb = [];
   banklistfromfpx = [];
-
-  // Dropdown
-  simulatorridedays = [
-    {
-      value: "MON",
-      display_name: "Isnin",
-    },
-    {
-      value: "TUE",
-      display_name: "Selasa",
-    },
-    {
-      value: "WED",
-      display_name: "Rabu",
-    },
-    {
-      value: "THU",
-      display_name: "Khamis",
-    },
-    {
-      value: "FRI",
-      display_name: "Jumaat",
-    },
-    {
-      value: "SAT",
-      display_name: "Sabtu",
-    },
-    {
-      value: "SUN",
-      display_name: "Ahad",
-    },
-  ];
-  simulatorriderounds = [
-    {
-      value: "P1",
-      display_name: "Pusingan 1",
-    },
-    {
-      value: "P2",
-      display_name: "Pusingan 2",
-    },
-    {
-      value: "P3",
-      display_name: "Pusingan 3",
-    },
-    {
-      value: "P4",
-      display_name: "Pusingan 4",
-    },
-    {
-      value: "P5",
-      display_name: "Pusingan 5",
-    },
-  ];
-  ticketcategories = [
-    {
-      value: "AD",
-      display_name: "Dewasa",
-    },
-    {
-      value: "KD",
-      display_name: "Kanak-kanak",
-    },
-    {
-      value: "OF",
-      display_name: "Warga emas",
-    },
-    {
-      value: "SD",
-      display_name: "Pelajar",
-    },
-    {
-      value: "OK",
-      display_name: "OKU",
-    },
-  ];
 
   // FormGroup
   paymentdetailFormGroup: FormGroup;
@@ -123,15 +45,16 @@ export class PaymentComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public translate: TranslateService,
-    private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
+    private toastr: ToastrService,
     private authService: AuthService,
     private banklistService: BankListsService,
+    private cartService: CartsService,
     private fpxtransactionService: FpxTransactionsService,
+    private invoicereceiptService: InvoiceReceiptsService,
     private jwtService: JwtService,
     private redirectService: RedirectService,
-    private showingService: ShowingsService,
     private showbookingService: ShowbookingsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
     private userService: UsersService
@@ -181,51 +104,6 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  getBookingDetail() {
-    if (this.module == "shows") {
-      this.showings$ = this.showbookingService.extended(
-        "showtime_id=" + this.time_id + "&user_id=" + this.user_id
-      );
-      this.showings$.subscribe(
-        (res) => {
-          if (res) this.getShowingDetail(res);
-          for (let i = 0; i < res.length; i++) {
-            this.totalprice += +res[i].total_price;
-          }
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
-    } else if (this.module == "simulator-ride") {
-      this.simulatorrides$ = this.simulatorridebookingService.extended(
-        "simulator_ride_time_id=" + this.time_id + "&user_id=" + this.user_id
-      );
-      this.simulatorrides$.subscribe(
-        (res) => {
-          for (let i = 0; i < res.length; i++) {
-            this.totalprice += +res[i].total_price;
-          }
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
-    }
-  }
-
-  getShowingDetail(res) {
-    this.showingService.filter("id=" + res[0].show_id.id).subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.shows = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
   getUser() {
     if (this.jwtService.getToken("accessToken")) {
       this.userService.get(this.authService.decodedToken().user_id).subscribe(
@@ -267,6 +145,8 @@ export class PaymentComponent implements OnInit {
               this.banklistfromfpx.filter((obj_fpx) => {
                 // obj_fpx[0] : Bank ID
                 // obj_fpx[1] : Bank Active
+                // A - Active
+                // B - Blocked
                 if (obj_db.bank_id == obj_fpx[0] && obj_fpx[1] == "A") {
                   this.banklists.push(obj_db);
                 }
@@ -279,11 +159,102 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.module = this.route.snapshot.paramMap.get("module");
-    this.user_id = this.route.snapshot.paramMap.get("user_id");
-    this.time_id = this.route.snapshot.paramMap.get("time_id");
+    this.user_id = this.authService.decodedToken().user_id;
 
-    if (this.module && this.user_id && this.time_id) this.getBookingDetail();
+    this.route.queryParams.subscribe((params) => {
+      this.invoice_receipt_id = params.id;
+
+      // to check if the invoice and receipt belongs to the person who logged in
+      this.invoicereceiptService
+        .extended("id=" + this.invoice_receipt_id)
+        .subscribe(
+          (res) => {
+            // console.log("res", res);
+            this.totalprice = res[0].total_all_price;
+            this.getInvoiceCreatedDateTime(
+              res[0].invoice_created_datetime,
+              res[0].id,
+              res[0].cart_id
+            );
+
+            if (res[0].user.id != this.user_id) {
+              this.toastr.error(
+                "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah fasiliti.",
+                "Ralat"
+              );
+              this.router.navigate(["/landing"]);
+            }
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
+    });
+  }
+
+  getInvoiceCreatedDateTime(invoice_created_datetime, id, cart) {
+    // to get datetime from invoice_created_datetime
+    let date = invoice_created_datetime.substring(0, 10);
+    let time = invoice_created_datetime.substring(11, 19);
+    var datetime15min = new Date(date + "T" + time);
+
+    // add more security - detect first GMT +08:00 for Malaysia Time
+    var currentdatetime = new Date();
+
+    // add 15 minute for payment timeout
+    datetime15min.setMinutes(datetime15min.getMinutes() + 15);
+
+    // get diff_minutes and times with 60 to get seconds
+    this.timeout = this.diff_minutes(currentdatetime, datetime15min) * 60;
+
+    // to delete show booking, simulator ride booking, cart, and invoice receipt if timeout more than 15 minutes
+    if (this.timeout > 15) {
+      let cart_id = [];
+      let show_booking_id = [];
+      let simulator_ride_booking_id = [];
+      cart.forEach((obj) => {
+        cart_id.push(obj.id);
+        if (obj.show_booking_id.length > 0) {
+          obj.show_booking_id.forEach((obj) => {
+            show_booking_id.push(obj.id);
+          });
+        }
+        if (obj.simulator_ride_booking_id.length > 0) {
+          obj.simulator_ride_booking_id.forEach((obj) => {
+            simulator_ride_booking_id.push(obj.id);
+          });
+        }
+      });
+
+      let obj = {
+        id,
+        cart_id,
+        show_booking_id,
+        simulator_ride_booking_id,
+      };
+
+      this.invoicereceiptService.delete_invoice_receipt(obj).subscribe(
+        (res) => {
+          // console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        },
+        () => {
+          this.toastr.error(
+            "Harap maaf. Tempahan anda terbatal kerana tempoh masa telah melebihi 15 minit.",
+            "Ralat"
+          );
+          this.router.navigate(["/landing"]);
+        }
+      );
+    }
+  }
+
+  diff_minutes(dt2, dt1) {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60;
+    return Math.abs(Math.round(diff));
   }
 
   selectPaymentMethod(payment_method: string) {
@@ -305,6 +276,7 @@ export class PaymentComponent implements OnInit {
           : "",
       fpx_txnAmount: this.totalprice.toFixed(2),
     };
+    // To generate checksum and other information for FPX from backend
     this.fpxtransactionService.fpx_confirm(body).subscribe(
       (res) => {
         // console.log("res", res);
@@ -316,44 +288,58 @@ export class PaymentComponent implements OnInit {
         console.error("err", err);
       },
       () => {
+        // To submit the generated information from backend into fpx_transaction table
         this.fpxtransactionService
           .post(this.fpxtransactionFormGroup.value)
           .subscribe(
             (res) => {
               // console.log("res", res);
+              this.fpx_created = res;
             },
             (err) => {
               console.error("err", err);
             },
             () => {
-              this.redirectService.post(
-                this.fpxtransactionFormGroup.value,
-                "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-              );
+              // to update fpx_transaction_id on table invoice_receipt
+              let obj = {
+                pending_payment_datetime: this.getCurrentDateTime(),
+                fpx_transaction_id: this.fpx_created.id,
+              };
+              this.invoicereceiptService
+                .update(obj, this.invoice_receipt_id)
+                .subscribe(
+                  (res) => {
+                    // console.log("res", res);
+                  },
+                  (err) => {
+                    console.error("err", err);
+                  },
+                  () => {
+                    this.redirectService.post(
+                      this.fpxtransactionFormGroup.value,
+                      "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
+                    );
+                  }
+                );
             }
           );
       }
     );
   }
 
-  getSimulatorRideDay(value: string) {
-    let result = this.simulatorridedays.find((obj) => {
-      return obj.value == value;
-    });
-    if (result) return result.display_name;
-  }
+  getCurrentDateTime() {
+    let selectedDate = new Date();
+    let year = selectedDate.getFullYear();
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
 
-  getSimulatorRideRound(value: string) {
-    let result = this.simulatorriderounds.find((obj) => {
-      return obj.value == value;
-    });
-    if (result) return result.display_name;
-  }
-
-  getTicketCategory(value: string) {
-    let result = this.ticketcategories.find((obj) => {
-      return obj.value == value;
-    });
-    if (result) return result.display_name;
+    return formatDate + "T" + new Date().toLocaleTimeString() + "Z";
   }
 }

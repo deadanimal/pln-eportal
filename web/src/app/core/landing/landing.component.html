@@ -38,10 +38,7 @@
             {{ "BukaDari" | translate }}
           </p>
           <p class="text-justify">
-            {{ "DitutupPada" | translate }}
-          </p>
-          <p class="text-justify">
-            {{ "HariCuti" | translate }}
+            {{ "DitutupPada" | translate }} {{ "HariCuti" | translate }}
           </p>
         </div>
         <div class="col-md-4 col-sm-12 text-center">
@@ -132,9 +129,7 @@
         </div>
         <div class="col-md-4 col-sm-12 text-center">
           <full-calendar [options]="calendarOptions"></full-calendar>
-          <small class="text-danger"
-            >*Nota: Klik pada event untuk mengetahui dengan lebih lanjut</small
-          >
+          <small class="text-danger">{{ "NOTAKALENDAR" | translate }}</small>
         </div>
       </div>
 
@@ -147,18 +142,18 @@
           <div class="card" style="height: auto">
             <img class="card-img-top" [src]="interesting.image_link" />
             <div class="card-body text-center">
-              <h3
+              <h4
                 class="card-title font-weight-bold text-uppercase"
                 *ngIf="translate.currentLang == 'en'"
               >
                 {{ interesting.title_en }}
-              </h3>
-              <h3
+              </h4>
+              <h4
                 class="card-title font-weight-bold text-uppercase"
                 *ngIf="translate.currentLang == 'ms'"
               >
                 {{ interesting.title_ms }}
-              </h3>
+              </h4>
             </div>
             <div class="card-footer p-3 text-center">
               <button

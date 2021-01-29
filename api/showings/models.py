@@ -17,6 +17,10 @@ from venues.models import (
     Venue
 )
 
+from fpxtransactions.models import (
+    FpxTransaction
+)
+
 def increment_ticket_number():
     return 'hahaha'
     # last_ticket = ShowTicket.objects.all().order_by('id').last()
@@ -149,6 +153,13 @@ class ShowBooking(models.Model):
     show_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name="showbooking_showing")
 
     # status tayangan: dalam proses, diterima, ditolak, terima bayaran, tolak bayaran, pending payment, refund
+    # dalam proses - tunggu approval dari pengarah jika menempah lebih dari 30 orang atau memohon voucher kepada Planetarium
+    # diterima - selepas pengguna tekan butang buat bayaran di langkah 4 tempahan tayangan ATAU mendapat pengesahan daripada pengarah
+    # ditolak - selepas pengarah menolak permohonan voucher
+    # pending payment - selepas pengguna mula-mula berada di halaman checkout page
+    # payment diterima - selepas FPX menghantar status 00 (Berjaya) ke dalam sistem
+    # payment ditolak - selepas FPX menghantar status selain 00 ke dalam sistem
+    # refund - pengguna ingat refund tempahan mereka
     STATUS = [
         ('SB01', 'In Progress'),
         ('SB02', 'Approved'),

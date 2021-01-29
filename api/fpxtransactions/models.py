@@ -60,8 +60,27 @@ class BankList(models.Model):
     bank_id = models.CharField(max_length=10, blank=True)
     bank_name = models.CharField(max_length=255, blank=True)
     bank_display_name = models.CharField(max_length=255, blank=True)
+    # bank_active: A - Active, B - Blocked
     bank_active = models.CharField(max_length=1, blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.bank_id + ' - ' + self.bank_name + ' - ' + self.bank_display_name
+
+
+class ResponseCode(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    response_code = models.CharField(max_length=2, blank=True)
+    description = models.CharField(max_length=255, blank=True)
+    # status: True - Active, False - Unactive
+    status = models.BooleanField(default=False)
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.response_code + ' - ' + self.description
 

@@ -97,10 +97,13 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = SimulatorRideBooking.objects.all()
         simulator_ride_time_id = request.query_params.get('simulator_ride_time_id', None)
         user_id = request.query_params.get('user_id', None)
+        status = request.query_params.get('status', None)
         if simulator_ride_time_id is not None:
             queryset = queryset.filter(simulator_ride_time_id=simulator_ride_time_id)
         if user_id is not None:
             queryset = queryset.filter(user_id=user_id)
+        if status is not None:
+            queryset = queryset.filter(status=status)
         
         serializer_class = SimulatorRideBookingExtendedSerializer(queryset, many=True)
         

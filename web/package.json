@@ -48,6 +48,7 @@
     "ngx-bar-rating": "^1.1.0",
     "ngx-bootstrap": "^6.1.0",
     "ngx-chips": "2.1.0",
+    "ngx-countdown": "^9.0.1",
     "ngx-gallery-9": "^1.0.6",
     "ngx-glide": "^1.1.0",
     "ngx-number-spinner": "^2.2.1",

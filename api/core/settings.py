@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'dynamiccontents',
     'calendars',
     'fpxtransactions',
+    'carts',
+    'invoicereceipts',
 
     'django_cleanup.apps.CleanupConfig'
 ]

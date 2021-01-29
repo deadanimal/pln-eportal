@@ -13,6 +13,10 @@ export class W3csService {
   private themeColorDefault = new BehaviorSubject("theme-default");
   currentThemeColor = this.themeColorDefault.asObservable();
 
+  // Add To Cart Count
+  private addToCartCount = new BehaviorSubject(0);
+  currentAddToCartCount = this.addToCartCount.asObservable();
+
   constructor() {}
 
   changeFontSize(className: string) {
@@ -21,5 +25,9 @@ export class W3csService {
 
   changeThemeColor(className: string) {
     this.themeColorDefault.next(className);
+  }
+
+  changeAddToCartCount(count: number) {
+    this.addToCartCount.next(count);
   }
 }

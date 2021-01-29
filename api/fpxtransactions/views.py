@@ -26,12 +26,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     FpxTransaction,
-    BankList
+    BankList,
+    ResponseCode
 )
 
 from .serializers import (
     FpxTransactionSerializer,
-    BankListSerializer
+    BankListSerializer,
+    ResponseCodeSerializer
 )
 
 
@@ -409,7 +411,7 @@ class BankListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = BankList.objects.all()
     serializer_class = BankListSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['created_date']
+    filterset_fields = ['id', 'bank_id', 'bank_name', 'bank_display_name', 'bank_active', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -421,4 +423,23 @@ class BankListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = BankList.objects.all()
+        return queryset
+
+
+class ResponseCodeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = ResponseCode.objects.all()
+    serializer_class = ResponseCodeSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = ['id', 'response_code', 'description', 'status', 'created_date']
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        queryset = ResponseCode.objects.all()
         return queryset

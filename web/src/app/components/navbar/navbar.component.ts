@@ -8,6 +8,7 @@ import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -41,6 +42,7 @@ export class NavbarComponent implements OnInit {
   forgotPasswordFormGroup: FormGroup;
 
   // Data
+  addToCartCount: number;
   rememberMe: boolean = false;
   user: any;
 
@@ -92,6 +94,7 @@ export class NavbarComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public authService: AuthService,
+    public cartService: CartsService,
     public jwtService: JwtService,
     public userService: UsersService,
     public translate: TranslateService,
@@ -176,15 +179,39 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.accessToken = this.jwtService.getToken("accessToken");
 
-    if (this.authService.subsVar==undefined) {
-      this.authService.subsVar = this.authService.invokeLogoutFunction.subscribe((name: string) => {
-        this.clickLogout();
-      })
+    if (this.authService.subsVar == undefined) {
+      this.authService.subsVar = this.authService.invokeLogoutFunction.subscribe(
+        (name: string) => {
+          this.clickLogout();
+        }
+      );
     }
 
     this.w3cService.currentThemeColor.subscribe(
       (themeColor) => (this.themeColor = themeColor)
     );
+
+    this.w3cService.currentAddToCartCount.subscribe(
+      (addToCartCount) => (this.addToCartCount = addToCartCount)
+    );
+
+    this.getAddToCartCount();
+  }
+
+  getAddToCartCount() {
+    this.cartService
+      .extended(
+        "cart_status=CR&user=" + this.authService.decodedToken().user_id
+      )
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.w3cService.changeAddToCartCount(res.length);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   onSwitchChange(event) {
@@ -217,15 +244,17 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(["/home"]);
 
         if (this.accessToken) {
-          this.userService.get(this.authService.decodedToken().user_id).subscribe(
-            (res) => {
-              console.log("res", res);
-              this.user = res;
-            },
-            (err) => {
-              console.error("err", err);
-            }
-          );
+          this.userService
+            .get(this.authService.decodedToken().user_id)
+            .subscribe(
+              (res) => {
+                console.log("res", res);
+                this.user = res;
+              },
+              (err) => {
+                console.error("err", err);
+              }
+            );
         }
       },
       (err) => {

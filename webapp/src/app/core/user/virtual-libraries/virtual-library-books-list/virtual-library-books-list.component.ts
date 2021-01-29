@@ -157,11 +157,11 @@ export class VirtualLibraryBooksListComponent implements OnInit {
       issn: "",
       year: "",
       publisher_name: "",
-      published_date: null,
+      published_date: "",
       notes: "",
       status: "IAC",
-      image_link: null,
-      pdf_link: null,
+      image_link: "",
+      pdf_link: "",
     });
   }
 
@@ -177,6 +177,9 @@ export class VirtualLibraryBooksListComponent implements OnInit {
     } else if (process == "update") {
       this.virtuallibrarybookFormGroup.patchValue({
         ...row,
+        published_date: row.published_date != null ? row.published_date : "",
+        image_link: row.image_link != null ? row.image_link : "",
+        pdf_link: row.pdf_link != null ? row.pdf_link : "",
       });
     } else if (process == "uploadpdf") {
       this.virtuallibrarybookPDFFormGroup.patchValue({
@@ -195,51 +198,148 @@ export class VirtualLibraryBooksListComponent implements OnInit {
   }
 
   create() {
-    this.virtuallibrarybookService
-      .post(this.virtuallibrarybookFormGroup.value)
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya disimpan.",
-              type: "success",
-              buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-              type: "warning",
-              buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
+    const formData = new FormData();
+    formData.append("title", this.virtuallibrarybookFormGroup.value.title);
+    formData.append(
+      "description",
+      this.virtuallibrarybookFormGroup.value.description
+    );
+    formData.append(
+      "call_number",
+      this.virtuallibrarybookFormGroup.value.call_number
+    );
+    formData.append("author", this.virtuallibrarybookFormGroup.value.author);
+    formData.append(
+      "author_added",
+      this.virtuallibrarybookFormGroup.value.author_added
+    );
+    formData.append("editor", this.virtuallibrarybookFormGroup.value.editor);
+    formData.append("isbn", this.virtuallibrarybookFormGroup.value.isbn);
+    formData.append("issn", this.virtuallibrarybookFormGroup.value.issn);
+    formData.append("year", this.virtuallibrarybookFormGroup.value.year);
+    formData.append(
+      "publisher_name",
+      this.virtuallibrarybookFormGroup.value.publisher_name
+    );
+    formData.append(
+      "published_date",
+      this.virtuallibrarybookFormGroup.value.published_date
+    );
+    formData.append("notes", this.virtuallibrarybookFormGroup.value.notes);
+    formData.append("status", this.virtuallibrarybookFormGroup.value.status);
+    if (
+      typeof this.virtuallibrarybookFormGroup.get("image_link").value !=
+      "string"
+    ) {
+      formData.append(
+        "image_link",
+        this.virtuallibrarybookFormGroup.get("image_link").value
       );
+    }
+    if (
+      typeof this.virtuallibrarybookFormGroup.get("pdf_link").value != "string"
+    ) {
+      formData.append(
+        "pdf_link",
+        this.virtuallibrarybookFormGroup.get("pdf_link").value
+      );
+    }
+    formData.append(
+      "virtual_library_collection_id",
+      this.virtuallibrarybookFormGroup.value.virtual_library_collection_id
+    );
+
+    this.virtuallibrarybookService.post(formData).subscribe(
+      (res) => {
+        console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   update() {
+    const formData = new FormData();
+    formData.append("title", this.virtuallibrarybookFormGroup.value.title);
+    formData.append(
+      "description",
+      this.virtuallibrarybookFormGroup.value.description
+    );
+    formData.append(
+      "call_number",
+      this.virtuallibrarybookFormGroup.value.call_number
+    );
+    formData.append("author", this.virtuallibrarybookFormGroup.value.author);
+    formData.append(
+      "author_added",
+      this.virtuallibrarybookFormGroup.value.author_added
+    );
+    formData.append("editor", this.virtuallibrarybookFormGroup.value.editor);
+    formData.append("isbn", this.virtuallibrarybookFormGroup.value.isbn);
+    formData.append("issn", this.virtuallibrarybookFormGroup.value.issn);
+    formData.append("year", this.virtuallibrarybookFormGroup.value.year);
+    formData.append(
+      "publisher_name",
+      this.virtuallibrarybookFormGroup.value.publisher_name
+    );
+    formData.append(
+      "published_date",
+      this.virtuallibrarybookFormGroup.value.published_date
+    );
+    formData.append("notes", this.virtuallibrarybookFormGroup.value.notes);
+    formData.append("status", this.virtuallibrarybookFormGroup.value.status);
+    if (
+      typeof this.virtuallibrarybookFormGroup.get("image_link").value !=
+      "string"
+    ) {
+      formData.append(
+        "image_link",
+        this.virtuallibrarybookFormGroup.get("image_link").value
+      );
+    }
+    if (
+      typeof this.virtuallibrarybookFormGroup.get("pdf_link").value != "string"
+    ) {
+      formData.append(
+        "pdf_link",
+        this.virtuallibrarybookFormGroup.get("pdf_link").value
+      );
+    }
+    formData.append(
+      "virtual_library_collection_id",
+      this.virtuallibrarybookFormGroup.value.virtual_library_collection_id
+    );
+
     this.virtuallibrarybookService
-      .update(
-        this.virtuallibrarybookFormGroup.value,
-        this.virtuallibrarybookFormGroup.value.id
-      )
+      .update(formData, this.virtuallibrarybookFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);

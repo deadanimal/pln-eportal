@@ -38,6 +38,7 @@ import { ShareButtonModule } from "ngx-sharebuttons/button";
 import { ShareIconsModule } from "ngx-sharebuttons/icons";
 import { NgxOrgChartModule } from 'ngx-org-chart';
 // import { ToastrModule } from 'ngx-toastr';
+import { CountdownModule } from 'ngx-countdown';
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -97,6 +98,7 @@ import { SafePipe } from "../shared/pipes/safe/safe.pipe";
 import { SignupComponent } from "./signup/signup.component";
 import { TruncatePipe } from "../shared/pipes/truncate/truncate.pipe";
 import { ReceiptComponent } from './receipt/receipt.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -164,6 +166,7 @@ const customConfig: ShareButtonsConfig = {
     SignupComponent,
     TruncatePipe,
     ReceiptComponent,
+    CheckoutComponent,
   ],
   imports: [
     CommonModule,
@@ -192,6 +195,7 @@ const customConfig: ShareButtonsConfig = {
     ShareIconsModule,
     NgxOrgChartModule,
     // ToastrModule.forRoot(),
+    CountdownModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,
