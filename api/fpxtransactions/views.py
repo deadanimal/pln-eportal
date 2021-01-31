@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.http import JsonResponse
 
@@ -11,6 +11,7 @@ import datetime
 import math
 import OpenSSL
 import pathlib
+import pytz
 import requests
 import time
 import urllib
@@ -30,10 +31,18 @@ from .models import (
     ResponseCode
 )
 
+from invoicereceipts.models import (
+    InvoiceReceipt
+)
+
 from .serializers import (
     FpxTransactionSerializer,
     BankListSerializer,
     ResponseCodeSerializer
+)
+
+from invoicereceipts.serializers import (
+    InvoiceReceiptExtendedSerializer
 )
 
 
@@ -314,7 +323,6 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return JsonResponse(serializer.data)
 
-
     @action(methods=['POST'], detail=False)
     def fpx_indirect_ac(self, request, *args, **kwargs):
 
@@ -402,16 +410,35 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         fpx_transaction.save()
 
-        serializer = FpxTransactionSerializer(fpx_transaction)
+        invoice_receipt = InvoiceReceipt.objects.filter(
+            fpx_transaction_id=fpx_transaction.id).first()
 
-        return JsonResponse(serializer.data)
+        if invoice_receipt:
+            if fpx_transaction.fpx_debitAuthCode == '00':
+                invoice_receipt.status = 'PS'
+                invoice_receipt.payment_successful_datetime = datetime.datetime.now(
+                    timezone_).strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                invoice_receipt.status = 'PR'
+                invoice_receipt.payment_rejected_datetime = datetime.datetime.now(
+                    timezone_).strftime("%Y-%m-%d %H:%M:%S")
+
+            invoice_receipt.save()
+
+        # serializer_class = InvoiceReceiptExtendedSerializer(invoice_receipt)
+        url = 'https://portal.planetarium.prototype.com.my/#/receipt?receiptId=' + \
+            invoice_receipt.id
+
+        # return Response(serializer_class.data)
+        return redirect(url)
 
 
 class BankListViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = BankList.objects.all()
     serializer_class = BankListSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['id', 'bank_id', 'bank_name', 'bank_display_name', 'bank_active', 'created_date']
+    filterset_fields = ['id', 'bank_id', 'bank_name',
+                        'bank_display_name', 'bank_active', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -430,7 +457,8 @@ class ResponseCodeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ResponseCode.objects.all()
     serializer_class = ResponseCodeSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['id', 'response_code', 'description', 'status', 'created_date']
+    filterset_fields = ['id', 'response_code',
+                        'description', 'status', 'created_date']
 
     def get_permissions(self):
         if self.action == 'list':
