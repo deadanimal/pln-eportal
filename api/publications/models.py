@@ -15,7 +15,8 @@ from users.models import (
 class PublicationCategory(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    name = models.CharField(max_length=255, default='NA', blank=True)
+    name_en = models.CharField(max_length=255, default='NA', blank=True)
+    name_ms = models.CharField(max_length=255, default='NA', blank=True)
     icon = models.CharField(max_length=50, default='NA', blank=True)
     status = models.BooleanField(default=False)
 
@@ -23,20 +24,23 @@ class PublicationCategory(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['name_ms']
 
     
     def __str__(self):
-        return self.name
+        return self.name_ms
 
 
 class Publication(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    title = models.CharField(max_length=100, default='NA', blank=True)
-    description = models.TextField(blank=True)
+    title_en = models.CharField(max_length=100, default='NA', blank=True)
+    title_ms = models.CharField(max_length=100, default='NA', blank=True)
+    description_en = models.TextField(blank=True)
+    description_ms = models.TextField(blank=True)
     call_number = models.CharField(max_length=100, default='NA', blank=True)
-    abstract = models.CharField(max_length=255, default='NA', blank=True)
+    abstract_en = models.CharField(max_length=255, default='NA', blank=True)
+    abstract_ms = models.CharField(max_length=255, default='NA', blank=True)
     author_name = models.CharField(max_length=100, default='NA', blank=True)
     editor_name = models.CharField(max_length=100, default='NA', blank=True)
     publisher_name = models.CharField(max_length=100, default='NA', blank=True)
@@ -54,9 +58,9 @@ class Publication(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['title_ms']
 
     
     def __str__(self):
-        return self.title
+        return self.title_ms
 

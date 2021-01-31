@@ -18,6 +18,19 @@ class Feedback(models.Model):
     comment_user = models.CharField(max_length=255, default='NA', blank=True)
     comment_admin = models.CharField(max_length=255, default='NA', blank=True)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="feedback_user_id")
+
+    MODULES = [
+        ('simulator-ride', 'Kembara Simulasi'),
+        ('shows', 'Tayangan'),
+        ('exhibit', 'Pameran'),
+        ('visit', 'Lawatan'),
+        ('program', 'Program Pendidikan'),
+        ('facility', 'Fasiliti'),
+        ('publication', 'Penerbitan'),
+        ('virtual-library', 'Kutubkhanah Mini'),
+    ]
+
+    module = models.CharField(max_length=20, choices=MODULES, default='simulator-ride')
     status = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True)

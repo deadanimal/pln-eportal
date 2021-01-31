@@ -27,7 +27,8 @@ class PublicationCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'name',
+        'name_en',
+        'name_ms',
         'icon',
         'status',
         'created_date',

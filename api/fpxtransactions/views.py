@@ -15,6 +15,7 @@ import pytz
 import requests
 import time
 import urllib
+import uuid
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -428,7 +429,7 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         # serializer_class = InvoiceReceiptExtendedSerializer(invoice_receipt)
         url = 'https://portal.planetarium.prototype.com.my/#/receipt?receiptId=' + \
-            invoice_receipt.id
+            str(invoice_receipt.id.uuid4())
 
         # return Response(serializer_class.data)
         return redirect(url)

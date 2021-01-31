@@ -17,7 +17,8 @@ class SurveyQuestion(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     questionnaire_fieldname = models.CharField(max_length=50, blank=True)
-    questionnaire_question = models.TextField(blank=True)
+    questionnaire_question_en = models.TextField(blank=True)
+    questionnaire_question_ms = models.TextField(blank=True)
 
     QUESTIONNAIRE_TYPE = [
         ('CB', 'Checkbox'),

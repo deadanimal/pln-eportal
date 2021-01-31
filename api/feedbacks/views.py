@@ -21,6 +21,7 @@ from feedbacks.serializers import (
     RatingSerializer
 )
 
+
 class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
@@ -28,8 +29,9 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'id',
         'comment_user',
-        'comment_admin', 
-        'user_id', 
+        'comment_admin',
+        'user_id',
+        'module',
         'status',
         'created_date',
         'modified_date'
@@ -41,9 +43,8 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = Feedback.objects.all()
 
@@ -65,10 +66,10 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = Feedback.objects.all()
         serializer_class = FeedbackExtendedSerializer(queryset, many=True)
-        
+
         return Response(serializer_class.data)
 
 
@@ -77,7 +78,7 @@ class RatingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = RatingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'comment', 
+        'comment',
         'created_date',
         'modified_date'
     ]
@@ -88,11 +89,8 @@ class RatingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = Rating.objects.all()
         return queryset
- 
- 
