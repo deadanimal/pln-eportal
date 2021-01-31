@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 
 import datetime
+import pytz
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -34,11 +35,13 @@ from .serializers import (
     InvoiceReceiptExtendedSerializer
 )
 
+
 class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = InvoiceReceipt.objects.all()
     serializer_class = InvoiceReceiptSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['id', 'user', 'status', 'cart_id', 'fpx_transaction_id']
+    filterset_fields = ['id', 'user', 'status',
+                        'cart_id', 'fpx_transaction_id']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -46,8 +49,7 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
-
+        return [permission() for permission in permission_classes]
 
     def get_queryset(self):
         queryset = InvoiceReceipt.objects.all()
@@ -55,12 +57,12 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = InvoiceReceipt.objects.all()
         id = request.query_params.get('id', None)
         status = request.query_params.get('status', None)
         user = request.query_params.get('user', None)
-        
+
         if id is not None:
             queryset = queryset.filter(id=id)
         if status is not None:
@@ -68,8 +70,9 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         if user is not None:
             queryset = queryset.filter(user=user)
 
-        serializer_class = InvoiceReceiptExtendedSerializer(queryset, many=True)
-        
+        serializer_class = InvoiceReceiptExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
     @action(methods=['POST'], detail=False)
@@ -92,14 +95,37 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         if len(simulator_ride_booking_id) > 0:
             for simulator_ride_booking in simulator_ride_booking_id:
-                SimulatorRideBooking.objects.filter(id=simulator_ride_booking).delete()
-
-        # invoice_receipt = InvoiceReceipt.objects.filter(id=invoice_receipt_id).values()
-        # print(invoice_receipt[0])
-        # print(invoice_receipt[0])
-
-        # for id in cart_id:
-        #     cart = Cart.objects.filter(id=id)
-        #     print(cart)
+                SimulatorRideBooking.objects.filter(
+                    id=simulator_ride_booking).delete()
 
         return Response(status=status.HTTP_200_OK)
+
+    @action(methods=['POST'], detail=False)
+    def receipt_created(self, request, *args, **kwargs):
+
+        invoice_receipt_id = request.data['id']
+
+        invoice_receipt = InvoiceReceipt.objects.filter(
+            id=invoice_receipt_id).first()
+
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        prefix = '{}R'.format(datetime.datetime.now(
+            timezone_).strftime('%Y%m%d'))
+        prev_instances = InvoiceReceipt.objects.exclude(
+            receipt_running_no__exact='')
+
+        if prev_instances.exists():
+            last_instance_id = prev_instances.first().receipt_running_no[-6:]
+            invoice_receipt.receipt_running_no = prefix + \
+                '{0:06d}'.format(int(last_instance_id)+1)
+        else:
+            invoice_receipt.receipt_running_no = prefix+'{0:06d}'.format(1)
+
+        invoice_receipt.receipt_created_datetime = datetime.datetime.now(
+            timezone_).strftime("%Y-%m-%d %H:%M:%S")
+
+        invoice_receipt.save()
+
+        serializer_class = InvoiceReceiptExtendedSerializer(invoice_receipt)
+
+        return Response(serializer_class.data)

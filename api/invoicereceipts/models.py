@@ -47,6 +47,9 @@ class InvoiceReceipt(models.Model):
     payment_rejected_datetime = models.DateTimeField(null=True)
     receipt_created_datetime = models.DateTimeField(null=True)
 
+    invoice_running_no = models.CharField(max_length=100, blank=True)
+    receipt_running_no = models.CharField(max_length=100, blank=True)
+
     cart_id = models.ManyToManyField(Cart, related_name='invoice_receipt_cart', blank=True)
     fpx_transaction_id = models.ForeignKey(FpxTransaction, on_delete=models.CASCADE, null=True, related_name='invoice_receipt_fpx_transaction_id')
 
