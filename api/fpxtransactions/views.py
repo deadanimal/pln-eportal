@@ -414,6 +414,7 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             fpx_transaction_id=fpx_transaction.id).first()
 
         if invoice_receipt:
+            timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
             if fpx_transaction.fpx_debitAuthCode == '00':
                 invoice_receipt.status = 'PS'
                 invoice_receipt.payment_successful_datetime = datetime.datetime.now(
