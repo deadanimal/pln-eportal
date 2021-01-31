@@ -385,6 +385,35 @@ export class CheckoutComponent implements OnInit {
               );
             });
           }
+          // to create new invoice if the invoice still not exist in the database
+          else {
+            let cart_id = [];
+            this.carts.forEach((obj) => {
+              cart_id.push(obj.id);
+            });
+            if (cart_id.length > 0) {
+              let obj = {
+                invoice_created_datetime: this.getCurrentDateTime(),
+                user: this.authService.decodedToken().user_id,
+                cart_id: cart_id,
+                total_all_price: this.totalprice.toFixed(2),
+              };
+              this.invoicereceiptService.post(obj).subscribe(
+                (res) => {
+                  // console.log("res", res);
+                  this.queryParams = res.id;
+                },
+                (err) => {
+                  console.error("err", err);
+                },
+                () => {
+                  this.router.navigate(["/payment"], {
+                    queryParams: { id: this.queryParams },
+                  });
+                }
+              );
+            }
+          }
         },
         (err) => {
           console.error("err", err);
