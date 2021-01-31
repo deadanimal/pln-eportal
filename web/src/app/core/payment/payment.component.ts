@@ -274,7 +274,7 @@ export class PaymentComponent implements OnInit {
         this.paymentdetailFormGroup.value.full_name.length <= 40
           ? this.paymentdetailFormGroup.value.full_name
           : "",
-      fpx_txnAmount: this.totalprice.toFixed(2),
+      fpx_txnAmount: this.totalprice,
     };
     // To generate checksum and other information for FPX from backend
     this.fpxtransactionService.fpx_confirm(body).subscribe(

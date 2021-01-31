@@ -19,7 +19,6 @@ export class RedirectService {
       mapForm.appendChild(mapInput);
     });
     document.body.appendChild(mapForm);
-    console.log("mapForm", mapForm);
     mapForm.submit();
   }
 }
