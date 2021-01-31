@@ -301,27 +301,27 @@ export class PaymentComponent implements OnInit {
             },
             () => {
               // to update fpx_transaction_id on table invoice_receipt
-              let obj = {
-                pending_payment_datetime: this.getCurrentDateTime(),
-                fpx_transaction_id: this.fpx_created.id,
-                status: "PP",
-              };
-              this.invoicereceiptService
-                .update(obj, this.invoice_receipt_id)
-                .subscribe(
-                  (res) => {
-                    // console.log("res", res);
-                  },
-                  (err) => {
-                    console.error("err", err);
-                  },
-                  () => {
-                    this.redirectService.post(
-                      this.fpxtransactionFormGroup.value,
-                      "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-                    );
-                  }
-                );
+              // let obj = {
+              //   pending_payment_datetime: this.getCurrentDateTime(),
+              //   fpx_transaction_id: this.fpx_created.id,
+              //   status: "PP",
+              // };
+              // this.invoicereceiptService
+              //   .update(obj, this.invoice_receipt_id)
+              //   .subscribe(
+              //     (res) => {
+              //       // console.log("res", res);
+              //     },
+              //     (err) => {
+              //       console.error("err", err);
+              //     },
+              //     () => {
+              //       this.redirectService.post(
+              //         this.fpxtransactionFormGroup.value,
+              //         "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
+              //       );
+              //     }
+              //   );
             }
           );
       }
