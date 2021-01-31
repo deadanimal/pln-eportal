@@ -336,33 +336,60 @@ export class CheckoutComponent implements OnInit {
   }
 
   clickMakePayment() {
-    // to create invoice on table invoice_receipt
-    let cart_id = [];
-    this.carts.forEach((obj) => {
-      cart_id.push(obj.id);
-    });
-    if (cart_id.length > 0) {
-      let obj = {
-        invoice_created_datetime: this.getCurrentDateTime(),
-        user: this.authService.decodedToken().user_id,
-        cart_id: cart_id,
-        total_all_price: this.totalprice.toFixed(2),
-      };
-      this.invoicereceiptService.post(obj).subscribe(
+    // to check if invoice is existing and status is IC - Invoice Created
+    this.invoicereceiptService
+      .filter("status=IC&user=" + this.authService.decodedToken().user_id)
+      .subscribe(
         (res) => {
           // console.log("res", res);
-          this.queryParams = res.id;
+          if (res.length > 0) {
+            res.forEach((obj, index) => {
+              this.invoicereceiptService.delete(obj.id).subscribe(
+                (res) => {
+                  // console.log("res", res);
+                },
+                (err) => {
+                  console.error("err", err);
+                },
+                () => {
+                  if (index === res.length - 1) {
+                    // to create new invoice after deleted old invoice which status is IC on table invoice_receipt
+                    let cart_id = [];
+                    this.carts.forEach((obj) => {
+                      cart_id.push(obj.id);
+                    });
+                    if (cart_id.length > 0) {
+                      let obj = {
+                        invoice_created_datetime: this.getCurrentDateTime(),
+                        user: this.authService.decodedToken().user_id,
+                        cart_id: cart_id,
+                        total_all_price: this.totalprice.toFixed(2),
+                      };
+                      this.invoicereceiptService.post(obj).subscribe(
+                        (res) => {
+                          // console.log("res", res);
+                          this.queryParams = res.id;
+                        },
+                        (err) => {
+                          console.error("err", err);
+                        },
+                        () => {
+                          this.router.navigate(["/payment"], {
+                            queryParams: { id: this.queryParams },
+                          });
+                        }
+                      );
+                    }
+                  }
+                }
+              );
+            });
+          }
         },
         (err) => {
           console.error("err", err);
-        },
-        () => {
-          this.router.navigate(["/payment"], {
-            queryParams: { id: this.queryParams },
-          });
         }
       );
-    }
   }
 
   ngOnInit() {

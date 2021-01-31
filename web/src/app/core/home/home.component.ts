@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -66,6 +67,7 @@ export class HomeComponent implements OnInit {
     public translate: TranslateService,
     private authService: AuthService,
     private cartService: CartsService,
+    private jwtService: JwtService,
     private moduleService: ModulesService,
     private w3cService: W3csService
   ) {
@@ -86,16 +88,20 @@ export class HomeComponent implements OnInit {
   }
 
   getAddToCartCount() {
-    this.cartService
-      .filter("cart_status=CR&user=" + this.authService.decodedToken().user_id)
-      .subscribe(
-        (res) => {
-          this.w3cService.changeAddToCartCount(res.length);
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+    if (this.jwtService.getToken("accessToken")) {
+      this.cartService
+        .filter(
+          "cart_status=CR&user=" + this.authService.decodedToken().user_id
+        )
+        .subscribe(
+          (res) => {
+            this.w3cService.changeAddToCartCount(res.length);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
+    }
   }
 
   ngOnInit() {}

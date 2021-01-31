@@ -179,7 +179,7 @@ export class PaymentComponent implements OnInit {
 
             if (res[0].user.id != this.user_id) {
               this.toastr.error(
-                "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah fasiliti.",
+                "Harap maaf. Anda perlu log masuk terlebih dahulu untuk membuat bayaran.",
                 "Ralat"
               );
               this.router.navigate(["/landing"]);
@@ -208,7 +208,7 @@ export class PaymentComponent implements OnInit {
     this.timeout = this.diff_minutes(currentdatetime, datetime15min) * 60;
 
     // to delete show booking, simulator ride booking, cart, and invoice receipt if timeout more than 15 minutes
-    if (this.timeout > 15) {
+    if (this.timeout > 900) {
       let cart_id = [];
       let show_booking_id = [];
       let simulator_ride_booking_id = [];
@@ -242,7 +242,7 @@ export class PaymentComponent implements OnInit {
         },
         () => {
           this.toastr.error(
-            "Harap maaf. Tempahan anda terbatal kerana tempoh masa telah melebihi 15 minit.",
+            "Harap maaf. Tempahan anda terbatal kerana tidak membayar dalam masa 15 minit.",
             "Ralat"
           );
           this.router.navigate(["/landing"]);
@@ -304,6 +304,7 @@ export class PaymentComponent implements OnInit {
               let obj = {
                 pending_payment_datetime: this.getCurrentDateTime(),
                 fpx_transaction_id: this.fpx_created.id,
+                status: "PP",
               };
               this.invoicereceiptService
                 .update(obj, this.invoice_receipt_id)
