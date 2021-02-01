@@ -341,6 +341,20 @@ export class PaymentComponent implements OnInit {
         : selectedDate.getDate();
     let formatDate = year + "-" + month + "-" + day;
 
-    return formatDate + "T" + new Date().toLocaleTimeString() + "Z";
+    let hour =
+      selectedDate.getHours() < 10
+        ? "0" + selectedDate.getHours()
+        : selectedDate.getHours();
+    let minute =
+      selectedDate.getMinutes() < 10
+        ? "0" + selectedDate.getMinutes()
+        : selectedDate.getMinutes();
+    let second =
+      selectedDate.getSeconds() < 10
+        ? "0" + selectedDate.getSeconds()
+        : selectedDate.getSeconds();
+    let formatTime = hour + ":" + minute + ":" + second;
+
+    return formatDate + "T" + formatTime + "Z";
   }
 }
