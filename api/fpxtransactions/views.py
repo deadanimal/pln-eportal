@@ -429,7 +429,7 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         # serializer_class = InvoiceReceiptExtendedSerializer(invoice_receipt)
         url = 'https://portal.planetarium.prototype.com.my/#/receipt?receiptId=' + \
-            str(invoice_receipt.id.uuid4())
+            str(invoice_receipt.id)
 
         # return Response(serializer_class.data)
         return redirect(url)
