@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { CustomValidators } from "src/app/shared/class/custom-validators";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { CookieService } from "ngx-cookie-service";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
@@ -91,6 +92,7 @@ export class NavbarComponent implements OnInit {
   ];
 
   constructor(
+    private cookieService: CookieService,
     private formBuilder: FormBuilder,
     private router: Router,
     public authService: AuthService,
@@ -195,7 +197,23 @@ export class NavbarComponent implements OnInit {
       (addToCartCount) => (this.addToCartCount = addToCartCount)
     );
 
-    this.getAddToCartCount();
+    if (this.accessToken) {
+      // to get add to cart count
+      this.getAddToCartCount();
+
+      // to verify and refresh the token if user click remember me
+      // let body = {
+      //   token: this.accessToken,
+      // };
+      // this.authService.verifyToken(body).subscribe(
+      //   (res) => {
+      //     console.log("res", res);
+      //   },
+      //   (err) => {
+      //     console.error("err", err);
+      //   }
+      // );
+    }
   }
 
   getAddToCartCount() {
@@ -228,6 +246,8 @@ export class NavbarComponent implements OnInit {
   }
 
   clickLogin() {
+    if (this.rememberMe) this.cookieService.set("rememberMe", "true");
+
     this.authService.obtainToken(this.loginFormGroup.value).subscribe(
       (res) => {
         // console.log("res", res);

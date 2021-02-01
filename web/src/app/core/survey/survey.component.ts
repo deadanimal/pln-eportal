@@ -70,7 +70,7 @@ export class SurveyComponent implements OnInit {
     {
       value: "M03",
       display_name_ms: "Program Pendidikan",
-      display_name_en: "Education Program",
+      display_name_en: "Educational Program",
     },
     {
       value: "M04",
@@ -98,6 +98,48 @@ export class SurveyComponent implements OnInit {
       display_name_en: "Facility",
     },
   ];
+  module_feedbacks = [
+    {
+      value: "simulator-ride",
+      display_name_en: "Space Pod",
+      display_name_ms: "Kembara Simulasi",
+    },
+    {
+      value: "shows",
+      display_name_en: "Showing",
+      display_name_ms: "Tayangan",
+    },
+    {
+      value: "exhibit",
+      display_name_en: "Exhibition",
+      display_name_ms: "Pameran",
+    },
+    {
+      value: "visit",
+      display_name_en: "Visit",
+      display_name_ms: "Lawatan",
+    },
+    {
+      value: "program",
+      display_name_en: "Educational Program",
+      display_name_ms: "Program Pendidikan",
+    },
+    {
+      value: "facility",
+      display_name_en: "Facility",
+      display_name_ms: "Fasiliti",
+    },
+    {
+      value: "publication",
+      display_name_en: "Publication",
+      display_name_ms: "Penerbitan",
+    },
+    {
+      value: "virtual-library",
+      display_name_en: "Kutubkhanah Mini",
+      display_name_ms: "Kutubkhanah Mini",
+    },
+  ];
 
   constructor(
     public translate: TranslateService,
@@ -122,6 +164,7 @@ export class SurveyComponent implements OnInit {
       email: ["", Validators.required],
       comment_user: ["", Validators.required],
       user_id: ["", Validators.required],
+      module: ["", Validators.required],
       status: [false],
     });
 
@@ -161,6 +204,7 @@ export class SurveyComponent implements OnInit {
     if (this.defaultModal) this.defaultModal.hide();
     this.typeQuestion = question;
     this.module = module;
+    console.log("module", module);
     this.module_code = module_code;
 
     if (this.typeQuestion == "soalselidik") {

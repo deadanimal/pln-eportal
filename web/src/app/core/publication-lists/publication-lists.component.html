@@ -43,7 +43,8 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          Senarai Penerbitan <share-button button="facebook"></share-button
+          {{ "PenerbitanSenarai" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
@@ -54,16 +55,26 @@
               [ngStyle]="{ 'background-image': 'url(' + pub.poster_link + ')' }"
             >
               <div class="card-body text-center">
-                <h2 class="card-title">{{ pub.title }}</h2>
+                <h2 class="card-title" *ngIf="translate.currentLang == 'en'">
+                  {{ pub.title_en }}
+                </h2>
+                <h2 class="card-title" *ngIf="translate.currentLang == 'ms'">
+                  {{ pub.title_ms }}
+                </h2>
                 <h5 class="desc">
-                  <span *ngIf="pub.edition">Edisi {{ pub.edition }}, </span
+                  <span *ngIf="pub.edition"
+                    >{{ "Edisi" | translate }} {{ pub.edition }}, </span
                   >{{ pub.year }}
                 </h5>
                 <a class="btn btn-danger" [href]="pub.pdf_link" download>
-                  <span class="text-white">Muat Turun PDF</span> </a
+                  <span class="text-white">{{
+                    "MuatTurunPDF" | translate
+                  }}</span> </a
                 ><!--(click)="downloadPDF(pub)"-->
                 <p class="pt-3">
-                  <a (click)="openPublication(pub)">Lihat selanjutnya</a>
+                  <a (click)="openPublication(pub)">{{
+                    "LihatSelanjutnya" | translate
+                  }}</a>
                 </p>
               </div>
             </div>
@@ -77,14 +88,20 @@
             </div>
           </div>
           <div class="col-lg-8 col-sm-12 publication-detail">
-            <h2 class="title text-dark">{{ selectedPublication.title }}</h2>
+            <h2 class="title text-dark" *ngIf="translate.currentLang == 'en'">
+              {{ selectedPublication.title_en }}
+            </h2>
+            <h2 class="title text-dark" *ngIf="translate.currentLang == 'ms'">
+              {{ selectedPublication.title_ms }}
+            </h2>
             <!-- <h4 class="title text-dark mb-0">Abstrak</h4>
             <p>{{ selectedPublication.abstract }}</p> -->
             <p class="font-weight-bold pt-3">
               Call Number: {{ selectedPublication.call_number }}
             </p>
             <p class="font-weight-bold">
-              Penulis/Editor: {{ selectedPublication.author_name }}/{{
+              {{ "Penulis" | translate }}/Editor:
+              {{ selectedPublication.author_name }}/{{
                 selectedPublication.editor_name
               }}
             </p>
@@ -94,10 +111,11 @@
               }}
             </p>
             <p class="font-weight-bold">
-              Tahun: {{ selectedPublication.year }}
+              {{ "Tahun" | translate }}: {{ selectedPublication.year }}
             </p>
             <p class="font-weight-bold">
-              Penerbit: {{ selectedPublication.publisher_name }}
+              {{ "Penerbit" | translate }}:
+              {{ selectedPublication.publisher_name }}
             </p>
             <!-- <p class="font-weight-bold">Tarikh Diterbit: {{ selectedPublication.published_date }}</p> -->
             <!-- <p class="font-weight-bold">
@@ -106,8 +124,13 @@
                 >Edisi {{ selectedPublication.edition }}, </span
               >{{ selectedPublication.year }}
             </p> -->
-            <p class="font-weight-bold">
-              Deskripsi Bahan: {{ selectedPublication.description }}
+            <p class="font-weight-bold" *ngIf="translate.currentLang == 'en'">
+              {{ "DeskripsiBahan" | translate }}:
+              {{ selectedPublication.description_en }}
+            </p>
+            <p class="font-weight-bold" *ngIf="translate.currentLang == 'ms'">
+              {{ "DeskripsiBahan" | translate }}:
+              {{ selectedPublication.description_ms }}
             </p>
 
             <div class="text-right">
@@ -116,7 +139,7 @@
                 class="btn btn-neutral"
                 (click)="backPublication()"
               >
-                Kembali
+                {{ "Kembali" | translate }}
               </button>
             </div>
           </div>

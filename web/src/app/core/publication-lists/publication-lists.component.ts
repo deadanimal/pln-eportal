@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import swal from "sweetalert2";
 
 import { PublicationsService } from "src/app/shared/services/publications/publications.service";
@@ -20,10 +21,13 @@ export class PublicationListsComponent implements OnInit {
   publications = [];
   showSelectedPublication: boolean = false;
   selectedPublication = {
-    title: "",
+    title_en: "",
+    title_ms: "",
     call_number: "",
-    description: "",
-    abstract: "",
+    description_en: "",
+    description_ms: "",
+    abstract_en: "",
+    abstract_ms: "",
     author_name: "",
     editor_name: "",
     publisher_name: "",
@@ -38,6 +42,7 @@ export class PublicationListsComponent implements OnInit {
   };
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private router: Router,
@@ -97,10 +102,13 @@ export class PublicationListsComponent implements OnInit {
 
   emptyPublication() {
     return {
-      title: "",
+      title_en: "",
+      title_ms: "",
       call_number: "",
-      description: "",
-      abstract: "",
+      description_en: "",
+      description_ms: "",
+      abstract_en: "",
+      abstract_ms: "",
       author_name: "",
       editor_name: "",
       publisher_name: "",

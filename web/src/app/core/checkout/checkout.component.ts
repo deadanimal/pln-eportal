@@ -438,6 +438,7 @@ export class CheckoutComponent implements OnInit {
         : selectedDate.getDate();
     let formatDate = year + "-" + month + "-" + day;
 
+    console.log("getCurrentDateTime", formatDate + "T" + new Date().toLocaleTimeString() + "Z");
     return formatDate + "T" + new Date().toLocaleTimeString() + "Z";
   }
 

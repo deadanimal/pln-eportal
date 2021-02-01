@@ -105,7 +105,11 @@
               <tabset>
                 <tab
                   *ngFor="let module of modules"
-                  [heading]="translate.currentLang == 'ms' ? module.display_name_ms : module.display_name_en"
+                  [heading]="
+                    translate.currentLang == 'ms'
+                      ? module.display_name_ms
+                      : module.display_name_en
+                  "
                   (selectTab)="changeTab($event)"
                 >
                   <div class="row">
@@ -128,8 +132,21 @@
                             <td>
                               <div class="form-group">
                                 <div class="form-label">
-                                  <p class="text-dark">
-                                    {{ surveyquestion.questionnaire_question }}
+                                  <p
+                                    class="text-dark"
+                                    *ngIf="translate.currentLang == 'en'"
+                                  >
+                                    {{
+                                      surveyquestion.questionnaire_question_en
+                                    }}
+                                  </p>
+                                  <p
+                                    class="text-dark"
+                                    *ngIf="translate.currentLang == 'ms'"
+                                  >
+                                    {{
+                                      surveyquestion.questionnaire_question_ms
+                                    }}
                                   </p>
                                 </div>
                                 <div
@@ -337,6 +354,7 @@
                       type="text"
                       formControlName="full_name"
                       class="form-control bg-white text-dark"
+                      readonly
                     />
                   </div>
                   <div class="col-3"></div>
@@ -354,7 +372,37 @@
                       type="email"
                       formControlName="email"
                       class="form-control bg-white text-dark"
+                      readonly
                     />
+                  </div>
+                  <div class="col-3"></div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-3"></div>
+                  <div class="col-2">
+                    <label
+                      class="form-control-label text-dark font-weight-bold"
+                      >{{ "Kategori" | translate }}</label
+                    >
+                  </div>
+                  <div class="col-4">
+                    <select
+                      class="form-control text-dark"
+                      formControlName="module"
+                    >
+                      <option value="">{{ "Silapilih" | translate }}</option>
+                      <option
+                        *ngFor="let module_feedback of module_feedbacks"
+                        [value]="module_feedback.value"
+                      >
+                        <span *ngIf="translate.currentLang == 'en'">{{
+                          module_feedback.display_name_en
+                        }}</span>
+                        <span *ngIf="translate.currentLang == 'ms'">{{
+                          module_feedback.display_name_ms
+                        }}</span>
+                      </option>
+                    </select>
                   </div>
                   <div class="col-3"></div>
                 </div>

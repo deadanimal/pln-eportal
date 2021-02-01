@@ -28,6 +28,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { JwtModule, JwtHelperService } from "@auth0/angular-jwt";
 import { ToastrModule } from "ngx-toastr";
 import { NouisliderModule } from "ng2-nouislider";
+import { CookieService } from "ngx-cookie-service";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -94,7 +95,7 @@ export function getToken(): string {
       },
     }),
   ],
-  providers: [JwtHelperService],
+  providers: [JwtHelperService, CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

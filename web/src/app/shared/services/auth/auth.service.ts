@@ -101,7 +101,7 @@ export class AuthService {
     );
   }
 
-  refreshToken(body: Form): Observable<any> {
+  refreshToken(body): Observable<any> {
     return this.http.post<any>(this.urlTokenRefresh, body).pipe(
       tap((res) => {
         console.log("Token refresh: ", res);
@@ -109,7 +109,7 @@ export class AuthService {
     );
   }
 
-  verifyToken(body: Form): Observable<any> {
+  verifyToken(body): Observable<any> {
     return this.http.post<any>(this.urlTokenVerify, body).pipe(
       tap((res) => {
         console.log("Token verify: ", res);
