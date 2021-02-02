@@ -36,6 +36,18 @@ from invoicereceipts.models import (
     InvoiceReceipt
 )
 
+from carts.models import (
+    Cart
+)
+
+from showings.models import (
+    ShowBooking
+)
+
+from simulatorrides.models import (
+    SimulatorRideBooking
+)
+
 from .serializers import (
     FpxTransactionSerializer,
     BankListSerializer,
@@ -43,8 +55,23 @@ from .serializers import (
 )
 
 from invoicereceipts.serializers import (
+    InvoiceReceiptSerializer,
     InvoiceReceiptExtendedSerializer
 )
+
+from carts.serializers import (
+    CartSerializer
+)
+
+from showings.serializers import (
+    ShowBookingSerializer
+)
+
+from simulatorrides.serializers import (
+    SimulatorRideBookingSerializer
+)
+
+from invoicereceipts.views import receipt_created
 
 
 # convert hex to binary
@@ -101,6 +128,46 @@ def validateCertificate(path, fpx_checkSum, data):
 def verifySign_fpx(fpx_checkSum, data):
 
     return validateCertificate('./csrandkey/', fpx_checkSum, data)
+
+# to update the cart status to CM - completed
+# to update the showing booking either SB05 - Payment Accepted OR SB06 - Payment Rejected
+# to update the simulator-ride booking either SRB03 - Payment Accepted OR SRB04 - Payment Rejected
+def update_cart_status(fpx_transaction_id, show_booking_status, simulator_ride_booking_status):
+
+    invoice_receipt = InvoiceReceipt.objects.filter(
+        fpx_transaction_id=fpx_transaction_id).first()
+
+    serializer_class_ir = InvoiceReceiptSerializer(invoice_receipt)
+
+    if serializer_class_ir:
+        for cart_id in serializer_class_ir.data['cart_id']:
+
+            cart = Cart.objects.filter(id=cart_id).first()
+            serializer_class_c = CartSerializer(cart)
+
+            if cart:
+                # to update the status of simulator_ride_booking to SRB03 - Payment Accepted
+                if len(serializer_class_c.data['simulator_ride_booking_id']) > 0:
+
+                    for simulator_ride_booking_id in serializer_class_c.data['simulator_ride_booking_id']:
+
+                        simulator_ride_booking = SimulatorRideBooking.objects.filter(
+                            id=simulator_ride_booking_id).first()
+                        simulator_ride_booking.status = simulator_ride_booking_status
+                        simulator_ride_booking.save()
+
+                # to update the status of showing_booking to SB05 - Payment Accepted
+                if len(serializer_class_c.data['show_booking_id']) > 0:
+
+                    for show_booking_id in serializer_class_c.data['show_booking_id']:
+
+                        show_booking = ShowBooking.objects.filter(
+                            id=show_booking_id).first()
+                        show_booking.status = show_booking_status
+                        show_booking.save()
+
+                cart.cart_status = 'CM'
+                cart.save()
 
 
 class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -420,10 +487,13 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 invoice_receipt.status = 'PS'
                 invoice_receipt.payment_successful_datetime = datetime.datetime.now(
                     timezone_).strftime("%Y-%m-%d %H:%M:%S")
+                update_cart_status(fpx_transaction.id, 'SB05', 'SRB03')
+                receipt_created(invoice_receipt.id)
             else:
                 invoice_receipt.status = 'PR'
                 invoice_receipt.payment_rejected_datetime = datetime.datetime.now(
                     timezone_).strftime("%Y-%m-%d %H:%M:%S")
+                update_cart_status(fpx_transaction.id, 'SB06', 'SRB04')
 
             invoice_receipt.save()
 

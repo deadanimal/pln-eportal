@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'fpxtransactions',
     'carts',
     'invoicereceipts',
+    'vouchers',
 
     'django_cleanup.apps.CleanupConfig'
 ]
