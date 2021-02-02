@@ -711,6 +711,9 @@ ngx-bootstrap/datepicker
 ngx-chips
 MIT
 
+ngx-cookie-service
+MIT
+
 ngx-countdown
 MIT
 MIT License

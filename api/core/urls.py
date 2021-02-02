@@ -432,6 +432,15 @@ invoice_receipts_router = router.register(
     'invoice-receipts', InvoiceReceiptViewSet
 )
 
+# Voucher app
+from vouchers.views import (
+    VoucherViewSet
+)
+
+vouchers_router = router.register(
+    'vouchers', VoucherViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

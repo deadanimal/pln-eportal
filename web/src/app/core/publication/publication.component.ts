@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import swal from "sweetalert2";
 
 import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
@@ -19,6 +20,7 @@ export class PublicationComponent implements OnInit {
   publicationcategories = [];
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private publicationcategoryService: PublicationCategoriesService,
