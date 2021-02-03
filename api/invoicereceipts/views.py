@@ -35,12 +35,8 @@ from .serializers import (
     InvoiceReceiptExtendedSerializer
 )
 
-# @action(methods=['POST'], detail=False)
-
 
 def receipt_created(invoice_receipt_id):
-
-    # invoice_receipt_id = request.data['id']
 
     invoice_receipt = InvoiceReceipt.objects.filter(
         id=invoice_receipt_id).first()
@@ -59,12 +55,13 @@ def receipt_created(invoice_receipt_id):
 
     invoice_receipt.receipt_created_datetime = datetime.datetime.now(
         timezone_).strftime("%Y-%m-%d %H:%M:%S")
+    invoice_receipt.status = 'RC'
+    
+    print('receipt_created function')
+    print('invoice_receipt_id', invoice_receipt_id)
+    print('invoice_receipt.receipt_running_no', invoice_receipt.receipt_running_no)
 
     invoice_receipt.save()
-
-    # serializer_class = InvoiceReceiptExtendedSerializer(invoice_receipt)
-
-    # return Response(serializer_class.data)
 
 
 class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

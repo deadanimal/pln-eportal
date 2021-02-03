@@ -170,7 +170,7 @@ export class PaymentComponent implements OnInit {
         .subscribe(
           (res) => {
             // console.log("res", res);
-            this.totalprice = res[0].total_all_price;
+            this.totalprice = res[0].total_price_after_voucher;
             this.getInvoiceCreatedDateTime(
               res[0].invoice_created_datetime,
               res[0].id,

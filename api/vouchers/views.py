@@ -28,8 +28,7 @@ class VoucherViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['id', 'voucher_code', 'user', 'status',
-                        'invoice_receipt_id']
+    filterset_fields = ['id', 'voucher_code', 'user', 'status']
 
     def get_permissions(self):
         if self.action == 'list':

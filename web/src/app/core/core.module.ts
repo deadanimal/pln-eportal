@@ -36,9 +36,9 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin
 import { ShareButtonsConfig } from "ngx-sharebuttons";
 import { ShareButtonModule } from "ngx-sharebuttons/button";
 import { ShareIconsModule } from "ngx-sharebuttons/icons";
-import { NgxOrgChartModule } from 'ngx-org-chart';
+import { NgxOrgChartModule } from "ngx-org-chart";
 // import { ToastrModule } from 'ngx-toastr';
-import { CountdownModule } from 'ngx-countdown';
+import { CountdownModule } from "ngx-countdown";
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -97,8 +97,9 @@ import { QuickLinkComponent } from "./quick-link/quick-link.component";
 import { SafePipe } from "../shared/pipes/safe/safe.pipe";
 import { SignupComponent } from "./signup/signup.component";
 import { TruncatePipe } from "../shared/pipes/truncate/truncate.pipe";
-import { ReceiptComponent } from './receipt/receipt.component';
-import { CheckoutComponent } from './checkout/checkout.component';
+import { ReceiptComponent } from "./receipt/receipt.component";
+import { CheckoutComponent } from "./checkout/checkout.component";
+import { FormatFPXTransactionDateTimePipe } from "../shared/pipes/format/format-fpxtransaction-datetime.pipe";
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -167,6 +168,7 @@ const customConfig: ShareButtonsConfig = {
     TruncatePipe,
     ReceiptComponent,
     CheckoutComponent,
+    FormatFPXTransactionDateTimePipe,
   ],
   imports: [
     CommonModule,

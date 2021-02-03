@@ -130,4 +130,10 @@ export class AuthService {
     };
     return user_obj;
   }
+
+  isTokenExpired(token: string) {
+    let jwtHelper: JwtHelperService = new JwtHelperService();
+    let isTokenExpired = jwtHelper.isTokenExpired(token);
+    return isTokenExpired;
+  }
 }

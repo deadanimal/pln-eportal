@@ -714,28 +714,32 @@
                     <tr>
                       <td>Bil</td>
                       <td>Perkara</td>
-                      <td>Masa</td>
+                      <td>Tarikh Pembayaran</td>
                       <td>Status</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Tempah fasiliti</td>
-                      <td>10 jam lalu</td>
-                      <td><span class="badge badge-success">Berjaya</span></td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Tempah lawatan</td>
-                      <td>2 hari lepas</td>
-                      <td><span class="badge badge-success">Berjaya</span></td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Tempah tiket tayangan</td>
-                      <td>4 hari lepas</td>
-                      <td><span class="badge badge-danger">Gagal</span></td>
+                    <tr
+                      *ngFor="
+                        let invoicereceipt of invoicereceipts;
+                        let i = index
+                      "
+                    >
+                      <td>{{ i + 1 }}</td>
+                      <td></td>
+                      <td>
+                        {{
+                          invoicereceipt.payment_successful_datetime
+                            | date: "medium"
+                        }}
+                      </td>
+                      <td>
+                        <div
+                          [innerHtml]="
+                            getInvoiceReceiptStatus(invoicereceipt.status)
+                          "
+                        ></div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

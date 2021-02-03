@@ -1,5 +1,5 @@
 from __future__ import unicode_literals 
-import uuid, datetime
+import uuid, datetime, math, random, string
 from django.db import models
 from django.utils.formats import get_format
 # from django import models
@@ -13,9 +13,13 @@ from users.models import (
     CustomUser
 )
 
-from invoicereceipts.models import (
-    InvoiceReceipt
-)
+def generate_voucher_code(self):
+    voucher_amount_trunc = str(math.trunc(self.voucher_amount))
+
+    letters = string.ascii_uppercase
+    range_letters = 10 - 3 - len(voucher_amount_trunc)
+    prefix = 'PLN{}'.format(voucher_amount_trunc + ''.join(random.choice(letters) for i in range(range_letters)))
+    return prefix
 
 class Voucher(models.Model):
 
@@ -37,10 +41,20 @@ class Voucher(models.Model):
     ]
     status = models.CharField(choices=STATUS, max_length=2, default='NU')
 
-    invoice_receipt_id = models.ForeignKey(InvoiceReceipt, on_delete=models.CASCADE, null=True, related_name='voucher_invoice_receipt_id')
-
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.voucher_code:
+            prefix = generate_voucher_code(self)
+            while self.__class__.objects.filter(voucher_code=prefix).exists() is True:
+                prefix = generate_voucher_code(self)
+                if self.__class__.objects.filter(voucher_code=prefix).exists() is False:
+                    break
+            
+            self.voucher_code = prefix
+
+        super(Voucher, self).save(*args, **kwargs)
 
     class meta:
         ordering = ['-created_date']
