@@ -94,7 +94,7 @@ export const ROUTES: RouteInfo[] = [
     path: "/facilities",
     title: "Fasiliti",
     type: "sub",
-    icontype: "fas fa-university text-primary",
+    icontype: "fas fa-building text-primary",
     collapse: "facilities",
     isCollapsed: true,
     children: [
@@ -171,6 +171,18 @@ export const ROUTES: RouteInfo[] = [
     children: [{ path: "list", title: "Senarai", type: "link" }],
   },
   {
+    path: "/vouchers",
+    title: "Baucar",
+    type: "link",
+    icontype: "fas fa-money-check text-primary",
+  },
+  {
+    path: "/receipts",
+    title: "Resit",
+    type: "link",
+    icontype: "fas fa-receipt text-primary",
+  },
+  {
     path: "/analytics",
     title: "Analitik",
     type: "sub",
@@ -243,12 +255,13 @@ export const ROUTES: RouteInfo[] = [
     path: "/fpxs",
     title: "FPX",
     type: "sub",
-    icontype: "fas fa-calendar text-primary",
+    icontype: "fas fa-university text-primary",
     collapse: "fpxs",
     isCollapsed: true,
     children: [
       { path: "list", title: "Transaksi FPX", type: "link" },
       { path: "bank-list", title: "Senarai Bank", type: "link" },
+      { path: "response-code-list", title: "Kod Respon", type: "link" },
     ],
   },
   {

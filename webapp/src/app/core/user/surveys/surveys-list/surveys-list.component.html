@@ -99,10 +99,10 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Soalan</span>
+                <span>Soalan MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.questionnaire_question }}
+                {{ row.questionnaire_question_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -225,8 +225,7 @@
             yang lain.
           </li>
           <li>
-            <b>NAMA MEDAN</b>: Tidak boleh masukkan whitespace pada nama
-            medan.
+            <b>NAMA MEDAN</b>: Tidak boleh masukkan whitespace pada nama medan.
           </li>
         </ol>
       </div>
@@ -241,13 +240,22 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Soalan</label>
-        <input
-          type="text"
+        <label class="form-control-label">Soalan MS</label>
+        <textarea
           class="form-control"
-          formControlName="questionnaire_question"
-          placeholder="Soalan"
-        />
+          formControlName="questionnaire_question_ms"
+          rows="5"
+          placeholder="Soalan MS"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Soalan EN</label>
+        <textarea
+          class="form-control"
+          formControlName="questionnaire_question_en"
+          rows="5"
+          placeholder="Soalan MS"
+        ></textarea>
       </div>
       <div class="form-group">
         <label class="form-control-label">Jawapan</label>
@@ -369,8 +377,7 @@
             yang lain.
           </li>
           <li>
-            <b>NAMA MEDAN</b>: Tidak boleh masukkan whitespace pada nama
-            medan.
+            <b>NAMA MEDAN</b>: Tidak boleh masukkan whitespace pada nama medan.
           </li>
         </ol>
       </div>
@@ -385,13 +392,22 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Soalan</label>
-        <input
-          type="text"
+        <label class="form-control-label">Soalan MS</label>
+        <textarea
           class="form-control"
-          formControlName="questionnaire_question"
-          placeholder="Soalan"
-        />
+          formControlName="questionnaire_question_ms"
+          rows="5"
+          placeholder="Soalan MS"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Soalan EN</label>
+        <textarea
+          class="form-control"
+          formControlName="questionnaire_question_en"
+          rows="5"
+          placeholder="Soalan MS"
+        ></textarea>
       </div>
       <div class="form-group">
         <label class="form-control-label">Jawapan</label>

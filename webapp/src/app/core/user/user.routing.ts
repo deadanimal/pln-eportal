@@ -30,6 +30,9 @@ import { FacilitiesSubcategoryComponent } from "./facilities/facilities-subcateg
 import { FeedbacksListComponent } from "./feedbacks/feedbacks-list/feedbacks-list.component";
 import { FpxsBankListComponent } from "./fpxs/fpxs-bank-list/fpxs-bank-list.component";
 import { FpxsListComponent } from "./fpxs/fpxs-list/fpxs-list.component";
+import { FpxsResponseCodeListComponent } from "./fpxs/fpxs-response-code-list/fpxs-response-code-list.component";
+import { InvoicesListComponent } from "./invoice-receipts/invoices-list/invoices-list.component";
+import { ReceiptsListComponent } from "./invoice-receipts/receipts-list/receipts-list.component";
 import { CustomersComponent } from "./managements/customers/customers.component";
 import { EmailTemplatesComponent } from "./managements/email-templates/email-templates.component";
 import { UsersComponent } from "./managements/users/users.component";
@@ -64,6 +67,7 @@ import { VirtualLibrarySerialpublicationsListComponent } from "./virtual-librari
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
 import { VisitsListComponent } from "./visits/visits-list/visits-list.component";
 import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
+import { VouchersComponent } from "./vouchers/vouchers.component";
 
 export const UserRoutes: Routes = [
   {
@@ -392,7 +396,19 @@ export const UserRoutes: Routes = [
             path: "bank-list",
             component: FpxsBankListComponent,
           },
+          {
+            path: "response-code-list",
+            component: FpxsResponseCodeListComponent,
+          },
         ],
+      },
+      {
+        path: "vouchers",
+        component: VouchersComponent,
+      },
+      {
+        path: "receipts",
+        component: ReceiptsListComponent,
       },
       {
         path: "managements",

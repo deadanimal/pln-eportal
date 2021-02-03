@@ -3,7 +3,7 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Penerbitan</h6>
+          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Baucar</h6>
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
@@ -19,7 +19,7 @@
         <div class="col-lg-6 col-5 text-right">
           <a
             class="btn btn-sm btn-neutral"
-            (click)="openModal(createPublicationCategory, 'create', '')"
+            (click)="openModal(createVoucher, 'create', '')"
           >
             Tambah
           </a>
@@ -34,7 +34,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
-          <h3 class="m-0">Senarai Penerbitan</h3>
+          <h3 class="m-0">Senarai Baucar</h3>
         </div>
         <div class="dataTables_wrapper py-4">
           <div class="row">
@@ -90,28 +90,28 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Nama MS</span>
+                <span>Kod Baucar</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.name_ms }}
+                {{ row.voucher_code }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Ikon</span>
+                <span>Jumlah Baucar (RM)</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <i [class]="row.icon + ' fa-2x'"></i>
+                {{ row.voucher_amount | number: "1.2-2" }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tarikh Dicipta</span>
+                <span>Pelanggan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.created_date | date: "mediumDate" }}
+                {{ row.user.full_name }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -120,11 +120,20 @@
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span *ngIf="row.status" class="badge badge-pill badge-success"
-                  >Aktif</span
+                <span
+                  *ngIf="row.status == 'NU'"
+                  class="badge badge-pill badge-warning"
+                  >Tidak Digunakan</span
                 >
-                <span *ngIf="!row.status" class="badge badge-pill badge-danger"
-                  >Tidak aktif</span
+                <span
+                  *ngIf="row.status == 'AU'"
+                  class="badge badge-pill badge-success"
+                  >Sudah Digunakan</span
+                >
+                <span
+                  *ngIf="row.status == 'EX'"
+                  class="badge badge-pill badge-danger"
+                  >Tamat Tempoh</span
                 >
               </ng-template>
             </ngx-datatable-column>
@@ -135,14 +144,8 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
-                  class="btn btn-sm btn-default"
-                  [routerLink]="['/publications/list/', row.id]"
-                >
-                  Senarai
-                </button>
-                <button
                   class="btn btn-sm btn-primary"
-                  (click)="openModal(editPublicationCategory, 'update', row)"
+                  (click)="openModal(editVoucher, 'update', row)"
                 >
                   Sunting
                 </button>
@@ -158,7 +161,7 @@
   </div>
 </div>
 
-<ng-template #createPublicationCategory>
+<ng-template #createVoucher>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Tambah
@@ -176,65 +179,60 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="publicationcategoryFormGroup">
-      <div class="form-group">
-        <label class="form-control-label">Nama MS</label>
+    <form [formGroup]="voucherFormGroup">
+      <!-- <div class="form-group">
+        <label class="form-control-label">Kod Baucar</label>
         <input
-          class="form-control"
-          formControlName="name_ms"
-          placeholder="Nama MS"
           type="text"
+          class="form-control"
+          formControlName="voucher_code"
+          placeholder="Kod Baucar"
+        />
+      </div> -->
+      <div class="form-group">
+        <label class="form-control-label">Jumlah Baucar (RM)</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="voucher_amount"
+          placeholder="Jumlah Baucar (RM)"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama EN</label>
-        <input
+        <label class="form-control-label">Deskripsi</label>
+        <textarea
           class="form-control"
-          formControlName="name_en"
-          placeholder="Nama EN"
-          type="text"
+          formControlName="description"
+          placeholder="Deskripsi"
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Sah Sehingga</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="validity_until"
+          placeholder="Kod Baucar"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Ikon</label>
-        <select class="form-control" formControlName="icon">
-          <option value="">Sila pilih</option>
-          <option
-            *ngFor="let fontAwesome of fontAwesomes"
-            [value]="fontAwesome"
-          >
-            <p>{{ fontAwesome }}</p>
+        <label class="form-control-label">Pelanggan</label>
+        <select class="form-control" formControlName="user">
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
           </option>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label mr-3">Status</label>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input
-            type="radio"
-            id="radioStatusTrue"
-            name="status"
-            formControlName="status"
-            class="custom-control-input"
-            value="true"
-          />
-          <label class="custom-control-label" for="radioStatusTrue"
-            >Aktif</label
-          >
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input
-            type="radio"
-            id="radioStatusFalse"
-            name="status"
-            formControlName="status"
-            class="custom-control-input"
-            value="false"
-          />
-          <label class="custom-control-label" for="radioStatusFalse"
-            >Tidak Aktif</label
-          >
-        </div>
+        <label class="form-control-label">Status</label>
+        <select class="form-control" formControlName="status">
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let status of statuses" [value]="status.value">
+            {{ status.display_name }}
+          </option>
+        </select>
       </div>
     </form>
   </div>
@@ -245,17 +243,17 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
 
-<ng-template #editPublicationCategory>
+<ng-template #editVoucher>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Ubah Suai
@@ -273,65 +271,59 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="publicationcategoryFormGroup">
-      <div class="form-group">
-        <label class="form-control-label">Nama MS</label>
+    <form [formGroup]="voucherFormGroup">
+      <!-- <div class="form-group">
+        <label class="form-control-label">Kod Baucar</label>
         <input
-          class="form-control"
-          formControlName="name_ms"
-          placeholder="Nama MS"
           type="text"
+          class="form-control"
+          formControlName="voucher_code"
+          placeholder="Kod Baucar"
+        />
+      </div> -->
+      <div class="form-group">
+        <label class="form-control-label">Jumlah Baucar (RM)</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="voucher_amount"
+          placeholder="Jumlah Baucar (RM)"
+          readonly
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama EN</label>
-        <input
+        <label class="form-control-label">Deskripsi</label>
+        <textarea
           class="form-control"
-          formControlName="name_en"
-          placeholder="Nama EN"
-          type="text"
+          formControlName="description"
+          placeholder="Deskripsi"
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Sah Sehingga</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="validity_until"
+          placeholder="Kod Baucar"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Ikon</label>
-        <select class="form-control" formControlName="icon">
-          <option value="">Sila pilih</option>
-          <option
-            *ngFor="let fontAwesome of fontAwesomes"
-            [value]="fontAwesome"
-          >
-            <p>{{ fontAwesome }}</p>
+        <label class="form-control-label">Pelanggan</label>
+        <select class="form-control" formControlName="user">
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
           </option>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label mr-3">Status</label>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input
-            type="radio"
-            id="radioStatusTrue"
-            name="status"
-            formControlName="status"
-            class="custom-control-input"
-            value="true"
-          />
-          <label class="custom-control-label" for="radioStatusTrue"
-            >Aktif</label
-          >
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input
-            type="radio"
-            id="radioStatusFalse"
-            name="status"
-            formControlName="status"
-            class="custom-control-input"
-            value="false"
-          />
-          <label class="custom-control-label" for="radioStatusFalse"
-            >Tidak Aktif</label
-          >
-        </div>
+        <label class="form-control-label">Status</label>
+        <select class="form-control" formControlName="status">
+          <option *ngFor="let status of statuses" [value]="status.value">
+            {{ status.display_name }}
+          </option>
+        </select>
       </div>
     </form>
   </div>
@@ -342,12 +334,12 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>

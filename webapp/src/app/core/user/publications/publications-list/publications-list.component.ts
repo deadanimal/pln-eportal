@@ -62,10 +62,13 @@ export class PublicationsListComponent implements OnInit {
 
     this.publicationFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_en: new FormControl(""),
+      description_ms: new FormControl(""),
       call_number: new FormControl(""),
-      abstract: new FormControl(""),
+      abstract_en: new FormControl(""),
+      abstract_ms: new FormControl(""),
       author_name: new FormControl(""),
       editor_name: new FormControl(""),
       publisher_name: new FormControl(""),
@@ -142,10 +145,13 @@ export class PublicationsListComponent implements OnInit {
   emptyFormGroup() {
     this.publicationFormGroup.patchValue({
       id: "",
-      title: "",
-      description: "",
+      title_en: "",
+      title_ms: "",
+      description_en: "",
+      description_ms: "",
       call_number: "",
-      abstract: "",
+      abstract_en: "",
+      abstract_ms: "",
       author_name: "",
       editor_name: "",
       publisher_name: "",
@@ -197,10 +203,13 @@ export class PublicationsListComponent implements OnInit {
 
   create() {
     const formData = new FormData();
-    formData.append("title", this.publicationFormGroup.value.title);
-    formData.append("description", this.publicationFormGroup.value.description);
+    formData.append("title_en", this.publicationFormGroup.value.title_en);
+    formData.append("title_ms", this.publicationFormGroup.value.title_ms);
+    formData.append("description_en", this.publicationFormGroup.value.description_en);
+    formData.append("description_ms", this.publicationFormGroup.value.description_ms);
     formData.append("call_number", this.publicationFormGroup.value.call_number);
-    formData.append("abstract", this.publicationFormGroup.value.abstract);
+    formData.append("abstract_en", this.publicationFormGroup.value.abstract_en);
+    formData.append("abstract_ms", this.publicationFormGroup.value.abstract_ms);
     formData.append("author_name", this.publicationFormGroup.value.author_name);
     formData.append("editor_name", this.publicationFormGroup.value.editor_name);
     formData.append(
@@ -272,10 +281,13 @@ export class PublicationsListComponent implements OnInit {
 
   update() {
     const formData = new FormData();
-    formData.append("title", this.publicationFormGroup.value.title);
-    formData.append("description", this.publicationFormGroup.value.description);
+    formData.append("title_en", this.publicationFormGroup.value.title_en);
+    formData.append("title_ms", this.publicationFormGroup.value.title_ms);
+    formData.append("description_en", this.publicationFormGroup.value.description_en);
+    formData.append("description_ms", this.publicationFormGroup.value.description_ms);
     formData.append("call_number", this.publicationFormGroup.value.call_number);
-    formData.append("abstract", this.publicationFormGroup.value.abstract);
+    formData.append("abstract_en", this.publicationFormGroup.value.abstract_en);
+    formData.append("abstract_ms", this.publicationFormGroup.value.abstract_ms);
     formData.append("author_name", this.publicationFormGroup.value.author_name);
     formData.append("editor_name", this.publicationFormGroup.value.editor_name);
     formData.append(
