@@ -1,6 +1,8 @@
 export class InvoiceReceipt {
   public id: string;
-  public total_all_price: number;
+  public total_price_before_voucher: number;
+  public total_voucher: number;
+  public total_price_after_voucher: number;
   public status: string;
   public invoice_created_datetime: string;
   public pending_payment_datetime: string;
@@ -10,12 +12,15 @@ export class InvoiceReceipt {
   public user: any;
   public fpx_transaction_id: string;
   public cart_id: string;
+  public voucher_id: string;
   public created_date: string;
   public modified_date: string;
 
   constructor(
     id: string,
-    total_all_price: number,
+    total_price_before_voucher: number,
+    total_voucher: number,
+    total_price_after_voucher: number,
     status: string,
     invoice_created_datetime: string,
     pending_payment_datetime: string,
@@ -25,11 +30,14 @@ export class InvoiceReceipt {
     user: any,
     fpx_transaction_id: string,
     cart_id: string,
+    voucher_id: string,
     created_date: string,
     modified_date: string
   ) {
     this.id = id;
-    this.total_all_price = total_all_price;
+    this.total_price_before_voucher = total_price_before_voucher;
+    this.total_voucher = total_voucher;
+    this.total_price_after_voucher = total_price_after_voucher;
     this.status = status;
     this.invoice_created_datetime = invoice_created_datetime;
     this.pending_payment_datetime = pending_payment_datetime;
@@ -39,6 +47,7 @@ export class InvoiceReceipt {
     this.user = user;
     this.fpx_transaction_id = fpx_transaction_id;
     this.cart_id = cart_id;
+    this.voucher_id = voucher_id;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

@@ -49,6 +49,7 @@ export class NavbarComponent implements OnInit {
 
   // Token
   accessToken: string;
+  refreshToken: string;
 
   // Modal
   loginModal: BsModalRef;
@@ -180,6 +181,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.accessToken = this.jwtService.getToken("accessToken");
+    this.refreshToken = this.jwtService.getToken("refreshToken");
 
     if (this.authService.subsVar == undefined) {
       this.authService.subsVar = this.authService.invokeLogoutFunction.subscribe(
@@ -197,22 +199,13 @@ export class NavbarComponent implements OnInit {
       (addToCartCount) => (this.addToCartCount = addToCartCount)
     );
 
-    if (this.accessToken) {
+    if (this.accessToken && this.refreshToken) {
       // to get add to cart count
       this.getAddToCartCount();
 
-      // to verify and refresh the token if user click remember me
-      // let body = {
-      //   token: this.accessToken,
-      // };
-      // this.authService.verifyToken(body).subscribe(
-      //   (res) => {
-      //     console.log("res", res);
-      //   },
-      //   (err) => {
-      //     console.error("err", err);
-      //   }
-      // );
+      if (this.cookieService.check("rememberMe"))
+        if (this.cookieService.get("rememberMe") == "true")
+          this.checkTokenExpired();
     }
   }
 
@@ -232,6 +225,39 @@ export class NavbarComponent implements OnInit {
       );
   }
 
+  checkTokenExpired() {
+    console.log("checkTokenExpired triggered");
+    let access = this.jwtService.getToken("accessToken");
+    let refresh = this.jwtService.getToken("refreshToken");
+    if (access && refresh) {
+      // check if the refresh is not expired
+      if (this.authService.isTokenExpired(refresh)) {
+        // return true
+        this.jwtService.destroyToken();
+        this.router.navigate(["/landing"]);
+      } else {
+        // return false
+        // check if the access is not expired
+        if (this.authService.isTokenExpired(access)) {
+          // return true
+          let body = {
+            refresh: refresh,
+          };
+          this.authService.refreshToken(body).subscribe(
+            (res) => {
+              this.jwtService.saveToken("accessToken", res.access);
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+        } else {
+          // return false
+        }
+      }
+    }
+  }
+
   onSwitchChange(event) {
     // console.log(event);
     if (event.currentValue == true) {
@@ -247,6 +273,10 @@ export class NavbarComponent implements OnInit {
 
   clickLogin() {
     if (this.rememberMe) this.cookieService.set("rememberMe", "true");
+    else {
+      if (this.cookieService.check("rememberMe"))
+        this.cookieService.delete("rememberMe");
+    }
 
     this.authService.obtainToken(this.loginFormGroup.value).subscribe(
       (res) => {

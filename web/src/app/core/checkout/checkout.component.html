@@ -164,10 +164,33 @@
                 </table>
               </div>
 
-              <hr class="line-info mb-3" style="border-top: 3px solid;" />
+              <hr class="line-info mb-3" style="border-top: 3px solid" />
 
               <div class="row mb-3">
-                <div class="col-9 text-right">
+                <div class="col-3 text-left d-flex align-items-center">
+                  <h6 class="title text-dark m-0" [innerHtml]="'BaucarNota' | translate | safe: 'html'">
+                    Masukkan kod baucar<br />(sekiranya ada)
+                  </h6>
+                </div>
+                <div class="col-2 d-flex align-items-center">
+                  <input
+                    class="form-control text-dark"
+                    type="text"
+                    maxlength="10"
+                    [(ngModel)]="voucher_code"
+                    style="text-transform: uppercase"
+                  />
+                </div>
+                <div class="col d-flex align-items-center">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    (click)="checkVoucherCode()"
+                  >
+                    {{ "Semak" | translate }}
+                  </button>
+                </div>
+                <div class="col-3 text-right">
                   <h4 class="title text-dark m-0">
                     {{ "Jumlah" | translate }}
                   </h4>
@@ -175,10 +198,10 @@
                     RM {{ totalprice | number: "1.2-2" }}
                   </h2>
                 </div>
-                <div class="col text-right">
+                <div class="col text-right d-flex align-items-center">
                   <button
                     type="button"
-                    class="btn btn-default"
+                    class="btn btn-default btn-sm"
                     (click)="clickMakePayment()"
                   >
                     {{ "BuatBayaran" | translate }}

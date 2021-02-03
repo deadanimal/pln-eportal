@@ -15,6 +15,7 @@ import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
+import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
@@ -27,8 +28,17 @@ export class CheckoutComponent implements OnInit {
   user_id: string = "";
   carts = [];
   summarycarts = [];
+  vouchers = [];
+  voucher_id: string = "";
+  voucher_code: string = "";
+  done_voucher_verify: boolean = false;
   totalprice: number = 0;
   queryParams: any;
+
+  // Price
+  total_price_before_voucher: number = 0;
+  total_voucher: number = 0;
+  total_price_after_voucher: number = 0;
 
   // Dropdown
   simulatorridedays = [
@@ -132,9 +142,25 @@ export class CheckoutComponent implements OnInit {
     private invoicereceiptService: InvoiceReceiptsService,
     private showbookingService: ShowbookingsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
+    private voucherService: VouchersService,
     private w3cService: W3csService
   ) {
     this.getCart();
+    this.getVoucher();
+  }
+
+  getVoucher() {
+    this.voucherService
+      .filter("status=NU&user=" + this.authService.decodedToken().user_id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.vouchers = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   // to get cart detail
@@ -256,6 +282,7 @@ export class CheckoutComponent implements OnInit {
     for (let i = 0; i < this.summarycarts.length; i++) {
       for (let j = 0; j < this.summarycarts[i].length; j++) {
         this.totalprice += +this.summarycarts[i][j].total_price;
+        this.total_price_before_voucher = this.totalprice;
       }
     }
   }
@@ -335,7 +362,35 @@ export class CheckoutComponent implements OnInit {
       });
   }
 
+  checkVoucherCode() {
+    this.voucher_code = this.voucher_code.toUpperCase();
+    if (this.carts.length > 0) {
+      if (this.voucher_code.length == 10 && !this.done_voucher_verify) {
+        let result = this.vouchers.find((obj) => {
+          return obj.voucher_code == this.voucher_code;
+        });
+        if (result) {
+          this.voucher_id = result.id;
+          this.voucher_code = result.voucher_code;
+          this.total_voucher = result.voucher_amount;
+
+          // to update total price after voucher inserted
+          this.totalprice = this.totalprice - this.total_voucher;
+          this.total_price_after_voucher = this.totalprice;
+
+          // to update done_voucher_verify to true
+          this.done_voucher_verify = true;
+        }
+      } else {
+        this.total_price_after_voucher = this.totalprice;
+      }
+    }
+  }
+
   clickMakePayment() {
+    // trigger checkVoucherCode even the voucher is not inserted
+    this.checkVoucherCode();
+    
     // to check if invoice is existing and status is IC - Invoice Created
     this.invoicereceiptService
       .filter("status=IC&user=" + this.authService.decodedToken().user_id)
@@ -363,7 +418,14 @@ export class CheckoutComponent implements OnInit {
                         invoice_created_datetime: this.getCurrentDateTime(),
                         user: this.authService.decodedToken().user_id,
                         cart_id: cart_id,
-                        total_all_price: this.totalprice.toFixed(2),
+                        total_price_before_voucher: this.total_price_before_voucher.toFixed(
+                          2
+                        ),
+                        total_voucher: this.total_voucher.toFixed(2),
+                        total_price_after_voucher: this.total_price_after_voucher.toFixed(
+                          2
+                        ),
+                        voucher_id: this.voucher_id,
                       };
                       this.invoicereceiptService.post(obj).subscribe(
                         (res) => {
@@ -396,7 +458,14 @@ export class CheckoutComponent implements OnInit {
                 invoice_created_datetime: this.getCurrentDateTime(),
                 user: this.authService.decodedToken().user_id,
                 cart_id: cart_id,
-                total_all_price: this.totalprice.toFixed(2),
+                total_price_before_voucher: this.total_price_before_voucher.toFixed(
+                  2
+                ),
+                total_voucher: this.total_voucher,
+                total_price_after_voucher: this.total_price_after_voucher.toFixed(
+                  2
+                ),
+                voucher_id: this.voucher_id,
               };
               this.invoicereceiptService.post(obj).subscribe(
                 (res) => {

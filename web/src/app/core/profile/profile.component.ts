@@ -11,6 +11,7 @@ import { CustomValidators } from "src/app/shared/class/custom-validators";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -25,10 +26,38 @@ export class ProfileComponent implements OnInit {
   fontSize: string;
 
   // Data
+  invoicereceipts = [];
   user: any;
   selectedTab: string = "maklumat-am";
 
   // Dropdown
+  invoicereceiptstatuses = [
+    {
+      value: "IC",
+      display_name_en: "Invoice Created",
+      display_name_ms: "Invois Dibuat",
+    },
+    {
+      value: "PP",
+      display_name_en: "Pending Payment",
+      display_name_ms: "Pembayaran Belum Selesai",
+    },
+    {
+      value: "PS",
+      display_name_en: "Payment Successful",
+      display_name_ms: "Pembayaran Berjaya",
+    },
+    {
+      value: "PR",
+      display_name_en: "Payment Rejected",
+      display_name_ms: "Pembayaran Ditolak",
+    },
+    {
+      value: "RC",
+      display_name_en: "Receipt Created",
+      display_name_ms: "Resit Dibuat",
+    },
+  ];
   races = [
     {
       value: "ML",
@@ -67,6 +96,7 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
+    private invoicereceiptService: InvoiceReceiptsService,
     public jwtService: JwtService,
     private userService: UsersService,
     private w3cService: W3csService
@@ -133,6 +163,7 @@ export class ProfileComponent implements OnInit {
     );
 
     this.getUser();
+    this.getInvoiceReceipt();
   }
 
   getUser() {
@@ -148,6 +179,20 @@ export class ProfileComponent implements OnInit {
         console.error("err", err);
       }
     );
+  }
+
+  getInvoiceReceipt() {
+    this.invoicereceiptService
+      .extended("user=" + this.authService.decodedToken().user_id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.invoicereceipts = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   ngOnInit() {
@@ -231,5 +276,28 @@ export class ProfileComponent implements OnInit {
           });
         }
       );
+  }
+
+  getInvoiceReceiptStatus(value: string) {
+    let html = "";
+    switch (value) {
+      case "IC":
+        html = "<span class='badge badge-primary'>Invois Dibuat</span>";
+        break;
+      case "PP":
+        html =
+          "<span class='badge badge-warning'>Pembayaran Belum Selesai</span>";
+        break;
+      case "PS":
+        html = "<span class='badge badge-success'>Pembayaran Berjaya</span>";
+        break;
+      case "PR":
+        html = "<span class='badge badge-danger'>Pembayaran Ditolak</span>";
+        break;
+      case "RC":
+        html = "<span class='badge badge-info'>Resit Dibuat</span>";
+        break;
+    }
+    return html;
   }
 }

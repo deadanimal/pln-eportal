@@ -4,12 +4,12 @@
       <div class="row pt-5">
         <div class="col text-center">
           <h2 class="title">
-            Terima kasih kerana menempah tayangan bersama kami.
+            {{ "ResitTerimaKasih" | translate }}
           </h2>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 col-sm-12 mx-auto">
+        <div class="col-md-8 col-sm-12 mx-auto">
           <div class="card" style="background-color: #ffffff">
             <div class="card-header" style="background-color: #2d71f6">
               <div class="row">
@@ -19,7 +19,12 @@
                   </h3>
                 </div>
                 <div class="col-auto text-right">
-                  <h3 class="title text-white mt-0">15 Jan 2021</h3>
+                  <h3 class="title text-white mt-0">
+                    {{
+                      invoicereceipts[0]?.receipt_created_datetime
+                        | date: "dd.MM.yyyy"
+                    }}
+                  </h3>
                 </div>
               </div>
             </div>
@@ -48,28 +53,111 @@
                   </p>
                 </div>
               </div>
-
-              <!-- <div class="text-center">
-                <img
-                  src="../../../assets/icon/receipt.svg"
-                  style="width: 50%"
-                />
-              </div> -->
-              <hr class="line-info mb-3" />
+              <div class="row justify-content-md-between mt-5">
+                <div class="col-md-4">
+                  <h2 class="text-left text-dark">
+                    {{ "ResitNo" | translate }}
+                    <small class="mr-2">
+                      {{ invoicereceipts[0]?.receipt_running_no }}
+                    </small>
+                  </h2>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                  <div class="row">
+                    <div class="col-md-6">{{ "Tarikh" | translate }}:</div>
+                    <div class="col-md-6 text-dark">
+                      {{
+                        invoicereceipts[0]?.receipt_created_datetime
+                          | date: "dd.MM.yyyy"
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <hr class="line-info mb-3" /> -->
 
               <div class="row">
-                <div class="col text-center">
-                  <div class="media-body">
-                    <h3 class="title text-dark mb-0 mt-0">
-                      {{ "Tayangan" | translate }}
-                    </h3>
-                    <h4 class="title text-dark mb-1 mt-1">Dynamic Earth</h4>
-                    <p class="d-block text-dark">
-                      Tarikh: 15 Jan 2021 | Masa: 15:50:00
-                    </p>
-                    <p class="font-weight-bold text-dark">
-                      <span> D24 D25 </span>
-                    </p>
+                <div class="col-12 mt-3">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class="bg-info">
+                        <tr>
+                          <th scope="col">
+                            <h4 class="title text-white m-0">Item</h4>
+                          </th>
+                          <th class="text-center" scope="col">
+                            <h4 class="title text-white m-0">
+                              {{ "Kuantiti" | translate }}
+                            </h4>
+                          </th>
+                          <th class="text-right" scope="col">
+                            <h4 class="title text-white m-0">
+                              {{ "Jumlah" | translate }} (RM)
+                            </h4>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let summarycart of summarycarts;
+                            let i = index
+                          "
+                        >
+                          <td>
+                            <div
+                              *ngIf="summarycart[0].type == 'simulator-ride'"
+                            >
+                              {{ "KembaraSimulasi" | translate }} -
+                              <span *ngIf="translate.currentLang == 'en'">
+                                {{ summarycart[0].simulator_ride_day_en }},
+                                {{ summarycart[0].simulator_ride_round_en }} ({{
+                                  summarycart[0].simulator_ride_time
+                                }})
+                              </span>
+                              <span *ngIf="translate.currentLang == 'ms'">
+                                {{ summarycart[0].simulator_ride_day_ms }},
+                                {{ summarycart[0].simulator_ride_round_ms }} ({{
+                                  summarycart[0].simulator_ride_time
+                                }})
+                              </span>
+                            </div>
+
+                            <div *ngIf="summarycart[0].type == 'showing'">
+                              {{ "Tayangan" | translate }} -
+                              <span *ngIf="translate.currentLang == 'en'"
+                                >{{ summarycarts[i][0].showing_title_en }},
+                                {{ summarycarts[i][0].showtime_show_date }}, ({{
+                                  summarycarts[i][0].showtime_show_time
+                                }})</span
+                              >
+                              <span *ngIf="translate.currentLang == 'ms'"
+                                >{{ summarycarts[i][0].showing_title_ms }},
+                                {{ summarycarts[i][0].showtime_show_date }}, ({{
+                                  summarycarts[i][0].showtime_show_time
+                                }})
+                              </span>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            {{ summarycarts[i].length }}
+                          </td>
+                          <td class="text-right">
+                            RM {{ calculatoPriceEachCart(summarycarts[i]) }}
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th class="h4 text-dark title">
+                            {{ "Jumlah" | translate }}
+                          </th>
+                          <th class="text-right h4 text-dark title" colspan="3">
+                            RM {{ totalprice | number: "1.2-2" }}
+                          </th>
+                        </tr>
+                      </tfoot>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -79,50 +167,79 @@
               <!-- Transaction Date Seller Order No FPX Transaction ID Transaction
               Amount Buyer Bank Name Status -->
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-8 col-sm-6 text-right">
                   <p class="font-weight-semi-bold text-dark">
                     {{ "TarikhTransaksi" | translate }}
                   </p>
                 </div>
-                <div class="col-md-6 col-sm-12 text-right">15 Jan 2021</div>
+                <div class="col-md-4 col-sm-6 text-right">
+                  {{ invoicereceipts[0]?.fpx_transaction_id.fpx_fpxTxnTime | formatFPXTransactionDateTime }}
+                </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-8 col-sm-6 text-right">
                   <p class="font-weight-semi-bold text-dark">
                     {{ "NomborPesananPenjual" | translate }}
                   </p>
                 </div>
-                <div class="col-md-6 col-sm-12 text-right">1234567890</div>
+                <div class="col-md-4 col-sm-6 text-right">
+                  {{ invoicereceipts[0]?.fpx_transaction_id.fpx_sellerOrderNo }}
+                </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-8 col-sm-6 text-right">
                   <p class="font-weight-semi-bold text-dark">
                     {{ "IDTransaksiFPX" | translate }}
                   </p>
                 </div>
-                <div class="col-md-6 col-sm-12 text-right">0987654321</div>
+                <div class="col-md-4 col-sm-6 text-right">
+                  {{ invoicereceipts[0]?.fpx_transaction_id.fpx_fpxTxnId }}
+                </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-8 col-sm-6 text-right">
                   <p class="font-weight-semi-bold text-dark">
                     {{ "JumlahTransaksi" | translate }}
                   </p>
                 </div>
-                <div class="col-md-6 col-sm-12 text-right">RM 24.00</div>
+                <div class="col-md-4 col-sm-6 text-right">
+                  RM {{ invoicereceipts[0]?.fpx_transaction_id.fpx_txnAmount }}
+                </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-8 col-sm-6 text-right">
                   <p class="font-weight-semi-bold text-dark">
                     {{ "NamaBankPembeli" | translate }}
                   </p>
                 </div>
-                <div class="col-md-6 col-sm-12 text-right">RHB Bank</div>
+                <div class="col-md-4 col-sm-6 text-right">
+                  {{
+                    invoicereceipts[0]?.fpx_transaction_id.fpx_buyerBankBranch
+                  }}
+                </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-8 col-sm-6 text-right">
                   <p class="font-weight-semi-bold text-dark">Status</p>
                 </div>
-                <div class="col-md-6 col-sm-12 text-right">Berjaya</div>
+                <div class="col-md-4 col-sm-6 text-right">
+                  <span
+                    class="text-uppercase font-weight-bold"
+                    *ngIf="
+                      invoicereceipts[0]?.fpx_transaction_id
+                        .fpx_debitAuthCode == '00'
+                    "
+                    >{{ "Berjaya" | translate }}</span
+                  >
+                  <span
+                    class="text-uppercase font-weight-bold"
+                    *ngIf="
+                      invoicereceipts[0]?.fpx_transaction_id
+                        .fpx_debitAuthCode != '00'
+                    "
+                    >{{ "TidakBerjaya" | translate }}</span
+                  >
+                </div>
               </div>
 
               <div class="row pt-3">
