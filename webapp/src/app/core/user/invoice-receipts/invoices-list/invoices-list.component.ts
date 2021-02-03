@@ -8,8 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
-import { FontAwesome } from "src/assets/json/font-awesome-dropdown";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,18 +19,39 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-publications",
-  templateUrl: "./publications.component.html",
-  styleUrls: ["./publications.component.scss"],
+  selector: "app-invoices-list",
+  templateUrl: "./invoices-list.component.html",
+  styleUrls: ["./invoices-list.component.scss"],
 })
-export class PublicationsComponent implements OnInit {
+export class InvoicesListComponent implements OnInit {
   // Data
 
   // Dropdown
-  fontAwesomes = FontAwesome;
+  statuses = [
+    {
+      value: "IC",
+      display_name: "Invois Dicipta",
+    },
+    {
+      value: "PP",
+      display_name: "Pembayaran Belum Selesai",
+    },
+    {
+      value: "PS",
+      display_name: "Pembayaran Berjaya",
+    },
+    {
+      value: "PR",
+      display_name: "Pembayaran Ditolak",
+    },
+    {
+      value: "RC",
+      display_name: "Resit Dicipta",
+    },
+  ];
 
   // FormGroup
-  publicationcategoryFormGroup: FormGroup;
+  invoicereceiptFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -51,23 +71,19 @@ export class PublicationsComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private publicationcategoryService: PublicationCategoriesService
+    private invoicereceiptService: InvoiceReceiptsService
   ) {
-    this.getData();
-
-    this.publicationcategoryFormGroup = this.formBuilder.group({
-      id: new FormControl(""),
-      name_en: new FormControl(""),
-      name_ms: new FormControl(""),
-      icon: new FormControl(""),
-      status: new FormControl(false),
+    this.invoicereceiptFormGroup = this.formBuilder.group({
+      id: new FormControl("", Validators.compose([Validators.required])),
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getData();
+  }
 
   getData() {
-    this.publicationcategoryService.get().subscribe((res) => {
+    this.invoicereceiptService.extended("").subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -110,9 +126,9 @@ export class PublicationsComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.publicationcategoryFormGroup.reset();
+      this.invoicereceiptFormGroup.reset();
     } else if (process == "update") {
-      this.publicationcategoryFormGroup.patchValue({
+      this.invoicereceiptFormGroup.patchValue({
         ...row,
       });
     }
@@ -124,8 +140,8 @@ export class PublicationsComponent implements OnInit {
   }
 
   create() {
-    this.publicationcategoryService
-      .post(this.publicationcategoryFormGroup.value)
+    this.invoicereceiptService
+      .post(this.invoicereceiptFormGroup.value)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -164,10 +180,10 @@ export class PublicationsComponent implements OnInit {
   }
 
   update() {
-    this.publicationcategoryService
+    this.invoicereceiptService
       .update(
-        this.publicationcategoryFormGroup.value,
-        this.publicationcategoryFormGroup.value.id
+        this.invoicereceiptFormGroup.value,
+        this.invoicereceiptFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -221,7 +237,7 @@ export class PublicationsComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.publicationcategoryService.delete(row.id).subscribe(
+          this.invoicereceiptService.delete(row.id).subscribe(
             (res) => {
               console.log("res", res);
               swal.fire({
@@ -248,9 +264,10 @@ export class PublicationsComponent implements OnInit {
       });
   }
 
-  onIconPickerSelect(icon: string): void {
-    this.publicationcategoryFormGroup.patchValue({
-      icon,
+  getStatus(value: string) {
+    let result = this.statuses.find((obj) => {
+      return obj.value == value;
     });
+    return result.display_name;
   }
 }

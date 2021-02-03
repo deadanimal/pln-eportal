@@ -87,6 +87,10 @@ import { DynamicContentsComponent } from "./cms/dynamic-contents/dynamic-content
 import { CustomersComponent } from "./managements/customers/customers.component";
 import { FpxsListComponent } from './fpxs/fpxs-list/fpxs-list.component';
 import { FpxsBankListComponent } from './fpxs/fpxs-bank-list/fpxs-bank-list.component';
+import { FpxsResponseCodeListComponent } from './fpxs/fpxs-response-code-list/fpxs-response-code-list.component';
+import { InvoicesListComponent } from './invoice-receipts/invoices-list/invoices-list.component';
+import { ReceiptsListComponent } from './invoice-receipts/receipts-list/receipts-list.component';
+import { VouchersComponent } from './vouchers/vouchers.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -161,6 +165,10 @@ FullCalendarModule.registerPlugins([
     CustomersComponent,
     FpxsListComponent,
     FpxsBankListComponent,
+    FpxsResponseCodeListComponent,
+    InvoicesListComponent,
+    ReceiptsListComponent,
+    VouchersComponent,
   ],
   imports: [
     CommonModule,

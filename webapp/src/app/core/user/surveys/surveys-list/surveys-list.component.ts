@@ -116,7 +116,8 @@ export class SurveysListComponent implements OnInit {
     this.surveyquestionFormGroup = this.formBuilder.group({
       id: new FormControl(""),
       questionnaire_fieldname: new FormControl(""),
-      questionnaire_question: new FormControl(""),
+      questionnaire_question_en: new FormControl(""),
+      questionnaire_question_ms: new FormControl(""),
       questionnaire_type: new FormControl(""),
       questionnaire_answer: new FormControl([]),
       questionnaire_module: new FormControl(""),

@@ -5,13 +5,11 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { SurveyAnswersService } from "src/app/shared/services/survey-answers/survey-answers.service";
-import { SurveyQuestionsService } from "src/app/shared/services/survey-questions/survey-questions.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
 
 export enum SelectionType {
   single = "single",
@@ -22,18 +20,32 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-surveys-answer",
-  templateUrl: "./surveys-answer.component.html",
-  styleUrls: ["./surveys-answer.component.scss"],
+  selector: "app-vouchers",
+  templateUrl: "./vouchers.component.html",
+  styleUrls: ["./vouchers.component.scss"],
 })
-export class SurveysAnswerComponent implements OnInit {
-  // Table
-  tableEntries: number = 5;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
+export class VouchersComponent implements OnInit {
+  // Data
+  users = [];
+
+  // Dropdown
+  statuses = [
+    {
+      value: "NU",
+      display_name: "Tidak Digunakan",
+    },
+    {
+      value: "AU",
+      display_name: "Sudah Digunakan",
+    },
+    {
+      value: "EX",
+      display_name: "Tamat Tempoh",
+    },
+  ];
+
+  // FormGroup
+  voucherFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -42,113 +54,37 @@ export class SurveysAnswerComponent implements OnInit {
     class: "modal-dialog",
   };
 
-  // FormGroup
-  surveyanswerFormGroup: FormGroup;
-
-  // Dropdown
-  questionnairetypes = [
-    {
-      value: "CB",
-      display_name: "Checkbox",
-    },
-    {
-      value: "SL",
-      display_name: "Selection",
-    },
-    {
-      value: "TB",
-      display_name: "Textbox",
-    },
-    {
-      value: "NA",
-      display_name: "Tiada",
-    },
-  ];
-  questionnairemodules = [
-    {
-      value: "M01",
-      display_name: "Tayangan",
-    },
-    {
-      value: "M02",
-      display_name: "Pameran",
-    },
-    {
-      value: "M03",
-      display_name: "Program Pendidikan",
-    },
-    {
-      value: "M04",
-      display_name: "Perpustakaan Maya",
-    },
-    {
-      value: "M05",
-      display_name: "Kembara Simulasi",
-    },
-    {
-      value: "M06",
-      display_name: "Lawatan",
-    },
-    {
-      value: "M07",
-      display_name: "Penerbitan",
-    },
-    {
-      value: "M08",
-      display_name: "Fasiliti",
-    },
-    {
-      value: "NAV",
-      display_name: "Tiada",
-    },
-  ];
-
-  // Data
-  surveyquestion = {
-    id: "",
-    questionnaire_question_en: "",
-    questionnaire_question_ms: "",
-    questionnaire_type: "",
-    questionnaire_answer: "",
-    questionnaire_module: "",
-  };
-  users = [];
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private route: ActivatedRoute,
-    private surveyanswerService: SurveyAnswersService,
-    private surveyquestionService: SurveyQuestionsService,
-    private userService: UsersService
+    private userService: UsersService,
+    private voucherService: VouchersService
   ) {
+    this.getData();
     this.getUser();
-    
-    this.surveyanswerFormGroup = this.formBuilder.group({
+
+    this.voucherFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      question: new FormControl(""),
-      answer: new FormControl(""),
-      survey_question_id: new FormControl(""),
-      user_id: new FormControl(""),
+      // voucher_code: new FormControl(""),
+      voucher_amount: new FormControl(0),
+      validity_until: new FormControl(""),
+      description: new FormControl(""),
+      status: new FormControl(""),
+      user: new FormControl(""),
+      // invoice_receipt_id: new FormControl(""),
     });
-
-    this.surveyanswerFormGroup.value.survey_question_id = this.route.snapshot.params.id;
-
-    this.surveyquestionService
-      .filter("id=" + this.surveyanswerFormGroup.value.survey_question_id)
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          this.surveyquestion = res[0];
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
   }
 
   getUser() {
-    this.userService.getAll().subscribe(
+    this.userService.filter("user_type=CS").subscribe(
       (res) => {
         console.log("res", res);
         this.users = res;
@@ -159,25 +95,18 @@ export class SurveysAnswerComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    this.getData();
-  }
+  ngOnInit() {}
 
   getData() {
-    this.surveyanswerService
-      .filter(
-        "survey_question_id=" +
-          this.surveyanswerFormGroup.value.survey_question_id
-      )
-      .subscribe((res) => {
-        this.tableRows = res;
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            no: key,
-          };
-        });
+    this.voucherService.extended("").subscribe((res) => {
+      this.tableRows = res;
+      this.tableTemp = this.tableRows.map((prop, key) => {
+        return {
+          ...prop,
+          no: key,
+        };
       });
+    });
   }
 
   entriesChange($event) {
@@ -210,12 +139,25 @@ export class SurveysAnswerComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.voucherFormGroup.patchValue({
+      id: "",
+      voucher_code: "",
+      voucher_amount: 0,
+      validity_until: "",
+      description: "",
+      status: "",
+      user: "",
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.surveyanswerFormGroup.reset();
+      this.voucherFormGroup.reset();
     } else if (process == "update") {
-      this.surveyanswerFormGroup.patchValue({
+      this.voucherFormGroup.patchValue({
         ...row,
+        user: row.user ? row.user.id : "",
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -226,7 +168,7 @@ export class SurveysAnswerComponent implements OnInit {
   }
 
   create() {
-    this.surveyanswerService.post(this.surveyanswerFormGroup.value).subscribe(
+    this.voucherService.post(this.voucherFormGroup.value).subscribe(
       (res) => {
         console.log("res", res);
         swal
@@ -264,11 +206,8 @@ export class SurveysAnswerComponent implements OnInit {
   }
 
   update() {
-    this.surveyanswerService
-      .update(
-        this.surveyanswerFormGroup.value,
-        this.surveyanswerFormGroup.value.id
-      )
+    this.voucherService
+      .update(this.voucherFormGroup.value, this.voucherFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -321,7 +260,7 @@ export class SurveysAnswerComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.surveyanswerService.delete(row.id).subscribe(
+          this.voucherService.delete(row.id).subscribe(
             (res) => {
               console.log("res", res);
               swal.fire({
@@ -348,24 +287,10 @@ export class SurveysAnswerComponent implements OnInit {
       });
   }
 
-  getType(value: string) {
-    let result = this.questionnairetypes.find((obj) => {
+  getStatus(value: string) {
+    let result = this.statuses.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;
-  }
-
-  getModule(value: string) {
-    let result = this.questionnairemodules.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
-  }
-
-  getUserOne(user_id) {
-    let user = this.users.find((obj) => {
-      return obj.id == user_id;
-    });
-    return user.full_name;
   }
 }

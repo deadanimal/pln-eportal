@@ -1,9 +1,12 @@
 export class Publication {
   public id: string;
-  public title: string;
-  public description: string;
+  public title_en: string;
+  public title_ms: string;
+  public description_en: string;
+  public description_ms: string;
   public call_number: string;
-  public abstract: string;
+  public abstract_en: string;
+  public abstract_ms: string;
   public author_name: string;
   public editor_name: string;
   public publisher_name: string;
@@ -21,10 +24,13 @@ export class Publication {
 
   constructor(
     id: string,
-    title: string,
-    description: string,
+    title_en: string,
+    title_ms: string,
+    description_en: string,
+    description_ms: string,
     call_number: string,
-    abstract: string,
+    abstract_en: string,
+    abstract_ms: string,
     author_name: string,
     editor_name: string,
     publisher_name: string,
@@ -41,10 +47,13 @@ export class Publication {
     modified_date: string
   ) {
     this.id = id;
-    this.title = title;
-    this.description = description;
+    this.title_en = title_en;
+    this.title_ms = title_ms;
+    this.description_en = description_en;
+    this.description_ms = description_ms;
     this.call_number = call_number;
-    this.abstract = abstract;
+    this.abstract_en = abstract_en;
+    this.abstract_ms = abstract_ms;
     this.author_name = author_name;
     this.editor_name = editor_name;
     this.publisher_name = publisher_name;
