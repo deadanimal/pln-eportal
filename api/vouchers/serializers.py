@@ -16,13 +16,9 @@ from users.serializers import (
     CustomUserSerializer
 )
 
-from invoicereceipts.serializers import (
-    InvoiceReceiptSerializer,
-    InvoiceReceiptExtendedSerializer
-)
 
 class VoucherSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Voucher
         fields = '__all__'
@@ -31,7 +27,6 @@ class VoucherSerializer(serializers.ModelSerializer):
 
 class VoucherExtendedSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
-    invoice_receipt_id = InvoiceReceiptExtendedSerializer(read_only=True)
 
     class Meta:
         model = Voucher

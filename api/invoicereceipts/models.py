@@ -21,10 +21,17 @@ from fpxtransactions.models import (
     FpxTransaction
 )
 
+from vouchers.models import (
+    Voucher
+)
+
 class InvoiceReceipt(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    total_all_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    total_price_before_voucher = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    total_voucher = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    total_price_after_voucher = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
     # status invoice & receipt:
@@ -52,6 +59,7 @@ class InvoiceReceipt(models.Model):
 
     cart_id = models.ManyToManyField(Cart, related_name='invoice_receipt_cart', blank=True)
     fpx_transaction_id = models.ForeignKey(FpxTransaction, on_delete=models.CASCADE, null=True, related_name='invoice_receipt_fpx_transaction_id')
+    voucher_id = models.ForeignKey(Voucher, on_delete=models.CASCADE, null=True, related_name='invoice_receipt_voucher_id')
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
