@@ -427,7 +427,6 @@ export class CheckoutComponent implements OnInit {
                         ),
                         voucher_id: this.voucher_id,
                       };
-                      console.log("obj", obj);
                       this.invoicereceiptService.post(obj).subscribe(
                         (res) => {
                           // console.log("res", res);
@@ -446,21 +445,21 @@ export class CheckoutComponent implements OnInit {
                               .update(obj, this.voucher_id)
                               .subscribe(
                                 (res) => {
-                                  console.log("res", res);
+                                  // console.log("res", res);
                                 },
                                 (err) => {
                                   console.error("err", err);
                                 },
                                 () => {
-                                  // this.router.navigate(["/payment"], {
-                                  //   queryParams: { id: this.queryParams },
-                                  // });
+                                  this.router.navigate(["/payment"], {
+                                    queryParams: { id: this.queryParams },
+                                  });
                                 }
                               );
                           } else {
-                            // this.router.navigate(["/payment"], {
-                            //   queryParams: { id: this.queryParams },
-                            // });
+                            this.router.navigate(["/payment"], {
+                              queryParams: { id: this.queryParams },
+                            });
                           }
                         }
                       );
@@ -490,7 +489,6 @@ export class CheckoutComponent implements OnInit {
                 ),
                 voucher_id: this.voucher_id,
               };
-              console.log("obj", obj);
               this.invoicereceiptService.post(obj).subscribe(
                 (res) => {
                   // console.log("res", res);
@@ -507,21 +505,21 @@ export class CheckoutComponent implements OnInit {
                     };
                     this.voucherService.update(obj, this.voucher_id).subscribe(
                       (res) => {
-                        console.log("res", res);
+                        // console.log("res", res);
                       },
                       (err) => {
                         console.error("err", err);
                       },
                       () => {
-                        // this.router.navigate(["/payment"], {
-                        //   queryParams: { id: this.queryParams },
-                        // });
+                        this.router.navigate(["/payment"], {
+                          queryParams: { id: this.queryParams },
+                        });
                       }
                     );
                   } else {
-                    // this.router.navigate(["/payment"], {
-                    //   queryParams: { id: this.queryParams },
-                    // });
+                    this.router.navigate(["/payment"], {
+                      queryParams: { id: this.queryParams },
+                    });
                   }
                 }
               );
