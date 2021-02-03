@@ -71,7 +71,7 @@ from simulatorrides.serializers import (
     SimulatorRideBookingSerializer
 )
 
-from invoicereceipts.views import receipt_created
+# from invoicereceipts.views import receipt_created
 
 
 # convert hex to binary
@@ -168,6 +168,34 @@ def update_cart_status(fpx_transaction_id, show_booking_status, simulator_ride_b
 
                 cart.cart_status = 'CM'
                 cart.save()
+
+
+def receipt_created(invoice_receipt_id):
+    
+    invoice_receipt = InvoiceReceipt.objects.filter(
+        id=invoice_receipt_id).first()
+
+    timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+    prefix = '{}R'.format(datetime.datetime.now(timezone_).strftime('%Y%m%d'))
+    prev_instances = InvoiceReceipt.objects.exclude(
+        receipt_running_no__exact='')
+
+    if prev_instances.exists():
+        last_instance_id = prev_instances.first().receipt_running_no[-6:]
+        invoice_receipt.receipt_running_no = prefix + \
+            '{0:06d}'.format(int(last_instance_id)+1)
+    else:
+        invoice_receipt.receipt_running_no = prefix+'{0:06d}'.format(1)
+
+    invoice_receipt.receipt_created_datetime = datetime.datetime.now(
+        timezone_).strftime("%Y-%m-%d %H:%M:%S")
+    invoice_receipt.status = 'RC'
+    
+    print('receipt_created function')
+    print('invoice_receipt_id', invoice_receipt_id)
+    print('invoice_receipt.receipt_running_no', invoice_receipt.receipt_running_no)
+
+    invoice_receipt.save()
 
 
 class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -487,15 +515,17 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 invoice_receipt.status = 'PS'
                 invoice_receipt.payment_successful_datetime = datetime.datetime.now(
                     timezone_).strftime("%Y-%m-%d %H:%M:%S")
+                invoice_receipt.save()
                 update_cart_status(fpx_transaction.id, 'SB05', 'SRB03')
                 receipt_created(invoice_receipt.id)
             else:
                 invoice_receipt.status = 'PR'
                 invoice_receipt.payment_rejected_datetime = datetime.datetime.now(
                     timezone_).strftime("%Y-%m-%d %H:%M:%S")
+                invoice_receipt.save()
                 update_cart_status(fpx_transaction.id, 'SB06', 'SRB04')
 
-            invoice_receipt.save()
+            # invoice_receipt.save()
 
         # serializer_class = InvoiceReceiptExtendedSerializer(invoice_receipt)
         url = 'https://portal.planetarium.prototype.com.my/#/receipt?receiptId=' + \
