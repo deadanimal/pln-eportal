@@ -191,12 +191,24 @@ class FacilityBooking(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)
     want_equipment = models.BooleanField(default=False)
 
+    # status fasiliti: dalam proses, diterima, ditolak, terima bayaran, tolak bayaran, pending payment, refund
+    # dalam proses - tunggu approval dari pengarah Planetarium
+    # diterima - selepas pengarah terima permohonan tempahan fasiliti
+    # ditolak - selepas pengarah menolak permohonan tempahan fasiliti
+    # pending payment - selepas pengguna ingin membuat bayaran di kaunter
+    # payment diterima - selepas FPX menghantar status 00 (Berjaya) ke dalam sistem
+    # payment ditolak - selepas FPX menghantar status selain 00 ke dalam sistem
+    # refund - pengguna ingat refund tempahan mereka
     STATUS = [
-        ('AP', 'Approved'),
-        ('IP', 'In Process'),
-        ('RJ', 'Rejected')
+        ('FB01', 'In Progress'),
+        ('FB02', 'Approved'),
+        ('FB03', 'Rejected'),
+        ('FB04', 'Pending Payment'),
+        ('FB05', 'Payment Accepted'),
+        ('FB06', 'Payment Rejected'),
+        ('FB07', 'Refund')
     ]
-    status = models.CharField(max_length=2, choices=STATUS, default='IP')
+    status = models.CharField(max_length=4, choices=STATUS, default='FB01')
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
