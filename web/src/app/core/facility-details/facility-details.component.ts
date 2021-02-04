@@ -205,7 +205,7 @@ export class FacilityDetailsComponent implements OnInit {
       user_id: new FormControl(""),
       pic_id: new FormControl(""),
       facility_id: new FormControl(""),
-      status: new FormControl("IP"),
+      status: new FormControl("FB01"),
     });
   }
 
