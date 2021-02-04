@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'carts',
     'invoicereceipts',
     'vouchers',
+    'refunds',
 
     'django_cleanup.apps.CleanupConfig'
 ]

@@ -71,8 +71,6 @@ from simulatorrides.serializers import (
     SimulatorRideBookingSerializer
 )
 
-# from invoicereceipts.views import receipt_created
-
 
 # convert hex to binary
 def hextobin(hexstr):
@@ -171,14 +169,17 @@ def update_cart_status(fpx_transaction_id, show_booking_status, simulator_ride_b
 
 
 def receipt_created(invoice_receipt_id):
-    
+
     invoice_receipt = InvoiceReceipt.objects.filter(
         id=invoice_receipt_id).first()
 
     timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
     prefix = '{}R'.format(datetime.datetime.now(timezone_).strftime('%Y%m%d'))
-    prev_instances = InvoiceReceipt.objects.exclude(
-        receipt_running_no__exact='')
+    # prev_instances = InvoiceReceipt.objects.exclude(
+    #     receipt_running_no__exact='')
+    prev_instances = InvoiceReceipt.objects.filter(receipt_running_no__contains=prefix)
+    print('Prevs', prev_instances)
+    print('Prev', prev_instances.first())
 
     if prev_instances.exists():
         last_instance_id = prev_instances.first().receipt_running_no[-6:]
@@ -190,10 +191,11 @@ def receipt_created(invoice_receipt_id):
     invoice_receipt.receipt_created_datetime = datetime.datetime.now(
         timezone_).strftime("%Y-%m-%d %H:%M:%S")
     invoice_receipt.status = 'RC'
-    
+
     print('receipt_created function')
     print('invoice_receipt_id', invoice_receipt_id)
-    print('invoice_receipt.receipt_running_no', invoice_receipt.receipt_running_no)
+    print('invoice_receipt.receipt_running_no',
+          invoice_receipt.receipt_running_no)
 
     invoice_receipt.save()
 
