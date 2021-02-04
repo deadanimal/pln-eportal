@@ -8,6 +8,9 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
@@ -27,6 +30,9 @@ export enum SelectionType {
   styleUrls: ["./facilities-application.component.scss"],
 })
 export class FacilitiesApplicationComponent implements OnInit {
+  // Data
+  banklists = [];
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -44,6 +50,7 @@ export class FacilitiesApplicationComponent implements OnInit {
 
   // FormGroup
   facilityFormGroup: FormGroup;
+  refundFormGroup: FormGroup;
 
   // Dropdown
   facilities = [];
@@ -82,29 +89,50 @@ export class FacilitiesApplicationComponent implements OnInit {
   ];
   statuses = [
     {
-      value: "AP",
-      display_name: "Diterima",
-    },
-    {
-      value: "IP",
+      value: "FB01",
       display_name: "Dalam proses",
     },
     {
-      value: "RJ",
+      value: "FB02",
+      display_name: "Diterima",
+    },
+    {
+      value: "FB03",
       display_name: "Ditolak",
+    },
+    {
+      value: "FB04",
+      display_name: "Menunggu Pembayaran",
+    },
+    {
+      value: "FB05",
+      display_name: "Bayaran Diterima",
+    },
+    {
+      value: "FB06",
+      display_name: "Bayaran Ditolak",
+    },
+    {
+      value: "FB07",
+      display_name: "Bayaran Balik",
     },
   ];
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
+    private authService: AuthService,
+    private banklistService: BankListsService,
+    private refundService: RefundsService,
     private emailtemplateService: EmailTemplatesService,
     private facilitybookingService: FacilityBookingsService,
     private facilityService: FacilitiesService,
     private userService: UsersService
   ) {
+    this.getData();
     this.getFacility();
     this.getUser();
+    this.getBankList();
 
     this.facilityFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -118,14 +146,33 @@ export class FacilitiesApplicationComponent implements OnInit {
       booking_date: new FormControl(""),
       booking_days: new FormControl(""),
       number_of_people: new FormControl(""),
-      total_price: new FormControl(0.00),
+      total_price: new FormControl(0.0),
+    });
+
+    this.refundFormGroup = this.formBuilder.group({
+      // refund_running_no: new FormControl(""),
+      refund_type: new FormControl(""),
+      description: new FormControl(""),
+      amount: new FormControl(0),
+      acc_number: new FormControl(""),
+      bank_id: new FormControl(""),
+      remarks: new FormControl(""),
+      incharge_id: new FormControl(""),
+      incharge_datetime: new FormControl(""),
+      user: new FormControl({ disabled: true }),
+      status: new FormControl("RC"),
+      // pic_verification_id: new FormControl(""),
+      // pic_verification_datetime: new FormControl(""),
+      // show_booking_id: new FormControl(""),
+      // simulator_ride_booking_id: new FormControl(""),
+      facility_booking_id: new FormControl(""),
     });
   }
 
   getFacility() {
     this.facilityService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.facilities = res;
       },
       (err) => {
@@ -137,8 +184,10 @@ export class FacilitiesApplicationComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
-        this.users = res;
+        // console.log("res", res);
+        res.forEach((obj) => {
+          if (obj.user_type == "CS") this.users.push(obj);
+        });
       },
       (err) => {
         console.error("err", err);
@@ -146,9 +195,19 @@ export class FacilitiesApplicationComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    this.getData();
+  getBankList() {
+    this.banklistService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.banklists = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
+
+  ngOnInit() {}
 
   getData() {
     this.facilitybookingService.extended().subscribe((res) => {
@@ -201,6 +260,13 @@ export class FacilitiesApplicationComponent implements OnInit {
         user_id: row.user_id.id,
         pic_id: row.pic_id != null ? row.pic_id.id : null,
         facility_id: row.facility_id.id,
+      });
+    } else if (process == "refund") {
+      this.refundFormGroup.patchValue({
+        facility_booking_id: row.id,
+        amount: row.total_price,
+        user: row.user_id.id,
+        incharge_id: this.authService.decodedToken().user_id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -336,10 +402,7 @@ export class FacilitiesApplicationComponent implements OnInit {
     let user = this.users.filter((obj) => {
       return obj.id == row.user_id;
     });
-    // AP : "Diterima"
-    // IP : "Dalam proses"
-    // RJ : "Ditolak"
-    if (row.status == "AP") {
+    if (row.status == "FB02") {
       let obj = {
         code: "EMEL04",
         to: user[0].email,
@@ -354,7 +417,7 @@ export class FacilitiesApplicationComponent implements OnInit {
           console.error("err", err);
         }
       );
-    } else if (row.status == "RJ") {
+    } else if (row.status == "FB03") {
       let obj = {
         code: "EMEL05",
         to: user[0].email,
@@ -372,6 +435,59 @@ export class FacilitiesApplicationComponent implements OnInit {
     }
   }
 
+  refund() {
+    this.refundService.post(this.refundFormGroup.value).subscribe(
+      (res) => {
+        console.log("res", res);
+
+        let obj = {
+          status: "FB07",
+        };
+        this.facilitybookingService
+          .update(obj, this.refundFormGroup.value.facility_booking_id)
+          .subscribe(
+            (res) => {
+              console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Bayaran balik anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Bayaran balik anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
+  }
+
   getOrganisationCategory(value: string) {
     let result = this.organisationcategories.find((obj) => {
       return obj.value == value;
@@ -381,6 +497,13 @@ export class FacilitiesApplicationComponent implements OnInit {
 
   getBookingDay(value: string) {
     let result = this.bookingdays.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getStatus(value: string) {
+    let result = this.statuses.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;

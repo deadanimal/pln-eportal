@@ -187,6 +187,13 @@
                 >
                   Sunting
                 </button>
+                <button
+                  class="btn btn-sm btn-warning"
+                  (click)="openModal(createRefund, 'refund', row)"
+                  *ngIf="row.status == 'SRB03'"
+                >
+                  Bayaran Balik
+                </button>
                 <button class="btn btn-sm btn-danger" (click)="delete(row)">
                   Buang
                 </button>
@@ -569,6 +576,128 @@
       (click)="closeModal()"
     >
       Batal
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #createRefund>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Bayaran Balik
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="refundFormGroup">
+      <div class="form-group">
+        <label class="form-control-label mr-3">Jenis Bayaran Balik</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioTicket"
+            name="refund_type"
+            formControlName="refund_type"
+            class="custom-control-input"
+            value="T"
+          />
+          <label class="custom-control-label" for="radioTicket"
+            >Tiket</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioMoney"
+            name="refund_type"
+            formControlName="refund_type"
+            class="custom-control-input"
+            value="M"
+          />
+          <label class="custom-control-label" for="radioMoney"
+            >Duit</label
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi Pelanggan</label>
+        <textarea
+          class="form-control"
+          formControlName="description"
+          placeholder="Deskripsi Pelanggan"
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Jumlah (RM)</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="amount"
+          placeholder="Jumlah (RM)"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama Bank</label>
+        <select class="form-control" formControlName="bank_id">
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let banklist of banklists" [value]="banklist.id">
+            {{ banklist.bank_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">No. Akaun Bank</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="acc_number"
+          placeholder="No. Akaun Bank"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nota Petugas</label>
+        <textarea
+          class="form-control"
+          formControlName="remarks"
+          placeholder="Nota Petugas"
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Pelanggan</label>
+        <select class="form-control" formControlName="user" disabled>
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="refund()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
     </button>
   </div>
 </ng-template>

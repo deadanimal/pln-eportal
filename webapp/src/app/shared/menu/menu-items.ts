@@ -171,6 +171,12 @@ export const ROUTES: RouteInfo[] = [
     children: [{ path: "list", title: "Senarai", type: "link" }],
   },
   {
+    path: "/refunds",
+    title: "Bayaran Balik",
+    type: "link",
+    icontype: "fas fa-hand-holding-usd text-primary",
+  },
+  {
     path: "/vouchers",
     title: "Baucar",
     type: "link",

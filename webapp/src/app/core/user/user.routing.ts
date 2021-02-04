@@ -41,6 +41,7 @@ import { ProgramsListComponent } from "./programs/programs-list/programs-list.co
 import { ProgramsWaitingListComponent } from "./programs/programs-waiting-list/programs-waiting-list.component";
 import { PublicationsListComponent } from "./publications/publications-list/publications-list.component";
 import { PublicationsComponent } from "./publications/publications/publications.component";
+import { RefundsComponent } from "./refunds/refunds.component";
 import { ReportsAnalysisComponent } from "./reports/reports-analysis/reports-analysis.component";
 import { ReportsOperationComponent } from "./reports/reports-operation/reports-operation.component";
 import { ReportsTicketSalesComponent } from "./reports/reports-ticket-sales/reports-ticket-sales.component";
@@ -401,6 +402,10 @@ export const UserRoutes: Routes = [
             component: FpxsResponseCodeListComponent,
           },
         ],
+      },
+      {
+        path: "refunds",
+        component: RefundsComponent,
       },
       {
         path: "vouchers",

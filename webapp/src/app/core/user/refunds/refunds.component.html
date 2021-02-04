@@ -3,7 +3,9 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Permohonan -</h6>
+          <h6 class="h2 text-dark d-inline-block mb-0">
+            Senarai Bayaran Balik
+          </h6>
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
@@ -16,14 +18,14 @@
           </nav>
         </div>
 
-        <div class="col-lg-6 col-5 text-right">
+        <!-- <div class="col-lg-6 col-5 text-right">
           <a
             class="btn btn-sm btn-neutral"
-            (click)="openModal(createShowBooking, 'create', '')"
+            (click)="openModal(createRefund, 'create', '')"
           >
             Tambah
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -34,7 +36,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
-          <h3 class="m-0">Senarai</h3>
+          <h3 class="m-0">Senarai Bayaran Balik</h3>
         </div>
         <div class="dataTables_wrapper py-4">
           <div class="row">
@@ -90,37 +92,50 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Jenis Tiket</span>
+                <span>No. Bayaran Balik</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ getTicketType(row.ticket_type) }}
+                {{ row.refund_running_no }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Jenis Bayaran Balik</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="row.refund_type == 'T'">Tiket</span>
+                <span *ngIf="row.refund_type == 'M'">Duit</span>
+              </ng-template>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Pelanggan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.user.full_name }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Kategori Tiket</span>
+                <span>Petugas</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ getTicketCategory(row.ticket_category) }}
+                {{ row.incharge_id.full_name }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Nombor Kerusi</span>
+                <span>Pengesah</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.ticket_seat }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Harga</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                RM {{ row.total_price | number: "1.2-2" }}
+                <span *ngIf="row.pic_verification_id; else no_pic_verification">
+                  {{ row.pic_verification_id.full_name }}
+                </span>
+                <ng-template #no_pic_verification>Tiada</ng-template>
               </ng-template>
             </ngx-datatable-column>
 
@@ -129,7 +144,21 @@
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ getStatus(row.status) }}
+                <span
+                  *ngIf="row.status == 'RC'"
+                  class="badge badge-pill badge-warning"
+                  >Bayaran Balik Dibuat</span
+                >
+                <span
+                  *ngIf="row.status == 'RA'"
+                  class="badge badge-pill badge-success"
+                  >Bayaran Balik Lulus</span
+                >
+                <span
+                  *ngIf="row.status == 'RR'"
+                  class="badge badge-pill badge-danger"
+                  >Bayaran Balik Ditolak</span
+                >
               </ng-template>
             </ngx-datatable-column>
 
@@ -140,16 +169,16 @@
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
                   class="btn btn-sm btn-primary"
-                  (click)="openModal(editShowBooking, 'update', row)"
+                  (click)="openModal(editRefund, 'update', row)"
                 >
                   Sunting
                 </button>
                 <button
                   class="btn btn-sm btn-warning"
-                  (click)="openModal(createRefund, 'refund', row)"
-                  *ngIf="row.status == 'SB05'"
+                  *ngIf="row.status == 'RC'"
+                  (click)="verify(row)"
                 >
-                  Bayaran Balik
+                  Pengesahan
                 </button>
                 <button class="btn btn-sm btn-danger" (click)="delete(row)">
                   Buang
@@ -163,7 +192,7 @@
   </div>
 </div>
 
-<ng-template #createShowBooking>
+<ng-template #createRefund>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Tambah
@@ -181,303 +210,9 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="showbookingFormGroup">
-      <div class="form-group">
-        <label class="form-control-label">Tayangan</label>
-        <select
-          class="form-control"
-          formControlName="show_id"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option *ngFor="let showing of showings" [value]="showing.id">
-            {{ showing.title_ms }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Jenis tiket</label>
-        <select
-          class="form-control"
-          formControlName="ticket_type"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option
-            *ngFor="let tickettype of tickettypes"
-            [value]="tickettype.value"
-          >
-            {{ tickettype.display_name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Kategori tiket</label>
-        <select
-          class="form-control"
-          formControlName="ticket_category"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option
-            *ngFor="let ticketcategory of ticketcategories"
-            [value]="ticketcategory.value"
-          >
-            {{ ticketcategory.display_name }}
-          </option>
-        </select>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Kuantiti</label>
-            <input
-              class="form-control"
-              formControlName="ticket_quantity"
-              placeholder="contoh: 1"
-              type="number"
-              [value]="1"
-              readonly="true"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Harga (RM)</label>
-            <input
-              class="form-control"
-              formControlName="price"
-              placeholder="contoh: 10.00"
-              type="number"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Jumlah harga (RM)</label>
-            <input
-              class="form-control"
-              formControlName="total_price"
-              placeholder="contoh: 20.00"
-              type="number"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Pelanggan</label>
-        <select
-          class="form-control"
-          formControlName="user_id"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.full_name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Status</label>
-        <select
-          class="form-control"
-          formControlName="status"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option *ngFor="let status of statuses" [value]="status.value">
-            {{ status.display_name }}
-          </option>
-        </select>
-      </div>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="create()">
-      Simpan
-    </button>
-
-    <button
-      class="btn btn-outline-danger ml-auto"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      Batal
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #editShowBooking>
-  <div class="modal-header bg-default">
-    <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Ubah Suai
-    </h6>
-
-    <button
-      aria-label="Close"
-      class="close"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      <span aria-hidden="true" class="text-white my-auto"> × </span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <form [formGroup]="showbookingFormGroup">
-      <div class="form-group">
-        <label class="form-control-label">Tayangan</label>
-        <select
-          class="form-control"
-          formControlName="show_id"
-          placeholder="Sila pilih"
-          disabled
-        >
-          <option value="" selected>Sila pilih</option>
-          <option *ngFor="let showing of showings" [value]="showing.id">
-            {{ showing.title_ms }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Jenis tiket</label>
-        <select
-          class="form-control"
-          formControlName="ticket_type"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option
-            *ngFor="let tickettype of tickettypes"
-            [value]="tickettype.value"
-          >
-            {{ tickettype.display_name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Kategori tiket</label>
-        <select
-          class="form-control"
-          formControlName="ticket_category"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option
-            *ngFor="let ticketcategory of ticketcategories"
-            [value]="ticketcategory.value"
-          >
-            {{ ticketcategory.display_name }}
-          </option>
-        </select>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Kuantiti</label>
-            <input
-              class="form-control"
-              formControlName="ticket_quantity"
-              placeholder="contoh: 1"
-              type="number"
-              [value]="1"
-              readonly="true"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Harga (RM)</label>
-            <input
-              class="form-control"
-              formControlName="price"
-              placeholder="contoh: 10.00"
-              type="number"
-            />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Jumlah harga (RM)</label>
-            <input
-              class="form-control"
-              formControlName="total_price"
-              placeholder="contoh: 20.00"
-              type="number"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Pelanggan</label>
-        <select
-          class="form-control"
-          formControlName="user_id"
-          placeholder="Sila pilih"
-          disabled
-        >
-          <option value="" selected>Sila pilih</option>
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.full_name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Status</label>
-        <select
-          class="form-control"
-          formControlName="status"
-          placeholder="Sila pilih"
-        >
-          <option value="" selected>Sila pilih</option>
-          <option *ngFor="let status of statuses" [value]="status.value">
-            {{ status.display_name }}
-          </option>
-        </select>
-      </div>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="update()">
-      Simpan
-    </button>
-
-    <button
-      class="btn btn-outline-danger ml-auto"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      Batal
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #createRefund>
-  <div class="modal-header bg-default">
-    <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Bayaran Balik
-    </h6>
-
-    <button
-      aria-label="Close"
-      class="close"
-      data-dismiss="modal"
-      type="button"
-      (click)="closeModal()"
-    >
-      <span aria-hidden="true" class="text-white my-auto"> × </span>
-    </button>
-  </div>
-
-  <div class="modal-body">
     <form [formGroup]="refundFormGroup">
       <div class="form-group">
-        <label class="form-control-label mr-3">Jenis Bayaran Balik</label>
+        <label class="form-control-label">Jenis Bayaran Balik</label><br />
         <div class="custom-control custom-radio custom-control-inline">
           <input
             type="radio"
@@ -487,7 +222,9 @@
             class="custom-control-input"
             value="T"
           />
-          <label class="custom-control-label" for="radioTicket">Tiket</label>
+          <label class="custom-control-label" for="radioTicket"
+            >Tiket</label
+          >
         </div>
         <div class="custom-control custom-radio custom-control-inline">
           <input
@@ -498,15 +235,17 @@
             class="custom-control-input"
             value="M"
           />
-          <label class="custom-control-label" for="radioMoney">Duit</label>
+          <label class="custom-control-label" for="radioMoney"
+            >Duit</label
+          >
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi Pelanggan</label>
+        <label class="form-control-label">Deskripsi</label>
         <textarea
           class="form-control"
           formControlName="description"
-          placeholder="Deskripsi Pelanggan"
+          placeholder="Deskripsi"
           rows="5"
         ></textarea>
       </div>
@@ -517,7 +256,6 @@
           class="form-control"
           formControlName="amount"
           placeholder="Jumlah (RM)"
-          readonly
         />
       </div>
       <div class="form-group">
@@ -539,28 +277,249 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nota Petugas</label>
+        <label class="form-control-label">Nota</label>
         <textarea
           class="form-control"
           formControlName="remarks"
-          placeholder="Nota Petugas"
+          placeholder="Nota"
           rows="5"
         ></textarea>
       </div>
       <div class="form-group">
         <label class="form-control-label">Pelanggan</label>
-        <select class="form-control" formControlName="user" disabled>
+        <select class="form-control" formControlName="user">
           <option value="" selected>Sila pilih</option>
           <option *ngFor="let user of users" [value]="user.id">
             {{ user.full_name }}
           </option>
         </select>
       </div>
+      <div class="form-group">
+        <label class="form-control-label">Petugas</label>
+        <select class="form-control" formControlName="incharge_id">
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let incharge of incharges" [value]="incharge.id">
+            {{ incharge.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Pengesah</label>
+        <select class="form-control" formControlName="pic_verification_id">
+          <option value="" selected>Sila pilih</option>
+          <option
+            *ngFor="let picverification of picverifications"
+            [value]="picverification.id"
+          >
+            {{ picverification.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Status</label><br />
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusApprove"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="RA"
+          />
+          <label class="custom-control-label" for="radioStatusApprove"
+            >Lulus</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusReject"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="RR"
+          />
+          <label class="custom-control-label" for="radioStatusReject"
+            >Ditolak</label
+          >
+        </div>
+      </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="refund()">
+    <button class="btn btn-success" type="button" (click)="create()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editRefund>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Ubah Suai
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="refundFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Jenis Bayaran Balik</label><br />
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioTicket"
+            name="refund_type"
+            formControlName="refund_type"
+            class="custom-control-input"
+            value="T"
+          />
+          <label class="custom-control-label" for="radioTicket"
+            >Tiket</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioMoney"
+            name="refund_type"
+            formControlName="refund_type"
+            class="custom-control-input"
+            value="M"
+          />
+          <label class="custom-control-label" for="radioMoney"
+            >Duit</label
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi</label>
+        <textarea
+          class="form-control"
+          formControlName="description"
+          placeholder="Deskripsi"
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Jumlah (RM)</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="amount"
+          placeholder="Jumlah (RM)"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nama Bank</label>
+        <select class="form-control" formControlName="bank_id">
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let banklist of banklists" [value]="banklist.id">
+            {{ banklist.bank_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">No. Akaun Bank</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="acc_number"
+          placeholder="No. Akaun Bank"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nota</label>
+        <textarea
+          class="form-control"
+          formControlName="remarks"
+          placeholder="Nota"
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Pelanggan</label>
+        <select class="form-control" formControlName="user">
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Petugas</label>
+        <select class="form-control" formControlName="incharge_id">
+          <option value="" selected>Sila pilih</option>
+          <option *ngFor="let incharge of incharges" [value]="incharge.id">
+            {{ incharge.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Pengesah</label>
+        <select class="form-control" formControlName="pic_verification_id">
+          <option value="" selected>Sila pilih</option>
+          <option
+            *ngFor="let picverification of picverifications"
+            [value]="picverification.id"
+          >
+            {{ picverification.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Status</label><br />
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusApprove"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="RA"
+          />
+          <label class="custom-control-label" for="radioStatusApprove"
+            >Lulus</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusReject"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="RR"
+          />
+          <label class="custom-control-label" for="radioStatusReject"
+            >Ditolak</label
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="update()">
       Simpan
     </button>
 

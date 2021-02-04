@@ -15,6 +15,9 @@ import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -34,6 +37,7 @@ export enum SelectionType {
 })
 export class ShowsApplicationsDetailComponent implements OnInit {
   // Data
+  banklists = [];
   showtime_id: string = "";
   showings = [];
   users = [];
@@ -118,12 +122,16 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   };
 
   // FormGroup
+  refundFormGroup: FormGroup;
   showbookingFormGroup: FormGroup;
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private route: ActivatedRoute,
+    private authService: AuthService,
+    private banklistService: BankListsService,
+    private refundService: RefundsService,
     private showingService: ShowingsService,
     private showbookingService: ShowbookingsService,
     private userService: UsersService
@@ -132,6 +140,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
     if (this.showtime_id) this.getData();
     this.getShowing();
     this.getUser();
+    this.getBankList();
 
     this.showbookingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -145,12 +154,31 @@ export class ShowsApplicationsDetailComponent implements OnInit {
       user_id: new FormControl(""),
       status: new FormControl(""),
     });
+
+    this.refundFormGroup = this.formBuilder.group({
+      // refund_running_no: new FormControl(""),
+      refund_type: new FormControl(""),
+      description: new FormControl(""),
+      amount: new FormControl(0),
+      acc_number: new FormControl(""),
+      bank_id: new FormControl(""),
+      remarks: new FormControl(""),
+      incharge_id: new FormControl(""),
+      incharge_datetime: new FormControl(""),
+      user: new FormControl({ disabled: true }),
+      status: new FormControl("RC"),
+      // pic_verification_id: new FormControl(""),
+      // pic_verification_datetime: new FormControl(""),
+      show_booking_id: new FormControl(""),
+      // simulator_ride_booking_id: new FormControl(""),
+      // facility_booking_id: new FormControl(""),
+    });
   }
 
   getShowing() {
     this.showingService.filter("status=AV").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.showings = res;
       },
       (err) => {
@@ -162,8 +190,22 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
-        this.users = res;
+        // console.log("res", res);
+        res.forEach((obj) => {
+          if (obj.user_type == "CS") this.users.push(obj);
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getBankList() {
+    this.banklistService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.banklists = res;
       },
       (err) => {
         console.error("err", err);
@@ -175,7 +217,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
 
   getData() {
     this.showbookingService
-      .filter("showtime_id=" + this.showtime_id)
+      .extended("showtime_id=" + this.showtime_id)
       .subscribe((res) => {
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
@@ -223,6 +265,16 @@ export class ShowsApplicationsDetailComponent implements OnInit {
     } else if (process == "update") {
       this.showbookingFormGroup.patchValue({
         ...row,
+        show_id: row.show_id.id,
+        showtime_id: row.showtime_id.id,
+        user_id: row.user_id.id,
+      });
+    } else if (process == "refund") {
+      this.refundFormGroup.patchValue({
+        show_booking_id: row.id,
+        amount: row.total_price,
+        user: row.user_id.id,
+        incharge_id: this.authService.decodedToken().user_id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -353,6 +405,59 @@ export class ShowsApplicationsDetailComponent implements OnInit {
           );
         }
       });
+  }
+
+  refund() {
+    this.refundService.post(this.refundFormGroup.value).subscribe(
+      (res) => {
+        console.log("res", res);
+
+        let obj = {
+          status: "SB07",
+        };
+        this.showbookingService
+          .update(obj, this.refundFormGroup.value.show_booking_id)
+          .subscribe(
+            (res) => {
+              console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Bayaran balik anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Bayaran balik anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   getTicketType(value: string) {

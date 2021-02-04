@@ -8,8 +8,10 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
-import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,32 +22,45 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-vouchers",
-  templateUrl: "./vouchers.component.html",
-  styleUrls: ["./vouchers.component.scss"],
+  selector: "app-refunds",
+  templateUrl: "./refunds.component.html",
+  styleUrls: ["./refunds.component.scss"],
 })
-export class VouchersComponent implements OnInit {
+export class RefundsComponent implements OnInit {
   // Data
-  users = [];
+  banklists = [];
+  users = []; // user_type = CS - Customer
+  incharges = []; // user_type != CS - Customer
+  picverifications = []; // user_type != CS - Customer
 
   // Dropdown
+  refundtypes = [
+    {
+      value: "T",
+      display_name: "Tiket",
+    },
+    {
+      value: "M",
+      display_name: "Duit",
+    },
+  ];
   statuses = [
     {
-      value: "NU",
-      display_name: "Tidak Digunakan",
+      value: "RC",
+      display_name: "Bayaran Balik Dibuat",
     },
     {
-      value: "AU",
-      display_name: "Sudah Digunakan",
+      value: "RA",
+      display_name: "Bayaran Balik Diluluskan",
     },
     {
-      value: "EX",
-      display_name: "Tamat Tempoh",
+      value: "RR",
+      display_name: "Bayaran Balik Ditolak",
     },
   ];
 
   // FormGroup
-  voucherFormGroup: FormGroup;
+  refundFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -65,29 +80,55 @@ export class VouchersComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private userService: UsersService,
-    private voucherService: VouchersService
+    private authService: AuthService,
+    private banklistService: BankListsService,
+    private refundService: RefundsService,
+    private userService: UsersService
   ) {
     this.getData();
     this.getUser();
+    this.getBankList();
 
-    this.voucherFormGroup = this.formBuilder.group({
+    this.refundFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      // voucher_code: new FormControl(""),
-      voucher_amount: new FormControl(0),
-      validity_until: new FormControl(""),
+      refund_type: new FormControl(""),
       description: new FormControl(""),
-      // status: new FormControl(""),
+      amount: new FormControl(0),
+      acc_number: new FormControl(""),
+      bank_id: new FormControl(""),
+      remarks: new FormControl(""),
+      incharge_id: new FormControl(""),
+      // incharge_datetime: new FormControl(""),
       user: new FormControl(""),
-      // invoice_receipt_id: new FormControl(""),
+      status: new FormControl(""),
+      pic_verification_id: new FormControl(""),
+      // pic_verification_datetime: new FormControl(""),
     });
   }
 
   getUser() {
-    this.userService.filter("user_type=CS").subscribe(
+    this.userService.getAll().subscribe(
       (res) => {
         // console.log("res", res);
-        this.users = res;
+        res.forEach((obj) => {
+          if (obj.user_type == "CS") this.users.push(obj);
+          else {
+            this.incharges.push(obj);
+            this.picverifications.push(obj);
+          }
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getBankList() {
+    this.banklistService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.banklists = res;
       },
       (err) => {
         console.error("err", err);
@@ -98,7 +139,7 @@ export class VouchersComponent implements OnInit {
   ngOnInit() {}
 
   getData() {
-    this.voucherService.extended("").subscribe((res) => {
+    this.refundService.extended("").subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -140,7 +181,7 @@ export class VouchersComponent implements OnInit {
   }
 
   emptyFormGroup() {
-    this.voucherFormGroup.patchValue({
+    this.refundFormGroup.patchValue({
       id: "",
       voucher_code: "",
       voucher_amount: 0,
@@ -153,9 +194,9 @@ export class VouchersComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.voucherFormGroup.reset();
+      this.refundFormGroup.reset();
     } else if (process == "update") {
-      this.voucherFormGroup.patchValue({
+      this.refundFormGroup.patchValue({
         ...row,
         user: row.user ? row.user.id : "",
       });
@@ -168,7 +209,7 @@ export class VouchersComponent implements OnInit {
   }
 
   create() {
-    this.voucherService.post(this.voucherFormGroup.value).subscribe(
+    this.refundService.post(this.refundFormGroup.value).subscribe(
       (res) => {
         // console.log("res", res);
         swal
@@ -206,8 +247,8 @@ export class VouchersComponent implements OnInit {
   }
 
   update() {
-    this.voucherService
-      .update(this.voucherFormGroup.value, this.voucherFormGroup.value.id)
+    this.refundService
+      .update(this.refundFormGroup.value, this.refundFormGroup.value.id)
       .subscribe(
         (res) => {
           // console.log("res", res);
@@ -260,7 +301,7 @@ export class VouchersComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.voucherService.delete(row.id).subscribe(
+          this.refundService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -287,10 +328,111 @@ export class VouchersComponent implements OnInit {
       });
   }
 
+  verify(row) {
+    swal
+      .fire({
+        title: "Pengesahan Bayaran Balik",
+        text: "Adakah anda ingin meluluskan bayaran balik ini?",
+        type: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-success",
+        confirmButtonText: "Ya",
+        cancelButtonClass: "btn btn-danger",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        console.log("result", result);
+        if (result.value == true) {
+          let obj = {
+            status: "RA",
+            pic_verification_id: this.authService.decodedToken().user_id,
+            pic_verification_datetime: this.getCurrentDateTime(),
+          };
+          this.refundService.update(obj, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.sweetAlertSuccess(
+                "Diluluskan",
+                "Anda telah meluluskan permohonan bayaran balik ini. Terima kasih."
+              );
+              this.getData();
+            }
+          );
+        } else if (result.dismiss == swal.DismissReason.cancel) {
+          let obj = {
+            status: "RR",
+            pic_verification_id: this.authService.decodedToken().user_id,
+            pic_verification_datetime: this.getCurrentDateTime(),
+          };
+          this.refundService.update(obj, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.sweetAlertSuccess(
+                "Ditolak",
+                "Anda telah menolak permohonan bayaran balik ini. Terima kasih."
+              );
+              this.getData();
+            }
+          );
+        }
+      });
+  }
+
+  sweetAlertSuccess(title, text) {
+    swal.fire({
+      title,
+      text,
+      type: "success",
+      buttonsStyling: false,
+      confirmButtonClass: "btn btn-success",
+    });
+  }
+
   getStatus(value: string) {
     let result = this.statuses.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;
+  }
+
+  getCurrentDateTime() {
+    let selectedDate = new Date();
+    let year = selectedDate.getFullYear();
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
+
+    let hour =
+      selectedDate.getHours() < 10
+        ? "0" + selectedDate.getHours()
+        : selectedDate.getHours();
+    let minute =
+      selectedDate.getMinutes() < 10
+        ? "0" + selectedDate.getMinutes()
+        : selectedDate.getMinutes();
+    let second =
+      selectedDate.getSeconds() < 10
+        ? "0" + selectedDate.getSeconds()
+        : selectedDate.getSeconds();
+    let formatTime = hour + ":" + minute + ":" + second;
+
+    return formatDate + "T" + formatTime + "Z";
   }
 }
