@@ -1,67 +1,88 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ROUTES } from '../../shared/menu/menu-items';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { ROUTES } from "../../shared/menu/menu-items";
+
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { JwtService } from "src/app/shared/handler/jwt/jwt.service";
 
 var misc: any = {
-  sidebar_mini_active: true
+  sidebar_mini_active: true,
 };
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  selector: "app-sidebar",
+  templateUrl: "./sidebar.component.html",
+  styleUrls: ["./sidebar.component.scss"],
 })
 export class SidebarComponent implements OnInit {
-
   // Image
-  imgLogo: string = 'assets/img/logo/planetarium-logo.png'
-  
+  imgLogo: string = "assets/img/logo/planetarium-logo.png";
+
   public menuItems: any[];
   public isCollapsed = true;
   public menu;
 
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private authService: AuthService,
+    private jwtService: JwtService
+  ) {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
-    this.router.events.subscribe(event => {
+    if (this.jwtService.getToken("accessToken")) {
+      if (this.authService.decodedToken().user_id) {
+        this.menuItems = ROUTES.filter((menuItem) => {
+          if (menuItem.role.length > 0) {
+            // to push the object into menuItems array based on roles
+            for (let i = 0; i < menuItem.role.length; i++) {
+              if (
+                menuItem.role[i] == this.authService.decodedToken().user_type
+              ) {
+                return menuItem;
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // this.menuItems = ROUTES.filter((menuItem) => menuItem);
+    this.router.events.subscribe((event) => {
       this.isCollapsed = true;
     });
   }
 
   onMouseEnterSidenav() {
-    if (!document.body.classList.contains('g-sidenav-pinned')) {
-      document.body.classList.add('g-sidenav-show');
+    if (!document.body.classList.contains("g-sidenav-pinned")) {
+      document.body.classList.add("g-sidenav-show");
     }
   }
 
   onMouseLeaveSidenav() {
-    if (!document.body.classList.contains('g-sidenav-pinned')) {
-      document.body.classList.remove('g-sidenav-show');
+    if (!document.body.classList.contains("g-sidenav-pinned")) {
+      document.body.classList.remove("g-sidenav-show");
     }
   }
-  
+
   minimizeSidebar() {
     const sidenavToggler = document.getElementsByClassName(
-      'sidenav-toggler'
+      "sidenav-toggler"
     )[0];
-    const body = document.getElementsByTagName('body')[0];
-    if (body.classList.contains('g-sidenav-pinned')) {
+    const body = document.getElementsByTagName("body")[0];
+    if (body.classList.contains("g-sidenav-pinned")) {
       misc.sidebar_mini_active = true;
     } else {
       misc.sidebar_mini_active = false;
     }
     if (misc.sidebar_mini_active === true) {
-      body.classList.remove('g-sidenav-pinned');
-      body.classList.add('g-sidenav-hidden');
-      sidenavToggler.classList.remove('active');
+      body.classList.remove("g-sidenav-pinned");
+      body.classList.add("g-sidenav-hidden");
+      sidenavToggler.classList.remove("active");
       misc.sidebar_mini_active = false;
     } else {
-      body.classList.add('g-sidenav-pinned');
-      body.classList.remove('g-sidenav-hidden');
-      sidenavToggler.classList.add('active');
+      body.classList.add("g-sidenav-pinned");
+      body.classList.remove("g-sidenav-hidden");
+      sidenavToggler.classList.add("active");
       misc.sidebar_mini_active = true;
     }
   }
