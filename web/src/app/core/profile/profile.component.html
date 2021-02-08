@@ -534,35 +534,7 @@
                                 : 'fas fa-check-circle'
                             "
                           ></i>
-                          Mesti sekurang-kurangnya 8 aksara!
-                        </p>
-
-                        <p
-                          style="font-size: 1.2rem"
-                          [ngClass]="
-                            passwordchangeFormGroup.controls[
-                              'new_password1'
-                            ].hasError('required') ||
-                            passwordchangeFormGroup.controls[
-                              'new_password1'
-                            ].hasError('hasNumber')
-                              ? 'text-danger'
-                              : 'text-success'
-                          "
-                        >
-                          <i
-                            [ngClass]="
-                              passwordchangeFormGroup.controls[
-                                'new_password1'
-                              ].hasError('required') ||
-                              passwordchangeFormGroup.controls[
-                                'new_password1'
-                              ].hasError('hasNumber')
-                                ? 'fas fa-times-circle'
-                                : 'fas fa-check-circle'
-                            "
-                          ></i>
-                          Mesti mengandungi sekurang-kurangnya 1 nombor!
+                          {{ "KataLaluanValid1" | translate }}
                         </p>
 
                         <p
@@ -590,7 +562,7 @@
                                 : 'fas fa-check-circle'
                             "
                           ></i>
-                          Mesti mengandungi sekurang-kurangnya 1 huruf besar!
+                          {{ "KataLaluanValid2" | translate }}
                         </p>
 
                         <p
@@ -618,7 +590,35 @@
                                 : 'fas fa-check-circle'
                             "
                           ></i>
-                          Mesti mengandungi sekurang-kurangnya 1 huruf kecil!
+                          {{ "KataLaluanValid3" | translate }}
+                        </p>
+
+                        <p
+                          style="font-size: 1.2rem"
+                          [ngClass]="
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('required') ||
+                            passwordchangeFormGroup.controls[
+                              'new_password1'
+                            ].hasError('hasNumber')
+                              ? 'text-danger'
+                              : 'text-success'
+                          "
+                        >
+                          <i
+                            [ngClass]="
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('required') ||
+                              passwordchangeFormGroup.controls[
+                                'new_password1'
+                              ].hasError('hasNumber')
+                                ? 'fas fa-times-circle'
+                                : 'fas fa-check-circle'
+                            "
+                          ></i>
+                          {{ "KataLaluanValid4" | translate }}
                         </p>
 
                         <p
@@ -646,7 +646,7 @@
                                 : 'fas fa-check-circle'
                             "
                           ></i>
-                          Mesti mengandungi sekurang-kurangnya 1 simbol khas!
+                          {{ "KataLaluanValid5" | translate }}
                         </p>
                       </div>
                     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 import { VirtualLibraryArchiveKutubkhanahCategoriesService } from "src/app/shared/services/virtual-library-archivekutubkhanah-categories/virtual-library-archivekutubkhanah-categories.service";
 import { VirtualLibraryArchiveKutubkhanahsService } from "src/app/shared/services/virtual-library-archivekutubkhanahs/virtual-library-archivekutubkhanahs.service";
@@ -26,6 +27,7 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
   virtual_library_collection_id: string = "";
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibraryarchivekutubkhanahcategoryService: VirtualLibraryArchiveKutubkhanahCategoriesService,

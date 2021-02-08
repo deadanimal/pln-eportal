@@ -69,7 +69,18 @@
                     <i [class]="vl_category.icon + ' fa-10x text-info'"></i>
                   </div>
                   <div class="card-body">
-                    <h2 class="title text-center">{{ vl_category.name }}</h2>
+                    <h2
+                      class="title text-center"
+                      *ngIf="translate.currentLang == 'en'"
+                    >
+                      {{ vl_category.name_en }}
+                    </h2>
+                    <h2
+                      class="title text-center"
+                      *ngIf="translate.currentLang == 'ms'"
+                    >
+                      {{ vl_category.name_ms }}
+                    </h2>
                   </div>
                 </div>
               </div>

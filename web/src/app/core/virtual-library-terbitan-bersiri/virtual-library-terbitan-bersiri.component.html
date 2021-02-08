@@ -28,18 +28,15 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          Terbitan Bersiri <share-button button="facebook"></share-button
+          {{ "KutubkhanahMiniTerbitanBersiriTajuk" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
         <div class="row">
           <div class="col">
             <p class="text-dark text-justify">
-              Sumber maklumat koleksi terbitan bersiri terdiri daripada
-              bahan-bahan bercetak, bukan bercetak, elektronik dan dalam talian.
-              Antara koleksi bahan yang terdapat adalah majalah, surat khabar,
-              laporan tahunan, buku tahunan, buku panduan, jurnal, indeks,
-              abstrak, statistik, warta kerajaan dan akta.
+              {{ "KutubkhanahMiniTerbitanBersiriDeskripsi" | translate }}
             </p>
           </div>
         </div>
@@ -56,35 +53,48 @@
             </div>
           </div>
           <div class="col-md-6 col-sm-12">
-            <h2 class="title text-dark">{{ vl_terbitanbersiri.title }}</h2>
+            <h2 class="title text-dark" *ngIf="translate.currentLang == 'en'">
+              {{ vl_terbitanbersiri.title_en }}
+            </h2>
+            <h2 class="title text-dark" *ngIf="translate.currentLang == 'ms'">
+              {{ vl_terbitanbersiri.title_ms }}
+            </h2>
             <p class="text-dark">
               Call Number: {{ vl_terbitanbersiri.call_number }}
             </p>
             <p class="text-dark">
-              Penulis/Editor: {{ vl_terbitanbersiri.author }}/{{
-                vl_terbitanbersiri.editor
-              }}
+              {{ "Penulis" | translate }}/Editor:
+              {{ vl_terbitanbersiri.author }}/{{ vl_terbitanbersiri.editor }}
             </p>
             <p class="text-dark">
               ISBN/ISSN: {{ vl_terbitanbersiri.isbn }}/{{
                 vl_terbitanbersiri.issn
               }}
             </p>
-            <p class="text-dark">Tahun: {{ vl_terbitanbersiri.year }}</p>
+            <p class="text-dark">{{ "Tahun" | translate }}: {{ vl_terbitanbersiri.year }}</p>
             <p class="text-dark">
-              Penerbit: {{ vl_terbitanbersiri.publisher_name }}
+              {{ "Penerbit" | translate }}:
+              {{ vl_terbitanbersiri.publisher_name }}
             </p>
             <p class="text-dark">
-              Deskripsi Bahan: {{ vl_terbitanbersiri.description }}
+              {{ "DeskripsiBahan" | translate }}:
+              <span
+                *ngIf="translate.currentLang == 'en'"
+                [innerHtml]="vl_terbitanbersiri.description_en | safe: 'html'"
+              ></span>
+              <span
+                *ngIf="translate.currentLang == 'ms'"
+                [innerHtml]="vl_terbitanbersiri.description_ms | safe: 'html'"
+              ></span>
             </p>
 
             <div class="row">
-              <div class="col text-right">
+              <div class="col text-right" *ngIf="vl_terbitanbersiri.pdf_link">
                 <a
                   [href]="vl_terbitanbersiri.pdf_link"
                   download
                   class="btn btn-danger"
-                  >Muat Turun PDF</a
+                  >{{ "MuatTurunPDF" | translate }}</a
                 >
               </div>
             </div>

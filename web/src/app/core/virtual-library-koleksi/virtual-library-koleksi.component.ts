@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 import { VirtualLibraryCollectionsService } from "src/app/shared/services/virtual-library-collections/virtual-library-collections.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -19,6 +20,7 @@ export class VirtualLibraryKoleksiComponent implements OnInit {
   virtual_library_collection_category_id: string = "";
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibrarycollectionService: VirtualLibraryCollectionsService,

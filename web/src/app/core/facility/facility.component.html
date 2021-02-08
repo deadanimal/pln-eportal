@@ -74,7 +74,9 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <a>
-                        <h3 class="card-title">{{ "FasilitiPlanetarium1" | translate }}</h3>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium1" | translate }}
+                        </h3>
                       </a>
                     </div>
                     <div class="col-auto text-right">
@@ -107,7 +109,9 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <a>
-                        <h3 class="card-title">{{ "FasilitiPlanetarium2" | translate }}</h3>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium2" | translate }}
+                        </h3>
                       </a>
                     </div>
                     <div class="col-auto text-right">
@@ -140,7 +144,9 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <a>
-                        <h3 class="card-title">{{ "FasilitiPlanetarium3" | translate }}</h3>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium3" | translate }}
+                        </h3>
                       </a>
                     </div>
                     <div class="col-auto text-right">
@@ -175,7 +181,9 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <a>
-                        <h3 class="card-title">{{ "FasilitiPlanetarium4" | translate }}</h3>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium4" | translate }}
+                        </h3>
                       </a>
                     </div>
                     <div class="col-auto text-right">
@@ -208,7 +216,9 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <a>
-                        <h3 class="card-title">{{ "FasilitiPlanetarium5" | translate }}</h3>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium5" | translate }}
+                        </h3>
                       </a>
                     </div>
                     <div class="col-auto text-right">
@@ -241,7 +251,9 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <a>
-                        <h3 class="card-title">{{ "FasilitiPlanetarium6" | translate }}</h3>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium6" | translate }}
+                        </h3>
                       </a>
                     </div>
                     <div class="col-auto text-right">
@@ -262,108 +274,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #modalDefault [ngClass]="fontSize">
-  <div class="modal-header">
-    <h6 class="modal-title" id="modal-title-default">Tempahan</h6>
-
-    <button
-      aria-label="Close"
-      class="close"
-      data-dismiss="modal"
-      type="button"
-      (click)="defaultModal.hide()"
-    >
-      <span aria-hidden="true"> × </span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-lg-12">
-        <form class="js-validate">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <label class="labels">
-                  Nama penuh <span class="text-danger"> * </span>
-                </label>
-                <input
-                  aria-label="Nurul Aiman"
-                  class="form-control"
-                  name="firstName"
-                  placeholder="Nurul Aiman"
-                  required=""
-                  type="text"
-                />
-              </div>
-            </div>
-            <br />
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Alamat emel <span class="text-danger"> * </span>
-                  </label>
-                  <input
-                    aria-label="thompson@gmail.com"
-                    class="form-control"
-                    name="emailAddress"
-                    placeholder="thompson@gmail.com"
-                    required=""
-                    type="email"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="js-form-message mb-6">
-                  <label class="labels"> No. tel </label>
-                  <input
-                    aria-label="+6017666162"
-                    class="form-control"
-                    placeholder="+6017666162"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            <br />
-
-            <div class="row">
-              <div class="col-md-12">
-                <div class="js-form-message mb-6">
-                  <label class="labels">
-                    Bilangan orang <span class="text-danger"> * </span>
-                  </label>
-                  <input
-                    aria-label="Bilangan orang"
-                    class="form-control"
-                    name="streetAddress"
-                    placeholder="Bilangan orang"
-                    required=""
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            <br />
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-primary" type="button">Buat tempahan</button>
-
-    <button
-      class="btn btn-link ml-auto"
-      data-dismiss="modal"
-      type="button"
-      (click)="defaultModal.hide()"
-    >
-      Tutup
-    </button>
-  </div>
-</ng-template>

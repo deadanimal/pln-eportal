@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit {
   focus15;
   focus16;
   focus17;
-  
+
   // Dropdown
   races = [
     {
@@ -108,11 +108,23 @@ export class SignupComponent implements OnInit {
           ]),
         ],
         password2: ["", Validators.compose([Validators.required])],
-        phone: ["", Validators.compose([Validators.required])],
+        phone: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.pattern("^[0-9]*$"),
+          ]),
+        ],
         address_1: ["", Validators.compose([Validators.required])],
         address_2: ["", Validators.compose([])],
         address_3: ["", Validators.compose([])],
-        postcode: ["", Validators.compose([Validators.required])],
+        postcode: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.pattern("^[0-9]*$"),
+          ]),
+        ],
         city: ["", Validators.compose([Validators.required])],
         state: ["", Validators.compose([Validators.required])],
         country: ["", Validators.compose([Validators.required])],

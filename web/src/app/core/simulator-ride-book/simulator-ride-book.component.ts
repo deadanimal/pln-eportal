@@ -23,7 +23,7 @@ export class SimulatorRideBookComponent implements OnInit {
   fontSize: string;
 
   // Data
-  bookingtimes = ["10", "11", "15", "16"];
+  bookingtimes = ["10", "11", "12", "14", "15", "16"];
   existbookings = [];
   simridetimes = [];
   acceptedbookings = [];

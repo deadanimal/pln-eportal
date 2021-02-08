@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
   NgxGalleryOptions,
@@ -45,7 +46,8 @@ export class FacilityDetailsComponent implements OnInit {
   selectedFacility = {
     facility_subcategory: "",
     value: "",
-    display_name: "",
+    display_name_en: "",
+    display_name_ms: "",
     link: "",
     have_subcategory: false,
   };
@@ -55,60 +57,69 @@ export class FacilityDetailsComponent implements OnInit {
   bookingdays = [
     {
       value: "HALF",
-      display_name: "Separuh Hari",
+      display_name_en: "Half Day",
+      display_name_ms: "Separuh Hari",
     },
     {
       value: "FULL",
-      display_name: "Satu Hari",
+      display_name_en: "Full Day",
+      display_name_ms: "Satu Hari",
     },
   ];
   facilitycategories = [
     {
       facility_subcategory: "",
       value: "TA",
-      display_name: "Teater Angkasa",
+      display_name_en: "Space Theater",
+      display_name_ms: "Teater Angkasa",
       link: "teater-angkasa",
       have_subcategory: false,
     },
     {
       facility_subcategory: "",
       value: "GP",
-      display_name: "Galeri Pameran",
+      display_name_en: "Exhibition Gallery",
+      display_name_ms: "Galeri Pameran",
       link: "galeri-pameran",
       have_subcategory: false,
     },
     {
       facility_subcategory: "",
       value: "TT",
-      display_name: "Bilik Orion",
+      display_name_en: "Orion Room",
+      display_name_ms: "Bilik Orion",
       link: "teatret",
       have_subcategory: false,
     },
     {
       facility_subcategory: "",
       value: "BC",
-      display_name: "Bilik Centaurus",
+      display_name_en: "Centaurus Room",
+      display_name_ms: "Bilik Centaurus",
       link: "bilik-centaurus",
       have_subcategory: false,
     },
     {
       facility_subcategory: "",
       value: "KR",
-      display_name: "Kawasan Rekreasi",
+      display_name_en: "Recreation Area",
+      display_name_ms: "Kawasan Rekreasi",
       link: "kawasan-rekreasi",
       have_subcategory: false,
     },
     {
       facility_subcategory: "",
       value: "SM",
-      display_name: "Stesen Mikrosatelit",
+      display_name_en: "Microsatellar Station",
+      display_name_ms: "Stesen Mikrosatelit",
       link: "stesen-mikrosatelit",
       have_subcategory: false,
     },
     {
       facility_subcategory: "",
       value: "NA",
-      display_name: "Not Available",
+      display_name_en: "Not Available",
+      display_name_ms: "Tidak Ada",
       link: "not-available",
       have_subcategory: false,
     },
@@ -117,19 +128,23 @@ export class FacilityDetailsComponent implements OnInit {
   organisationcategories = [
     {
       value: "GV",
-      display_name: "Kerajaan",
+      display_name_en: "Government",
+      display_name_ms: "Kerajaan",
     },
     {
       value: "SC",
-      display_name: "Sekolah",
+      display_name_en: "School",
+      display_name_ms: "Sekolah",
     },
     {
       value: "UN",
-      display_name: "Universiti",
+      display_name_en: "University",
+      display_name_ms: "Universiti",
     },
     {
       value: "NA",
-      display_name: "Tidak ada",
+      display_name_en: "None",
+      display_name_ms: "Tiada",
     },
   ];
 
@@ -151,6 +166,7 @@ export class FacilityDetailsComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
+    public translate: TranslateService,
     private modalService: BsModalService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
@@ -409,11 +425,12 @@ export class FacilityDetailsComponent implements OnInit {
     return formatDate;
   }
 
-  getFacilityCategory(value: string) {
+  getFacilityCategory(value: string, lang: string) {
     let result = this.facilitycategories.find((obj) => {
       return obj.value == value;
     });
-    return result.display_name;
+    if (lang == 'en') return result.display_name_en;
+    if (lang == 'ms') return result.display_name_ms;
   }
 
   addMetaTag() {

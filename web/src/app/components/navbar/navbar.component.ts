@@ -234,6 +234,7 @@ export class NavbarComponent implements OnInit {
       if (this.authService.isTokenExpired(refresh)) {
         // return true
         this.jwtService.destroyToken();
+        this.cookieService.delete("rememberMe");
         this.router.navigate(["/landing"]);
       } else {
         // return false
@@ -272,7 +273,7 @@ export class NavbarComponent implements OnInit {
   }
 
   clickLogin() {
-    if (this.rememberMe) this.cookieService.set("rememberMe", "true");
+    if (this.rememberMe) this.cookieService.set("rememberMe", "true", 1);
     else {
       if (this.cookieService.check("rememberMe"))
         this.cookieService.delete("rememberMe");
@@ -320,6 +321,7 @@ export class NavbarComponent implements OnInit {
   clickLogout() {
     this.toastr.info("Anda telah log keluar. Terima kasih.", "Info");
     this.jwtService.destroyToken();
+    this.cookieService.delete("rememberMe");
     this.accessToken = this.jwtService.getToken("accessToken");
     this.router.navigate(["/landing"]);
   }

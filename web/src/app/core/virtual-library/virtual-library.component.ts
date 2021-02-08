@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 import { VirtualLibraryCategoriesService } from "src/app/shared/services/virtual-library-categories/virtual-library-categories.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -18,6 +19,7 @@ export class VirtualLibraryComponent implements OnInit {
   vl_categories = [];
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private router: Router,

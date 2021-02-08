@@ -76,13 +76,20 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="{{ 'Emel' | translate }}"
+                        placeholder="{{ 'EmelPlaceholder' | translate }}"
                         type="email"
                         (focus)="focus4 = true"
                         (blur)="focus4 = false"
                         formControlName="email"
                       />
                     </div>
+                    <small
+                      class="text-danger"
+                      *ngIf="
+                        registerFormGroup.controls['email'].hasError('email')
+                      "
+                      >{{ "EmelError" | translate }}</small
+                    >
                   </div>
                 </div>
               </div>
@@ -103,13 +110,23 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="{{ 'NomborTelefon' | translate }}"
+                        placeholder="{{
+                          'NomborTelefonPlaceholder' | translate
+                        }}"
                         type="tel"
                         (focus)="focus7 = true"
                         (blur)="focus7 = false"
                         formControlName="phone"
+                        maxlength="13"
                       />
                     </div>
+                    <small
+                      class="text-danger"
+                      *ngIf="
+                        registerFormGroup.controls['phone'].hasError('pattern')
+                      "
+                      >{{ "PoskodError" | translate }}</small
+                    >
                   </div>
                 </div>
               </div>
@@ -170,6 +187,181 @@
                   <alert [type]="'danger'" class="text-justify">
                     {{ "KataLaluanInfo" | translate }}
                   </alert>
+                </div>
+              </div>
+              <div class="row pb-3">
+                <div class="col">
+                  <div class="card bg-white m-0">
+                    <div class="card-body">
+                      <p
+                        style="font-size: 1.2rem"
+                        [ngClass]="
+                          registerFormGroup.controls['password1'].hasError(
+                            'required'
+                          ) ||
+                          registerFormGroup.controls['password1'].hasError(
+                            'minlength'
+                          )
+                            ? 'text-danger'
+                            : 'text-success'
+                        "
+                      >
+                        <i
+                          [ngClass]="
+                            registerFormGroup.controls['password1'].hasError(
+                              'required'
+                            ) ||
+                            registerFormGroup.controls['password1'].hasError(
+                              'minlength'
+                            )
+                              ? 'fas fa-times-circle'
+                              : 'fas fa-check-circle'
+                          "
+                        ></i>
+                        {{ "KataLaluanValid1" | translate }}
+                      </p>
+
+                      <p
+                        style="font-size: 1.2rem"
+                        [ngClass]="
+                          registerFormGroup.controls['password1'].hasError(
+                            'required'
+                          ) ||
+                          registerFormGroup.controls['password1'].hasError(
+                            'hasCapitalCase'
+                          )
+                            ? 'text-danger'
+                            : 'text-success'
+                        "
+                      >
+                        <i
+                          [ngClass]="
+                            registerFormGroup.controls['password1'].hasError(
+                              'required'
+                            ) ||
+                            registerFormGroup.controls['password1'].hasError(
+                              'hasCapitalCase'
+                            )
+                              ? 'fas fa-times-circle'
+                              : 'fas fa-check-circle'
+                          "
+                        ></i>
+                        {{ "KataLaluanValid2" | translate }}
+                      </p>
+
+                      <p
+                        style="font-size: 1.2rem"
+                        [ngClass]="
+                          registerFormGroup.controls['password1'].hasError(
+                            'required'
+                          ) ||
+                          registerFormGroup.controls['password1'].hasError(
+                            'hasSmallCase'
+                          )
+                            ? 'text-danger'
+                            : 'text-success'
+                        "
+                      >
+                        <i
+                          [ngClass]="
+                            registerFormGroup.controls['password1'].hasError(
+                              'required'
+                            ) ||
+                            registerFormGroup.controls['password1'].hasError(
+                              'hasSmallCase'
+                            )
+                              ? 'fas fa-times-circle'
+                              : 'fas fa-check-circle'
+                          "
+                        ></i>
+                        {{ "KataLaluanValid3" | translate }}
+                      </p>
+
+                      <p
+                        style="font-size: 1.2rem"
+                        [ngClass]="
+                          registerFormGroup.controls['password1'].hasError(
+                            'required'
+                          ) ||
+                          registerFormGroup.controls['password1'].hasError(
+                            'hasNumber'
+                          )
+                            ? 'text-danger'
+                            : 'text-success'
+                        "
+                      >
+                        <i
+                          [ngClass]="
+                            registerFormGroup.controls['password1'].hasError(
+                              'required'
+                            ) ||
+                            registerFormGroup.controls['password1'].hasError(
+                              'hasNumber'
+                            )
+                              ? 'fas fa-times-circle'
+                              : 'fas fa-check-circle'
+                          "
+                        ></i>
+                        {{ "KataLaluanValid4" | translate }}
+                      </p>
+
+                      <p
+                        style="font-size: 1.2rem"
+                        [ngClass]="
+                          registerFormGroup.controls['password1'].hasError(
+                            'required'
+                          ) ||
+                          registerFormGroup.controls['password1'].hasError(
+                            'hasSpecialCharacters'
+                          )
+                            ? 'text-danger'
+                            : 'text-success'
+                        "
+                      >
+                        <i
+                          [ngClass]="
+                            registerFormGroup.controls['password1'].hasError(
+                              'required'
+                            ) ||
+                            registerFormGroup.controls['password1'].hasError(
+                              'hasSpecialCharacters'
+                            )
+                              ? 'fas fa-times-circle'
+                              : 'fas fa-check-circle'
+                          "
+                        ></i>
+                        {{ "KataLaluanValid5" | translate }}
+                      </p>
+
+                      <p
+                        style="font-size: 1.2rem"
+                        [ngClass]="
+                          registerFormGroup.controls['password2'].hasError(
+                            'required'
+                          ) ||
+                          registerFormGroup.controls['password2'].hasError(
+                            'NoPassswordMatch'
+                          )
+                            ? 'text-danger'
+                            : 'text-success'
+                        "
+                      >
+                        <i
+                          [ngClass]="
+                            registerFormGroup.controls['password2'].hasError(
+                              'required'
+                            ) ||
+                            registerFormGroup.controls['password2'].hasError(
+                              'NoPassswordMatch'
+                            )
+                              ? 'fas fa-times-circle'
+                              : 'fas fa-check-circle'
+                          "
+                        ></i>
+                        {{ "KataLaluanValid6" | translate }}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group mb-3">
@@ -252,13 +444,23 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="{{ 'Poskod' | translate }}"
-                        type="number"
+                        placeholder="{{ 'PoskodPlaceholder' | translate }}"
+                        type="text"
                         (focus)="focus10 = true"
                         (blur)="focus10 = false"
                         formControlName="postcode"
+                        maxlength="5"
                       />
                     </div>
+                    <small
+                      class="text-danger"
+                      *ngIf="
+                        registerFormGroup.controls['postcode'].hasError(
+                          'pattern'
+                        )
+                      "
+                      >{{ "PoskodError" | translate }}</small
+                    >
                   </div>
                 </div>
                 <div class="col">
@@ -277,7 +479,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="{{ 'Bandar' | translate }}"
+                        placeholder="{{ 'BandarPlaceholder' | translate }}"
                         type="text"
                         (focus)="focus11 = true"
                         (blur)="focus11 = false"
@@ -349,7 +551,7 @@
                       </div>
                       <input
                         class="form-control text-dark"
-                        placeholder="{{ 'Negara' | translate }}"
+                        placeholder="{{ 'NegaraPlaceholder' | translate }}"
                         type="text"
                         (focus)="focus13 = true"
                         (blur)="focus13 = false"

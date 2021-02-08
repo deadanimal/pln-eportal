@@ -28,32 +28,24 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          Mengenai Kami <share-button button="facebook"></share-button
+          {{ "KutubkhanahMiniMengenaiKamiTajuk" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
         <div class="row pb-5">
           <div class="col">
             <p class="text-dark text-justify">
-              Kutubkhanah Mini Planetarium Negara telah dibuka kepada orang
-              ramai pada 2 Jun 2018, bersamaan dengan 17 Ramadhan 1439H. Koleksi
-              buku di Kutubkhanah Mini ini terdiri daripada sebahagian besarnya
-              subjek astronomi dan sains angkasa selain subjek-subjek umum yang
-              lain seperti karya am, falsafah, sains kemasyarakatan dan
-              sebagainya. Buku-buku tersebut telah disusun dan dikatalog agar
-              memudahkan orang ramai untuk membuat carian dan rujukan.
+              {{ "KutubkhanahMiniMengenaiKamiDeskripsi1" | translate }}
             </p>
 
-            <p class="text-dark text-justify pt-3">
-              Kutubkhanah Mini di Planetarium Negara turut menyokong program
-              <b>KLBACA!</b> yang mulai disambut pada 23 April 2020, dimana ibu
-              kota <b>Kuala Lumpur</b> telah dipilih sebagai bandaraya ke-20
-              bagi sambutan ini.
-            </p>
+            <p
+              class="text-dark text-justify pt-3"
+              [innerHtml]="'KutubkhanahMiniMengenaiKamiDeskripsi2' | translate"
+            ></p>
 
             <p class="text-dark text-justify pt-3">
-              Kutubkhanah Mini berusaha meningkatkan koleksi sumber bahan
-              digital agar dapat dicapai oleh semua lapisan masyarakat.
+              {{ "KutubkhanahMiniMengenaiKamiDeskripsi3" | translate }}
             </p>
           </div>
         </div>
@@ -71,33 +63,45 @@
         </div>
         <div class="row pb-5">
           <div class="col-md-6 col-sm-12">
-            <h2 class="title text-dark">Waktu Operasi</h2>
-            <h4 class="title text-dark">Selasa – Ahad:</h4>
+            <h2 class="title text-dark">{{ "WaktuOperasi" | translate }}</h2>
+            <h4 class="title text-dark">
+              {{ "Selasa" | translate }} – {{ "Ahad" | translate }}:
+            </h4>
             <p class="text-dark">9:00 AM – 4:45 PM</p>
-            <h4 class="title text-dark">Isnin & Hari Cuti Umum:</h4>
-            <p class="text-dark">Tutup</p>
+            <h4 class="title text-dark">
+              {{ "Isnin" | translate }} & {{ "HariCutiUmum" | translate }}:
+            </h4>
+            <p class="text-dark">{{ "Tutup" | translate }}</p>
           </div>
           <div class="col-md-6 col-sm-12">
             <table class="table table-bordered">
               <tr>
-                <td>1<sup>st</sup> Februari</td>
-                <td class="font-weight-bold">Hari Wilayah Persekutuan</td>
+                <td>1<sup>st</sup> {{ "Februari" | translate }}</td>
+                <td class="font-weight-bold">
+                  {{ "HariWilayahPersekutuan" | translate }}
+                </td>
               </tr>
               <tr>
-                <td>1<sup>st</sup> Mei</td>
-                <td class="font-weight-bold">Hari Pekerja</td>
+                <td>1<sup>st</sup> {{ "Mei" | translate }}</td>
+                <td class="font-weight-bold">
+                  {{ "HariPekerja" | translate }}
+                </td>
               </tr>
               <tr>
-                <td>31<sup>st</sup> Ogos</td>
-                <td class="font-weight-bold">Hari Kebangsaan</td>
+                <td>31<sup>st</sup> {{ "Ogos" | translate }}</td>
+                <td class="font-weight-bold">
+                  {{ "HariKebangsaan" | translate }}
+                </td>
               </tr>
               <tr>
                 <td>16<sup>th</sup> September</td>
-                <td class="font-weight-bold">Hari Malaysia</td>
+                <td class="font-weight-bold">
+                  {{ "HariMalaysia" | translate }}
+                </td>
               </tr>
               <tr>
                 <td colspan="2" class="text-center font-weight-bold">
-                  Hari Keputeraan Rasmi Yang Di-Pertuan Agong
+                  {{ "HariKeputeraanRasmiYangDi-PertuanAgong" | translate }}
                 </td>
               </tr>
               <tr>

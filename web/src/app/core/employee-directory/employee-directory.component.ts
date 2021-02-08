@@ -15,6 +15,7 @@ export class EmployeeDirectoryComponent implements OnInit {
 
   // Data
   employeedirectories = [];
+  param: any;
 
   // Dropdown
   departments = [
@@ -88,6 +89,7 @@ export class EmployeeDirectoryComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.employeedirectories = res;
+        this.param = { value: this.employeedirectories.length };
       },
       (err) => {
         console.error("err", err);

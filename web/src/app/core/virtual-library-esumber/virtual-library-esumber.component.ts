@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 import { VirtualLibraryESourceCategoriesService } from "src/app/shared/services/virtual-library-esource-categories/virtual-library-esource-categories.service";
 import { VirtualLibraryESourcesService } from "src/app/shared/services/virtual-library-esources/virtual-library-esources.service";
@@ -22,6 +23,7 @@ export class VirtualLibraryEsumberComponent implements OnInit {
   virtual_library_collection_id: string = "";
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibraryesourcecategoryService: VirtualLibraryESourceCategoriesService,

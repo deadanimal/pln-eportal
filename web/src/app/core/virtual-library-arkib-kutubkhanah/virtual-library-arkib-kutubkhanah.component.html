@@ -28,17 +28,15 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          Arkib Kutubkhanah <share-button button="facebook"></share-button
+          {{ "KutubkhanahMiniArkibTajuk" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
         <div class="row">
           <div class="col">
             <p class="text-dark text-justify">
-              Mengandungi bahan-bahan rujukan berkaitan Planetarium Negara yang
-              terdapat dalam pelbagai bentuk bahan bercetak dan bukan bercetak.
-              Antaranya adalah audio, berita, brosur, flyers, kenyataan media,
-              pempakejan maklumat, penerbitan, ucapan, video.
+              {{ "KutubkhanahMiniArkibDeskripsi" | translate }}
             </p>
           </div>
         </div>
@@ -52,8 +50,17 @@
                 <i [class]="vl_akk_category.icon + ' fa-7x text-info'"></i>
               </div>
               <div class="card-body bg-white text-center pb-3">
-                <h3 class="title text-dark mt-0">
-                  {{ vl_akk_category.name }}
+                <h3
+                  class="title text-dark mt-0"
+                  *ngIf="translate.currentLang == 'en'"
+                >
+                  {{ vl_akk_category.name_en }}
+                </h3>
+                <h3
+                  class="title text-dark mt-0"
+                  *ngIf="translate.currentLang == 'ms'"
+                >
+                  {{ vl_akk_category.name_ms }}
                 </h3>
 
                 <div *ngIf="vl_akk_category.archive_from == 'NAV'">
@@ -79,7 +86,12 @@
                       download
                       [href]="archive_book.pdf_link"
                       class="font-weight-bold"
-                      >{{ archive_book.title }}</a
+                      ><span *ngIf="translate.currentLang == 'en'">{{
+                        archive_book.title_en
+                      }}</span>
+                      <span *ngIf="translate.currentLang == 'ms'">{{
+                        archive_book.title_ms
+                      }}</span></a
                     >
                   </p>
                 </div>
@@ -94,7 +106,12 @@
                       download
                       [href]="archive_serialpublication.pdf_link"
                       class="font-weight-bold"
-                      >{{ archive_serialpublication.title }}</a
+                      ><span *ngIf="translate.currentLang == 'en'">{{
+                        archive_serialpublication.title_en
+                      }}</span>
+                      <span *ngIf="translate.currentLang == 'ms'">{{
+                        archive_serialpublication.title_ms
+                      }}</span></a
                     >
                   </p>
                 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 import { VirtualLibraryArticlesService } from "src/app/shared/services/virtual-library-articles/virtual-library-articles.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -20,13 +21,16 @@ export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
   showSelectedArticle: boolean = false;
   selectedArticle = {
     id: "",
-    name: "",
-    description: "",
+    name_en: "",
+    name_ms: "",
+    description_en: "",
+    description_ms: "",
     date: "",
     pdf_link: "",
   };
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private virtuallibraryarticleService: VirtualLibraryArticlesService,
@@ -77,8 +81,10 @@ export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
   emptyArticle() {
     return {
       id: "",
-      name: "",
-      description: "",
+      name_en: "",
+      name_ms: "",
+      description_en: "",
+      description_ms: "",
       date: "",
       pdf_link: "",
     };

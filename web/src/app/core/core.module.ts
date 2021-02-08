@@ -101,6 +101,7 @@ import { ReceiptComponent } from "./receipt/receipt.component";
 import { CheckoutComponent } from "./checkout/checkout.component";
 import { FormatFPXTransactionDateTimePipe } from "../shared/pipes/format/format-fpxtransaction-datetime.pipe";
 import { FormatBookingTimePipe } from "../shared/pipes/format/format-booking-time.pipe";
+import { FormatFacilityAreaM2Pipe } from "../shared/pipes/format/format-facility-area-m2.pipe";
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -171,6 +172,7 @@ const customConfig: ShareButtonsConfig = {
     CheckoutComponent,
     FormatFPXTransactionDateTimePipe,
     FormatBookingTimePipe,
+    FormatFacilityAreaM2Pipe,
   ],
   imports: [
     CommonModule,

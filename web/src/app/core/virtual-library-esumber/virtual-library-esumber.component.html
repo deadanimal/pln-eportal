@@ -28,19 +28,15 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          eSumber <share-button button="facebook"></share-button
+          {{ "KutubkhanahMinieSumberTajuk" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
         <div class="row">
           <div class="col">
             <p class="text-dark text-justify">
-              Mengandungi Koleksi audio visual dan sumber elektronik yang
-              merupakan bahan tidak bercetak dalam pelbagai bidang perkara dan
-              format seperti kaset audio, kaset video, cakera padat data
-              (CD-ROM), cakera audio, cakera video, cakera video digital dan kit
-              yang diterbitkan di dalam dan di luar negara yang berada dalam
-              simpanan PN.
+              {{ "KutubkhanahMinieSumberDeskripsi" | translate }}
             </p>
           </div>
         </div>
@@ -54,8 +50,17 @@
                 <i [class]="vl_esumber_category.icon + ' fa-7x text-info'"></i>
               </div>
               <div class="card-body bg-white text-center pb-3">
-                <h3 class="title text-dark mt-0">
-                  {{ vl_esumber_category.name }}
+                <h3
+                  class="title text-dark mt-0"
+                  *ngIf="translate.currentLang == 'en'"
+                >
+                  {{ vl_esumber_category.name_en }}
+                </h3>
+                <h3
+                  class="title text-dark mt-0"
+                  *ngIf="translate.currentLang == 'ms'"
+                >
+                  {{ vl_esumber_category.name_ms }}
                 </h3>
 
                 <p
@@ -68,9 +73,14 @@
                           }
                   "
                 >
-                  <a [href]="vl_esumber.link" class="font-weight-bold">{{
-                    vl_esumber.name
-                  }}</a>
+                  <a [href]="vl_esumber.link" class="font-weight-bold">
+                    <span *ngIf="translate.currentLang == 'en'">{{
+                      vl_esumber.name_en
+                    }}</span>
+                    <span *ngIf="translate.currentLang == 'ms'">{{
+                      vl_esumber.name_ms
+                    }}</span>
+                  </a>
                 </p>
               </div>
             </div>

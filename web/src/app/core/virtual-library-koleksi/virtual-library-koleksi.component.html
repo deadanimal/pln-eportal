@@ -28,7 +28,8 @@
     <div class="section">
       <div class="container">
         <h2 class="title text-center text-dark">
-          Koleksi <share-button button="facebook"></share-button
+          {{ "KutubkhanahMiniKoleksiTajuk" | translate }}
+          <share-button button="facebook"></share-button
           ><share-button button="twitter"></share-button
           ><share-button button="whatsapp"></share-button>
         </h2>
@@ -55,7 +56,18 @@
                     <i [class]="vl_collection.icon + ' fa-10x text-info'"></i>
                   </div>
                   <div class="card-body">
-                    <h2 class="title text-center">{{ vl_collection.name }}</h2>
+                    <h2
+                      class="title text-center"
+                      *ngIf="translate.currentLang == 'en'"
+                    >
+                      {{ vl_collection.name_en }}
+                    </h2>
+                    <h2
+                      class="title text-center"
+                      *ngIf="translate.currentLang == 'ms'"
+                    >
+                      {{ vl_collection.name_ms }}
+                    </h2>
                   </div>
                 </div>
               </div>

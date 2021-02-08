@@ -1,6 +1,7 @@
 export class VirtualLibraryArchiveKutubkhanahCategory {
   public id: string;
-  public name: string;
+  public name_en: string;
+  public name_ms: string;
   public icon: string;
   public archive_from: string;
   public status: boolean;
@@ -10,7 +11,8 @@ export class VirtualLibraryArchiveKutubkhanahCategory {
 
   constructor(
     id: string,
-    name: string,
+    name_en: string,
+    name_ms: string,
     icon: string,
     archive_from: string,
     status: boolean,
@@ -19,7 +21,8 @@ export class VirtualLibraryArchiveKutubkhanahCategory {
     modified_date: string
   ) {
     this.id = id;
-    this.name = name;
+    this.name_en = name_en;
+    this.name_ms = name_ms;
     this.icon = icon;
     this.archive_from = archive_from;
     this.status = status;

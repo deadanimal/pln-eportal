@@ -6,7 +6,7 @@ export const Seats = [
       {
         column: 0,
         name: "",
-        color: "#308446",
+        color: "",
       },
       {
         column: 1,
