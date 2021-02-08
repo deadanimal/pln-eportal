@@ -167,10 +167,14 @@
               <hr class="line-info mb-3" style="border-top: 3px solid" />
 
               <div class="row mb-3">
-                <div class="col-3 text-left d-flex align-items-center">
-                  <h6 class="title text-dark m-0" [innerHtml]="'BaucarNota' | translate | safe: 'html'">
-                    Masukkan kod baucar<br />(sekiranya ada)
-                  </h6>
+                <div class="col-4 text-left pt-3">
+                  <h5
+                    class="title text-dark m-0"
+                    [innerHtml]="'BaucarNota' | translate"
+                  ></h5>
+                  <p class="text-danger font-weight-bold" *ngIf="total_voucher > 0">
+                    {{ "BaucarNilai" | translate: voucher_amount }}
+                  </p>
                 </div>
                 <div class="col-2 d-flex align-items-center">
                   <input
@@ -190,7 +194,7 @@
                     {{ "Semak" | translate }}
                   </button>
                 </div>
-                <div class="col-3 text-right">
+                <div class="col-2 text-right">
                   <h4 class="title text-dark m-0">
                     {{ "Jumlah" | translate }}
                   </h4>

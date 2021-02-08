@@ -91,6 +91,7 @@ import { FpxsResponseCodeListComponent } from './fpxs/fpxs-response-code-list/fp
 import { InvoicesListComponent } from './invoice-receipts/invoices-list/invoices-list.component';
 import { ReceiptsListComponent } from './invoice-receipts/receipts-list/receipts-list.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
+import { RefundsComponent } from './refunds/refunds.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -169,6 +170,7 @@ FullCalendarModule.registerPlugins([
     InvoicesListComponent,
     ReceiptsListComponent,
     VouchersComponent,
+    RefundsComponent,
   ],
   imports: [
     CommonModule,

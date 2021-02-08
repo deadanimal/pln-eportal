@@ -36,7 +36,7 @@ export class SimulatorRideBookingsService {
     );
   }
 
-  update(body: Form, id: string): Observable<SimulatorRideBooking> {
+  update(body, id: string): Observable<SimulatorRideBooking> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<SimulatorRideBooking>(urlPatch, body).pipe(
       tap((res) => {

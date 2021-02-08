@@ -48,7 +48,8 @@ class FacilitySubcategory(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     code = models.CharField(max_length=10, blank=True)
-    name = models.CharField(max_length=50, blank=True)
+    name_en = models.CharField(max_length=50, blank=True)
+    name_ms = models.CharField(max_length=50, blank=True)
     image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('image'))
     status = models.BooleanField(default=False)
 
@@ -70,14 +71,16 @@ class FacilitySubcategory(models.Model):
         ordering = ['code']
 
     def __str__(self):
-        return self.code + ' - ' + self.name
+        return self.code + ' - ' + self.name_ms
 
 
 class Facility(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    name = models.CharField(max_length=255, default='NA')
-    description = models.TextField(blank=True)
+    name_en = models.CharField(max_length=255, default='NA')
+    name_ms = models.CharField(max_length=255, default='NA')
+    description_en = models.TextField(blank=True)
+    description_ms = models.TextField(blank=True)
 
     FACILITY_CATEGORY = [
         ('TA', 'Teater Angkasa'),
@@ -108,23 +111,26 @@ class Facility(models.Model):
     pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_pic_id')
     # asset_id = models.ManyToManyField(Asset, related_name='facility_asset_id')
     venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='facility_venue_id', null=True)
-    equipment_name = models.CharField(max_length=255, blank=True)
-    equipment_description = models.TextField(blank=True)
+    equipment_name_en = models.CharField(max_length=255, blank=True)
+    equipment_name_ms = models.CharField(max_length=255, blank=True)
+    equipment_description_en = models.TextField(blank=True)
+    equipment_description_ms = models.TextField(blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['name_ms']
 
     def __str__(self):
-        return self.name
+        return self.name_ms
 
 
 class FacilityPrice(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    facility_description = models.CharField(max_length=255, default='NA', blank=True)
+    facility_description_en = models.CharField(max_length=255, default='NA', blank=True)
+    facility_description_ms = models.CharField(max_length=255, default='NA', blank=True)
     facility_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     DAY = [
@@ -143,7 +149,7 @@ class FacilityPrice(models.Model):
         ordering = ['-created_date']
 
     def __str__(self):
-        return self.facility_description
+        return self.facility_description_ms
 
 
 class FacilityImage(models.Model):
@@ -191,12 +197,24 @@ class FacilityBooking(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)
     want_equipment = models.BooleanField(default=False)
 
+    # status fasiliti: dalam proses, diterima, ditolak, terima bayaran, tolak bayaran, pending payment, refund
+    # dalam proses - tunggu approval dari pengarah Planetarium
+    # diterima - selepas pengarah terima permohonan tempahan fasiliti
+    # ditolak - selepas pengarah menolak permohonan tempahan fasiliti
+    # pending payment - selepas pengguna ingin membuat bayaran di kaunter
+    # payment diterima - selepas FPX menghantar status 00 (Berjaya) ke dalam sistem
+    # payment ditolak - selepas FPX menghantar status selain 00 ke dalam sistem
+    # refund - pengguna ingat refund tempahan mereka
     STATUS = [
-        ('AP', 'Approved'),
-        ('IP', 'In Process'),
-        ('RJ', 'Rejected')
+        ('FB01', 'In Progress'),
+        ('FB02', 'Approved'),
+        ('FB03', 'Rejected'),
+        ('FB04', 'Pending Payment'),
+        ('FB05', 'Payment Accepted'),
+        ('FB06', 'Payment Rejected'),
+        ('FB07', 'Refund')
     ]
-    status = models.CharField(max_length=2, choices=STATUS, default='IP')
+    status = models.CharField(max_length=4, choices=STATUS, default='FB01')
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)

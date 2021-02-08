@@ -61,7 +61,8 @@ class FacilitySubcategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'id',
         'code',
-        'name',
+        'name_en',
+        'name_ms',
         'status',
         'facility_category'
     ]

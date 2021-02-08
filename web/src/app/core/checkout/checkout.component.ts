@@ -31,6 +31,7 @@ export class CheckoutComponent implements OnInit {
   vouchers = [];
   voucher_id: string = "";
   voucher_code: string = "";
+  voucher_amount: any;
   done_voucher_verify: boolean = false;
   totalprice: number = 0;
   queryParams: any;
@@ -373,6 +374,7 @@ export class CheckoutComponent implements OnInit {
           this.voucher_id = result.id;
           this.voucher_code = result.voucher_code;
           this.total_voucher = result.voucher_amount;
+          this.voucher_amount = { value: this.total_voucher };
 
           // to update total price after voucher inserted
           this.totalprice = this.totalprice - this.total_voucher;

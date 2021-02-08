@@ -1,24 +1,29 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ROUTES } from "../../shared/menu/menu-items";
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import {
+  Router,
+  Event,
+  NavigationStart,
+  NavigationEnd,
+  NavigationError,
+} from "@angular/router";
 import {
   Location,
   LocationStrategy,
-  PathLocationStrategy
+  PathLocationStrategy,
 } from "@angular/common";
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
-import { UsersService } from 'src/app/shared/services/users/users.service';
-import { User } from 'src/app/shared/services/users/users.model';
-import { JwtService } from 'src/app/shared/handler/jwt/jwt.service';
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { NotifyService } from "src/app/shared/handler/notify/notify.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
+import { User } from "src/app/shared/services/users/users.model";
+import { JwtService } from "src/app/shared/handler/jwt/jwt.service";
 
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"]
+  styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
-
   focus;
   listTitles: any[];
   location: Location;
@@ -26,10 +31,11 @@ export class NavbarComponent implements OnInit {
   sidenavOpen: boolean = true;
 
   // Data
-  user: User
+  user: User;
+  full_name: string = "";
 
   // Image
-  imgAvatar = 'assets/img/default/avatar.png'
+  imgAvatar = "assets/img/default/avatar.png";
 
   constructor(
     location: Location,
@@ -40,36 +46,37 @@ export class NavbarComponent implements OnInit {
     private element: ElementRef,
     private router: Router
   ) {
-    this.user = this.userService.user
+    this.user = this.userService.user;
     this.location = location;
     this.router.events.subscribe((event: Event) => {
-       if (event instanceof NavigationStart) {
-           // Show loading indicator
+      if (event instanceof NavigationStart) {
+        // Show loading indicator
+      }
+      if (event instanceof NavigationEnd) {
+        // Hide loading indicator
 
-       }
-       if (event instanceof NavigationEnd) {
-           // Hide loading indicator
+        if (window.innerWidth < 1200) {
+          document.body.classList.remove("g-sidenav-pinned");
+          document.body.classList.add("g-sidenav-hidden");
+          this.sidenavOpen = false;
+        }
+      }
 
-           if (window.innerWidth < 1200) {
-             document.body.classList.remove("g-sidenav-pinned");
-             document.body.classList.add("g-sidenav-hidden");
-             this.sidenavOpen = false;
-           }
-       }
+      if (event instanceof NavigationError) {
+        // Hide loading indicator
 
-       if (event instanceof NavigationError) {
-           // Hide loading indicator
+        // Present error to user
+        console.log(event.error);
+      }
+    });
 
-           // Present error to user
-           console.log(event.error);
-       }
-   });
-
+    if (this.authService.decodedToken().full_name)
+      this.full_name = this.authService.decodedToken().full_name;
   }
 
   ngOnInit() {
-    console.log('as: ', this.user)
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    console.log("as: ", this.user);
+    this.listTitles = ROUTES.filter((listTitle) => listTitle);
   }
 
   getTitle() {
@@ -87,53 +94,50 @@ export class NavbarComponent implements OnInit {
   }
 
   navigatePage(path: String) {
-    if (path == 'notifications') {
-      return this.router.navigate(['/global/notifications'])
-    }
-    else if (path == 'profile') {
-      return this.router.navigate(['/global/profile'])
-    }
-    else if (path == 'settings') {
-      return this.router.navigate(['/global/settings'])
-    }
-    else if (path == 'home') {
-      return this.router.navigate(['/auth/login'])
+    if (path == "notifications") {
+      return this.router.navigate(["/global/notifications"]);
+    } else if (path == "profile") {
+      return this.router.navigate(["/global/profile"]);
+    } else if (path == "settings") {
+      return this.router.navigate(["/global/settings"]);
+    } else if (path == "home") {
+      return this.router.navigate(["/auth/login"]);
     }
   }
 
   successMessage() {
-    let title = 'Success'
-    let message = 'Loging in right now'
-    this.notifyService.openToastr(title, message)
+    let title = "Success";
+    let message = "Loging in right now";
+    this.notifyService.openToastr(title, message);
   }
 
   logout() {
-    this.jwtService.destroyToken()
-    this.navigatePage('home')
+    this.jwtService.destroyToken();
+    this.navigatePage("home");
   }
 
   openSearch() {
     document.body.classList.add("g-navbar-search-showing");
-    setTimeout(function() {
+    setTimeout(function () {
       document.body.classList.remove("g-navbar-search-showing");
       document.body.classList.add("g-navbar-search-show");
     }, 150);
-    setTimeout(function() {
+    setTimeout(function () {
       document.body.classList.add("g-navbar-search-shown");
     }, 300);
   }
 
   closeSearch() {
     document.body.classList.remove("g-navbar-search-shown");
-    setTimeout(function() {
+    setTimeout(function () {
       document.body.classList.remove("g-navbar-search-show");
       document.body.classList.add("g-navbar-search-hiding");
     }, 150);
-    setTimeout(function() {
+    setTimeout(function () {
       document.body.classList.remove("g-navbar-search-hiding");
       document.body.classList.add("g-navbar-search-hidden");
     }, 300);
-    setTimeout(function() {
+    setTimeout(function () {
       document.body.classList.remove("g-navbar-search-hidden");
     }, 500);
   }

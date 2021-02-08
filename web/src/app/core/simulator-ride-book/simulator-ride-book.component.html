@@ -235,7 +235,7 @@
                                     [value]="time.time + '_' + time.id"
                                     formControlName="time"
                                   />
-                                  {{ time.time }}
+                                  {{ time.time | formatBookingTime }}
                                   <span class="form-check-sign"></span>
                                 </label>
                               </div>

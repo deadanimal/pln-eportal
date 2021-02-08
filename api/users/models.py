@@ -30,15 +30,16 @@ class CustomUser(AbstractUser):
     country = models.CharField(blank=True, max_length=100)
 
     USER_TYPE = [
+        ('DR', 'Director'),
         ('SA', 'Super Admin'),
-        ('AD', 'Admin'),
-        ('AF', 'Admin Finance'),
-        ('AL', 'Admin Library'),
-        ('AP', 'Admin Pameran'),
-        ('AG', 'Admin Program'),
-        ('AL', 'Admin Lawatan'),
-        ('HC', 'Head Counter'),
-        ('AM', 'Admin Maklum Balas'),
+        ('FA', 'Finance Admin'),
+        ('TA', 'Technical Admin'),
+        ('TC', 'Ticket Counter Admin'),
+        ('VA', 'Visit Admin'),
+        ('EP', 'Educational Program Admin'),
+        ('EA', 'Exhibition Admin'),
+        ('PK', 'Publishing & Kutubkhanah Admin'),
+        ('SV', 'Survey Admin'),
         ('CS', 'Customer')
     ]
     user_type = models.CharField(max_length=2, choices=USER_TYPE, default='CS')

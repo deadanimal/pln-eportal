@@ -108,6 +108,8 @@ export class EmailTemplatesComponent implements OnInit {
       [{ align: [] }],
 
       ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
     ],
   };
 

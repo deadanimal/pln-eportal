@@ -46,36 +46,48 @@ export class UsersComponent implements OnInit {
   // Dropdown
   usertypes = [
     {
+      value: "DR",
+      display_name: "Pengarah",
+    },
+    {
       value: "SA",
       display_name: "Super Admin",
     },
     {
-      value: "AD",
-      display_name: "Admin",
+      value: "FA",
+      display_name: "Pentadbir Kewangan",
     },
     {
-      value: "AF",
-      display_name: "Admin Finance",
+      value: "TA",
+      display_name: "Pentadbir Teknikal",
     },
     {
-      value: "AL",
-      display_name: "Admin Lawatan",
+      value: "TC",
+      display_name: "Pentadbir Kaunter Tiket",
     },
     {
-      value: "AP",
-      display_name: "Admin Pameran",
+      value: "VA",
+      display_name: "Pentadbir Lawatan",
     },
     {
-      value: "AG",
-      display_name: "Admin Program",
+      value: "EP",
+      display_name: "Pentadbir Program Pendidikan",
     },
     {
-      value: "HC",
-      display_name: "Head Counter",
+      value: "EA",
+      display_name: "Pentadbir Pameran",
     },
     {
-      value: "AM",
-      display_name: "Admin Maklum Balas",
+      value: "PK",
+      display_name: "Pentadbir Penerbitan & Kutubkhanah",
+    },
+    {
+      value: "SV",
+      display_name: "Pentadbir Maklum Balas / Soal Selidik",
+    },
+    {
+      value: "CS",
+      display_name: "Pelanggan",
     },
   ];
 
@@ -115,10 +127,9 @@ export class UsersComponent implements OnInit {
 
   getData() {
     this.userService.getAll().subscribe((res) => {
-      for (let i = 0; i < res.length; i++) {
-        if (res[i].user_type == 'CS') res.splice(i, 1);
-      }
-      this.tableRows = res;
+      res.forEach((obj) => {
+        if (obj.user_type != "CS") this.tableRows.push(obj);
+      });
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
           ...prop,

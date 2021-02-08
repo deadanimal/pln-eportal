@@ -77,7 +77,7 @@ export class VouchersComponent implements OnInit {
       voucher_amount: new FormControl(0),
       validity_until: new FormControl(""),
       description: new FormControl(""),
-      status: new FormControl(""),
+      // status: new FormControl(""),
       user: new FormControl(""),
       // invoice_receipt_id: new FormControl(""),
     });
@@ -86,7 +86,7 @@ export class VouchersComponent implements OnInit {
   getUser() {
     this.userService.filter("user_type=CS").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.users = res;
       },
       (err) => {
@@ -170,7 +170,7 @@ export class VouchersComponent implements OnInit {
   create() {
     this.voucherService.post(this.voucherFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -210,7 +210,7 @@ export class VouchersComponent implements OnInit {
       .update(this.voucherFormGroup.value, this.voucherFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -262,7 +262,7 @@ export class VouchersComponent implements OnInit {
         if (result.value) {
           this.voucherService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

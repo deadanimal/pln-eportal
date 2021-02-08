@@ -9,7 +9,7 @@ import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { WhatisinterestingsService } from 'src/app/shared/services/whatisinterestings/whatisinterestings.service';
+import { WhatisinterestingsService } from "src/app/shared/services/whatisinterestings/whatisinterestings.service";
 
 export enum SelectionType {
   single = "single",
@@ -59,6 +59,8 @@ export class WhatIsInterestingsComponent implements OnInit {
       [{ align: [] }],
 
       ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
     ],
   };
 
@@ -175,11 +177,20 @@ export class WhatIsInterestingsComponent implements OnInit {
 
   create() {
     const formData = new FormData();
-    formData.append("image_link", this.whatisinterestingFormGroup.get("image_link").value);
+    formData.append(
+      "image_link",
+      this.whatisinterestingFormGroup.get("image_link").value
+    );
     formData.append("title_en", this.whatisinterestingFormGroup.value.title_en);
-    formData.append("description_en", this.whatisinterestingFormGroup.value.description_en);
+    formData.append(
+      "description_en",
+      this.whatisinterestingFormGroup.value.description_en
+    );
     formData.append("title_ms", this.whatisinterestingFormGroup.value.title_ms);
-    formData.append("description_ms", this.whatisinterestingFormGroup.value.description_ms);
+    formData.append(
+      "description_ms",
+      this.whatisinterestingFormGroup.value.description_ms
+    );
     formData.append("status", this.whatisinterestingFormGroup.value.status);
 
     this.whatisinterestingService.post(formData).subscribe(
@@ -221,7 +232,9 @@ export class WhatIsInterestingsComponent implements OnInit {
 
   update() {
     const formData = new FormData();
-    if (typeof this.whatisinterestingFormGroup.get("image_link").value != "string") {
+    if (
+      typeof this.whatisinterestingFormGroup.get("image_link").value != "string"
+    ) {
       formData.append(
         "image_link",
         this.whatisinterestingFormGroup.get("image_link").value
@@ -229,9 +242,15 @@ export class WhatIsInterestingsComponent implements OnInit {
     }
     formData.append("id", this.whatisinterestingFormGroup.value.id);
     formData.append("title_en", this.whatisinterestingFormGroup.value.title_en);
-    formData.append("description_en", this.whatisinterestingFormGroup.value.description_en);
+    formData.append(
+      "description_en",
+      this.whatisinterestingFormGroup.value.description_en
+    );
     formData.append("title_ms", this.whatisinterestingFormGroup.value.title_ms);
-    formData.append("description_ms", this.whatisinterestingFormGroup.value.description_ms);
+    formData.append(
+      "description_ms",
+      this.whatisinterestingFormGroup.value.description_ms
+    );
     formData.append("status", this.whatisinterestingFormGroup.value.status);
 
     this.whatisinterestingService

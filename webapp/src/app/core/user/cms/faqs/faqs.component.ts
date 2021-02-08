@@ -8,7 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { FaqsService } from 'src/app/shared/services/faqs/faqs.service';
+import { FaqsService } from "src/app/shared/services/faqs/faqs.service";
 
 export enum SelectionType {
   single = "single",
@@ -19,9 +19,9 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: 'app-faqs',
-  templateUrl: './faqs.component.html',
-  styleUrls: ['./faqs.component.scss']
+  selector: "app-faqs",
+  templateUrl: "./faqs.component.html",
+  styleUrls: ["./faqs.component.scss"],
 })
 export class FaqsComponent implements OnInit {
   // FormGroup
@@ -54,6 +54,8 @@ export class FaqsComponent implements OnInit {
       [{ align: [] }],
 
       ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
     ],
   };
 
@@ -182,10 +184,7 @@ export class FaqsComponent implements OnInit {
 
   update() {
     this.faqService
-      .update(
-        this.faqFormGroup.value,
-        this.faqFormGroup.value.id
-      )
+      .update(this.faqFormGroup.value, this.faqFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);

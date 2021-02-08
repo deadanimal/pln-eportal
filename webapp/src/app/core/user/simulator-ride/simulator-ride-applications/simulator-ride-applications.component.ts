@@ -9,6 +9,9 @@ import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { SimulatorRideTimesService } from "src/app/shared/services/simulator-ride-times/simulator-ride-times.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -27,6 +30,9 @@ export enum SelectionType {
   styleUrls: ["./simulator-ride-applications.component.scss"],
 })
 export class SimulatorRideApplicationsComponent implements OnInit {
+  // Data
+  banklists = [];
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -43,6 +49,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   };
 
   // FormGroup
+  refundFormGroup: FormGroup;
   simridebookingFormGroup: FormGroup;
 
   // Dropdown
@@ -147,6 +154,9 @@ export class SimulatorRideApplicationsComponent implements OnInit {
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private route: ActivatedRoute,
+    private authService: AuthService,
+    private banklistService: BankListsService,
+    private refundService: RefundsService,
     private simridebookingService: SimulatorRideBookingsService,
     private simridetiemService: SimulatorRideTimesService,
     private userService: UsersService
@@ -164,9 +174,29 @@ export class SimulatorRideApplicationsComponent implements OnInit {
       status: new FormControl(""),
     });
 
+    this.refundFormGroup = this.formBuilder.group({
+      // refund_running_no: new FormControl(""),
+      refund_type: new FormControl(""),
+      description: new FormControl(""),
+      amount: new FormControl(0),
+      acc_number: new FormControl(""),
+      bank_id: new FormControl(""),
+      remarks: new FormControl(""),
+      incharge_id: new FormControl(""),
+      incharge_datetime: new FormControl(""),
+      user: new FormControl({ disabled: true }),
+      status: new FormControl("RC"),
+      // pic_verification_id: new FormControl(""),
+      // pic_verification_datetime: new FormControl(""),
+      // show_booking_id: new FormControl(""),
+      simulator_ride_booking_id: new FormControl(""),
+      // facility_booking_id: new FormControl(""),
+    });
+
     this.getData();
     this.getTime();
     this.getUser();
+    this.getBankList();
   }
 
   getData() {
@@ -202,8 +232,22 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
-        this.users = res;
+        // console.log("res", res);
+        res.forEach((obj) => {
+          if (obj.user_type == "CS") this.users.push(obj);
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getBankList() {
+    this.banklistService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.banklists = res;
       },
       (err) => {
         console.error("err", err);
@@ -253,6 +297,13 @@ export class SimulatorRideApplicationsComponent implements OnInit {
           ? row.simulator_ride_time_id.id
           : "",
         user_id: row.user_id ? row.user_id.id : "",
+      });
+    } else if (process == "refund") {
+      this.refundFormGroup.patchValue({
+        simulator_ride_booking_id: row.id,
+        amount: row.total_price,
+        user: row.user_id.id,
+        incharge_id: this.authService.decodedToken().user_id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -385,6 +436,59 @@ export class SimulatorRideApplicationsComponent implements OnInit {
           );
         }
       });
+  }
+
+  refund() {
+    this.refundService.post(this.refundFormGroup.value).subscribe(
+      (res) => {
+        console.log("res", res);
+
+        let obj = {
+          status: "SRB05",
+        };
+        this.simridebookingService
+          .update(obj, this.refundFormGroup.value.simulator_ride_booking_id)
+          .subscribe(
+            (res) => {
+              console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Bayaran balik anda berjaya disimpan.",
+            type: "success",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-success",
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Bayaran balik anda tidak berjaya disimpan. Sila cuba lagi",
+            type: "warning",
+            buttonsStyling: false,
+            confirmButtonClass: "btn btn-warning",
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   getType(value: string) {
