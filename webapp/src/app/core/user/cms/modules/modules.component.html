@@ -200,12 +200,11 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi MS</label>
-        <input
-          class="form-control"
+        <quill-editor
           formControlName="description_ms"
-          placeholder="Deskripsi MS"
-          type="text"
-        />
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="form-group">
         <label class="form-control-label required-field">Tajuk EN</label>
@@ -218,18 +217,17 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi EN</label>
-        <input
-          class="form-control"
+        <quill-editor
           formControlName="description_en"
-          placeholder="Deskripsi EN"
-          type="text"
-        />
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="form-group">
         <label class="form-control-label required-field">Modul</label>
         <select class="form-control" formControlName="module">
           <option value="">Sila pilih</option>
-          <option *ngFor="let module of modules" [value]="module.value">
+          <option *ngFor="let module of modulelists" [value]="module.value">
             {{ module.display_name }}
           </option>
         </select>
@@ -321,12 +319,11 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi MS</label>
-        <input
-          class="form-control"
+        <quill-editor
           formControlName="description_ms"
-          placeholder="Deskripsi MS"
-          type="text"
-        />
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="form-group">
         <label class="form-control-label required-field">Tajuk EN</label>
@@ -339,18 +336,17 @@
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi EN</label>
-        <input
-          class="form-control"
+        <quill-editor
           formControlName="description_en"
-          placeholder="Deskripsi EN"
-          type="text"
-        />
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="form-group">
         <label class="form-control-label required-field">Modul</label>
         <select class="form-control" formControlName="module">
           <option value="">Sila pilih</option>
-          <option *ngFor="let module of modules" [value]="module.value">
+          <option *ngFor="let module of modulelists" [value]="module.value">
             {{ module.display_name }}
           </option>
         </select>

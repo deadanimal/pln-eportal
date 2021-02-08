@@ -92,19 +92,19 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tajuk</span>
+                <span>Tajuk MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.title }}
+                {{ row.title_ms }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Deskripsi</span>
+                <span>Deskripsi MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.description }}
+                <span [innerHtml]="row.description_ms"></span>
               </ng-template>
             </ngx-datatable-column>
 
@@ -204,24 +204,39 @@
   <div class="modal-body">
     <form [formGroup]="virtuallibraryserialpublicationFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
-        <textarea
+        <label class="form-control-label">Tajuk EN</label>
+        <input
           class="form-control"
-          formControlName="description"
-          placeholder="Deskripsi"
-          rows="5"
-        ></textarea>
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
       </div>
-
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi MS</label>
+        <quill-editor
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
       <div class="form-group">
         <label class="form-control-label">Call Number</label>
         <input
@@ -393,24 +408,39 @@
   <div class="modal-body">
     <form [formGroup]="virtuallibraryserialpublicationFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tajuk</label>
+        <label class="form-control-label">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="title"
-          placeholder="Tajuk"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
-        <textarea
+        <label class="form-control-label">Tajuk EN</label>
+        <input
           class="form-control"
-          formControlName="description"
-          placeholder="Deskripsi"
-          rows="5"
-        ></textarea>
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
       </div>
-
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi MS</label>
+        <quill-editor
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
       <div class="form-group">
         <label class="form-control-label">Call Number</label>
         <input

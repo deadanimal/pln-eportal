@@ -28,7 +28,7 @@ export class ModulesComponent implements OnInit {
   // Data
 
   // Dropdown
-  modules = [
+  modulelists = [
     {
       value: "simulator-ride",
       display_name: "Kembara Simulasi",
@@ -75,6 +75,31 @@ export class ModulesComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+  };
+
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
+    ],
   };
 
   // Table
@@ -334,7 +359,7 @@ export class ModulesComponent implements OnInit {
   }
 
   getModule(value: string) {
-    let result = this.modules.find((obj) => {
+    let result = this.modulelists.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;

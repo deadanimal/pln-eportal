@@ -49,6 +49,31 @@ export class VirtualLibraryBooksListComponent implements OnInit {
   virtuallibrarybookPDFFormGroup: FormGroup;
   virtuallibrarybookImageFormGroup: FormGroup;
 
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
+    ],
+  };
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -58,8 +83,10 @@ export class VirtualLibraryBooksListComponent implements OnInit {
   ) {
     this.virtuallibrarybookFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_en: new FormControl(""),
+      description_ms: new FormControl(""),
       call_number: new FormControl(""),
       author: new FormControl(""),
       author_added: new FormControl(""),
@@ -147,8 +174,10 @@ export class VirtualLibraryBooksListComponent implements OnInit {
 
   emptyFormGroup() {
     this.virtuallibrarybookFormGroup.patchValue({
-      title: "",
-      description: "",
+      title_en: "",
+      title_ms: "",
+      description_en: "",
+      description_ms: "",
       call_number: "",
       author: "",
       author_added: "",
@@ -199,10 +228,15 @@ export class VirtualLibraryBooksListComponent implements OnInit {
 
   create() {
     const formData = new FormData();
-    formData.append("title", this.virtuallibrarybookFormGroup.value.title);
+    formData.append("title_en", this.virtuallibrarybookFormGroup.value.title_en);
+    formData.append("title_ms", this.virtuallibrarybookFormGroup.value.title_ms);
     formData.append(
-      "description",
-      this.virtuallibrarybookFormGroup.value.description
+      "description_en",
+      this.virtuallibrarybookFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.virtuallibrarybookFormGroup.value.description_ms
     );
     formData.append(
       "call_number",
@@ -288,10 +322,15 @@ export class VirtualLibraryBooksListComponent implements OnInit {
 
   update() {
     const formData = new FormData();
-    formData.append("title", this.virtuallibrarybookFormGroup.value.title);
+    formData.append("title_en", this.virtuallibrarybookFormGroup.value.title_en);
+    formData.append("title_ms", this.virtuallibrarybookFormGroup.value.title_ms);
     formData.append(
-      "description",
-      this.virtuallibrarybookFormGroup.value.description
+      "description_en",
+      this.virtuallibrarybookFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.virtuallibrarybookFormGroup.value.description_ms
     );
     formData.append(
       "call_number",

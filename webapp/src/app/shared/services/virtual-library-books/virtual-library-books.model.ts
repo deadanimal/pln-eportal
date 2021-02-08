@@ -1,7 +1,9 @@
 export class VirtualLibraryBook {
   public id: string;
-  public title: string;
-  public description: string;
+  public title_en: string;
+  public title_ms: string;
+  public description_en: string;
+  public description_ms: string;
   public call_number: string;
   public author: string;
   public author_added: string;
@@ -12,7 +14,7 @@ export class VirtualLibraryBook {
   public publisher_name: string;
   public published_date: string;
   public notes: string;
-  public status: string;
+  public status: boolean;
   public image_link: string;
   public pdf_link: string;
   public virtual_library_collection_id: string;
@@ -21,8 +23,10 @@ export class VirtualLibraryBook {
 
   constructor(
     id: string,
-    title: string,
-    description: string,
+    title_en: string,
+    title_ms: string,
+    description_en: string,
+    description_ms: string,
     call_number: string,
     author: string,
     author_added: string,
@@ -33,7 +37,7 @@ export class VirtualLibraryBook {
     publisher_name: string,
     published_date: string,
     notes: string,
-    status: string,
+    status: boolean,
     image_link: string,
     pdf_link: string,
     virtual_library_collection_id: string,
@@ -41,8 +45,10 @@ export class VirtualLibraryBook {
     modified_date: string
   ) {
     this.id = id;
-    this.title = title;
-    this.description = description;
+    this.title_en = title_en;
+    this.title_ms = title_ms;
+    this.description_en = description_en;
+    this.description_ms = description_ms;
     this.call_number = call_number;
     this.author = author;
     this.author_added = author_added;

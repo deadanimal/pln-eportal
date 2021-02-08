@@ -57,7 +57,8 @@ export class VirtualLibraryArchivekutubkhanahsListComponent implements OnInit {
   ) {
     this.virtuallibraryarchivekutubkhanahFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
       link: new FormControl(""),
       status: new FormControl(false),
       virtual_library_archivekutubkhanah_category_id: new FormControl(""),

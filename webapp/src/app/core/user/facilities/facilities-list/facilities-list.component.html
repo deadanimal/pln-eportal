@@ -90,10 +90,10 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Nama</span>
+                <span>Nama MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.name }}
+                {{ row.name_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -194,22 +194,38 @@
   <div class="modal-body">
     <form [formGroup]="facilityFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Fasiliti</label>
+        <label class="form-control-label">Nama Fasiliti MS</label>
         <input
           class="form-control"
-          formControlName="name"
-          placeholder="Nama Fasiliti"
+          formControlName="name_ms"
+          placeholder="Nama Fasiliti MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
-        <textarea
-          rows="5"
+        <label class="form-control-label">Nama Fasiliti EN</label>
+        <input
           class="form-control"
-          formControlName="description"
-          placeholder="Deskripsi"
-        ></textarea>
+          formControlName="name_en"
+          placeholder="Nama Fasiliti EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi MS</label>
+        <quill-editor
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
@@ -332,22 +348,38 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama Peralatan</label>
+        <label class="form-control-label">Nama Peralatan MS</label>
         <input
           class="form-control"
-          formControlName="equipment_name"
+          formControlName="equipment_name_ms"
           placeholder="contoh: Meja"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi Peralatan</label>
-        <textarea
-          rows="5"
+        <label class="form-control-label">Nama Peralatan EN</label>
+        <input
           class="form-control"
-          formControlName="equipment_description"
-          placeholder="contoh: Meja bersaiz 40 x 40 untuk disewa"
-        ></textarea>
+          formControlName="equipment_name_en"
+          placeholder="example: Table"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi Peralatan MS</label>
+        <quill-editor
+          formControlName="equipment_description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi Peralatan EN</label>
+        <quill-editor
+          formControlName="equipment_description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <!-- <div class="form-group">
         <label class="form-control-label">Asset</label>
@@ -402,22 +434,38 @@
   <div class="modal-body">
     <form [formGroup]="facilityFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Fasiliti</label>
+        <label class="form-control-label">Nama Fasiliti MS</label>
         <input
           class="form-control"
-          formControlName="name"
-          placeholder="Nama Fasiliti"
+          formControlName="name_ms"
+          placeholder="Nama Fasiliti MS"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
-        <textarea
-          rows="5"
+        <label class="form-control-label">Nama Fasiliti EN</label>
+        <input
           class="form-control"
-          formControlName="description"
-          placeholder="Deskripsi"
-        ></textarea>
+          formControlName="name_en"
+          placeholder="Nama Fasiliti EN"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi MS</label>
+        <quill-editor
+          formControlName="description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <quill-editor
+          formControlName="description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
@@ -540,22 +588,38 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama Peralatan</label>
+        <label class="form-control-label">Nama Peralatan MS</label>
         <input
           class="form-control"
-          formControlName="equipment_name"
+          formControlName="equipment_name_ms"
           placeholder="contoh: Meja"
           type="text"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi Peralatan</label>
-        <textarea
-          rows="5"
+        <label class="form-control-label">Nama Peralatan EN</label>
+        <input
           class="form-control"
-          formControlName="equipment_description"
-          placeholder="contoh: Meja bersaiz 40 x 40 untuk disewa"
-        ></textarea>
+          formControlName="equipment_name_en"
+          placeholder="example: Table"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi Peralatan MS</label>
+        <quill-editor
+          formControlName="equipment_description_ms"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi Peralatan EN</label>
+        <quill-editor
+          formControlName="equipment_description_en"
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
       <!-- <div class="form-group">
         <label class="form-control-label">Asset</label>
@@ -610,12 +674,22 @@
   <div class="modal-body">
     <form [formGroup]="facilitypriceFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Deskripsi</label>
+        <label class="form-control-label">Deskripsi MS</label>
         <input
           type="text"
-          placeholder="Deskripsi"
+          placeholder="Deskripsi MS"
           class="form-control"
-          formControlName="facility_description"
+          formControlName="facility_description_ms"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">Deskripsi EN</label>
+        <input
+          type="text"
+          placeholder="Deskripsi EN"
+          class="form-control"
+          formControlName="facility_description_en"
         />
       </div>
 
@@ -647,7 +721,7 @@
       <thead>
         <tr>
           <td>No</td>
-          <td>Deskripsi</td>
+          <td>Deskripsi MS</td>
           <td>Harga</td>
           <td>Hari</td>
           <td>Tindakan</td>
@@ -657,7 +731,7 @@
       <tbody>
         <tr *ngFor="let facilityprice of facilityprices; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ facilityprice.facility_description }}</td>
+          <td>{{ facilityprice.facility_description_ms }}</td>
           <td>{{ facilityprice.facility_price }}</td>
           <td>{{ getFacilityDay(facilityprice.facility_days) }}</td>
           <td>

@@ -1,6 +1,7 @@
 export class VirtualLibraryCategory {
   public id: string;
-  public name: string;
+  public name_en: string;
+  public name_ms: string;
   public icon: string;
   public link: string;
   public status: boolean;
@@ -9,7 +10,8 @@ export class VirtualLibraryCategory {
 
   constructor(
     id: string,
-    name: string,
+    name_en: string,
+    name_ms: string,
     icon: string,
     link: string,
     status: boolean,
@@ -17,7 +19,8 @@ export class VirtualLibraryCategory {
     modified_date: string
   ) {
     this.id = id;
-    this.name = name;
+    this.name_en = name_en;
+    this.name_ms = name_ms;
     this.icon = icon;
     this.link = link;
     this.status = status;

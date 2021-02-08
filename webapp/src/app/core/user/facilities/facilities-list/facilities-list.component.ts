@@ -104,6 +104,31 @@ export class FacilitiesListComponent implements OnInit {
     },
   ];
 
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
+    ],
+  };
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -122,8 +147,10 @@ export class FacilitiesListComponent implements OnInit {
 
     this.facilityFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
-      description: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
+      description_en: new FormControl(""),
+      description_ms: new FormControl(""),
       facility_category: new FormControl(""),
       facility_subcategory: new FormControl(""),
       area_size: new FormControl(""),
@@ -134,8 +161,10 @@ export class FacilitiesListComponent implements OnInit {
       pic_id: new FormControl(""),
       // asset_id: new FormControl(""),
       venue_id: new FormControl(""),
-      equipment_name: new FormControl(""),
-      equipment_description: new FormControl(""),
+      equipment_name_en: new FormControl(""),
+      equipment_name_ms: new FormControl(""),
+      equipment_description_en: new FormControl(""),
+      equipment_description_ms: new FormControl(""),
     });
 
     this.facilityimageFormGroup = this.formBuilder.group({
@@ -146,9 +175,10 @@ export class FacilitiesListComponent implements OnInit {
 
     this.facilitypriceFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      facility_description: new FormControl(""),
-      facility_price: new FormControl(""),
-      facility_days: new FormControl(""),
+      facility_description_en: new FormControl(""),
+      facility_description_ms: new FormControl(""),
+      facility_price: new FormControl(0),
+      facility_days: new FormControl("NONE"),
       facility_id: new FormControl(""),
     });
   }
@@ -247,6 +277,16 @@ export class FacilitiesListComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFacilityPriceFormGroup() {
+    this.facilitypriceFormGroup.patchValue({
+      facility_description_en: "",
+      facility_description_ms: "",
+      facility_price: 0,
+      facility_days: "NONE",
+      facility_id: "",
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
       this.facilityFormGroup.reset();
@@ -261,7 +301,8 @@ export class FacilitiesListComponent implements OnInit {
           : "",
       });
     } else if (process == "createupdateprice") {
-      this.facilitypriceFormGroup.reset();
+      // this.facilitypriceFormGroup.reset();
+      this.emptyFacilityPriceFormGroup();
       this.facilitypriceService.filter("facility_id=" + row.id).subscribe(
         (res) => {
           console.log("res", res);

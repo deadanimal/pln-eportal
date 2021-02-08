@@ -82,7 +82,8 @@ export class VirtualLibraryCollectionsListComponent implements OnInit {
   ) {
     this.virtuallibrarycollectionFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
       icon: new FormControl(""),
       link: new FormControl(""),
       status: new FormControl(false),

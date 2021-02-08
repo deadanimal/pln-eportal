@@ -75,7 +75,8 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
     this.virtuallibraryarchivekutubkhanahcategoryFormGroup = this.formBuilder.group(
       {
         id: new FormControl(""),
-        name: new FormControl(""),
+        name_en: new FormControl(""),
+        name_ms: new FormControl(""),
         icon: new FormControl(""),
         archive_from: new FormControl(""),
         status: new FormControl(false),

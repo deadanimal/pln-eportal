@@ -49,6 +49,31 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
   virtuallibraryserialpublicationPDFFormGroup: FormGroup;
   virtuallibraryserialpublicationImageFormGroup: FormGroup;
 
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
+    ],
+  };
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -58,8 +83,10 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
   ) {
     this.virtuallibraryserialpublicationFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
+      title_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_en: new FormControl(""),
+      description_ms: new FormControl(""),
       call_number: new FormControl(""),
       author: new FormControl(""),
       author_added: new FormControl(""),
@@ -149,8 +176,10 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
 
   emptyFormGroup() {
     this.virtuallibraryserialpublicationFormGroup.patchValue({
-      title: "",
-      description: "",
+      title_en: "",
+      title_ms: "",
+      description_en: "",
+      description_ms: "",
       call_number: "",
       author: "",
       author_added: "",
@@ -202,12 +231,20 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
   create() {
     const formData = new FormData();
     formData.append(
-      "title",
-      this.virtuallibraryserialpublicationFormGroup.value.title
+      "title_en",
+      this.virtuallibraryserialpublicationFormGroup.value.title_en
     );
     formData.append(
-      "description",
-      this.virtuallibraryserialpublicationFormGroup.value.description
+      "title_ms",
+      this.virtuallibraryserialpublicationFormGroup.value.title_ms
+    );
+    formData.append(
+      "description_en",
+      this.virtuallibraryserialpublicationFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.virtuallibraryserialpublicationFormGroup.value.description_ms
     );
     formData.append(
       "call_number",
@@ -317,12 +354,20 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
   update() {
     const formData = new FormData();
     formData.append(
-      "title",
-      this.virtuallibraryserialpublicationFormGroup.value.title
+      "title_en",
+      this.virtuallibraryserialpublicationFormGroup.value.title_en
     );
     formData.append(
-      "description",
-      this.virtuallibraryserialpublicationFormGroup.value.description
+      "title_ms",
+      this.virtuallibraryserialpublicationFormGroup.value.title_ms
+    );
+    formData.append(
+      "description_en",
+      this.virtuallibraryserialpublicationFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.virtuallibraryserialpublicationFormGroup.value.description_ms
     );
     formData.append(
       "call_number",

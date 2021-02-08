@@ -60,7 +60,8 @@ export class VirtualLibraryEsourceCategoriesListComponent implements OnInit {
   ) {
     this.virtuallibraryesourcecategoryFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
       icon: new FormControl(""),
       status: new FormControl(false),
       virtual_library_collection_id: new FormControl(""),

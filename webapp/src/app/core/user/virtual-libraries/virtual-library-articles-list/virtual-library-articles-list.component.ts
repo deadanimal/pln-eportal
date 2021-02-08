@@ -47,6 +47,31 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
   virtuallibraryarticleFormGroup: FormGroup;
   virtuallibraryarticlePDFFormGroup: FormGroup;
 
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
+    ],
+  };
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -55,8 +80,10 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
   ) {
     this.virtuallibraryarticleFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
-      description: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
+      description_en: new FormControl(""),
+      description_ms: new FormControl(""),
       date: new FormControl(""),
       status: new FormControl(false),
       pdf_link: new FormControl(""),
@@ -133,8 +160,10 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
 
   emptyFormGroup() {
     this.virtuallibraryarticleFormGroup.patchValue({
-      name: "",
-      description: "",
+      name_en: "",
+      name_ms: "",
+      description_en: "",
+      description_ms: "",
       date: "",
       status: false,
       pdf_link: "",
@@ -170,10 +199,21 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
 
   create() {
     const formData = new FormData();
-    formData.append("name", this.virtuallibraryarticleFormGroup.value.name);
     formData.append(
-      "description",
-      this.virtuallibraryarticleFormGroup.value.description
+      "name_en",
+      this.virtuallibraryarticleFormGroup.value.name_en
+    );
+    formData.append(
+      "name_ms",
+      this.virtuallibraryarticleFormGroup.value.name_ms
+    );
+    formData.append(
+      "description_en",
+      this.virtuallibraryarticleFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.virtuallibraryarticleFormGroup.value.description_ms
     );
     formData.append("date", this.virtuallibraryarticleFormGroup.value.date);
     formData.append("status", this.virtuallibraryarticleFormGroup.value.status);
@@ -231,10 +271,21 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
 
   update() {
     const formData = new FormData();
-    formData.append("name", this.virtuallibraryarticleFormGroup.value.name);
     formData.append(
-      "description",
-      this.virtuallibraryarticleFormGroup.value.description
+      "name_en",
+      this.virtuallibraryarticleFormGroup.value.name_en
+    );
+    formData.append(
+      "name_ms",
+      this.virtuallibraryarticleFormGroup.value.name_ms
+    );
+    formData.append(
+      "description_en",
+      this.virtuallibraryarticleFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.virtuallibraryarticleFormGroup.value.description_ms
     );
     formData.append("date", this.virtuallibraryarticleFormGroup.value.date);
     formData.append("status", this.virtuallibraryarticleFormGroup.value.status);

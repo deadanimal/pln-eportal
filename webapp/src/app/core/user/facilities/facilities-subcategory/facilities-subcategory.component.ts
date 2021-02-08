@@ -83,7 +83,8 @@ export class FacilitiesSubcategoryComponent implements OnInit {
 
     this.subcategoryFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      name: new FormControl(""),
+      name_en: new FormControl(""),
+      name_ms: new FormControl(""),
       code: new FormControl(""),
       status: new FormControl(false),
       image_link: new FormControl(""),
@@ -139,7 +140,8 @@ export class FacilitiesSubcategoryComponent implements OnInit {
     this.subcategoryFormGroup.patchValue({
       id: "",
       code: "",
-      name: "",
+      name_en: "",
+      name_ms: "",
       status: false,
       image_link: "",
       facility_category: "",
@@ -166,7 +168,8 @@ export class FacilitiesSubcategoryComponent implements OnInit {
   create() {
     const formData = new FormData();
     formData.append("code", this.subcategoryFormGroup.value.code);
-    formData.append("name", this.subcategoryFormGroup.value.name);
+    formData.append("name_en", this.subcategoryFormGroup.value.name_en);
+    formData.append("name_ms", this.subcategoryFormGroup.value.name_ms);
     formData.append("status", this.subcategoryFormGroup.value.status);
     formData.append(
       "facility_category",
@@ -219,7 +222,8 @@ export class FacilitiesSubcategoryComponent implements OnInit {
   update() {
     const formData = new FormData();
     formData.append("code", this.subcategoryFormGroup.value.code);
-    formData.append("name", this.subcategoryFormGroup.value.name);
+    formData.append("name_en", this.subcategoryFormGroup.value.name_en);
+    formData.append("name_ms", this.subcategoryFormGroup.value.name_ms);
     formData.append("status", this.subcategoryFormGroup.value.status);
     formData.append(
       "facility_category",
