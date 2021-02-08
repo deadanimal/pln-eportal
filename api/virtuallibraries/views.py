@@ -42,13 +42,15 @@ from virtuallibraries.serializers import (
     VirtualLibraryArchiveKutubkhanahExtendedSerializer
 )
 
+
 class VirtualLibraryCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VirtualLibraryCategory.objects.all()
     serializer_class = VirtualLibraryCategorySerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'id', 
-        'name', 
+        'id',
+        'name_en',
+        'name_ms',
         'icon',
         'link',
         'status'
@@ -60,9 +62,8 @@ class VirtualLibraryCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryCategory.objects.all()
         return queryset
@@ -73,9 +74,11 @@ class VirtualLibraryArticleViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = VirtualLibraryArticleSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'id', 
-        'name', 
-        'description',
+        'id',
+        'name_en',
+        'name_ms',
+        'description_en',
+        'description_ms',
         'date',
         'virtual_library_article_category_id'
     ]
@@ -86,19 +89,19 @@ class VirtualLibraryArticleViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryArticle.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibraryArticle.objects.all()
-        serializer_class = VirtualLibraryArticleExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibraryArticleExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
 
@@ -107,8 +110,9 @@ class VirtualLibraryCollectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet)
     serializer_class = VirtualLibraryCollectionSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'id', 
-        'name', 
+        'id',
+        'name_en',
+        'name_ms',
         'icon',
         'link',
         'status'
@@ -120,19 +124,19 @@ class VirtualLibraryCollectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet)
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryCollection.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibraryCollection.objects.all()
-        serializer_class = VirtualLibraryCollectionExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibraryCollectionExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
 
@@ -142,8 +146,10 @@ class VirtualLibraryBookViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'title',
-        'description',
+        'title_en',
+        'title_ms',
+        'description_en',
+        'description_ms',
         'call_number',
         'author',
         'author_added',
@@ -164,19 +170,19 @@ class VirtualLibraryBookViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryBook.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibraryBook.objects.all()
-        serializer_class = VirtualLibraryBookExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibraryBookExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
 
@@ -186,8 +192,10 @@ class VirtualLibrarySerialPublicationViewSet(NestedViewSetMixin, viewsets.ModelV
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'title',
-        'description',
+        'title_en',
+        'title_ms',
+        'description_en',
+        'description_ms',
         'call_number',
         'author',
         'author_added',
@@ -208,19 +216,19 @@ class VirtualLibrarySerialPublicationViewSet(NestedViewSetMixin, viewsets.ModelV
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibrarySerialPublication.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibrarySerialPublication.objects.all()
-        serializer_class = VirtualLibrarySerialPublicationExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibrarySerialPublicationExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
 
@@ -230,7 +238,8 @@ class VirtualLibraryESourceCategoryViewSet(NestedViewSetMixin, viewsets.ModelVie
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'name',
+        'name_en',
+        'name_ms',
         'icon',
         'status',
         'virtual_library_collection_id',
@@ -242,19 +251,19 @@ class VirtualLibraryESourceCategoryViewSet(NestedViewSetMixin, viewsets.ModelVie
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryESourceCategory.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibraryESourceCategory.objects.all()
-        serializer_class = VirtualLibraryESourceCategoryExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibraryESourceCategoryExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
 
@@ -264,7 +273,8 @@ class VirtualLibraryESourceViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'name',
+        'name_en',
+        'name_ms',
         'link',
         'status',
         'virtual_library_esource_category_id',
@@ -276,19 +286,19 @@ class VirtualLibraryESourceViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryESource.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibraryESource.objects.all()
-        serializer_class = VirtualLibraryESourceExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibraryESourceExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
 
@@ -298,7 +308,8 @@ class VirtualLibraryArchiveKutubkhanahCategoryViewSet(NestedViewSetMixin, viewse
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'name',
+        'name_en',
+        'name_ms',
         'icon',
         'archive_from',
         'status',
@@ -311,19 +322,19 @@ class VirtualLibraryArchiveKutubkhanahCategoryViewSet(NestedViewSetMixin, viewse
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryArchiveKutubkhanahCategory.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibraryArchiveKutubkhanahCategory.objects.all()
-        serializer_class = VirtualLibraryArchiveKutubkhanahCategoryExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibraryArchiveKutubkhanahCategoryExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
 
 
@@ -333,7 +344,8 @@ class VirtualLibraryArchiveKutubkhanahViewSet(NestedViewSetMixin, viewsets.Model
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'id',
-        'name',
+        'name_en',
+        'name_ms',
         'link',
         'status',
         'virtual_library_archivekutubkhanah_category_id',
@@ -345,18 +357,17 @@ class VirtualLibraryArchiveKutubkhanahViewSet(NestedViewSetMixin, viewsets.Model
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = VirtualLibraryArchiveKutubkhanah.objects.all()
         return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = VirtualLibraryArchiveKutubkhanah.objects.all()
-        serializer_class = VirtualLibraryArchiveKutubkhanahExtendedSerializer(queryset, many=True)
-        
+        serializer_class = VirtualLibraryArchiveKutubkhanahExtendedSerializer(
+            queryset, many=True)
+
         return Response(serializer_class.data)
- 
