@@ -44,6 +44,7 @@ export class FacilityDetailZonesComponent implements OnInit {
   facilities$: Observable<any>;
   facilityimages = [];
   facilityprices = [];
+  facilityselectedprices = [];
   facilitysubcategory = [];
   selectedFacility = {
     facility_subcategory: "",
@@ -345,6 +346,22 @@ export class FacilityDetailZonesComponent implements OnInit {
 
   openDefaultModal(modalDefault: TemplateRef<any>, facility) {
     if (this.jwtService.getToken("accessToken")) {
+      this.facilitypriceService.filter("facility_id=" + facility.id).subscribe(
+        (res) => {
+          this.facilityselectedprices = res;
+          // res.forEach((obj) => {
+          //   if (obj.equipment == "WITH" || obj.equipment == "WOUT") {
+          //     this.have_equipment = true;
+          //   } else {
+          //     this.facilitybookingFormGroup.removeControl("want_equipment");
+          //   }
+          // });
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+
       this.defaultModal = this.modalService.show(modalDefault, this.default);
       this.getUser();
 
@@ -363,6 +380,25 @@ export class FacilityDetailZonesComponent implements OnInit {
     this.facilitybookingFormGroup.value.booking_date = this.formatDate(
       this.facilitybookingFormGroup.value.booking_date
     );
+
+    // to set the price of facility booking
+    if (this.facilityselectedprices.length > 0) {
+      let result = this.facilityselectedprices.find((obj) => {
+        if (obj.equipment != "NA")
+          return (
+            obj.equipment == this.facilitybookingFormGroup.value.want_equipment
+          );
+        else return obj;
+      });
+      if (result) {
+        if (this.facilitybookingFormGroup.value.booking_days == "FULL")
+          this.facilitybookingFormGroup.value.total_price =
+            result.facility_price_full;
+        else if (this.facilitybookingFormGroup.value.booking_days == "HALF")
+          this.facilitybookingFormGroup.value.total_price =
+            result.facility_price_half;
+      }
+    }
 
     this.facilitybookingService
       .post(this.facilitybookingFormGroup.value)
