@@ -34,7 +34,7 @@
         </h2>
         <div class="row">
           <div class="col">
-            <p class="text-dark text-justify">
+            <!-- <p class="text-dark text-justify">
               Kutubkhanah Mini Planetarium Negara telah dibuka kepada orang
               ramai pada 2 Jun 2018, bersamaan dengan 17 Ramadhan 1439H. Koleksi
               buku di Kutubkhanah Mini ini terdiri daripada sebahagian besarnya
@@ -47,7 +47,17 @@
               sebagai bandaraya ke-20 bagi sambutan Ibu Kota Buku Sedunia.<br /><br />
               Pelbagai koleksi sumber bahan digital terus dipertingkatkan untuk
               capaian oleh semua lapisan masyarakat.
-            </p>
+            </p> -->
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'en'"
+              [innerHtml]="module?.description_en | safe: 'html'"
+            ></p>
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'ms'"
+              [innerHtml]="module?.description_ms | safe: 'html'"
+            ></p>
           </div>
         </div>
         <div class="row pb-3">

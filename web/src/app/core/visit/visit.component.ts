@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Meta } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
@@ -15,6 +15,7 @@ import swal from "sweetalert2";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VisitApplicationsService } from "src/app/shared/services/visit-applications/visit-applications.service";
 import { VisitsService } from "src/app/shared/services/visits/visits.service";
@@ -82,6 +83,7 @@ export class VisitComponent implements OnInit {
   visitapplicationFormGroup: FormGroup;
 
   // Data
+  module: any;
   users = [];
   visits = [];
   today: Date = new Date();
@@ -116,15 +118,28 @@ export class VisitComponent implements OnInit {
     private jwtService: JwtService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
+    private router: Router,
     private modalService: BsModalService,
     private toastr: ToastrService,
     private authService: AuthService,
     private emailtemplateService: EmailTemplatesService,
+    private moduleService: ModulesService,
     private userService: UsersService,
     private visitiapplicationService: VisitApplicationsService,
     private visitService: VisitsService,
     private w3cService: W3csService
   ) {
+    // to get module detail based on router
+    this.moduleService.filter("module=" + this.router.url.substr(1)).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.module = res[0];
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+
     this.today.setDate(this.today.getDate() + 1);
 
     this.getData();

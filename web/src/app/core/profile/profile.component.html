@@ -462,13 +462,30 @@
                     <label class="labels">Kata laluan baru</label>
                   </div>
                   <div class="col-5 align-self-center">
-                    <div class="form-group">
+                    <div class="input-group">
                       <input
-                        type="password"
+                        [type]="new_password1 ? 'text' : 'password'"
                         class="form-control text-dark"
                         required="true"
                         formControlName="new_password1"
                       />
+                      <div
+                        class="input-group-append"
+                        (click)="changePasswordIcon('new_password1')"
+                      >
+                        <span class="input-group-text"
+                          ><i
+                            *ngIf="!new_password1"
+                            class="fas fa-eye-slash fa-lg"
+                            style="color: gainsboro"
+                          ></i>
+                          <i
+                            *ngIf="new_password1"
+                            class="fas fa-eye fa-lg"
+                            style="color: black"
+                          ></i
+                        ></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -478,13 +495,30 @@
                     <label class="labels">Ulang kata laluan baru</label>
                   </div>
                   <div class="col-5 align-self-center">
-                    <div class="form-group">
+                    <div class="input-group">
                       <input
-                        type="password"
+                        [type]="new_password2 ? 'text' : 'password'"
                         class="form-control text-dark"
                         required="true"
                         formControlName="new_password2"
                       />
+                      <div
+                        class="input-group-append"
+                        (click)="changePasswordIcon('new_password2')"
+                      >
+                        <span class="input-group-text"
+                          ><i
+                            *ngIf="!new_password2"
+                            class="fas fa-eye-slash fa-lg"
+                            style="color: gainsboro"
+                          ></i>
+                          <i
+                            *ngIf="new_password2"
+                            class="fas fa-eye fa-lg"
+                            style="color: black"
+                          ></i
+                        ></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -494,13 +528,30 @@
                     <label class="labels">Kata laluan lama</label>
                   </div>
                   <div class="col-5 align-self-center">
-                    <div class="form-group">
+                    <div class="input-group">
                       <input
-                        type="password"
+                        [type]="old_password ? 'text' : 'password'"
                         class="form-control text-dark"
                         required="true"
                         formControlName="old_password"
                       />
+                      <div
+                        class="input-group-append"
+                        (click)="changePasswordIcon('old_password')"
+                      >
+                        <span class="input-group-text"
+                          ><i
+                            *ngIf="!old_password"
+                            class="fas fa-eye-slash fa-lg"
+                            style="color: gainsboro"
+                          ></i>
+                          <i
+                            *ngIf="old_password"
+                            class="fas fa-eye fa-lg"
+                            style="color: black"
+                          ></i
+                        ></span>
+                      </div>
                     </div>
                   </div>
                 </div>

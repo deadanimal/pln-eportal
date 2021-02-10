@@ -49,24 +49,34 @@
       </h2>
       <div class="row pb-3">
         <div class="col">
-          <p class="text-dark text-justify" style="font-size: 1rem">
+          <!-- <p class="text-dark text-justify" style="font-size: 1rem">
             {{ "PetaLakaranPlanetariumDescription" | translate }}
-          </p>
+          </p> -->
+          <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'en'"
+              [innerHtml]="module?.description_en | safe: 'html'"
+            ></p>
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'ms'"
+              [innerHtml]="module?.description_ms | safe: 'html'"
+            ></p>
 
           <small class="font-weight-bold text-danger">
             {{ "PetaLakaranPlanetariumNote" | translate }}
           </small>
         </div>
       </div>
-      <div class="row pb-3">
+      <div class="row pb-3 text-center">
         <div class="col text-center">
-          <img
-            src="../../../assets/icon/street-view.svg"
-            style="width: 10%"
-            alt="Street View 360"
-          />
-
           <a href="https://streetview.my/nibm/planetarium/" target="_blank">
+            <img
+              src="../../../assets/icon/street-view.svg"
+              style="width: 10%"
+              alt="Street View 360"
+            />
+
             <h4 class="font-weight-bold text-primary text-center pt-3">
               {{ "PetaLakaranPlanetarium360" | translate }}&#176;
             </h4>

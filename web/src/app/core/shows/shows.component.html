@@ -51,9 +51,19 @@
         </h2>
         <div class="row">
           <div class="col">
-            <p class="text-dark text-justify">
+            <!-- <p class="text-dark text-justify">
               {{ "TayanganPlanetariumDeskripsi" | translate }}
-            </p>
+            </p> -->
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'en'"
+              [innerHtml]="module?.description_en | safe: 'html'"
+            ></p>
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'ms'"
+              [innerHtml]="module?.description_ms | safe: 'html'"
+            ></p>
           </div>
         </div>
         <div class="row pb-3">

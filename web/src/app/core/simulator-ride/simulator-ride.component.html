@@ -51,9 +51,19 @@
         </h2>
         <div class="row">
           <div class="col">
-            <p class="text-dark text-justify">
+            <!-- <p class="text-dark text-justify">
               {{ "KembaraSimulasiDeskripsi" | translate }}
-            </p>
+            </p> -->
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'en'"
+              [innerHtml]="module?.description_en | safe: 'html'"
+            ></p>
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'ms'"
+              [innerHtml]="module?.description_ms | safe: 'html'"
+            ></p>
             <h3 class="text-dark text-center">
               <b>{{ "Penumpang" | translate }}</b>
             </h3>
@@ -113,40 +123,22 @@
           </div>
         </div>
         <h2 class="title text-center text-dark">
-          Maklum Balas Kembara Simulasi
+          {{ "MaklumBalasKembaraSimulasi" | translate }}
         </h2>
         <div class="row pb-3">
           <div class="col-md-12">
             <carousel>
-              <slide>
+              <slide
+                *ngFor="let simulatorridefeedback of simulatorridefeedbacks"
+              >
                 <div class="text-center py-5 bg-white text-dark">
-                  <h2 class="text-dark">Ahmad Hussin</h2>
+                  <h2 class="text-dark">
+                    {{ simulatorridefeedback.user_id.full_name }}
+                  </h2>
                   <div>
-                    <h3 class="text-dark">Sangat menarik</h3>
+                    <!-- <h3 class="text-dark">Sangat menarik</h3> -->
                     <p class="text-dark">
-                      Best sangat dapat tengok angkasa depan mata.
-                    </p>
-                  </div>
-                </div>
-              </slide>
-              <slide>
-                <div class="text-center py-5 bg-white text-dark">
-                  <h2 class="text-dark">Siti Sarah</h2>
-                  <div>
-                    <h3 class="text-dark">Pengalaman yang mendebarkan</h3>
-                    <p class="text-dark">
-                      First time tengok angkasa tanpa pergi angkasa. Hahaha.
-                    </p>
-                  </div>
-                </div>
-              </slide>
-              <slide>
-                <div class="text-center py-5 bg-white text-dark">
-                  <h2 class="text-dark">K. Muthusamy</h2>
-                  <div>
-                    <h3 class="text-dark">5 Bintang</h3>
-                    <p class="text-dark">
-                      Bila pergi planetarium negara, mesti pergi sini dulu.
+                      {{ simulatorridefeedback.comment_user }}
                     </p>
                   </div>
                 </div>

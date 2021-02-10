@@ -64,4 +64,24 @@ export class FeedbacksService {
       })
     )
   }
+
+  filter(field: String): Observable<Feedback[]> {
+    let urlFilter = this.url + "?" + field;
+    return this.http.get<Feedback[]>(urlFilter).pipe(
+      tap((res) => {
+        console.log("Feedbacks: ", res);
+      })
+    );
+  }
+
+  extended(field): Observable<Feedback[]> {
+    let urlExtended = "";
+    if (field) urlExtended = this.url + "extended/?" + field;
+    else urlExtended = this.url + "extended";
+    return this.http.get<Feedback[]>(urlExtended).pipe(
+      tap((res) => {
+        console.log("Feedbacks: ", res);
+      })
+    );
+  }
 }

@@ -57,12 +57,16 @@
               <h1 class="title" *ngIf="translate.currentLang == 'ms'">
                 {{ facility.name_ms }}
               </h1>
-              <p class="text-justify" *ngIf="translate.currentLang == 'en'">
-                {{ facility.description_en }}
-              </p>
-              <p class="text-justify" *ngIf="translate.currentLang == 'ms'">
-                {{ facility.description_ms }}
-              </p>
+              <p
+                class="text-justify"
+                *ngIf="translate.currentLang == 'en'"
+                [innerHtml]="facility.description_en | safe: 'html'"
+              ></p>
+              <p
+                class="text-justify"
+                *ngIf="translate.currentLang == 'ms'"
+                [innerHtml]="facility.description_ms | safe: 'html'"
+              ></p>
               <p class="pt-3">
                 •
                 {{
@@ -76,26 +80,21 @@
                   [innerHtml]="facility.area_size | formatFacilityAreaM2"
                 ></span>
               </p>
-              <div
-                *ngIf="
-                  facility.equipment_description_en == '' ||
-                  facility.equipment_description_ms == ''
-                "
-              >
-                <p class="pt-3">{{ "Peralatanyangdisediakan" | translate }}</p>
-                <p *ngIf="translate.currentLang == 'en'">
-                  {{ facility.equipment_name_en }}
-                </p>
-                <p *ngIf="translate.currentLang == 'ms'">
-                  {{ facility.equipment_name_ms }}
-                </p>
-                <p *ngIf="translate.currentLang == 'en'">
-                  • {{ facility.equipment_description_en }}
-                </p>
-                <p *ngIf="translate.currentLang == 'ms'">
-                  • {{ facility.equipment_description_ms }}
-                </p>
-              </div>
+              <p class="pt-3">{{ "Peralatanyangdisediakan" | translate }}</p>
+              <p *ngIf="translate.currentLang == 'en'">
+                {{ facility.equipment_name_en }}
+              </p>
+              <p *ngIf="translate.currentLang == 'ms'">
+                {{ facility.equipment_name_ms }}
+              </p>
+              <p
+                *ngIf="translate.currentLang == 'en'"
+                [innerHtml]="facility.equipment_description_en | safe: 'html'"
+              ></p>
+              <p
+                *ngIf="translate.currentLang == 'ms'"
+                [innerHtml]="facility.equipment_description_ms | safe: 'html'"
+              ></p>
               <div *ngIf="facility.have_price">
                 <h4 class="title">{{ "KadarSewaan" | translate }}</h4>
                 <table class="table table-bordered">

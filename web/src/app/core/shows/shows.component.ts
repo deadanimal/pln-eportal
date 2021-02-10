@@ -14,6 +14,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
@@ -31,6 +32,7 @@ export class ShowsComponent implements OnInit {
   focus;
 
   // Data
+  module: any;
   showings = []; //: Show[] = [];
 
   // Carousel
@@ -50,6 +52,7 @@ export class ShowsComponent implements OnInit {
     public lightbox: Lightbox,
     public translate: TranslateService,
     private jwtService: JwtService,
+    private moduleService: ModulesService,
     private modalService: BsModalService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
@@ -58,6 +61,17 @@ export class ShowsComponent implements OnInit {
     private showingService: ShowingsService,
     private w3cService: W3csService
   ) {
+    // to get module detail based on router
+    this.moduleService.filter("module=" + this.router.url.substr(1)).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.module = res[0];
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+
     this.getShowing();
   }
 

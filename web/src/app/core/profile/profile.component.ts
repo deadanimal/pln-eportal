@@ -91,6 +91,11 @@ export class ProfileComponent implements OnInit {
   passwordchangeFormGroup: FormGroup;
   userFormGroup: FormGroup;
 
+  // Icons
+  new_password1: boolean = false;
+  new_password2: boolean = false;
+  old_password: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -299,5 +304,18 @@ export class ProfileComponent implements OnInit {
         break;
     }
     return html;
+  }
+
+  changePasswordIcon(formControl: string) {
+    switch (formControl) {
+      case "new_password1":
+        this.new_password1 = !this.new_password1;
+        break;
+      case "new_password2":
+        this.new_password2 = !this.new_password2;
+        break;
+      case "old_password":
+        this.old_password = !this.old_password;
+    }
   }
 }

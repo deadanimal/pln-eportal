@@ -3,6 +3,7 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { VirtualLibraryCategoriesService } from "src/app/shared/services/virtual-library-categories/virtual-library-categories.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
@@ -16,6 +17,7 @@ export class VirtualLibraryComponent implements OnInit {
   fontSize: string;
 
   // Data
+  module: any;
   vl_categories = [];
 
   constructor(
@@ -23,9 +25,21 @@ export class VirtualLibraryComponent implements OnInit {
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private router: Router,
+    private moduleService: ModulesService,
     private virtuallibrarycategoryService: VirtualLibraryCategoriesService,
     private w3cService: W3csService
   ) {
+    // to get module detail based on router
+    this.moduleService.filter("module=" + this.router.url.substr(1)).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.module = res[0];
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+    
     this.getData();
   }
 

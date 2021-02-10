@@ -1,8 +1,10 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
@@ -14,6 +16,9 @@ export class FacilityComponent implements OnInit {
   // CSS class
   fontSize: string;
 
+  // Data
+  module: any;
+
   defaultModal: BsModalRef;
   default = {
     keyboard: true,
@@ -23,11 +28,25 @@ export class FacilityComponent implements OnInit {
   };
 
   constructor(
+    public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
+    private router: Router,
     private modalService: BsModalService,
+    private moduleService: ModulesService,
     private w3cService: W3csService
-  ) {}
+  ) {
+    // to get module detail based on router
+    this.moduleService.filter("module=" + this.router.url.substr(1)).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.module = res[0];
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
 
   ngOnInit() {
     this.addMetaTag();

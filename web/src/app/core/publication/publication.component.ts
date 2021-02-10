@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import swal from "sweetalert2";
 
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { PublicationCategoriesService } from "src/app/shared/services/publication-categories/publication-categories.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
@@ -17,15 +18,29 @@ export class PublicationComponent implements OnInit {
   fontSize: string;
 
   // Data
+  module: any;
   publicationcategories = [];
 
   constructor(
     public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
+    private router: Router,
     private publicationcategoryService: PublicationCategoriesService,
+    private moduleService: ModulesService,
     private w3cService: W3csService
   ) {
+    // to get module detail based on router
+    this.moduleService.filter("module=" + this.router.url.substr(1)).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.module = res[0];
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+
     this.getPublicationCategory();
   }
 

@@ -50,9 +50,19 @@
         </h2>
         <div class="row">
           <div class="col">
-            <p
+            <!-- <p
               class="text-dark text-justify"
               [innerHtml]="'PenerbitanPlanetariumDescription' | translate"
+            ></p> -->
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'en'"
+              [innerHtml]="module?.description_en | safe: 'html'"
+            ></p>
+            <p
+              class="text-dark text-justify"
+              *ngIf="translate.currentLang == 'ms'"
+              [innerHtml]="module?.description_ms | safe: 'html'"
             ></p>
           </div>
         </div>

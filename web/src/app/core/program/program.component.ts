@@ -32,6 +32,7 @@ import { EducationalProgramApplicationsService } from "src/app/shared/services/e
 import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
 import { EducationalProgramImagesService } from "src/app/shared/services/educational-program-images/educational-program-images.service";
 import { EducationalProgramActivitiesService } from "src/app/shared/services/educational-program-activities/educational-program-activities.service";
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
@@ -60,6 +61,7 @@ export class ProgramComponent implements OnInit {
   eduprogramappFormGroup: FormGroup;
 
   // Data
+  module: any;
   programs = [];
   selectedProgram = {
     id: "",
@@ -202,9 +204,21 @@ export class ProgramComponent implements OnInit {
     private eduprogramdateService: EducationalProgramDatesService,
     private eduprogramimageService: EducationalProgramImagesService,
     private eduprogramactivityService: EducationalProgramActivitiesService,
+    private moduleService: ModulesService,
     private userService: UsersService,
     private w3cService: W3csService
   ) {
+    // to get module detail based on router
+    this.moduleService.filter("module=" + this.router.url.substr(1)).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.module = res[0];
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+
     this.today.setDate(this.today.getDate() + 1);
 
     this.eduprogramappFormGroup = this.formBuilder.group({
@@ -244,7 +258,7 @@ export class ProgramComponent implements OnInit {
   }
 
   getProgram() {
-    this.eduprogramService.getAll().subscribe(
+    this.eduprogramService.filter("status=AV").subscribe(
       (res) => {
         console.log("res", res);
         this.programs = res;

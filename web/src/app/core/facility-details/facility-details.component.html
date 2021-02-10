@@ -56,12 +56,16 @@
                 <h1 class="title" *ngIf="translate.currentLang == 'ms'">
                   {{ facility.name_ms }}
                 </h1>
-                <p class="text-justify" *ngIf="translate.currentLang == 'en'">
-                  {{ facility.description_en }}
-                </p>
-                <p class="text-justify" *ngIf="translate.currentLang == 'ms'">
-                  {{ facility.description_ms }}
-                </p>
+                <p
+                  class="text-justify"
+                  *ngIf="translate.currentLang == 'en'"
+                  [innerHtml]="facility.description_en | safe: 'html'"
+                ></p>
+                <p
+                  class="text-justify"
+                  *ngIf="translate.currentLang == 'ms'"
+                  [innerHtml]="facility.description_ms | safe: 'html'"
+                ></p>
                 <p class="pt-3">
                   •
                   {{
@@ -75,31 +79,62 @@
                     [innerHtml]="facility.area_size | formatFacilityAreaM2"
                   ></span>
                 </p>
-                <div
-                  *ngIf="
-                    facility.equipment_description_en == '' ||
-                    facility.equipment_description_ms == ''
-                  "
-                >
-                  <p class="pt-3">
-                    {{ "Peralatanyangdisediakan" | translate }}
-                  </p>
-                  <p *ngIf="translate.currentLang == 'en'">
-                    {{ facility.equipment_name_en }}
-                  </p>
-                  <p *ngIf="translate.currentLang == 'ms'">
-                    {{ facility.equipment_name_ms }}
-                  </p>
-                  <p *ngIf="translate.currentLang == 'en'">
-                    • {{ facility.equipment_description_en }}
-                  </p>
-                  <p *ngIf="translate.currentLang == 'ms'">
-                    • {{ facility.equipment_description_ms }}
-                  </p>
-                </div>
+                <p class="pt-3">
+                  {{ "Peralatanyangdisediakan" | translate }}
+                </p>
+                <p *ngIf="translate.currentLang == 'en'">
+                  {{ facility.equipment_name_en }}
+                </p>
+                <p *ngIf="translate.currentLang == 'ms'">
+                  {{ facility.equipment_name_ms }}
+                </p>
+                <p
+                  *ngIf="translate.currentLang == 'en'"
+                  [innerHtml]="facility.equipment_description_en | safe: 'html'"
+                ></p>
+                <p
+                  *ngIf="translate.currentLang == 'ms'"
+                  [innerHtml]="facility.equipment_description_ms | safe: 'html'"
+                ></p>
                 <div *ngIf="facility.have_price">
                   <h4 class="title">{{ "KadarSewaan" | translate }}</h4>
+
                   <table class="table table-bordered">
+                    <thead class="thead-light">
+                      <tr>
+                        <td rowspan="2" class="text-center">
+                          {{ "KemudahanSewaan" | translate }}
+                        </td>
+                        <td colspan="2" class="text-center">
+                          {{ "KadarSewaan" | translate }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{{ "SeparuhHari" | translate }}</td>
+                        <td>{{ "SatuHari" | translate }}</td>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr
+                        *ngFor="
+                          let price of facility.id
+                            | facilityPriceFilter: facilityprices
+                        "
+                      >
+                        <td *ngIf="translate.currentLang == 'en'">
+                          {{ price.facility_description_en }}
+                        </td>
+                        <td *ngIf="translate.currentLang == 'ms'">
+                          {{ price.facility_description_ms }}
+                        </td>
+                        <td>{{ price.facility_price_half }}</td>
+                        <td>{{ price.facility_price_full }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- <table class="table table-bordered">
                     <thead class="thead-light">
                       <tr>
                         <td class="font-weight-bold">
@@ -146,7 +181,7 @@
                         <td>{{ price.facility_price }}</td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table> -->
                   <small class="text-white">{{
                     "FasilitiNota" | translate
                   }}</small>
@@ -407,7 +442,7 @@
             </div>
             <br />
 
-            <div class="row">
+            <div class="row" *ngIf="have_equipment">
               <div class="col-md-12">
                 <div class="js-form-message mb-6">
                   <label class="labels required-field">
@@ -420,9 +455,9 @@
                         type="radio"
                         name="want_equipment"
                         formControlName="want_equipment"
-                        value="true"
+                        value="WITH"
                       />
-                      {{ "Ya" | translate }}
+                      {{ "DenganPeralatan" | translate }}
                       <span class="form-check-sign"></span>
                     </label>
                   </div>
@@ -433,16 +468,16 @@
                         type="radio"
                         name="want_equipment"
                         formControlName="want_equipment"
-                        value="false"
+                        value="WOUT"
                       />
-                      {{ "Tidak" | translate }}
+                      {{ "TanpaPeralatan" | translate }}
                       <span class="form-check-sign"></span>
                     </label>
                   </div>
                 </div>
               </div>
             </div>
-            <br />
+            <br *ngIf="have_equipment" />
 
             <div class="row">
               <div class="col-md-6">

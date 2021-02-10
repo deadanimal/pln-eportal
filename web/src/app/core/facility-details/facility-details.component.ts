@@ -43,6 +43,8 @@ export class FacilityDetailsComponent implements OnInit {
   facilities$: Observable<any>;
   facilityimages = [];
   facilityprices = [];
+  facilityselectedprices = [];
+  have_equipment: boolean = false;
   selectedFacility = {
     facility_subcategory: "",
     value: "",
@@ -215,7 +217,7 @@ export class FacilityDetailsComponent implements OnInit {
       ),
       total_price: new FormControl(0.0),
       want_equipment: new FormControl(
-        false,
+        "",
         Validators.compose([Validators.required])
       ),
       user_id: new FormControl(""),
@@ -284,7 +286,7 @@ export class FacilityDetailsComponent implements OnInit {
         this.facilityprices = res;
       },
       (err) => {
-        console.log("err", err);
+        console.error("err", err);
       }
     );
   }
@@ -344,6 +346,22 @@ export class FacilityDetailsComponent implements OnInit {
 
   openDefaultModal(modalDefault: TemplateRef<any>, facility) {
     if (this.jwtService.getToken("accessToken")) {
+      this.facilitypriceService.filter("facility_id=" + facility.id).subscribe(
+        (res) => {
+          this.facilityselectedprices = res;
+          res.forEach((obj) => {
+            if (obj.equipment == "WITH" || obj.equipment == "WOUT") {
+              this.have_equipment = true;
+            } else {
+              this.facilitybookingFormGroup.removeControl("want_equipment");
+            }
+          });
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+
       this.defaultModal = this.modalService.show(modalDefault, this.default);
       this.getUser();
 
@@ -370,6 +388,25 @@ export class FacilityDetailsComponent implements OnInit {
     this.facilitybookingFormGroup.value.booking_date = this.formatDate(
       this.facilitybookingFormGroup.value.booking_date
     );
+
+    // to set the price of facility booking
+    if (this.facilityselectedprices.length > 0) {
+      let result = this.facilityselectedprices.find((obj) => {
+        if (obj.equipment != "NA")
+          return (
+            obj.equipment == this.facilitybookingFormGroup.value.want_equipment
+          );
+        else return obj;
+      });
+      if (result) {
+        if (this.facilitybookingFormGroup.value.booking_days == "FULL")
+          this.facilitybookingFormGroup.value.total_price =
+            result.facility_price_full;
+        else if (this.facilitybookingFormGroup.value.booking_days == "HALF")
+          this.facilitybookingFormGroup.value.total_price =
+            result.facility_price_half;
+      }
+    }
 
     this.facilitybookingService
       .post(this.facilitybookingFormGroup.value)
@@ -429,8 +466,8 @@ export class FacilityDetailsComponent implements OnInit {
     let result = this.facilitycategories.find((obj) => {
       return obj.value == value;
     });
-    if (lang == 'en') return result.display_name_en;
-    if (lang == 'ms') return result.display_name_ms;
+    if (lang == "en") return result.display_name_en;
+    if (lang == "ms") return result.display_name_ms;
   }
 
   addMetaTag() {

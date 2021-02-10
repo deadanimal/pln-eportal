@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 
+import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
@@ -16,21 +18,51 @@ export class SimulatorRideComponent implements OnInit {
   // CSS class
   fontSize: string;
 
+  // Data
+  module: any;
+  simulatorridefeedbacks = [];
+
   constructor(
     public translate: TranslateService,
+    private feedbackService: FeedbacksService,
     private jwtService: JwtService,
+    private moduleService: ModulesService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
     private w3cService: W3csService
-  ) {}
+  ) {
+    // to get module detail based on router
+    this.moduleService.filter("module=" + this.router.url.substr(1)).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.module = res[0];
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
 
   ngOnInit() {
     this.addMetaTag();
+    this.getFeedback();
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+  }
+
+  getFeedback() {
+    this.feedbackService.extended("module=simulator-ride").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.simulatorridefeedbacks = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
     );
   }
 
