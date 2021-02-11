@@ -129,17 +129,25 @@ class Facility(models.Model):
 class FacilityPrice(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    facility_description_en = models.CharField(max_length=255, default='NA', blank=True)
-    facility_description_ms = models.CharField(max_length=255, default='NA', blank=True)
-    facility_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    facility_description_en = models.CharField(max_length=255, blank=True)
+    facility_description_ms = models.CharField(max_length=255, blank=True)
+    facility_price_half = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    facility_price_full = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
-    DAY = [
-        ('HALF', 'Separuh Hari'),
-        ('FULL', 'Satu Hari'),
-        ('NONE', 'Tiada')
+    EQUIPMENT = [
+        ('WITH', 'With Equipment'),
+        ('WOUT', 'Without Equipment'),
+        ('NA', 'Not Available'),
     ]
+    equipment = models.CharField(max_length=4, choices=EQUIPMENT, default='NA')
 
-    facility_days = models.CharField(max_length=4, choices=DAY, default='NONE')
+    # DAY = [
+    #     ('HALF', 'Separuh Hari'),
+    #     ('FULL', 'Satu Hari'),
+    #     ('NONE', 'Tiada')
+    # ]
+
+    # facility_days = models.CharField(max_length=4, choices=DAY, default='NONE')
     facility_id = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='facility_price_facility_id')
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
@@ -195,7 +203,13 @@ class FacilityBooking(models.Model):
     booking_days = models.CharField(max_length=4, choices=DAY, default='NONE')
     number_of_people = models.IntegerField(default=0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)
-    want_equipment = models.BooleanField(default=False)
+
+    WANT_EQUIPMENT = [
+        ('WITH', 'With Equipment'),
+        ('WOUT', 'Without Equipment'),
+        ('NA', 'Not Available'),
+    ]
+    want_equipment = models.CharField(max_length=4, choices=WANT_EQUIPMENT, default='NA')
 
     # status fasiliti: dalam proses, diterima, ditolak, terima bayaran, tolak bayaran, pending payment, refund
     # dalam proses - tunggu approval dari pengarah Planetarium

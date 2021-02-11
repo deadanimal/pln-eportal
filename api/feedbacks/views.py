@@ -68,6 +68,10 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def extended(self, request, *args, **kwargs):
 
         queryset = Feedback.objects.all()
+        module = request.query_params.get('module', None)
+        if module is not None:
+            queryset = queryset.filter(module=module)
+
         serializer_class = FeedbackExtendedSerializer(queryset, many=True)
 
         return Response(serializer_class.data)

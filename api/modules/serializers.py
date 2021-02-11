@@ -9,7 +9,8 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Module
+    Module,
+    SubModule
 )
 
 from users.serializers import (
@@ -21,5 +22,13 @@ class ModuleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Module
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
+class SubModuleSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = SubModule
         fields = '__all__'
         read_only_fields = ['id']
