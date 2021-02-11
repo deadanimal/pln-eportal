@@ -55,12 +55,12 @@
               [innerHtml]="'ProgramPendidikanDescription' | translate"
             ></p> -->
             <p
-              class="text-dark text-justify"
+              class="text-dark text-justify inner-html"
               *ngIf="translate.currentLang == 'en'"
               [innerHtml]="module?.description_en | safe: 'html'"
             ></p>
             <p
-              class="text-dark text-justify"
+              class="text-dark text-justify inner-html"
               *ngIf="translate.currentLang == 'ms'"
               [innerHtml]="module?.description_ms | safe: 'html'"
             ></p>

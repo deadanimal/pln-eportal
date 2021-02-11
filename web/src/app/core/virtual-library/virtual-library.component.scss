@@ -2,6 +2,25 @@
   padding: 1px 0;
 }
 
+.inner-html {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    color: black;
+  }
+
+  ol,
+  ul {
+    li {
+      color: black;
+    }
+  }
+}
+
 .carousel-team {
   margin-top: 0px;
 }
