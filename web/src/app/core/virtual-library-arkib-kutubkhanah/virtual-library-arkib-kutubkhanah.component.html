@@ -74,9 +74,14 @@
                             }
                     "
                   >
-                    <a [href]="vl_akk.link" class="font-weight-bold">{{
-                      vl_akk.name
-                    }}</a>
+                    <a [href]="vl_akk.link" class="font-weight-bold">
+                      <span *ngIf="translate.currentLang == 'en'">{{
+                        vl_akk.name_en
+                      }}</span>
+                      <span *ngIf="translate.currentLang == 'ms'">{{
+                        vl_akk.name_ms
+                      }}</span>
+                    </a>
                   </p>
                 </div>
 
