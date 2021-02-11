@@ -216,9 +216,11 @@ export class RefundsComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -233,9 +235,11 @@ export class RefundsComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              cancelButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -256,9 +260,11 @@ export class RefundsComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dikemaskini.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -273,9 +279,11 @@ export class RefundsComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                cancelButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -291,12 +299,14 @@ export class RefundsComponent implements OnInit {
       .fire({
         title: "Buang data",
         text: "Adakah anda ingin membuang data ini?",
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-danger",
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
         confirmButtonText: "Ya",
-        cancelButtonClass: "btn btn-secondary",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
@@ -307,9 +317,11 @@ export class RefundsComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
-                type: "success",
+                icon: "success",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-success",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
               });
               this.getData();
             },
@@ -318,9 +330,11 @@ export class RefundsComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang tidak berjaya",
                 text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
-                type: "warning",
+                icon: "warning",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-warning",
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
               });
             }
           );
@@ -332,60 +346,89 @@ export class RefundsComponent implements OnInit {
     swal
       .fire({
         title: "Pengesahan Bayaran Balik",
+        html:
+          '<input type="password" id="supervisor_id" class="swal2-input" placeholder="Masukkan ID Penyelia">',
         text: "Adakah anda ingin meluluskan bayaran balik ini?",
-        type: "warning",
-        showCancelButton: true,
+        icon: "warning",
+        // showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-success",
+        showDenyButton: true,
+        customClass: {
+          confirmButton: "btn btn-success",
+          // cancelButton: "btn btn-danger",
+          denyButton: "btn btn-danger",
+        },
         confirmButtonText: "Ya",
-        cancelButtonClass: "btn btn-danger",
-        cancelButtonText: "Tidak",
+        denyButtonText: "Tidak",
+        // cancelButtonText: "Tidak",
+        showCloseButton: true,
+        preDeny: () => {
+          const supervisor_id = (<HTMLInputElement>swal.getPopup().querySelector('#supervisor_id')).value
+          console.log("preDeny", supervisor_id);
+          
+          if (!supervisor_id) {
+            swal.showValidationMessage('Sila masukkan ID Penyelia');
+            return false;
+          } else {
+            return { supervisor_id: supervisor_id }
+          }
+        },
+        preConfirm: () => {
+          const supervisor_id = (<HTMLInputElement>swal.getPopup().querySelector('#supervisor_id')).value
+          console.log("preConfirm", supervisor_id);
+          
+          if (!supervisor_id) {
+            swal.showValidationMessage('Sila masukkan ID Penyelia');
+          }
+          return { supervisor_id: supervisor_id }
+        },
+        
       })
       .then((result) => {
         console.log("result", result);
-        if (result.value == true) {
-          let obj = {
-            status: "RA",
-            pic_verification_id: this.authService.decodedToken().user_id,
-            pic_verification_datetime: this.getCurrentDateTime(),
-          };
-          this.refundService.update(obj, row.id).subscribe(
-            (res) => {
-              // console.log("res", res);
-            },
-            (err) => {
-              console.error("err", err);
-            },
-            () => {
-              this.sweetAlertSuccess(
-                "Diluluskan",
-                "Anda telah meluluskan permohonan bayaran balik ini. Terima kasih."
-              );
-              this.getData();
-            }
-          );
-        } else if (result.dismiss == swal.DismissReason.cancel) {
-          let obj = {
-            status: "RR",
-            pic_verification_id: this.authService.decodedToken().user_id,
-            pic_verification_datetime: this.getCurrentDateTime(),
-          };
-          this.refundService.update(obj, row.id).subscribe(
-            (res) => {
-              // console.log("res", res);
-            },
-            (err) => {
-              console.error("err", err);
-            },
-            () => {
-              this.sweetAlertSuccess(
-                "Ditolak",
-                "Anda telah menolak permohonan bayaran balik ini. Terima kasih."
-              );
-              this.getData();
-            }
-          );
-        }
+        // if (result.isConfirmed == true) {
+        //   let obj = {
+        //     status: "RA",
+        //     pic_verification_id: this.authService.decodedToken().user_id,
+        //     pic_verification_datetime: this.getCurrentDateTime(),
+        //   };
+        //   this.refundService.update(obj, row.id).subscribe(
+        //     (res) => {
+        //       // console.log("res", res);
+        //     },
+        //     (err) => {
+        //       console.error("err", err);
+        //     },
+        //     () => {
+        //       this.sweetAlertSuccess(
+        //         "Diluluskan",
+        //         "Anda telah meluluskan permohonan bayaran balik ini. Terima kasih."
+        //       );
+        //       this.getData();
+        //     }
+        //   );
+        // } else if (result.isDismissed == true) {
+        //   let obj = {
+        //     status: "RR",
+        //     pic_verification_id: this.authService.decodedToken().user_id,
+        //     pic_verification_datetime: this.getCurrentDateTime(),
+        //   };
+        //   this.refundService.update(obj, row.id).subscribe(
+        //     (res) => {
+        //       // console.log("res", res);
+        //     },
+        //     (err) => {
+        //       console.error("err", err);
+        //     },
+        //     () => {
+        //       this.sweetAlertSuccess(
+        //         "Ditolak",
+        //         "Anda telah menolak permohonan bayaran balik ini. Terima kasih."
+        //       );
+        //       this.getData();
+        //     }
+        //   );
+        // }
       });
   }
 
@@ -393,9 +436,11 @@ export class RefundsComponent implements OnInit {
     swal.fire({
       title,
       text,
-      type: "success",
+      icon: "success",
       buttonsStyling: false,
-      confirmButtonClass: "btn btn-success",
+      customClass: {
+        confirmButton: "btn btn-success",
+      },
     });
   }
 

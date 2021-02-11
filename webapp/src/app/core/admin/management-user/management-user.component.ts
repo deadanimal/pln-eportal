@@ -272,12 +272,14 @@ export class ManagementUserComponent implements OnInit, OnDestroy {
     swal.fire({
       title: "Confirmation",
       text: "Are you sure to create this new user?",
-      type: "info",
+      icon: "info",
       buttonsStyling: false,
-      confirmButtonClass: "btn btn-info",
+      customClass: {
+        confirmButton: "btn btn-info",
+        cancelButton: "btn btn-danger",
+      },
       confirmButtonText: "Confirm",
       showCancelButton: true,
-      cancelButtonClass: "btn btn-danger",
       cancelButtonText: "Cancel"
     }).then((result) => {
       if (result.value) {
@@ -290,9 +292,11 @@ export class ManagementUserComponent implements OnInit, OnDestroy {
     swal.fire({
       title: "Success",
       text: "A new user has been created!",
-      type: "success",
+      icon: "success",
       buttonsStyling: false,
-      confirmButtonClass: "btn btn-success",
+      customClass: {
+        confirmButton: "btn btn-success",
+      },
       confirmButtonText: "Close"
     }).then((result) => {
       if (result.value) {

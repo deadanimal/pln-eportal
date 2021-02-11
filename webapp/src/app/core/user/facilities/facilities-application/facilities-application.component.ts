@@ -15,6 +15,7 @@ import { EmailTemplatesService } from "src/app/shared/services/email-templates/e
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
 
 export enum SelectionType {
   single = "single",
@@ -32,6 +33,7 @@ export enum SelectionType {
 export class FacilitiesApplicationComponent implements OnInit {
   // Data
   banklists = [];
+  vouchers = [];
 
   // Table
   tableEntries: number = 5;
@@ -127,12 +129,14 @@ export class FacilitiesApplicationComponent implements OnInit {
     private emailtemplateService: EmailTemplatesService,
     private facilitybookingService: FacilityBookingsService,
     private facilityService: FacilitiesService,
-    private userService: UsersService
+    private userService: UsersService,
+    private voucherService: VouchersService
   ) {
     this.getData();
     this.getFacility();
     this.getUser();
     this.getBankList();
+    this.getVoucher();
 
     this.facilityFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -200,6 +204,18 @@ export class FacilitiesApplicationComponent implements OnInit {
       (res) => {
         // console.log("res", res);
         this.banklists = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getVoucher() {
+    this.voucherService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.vouchers = res;
       },
       (err) => {
         console.error("err", err);
@@ -284,9 +300,11 @@ export class FacilitiesApplicationComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -301,9 +319,11 @@ export class FacilitiesApplicationComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -324,9 +344,11 @@ export class FacilitiesApplicationComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dikemaskini.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -343,9 +365,11 @@ export class FacilitiesApplicationComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -361,12 +385,14 @@ export class FacilitiesApplicationComponent implements OnInit {
       .fire({
         title: "Buang data",
         text: "Adakah anda ingin membuang data ini?",
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-danger",
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
         confirmButtonText: "Ya",
-        cancelButtonClass: "btn btn-secondary",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
@@ -377,9 +403,11 @@ export class FacilitiesApplicationComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
-                type: "success",
+                icon: "success",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-success",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
               });
               this.getData();
             },
@@ -388,13 +416,74 @@ export class FacilitiesApplicationComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang tidak berjaya",
                 text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
-                type: "warning",
+                icon: "warning",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-warning",
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
               });
             }
           );
         }
+      });
+  }
+
+  verify(row) {
+    swal
+      .fire({
+        title: "Pengesahan Tempahan Fasiliti",
+        html:
+          '<input type="text" id="voucher_code" class="swal2-input" placeholder="Masukkan baucar sekiranya perlu">',
+        text: "Adakah anda ingin meluluskan permohonan tempahan fasiliti ini?",
+        icon: "warning",
+        // showCancelButton: true,
+        buttonsStyling: false,
+        showDenyButton: true,
+        customClass: {
+          confirmButton: "btn btn-success",
+          // cancelButton: "btn btn-danger",
+          denyButton: "btn btn-danger",
+        },
+        confirmButtonText: "Ya",
+        denyButtonText: "Tidak",
+        // cancelButtonText: "Tidak",
+        showCloseButton: true,
+        preDeny: () => {
+          // to user reject the facility booking application
+          return true;
+        },
+        preConfirm: () => {
+          // to user accept the facility booking application
+          // user can either enter voucher code if want
+          const voucher_code = (<HTMLInputElement>(
+            swal.getPopup().querySelector("#voucher_code")
+          )).value;
+          console.log("preConfirm", voucher_code);
+
+          let result = this.vouchers.find((obj) => {
+            return (
+              obj.voucher_code == voucher_code &&
+              obj.user == this.authService.decodedToken().user_id
+            );
+          });
+
+          if (!voucher_code) return true;
+          else {
+            if (result) return { voucher_code: voucher_code };
+            else
+              swal.showValidationMessage(
+                "Kod baucar yang anda masukkan tidak sah. Sila cuba lagi"
+              );
+          }
+        },
+      })
+      .then((result) => {
+        console.log("result", result);
+        // if (result.isConfirmed == true) {
+
+        // } else if (result.isDismissed == true) {
+
+        // }
       });
   }
 
@@ -458,9 +547,11 @@ export class FacilitiesApplicationComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Bayaran balik anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -475,9 +566,11 @@ export class FacilitiesApplicationComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Bayaran balik anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {

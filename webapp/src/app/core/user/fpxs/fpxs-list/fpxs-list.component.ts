@@ -53,7 +53,7 @@ export class FpxsListComponent implements OnInit {
   ) {
     this.fpxtransactionFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      fpx_msgType: new FormControl(""),
+      fpx_msgicon: new FormControl(""),
       fpx_msgToken: new FormControl(""),
       fpx_fpxTxnId: new FormControl(""),
       fpx_sellerExId: new FormControl(""),
@@ -150,12 +150,14 @@ export class FpxsListComponent implements OnInit {
       .fire({
         title: "Buang data",
         text: "Adakah anda ingin membuang data ini?",
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-danger",
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
         confirmButtonText: "Ya",
-        cancelButtonClass: "btn btn-secondary",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
@@ -166,9 +168,11 @@ export class FpxsListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
-                type: "success",
+                icon: "success",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-success",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
               });
               this.getData();
             },
@@ -177,9 +181,11 @@ export class FpxsListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang tidak berjaya",
                 text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
-                type: "warning",
+                icon: "warning",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-warning",
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
               });
             }
           );

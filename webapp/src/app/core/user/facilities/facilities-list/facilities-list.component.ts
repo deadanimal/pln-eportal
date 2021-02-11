@@ -46,7 +46,7 @@ export class FacilitiesListComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog",
+    class: "modal-dialog modal-lg",
   };
 
   // FormGroup
@@ -177,8 +177,10 @@ export class FacilitiesListComponent implements OnInit {
       id: new FormControl(""),
       facility_description_en: new FormControl(""),
       facility_description_ms: new FormControl(""),
-      facility_price: new FormControl(0),
-      facility_days: new FormControl("NONE"),
+      facility_price_half: new FormControl(0),
+      facility_price_full: new FormControl(0),
+      equipment: new FormControl(""),
+      // facility_days: new FormControl("NONE"),
       facility_id: new FormControl(""),
     });
   }
@@ -199,7 +201,9 @@ export class FacilitiesListComponent implements OnInit {
     this.userService.getAll().subscribe(
       (res) => {
         console.log("res", res);
-        this.users = res;
+        res.forEach((obj) => {
+          if (obj.user_type != "CS") this.users.push(obj);
+        });
       },
       (err) => {
         console.error("err", err);
@@ -277,19 +281,42 @@ export class FacilitiesListComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFacilityFormGroup() {
+    this.facilityFormGroup.patchValue({
+      // name_en: "",
+      // name_ms: "",
+      // description_en: "",
+      // description_ms: "",
+      // facility_category: "",
+      // facility_subcategory: "",
+      area_size: "",
+      max_capacity: 0,
+      // have_price: "",
+      // pic_id: "",
+      // venue_id: "",
+      equipment_name_en: "",
+      equipment_name_ms: "",
+      equipment_description_en: "",
+      equipment_description_ms: "",
+    });
+  }
+
   emptyFacilityPriceFormGroup() {
     this.facilitypriceFormGroup.patchValue({
       facility_description_en: "",
       facility_description_ms: "",
-      facility_price: 0,
-      facility_days: "NONE",
+      facility_price_half: 0,
+      facility_price_full: 0,
+      equipment: "",
+      // facility_days: "NONE",
       facility_id: "",
     });
   }
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.facilityFormGroup.reset();
+      // this.facilityFormGroup.reset();
+      this.emptyFacilityFormGroup();
     } else if (process == "update") {
       this.facilityFormGroup.patchValue({
         ...row,
@@ -344,9 +371,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -361,9 +390,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -384,9 +415,11 @@ export class FacilitiesListComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dikemaskini.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -401,9 +434,11 @@ export class FacilitiesListComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -419,12 +454,14 @@ export class FacilitiesListComponent implements OnInit {
       .fire({
         title: "Buang data",
         text: "Adakah anda ingin membuang data ini?",
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-danger",
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
         confirmButtonText: "Ya",
-        cancelButtonClass: "btn btn-secondary",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
@@ -435,9 +472,11 @@ export class FacilitiesListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
-                type: "success",
+                icon: "success",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-success",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
               });
               this.getData();
             },
@@ -446,9 +485,11 @@ export class FacilitiesListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang tidak berjaya",
                 text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
-                type: "warning",
+                icon: "warning",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-warning",
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
               });
             }
           );
@@ -469,9 +510,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -486,9 +529,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -512,9 +557,11 @@ export class FacilitiesListComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dikemaskini.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -529,9 +576,11 @@ export class FacilitiesListComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -547,12 +596,14 @@ export class FacilitiesListComponent implements OnInit {
       .fire({
         title: "Buang data",
         text: "Adakah anda ingin membuang data ini?",
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-danger",
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
         confirmButtonText: "Ya",
-        cancelButtonClass: "btn btn-secondary",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
@@ -563,10 +614,13 @@ export class FacilitiesListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
-                type: "success",
+                icon: "success",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-success",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
               });
+              this.modal.hide();
               this.getData();
             },
             (err) => {
@@ -574,9 +628,11 @@ export class FacilitiesListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang tidak berjaya",
                 text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
-                type: "warning",
+                icon: "warning",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-warning",
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
               });
             }
           );
@@ -610,9 +666,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -627,9 +685,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -648,9 +708,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya dibuang.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -665,9 +727,11 @@ export class FacilitiesListComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya dibuang. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
