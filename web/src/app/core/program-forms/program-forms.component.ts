@@ -6,6 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -22,6 +23,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class ProgramFormsComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // FormGroup
   zeroFormGroup: FormGroup;
@@ -60,31 +62,37 @@ export class ProgramFormsComponent implements OnInit {
   genders = [
     {
       value: "FM",
-      display_name: "Perempuan",
+      display_name_en: "Female",
+      display_name_ms: "Perempuan",
     },
     {
       value: "ML",
-      display_name: "Lelaki",
+      display_name_en: "Male",
+      display_name_ms: "Lelaki",
     },
   ];
   citizenships = [
     {
       value: "CZ",
-      display_name: "Warganegara",
+      display_name_en: "Citizen",
+      display_name_ms: "Warganegara",
     },
     {
       value: "NC",
-      display_name: "Bukan Warganegara",
+      display_name_en: "Non-Citizen",
+      display_name_ms: "Bukan Warganegara",
     },
   ];
   maritalstatuses = [
     {
       value: "S",
-      display_name: "Bujang",
+      display_name_en: "Single",
+      display_name_ms: "Bujang",
     },
     {
       value: "M",
-      display_name: "Kahwin",
+      display_name_en: "Married",
+      display_name_ms: "Kahwin",
     },
   ];
   tshirtsizes = [
@@ -116,15 +124,18 @@ export class ProgramFormsComponent implements OnInit {
   truefalses = [
     {
       value: "true",
-      display_name: "Ya",
+      display_name_en: "Yes",
+      display_name_ms: "Ya",
     },
     {
       value: "false",
-      display_name: "Tidak",
+      display_name_en: "No",
+      display_name_ms: "Tidak",
     },
   ];
 
   constructor(
+    public translate: TranslateService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -255,6 +266,10 @@ export class ProgramFormsComponent implements OnInit {
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
     );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
   }
 
   submitEntry() {
@@ -331,5 +346,37 @@ export class ProgramFormsComponent implements OnInit {
     let formatDate = year + "-" + month + "-" + day;
 
     return formatDate;
+  }
+
+  getGender(value: string) {
+    let result = this.genders.find((obj) => {
+      return obj.value == value;
+    });
+    if (this.translate.currentLang == "en") return result.display_name_en;
+    if (this.translate.currentLang == "ms") return result.display_name_ms;
+  }
+
+  getMaritalStatus(value: string) {
+    let result = this.maritalstatuses.find((obj) => {
+      return obj.value == value;
+    });
+    if (this.translate.currentLang == "en") return result.display_name_en;
+    if (this.translate.currentLang == "ms") return result.display_name_ms;
+  }
+
+  getCitizenship(value: string) {
+    let result = this.citizenships.find((obj) => {
+      return obj.value == value;
+    });
+    if (this.translate.currentLang == "en") return result.display_name_en;
+    if (this.translate.currentLang == "ms") return result.display_name_ms;
+  }
+
+  getTrueFalse(value: string) {
+    let result = this.truefalses.find((obj) => {
+      return obj.value == value;
+    });
+    if (this.translate.currentLang == "en") return result.display_name_en;
+    if (this.translate.currentLang == "ms") return result.display_name_ms;
   }
 }

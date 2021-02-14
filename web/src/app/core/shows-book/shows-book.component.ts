@@ -21,6 +21,10 @@ import { Seats } from "src/assets/json/seats";
   styleUrls: ["./shows-book.component.scss"],
 })
 export class ShowsBookComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  themeColor: string;
+  
   // Data
   existbookings = [];
   schoolMinimum: boolean = true;
@@ -31,6 +35,7 @@ export class ShowsBookComponent implements OnInit {
   acceptedbookings = [];
   today: Date = new Date();
   totalticket: number = 0;
+  totalSeat: number = 0;
   user_obj: any;
 
   seats = Seats;
@@ -201,7 +206,16 @@ export class ShowsBookComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+      console.log("fontSize", this.fontSize);
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
+  }
 
   citizenChange() {
     this.calculateTotal();
@@ -467,17 +481,20 @@ export class ShowsBookComponent implements OnInit {
     if (result) return result.color;
   }
 
-  selectSeat(row: number, column: number) {
-    let result = this.seats[row].columns.find((value) => {
-      return value.column === column;
-    });
-
-    let totalSeat =
+  click2ndStep() {
+    this.totalSeat =
       this.secondFormGroup.value.adult +
       this.secondFormGroup.value.children +
       this.secondFormGroup.value.school +
       this.secondFormGroup.value.senior +
       this.secondFormGroup.value.oku;
+  }
+
+  selectSeat(row: number, column: number) {
+    let result = this.seats[row].columns.find((value) => {
+      return value.column === column;
+    });
+
     if (result.name) {
       // check if the new selected try to click booked seat
       let existbooking = this.selectedexistbookings.filter((obj) => {
@@ -485,7 +502,7 @@ export class ShowsBookComponent implements OnInit {
       });
 
       if (existbooking.length == 0) {
-        if (this.selectedSeats.length < totalSeat) {
+        if (this.selectedSeats.length < this.totalSeat) {
           // to check if the seat is already exist in selection
           let existSeats = this.selectedSeats.find((obj) => {
             return obj.name == result.name;

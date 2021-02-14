@@ -24,6 +24,10 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
   styleUrls: ["./checkout.component.scss"],
 })
 export class CheckoutComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  themeColor: string;
+  
   // Data
   user_id: string = "";
   carts = [];
@@ -536,6 +540,15 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit() {
     this.user_id = this.authService.decodedToken().user_id;
+
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+      console.log("fontSize", this.fontSize);
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
   }
 
   getCurrentDateTime() {

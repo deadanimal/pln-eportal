@@ -6,6 +6,7 @@ import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-receipt",
@@ -13,6 +14,10 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./receipt.component.scss"],
 })
 export class ReceiptComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  themeColor: string;
+  
   // Data
   invoice_receipt_id: string = "";
   invoicereceipts = [];
@@ -119,7 +124,8 @@ export class ReceiptComponent implements OnInit {
     private invoicereceiptService: InvoiceReceiptsService,
     private jwtService: JwtService,
     private route: ActivatedRoute,
-    private userService: UsersService
+    private userService: UsersService,
+    private w3cService: W3csService
   ) {
     this.route.queryParams.subscribe((params) => {
       this.invoice_receipt_id = params.receiptId;
@@ -260,7 +266,16 @@ export class ReceiptComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+      console.log("fontSize", this.fontSize);
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
+  }
 
   getSimulatorRideDay(value: string, lang: string) {
     let result = this.simulatorridedays.find((obj) => {

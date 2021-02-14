@@ -10,6 +10,7 @@ import { CustomValidators } from "src/app/shared/class/custom-validators";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-password-reset",
@@ -17,13 +18,18 @@ import { AuthService } from "src/app/shared/services/auth/auth.service";
   styleUrls: ["./password-reset.component.scss"],
 })
 export class PasswordResetComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  themeColor: string;
+
   // FormGroup
   passwordresetFormGroup: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private w3cService: W3csService
   ) {
     this.passwordresetFormGroup = this.formBuilder.group(
       {
@@ -71,7 +77,16 @@ export class PasswordResetComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+      console.log("fontSize", this.fontSize);
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
+  }
 
   resetpassword() {
     this.authService

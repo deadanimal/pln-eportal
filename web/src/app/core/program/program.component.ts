@@ -45,6 +45,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class ProgramComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Modal
   defaultModal: BsModalRef;
@@ -363,6 +364,10 @@ export class ProgramComponent implements OnInit {
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

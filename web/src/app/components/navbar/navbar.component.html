@@ -393,11 +393,6 @@
           class="input-group input-group-alternative"
           [ngClass]="{ 'input-group-focus': focus1 === true }"
         >
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fas fa-at text-dark"> </i>
-            </span>
-          </div>
           <input
             class="form-control text-dark"
             placeholder="{{ 'Emel' | translate }}"
@@ -406,6 +401,11 @@
             (blur)="focus1 = false"
             formControlName="username"
           />
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i class="fas fa-at fa-lg" style="color: gainsboro"> </i>
+            </span>
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -413,19 +413,36 @@
           class="input-group input-group-alternative"
           [ngClass]="{ 'input-group-focus': focus2 === true }"
         >
-          <div class="input-group-prepend">
+          <!-- <div class="input-group-prepend">
             <span class="input-group-text">
               <i class="fas fa-key text-dark"> </i>
             </span>
-          </div>
+          </div> -->
           <input
             class="form-control text-dark"
             placeholder="{{ 'KataLaluan' | translate }}"
-            type="password"
+            [type]="password ? 'text' : 'password'"
             (focus)="focus2 = true"
             (blur)="focus2 = false"
             formControlName="password"
           />
+          <div
+            class="input-group-append"
+            (click)="changePasswordIcon()"
+          >
+            <span class="input-group-text"
+              ><i
+                *ngIf="!password"
+                class="fas fa-eye-slash fa-lg"
+                style="color: gainsboro"
+              ></i>
+              <i
+                *ngIf="password"
+                class="fas fa-eye fa-lg"
+                style="color: black"
+              ></i
+            ></span>
+          </div>
         </div>
       </div>
       <div class="row">

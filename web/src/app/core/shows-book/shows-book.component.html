@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -285,6 +285,7 @@
                           class="btn btn-default"
                           matStepperNext
                           [disabled]="totalticket == 0 || schoolMinimum"
+                          (click)="click2ndStep()"
                         >
                           {{ "Seterusnya" | translate }}
                         </button>
@@ -324,7 +325,9 @@
                         </h4>
                         <div class="box"></div>
                       </td>
-                      <td colspan="5"></td>
+                      <td colspan="5" class="text-center">
+                        <h1 class="title text-dark">{{ selectedSeats.length }} / {{ totalSeat }}</h1>
+                      </td>
                     </tr>
                     <br />
                     <tr *ngFor="let row of arrayOne(row); let i = index">

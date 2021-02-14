@@ -14,6 +14,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
   virtual_library_article_category_id: string = "";
@@ -65,6 +66,10 @@ export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 
