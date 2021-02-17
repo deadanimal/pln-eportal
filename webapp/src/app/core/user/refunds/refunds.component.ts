@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
 import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
+import { SupervisorsService } from "src/app/shared/services/supervisors/supervisors.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
@@ -29,6 +30,7 @@ export enum SelectionType {
 export class RefundsComponent implements OnInit {
   // Data
   banklists = [];
+  supervisors = [];
   users = []; // user_type = CS - Customer
   incharges = []; // user_type != CS - Customer
   picverifications = []; // user_type != CS - Customer
@@ -83,11 +85,13 @@ export class RefundsComponent implements OnInit {
     private authService: AuthService,
     private banklistService: BankListsService,
     private refundService: RefundsService,
+    private supervisorService: SupervisorsService,
     private userService: UsersService
   ) {
     this.getData();
     this.getUser();
     this.getBankList();
+    this.getSupervisor();
 
     this.refundFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -134,6 +138,20 @@ export class RefundsComponent implements OnInit {
         console.error("err", err);
       }
     );
+  }
+
+  getSupervisor() {
+    this.supervisorService
+      .extended("date_on_duty=" + this.getCurrentDate())
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.supervisors = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   ngOnInit() {}
@@ -347,88 +365,97 @@ export class RefundsComponent implements OnInit {
       .fire({
         title: "Pengesahan Bayaran Balik",
         html:
-          '<input type="password" id="supervisor_id" class="swal2-input" placeholder="Masukkan ID Penyelia">',
+          '<input type="text" id="supervisor_id" class="swal2-input" placeholder="Masukkan ID Penyelia / Staf">',
         text: "Adakah anda ingin meluluskan bayaran balik ini?",
         icon: "warning",
-        // showCancelButton: true,
         buttonsStyling: false,
         showDenyButton: true,
         customClass: {
           confirmButton: "btn btn-success",
-          // cancelButton: "btn btn-danger",
           denyButton: "btn btn-danger",
         },
         confirmButtonText: "Ya",
         denyButtonText: "Tidak",
-        // cancelButtonText: "Tidak",
         showCloseButton: true,
         preDeny: () => {
-          const supervisor_id = (<HTMLInputElement>swal.getPopup().querySelector('#supervisor_id')).value
-          console.log("preDeny", supervisor_id);
-          
+          const supervisor_id = (<HTMLInputElement>(
+            swal.getPopup().querySelector("#supervisor_id")
+          )).value;
+
           if (!supervisor_id) {
-            swal.showValidationMessage('Sila masukkan ID Penyelia');
+            swal.showValidationMessage("Sila masukkan ID Penyelia / Staf");
             return false;
           } else {
-            return { supervisor_id: supervisor_id }
+            return { supervisor_id: supervisor_id };
           }
         },
         preConfirm: () => {
-          const supervisor_id = (<HTMLInputElement>swal.getPopup().querySelector('#supervisor_id')).value
-          console.log("preConfirm", supervisor_id);
-          
+          const supervisor_id = (<HTMLInputElement>(
+            swal.getPopup().querySelector("#supervisor_id")
+          )).value;
+
           if (!supervisor_id) {
-            swal.showValidationMessage('Sila masukkan ID Penyelia');
+            swal.showValidationMessage("Sila masukkan ID Penyelia / Staf");
           }
-          return { supervisor_id: supervisor_id }
+          return { supervisor_id: supervisor_id };
         },
-        
       })
       .then((result) => {
-        console.log("result", result);
-        // if (result.isConfirmed == true) {
-        //   let obj = {
-        //     status: "RA",
-        //     pic_verification_id: this.authService.decodedToken().user_id,
-        //     pic_verification_datetime: this.getCurrentDateTime(),
-        //   };
-        //   this.refundService.update(obj, row.id).subscribe(
-        //     (res) => {
-        //       // console.log("res", res);
-        //     },
-        //     (err) => {
-        //       console.error("err", err);
-        //     },
-        //     () => {
-        //       this.sweetAlertSuccess(
-        //         "Diluluskan",
-        //         "Anda telah meluluskan permohonan bayaran balik ini. Terima kasih."
-        //       );
-        //       this.getData();
-        //     }
-        //   );
-        // } else if (result.isDismissed == true) {
-        //   let obj = {
-        //     status: "RR",
-        //     pic_verification_id: this.authService.decodedToken().user_id,
-        //     pic_verification_datetime: this.getCurrentDateTime(),
-        //   };
-        //   this.refundService.update(obj, row.id).subscribe(
-        //     (res) => {
-        //       // console.log("res", res);
-        //     },
-        //     (err) => {
-        //       console.error("err", err);
-        //     },
-        //     () => {
-        //       this.sweetAlertSuccess(
-        //         "Ditolak",
-        //         "Anda telah menolak permohonan bayaran balik ini. Terima kasih."
-        //       );
-        //       this.getData();
-        //     }
-        //   );
-        // }
+        let supervisor = this.supervisors.find((obj) => {
+          return obj.user.staff_id == result.value.supervisor_id;
+        });
+
+        // to check if staff id is same with the supervisor on duty id
+        if (supervisor) {
+          if (result.isConfirmed == true) {
+            let obj = {
+              status: "RA",
+              pic_verification_id: supervisor.user.id,
+              pic_verification_datetime: this.getCurrentDateTime(),
+            };
+            this.refundService.update(obj, row.id).subscribe(
+              (res) => {
+                // console.log("res", res);
+              },
+              (err) => {
+                console.error("err", err);
+              },
+              () => {
+                this.sweetAlertSuccess(
+                  "Diluluskan",
+                  "Anda telah meluluskan permohonan bayaran balik ini. Terima kasih."
+                );
+                this.getData();
+              }
+            );
+          } else if (result.isDismissed == true) {
+            let obj = {
+              status: "RR",
+              pic_verification_id: supervisor.user.id,
+              pic_verification_datetime: this.getCurrentDateTime(),
+            };
+            this.refundService.update(obj, row.id).subscribe(
+              (res) => {
+                // console.log("res", res);
+              },
+              (err) => {
+                console.error("err", err);
+              },
+              () => {
+                this.sweetAlertSuccess(
+                  "Ditolak",
+                  "Anda telah menolak permohonan bayaran balik ini. Terima kasih."
+                );
+                this.getData();
+              }
+            );
+          }
+        } else {
+          this.sweetAlertWarning(
+            "Ralat",
+            "ID Penyelia yang anda masukkan tidak sama dengan penyelia yang bertugas pada hari ini."
+          );
+        }
       });
   }
 
@@ -440,6 +467,18 @@ export class RefundsComponent implements OnInit {
       buttonsStyling: false,
       customClass: {
         confirmButton: "btn btn-success",
+      },
+    });
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
       },
     });
   }
@@ -479,5 +518,21 @@ export class RefundsComponent implements OnInit {
     let formatTime = hour + ":" + minute + ":" + second;
 
     return formatDate + "T" + formatTime + "Z";
+  }
+
+  getCurrentDate() {
+    let selectedDate = new Date();
+    let year = selectedDate.getFullYear();
+    let month =
+      selectedDate.getMonth() + 1 < 10
+        ? "0" + (selectedDate.getMonth() + 1)
+        : selectedDate.getMonth() + 1;
+    let day =
+      selectedDate.getDate() < 10
+        ? "0" + selectedDate.getDate()
+        : selectedDate.getDate();
+    let formatDate = year + "-" + month + "-" + day;
+
+    return formatDate;
   }
 }

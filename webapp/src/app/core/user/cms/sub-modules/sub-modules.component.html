@@ -3,7 +3,7 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-dark d-inline-block mb-0">Kalendar</h6>
+          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Sub Modul</h6>
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
@@ -19,7 +19,7 @@
         <div class="col-lg-6 col-5 text-right">
           <a
             class="btn btn-sm btn-neutral"
-            (click)="openModal(createCalendar, 'create', '')"
+            (click)="openModal(createModule, 'create', '')"
           >
             Tambah
           </a>
@@ -34,20 +34,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
-          <h3 class="mb-0">Kalendar</h3>
-        </div>
-        <div class="card-body">
-          <full-calendar [options]="calendarOptions"></full-calendar>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header bg-secondary">
-          <h3 class="m-0">Senarai Hari</h3>
+          <h3 class="m-0">Senarai Sub Modul</h3>
         </div>
         <div class="dataTables_wrapper py-4">
           <div class="row">
@@ -103,6 +90,15 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
+                <span>Tajuk MS</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.title_ms }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
                 <span>Deskripsi MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
@@ -112,19 +108,19 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tarikh Mula</span>
+                <span>Sub Modul</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.date_start }}
+                {{ getSubModule(row.submodule) }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tarikh Akhir</span>
+                <span>Tarikh Dicipta</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.date_end }}
+                {{ row.created_date | date: "mediumDate" }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -149,7 +145,7 @@
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <button
                   class="btn btn-sm btn-primary"
-                  (click)="openModal(editCalendar, 'update', row)"
+                  (click)="openModal(editModule, 'update', row)"
                 >
                   Sunting
                 </button>
@@ -165,7 +161,7 @@
   </div>
 </div>
 
-<ng-template #createCalendar>
+<ng-template #createModule>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Tambah
@@ -183,120 +179,77 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="calendarFormGroup">
+    <form [formGroup]="submoduleFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tarikh Mula</label>
+        <label class="form-control-label required-field">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="date_start"
-          placeholder="Pilih tarikh mula"
-          type="date"
-        />
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Tarikh Akhir</label>
-        <input
-          class="form-control"
-          formControlName="date_end"
-          placeholder="Pilih tarikh akhir"
-          type="date"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
+          type="text"
         />
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi MS</label>
-        <textarea
-          class="form-control"
+        <quill-editor
           formControlName="description_ms"
-          placeholder="Deskripsi"
-        ></textarea>
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi EN</label>
-        <textarea
-          class="form-control"
+        <quill-editor
           formControlName="description_en"
-          placeholder="Deskripsi"
-        ></textarea>
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Kekerapan</label>
-            <select
-              class="form-control"
-              formControlName="frequency"
-              placeholder="Sila pilih"
-            >
-              <option value="">Sila pilih</option>
-              <option
-                *ngFor="let frequency of frequencies"
-                [value]="frequency.value"
-              >
-                {{ frequency.display_name }}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Status</label><br />
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioStatusTrue"
-                name="status"
-                formControlName="status"
-                class="custom-control-input"
-                value="true"
-              />
-              <label class="custom-control-label" for="radioStatusTrue"
-                >Aktif</label
-              >
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioStatusFalse"
-                name="status"
-                formControlName="status"
-                class="custom-control-input"
-                value="false"
-              />
-              <label class="custom-control-label" for="radioStatusFalse"
-                >Tidak Aktif</label
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="form-group">
-        <label class="form-control-label"
-          >Tayangan/Aktiviti Batal:
-          <small class="text-danger"
-            >(Pilih aktiviti yang perlu dibatalkan)</small
-          ></label
-        >
-        <div
-          *ngFor="
-            let control of calendarFormGroup.controls['activity_cancellation']
-              .controls;
-            let i = index
-          "
-          class="custom-control custom-checkbox pt-3"
-        >
+        <label class="form-control-label required-field">Sub Modul</label>
+        <select class="form-control" formControlName="submodule">
+          <option value="">Sila pilih</option>
+          <option *ngFor="let submodule of submodulelists" [value]="submodule.value">
+            {{ submodule.display_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
           <input
-            type="checkbox"
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
             class="custom-control-input"
-            [id]="'checkboxActCan' + i"
-            [formControl]="control"
-            (change)="checkboxChange(i, activitycancellations[i].id)"
+            value="true"
           />
-          <label class="custom-control-label" [for]="'checkboxActCan' + i">{{
-            activitycancellations[i].title
-          }}</label>
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
         </div>
       </div>
     </form>
@@ -318,7 +271,7 @@
   </div>
 </ng-template>
 
-<ng-template #editCalendar>
+<ng-template #editModule>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
       Ubah Suai
@@ -336,126 +289,77 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="calendarFormGroup">
+    <form [formGroup]="submoduleFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tarikh Mula</label>
+        <label class="form-control-label required-field">Tajuk MS</label>
         <input
           class="form-control"
-          formControlName="date_start"
-          placeholder="Pilih tarikh mula"
-          type="date"
-        />
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Tarikh Akhir</label>
-        <input
-          class="form-control"
-          formControlName="date_end"
-          placeholder="Pilih tarikh akhir"
-          type="date"
+          formControlName="title_ms"
+          placeholder="Tajuk MS"
+          type="text"
         />
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi MS</label>
-        <textarea
-          class="form-control"
+        <quill-editor
           formControlName="description_ms"
-          placeholder="Deskripsi"
-        ></textarea>
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Tajuk EN</label>
+        <input
+          class="form-control"
+          formControlName="title_en"
+          placeholder="Tajuk EN"
+          type="text"
+        />
       </div>
       <div class="form-group">
         <label class="form-control-label">Deskripsi EN</label>
-        <textarea
-          class="form-control"
+        <quill-editor
           formControlName="description_en"
-          placeholder="Deskripsi"
-        ></textarea>
+          [modules]="modules"
+          [styles]="{ height: '200px' }"
+        ></quill-editor>
       </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Kekerapan</label>
-            <select
-              class="form-control"
-              formControlName="frequency"
-              placeholder="Sila pilih"
-              disabled
-            >
-              <option value="">Sila pilih</option>
-              <option
-                *ngFor="let frequency of frequencies"
-                [value]="frequency.value"
-              >
-                {{ frequency.display_name }}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Status</label><br />
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioStatusTrue"
-                name="status"
-                formControlName="status"
-                class="custom-control-input"
-                value="true"
-              />
-              <label class="custom-control-label" for="radioStatusTrue"
-                >Aktif</label
-              >
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioStatusFalse"
-                name="status"
-                formControlName="status"
-                class="custom-control-input"
-                value="false"
-              />
-              <label class="custom-control-label" for="radioStatusFalse"
-                >Tidak Aktif</label
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="form-group">
-        <label class="form-control-label"
-          >Tayangan/Aktiviti Batal:
-          <small class="text-danger"
-            >(Pilih aktiviti yang perlu dibatalkan)</small
-          ></label
-        >
-        <div
-          *ngFor="
-            let control of calendarFormGroup.controls['activity_cancellation']
-              .controls;
-            let i = index
-          "
-          class="custom-control custom-checkbox pt-3"
-        >
+        <label class="form-control-label required-field">Sub Modul</label>
+        <select class="form-control" formControlName="submodule">
+          <option value="">Sila pilih</option>
+          <option *ngFor="let submodule of submodulelists" [value]="submodule.value">
+            {{ submodule.display_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field mr-3">Status</label>
+        <div class="custom-control custom-radio custom-control-inline">
           <input
-            type="checkbox"
+            type="radio"
+            id="radioStatusTrue"
+            name="status"
+            formControlName="status"
             class="custom-control-input"
-            [id]="'checkboxActCan' + i"
-            [checked]="
-              activitycancellations[i].id
-                | checkboxChecked
-                  : this.calendarFormGroup.value.activity_cancellation
-            "
-            [formControl]="control"
-            (change)="checkboxChange(i, activitycancellations[i].id)"
+            value="true"
           />
-          <label class="custom-control-label" [for]="'checkboxActCan' + i">{{
-            activitycancellations[i].title
-          }}</label>
+          <label class="custom-control-label" for="radioStatusTrue"
+            >Aktif</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioStatusFalse"
+            name="status"
+            formControlName="status"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioStatusFalse"
+            >Tidak Aktif</label
+          >
         </div>
       </div>
     </form>

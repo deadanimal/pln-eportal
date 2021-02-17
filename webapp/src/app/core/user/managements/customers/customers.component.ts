@@ -86,6 +86,7 @@ export class CustomersComponent implements OnInit {
   }
 
   getData() {
+    if (this.tableRows.length > 0) this.tableRows = [];
     this.userService.getAll().subscribe((res) => {
       for (let i = 0; i < res.length; i++) {
         if (res[i].user_type != 'CS') res.splice(i, 1);
@@ -219,7 +220,7 @@ export class CustomersComponent implements OnInit {
 
   update() {
     this.userService
-      .update(this.userFormGroup.value, this.userFormGroup.value.id)
+      .update(this.userFormGroup.value.id, this.userFormGroup.value)
       .subscribe(
         (res) => {
           console.log("res", res);

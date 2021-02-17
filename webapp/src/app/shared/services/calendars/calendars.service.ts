@@ -19,7 +19,7 @@ export class CalendarsService {
 
   constructor(private http: HttpClient) {}
 
-  post(body: Form): Observable<Calendar> {
+  post(body): Observable<Calendar> {
     return this.http.post<Calendar>(this.url, body).pipe(
       tap((res) => {
         console.log("Calendar: ", res);
@@ -36,7 +36,7 @@ export class CalendarsService {
     );
   }
 
-  update(body: Form, id: string): Observable<Calendar> {
+  update(body, id: string): Observable<Calendar> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Calendar>(urlPatch, body).pipe(
       tap((res) => {

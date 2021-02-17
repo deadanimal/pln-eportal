@@ -5,11 +5,11 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { UsersService } from "src/app/shared/services/users/users.service";
-import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { SubModulesService } from "src/app/shared/services/sub-modules/sub-modules.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,18 +20,39 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-users",
-  templateUrl: "./users.component.html",
-  styleUrls: ["./users.component.scss"],
+  selector: "app-sub-modules",
+  templateUrl: "./sub-modules.component.html",
+  styleUrls: ["./sub-modules.component.scss"],
 })
-export class UsersComponent implements OnInit {
-  // Table
-  tableEntries: number = 5;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
+export class SubModulesComponent implements OnInit {
+  // Data
+
+  // Dropdown
+  submodulelists = [
+    {
+      value: "arkib-kutubkhanah",
+      display_name: "Arkib Kutubkhanah",
+    },
+    {
+      value: "buku",
+      display_name: "Buku",
+    },
+    {
+      value: "e-sumber",
+      display_name: "eSumber",
+    },
+    {
+      value: "terbitan-bersiri",
+      display_name: "Terbitan Bersiri",
+    },
+    {
+      value: "tentang-kami",
+      display_name: "Mengenai Kami",
+    },
+  ];
+
+  // FormGroup
+  submoduleFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -40,105 +61,76 @@ export class UsersComponent implements OnInit {
     class: "modal-dialog",
   };
 
-  // FormGroup
-  userFormGroup: FormGroup;
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
 
-  // Dropdown
-  usertypes = [
-    {
-      value: "DR",
-      display_name: "Pengarah",
-    },
-    {
-      value: "SA",
-      display_name: "Super Admin",
-    },
-    {
-      value: "FA",
-      display_name: "Pentadbir Kewangan",
-    },
-    {
-      value: "TA",
-      display_name: "Pentadbir Teknikal",
-    },
-    {
-      value: "TC",
-      display_name: "Pentadbir Kaunter Tiket",
-    },
-    {
-      value: "VA",
-      display_name: "Pentadbir Lawatan",
-    },
-    {
-      value: "EP",
-      display_name: "Pentadbir Program Pendidikan",
-    },
-    {
-      value: "EA",
-      display_name: "Pentadbir Pameran",
-    },
-    {
-      value: "PK",
-      display_name: "Pentadbir Penerbitan & Kutubkhanah",
-    },
-    {
-      value: "SV",
-      display_name: "Pentadbir Maklum Balas / Soal Selidik",
-    },
-    {
-      value: "CS",
-      display_name: "Pelanggan",
-    },
-  ];
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+
+      ["link"], // link and image, video
+    ],
+  };
+
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private userService: UsersService,
-    private authService: AuthService
+    private route: ActivatedRoute,
+    private submoduleService: SubModulesService
   ) {
-    this.userFormGroup = this.formBuilder.group({
+    this.getData();
+
+    this.submoduleFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      full_name: new FormControl(""),
-      // nric: new FormControl(""),
-      // nric_picture: new FormControl(""),
-      email: new FormControl(""),
-      phone: new FormControl(""),
-      // birth_date: new FormControl(""),
-      // age: new FormControl(""),
-      address: new FormControl(""),
-      postcode: new FormControl(""),
-      city: new FormControl(""),
-      state: new FormControl(""),
-      country: new FormControl(""),
-      staff_id: new FormControl(""),
-      user_type: new FormControl(""),
-      is_active: new FormControl(false),
-      // gender_type: new FormControl(""),
-      // race_type: new FormControl(""),
-      username: new FormControl(""),
-      password1: new FormControl(""),
-      password2: new FormControl(""),
+      title_en: new FormControl(""),
+      description_en: new FormControl(""),
+      title_ms: new FormControl(""),
+      description_ms: new FormControl(""),
+      submodule: new FormControl(""),
+      status: new FormControl(false),
     });
   }
 
-  ngOnInit() {
-    this.getData();
-  }
+  ngOnInit() {}
 
   getData() {
-    if (this.tableRows.length > 0) this.tableRows = [];
-    this.userService.getAll().subscribe((res) => {
-      res.forEach((obj) => {
-        if (obj.user_type != "CS") this.tableRows.push(obj);
-      });
-      this.tableTemp = this.tableRows.map((prop, key) => {
-        return {
-          ...prop,
-          no: key,
-        };
-      });
-    });
+    this.submoduleService.get().subscribe(
+      (res) => {
+        console.log("res", res);
+        this.tableRows = res;
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            no: key,
+          };
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   entriesChange($event) {
@@ -171,12 +163,25 @@ export class UsersComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.submoduleFormGroup.patchValue({
+      id: "",
+      title_en: "",
+      description_en: "",
+      title_ms: "",
+      description_ms: "",
+      status: false,
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.userFormGroup.reset();
+      // this.submoduleFormGroup.reset();
+      this.emptyFormGroup();
     } else if (process == "update") {
-      this.userFormGroup.patchValue({
+      this.submoduleFormGroup.patchValue({
         ...row,
+        status: row.status.toString()
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -187,55 +192,25 @@ export class UsersComponent implements OnInit {
   }
 
   create() {
-    this.userFormGroup.value.password1 = "planetarium@2020";
-    this.userFormGroup.value.password2 = "planetarium@2020";
-
-    this.authService.register(this.userFormGroup.value).subscribe(
+    this.submoduleService.post(this.submoduleFormGroup.value).subscribe(
       (res) => {
         console.log("res", res);
-        if (res) {
-          this.userService
-            .update(res.user.pk, this.userFormGroup.value)
-            .subscribe(
-              (res) => {
-                console.log("res", res);
-                swal
-                  .fire({
-                    title: "Berjaya",
-                    text: "Data anda berjaya disimpan.",
-                    icon: "success",
-                    buttonsStyling: false,
-                    customClass: {
-                      confirmButton: "btn btn-success",
-                    },
-                  })
-                  .then((result) => {
-                    if (result.value) {
-                      this.modal.hide();
-                      this.getData();
-                    }
-                  });
-              },
-              (err) => {
-                console.error("err", err);
-                swal
-                  .fire({
-                    title: "Ralat",
-                    text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-                    icon: "warning",
-                    buttonsStyling: false,
-                    customClass: {
-                      confirmButton: "btn btn-warning",
-                    },
-                  })
-                  .then((result) => {
-                    if (result.value) {
-                      // this.modal.hide();
-                    }
-                  });
-              }
-            );
-        }
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
       },
       (err) => {
         console.error("err", err);
@@ -259,8 +234,8 @@ export class UsersComponent implements OnInit {
   }
 
   update() {
-    this.userService
-      .update(this.userFormGroup.value.id, this.userFormGroup.value)
+    this.submoduleService
+      .update(this.submoduleFormGroup.value, this.submoduleFormGroup.value.id)
       .subscribe(
         (res) => {
           console.log("res", res);
@@ -313,13 +288,13 @@ export class UsersComponent implements OnInit {
         customClass: {
           confirmButton: "btn btn-danger",
           cancelButton: "btn btn-secondary",
-        }, 
+        },
         confirmButtonText: "Ya",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
         if (result.value) {
-          this.userService.delete(row.id).subscribe(
+          this.submoduleService.delete(row.id).subscribe(
             (res) => {
               console.log("res", res);
               swal.fire({
@@ -350,8 +325,8 @@ export class UsersComponent implements OnInit {
       });
   }
 
-  getUserType(value: string) {
-    let result = this.usertypes.find((obj) => {
+  getSubModule(value: string) {
+    let result = this.submodulelists.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;

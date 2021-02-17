@@ -288,6 +288,13 @@ export const ROUTES: RouteInfo[] = [
     role: ['DR', 'SA', 'FA', 'TA', 'TC', 'VA', 'EP', 'EA', 'PK', 'SV']
   },
   {
+    path: "/close-booking",
+    title: "Penutupan Tempahan",
+    type: "link",
+    icontype: "fas fa-times-circle text-primary",
+    role: ['DR', 'SA']
+  },
+  {
     path: "/calendar",
     title: "Kalendar",
     type: "link",
@@ -319,6 +326,11 @@ export const ROUTES: RouteInfo[] = [
       {
         path: "modules",
         title: "Modul",
+        type: "link",
+      },
+      {
+        path: "sub-modules",
+        title: "Sub Modul",
         type: "link",
       },
       {
@@ -375,6 +387,7 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: "users", title: "Pengguna", type: "link" },
       { path: "customers", title: "Pelanggan", type: "link" },
+      { path: "supervisors", title: "Penyelia", type: "link" },
       { path: "email-templates", title: "Templat Emel", type: "link" },
     ],
     role: ['SA']

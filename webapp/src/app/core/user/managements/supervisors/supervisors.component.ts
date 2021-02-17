@@ -9,7 +9,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
 import { UsersService } from "src/app/shared/services/users/users.service";
-import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { SupervisorsService } from "src/app/shared/services/supervisors/supervisors.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,11 +20,14 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-users",
-  templateUrl: "./users.component.html",
-  styleUrls: ["./users.component.scss"],
+  selector: "app-supervisors",
+  templateUrl: "./supervisors.component.html",
+  styleUrls: ["./supervisors.component.scss"],
 })
-export class UsersComponent implements OnInit {
+export class SupervisorsComponent implements OnInit {
+  // Data
+  users = [];
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -41,7 +44,7 @@ export class UsersComponent implements OnInit {
   };
 
   // FormGroup
-  userFormGroup: FormGroup;
+  supervisorFormGroup: FormGroup;
 
   // Dropdown
   usertypes = [
@@ -95,43 +98,23 @@ export class UsersComponent implements OnInit {
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private userService: UsersService,
-    private authService: AuthService
+    private supervisorService: SupervisorsService
   ) {
-    this.userFormGroup = this.formBuilder.group({
+    this.supervisorFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      full_name: new FormControl(""),
-      // nric: new FormControl(""),
-      // nric_picture: new FormControl(""),
-      email: new FormControl(""),
-      phone: new FormControl(""),
-      // birth_date: new FormControl(""),
-      // age: new FormControl(""),
-      address: new FormControl(""),
-      postcode: new FormControl(""),
-      city: new FormControl(""),
-      state: new FormControl(""),
-      country: new FormControl(""),
-      staff_id: new FormControl(""),
-      user_type: new FormControl(""),
-      is_active: new FormControl(false),
-      // gender_type: new FormControl(""),
-      // race_type: new FormControl(""),
-      username: new FormControl(""),
-      password1: new FormControl(""),
-      password2: new FormControl(""),
+      user: new FormControl(""),
+      date_on_duty: new FormControl(""),
     });
   }
 
   ngOnInit() {
     this.getData();
+    this.getUser();
   }
 
   getData() {
-    if (this.tableRows.length > 0) this.tableRows = [];
-    this.userService.getAll().subscribe((res) => {
-      res.forEach((obj) => {
-        if (obj.user_type != "CS") this.tableRows.push(obj);
-      });
+    this.supervisorService.extended("").subscribe((res) => {
+      this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
           ...prop,
@@ -139,6 +122,20 @@ export class UsersComponent implements OnInit {
         };
       });
     });
+  }
+
+  getUser() {
+    this.userService.getAll().subscribe(
+      (res) => {
+        // console.log("res", res);
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].user_type != "CS") this.users.push(res[i]);
+        }
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   entriesChange($event) {
@@ -173,10 +170,11 @@ export class UsersComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.userFormGroup.reset();
+      this.supervisorFormGroup.reset();
     } else if (process == "update") {
-      this.userFormGroup.patchValue({
+      this.supervisorFormGroup.patchValue({
         ...row,
+        user: row.user.id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -186,84 +184,77 @@ export class UsersComponent implements OnInit {
     this.modal.hide();
   }
 
-  create() {
-    this.userFormGroup.value.password1 = "planetarium@2020";
-    this.userFormGroup.value.password2 = "planetarium@2020";
+  checkInterceptSupervisor() {
+    let new_user = this.supervisorFormGroup.value.user;
+    let new_date_on_duty = this.supervisorFormGroup.value.date_on_duty;
 
-    this.authService.register(this.userFormGroup.value).subscribe(
-      (res) => {
-        console.log("res", res);
-        if (res) {
-          this.userService
-            .update(res.user.pk, this.userFormGroup.value)
-            .subscribe(
-              (res) => {
-                console.log("res", res);
-                swal
-                  .fire({
-                    title: "Berjaya",
-                    text: "Data anda berjaya disimpan.",
-                    icon: "success",
-                    buttonsStyling: false,
-                    customClass: {
-                      confirmButton: "btn btn-success",
-                    },
-                  })
-                  .then((result) => {
-                    if (result.value) {
-                      this.modal.hide();
-                      this.getData();
-                    }
-                  });
-              },
-              (err) => {
-                console.error("err", err);
-                swal
-                  .fire({
-                    title: "Ralat",
-                    text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-                    icon: "warning",
-                    buttonsStyling: false,
-                    customClass: {
-                      confirmButton: "btn btn-warning",
-                    },
-                  })
-                  .then((result) => {
-                    if (result.value) {
-                      // this.modal.hide();
-                    }
-                  });
-              }
-            );
-        }
-      },
-      (err) => {
-        console.error("err", err);
-        swal
-          .fire({
-            title: "Ralat",
-            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            icon: "warning",
-            buttonsStyling: false,
-            customClass: {
-              confirmButton: "btn btn-warning",
-            },
-          })
-          .then((result) => {
-            if (result.value) {
-              // this.modal.hide();
-            }
-          });
+    for (let i = 0; i < this.tableRows.length; i++) {
+      if (
+        new_user == this.tableRows[i].user.id &&
+        new_date_on_duty == this.tableRows[i].date_on_duty
+      ) {
+        return false;
+      } else {
+        return true;
       }
-    );
+    }
+  }
+
+  create() {
+    if (this.checkInterceptSupervisor()) {
+      this.supervisorService.post(this.supervisorFormGroup.value).subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya disimpan.",
+              icon: "success",
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getData();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+              icon: "warning",
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+    } else {
+      this.sweetAlertWarning(
+        "Ralat",
+        "Hanya 2 penyelia sahaja dibenarkan dalam satu hari bekerja"
+      );
+    }
   }
 
   update() {
-    this.userService
-      .update(this.userFormGroup.value.id, this.userFormGroup.value)
+    this.supervisorService
+      .update(this.supervisorFormGroup.value, this.supervisorFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -313,15 +304,15 @@ export class UsersComponent implements OnInit {
         customClass: {
           confirmButton: "btn btn-danger",
           cancelButton: "btn btn-secondary",
-        }, 
+        },
         confirmButtonText: "Ya",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
         if (result.value) {
-          this.userService.delete(row.id).subscribe(
+          this.supervisorService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -348,6 +339,18 @@ export class UsersComponent implements OnInit {
           );
         }
       });
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   getUserType(value: string) {

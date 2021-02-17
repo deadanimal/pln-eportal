@@ -92,6 +92,9 @@ import { InvoicesListComponent } from './invoice-receipts/invoices-list/invoices
 import { ReceiptsListComponent } from './invoice-receipts/receipts-list/receipts-list.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
 import { RefundsComponent } from './refunds/refunds.component';
+import { SubModulesComponent } from './cms/sub-modules/sub-modules.component';
+import { SupervisorsComponent } from './managements/supervisors/supervisors.component';
+import { CloseBookingComponent } from './close-booking/close-booking.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -171,6 +174,9 @@ FullCalendarModule.registerPlugins([
     ReceiptsListComponent,
     VouchersComponent,
     RefundsComponent,
+    SubModulesComponent,
+    SupervisorsComponent,
+    CloseBookingComponent,
   ],
   imports: [
     CommonModule,

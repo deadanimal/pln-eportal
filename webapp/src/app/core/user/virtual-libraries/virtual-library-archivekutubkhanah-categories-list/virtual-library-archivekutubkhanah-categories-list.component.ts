@@ -45,6 +45,10 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
       value: "KTB",
       display_name: "Koleksi - Terbitan Bersiri",
     },
+    {
+      value: "NAV",
+      display_name: "Tidak ada",
+    },
   ];
 
   // Table
@@ -154,6 +158,7 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
     } else if (process == "update") {
       this.virtuallibraryarchivekutubkhanahcategoryFormGroup.patchValue({
         ...row,
+        status: row.status.toString(),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
