@@ -235,9 +235,9 @@ export class LandingComponent implements OnInit {
           let obj = {
             id: res[i].id,
             title: res[i].description_ms,
-            start: res[i].date_start,
-            end: res[i].date_end,
-            allDay: true,
+            start: res[i].date_start + " 00:00",
+            end: res[i].date_end + " 23:59",
+            // allDay: true,
           };
           this.arrayDate.push(obj);
         }
@@ -255,8 +255,8 @@ export class LandingComponent implements OnInit {
                 let obj = {
                   id: res[i].id,
                   title: res[i].program_id.title_ms,
-                  start: res[i].program_date,
-                  end: res[i].program_date,
+                  start: res[i].program_date + " 00:00",
+                  end: res[i].program_date + " 23:59",
                   allDay: true,
                 };
                 this.arrayDate.push(obj);

@@ -45,11 +45,12 @@ import { VirtualLibraryTerbitanBersiriComponent } from "./virtual-library-terbit
 import { EmployeeDirectoryComponent } from "./employee-directory/employee-directory.component";
 import { QuickLinkComponent } from "./quick-link/quick-link.component";
 import { SignupComponent } from "./signup/signup.component";
+import { ReceiptComponent } from "./receipt/receipt.component";
+import { CheckoutComponent } from "./checkout/checkout.component";
 
 import { environment } from "src/environments/environment";
 import { AuthGuard } from "../shared/guard/auth.guard";
-import { ReceiptComponent } from "./receipt/receipt.component";
-import { CheckoutComponent } from "./checkout/checkout.component";
+import { CloseBookingGuard } from "../shared/guard/close-booking.guard";
 
 export const CoreRoutes: Routes = [
   {
@@ -315,7 +316,7 @@ export const CoreRoutes: Routes = [
           twitter_image: environment.assetUrl + "logo/planetarium-logo.png",
           twitter_url: environment.portalUrl + "shows",
         },
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, CloseBookingGuard],
       },
     ],
   },
@@ -377,7 +378,7 @@ export const CoreRoutes: Routes = [
       {
         path: "simulator-ride-book",
         component: SimulatorRideBookComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, CloseBookingGuard],
       },
     ],
   },

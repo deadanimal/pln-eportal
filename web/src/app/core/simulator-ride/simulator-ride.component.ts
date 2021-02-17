@@ -3,7 +3,9 @@ import { Meta } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
+import swal from "sweetalert2";
 
+import { CloseBookingsService } from "src/app/shared/services/close-bookings/close-bookings.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { ModulesService } from "src/app/shared/services/modules/modules.service";
@@ -20,11 +22,13 @@ export class SimulatorRideComponent implements OnInit {
   themeColor: string;
 
   // Data
+  closebookings = [];
   module: any;
   simulatorridefeedbacks = [];
 
   constructor(
     public translate: TranslateService,
+    private closebookingService: CloseBookingsService,
     private feedbackService: FeedbacksService,
     private jwtService: JwtService,
     private moduleService: ModulesService,
@@ -49,6 +53,7 @@ export class SimulatorRideComponent implements OnInit {
   ngOnInit() {
     this.addMetaTag();
     this.getFeedback();
+    this.getCloseBooking();
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
@@ -71,6 +76,19 @@ export class SimulatorRideComponent implements OnInit {
     );
   }
 
+  getCloseBooking() {
+    this.closebookingService.filter("module=simulator-ride").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.closebookings = res;
+        this.compareDates();
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   changeAdultQuantity(value: number): void {
     console.log(value);
   }
@@ -85,13 +103,52 @@ export class SimulatorRideComponent implements OnInit {
 
   clickBook() {
     if (this.jwtService.getToken("accessToken")) {
-      this.router.navigate(["/simulator-ride/simulator-ride-book"]);
+      let result = this.closebookings.find((obj) => {
+        return obj.status == true;
+      });
+      if (result) {
+        if (this.translate.currentLang == "en")
+          this.sweetAlertWarning(result.title_en, result.description_en);
+        if (this.translate.currentLang == "ms")
+          this.sweetAlertWarning(result.title_ms, result.description_ms);
+      } else this.router.navigate(["/simulator-ride/simulator-ride-book"]);
     } else {
       this.toastr.error(
         this.translate.instant("RalatLoginBook"),
         this.translate.instant("Ralat")
       );
     }
+  }
+
+  compareDates() {
+    for (let i = 0; i < this.closebookings.length; i++) {
+      let date_start = new Date(this.closebookings[i].date_start).setHours(
+        0,
+        0,
+        0
+      );
+      let date_end = new Date(this.closebookings[i].date_end).setHours(
+        23,
+        59,
+        59
+      );
+      let date_current = new Date().getTime();
+
+      if (date_current > date_start && date_current < date_end)
+        this.closebookings[i].status = true;
+    }
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   addMetaTag() {

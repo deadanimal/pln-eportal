@@ -14,6 +14,7 @@ import swal from "sweetalert2";
 
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CloseBookingsService } from "src/app/shared/services/close-bookings/close-bookings.service";
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -84,6 +85,7 @@ export class VisitComponent implements OnInit {
   visitapplicationFormGroup: FormGroup;
 
   // Data
+  closebookings = [];
   module: any;
   users = [];
   visits = [];
@@ -123,6 +125,7 @@ export class VisitComponent implements OnInit {
     private modalService: BsModalService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private closebookingService: CloseBookingsService,
     private emailtemplateService: EmailTemplatesService,
     private moduleService: ModulesService,
     private userService: UsersService,
@@ -144,6 +147,7 @@ export class VisitComponent implements OnInit {
     this.today.setDate(this.today.getDate() + 1);
 
     this.getData();
+    this.getCloseBooking();
 
     this.visitapplicationFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -191,6 +195,19 @@ export class VisitComponent implements OnInit {
     );
   }
 
+  getCloseBooking() {
+    this.closebookingService.filter("module=program").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.closebookings = res;
+        this.compareDates();
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   getUser() {
     this.userService.get(this.authService.decodedToken().user_id).subscribe(
       (res) => {
@@ -230,14 +247,55 @@ export class VisitComponent implements OnInit {
 
   openDefaultModal(modalDefault: TemplateRef<any>) {
     if (this.jwtService.getToken("accessToken")) {
-      this.defaultModal = this.modalService.show(modalDefault, this.default);
-      this.getUser();
+      let result = this.closebookings.find((obj) => {
+        return obj.status == true;
+      });
+      if (result) {
+        if (this.translate.currentLang == "en")
+          this.sweetAlertWarning(result.title_en, result.description_en);
+        if (this.translate.currentLang == "ms")
+          this.sweetAlertWarning(result.title_ms, result.description_ms);
+      } else {
+        this.defaultModal = this.modalService.show(modalDefault, this.default);
+        this.getUser();
+      }
     } else {
       this.toastr.error(
         "Harap maaf. Anda perlu log masuk terlebih dahulu untuk membuat lawatan.",
         "Ralat"
       );
     }
+  }
+
+  compareDates() {
+    for (let i = 0; i < this.closebookings.length; i++) {
+      let date_start = new Date(this.closebookings[i].date_start).setHours(
+        0,
+        0,
+        0
+      );
+      let date_end = new Date(this.closebookings[i].date_end).setHours(
+        23,
+        59,
+        59
+      );
+      let date_current = new Date().getTime();
+
+      if (date_current > date_start && date_current < date_end)
+        this.closebookings[i].status = true;
+    }
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   // Image Process

@@ -17,7 +17,6 @@ export class CharterComponent implements OnInit {
   ngOnInit() {
     this.w3cService.currentFontSize.subscribe((fontSize) => {
       this.fontSize = fontSize;
-      console.log("fontSize", this.fontSize);
     });
 
     this.w3cService.currentThemeColor.subscribe(
