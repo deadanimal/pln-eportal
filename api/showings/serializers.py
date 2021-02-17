@@ -19,19 +19,22 @@ from users.serializers import (
     CustomUserSerializer
 )
 
+
 class ShowingSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Showing
         fields = '__all__'
         read_only_fields = ['id']
-    
+
+
 class ShowtimeSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Showtime
         fields = '__all__'
         read_only_fields = ['id']
+
 
 class ShowtimeExtendedSerializer(serializers.ModelSerializer):
     showing_id = ShowingSerializer(read_only=True)
@@ -41,12 +44,14 @@ class ShowtimeExtendedSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id']
 
+
 class ShowTicketSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = ShowTicket
         fields = '__all__'
         read_only_fields = ['id']
+
 
 class ShowTicketExtendedSerializer(serializers.ModelSerializer):
     show_id = ShowingSerializer(read_only=True)
@@ -58,12 +63,14 @@ class ShowTicketExtendedSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id']
 
+
 class ShowBookingSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = ShowBooking
         fields = '__all__'
         read_only_fields = ['id']
+
 
 class ShowBookingExtendedSerializer(serializers.ModelSerializer):
     show_id = ShowingSerializer(read_only=True)

@@ -31,11 +31,14 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
 from users.models import (
-    CustomUser
+    CustomUser,
+    Supervisor
 )
 
 from users.serializers import (
-    CustomUserSerializer
+    CustomUserSerializer,
+    SupervisorSerializer,
+    SupervisorExtendedSerializer
 )
 
 class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -47,7 +50,8 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'postcode', 
         'city', 
         'state', 
-        'country', 
+        'country',
+        'staff_id', 
         'user_type', 
         'gender_type',
         'race_type',
@@ -81,5 +85,49 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = User.objects.filter(company=company.id)
         """
-        return queryset    
+        return queryset
+
+
+class SupervisorViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Supervisor.objects.all()
+    serializer_class = SupervisorSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'id',
+        'user',
+        'date_on_duty'
+    ]
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        queryset = Supervisor.objects.all()
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+
+        queryset = Supervisor.objects.all()
+        id = request.query_params.get('id', None)
+        user = request.query_params.get('user', None)
+        date_on_duty = request.query_params.get('date_on_duty', None)
+
+        if id is not None:
+            queryset = queryset.filter(id=id)
+        if date_on_duty is not None:
+            queryset = queryset.filter(date_on_duty=date_on_duty)
+        if user is not None:
+            queryset = queryset.filter(user=user)
+
+
+        serializer_class = SupervisorExtendedSerializer(
+            queryset, many=True)
+
+        return Response(serializer_class.data)    
  

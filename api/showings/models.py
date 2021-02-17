@@ -1,5 +1,6 @@
-from __future__ import unicode_literals 
-import uuid, datetime
+from __future__ import unicode_literals
+import uuid
+import datetime
 from django.db import models
 from django.utils.formats import get_format
 # from django import models
@@ -21,6 +22,7 @@ from fpxtransactions.models import (
     FpxTransaction
 )
 
+
 def increment_ticket_number():
     return 'hahaha'
     # last_ticket = ShowTicket.objects.all().order_by('id').last()
@@ -31,6 +33,7 @@ def increment_ticket_number():
     # new_ticket_int = ticket_int + 1
     # new_ticket_no = '' + str(new_ticket_int)
     # return new_ticket_no
+
 
 class Showing(models.Model):
 
@@ -52,7 +55,8 @@ class Showing(models.Model):
     language = models.CharField(max_length=2, choices=LANGUAGE, default='EN')
     duration_hours = models.IntegerField(default=0)
     duration_minutes = models.IntegerField(default=0)
-    poster_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename('poster'))
+    poster_link = models.ImageField(
+        null=True, blank=True, upload_to=PathAndRename('poster'))
     # trailer_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('trailers'))
     trailer_link = models.URLField(null=True)
 
@@ -62,7 +66,8 @@ class Showing(models.Model):
     ]
     status = models.CharField(max_length=2, choices=STATUS, default='AV')
 
-    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    created_date = models.DateTimeField(
+        auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -79,10 +84,12 @@ class Showtime(models.Model):
     show_time = models.TimeField(null=True)
     # start_datetime = models.DateTimeField(blank=True)
     # end_datetime = models.DateTimeField(blank=True)
-    showing_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name='showing')
+    showing_id = models.ForeignKey(
+        Showing, on_delete=models.CASCADE, related_name='showing')
     venue_id = models.ManyToManyField(Venue, related_name='venue')
 
-    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    created_date = models.DateTimeField(
+        auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -93,9 +100,10 @@ class Showtime(models.Model):
 
 
 class ShowTicket(models.Model):
-    
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    no_ticket = models.CharField(max_length=500, default=increment_ticket_number, null=True, blank=True)
+    no_ticket = models.CharField(
+        max_length=500, default=increment_ticket_number, null=True, blank=True)
     ticket_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     TICKET_CATEGORY = [
@@ -105,20 +113,26 @@ class ShowTicket(models.Model):
         ('SD', 'Student'),
         ('OK', 'OKU')
     ]
-    ticket_category = models.CharField(max_length=2, choices=TICKET_CATEGORY, default='AD')
+    ticket_category = models.CharField(
+        max_length=2, choices=TICKET_CATEGORY, default='AD')
 
     TICKET_TYPE = [
         ('CZ', 'Citizen'),
         ('NC', 'Non-citizen')
     ]
-    ticket_type = models.CharField(max_length=2, choices=TICKET_TYPE, default='CZ')
+    ticket_type = models.CharField(
+        max_length=2, choices=TICKET_TYPE, default='CZ')
     ticket_seat = models.CharField(max_length=3, default='NA')
     qrcode = models.CharField(max_length=100, default='NA')
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="showticket_customer", default="")
-    showtime_id = models.ForeignKey(Showtime, on_delete=models.CASCADE, related_name="showticket_showtime")
-    show_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name="showticket_showing", default="")
-    
-    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    user_id = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="showticket_customer", default="")
+    showtime_id = models.ForeignKey(
+        Showtime, on_delete=models.CASCADE, related_name="showticket_showtime")
+    show_id = models.ForeignKey(
+        Showing, on_delete=models.CASCADE, related_name="showticket_showing", default="")
+
+    created_date = models.DateTimeField(
+        auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -127,16 +141,19 @@ class ShowTicket(models.Model):
     # def __str__(self):
     #     return self.user_id
 
+
 class ShowBooking(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    showtime_id = models.ForeignKey(Showtime, on_delete=models.CASCADE, related_name="showbooking_showtime")
+    showtime_id = models.ForeignKey(
+        Showtime, on_delete=models.CASCADE, related_name="showbooking_showtime")
 
     TICKET_TYPE = [
         ('CZ', 'Citizen'),
         ('NC', 'Non-citizen')
     ]
-    ticket_type = models.CharField(max_length=2, choices=TICKET_TYPE, default='CZ')
+    ticket_type = models.CharField(
+        max_length=2, choices=TICKET_TYPE, default='CZ')
     TICKET_CATEGORY = [
         ('AD', 'Adult'),
         ('KD', 'Kid'),
@@ -144,13 +161,16 @@ class ShowBooking(models.Model):
         ('SD', 'Student'),
         ('OK', 'OKU')
     ]
-    ticket_category = models.CharField(max_length=2, choices=TICKET_CATEGORY, default='AD')
+    ticket_category = models.CharField(
+        max_length=2, choices=TICKET_CATEGORY, default='AD')
     ticket_quantity = models.IntegerField()
     ticket_seat = models.CharField(max_length=3, default='NA')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="customer")
-    show_id = models.ForeignKey(Showing, on_delete=models.CASCADE, related_name="showbooking_showing")
+    user_id = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="customer")
+    show_id = models.ForeignKey(
+        Showing, on_delete=models.CASCADE, related_name="showbooking_showing")
 
     # status tayangan: dalam proses, diterima, ditolak, terima bayaran, tolak bayaran, pending payment, refund
     # dalam proses - tunggu approval dari pengarah jika menempah lebih dari 30 orang atau memohon voucher kepada Planetarium
@@ -171,7 +191,8 @@ class ShowBooking(models.Model):
     ]
     status = models.CharField(max_length=4, choices=STATUS, default='SB01')
 
-    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    created_date = models.DateTimeField(
+        auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:

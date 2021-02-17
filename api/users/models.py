@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import json
 import uuid
+import datetime
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -28,6 +29,7 @@ class CustomUser(AbstractUser):
     city = models.CharField(blank=True, max_length=100)
     state = models.CharField(blank=True, max_length=100)
     country = models.CharField(blank=True, max_length=100)
+    staff_id = models.CharField(blank=True, max_length=100)
 
     USER_TYPE = [
         ('DR', 'Director'),
@@ -69,3 +71,19 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
+
+class Supervisor(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    # max 2 people per day
+    date_on_duty = models.DateField(default=datetime.date.today)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['user']
+
+    def __str__(self):
+        return self.user
