@@ -11,7 +11,8 @@ from django.utils.timezone import now
 # from api.settings import AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME
 
 from .models import (
-    CustomUser
+    CustomUser,
+    Supervisor
 )
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -35,6 +36,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'city',
             'state',
             'country',
+            'staff_id',
             'user_type',
             'gender_type',
             'race_type',
@@ -43,3 +45,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id', 'date_joined')
 
+
+class SupervisorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Supervisor
+        fields = '__all__'
+        read_only_fields = ['id']
+
+class SupervisorExtendedSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer(read_only=True)
+
+    class Meta:
+        model = Supervisor
+        fields = '__all__'
+        read_only_fields = ['id']

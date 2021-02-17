@@ -20,6 +20,7 @@ import { RedirectService } from "src/app/shared/services/redirect/redirect.servi
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-payment",
@@ -27,6 +28,10 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./payment.component.scss"],
 })
 export class PaymentComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  themeColor: string;
+
   // Data
   invoice_receipt_id: string = "";
   user_id: string = "";
@@ -57,7 +62,8 @@ export class PaymentComponent implements OnInit {
     private redirectService: RedirectService,
     private showbookingService: ShowbookingsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
-    private userService: UsersService
+    private userService: UsersService,
+    private w3cService: W3csService
   ) {
     this.getUser();
     this.getBankList();
@@ -190,6 +196,14 @@ export class PaymentComponent implements OnInit {
           }
         );
     });
+
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
   }
 
   getInvoiceCreatedDateTime(invoice_created_datetime, id, cart) {

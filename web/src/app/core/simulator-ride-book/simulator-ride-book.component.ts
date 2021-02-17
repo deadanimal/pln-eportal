@@ -21,6 +21,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class SimulatorRideBookComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
   bookingtimes = ["10", "11", "12", "14", "15", "16"];
@@ -143,6 +144,10 @@ export class SimulatorRideBookComponent implements OnInit {
   ngOnInit() {
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

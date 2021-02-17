@@ -321,9 +321,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -338,9 +340,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -446,9 +450,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dikemaskini.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -463,9 +469,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -481,12 +489,14 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
       .fire({
         title: "Buang data",
         text: "Adakah anda ingin membuang data ini?",
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-danger",
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
         confirmButtonText: "Ya",
-        cancelButtonClass: "btn btn-secondary",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
@@ -497,9 +507,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
-                type: "success",
+                icon: "success",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-success",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
               });
               this.getData();
             },
@@ -508,9 +520,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
               swal.fire({
                 title: "Proses Buang tidak berjaya",
                 text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
-                type: "warning",
+                icon: "warning",
                 buttonsStyling: false,
-                confirmButtonClass: "btn btn-warning",
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
               });
             }
           );
@@ -556,9 +570,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dimuat-naik.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -573,9 +589,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dimuat-naik. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -609,9 +627,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dimuat-naik.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -626,9 +646,11 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dimuat-naik. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {

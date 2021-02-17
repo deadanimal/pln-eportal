@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 
+import { SubModulesService } from "src/app/shared/services/sub-modules/sub-modules.service";
 import { VirtualLibraryBooksService } from "src/app/shared/services/virtual-library-books/virtual-library-books.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
@@ -14,8 +15,10 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class VirtualLibraryBukuComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
+  submodule: any;
   vl_bukus = [];
   virtual_library_collection_category_id: string = "";
   virtual_library_collection_id: string = "";
@@ -24,6 +27,8 @@ export class VirtualLibraryBukuComponent implements OnInit {
     public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
+    private router: Router,
+    private submoduleService: SubModulesService,
     private virtuallibrarybookService: VirtualLibraryBooksService,
     private w3cService: W3csService
   ) {
@@ -38,6 +43,7 @@ export class VirtualLibraryBukuComponent implements OnInit {
       this.virtual_library_collection_id
     ) {
       this.getData();
+      this.getSubModule();
     }
   }
 
@@ -59,11 +65,29 @@ export class VirtualLibraryBukuComponent implements OnInit {
       );
   }
 
+  getSubModule() {
+    if (this.router.url.includes("arkib-kutubkhanah")) {
+      this.submoduleService.filter("submodule=arkib-kutubkhanah").subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.submodule = res[0];
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
+  }
+
   ngOnInit() {
     this.addMetaTag();
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

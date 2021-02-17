@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 
+import { SubModulesService } from "src/app/shared/services/sub-modules/sub-modules.service";
 import { VirtualLibraryESourceCategoriesService } from "src/app/shared/services/virtual-library-esource-categories/virtual-library-esource-categories.service";
 import { VirtualLibraryESourcesService } from "src/app/shared/services/virtual-library-esources/virtual-library-esources.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -15,8 +16,10 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class VirtualLibraryEsumberComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
+  submodule: any;
   vl_esumber_categories = [];
   vl_esumbers = [];
   virtual_library_collection_category_id: string = "";
@@ -26,6 +29,8 @@ export class VirtualLibraryEsumberComponent implements OnInit {
     public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
+    private router: Router,
+    private submoduleService: SubModulesService,
     private virtuallibraryesourcecategoryService: VirtualLibraryESourceCategoriesService,
     private virtuallibraryesourceService: VirtualLibraryESourcesService,
     private w3cService: W3csService
@@ -42,6 +47,7 @@ export class VirtualLibraryEsumberComponent implements OnInit {
     ) {
       this.getData();
       this.getESumber();
+      this.getSubModule();
     }
   }
 
@@ -75,11 +81,29 @@ export class VirtualLibraryEsumberComponent implements OnInit {
     );
   }
 
+  getSubModule() {
+    if (this.router.url.includes("arkib-kutubkhanah")) {
+      this.submoduleService.filter("submodule=arkib-kutubkhanah").subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.submodule = res[0];
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
+  }
+
   ngOnInit() {
     this.addMetaTag();
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

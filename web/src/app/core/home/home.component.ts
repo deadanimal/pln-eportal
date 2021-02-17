@@ -13,6 +13,10 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  themeColor: string;
+  
   // Modules
   modules = [];
   /* modules = [
@@ -104,5 +108,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
+  }
 }

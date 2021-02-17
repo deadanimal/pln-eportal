@@ -112,7 +112,7 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tarikh Hari</span>
+                <span>Tarikh Mula</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.date_start }}
@@ -121,7 +121,7 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Tarikh Hingga</span>
+                <span>Tarikh Akhir</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.date_end }}
@@ -185,20 +185,20 @@
   <div class="modal-body">
     <form [formGroup]="calendarFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tarikh Hari</label>
+        <label class="form-control-label">Tarikh Mula</label>
         <input
           class="form-control"
           formControlName="date_start"
-          placeholder="Pilih tarikh hari"
+          placeholder="Pilih tarikh mula"
           type="date"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Tarikh Hingga</label>
+        <label class="form-control-label">Tarikh Akhir</label>
         <input
           class="form-control"
           formControlName="date_end"
-          placeholder="Pilih tarikh hingga"
+          placeholder="Pilih tarikh akhir"
           type="date"
         />
       </div>
@@ -222,7 +222,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Frekuensi</label>
+            <label class="form-control-label">Kekerapan</label>
             <select
               class="form-control"
               formControlName="frequency"
@@ -338,20 +338,20 @@
   <div class="modal-body">
     <form [formGroup]="calendarFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Tarikh Hari</label>
+        <label class="form-control-label">Tarikh Mula</label>
         <input
           class="form-control"
           formControlName="date_start"
-          placeholder="Pilih tarikh hari"
+          placeholder="Pilih tarikh mula"
           type="date"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Tarikh Hingga</label>
+        <label class="form-control-label">Tarikh Akhir</label>
         <input
           class="form-control"
           formControlName="date_end"
-          placeholder="Pilih tarikh hingga"
+          placeholder="Pilih tarikh akhir"
           type="date"
         />
       </div>
@@ -375,11 +375,12 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Frekuensi</label>
+            <label class="form-control-label">Kekerapan</label>
             <select
               class="form-control"
               formControlName="frequency"
               placeholder="Sila pilih"
+              disabled
             >
               <option value="">Sila pilih</option>
               <option

@@ -9,6 +9,7 @@ import swal from "sweetalert2";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-signup",
@@ -31,6 +32,8 @@ export class SignupComponent implements OnInit {
   focus15;
   focus16;
   focus17;
+  fontSize: string;
+  themeColor: string;
 
   // Dropdown
   races = [
@@ -72,7 +75,8 @@ export class SignupComponent implements OnInit {
     public jwtService: JwtService,
     public userService: UsersService,
     public translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private w3cService: W3csService
   ) {
     this.registerFormGroup = this.formBuilder.group(
       {
@@ -140,7 +144,15 @@ export class SignupComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
+  }
 
   clickRegister() {
     this.registerFormGroup.value.username = this.registerFormGroup.value.email;

@@ -16,6 +16,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class PublicationComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
   module: any;
@@ -49,6 +50,10 @@ export class PublicationComponent implements OnInit {
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

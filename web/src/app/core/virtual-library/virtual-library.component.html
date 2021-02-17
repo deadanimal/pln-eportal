@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="fontSize">
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
   <div class="page-header page-header-small header-filter">
     <carousel>
       <slide>
@@ -49,12 +49,12 @@
               capaian oleh semua lapisan masyarakat.
             </p> -->
             <p
-              class="text-dark text-justify"
+              class="text-dark text-justify inner-html"
               *ngIf="translate.currentLang == 'en'"
               [innerHtml]="module?.description_en | safe: 'html'"
             ></p>
             <p
-              class="text-dark text-justify"
+              class="text-dark text-justify inner-html"
               *ngIf="translate.currentLang == 'ms'"
               [innerHtml]="module?.description_ms | safe: 'html'"
             ></p>

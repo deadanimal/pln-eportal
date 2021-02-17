@@ -92,6 +92,9 @@ export class NavbarComponent implements OnInit {
     },
   ];
 
+  // Icons
+  password: boolean = false;
+
   constructor(
     private cookieService: CookieService,
     private formBuilder: FormBuilder,
@@ -203,10 +206,13 @@ export class NavbarComponent implements OnInit {
       // to get add to cart count
       this.getAddToCartCount();
 
+      // to check if user tick remember me
       if (this.cookieService.check("rememberMe"))
         if (this.cookieService.get("rememberMe") == "true")
           this.checkTokenExpired();
     }
+
+    if (this.cookieService.check("rememberMe")) this.rememberMe = true;
   }
 
   getAddToCartCount() {
@@ -428,5 +434,9 @@ export class NavbarComponent implements OnInit {
     this.languageSwitcher = language;
     this.translate.setDefaultLang(language);
     this.translate.use(language);
+  }
+
+  changePasswordIcon() {
+    this.password = !this.password;
   }
 }

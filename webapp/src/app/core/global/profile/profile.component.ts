@@ -86,12 +86,14 @@ export class ProfileComponent implements OnInit {
       .fire({
         title: "Pengesahan",
         text: "Adakah anda pasti menyimpan kemaskini ini?",
-        type: "info",
+        icon: "info",
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-default",
+        customClass: {
+          confirmButton: "btn btn-default",
+          cancelButton: "btn btn-secondary",
+        },
         confirmButtonText: "Ya",
         showCancelButton: true,
-        cancelButtonClass: "btn btn-secondary",
         cancelButtonText: "Tidak",
       })
       .then((result) => {
@@ -111,9 +113,11 @@ export class ProfileComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dikemaskini.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -127,9 +131,11 @@ export class ProfileComponent implements OnInit {
           swal.fire({
             title: "Ralat",
             text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           });
         }
       );

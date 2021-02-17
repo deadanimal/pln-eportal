@@ -5,8 +5,10 @@ import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
+import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CalendarsService } from "src/app/shared/services/calendars/calendars.service";
 import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowtimesService } from "src/app/shared/services/showtimes/showtimes.service";
@@ -21,7 +23,12 @@ import { Seats } from "src/assets/json/seats";
   styleUrls: ["./shows-book.component.scss"],
 })
 export class ShowsBookComponent implements OnInit {
+  // CSS class
+  fontSize: string;
+  themeColor: string;
+
   // Data
+  calendars = [];
   existbookings = [];
   schoolMinimum: boolean = true;
   selectedexistbookings = [];
@@ -31,6 +38,7 @@ export class ShowsBookComponent implements OnInit {
   acceptedbookings = [];
   today: Date = new Date();
   totalticket: number = 0;
+  totalSeat: number = 0;
   user_obj: any;
 
   seats = Seats;
@@ -95,6 +103,7 @@ export class ShowsBookComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
+    private calendarService: CalendarsService,
     private cartService: CartsService,
     private showingService: ShowingsService,
     private showtimeService: ShowtimesService,
@@ -125,8 +134,21 @@ export class ShowsBookComponent implements OnInit {
       total: [0, Validators.required],
     });
 
+    this.getCalendar();
     this.getShowing();
     this.getEnableShowtime();
+  }
+
+  getCalendar() {
+    this.calendarService.filter("status=true").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.calendars = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   getExistBooking() {
@@ -183,6 +205,9 @@ export class ShowsBookComponent implements OnInit {
         }
       );
     }
+    this.firstFormGroup.patchValue({
+      time: "",
+    });
   }
 
   getEnableShowtime() {
@@ -201,7 +226,15 @@ export class ShowsBookComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
+  }
 
   citizenChange() {
     this.calculateTotal();
@@ -467,17 +500,20 @@ export class ShowsBookComponent implements OnInit {
     if (result) return result.color;
   }
 
-  selectSeat(row: number, column: number) {
-    let result = this.seats[row].columns.find((value) => {
-      return value.column === column;
-    });
-
-    let totalSeat =
+  click2ndStep() {
+    this.totalSeat =
       this.secondFormGroup.value.adult +
       this.secondFormGroup.value.children +
       this.secondFormGroup.value.school +
       this.secondFormGroup.value.senior +
       this.secondFormGroup.value.oku;
+  }
+
+  selectSeat(row: number, column: number) {
+    let result = this.seats[row].columns.find((value) => {
+      return value.column === column;
+    });
+
     if (result.name) {
       // check if the new selected try to click booked seat
       let existbooking = this.selectedexistbookings.filter((obj) => {
@@ -485,7 +521,7 @@ export class ShowsBookComponent implements OnInit {
       });
 
       if (existbooking.length == 0) {
-        if (this.selectedSeats.length < totalSeat) {
+        if (this.selectedSeats.length < this.totalSeat) {
           // to check if the seat is already exist in selection
           let existSeats = this.selectedSeats.find((obj) => {
             return obj.name == result.name;
@@ -548,7 +584,19 @@ export class ShowsBookComponent implements OnInit {
 
     // block seat if the seat have been book by other user
 
-    stepper.next();
+    // to check if the calendar is block the shows to be registered
+
+    if (
+      this.checkCalendar(
+        this.route.snapshot.paramMap.get("id"),
+        currentDateBooking
+      )
+    ) {
+      this.sweetAlertWarning(
+        "Ralat",
+        "Harap maaf, tarikh yang anda pilih sudah dibatal oleh pihak kami"
+      );
+    } else stepper.next();
   }
 
   disableSeat(row: number, column: number) {
@@ -589,5 +637,41 @@ export class ShowsBookComponent implements OnInit {
 
   closeModal() {
     this.modal.hide();
+  }
+
+  checkCalendar(shows_id: string, booking_date: string): boolean {
+    let countTrue = 0;
+    for (let i = 0; i < this.calendars.length; i++) {
+      let date_start = new Date(this.calendars[i].date_start).setHours(0, 0, 0);
+      let date_end = new Date(this.calendars[i].date_end).setHours(23, 59, 59);
+      let date_current = new Date(booking_date).getTime();
+
+      if (date_current > date_start && date_current < date_end) {
+        for (
+          let j = 0;
+          j < this.calendars[i].activity_cancellation.length;
+          j++
+        ) {
+          if (shows_id == this.calendars[i].activity_cancellation[j])
+            countTrue++;
+        }
+      }
+    }
+
+    if (countTrue > 0) return true;
+    // if exist in the calendar and fulfill the criteria
+    else return false; // if not exist in the calendar and not fulfill the criteria
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 }

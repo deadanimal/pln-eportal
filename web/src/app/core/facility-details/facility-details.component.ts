@@ -19,6 +19,7 @@ import { Observable } from "rxjs";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CloseBookingsService } from "src/app/shared/services/close-bookings/close-bookings.service";
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
@@ -37,8 +38,10 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class FacilityDetailsComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
+  closebookings = [];
   facility_category: string = "";
   facilities$: Observable<any>;
   facilityimages = [];
@@ -175,6 +178,7 @@ export class FacilityDetailsComponent implements OnInit {
     public router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
+    private closebookingService: CloseBookingsService,
     private emailtemplateService: EmailTemplatesService,
     private jwtService: JwtService,
     private facilityService: FacilitiesService,
@@ -291,6 +295,19 @@ export class FacilityDetailsComponent implements OnInit {
     );
   }
 
+  getCloseBooking() {
+    this.closebookingService.filter("module=facility").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.closebookings = res;
+        this.compareDates();
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   getUser() {
     this.userService.get(this.authService.decodedToken().user_id).subscribe(
       (res) => {
@@ -310,6 +327,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.getFacility();
     this.getFacilityImage();
     this.getFacilityPrice();
+    this.getCloseBooking();
 
     this.galleryOptions = [
       {
@@ -342,38 +360,85 @@ export class FacilityDetailsComponent implements OnInit {
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
     );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>, facility) {
     if (this.jwtService.getToken("accessToken")) {
-      this.facilitypriceService.filter("facility_id=" + facility.id).subscribe(
-        (res) => {
-          this.facilityselectedprices = res;
-          res.forEach((obj) => {
-            if (obj.equipment == "WITH" || obj.equipment == "WOUT") {
-              this.have_equipment = true;
-            } else {
-              this.facilitybookingFormGroup.removeControl("want_equipment");
-            }
-          });
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
-
-      this.defaultModal = this.modalService.show(modalDefault, this.default);
-      this.getUser();
-
-      this.facilitybookingFormGroup.patchValue({
-        facility_id: facility.id,
+      let result = this.closebookings.find((obj) => {
+        return obj.status == true;
       });
+      if (result) {
+        if (this.translate.currentLang == "en")
+          this.sweetAlertWarning(result.title_en, result.description_en);
+        if (this.translate.currentLang == "ms")
+          this.sweetAlertWarning(result.title_ms, result.description_ms);
+      } else {
+        this.facilitypriceService
+          .filter("facility_id=" + facility.id)
+          .subscribe(
+            (res) => {
+              this.facilityselectedprices = res;
+              res.forEach((obj) => {
+                if (obj.equipment == "WITH" || obj.equipment == "WOUT") {
+                  this.have_equipment = true;
+                } else {
+                  this.facilitybookingFormGroup.removeControl("want_equipment");
+                }
+              });
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+
+        this.defaultModal = this.modalService.show(modalDefault, this.default);
+        this.getUser();
+
+        this.facilitybookingFormGroup.patchValue({
+          facility_id: facility.id,
+        });
+      }
     } else {
       this.toastr.error(
         "Harap maaf. Anda perlu log masuk terlebih dahulu untuk menempah fasiliti.",
         "Ralat"
       );
     }
+  }
+
+  compareDates() {
+    for (let i = 0; i < this.closebookings.length; i++) {
+      let date_start = new Date(this.closebookings[i].date_start).setHours(
+        0,
+        0,
+        0
+      );
+      let date_end = new Date(this.closebookings[i].date_end).setHours(
+        23,
+        59,
+        59
+      );
+      let date_current = new Date().getTime();
+
+      if (date_current > date_start && date_current < date_end)
+        this.closebookings[i].status = true;
+    }
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   openFacilityDetailZone(selectedFacility, facility_zone) {

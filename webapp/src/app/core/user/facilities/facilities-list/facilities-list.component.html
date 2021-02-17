@@ -194,7 +194,7 @@
   <div class="modal-body">
     <form [formGroup]="facilityFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Fasiliti MS</label>
+        <label class="form-control-label required-field">Nama Fasiliti MS</label>
         <input
           class="form-control"
           formControlName="name_ms"
@@ -203,7 +203,7 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama Fasiliti EN</label>
+        <label class="form-control-label required-field">Nama Fasiliti EN</label>
         <input
           class="form-control"
           formControlName="name_en"
@@ -212,7 +212,7 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi MS</label>
+        <label class="form-control-label required-field">Deskripsi MS</label>
         <quill-editor
           formControlName="description_ms"
           [modules]="modules"
@@ -220,7 +220,7 @@
         ></quill-editor>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi EN</label>
+        <label class="form-control-label required-field">Deskripsi EN</label>
         <quill-editor
           formControlName="description_en"
           [modules]="modules"
@@ -230,7 +230,7 @@
       <div class="row">
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Kategori</label>
+            <label class="form-control-label required-field">Kategori</label>
             <select
               class="form-control"
               formControlName="facility_category"
@@ -248,7 +248,7 @@
         </div>
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Sub-kategori</label>
+            <label class="form-control-label required-field">Sub-kategori</label>
             <select
               class="form-control"
               formControlName="facility_subcategory"
@@ -259,7 +259,8 @@
                 *ngFor="let facilitysubcategory of facilitysubcategories"
                 [value]="facilitysubcategory.id"
               >
-                {{ facilitysubcategory.code }} - {{ facilitysubcategory.name }}
+                {{ facilitysubcategory.code }} -
+                {{ facilitysubcategory.name_ms }}
               </option>
             </select>
           </div>
@@ -291,7 +292,7 @@
         </div>
         <div class="col-md-4 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Harga?</label><br />
+            <label class="form-control-label required-field">Harga?</label><br />
             <div class="custom-control custom-radio custom-control-inline">
               <input
                 type="radio"
@@ -322,7 +323,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">PIC</label>
+        <label class="form-control-label required-field">PIC</label>
         <select
           class="form-control"
           formControlName="pic_id"
@@ -335,7 +336,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Tempat</label>
+        <label class="form-control-label required-field">Tempat</label>
         <select
           class="form-control"
           formControlName="venue_id"
@@ -434,7 +435,7 @@
   <div class="modal-body">
     <form [formGroup]="facilityFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Fasiliti MS</label>
+        <label class="form-control-label required-field">Nama Fasiliti MS</label>
         <input
           class="form-control"
           formControlName="name_ms"
@@ -443,7 +444,7 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Nama Fasiliti EN</label>
+        <label class="form-control-label required-field">Nama Fasiliti EN</label>
         <input
           class="form-control"
           formControlName="name_en"
@@ -452,7 +453,7 @@
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi MS</label>
+        <label class="form-control-label required-field">Deskripsi MS</label>
         <quill-editor
           formControlName="description_ms"
           [modules]="modules"
@@ -460,7 +461,7 @@
         ></quill-editor>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Deskripsi EN</label>
+        <label class="form-control-label required-field">Deskripsi EN</label>
         <quill-editor
           formControlName="description_en"
           [modules]="modules"
@@ -470,7 +471,7 @@
       <div class="row">
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Kategori</label>
+            <label class="form-control-label required-field">Kategori</label>
             <select
               class="form-control"
               formControlName="facility_category"
@@ -488,7 +489,7 @@
         </div>
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Sub-kategori</label>
+            <label class="form-control-label required-field">Sub-kategori</label>
             <select
               class="form-control"
               formControlName="facility_subcategory"
@@ -499,7 +500,8 @@
                 *ngFor="let facilitysubcategory of facilitysubcategories"
                 [value]="facilitysubcategory.id"
               >
-                {{ facilitysubcategory.code }} - {{ facilitysubcategory.name }}
+                {{ facilitysubcategory.code }} -
+                {{ facilitysubcategory.name_ms }}
               </option>
             </select>
           </div>
@@ -531,7 +533,7 @@
         </div>
         <div class="col-md-4 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Harga?</label><br />
+            <label class="form-control-label required-field">Harga?</label><br />
             <div class="custom-control custom-radio custom-control-inline">
               <input
                 type="radio"
@@ -562,7 +564,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">PIC</label>
+        <label class="form-control-label required-field">PIC</label>
         <select
           class="form-control"
           formControlName="pic_id"
@@ -575,7 +577,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Tempat</label>
+        <label class="form-control-label required-field">Tempat</label>
         <select
           class="form-control"
           formControlName="venue_id"
@@ -694,16 +696,69 @@
       </div>
 
       <div class="form-group">
-        <label class="form-control-label">Harga</label>
+        <label class="form-control-label">Peralatan?</label><br />
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioWith"
+            name="equipment"
+            formControlName="equipment"
+            class="custom-control-input"
+            value="WITH"
+          />
+          <label class="custom-control-label" for="radioWith"
+            >Dengan Peralatan</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioWithout"
+            name="equipment"
+            formControlName="equipment"
+            class="custom-control-input"
+            value="WOUT"
+          />
+          <label class="custom-control-label" for="radioWithout"
+            >Tanpa Peralatan</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioNotAvailable"
+            name="equipment"
+            formControlName="equipment"
+            class="custom-control-input"
+            value="NA"
+          />
+          <label class="custom-control-label" for="radioNotAvailable"
+            >Tiada</label
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-control-label">Harga Untuk Separuh Hari</label>
         <input
           type="number"
           placeholder="contoh: 1000.00"
           class="form-control"
-          formControlName="facility_price"
+          formControlName="facility_price_half"
         />
       </div>
 
       <div class="form-group">
+        <label class="form-control-label">Harga Untuk Satu Hari</label>
+        <input
+          type="number"
+          placeholder="contoh: 1000.00"
+          class="form-control"
+          formControlName="facility_price_full"
+        />
+      </div>
+
+      <!-- <div class="form-group">
         <label class="form-control-label">Hari</label>
         <select class="form-control" formControlName="facility_days">
           <option value="">Sila pilih</option>
@@ -714,7 +769,7 @@
             {{ facilityday.display_name }}
           </option>
         </select>
-      </div>
+      </div> -->
     </form>
 
     <table class="table">
@@ -722,8 +777,9 @@
         <tr>
           <td>No</td>
           <td>Deskripsi MS</td>
-          <td>Harga</td>
-          <td>Hari</td>
+          <td>Harga (Separuh Hari)</td>
+          <td>Harga (Satu Hari)</td>
+          <!-- <td>Hari</td> -->
           <td>Tindakan</td>
         </tr>
       </thead>
@@ -732,8 +788,9 @@
         <tr *ngFor="let facilityprice of facilityprices; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ facilityprice.facility_description_ms }}</td>
-          <td>{{ facilityprice.facility_price }}</td>
-          <td>{{ getFacilityDay(facilityprice.facility_days) }}</td>
+          <td>{{ facilityprice.facility_price_half }}</td>
+          <td>{{ facilityprice.facility_price_full }}</td>
+          <!-- <td>{{ getFacilityDay(facilityprice.facility_days) }}</td> -->
           <td>
             <!--<button
               class="btn btn-sm btn-primary"

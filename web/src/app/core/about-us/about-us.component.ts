@@ -5,10 +5,10 @@ import {
   ViewEncapsulation,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
 import { DynamicContentsService } from "src/app/shared/services/dynamic-contents/dynamic-contents.service";
-import { W3csService } from 'src/app/shared/services/w3cs/w3cs.service';
+import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
   selector: "app-about-us",
@@ -19,7 +19,8 @@ import { W3csService } from 'src/app/shared/services/w3cs/w3cs.service';
 export class AboutUsComponent implements OnInit {
   // CSS class
   fontSize: string;
-  
+  themeColor: string;
+
   // Data
   dynamiccontents = [];
   establishedYear = 1994;
@@ -58,8 +59,12 @@ export class AboutUsComponent implements OnInit {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
 
-    this.w3cService.currentFontSize.subscribe(
-      (fontSize) => (this.fontSize = fontSize)
+    this.w3cService.currentFontSize.subscribe((fontSize) => {
+      this.fontSize = fontSize;
+    });
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

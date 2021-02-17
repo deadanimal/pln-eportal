@@ -231,11 +231,16 @@ ratings_router = router.register(
 
 # Users app
 from users.views import (
-    CustomUserViewSet
+    CustomUserViewSet,
+    SupervisorViewSet
 )
 
 users_router = router.register(
     'users', CustomUserViewSet
+)
+
+supervisors_router = router.register(
+    'supervisors', SupervisorViewSet
 )
 
 # Venues app
@@ -361,11 +366,16 @@ email_templates_router = router.register(
 
 # Module app
 from modules.views import (
-    ModuleViewSet
+    ModuleViewSet,
+    SubModuleViewSet
 )
 
 modules_router = router.register(
     'modules', ModuleViewSet
+)
+
+submodules_router = router.register(
+    'sub-modules', SubModuleViewSet
 )
 
 # WhatIsInteresting app
@@ -448,6 +458,15 @@ from refunds.views import (
 
 refunds_router = router.register(
     'refunds', RefundViewSet
+)
+
+# Close Booking app
+from closebookings.views import (
+    CloseBookingViewSet
+)
+
+close_bookings_router = router.register(
+    'close-bookings', CloseBookingViewSet
 )
 
 urlpatterns = [

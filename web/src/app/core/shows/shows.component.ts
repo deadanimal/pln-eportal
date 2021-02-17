@@ -12,7 +12,9 @@ import { Lightbox } from "@ngx-gallery/lightbox";
 import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
+import swal from "sweetalert2";
 
+import { CloseBookingsService } from "src/app/shared/services/close-bookings/close-bookings.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
@@ -27,11 +29,13 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class ShowsComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Form
   focus;
 
   // Data
+  closebookings = [];
   module: any;
   showings = []; //: Show[] = [];
 
@@ -51,6 +55,7 @@ export class ShowsComponent implements OnInit {
     public gallery: Gallery,
     public lightbox: Lightbox,
     public translate: TranslateService,
+    private closebookingService: CloseBookingsService,
     private jwtService: JwtService,
     private moduleService: ModulesService,
     private modalService: BsModalService,
@@ -73,18 +78,31 @@ export class ShowsComponent implements OnInit {
     );
 
     this.getShowing();
+    this.getCloseBooking();
   }
 
   getShowing() {
     let filterField = "status=AV";
     this.showingService.filter(filterField).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.showings = res;
         for (let i = 0; i < this.showings.length; i++) {
           this.showings[i].show = false;
         }
-        console.log("showings", this.showings);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getCloseBooking() {
+    this.closebookingService.filter("module=shows").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.closebookings = res;
+        this.compareDates();
       },
       (err) => {
         console.error("err", err);
@@ -97,6 +115,10 @@ export class ShowsComponent implements OnInit {
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 
@@ -125,22 +147,55 @@ export class ShowsComponent implements OnInit {
 
   makeBooking(id: number, title: string) {
     if (this.jwtService.getToken("accessToken")) {
-      let show = {
-        id,
-        title,
-      };
-      // let navigationExtras: NavigationExtras = {
-      //   state: {
-      //     show,
-      //   },
-      // };
-      this.router.navigate(["/shows/shows-book/" + id]);
+      let result = this.closebookings.find((obj) => {
+        return obj.status == true;
+      });
+      // to check if the close booking is exist for shows
+      if (result) {
+        if (this.translate.currentLang == "en")
+          this.sweetAlertWarning(result.title_en, result.description_en);
+        if (this.translate.currentLang == "ms")
+          this.sweetAlertWarning(result.title_ms, result.description_ms);
+      }
+      // no close booking and no calendar
+      else this.router.navigate(["/shows/shows-book/" + id]);
     } else {
       this.toastr.error(
         this.translate.instant("RalatLoginBook"),
         this.translate.instant("Ralat")
       );
     }
+  }
+
+  compareDates() {
+    for (let i = 0; i < this.closebookings.length; i++) {
+      let date_start = new Date(this.closebookings[i].date_start).setHours(
+        0,
+        0,
+        0
+      );
+      let date_end = new Date(this.closebookings[i].date_end).setHours(
+        23,
+        59,
+        59
+      );
+      let date_current = new Date().getTime();
+
+      if (date_current > date_start && date_current < date_end)
+        this.closebookings[i].status = true;
+    }
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   showMore(index: number) {

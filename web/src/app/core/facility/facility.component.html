@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="fontSize">
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -55,12 +55,12 @@
               {{ "FasilitiPlanetariumDescription" | translate }}
             </p> -->
             <p
-              class="text-dark text-justify"
+              class="text-dark text-justify inner-html"
               *ngIf="translate.currentLang == 'en'"
               [innerHtml]="module?.description_en | safe: 'html'"
             ></p>
             <p
-              class="text-dark text-justify"
+              class="text-dark text-justify inner-html"
               *ngIf="translate.currentLang == 'ms'"
               [innerHtml]="module?.description_ms | safe: 'html'"
             ></p>
@@ -75,7 +75,7 @@
               <div
                 class="full-background"
                 style="
-                  background-image: url('assets/img/facility/fasiliti_1.jpg');
+                  background-image: url('assets/img/facility/fasiliti_10.jpg');
                 "
               ></div>
               <div class="card-body">

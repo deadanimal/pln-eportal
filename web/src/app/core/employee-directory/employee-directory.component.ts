@@ -12,6 +12,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class EmployeeDirectoryComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
   employeedirectories = [];
@@ -100,6 +101,10 @@ export class EmployeeDirectoryComponent implements OnInit {
   ngOnInit() {
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

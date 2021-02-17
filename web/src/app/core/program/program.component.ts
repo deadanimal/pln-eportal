@@ -25,6 +25,8 @@ import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { CalendarsService } from "src/app/shared/services/calendars/calendars.service";
+import { CloseBookingsService } from "src/app/shared/services/close-bookings/close-bookings.service";
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
@@ -45,6 +47,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class ProgramComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Modal
   defaultModal: BsModalRef;
@@ -61,6 +64,8 @@ export class ProgramComponent implements OnInit {
   eduprogramappFormGroup: FormGroup;
 
   // Data
+  calendars = [];
+  closebookings = [];
   module: any;
   programs = [];
   selectedProgram = {
@@ -197,6 +202,8 @@ export class ProgramComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private calendarService: CalendarsService,
+    private closebookingService: CloseBookingsService,
     private emailtemplateService: EmailTemplatesService,
     private jwtService: JwtService,
     private eduprogramService: EducationalProgramsService,
@@ -236,10 +243,11 @@ export class ProgramComponent implements OnInit {
       ),
       customer_id: new FormControl(""),
       educational_program_id: new FormControl(""),
-      educational_program_date_id: new FormControl(
+      educational_program_date: new FormControl(
         "",
         Validators.compose([Validators.required])
       ),
+      educational_program_date_id: new FormControl(""),
       participant: new FormControl(
         "",
         Validators.compose([Validators.required])
@@ -255,12 +263,14 @@ export class ProgramComponent implements OnInit {
     this.getProgram();
     this.getProgramImage();
     this.getUser();
+    this.getCalendar();
+    this.getCloseBooking();
   }
 
   getProgram() {
     this.eduprogramService.filter("status=AV").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programs = res;
       },
       (err) => {
@@ -272,7 +282,7 @@ export class ProgramComponent implements OnInit {
   getProgramDate(program_id: string, program_code: string) {
     this.eduprogramdateService.filter("program_id=" + program_id).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programdates = res;
         for (let i = 0; i < res.length; i++) {
           let date = new Date(res[i].program_date);
@@ -293,7 +303,7 @@ export class ProgramComponent implements OnInit {
   getProgramImage() {
     this.eduprogramimageService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programimages = res;
       },
       (err) => {
@@ -320,10 +330,35 @@ export class ProgramComponent implements OnInit {
     }
   }
 
+  getCalendar() {
+    this.calendarService.filter("status=true").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.calendars = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getCloseBooking() {
+    this.closebookingService.filter("module=program").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.closebookings = res;
+        this.compareDates();
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   getProgramActivity(program_id: string) {
     this.eduprogramactivityService.filter("program_id=" + program_id).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programactivities = res;
       },
       (err) => {
@@ -364,23 +399,50 @@ export class ProgramComponent implements OnInit {
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
     );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
+    );
   }
 
   openDefaultModal(modalDefault: TemplateRef<any>, program) {
     if (this.jwtService.getToken("accessToken")) {
-      // jika program tiada sub-program
-      if (program.program_subcategory == "NAV") {
-        this.defaultModal = this.modalService.show(modalDefault, this.default);
+      let result = this.closebookings.find((obj) => {
+        return obj.status == true;
+      });
+      // to check if the close booking is exist for program
+      if (result) {
+        if (this.translate.currentLang == "en")
+          this.sweetAlertWarning(result.title_en, result.description_en);
+        if (this.translate.currentLang == "ms")
+          this.sweetAlertWarning(result.title_ms, result.description_ms);
+      }
+      // to check if the calendar is block the program to be registered
+      // else if (this.checkCalendar(program.id)) {
+      //   this.sweetAlertWarning(
+      //     "Ralat",
+      //     "Harap maaf, program ini tidak dapat dijalankan atas sebab-sebab tertentu."
+      //   );
+      // }
+      // no close booking and no calendar
+      else {
+        // jika program tiada sub-program
+        if (program.program_subcategory == "NAV") {
+          this.defaultModal = this.modalService.show(
+            modalDefault,
+            this.default
+          );
 
-        this.selectedProgram = program;
-        this.getProgramDate(program.id, program.program_code);
-        this.getUser();
+          this.selectedProgram = program;
+          this.getProgramDate(program.id, program.program_code);
+          this.getUser();
 
-        if (program.activity) {
-          this.getProgramActivity(program.id);
+          if (program.activity) {
+            this.getProgramActivity(program.id);
+          }
+        } else {
+          this.router.navigate(["/program/forms/" + program.id]);
         }
-      } else {
-        this.router.navigate(["/program/forms/" + program.id]);
       }
     } else {
       this.toastr.error(
@@ -388,6 +450,61 @@ export class ProgramComponent implements OnInit {
         this.translate.instant("Ralat")
       );
     }
+  }
+
+  checkCalendar(program_id: string, booking_date: string): boolean {
+    let countTrue = 0;
+    for (let i = 0; i < this.calendars.length; i++) {
+      let date_start = new Date(this.calendars[i].date_start).setHours(0, 0, 0);
+      let date_end = new Date(this.calendars[i].date_end).setHours(23, 59, 59);
+      let date_current = new Date(booking_date).getTime();
+
+      if (date_current > date_start && date_current < date_end) {
+        for (
+          let j = 0;
+          j < this.calendars[i].activity_cancellation.length;
+          j++
+        ) {
+          if (program_id == this.calendars[i].activity_cancellation[j])
+            countTrue++;
+        }
+      }
+    }
+
+    if (countTrue > 0) return true;
+    // if exist in the calendar and fulfill the criteria
+    else return false; // if not exist in the calendar and not fulfill the criteria
+  }
+
+  compareDates() {
+    for (let i = 0; i < this.closebookings.length; i++) {
+      let date_start = new Date(this.closebookings[i].date_start).setHours(
+        0,
+        0,
+        0
+      );
+      let date_end = new Date(this.closebookings[i].date_end).setHours(
+        23,
+        59,
+        59
+      );
+      let date_current = new Date().getTime();
+
+      if (date_current > date_start && date_current < date_end)
+        this.closebookings[i].status = true;
+    }
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   openReadMoreModal(modalDefault: TemplateRef<any>, program) {
@@ -418,7 +535,7 @@ export class ProgramComponent implements OnInit {
 
   openAfterBooking() {
     let selectedProgramDate = this.formatDate(
-      this.eduprogramappFormGroup.value.educational_program_date_id
+      this.eduprogramappFormGroup.value.educational_program_date
     );
 
     let result = this.programdates.find((obj) => {
@@ -427,92 +544,100 @@ export class ProgramComponent implements OnInit {
     this.eduprogramappFormGroup.value.educational_program_date_id = result.id;
     this.eduprogramappFormGroup.value.educational_program_id = this.selectedProgram.id;
 
-    const formData = new FormData();
-    formData.append(
-      "organisation_name",
-      this.eduprogramappFormGroup.value.organisation_name
-    );
-    formData.append(
-      "organisation_category",
-      this.eduprogramappFormGroup.value.organisation_category
-    );
-    formData.append(
-      "customer_id",
-      this.eduprogramappFormGroup.value.customer_id
-    );
-    formData.append(
-      "educational_program_id",
-      this.eduprogramappFormGroup.value.educational_program_id
-    );
-    formData.append(
-      "educational_program_date_id",
-      this.eduprogramappFormGroup.value.educational_program_date_id
-    );
-    formData.append(
-      "participant",
-      this.eduprogramappFormGroup.value.participant
-    );
-    formData.append("age", this.eduprogramappFormGroup.value.age);
-    formData.append("activity", this.eduprogramappFormGroup.value.activity);
-    formData.append("status", this.eduprogramappFormGroup.value.status);
-    if (
-      typeof this.eduprogramappFormGroup.get("document_link").value != "string"
-    ) {
-      formData.append(
-        "document_link",
-        this.eduprogramappFormGroup.get("document_link").value
+    if (this.checkCalendar(this.selectedProgram.id, selectedProgramDate)) {
+      this.sweetAlertWarning(
+        "Ralat",
+        "Harap maaf, tarikh yang anda pilih sudah dibatal oleh pihak kami"
       );
-    }
-    if (
-      typeof this.eduprogramappFormGroup.get("image_link").value != "string"
-    ) {
+    } else {
+      const formData = new FormData();
       formData.append(
-        "image_link",
-        this.eduprogramappFormGroup.get("image_link").value
+        "organisation_name",
+        this.eduprogramappFormGroup.value.organisation_name
       );
-    }
-    if (
-      typeof this.eduprogramappFormGroup.get("video_link").value != "string"
-    ) {
       formData.append(
-        "video_link",
-        this.eduprogramappFormGroup.get("video_link").value
+        "organisation_category",
+        this.eduprogramappFormGroup.value.organisation_category
       );
-    }
-
-    this.eduprogramappService.post(formData).subscribe(
-      (res) => {
-        console.log("res", res);
-        this.defaultModal.hide();
-        swal.fire({
-          icon: "success",
-          title: this.translate.instant("TerimaKasih"),
-          text: this.translate.instant("ProgramPendidikanSuccessMessage"),
-          buttonsStyling: false,
-          confirmButtonText: this.translate.instant("Tutup"),
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
-
-        let obj = {
-          code: "EMEL06",
-          to: this.authService.decodedToken().email,
-          context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
-        };
-        this.emailtemplateService.sending_mail(obj).subscribe(
-          (res) => {
-            console.log("res", res);
-          },
-          (err) => {
-            console.error("err", err);
-          }
+      formData.append(
+        "customer_id",
+        this.eduprogramappFormGroup.value.customer_id
+      );
+      formData.append(
+        "educational_program_id",
+        this.eduprogramappFormGroup.value.educational_program_id
+      );
+      formData.append(
+        "educational_program_date_id",
+        this.eduprogramappFormGroup.value.educational_program_date_id
+      );
+      formData.append(
+        "participant",
+        this.eduprogramappFormGroup.value.participant
+      );
+      formData.append("age", this.eduprogramappFormGroup.value.age);
+      formData.append("activity", this.eduprogramappFormGroup.value.activity);
+      formData.append("status", this.eduprogramappFormGroup.value.status);
+      if (
+        typeof this.eduprogramappFormGroup.get("document_link").value !=
+        "string"
+      ) {
+        formData.append(
+          "document_link",
+          this.eduprogramappFormGroup.get("document_link").value
         );
-      },
-      (err) => {
-        console.error("err", err);
       }
-    );
+      if (
+        typeof this.eduprogramappFormGroup.get("image_link").value != "string"
+      ) {
+        formData.append(
+          "image_link",
+          this.eduprogramappFormGroup.get("image_link").value
+        );
+      }
+      if (
+        typeof this.eduprogramappFormGroup.get("video_link").value != "string"
+      ) {
+        formData.append(
+          "video_link",
+          this.eduprogramappFormGroup.get("video_link").value
+        );
+      }
+
+      this.eduprogramappService.post(formData).subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.defaultModal.hide();
+          swal.fire({
+            icon: "success",
+            title: this.translate.instant("TerimaKasih"),
+            text: this.translate.instant("ProgramPendidikanSuccessMessage"),
+            buttonsStyling: false,
+            confirmButtonText: this.translate.instant("Tutup"),
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+
+          let obj = {
+            code: "EMEL06",
+            to: this.authService.decodedToken().email,
+            context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
+          };
+          this.emailtemplateService.sending_mail(obj).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
   }
 
   formatDate(date) {

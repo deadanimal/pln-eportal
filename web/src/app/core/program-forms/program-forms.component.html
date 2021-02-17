@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="fontSize">
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
   <div class="page-header page-header-small header-filter">
     <carousel>
       <slide>
@@ -31,13 +31,17 @@
           <div class="col-md-12 col-sm-12">
             <mat-horizontal-stepper [linear]="true" #stepper>
               <mat-step [stepControl]="firstFormGroup">
-                <ng-template matStepLabel>Maklumat Guru</ng-template>
+                <ng-template matStepLabel>{{
+                  "SpecialProgramLabel1" | translate
+                }}</ng-template>
                 <form [formGroup]="firstFormGroup">
                   <div class="container">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Nama</label>
+                          <label class="form-control-label">{{
+                            "Nama" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -49,7 +53,9 @@
                     <div class="row">
                       <div class="col-md-8 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label">Nama Sekolah</label>
+                          <label class="form-control-label">{{
+                            "NamaSekolah" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -57,9 +63,9 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Alamat Sekolah</label
-                          >
+                          <label class="form-control-label">{{
+                            "AlamatSekolah" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -70,7 +76,9 @@
                         <div class="row">
                           <div class="col">
                             <div class="form-group">
-                              <label class="form-control-label">Poskod</label>
+                              <label class="form-control-label">{{
+                                "Poskod" | translate
+                              }}</label>
                               <input
                                 type="number"
                                 class="form-control text-dark"
@@ -80,7 +88,9 @@
                           </div>
                           <div class="col">
                             <div class="form-group">
-                              <label class="form-control-label">Daerah</label>
+                              <label class="form-control-label">{{
+                                "Daerah" | translate
+                              }}</label>
                               <input
                                 type="text"
                                 class="form-control text-dark"
@@ -88,7 +98,9 @@
                               />
                             </div>
                             <div class="form-group">
-                              <label class="form-control-label">Negeri</label>
+                              <label class="form-control-label">{{
+                                "Negeri" | translate
+                              }}</label>
                               <input
                                 type="text"
                                 class="form-control text-dark"
@@ -100,9 +112,9 @@
                       </div>
                       <div class="col-md-4 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Telefon</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborTelefon" | translate
+                          }}</label>
                           <input
                             type="tel"
                             class="form-control text-dark"
@@ -110,9 +122,9 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Telefon Bimbit</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborTelefonBimbit" | translate
+                          }}</label>
                           <input
                             type="tel"
                             class="form-control text-dark"
@@ -120,7 +132,9 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label class="form-control-label">Alamat Emel</label>
+                          <label class="form-control-label">{{
+                            "AlamatEmel" | translate
+                          }}</label>
                           <input
                             type="email"
                             class="form-control text-dark"
@@ -128,7 +142,9 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label class="form-control-label">Nombor Fax</label>
+                          <label class="form-control-label">{{
+                            "NomborFax" | translate
+                          }}</label>
                           <input
                             type="tel"
                             class="form-control text-dark"
@@ -140,7 +156,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Tarikh Lahir</label>
+                          <label class="form-control-label">{{
+                            "TarikhLahir" | translate
+                          }}</label>
                           <input
                             type="date"
                             class="form-control text-dark"
@@ -150,7 +168,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Umur</label>
+                          <label class="form-control-label">{{
+                            "Umur" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -160,8 +180,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label required-field"
-                            >Jantina</label
+                          <label class="form-control-label required-field">{{
+                            "Jantina" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let gender of genders"
@@ -174,7 +195,7 @@
                                 [value]="gender.value"
                                 formControlName="teacher_gender"
                               />
-                              {{ gender.display_name }}
+                              {{ getGender(gender.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -184,9 +205,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Kad Pengenalan / Pasport</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborKadPengenalanPassport" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -196,8 +217,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label required-field"
-                            >Status Perkahwinan</label
+                          <label class="form-control-label required-field">{{
+                            "StatusPerkahwinan" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let maritalstatus of maritalstatuses"
@@ -210,7 +232,7 @@
                                 [value]="maritalstatus.value"
                                 formControlName="teacher_maritalstatus"
                               />
-                              {{ maritalstatus.display_name }}
+                              {{ getMaritalStatus(maritalstatus.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -218,12 +240,17 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Agama</label><br />
+                          <label class="form-control-label">{{
+                            "Agama" | translate
+                          }}</label
+                          ><br />
                           <select
                             class="form-control text-dark"
                             formControlName="teacher_religion"
                           >
-                            <option value="">Sila pilih</option>
+                            <option value="">
+                              {{ "Silapilih" | translate }}
+                            </option>
                             <option
                               *ngFor="let religion of religions"
                               [value]="religion.value"
@@ -237,8 +264,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label required-field"
-                            >Saiz Baju T-shirt</label
+                          <label class="form-control-label required-field">{{
+                            "SaizBajuT-shirt" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let tshirtsize of tshirtsizes"
@@ -259,7 +287,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Warganegara</label
+                          <label class="form-control-label">{{
+                            "Warganegara" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let citizenship of citizenships"
@@ -272,7 +302,7 @@
                                 [value]="citizenship.value"
                                 formControlName="teacher_citizenship"
                               />
-                              {{ citizenship.display_name }}
+                              {{ getCitizenship(citizenship.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -282,10 +312,9 @@
                     <div class="row">
                       <div class="col-md-8 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Orang yang dihubungi sekiranya berlaku
-                            kecemasan</label
-                          >
+                          <label class="form-control-label">{{
+                            "EmergencyPeople" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -295,9 +324,9 @@
                       </div>
                       <div class="col-md-4 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Telefon</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborTelefon" | translate
+                          }}</label>
                           <input
                             type="tel"
                             class="form-control text-dark"
@@ -309,10 +338,9 @@
                     <div class="row">
                       <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Ada alahan atau makanan yang tidak boleh anda
-                            makan?</label
-                          >
+                          <label class="form-control-label">{{
+                            "Alergi" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -322,9 +350,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Sebarang penyakit dan / atau ubat</label
-                          >
+                          <label class="form-control-label">{{
+                            "PenyakitUbat" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -348,7 +376,7 @@
                                 [value]="truefalse.value"
                                 formControlName="teacher_vegetarian"
                               />
-                              {{ truefalse.display_name }}
+                              {{ getTrueFalse(truefalse.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -364,19 +392,23 @@
                       matStepperNext
                       [disabled]="!firstFormGroup.valid"
                     >
-                      Seterusnya
+                      {{ "Seterusnya" | translate }}
                     </button>
                   </div>
                 </form>
               </mat-step>
               <mat-step [stepControl]="secondFormGroup">
-                <ng-template matStepLabel>Maklumat Pelajar (1)</ng-template>
+                <ng-template matStepLabel>{{
+                  "SpecialProgramLabel2" | translate
+                }}</ng-template>
                 <form [formGroup]="secondFormGroup">
                   <div class="container">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Nama</label>
+                          <label class="form-control-label">{{
+                            "Nama" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -388,7 +420,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Tarikh Lahir</label>
+                          <label class="form-control-label">{{
+                            "TarikhLahir" | translate
+                          }}</label>
                           <input
                             type="date"
                             class="form-control text-dark"
@@ -398,7 +432,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Umur</label>
+                          <label class="form-control-label">{{
+                            "Umur" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -408,7 +444,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Tahun</label>
+                          <label class="form-control-label">{{
+                            "Tahun" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -418,7 +456,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Jantina</label
+                          <label class="form-control-label">{{
+                            "Jantina" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let gender of genders"
@@ -431,7 +471,7 @@
                                 [value]="gender.value"
                                 formControlName="student_1_gender"
                               />
-                              {{ gender.display_name }}
+                              {{ getGender(gender.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -441,9 +481,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Kad Pengenalan / Pasport</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborKadPengenalanPassport" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -453,12 +493,16 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Agama</label>
+                          <label class="form-control-label">{{
+                            "Agama" | translate
+                          }}</label>
                           <select
                             class="form-control text-dark"
                             formControlName="student_1_religion"
                           >
-                            <option value="">Sila pilih</option>
+                            <option value="">
+                              {{ "Silapilih" | translate }}
+                            </option>
                             <option
                               *ngFor="let religion of religions"
                               [value]="religion.value"
@@ -470,7 +514,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Warganegara</label
+                          <label class="form-control-label">{{
+                            "Warganegara" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let citizenship of citizenships"
@@ -483,7 +529,7 @@
                                 [value]="citizenship.value"
                                 formControlName="student_1_citizenship"
                               />
-                              {{ citizenship.display_name }}
+                              {{ getCitizenship(citizenship.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -493,8 +539,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label required-field"
-                            >Saiz Baju T-shirt</label
+                          <label class="form-control-label required-field">{{
+                            "SaizBajuT-shirt" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let tshirtsize of tshirtsizes"
@@ -517,10 +564,9 @@
                     <div class="row">
                       <div class="col-md-8 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Orang yang dihubungi sekiranya berlaku
-                            kecemasan</label
-                          >
+                          <label class="form-control-label">{{
+                            "EmergencyPeople" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -530,9 +576,9 @@
                       </div>
                       <div class="col-md-4 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Telefon</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborTelefon" | translate
+                          }}</label>
                           <input
                             type="tel"
                             class="form-control text-dark"
@@ -544,10 +590,9 @@
                     <div class="row">
                       <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Ada alahan atau makanan yang tidak boleh anda
-                            makan?</label
-                          >
+                          <label class="form-control-label">{{
+                            "Alergi" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -557,9 +602,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Sebarang penyakit dan / atau ubat</label
-                          >
+                          <label class="form-control-label">{{
+                            "PenyakitUbat" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -583,7 +628,7 @@
                                 [value]="truefalse.value"
                                 formControlName="student_1_vegetarian"
                               />
-                              {{ truefalse.display_name }}
+                              {{ getTrueFalse(truefalse.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -598,7 +643,7 @@
                       class="btn btn-warning"
                       matStepperPrevious
                     >
-                      Kembali
+                      {{ "Kembali" | translate }}
                     </button>
                     <button
                       type="button"
@@ -606,19 +651,23 @@
                       matStepperNext
                       [disabled]="!secondFormGroup.valid"
                     >
-                      Seterusnya
+                      {{ "Seterusnya" | translate }}
                     </button>
                   </div>
                 </form>
               </mat-step>
               <mat-step [stepControl]="thirdFormGroup">
-                <ng-template matStepLabel>Maklumat Pelajar (2)</ng-template>
+                <ng-template matStepLabel>{{
+                  "SpecialProgramLabel3" | translate
+                }}</ng-template>
                 <form [formGroup]="thirdFormGroup">
                   <div class="container">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Nama</label>
+                          <label class="form-control-label">{{
+                            "Nama" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -630,7 +679,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Tarikh Lahir</label>
+                          <label class="form-control-label">{{
+                            "TarikhLahir" | translate
+                          }}</label>
                           <input
                             type="date"
                             class="form-control text-dark"
@@ -640,7 +691,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Umur</label>
+                          <label class="form-control-label">{{
+                            "Umur" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -650,7 +703,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Tahun</label>
+                          <label class="form-control-label">{{
+                            "Tahun" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -660,7 +715,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Jantina</label
+                          <label class="form-control-label">{{
+                            "Jantina" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let gender of genders"
@@ -673,7 +730,7 @@
                                 [value]="gender.value"
                                 formControlName="student_2_gender"
                               />
-                              {{ gender.display_name }}
+                              {{ getGender(gender.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -683,9 +740,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Kad Pengenalan / Pasport</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborKadPengenalanPassport" | translate
+                          }}</label>
                           <input
                             type="number"
                             class="form-control text-dark"
@@ -695,12 +752,16 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Agama</label>
+                          <label class="form-control-label">{{
+                            "Agama" | translate
+                          }}</label>
                           <select
                             class="form-control text-dark"
                             formControlName="student_2_religion"
                           >
-                            <option value="">Sila pilih</option>
+                            <option value="">
+                              {{ "Silapilih" | translate }}
+                            </option>
                             <option
                               *ngFor="let religion of religions"
                               [value]="religion.value"
@@ -712,7 +773,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label">Warganegara</label
+                          <label class="form-control-label">{{
+                            "Warganegara" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let citizenship of citizenships"
@@ -725,7 +788,7 @@
                                 [value]="citizenship.value"
                                 formControlName="student_2_citizenship"
                               />
-                              {{ citizenship.display_name }}
+                              {{ getCitizenship(citizenship.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -735,8 +798,9 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label required-field"
-                            >Saiz Baju T-shirt</label
+                          <label class="form-control-label required-field">{{
+                            "SaizBajuT-shirt" | translate
+                          }}</label
                           ><br />
                           <div
                             *ngFor="let tshirtsize of tshirtsizes"
@@ -759,10 +823,9 @@
                     <div class="row">
                       <div class="col-md-8 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Orang yang dihubungi sekiranya berlaku
-                            kecemasan</label
-                          >
+                          <label class="form-control-label">{{
+                            "EmergencyPeople" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -772,9 +835,9 @@
                       </div>
                       <div class="col-md-4 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Nombor Telefon</label
-                          >
+                          <label class="form-control-label">{{
+                            "NomborTelefon" | translate
+                          }}</label>
                           <input
                             type="tel"
                             class="form-control text-dark"
@@ -786,10 +849,9 @@
                     <div class="row">
                       <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Ada alahan atau makanan yang tidak boleh anda
-                            makan?</label
-                          >
+                          <label class="form-control-label">{{
+                            "Alergi" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -799,9 +861,9 @@
                       </div>
                       <div class="col">
                         <div class="form-group">
-                          <label class="form-control-label"
-                            >Sebarang penyakit dan / atau ubat</label
-                          >
+                          <label class="form-control-label">{{
+                            "PenyakitUbat" | translate
+                          }}</label>
                           <input
                             type="text"
                             class="form-control text-dark"
@@ -825,7 +887,7 @@
                                 [value]="truefalse.value"
                                 formControlName="student_2_vegetarian"
                               />
-                              {{ truefalse.display_name }}
+                              {{ getTrueFalse(truefalse.value) }}
                               <span class="form-check-sign"></span>
                             </label>
                           </div>
@@ -841,7 +903,7 @@
                     class="btn btn-warning"
                     matStepperPrevious
                   >
-                    Kembali
+                    {{ "Kembali" | translate }}
                   </button>
                   <button
                     type="button"
@@ -849,12 +911,14 @@
                     matStepperNext
                     [disabled]="!thirdFormGroup.valid"
                   >
-                    Seterusnya
+                    {{ "Seterusnya" | translate }}
                   </button>
                 </div>
               </mat-step>
               <mat-step [stepControl]="fourthFormGroup">
-                <ng-template matStepLabel>Pengesahan</ng-template>
+                <ng-template matStepLabel>{{
+                  "SpecialProgramLabel4" | translate
+                }}</ng-template>
                 <form [formGroup]="fourthFormGroup">
                   <div class="container">
                     <div class="row">
@@ -863,13 +927,7 @@
                           class="text-justify text-dark"
                           style="font-size: 20px"
                         >
-                          Saya menegaskan bahawa semua pernyataan yang dibuat
-                          pada borang ini adalah betul. Saya faham bahawa
-                          sebarang maklumat yang tidak tepat atau salah atau
-                          ketinggalan maklumat material akan menjadikan
-                          penyertaan ini tidak sah dan bahawa, jika mengakui
-                          pertandingan berdasarkan maklumat tersebut, pencalonan
-                          pasukan saya dapat ditamatkan.
+                          {{ "SpecialProgram4Note" | translate }}
                         </p>
                       </div>
                     </div>
@@ -883,7 +941,7 @@
                               type="checkbox"
                               formControlName="accept"
                             />
-                            Saya setuju dengan pernyataan di atas.
+                            {{ "SpecialProgram4Agreement" | translate }}
                             <span class="form-check-sign">
                               <span class="check"></span>
                             </span>
@@ -899,7 +957,7 @@
                       class="btn btn-warning"
                       matStepperPrevious
                     >
-                      Kembali
+                      {{ "Kembali" | translate }}
                     </button>
                     <button
                       type="button"
@@ -907,7 +965,7 @@
                       (click)="submitEntry()"
                       [disabled]="!fourthFormGroup.valid"
                     >
-                      Hantar Penyertaan
+                      {{ "HantarPenyertaan" | translate }}
                     </button>
                   </div>
                 </form>

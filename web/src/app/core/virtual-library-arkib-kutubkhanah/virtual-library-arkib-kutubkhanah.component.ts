@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 
+import { SubModulesService } from "src/app/shared/services/sub-modules/sub-modules.service";
 import { VirtualLibraryArchiveKutubkhanahCategoriesService } from "src/app/shared/services/virtual-library-archivekutubkhanah-categories/virtual-library-archivekutubkhanah-categories.service";
 import { VirtualLibraryArchiveKutubkhanahsService } from "src/app/shared/services/virtual-library-archivekutubkhanahs/virtual-library-archivekutubkhanahs.service";
 import { VirtualLibraryBooksService } from "src/app/shared/services/virtual-library-books/virtual-library-books.service";
@@ -17,10 +18,12 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
   // CSS class
   fontSize: string;
+  themeColor: string;
 
   // Data
   archive_books = [];
   archive_serialpublications = [];
+  submodule: any;
   vl_akk_categories = [];
   vl_akks = [];
   virtual_library_collection_category_id: string = "";
@@ -30,6 +33,8 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
     public translate: TranslateService,
     private metaTagService: Meta,
     private route: ActivatedRoute,
+    private router: Router,
+    private submoduleService: SubModulesService,
     private virtuallibraryarchivekutubkhanahcategoryService: VirtualLibraryArchiveKutubkhanahCategoriesService,
     private virtuallibraryarchivekutubkhanahService: VirtualLibraryArchiveKutubkhanahsService,
     private virtuallibrarybookService: VirtualLibraryBooksService,
@@ -50,6 +55,7 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
       this.getArkibKutubkhanah();
       this.getArkibBuku();
       this.getArkibTerbitanBersiri();
+      this.getSubModule();
     }
   }
 
@@ -109,11 +115,29 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
     );
   }
 
+  getSubModule() {
+    if (this.router.url.includes("arkib-kutubkhanah")) {
+      this.submoduleService.filter("submodule=arkib-kutubkhanah").subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.submodule = res[0];
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }
+  }
+
   ngOnInit() {
     this.addMetaTag();
 
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
+    );
+
+    this.w3cService.currentThemeColor.subscribe(
+      (themeColor) => (this.themeColor = themeColor)
     );
   }
 

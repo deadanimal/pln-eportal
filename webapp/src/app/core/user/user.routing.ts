@@ -10,6 +10,7 @@ import { TotalTicketSalesSimulatorRidesComponent } from "./analytics/total-ticke
 import { AssetsComponent } from "./assets/assets.component";
 
 import { CalendarComponent } from "./calendar/calendar.component";
+import { CloseBookingComponent } from "./close-booking/close-booking.component";
 import { AnnouncementsComponent } from "./cms/announcements/announcements.component";
 import { BannersComponent } from "./cms/banners/banners.component";
 import { DynamicContentsComponent } from "./cms/dynamic-contents/dynamic-contents.component";
@@ -19,6 +20,7 @@ import { ModulesComponent } from "./cms/modules/modules.component";
 import { PartnersComponent } from "./cms/partners/partners.component";
 import { QuickLinksComponent } from "./cms/quick-links/quick-links.component";
 import { RatingsComponent } from "./cms/ratings/ratings.component";
+import { SubModulesComponent } from "./cms/sub-modules/sub-modules.component";
 import { WhatIsInterestingsComponent } from "./cms/what-is-interestings/what-is-interestings.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ExhibitsDetailComponent } from "./exhibits/exhibits-detail/exhibits-detail.component";
@@ -35,6 +37,7 @@ import { InvoicesListComponent } from "./invoice-receipts/invoices-list/invoices
 import { ReceiptsListComponent } from "./invoice-receipts/receipts-list/receipts-list.component";
 import { CustomersComponent } from "./managements/customers/customers.component";
 import { EmailTemplatesComponent } from "./managements/email-templates/email-templates.component";
+import { SupervisorsComponent } from "./managements/supervisors/supervisors.component";
 import { UsersComponent } from "./managements/users/users.component";
 import { ProgramsApplicationComponent } from "./programs/programs-application/programs-application.component";
 import { ProgramsListComponent } from "./programs/programs-list/programs-list.component";
@@ -77,6 +80,10 @@ export const UserRoutes: Routes = [
       {
         path: "calendar",
         component: CalendarComponent,
+      },
+      {
+        path: "close-booking",
+        component: CloseBookingComponent,
       },
       {
         path: "dashboard",
@@ -349,6 +356,10 @@ export const UserRoutes: Routes = [
             component: ModulesComponent,
           },
           {
+            path: "sub-modules",
+            component: SubModulesComponent,
+          },
+          {
             path: "whatisinterestings",
             component: WhatIsInterestingsComponent,
           },
@@ -425,6 +436,10 @@ export const UserRoutes: Routes = [
           {
             path: "customers",
             component: CustomersComponent,
+          },
+          {
+            path: "supervisors",
+            component: SupervisorsComponent,
           },
           {
             path: "email-templates",

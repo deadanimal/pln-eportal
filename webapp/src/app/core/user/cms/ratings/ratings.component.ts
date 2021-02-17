@@ -129,9 +129,11 @@ export class RatingsComponent implements OnInit {
           .fire({
             title: "Berjaya",
             text: "Data anda berjaya disimpan.",
-            type: "success",
+            icon: "success",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-success",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -146,9 +148,11 @@ export class RatingsComponent implements OnInit {
           .fire({
             title: "Ralat",
             text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-            type: "warning",
+            icon: "warning",
             buttonsStyling: false,
-            confirmButtonClass: "btn btn-warning",
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
           })
           .then((result) => {
             if (result.value) {
@@ -169,9 +173,11 @@ export class RatingsComponent implements OnInit {
             .fire({
               title: "Berjaya",
               text: "Data anda berjaya dikemaskini.",
-              type: "success",
+              icon: "success",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-success",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
             })
             .then((result) => {
               if (result.value) {
@@ -186,9 +192,11 @@ export class RatingsComponent implements OnInit {
             .fire({
               title: "Ralat",
               text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              type: "warning",
+              icon: "warning",
               buttonsStyling: false,
-              confirmButtonClass: "btn btn-warning",
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
             })
             .then((result) => {
               if (result.value) {

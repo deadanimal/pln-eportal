@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="fontSize">
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
   <div class="page-header page-header-small header-filter">
     <!-- <div
       class="page-header-image rellax"
@@ -163,7 +163,7 @@
                                           surveyquestion.questionnaire_fieldname
                                         "
                                       >
-                                        <option value="">Sila pilih</option>
+                                        <option value="">{{ "Silapilih" | translate }}</option>
                                         <option
                                           class="text-dark"
                                           *ngFor="
