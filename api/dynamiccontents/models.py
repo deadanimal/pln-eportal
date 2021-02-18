@@ -24,6 +24,10 @@ class DynamicContent(models.Model):
         ('about-us', 'Mengenai Kami'),
         ('mission-vision', 'Visi & Misi'),
         ('noc', 'Maklumat NOC'),
+        ('cio', 'Maklumat CIO'),
+        ('organization-chart', 'Carta Organisasi'),
+        ('charter', 'Piagam Pelanggan'),
+        ('operating-hour', 'Waktu Operasi & Harga'),
         ('not-available', 'Tiada')
     ]
 

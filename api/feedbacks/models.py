@@ -32,6 +32,7 @@ class Feedback(models.Model):
 
     module = models.CharField(max_length=20, choices=MODULES, default='simulator-ride')
     status = models.BooleanField(default=False)
+    display = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

@@ -125,7 +125,7 @@ DATABASES = {
 }
 
 import dj_database_url
-db_from_env = dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=500)
+db_from_env = dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=0)
 DATABASES['default'].update(db_from_env)
 
 if any(db_from_env):

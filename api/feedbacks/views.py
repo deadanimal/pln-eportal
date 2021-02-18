@@ -33,6 +33,7 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'user_id',
         'module',
         'status',
+        'display',
         'created_date',
         'modified_date'
     ]
@@ -69,8 +70,11 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         queryset = Feedback.objects.all()
         module = request.query_params.get('module', None)
+        display = request.query_params.get('display', None)
         if module is not None:
             queryset = queryset.filter(module=module)
+        if display is not None:
+            queryset = queryset.filter(display=display)
 
         serializer_class = FeedbackExtendedSerializer(queryset, many=True)
 
