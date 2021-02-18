@@ -10,9 +10,11 @@ import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
+import { FacilityPricesService } from "src/app/shared/services/facility-prices/facility-prices.service";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
@@ -33,6 +35,8 @@ export enum SelectionType {
 export class FacilitiesApplicationComponent implements OnInit {
   // Data
   banklists = [];
+  facilityprices = [];
+  pics = [];
   vouchers = [];
 
   // Table
@@ -125,9 +129,11 @@ export class FacilitiesApplicationComponent implements OnInit {
     private modalService: BsModalService,
     private authService: AuthService,
     private banklistService: BankListsService,
+    private cartService: CartsService,
     private refundService: RefundsService,
     private emailtemplateService: EmailTemplatesService,
     private facilitybookingService: FacilityBookingsService,
+    private facilitypriceService: FacilityPricesService,
     private facilityService: FacilitiesService,
     private userService: UsersService,
     private voucherService: VouchersService
@@ -137,6 +143,7 @@ export class FacilitiesApplicationComponent implements OnInit {
     this.getUser();
     this.getBankList();
     this.getVoucher();
+    this.getPrice();
 
     this.facilityFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -151,6 +158,7 @@ export class FacilitiesApplicationComponent implements OnInit {
       booking_days: new FormControl(""),
       number_of_people: new FormControl(""),
       total_price: new FormControl(0.0),
+      want_equipment: new FormControl(""),
     });
 
     this.refundFormGroup = this.formBuilder.group({
@@ -191,6 +199,7 @@ export class FacilitiesApplicationComponent implements OnInit {
         // console.log("res", res);
         res.forEach((obj) => {
           if (obj.user_type == "CS") this.users.push(obj);
+          else this.pics.push(obj);
         });
       },
       (err) => {
@@ -212,10 +221,22 @@ export class FacilitiesApplicationComponent implements OnInit {
   }
 
   getVoucher() {
-    this.voucherService.get().subscribe(
+    this.voucherService.filter("status=NU").subscribe(
       (res) => {
         // console.log("res", res);
         this.vouchers = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getPrice() {
+    this.facilitypriceService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.facilityprices = res;
       },
       (err) => {
         console.error("err", err);
@@ -293,9 +314,12 @@ export class FacilitiesApplicationComponent implements OnInit {
   }
 
   create() {
+    this.facilityFormGroup.value.title = "";
+    this.facilityFormGroup.value.status = "FB01";
+
     this.facilitybookingService.post(this.facilityFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -330,6 +354,9 @@ export class FacilitiesApplicationComponent implements OnInit {
               // this.modal.hide();
             }
           });
+      },
+      () => {
+        this.sendmail(this.facilityFormGroup.value);
       }
     );
   }
@@ -339,7 +366,7 @@ export class FacilitiesApplicationComponent implements OnInit {
       .update(this.facilityFormGroup.value, this.facilityFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -356,8 +383,6 @@ export class FacilitiesApplicationComponent implements OnInit {
                 this.getData();
               }
             });
-
-          this.sendmail(this.facilityFormGroup.value);
         },
         (err) => {
           console.error("err", err);
@@ -399,7 +424,7 @@ export class FacilitiesApplicationComponent implements OnInit {
         if (result.value) {
           this.facilitybookingService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -458,18 +483,17 @@ export class FacilitiesApplicationComponent implements OnInit {
           const voucher_code = (<HTMLInputElement>(
             swal.getPopup().querySelector("#voucher_code")
           )).value;
-          console.log("preConfirm", voucher_code);
 
           let result = this.vouchers.find((obj) => {
             return (
-              obj.voucher_code == voucher_code &&
-              obj.user == this.authService.decodedToken().user_id
+              obj.voucher_code == voucher_code && obj.user == row.user_id.id
             );
           });
 
           if (!voucher_code) return true;
           else {
-            if (result) return { voucher_code: voucher_code };
+            if (result)
+              return { voucher_code: voucher_code, voucher_id: result.id };
             else
               swal.showValidationMessage(
                 "Kod baucar yang anda masukkan tidak sah. Sila cuba lagi"
@@ -478,12 +502,62 @@ export class FacilitiesApplicationComponent implements OnInit {
         },
       })
       .then((result) => {
-        console.log("result", result);
-        // if (result.isConfirmed == true) {
+        if (result.isConfirmed == true) {
+          // to accept the facility booking application
+          let objUpdate = {
+            status: "FB02",
+          };
+          this.facilitybookingService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getData();
 
-        // } else if (result.isDismissed == true) {
+              let objMail = {
+                status: "FB02",
+                user_id: row.user_id.id,
+              };
 
-        // }
+              this.sendmail(objMail);
+
+              let facility_cart = [];
+              facility_cart.push(row.id);
+              this.addToCart(facility_cart, row.user_id.id, result.value);
+            }
+          );
+        } else if (result.isDenied == true) {
+          // to reject the facility booking application
+          let objUpdate = {
+            status: "FB03",
+          };
+          this.facilitybookingService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getData();
+
+              this.sweetAlertWarning(
+                "Ditolak",
+                "Anda telah menolak permohonan tempahan fasiliti ini."
+              );
+
+              let objMail = {
+                status: "FB03",
+                user_id: row.user_id.id,
+              };
+
+              this.sendmail(objMail);
+            }
+          );
+        }
       });
   }
 
@@ -491,43 +565,49 @@ export class FacilitiesApplicationComponent implements OnInit {
     let user = this.users.filter((obj) => {
       return obj.id == row.user_id;
     });
-    if (row.status == "FB02") {
-      let obj = {
+    var obj;
+    if (row.status == "FB01") {
+      obj = {
+        code: "EMEL03",
+        to: user[0].email,
+        context: null,
+      };
+    } else if (row.status == "FB02") {
+      obj = {
         code: "EMEL04",
         to: user[0].email,
         context: null,
       };
-      console.log("obj", obj);
-      this.emailtemplateService.sending_mail(obj).subscribe(
-        (res) => {
-          console.log("res", res);
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
     } else if (row.status == "FB03") {
-      let obj = {
+      obj = {
         code: "EMEL05",
         to: user[0].email,
         context: null,
       };
-      console.log("obj", obj);
-      this.emailtemplateService.sending_mail(obj).subscribe(
-        (res) => {
-          console.log("res", res);
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+    } else if (row.status == "FB04") {
+      obj = {
+        code: "EMEL12",
+        to: user[0].email,
+        context: JSON.stringify({
+          voucher_code: row.voucher_code,
+        }),
+      };
     }
+
+    this.emailtemplateService.sending_mail(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   refund() {
     this.refundService.post(this.refundFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
 
         let obj = {
           status: "FB07",
@@ -536,7 +616,7 @@ export class FacilitiesApplicationComponent implements OnInit {
           .update(obj, this.refundFormGroup.value.facility_booking_id)
           .subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
             },
             (err) => {
               console.error("err", err);
@@ -579,6 +659,126 @@ export class FacilitiesApplicationComponent implements OnInit {
           });
       }
     );
+  }
+
+  // to return the total price of the facility booking
+  changeRadioEquipment() {
+    let result = this.facilityprices.find((obj) => {
+      let facility_id = this.facilityFormGroup.value.facility_id;
+      let want_equipment = this.facilityFormGroup.value.want_equipment;
+
+      return obj.facility_id == facility_id && obj.equipment == want_equipment;
+    });
+
+    if (result) {
+      let booking_days = this.facilityFormGroup.value.booking_days;
+
+      if (booking_days == "FULL")
+        this.facilityFormGroup.patchValue({
+          total_price: result.facility_price_full,
+        });
+      else if (booking_days == "HALF")
+        this.facilityFormGroup.patchValue({
+          total_price: result.facility_price_half,
+        });
+      else if (booking_days == "NONE")
+        this.facilityFormGroup.patchValue({
+          total_price: 0,
+        });
+    } else {
+      this.facilityFormGroup.patchValue({
+        total_price: 0,
+      });
+    }
+  }
+
+  // add to cart function
+  addToCart(facility_cart, user_id: string, voucher) {
+    let obj = {
+      user: user_id,
+      show_booking_id: [],
+      simulator_ride_booking_id: [],
+      faciltiy_booking_id: facility_cart,
+    };
+    this.cartService.post(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        // to update the voucher status if used
+        if (typeof voucher == "object") {
+          let obj = {
+            status: "AU",
+          };
+          this.voucherService.update(obj, voucher.voucher_id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.updateStatusToFB04(facility_cart[0], user_id);
+            }
+          );
+        }
+      }
+    );
+  }
+
+  updateStatusToFB04(facility_id, user_id) {
+    let obj = {
+      status: "FB04",
+    };
+    this.facilitybookingService.update(obj, facility_id).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.getData();
+
+        this.sweetAlertSuccess(
+          "Diterima",
+          "Anda telah menerima permohonan tempahan fasiliti ini."
+        );
+
+        let objMail = {
+          status: "FB04",
+          user_id: user_id,
+        };
+        this.sendmail(objMail);
+      }
+    );
+  }
+
+  sweetAlertSuccess(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "success",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-success",
+      },
+    });
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   getOrganisationCategory(value: string) {

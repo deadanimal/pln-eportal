@@ -42,6 +42,22 @@ export class DynamicContentsComponent implements OnInit {
       display_name: "Maklumat NOC",
     },
     {
+      value: "cio",
+      display_name: "Maklumat CIO",
+    },
+    {
+      value: "organization-chart",
+      display_name: "Carta Organisasi",
+    },
+    {
+      value: "charter",
+      display_name: "Piagam Pelanggan",
+    },
+    {
+      value: "operating-hour",
+      display_name: "Waktu Operasi & Harga",
+    },
+    {
       value: "not-available",
       display_name: "Tiada",
     },
@@ -78,7 +94,7 @@ export class DynamicContentsComponent implements OnInit {
 
       ["clean"], // remove formatting button
 
-      ["link"], // link and image, video
+      ["link", "image", "video"], // link and image, video
     ],
   };
 

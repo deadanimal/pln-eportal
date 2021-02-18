@@ -226,6 +226,7 @@
           class="form-control"
           formControlName="facility_id"
           placeholder="Sila pilih"
+          (change)="changeRadioEquipment()"
         >
           <option value="">Sila pilih</option>
           <option *ngFor="let facility of facilities" [value]="facility.id">
@@ -273,7 +274,11 @@
         <div class="col">
           <div class="form-group">
             <label class="form-control-label">Masa Tempah</label>
-            <select class="form-control" formControlName="booking_days">
+            <select
+              class="form-control"
+              formControlName="booking_days"
+              (change)="changeRadioEquipment()"
+            >
               <option value="">Sila pilih</option>
               <option
                 *ngFor="let bookingday of bookingdays"
@@ -288,12 +293,62 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
+            <label class="form-control-label">Perlukan peralatan?</label><br />
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="radioEquipmentWITH"
+                name="want_equipment"
+                formControlName="want_equipment"
+                class="custom-control-input"
+                value="WITH"
+                (change)="changeRadioEquipment()"
+              />
+              <label class="custom-control-label" for="radioEquipmentWITH"
+                >Dengan peralatan</label
+              >
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="radioEquipmentWOUT"
+                name="want_equipment"
+                formControlName="want_equipment"
+                class="custom-control-input"
+                value="WOUT"
+                (change)="changeRadioEquipment()"
+              />
+              <label class="custom-control-label" for="radioEquipmentWOUT"
+                >Tanpa peralatan</label
+              >
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="radioEquipmentNA"
+                name="want_equipment"
+                formControlName="want_equipment"
+                class="custom-control-input"
+                value="NA"
+                (change)="changeRadioEquipment()"
+              />
+              <label class="custom-control-label" for="radioEquipmentNA"
+                >Tiada</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
             <label class="form-control-label">Jumlah Harga (RM)</label>
             <input
               class="form-control"
               formControlName="total_price"
               placeholder="contoh: 500.00"
               type="number"
+              readonly
             />
           </div>
         </div>
@@ -303,7 +358,7 @@
             <input
               class="form-control"
               formControlName="number_of_people"
-              placeholder="contoh: 300"
+              placeholder="contoh: 30"
               type="number"
             />
           </div>
@@ -317,8 +372,8 @@
           placeholder="Sila pilih"
         >
           <option value="">Sila pilih</option>
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.full_name }}
+          <option *ngFor="let pic of pics" [value]="pic.id">
+            {{ pic.full_name }}
           </option>
         </select>
       </div>
@@ -401,6 +456,7 @@
           class="form-control"
           formControlName="facility_id"
           placeholder="Sila pilih"
+          (change)="changeRadioEquipment()"
         >
           <option value="">Sila pilih</option>
           <option *ngFor="let facility of facilities" [value]="facility.id">
@@ -448,7 +504,7 @@
         <div class="col">
           <div class="form-group">
             <label class="form-control-label">Masa Tempah</label>
-            <select class="form-control" formControlName="booking_days">
+            <select class="form-control" formControlName="booking_days" (change)="changeRadioEquipment()">
               <option value="">Sila pilih</option>
               <option
                 *ngFor="let bookingday of bookingdays"
@@ -463,12 +519,62 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
+            <label class="form-control-label">Perlukan peralatan?</label><br />
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="radioEquipmentWITH"
+                name="want_equipment"
+                formControlName="want_equipment"
+                class="custom-control-input"
+                value="WITH"
+                (change)="changeRadioEquipment()"
+              />
+              <label class="custom-control-label" for="radioEquipmentWITH"
+                >Dengan peralatan</label
+              >
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="radioEquipmentWOUT"
+                name="want_equipment"
+                formControlName="want_equipment"
+                class="custom-control-input"
+                value="WOUT"
+                (change)="changeRadioEquipment()"
+              />
+              <label class="custom-control-label" for="radioEquipmentWOUT"
+                >Tanpa peralatan</label
+              >
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="radioEquipmentNA"
+                name="want_equipment"
+                formControlName="want_equipment"
+                class="custom-control-input"
+                value="NA"
+                (change)="changeRadioEquipment()"
+              />
+              <label class="custom-control-label" for="radioEquipmentNA"
+                >Tiada</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
             <label class="form-control-label">Jumlah Harga (RM)</label>
             <input
               class="form-control"
               formControlName="total_price"
               placeholder="contoh: 500.00"
               type="number"
+              readonly
             />
           </div>
         </div>
@@ -478,7 +584,7 @@
             <input
               class="form-control"
               formControlName="number_of_people"
-              placeholder="contoh: 300"
+              placeholder="contoh: 30"
               type="number"
             />
           </div>
@@ -492,8 +598,8 @@
           placeholder="Sila pilih"
         >
           <option value="">Sila pilih</option>
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.full_name }}
+          <option *ngFor="let pic of pics" [value]="pic.id">
+            {{ pic.full_name }}
           </option>
         </select>
       </div>

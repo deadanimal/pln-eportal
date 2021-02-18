@@ -99,6 +99,15 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
+                <span>Modul</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ getModule(row.module) }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
                 <span>Komen Pengguna</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
@@ -106,12 +115,26 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column>
+            <!-- <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Komen Pentadbir</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.comment_admin | slice: 0:200 }} ...
+              </ng-template>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Papar?</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="row.display" class="badge badge-pill badge-success"
+                  >Ya</span
+                >
+                <span *ngIf="!row.display" class="badge badge-pill badge-danger"
+                  >Tidak</span
+                >
               </ng-template>
             </ngx-datatable-column>
 
@@ -134,7 +157,11 @@
                 <span>Tindakan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <button class="btn btn-sm btn-success" (click)="reply(row)">
+                <button
+                  class="btn btn-sm btn-success"
+                  (click)="reply(row)"
+                  *ngIf="!row.status"
+                >
                   Balas
                 </button>
                 <button
@@ -184,6 +211,19 @@
           <option value="">Sila pilih</option>
           <option *ngFor="let user of users" [value]="user.id">
             {{ user.full_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Modul</label>
+        <select
+          class="form-control"
+          formControlName="module"
+          placeholder="Sila pilih"
+        >
+          <option value="">Sila pilih</option>
+          <option *ngFor="let module of modules" [value]="module.value">
+            {{ module.display_name }}
           </option>
         </select>
       </div>
@@ -268,6 +308,20 @@
         </select>
       </div>
       <div class="form-group">
+        <label class="form-control-label">Modul</label>
+        <select
+          class="form-control"
+          formControlName="module"
+          placeholder="Sila pilih"
+          disabled
+        >
+          <option value="">Sila pilih</option>
+          <option *ngFor="let module of modules" [value]="module.value">
+            {{ module.display_name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
         <label class="form-control-label">Komen Pengguna</label>
         <textarea
           rows="5"
@@ -284,6 +338,35 @@
           formControlName="comment_admin"
           placeholder="Komen Pentadbir"
         ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Papar?</label><br />
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioDisplayTrue"
+            name="status"
+            formControlName="display"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioDisplayTrue"
+            >Ya</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioDisplayFalse"
+            name="status"
+            formControlName="display"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioDisplayFalse"
+            >Tidak</label
+          >
+        </div>
       </div>
       <!-- <div class="form-group">
             <label class="form-control-label">Status</label>

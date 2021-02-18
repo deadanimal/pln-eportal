@@ -71,6 +71,10 @@ export class EmailTemplatesComponent implements OnInit {
       display_name: "Templat Lawatan - Tempahan Ditolak",
     },
     {
+      value: "EMEL12",
+      display_name: "Templat Fasiliti - Proses Pembayaran",
+    },
+    {
       value: "EMEL99",
       display_name: "Tiada",
     },

@@ -46,6 +46,40 @@ export class FeedbacksListComponent implements OnInit {
 
   // Dropdown
   users = [];
+  modules = [
+    {
+      value: "simulator-ride",
+      display_name: "Kembara Simulasi",
+    },
+    {
+      value: "shows",
+      display_name: "Tayangan",
+    },
+    {
+      value: "exhibit",
+      display_name: "Pameran",
+    },
+    {
+      value: "visit",
+      display_name: "Lawatan",
+    },
+    {
+      value: "program",
+      display_name: "Program Pendidikan",
+    },
+    {
+      value: "facility",
+      display_name: "Fasiliti",
+    },
+    {
+      value: "publication",
+      display_name: "Penerbitan",
+    },
+    {
+      value: "virtual-library",
+      display_name: "Kutubkhanah Mini",
+    },
+  ];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -60,6 +94,8 @@ export class FeedbacksListComponent implements OnInit {
       id: new FormControl(""),
       comment_user: new FormControl(""),
       comment_admin: new FormControl(""),
+      module: new FormControl(""),
+      display: new FormControl(false),
       user_id: new FormControl(""),
       status: new FormControl(false),
     });
@@ -130,6 +166,7 @@ export class FeedbacksListComponent implements OnInit {
       this.feedbackFormGroup.patchValue({
         ...row,
         user_id: row.user_id.id,
+        display: row.display.toString(),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -321,5 +358,12 @@ export class FeedbacksListComponent implements OnInit {
         console.error("err", err);
       }
     );
+  }
+
+  getModule(value: string) {
+    let result = this.modules.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
   }
 }
