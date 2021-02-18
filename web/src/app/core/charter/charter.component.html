@@ -28,8 +28,8 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">{{ "PiagamPelanggan" | translate }}</h2>
-        <div class="row pb-3">
+        <!-- <h2 class="title text-center text-dark">{{ "PiagamPelanggan" | translate }}</h2> -->
+        <!-- <div class="row pb-3">
           <div class="col-md-8 col-sm-12 mx-auto">
             <div class="card bg-transparent">
               <img
@@ -39,42 +39,27 @@
               />
             </div>
           </div>
-          <!-- <div class="col">
-            <ol>
-              <li>
-                <p>
-                  Memberi khidmat rujukan yang cekap, berkesan dan terkini
-                  kepada orang awam dan pelajar.
-                </p>
-              </li>
-              <li>
-                <p>
-                  Menyediakan pameran dan program mengenai astronomi dan sains
-                  angkasa yang berkualiti serta interaktif bagi memenuhi
-                  keperluan semasa mengikut jadual yang ditetapkan.
-                </p>
-              </li>
-              <li>
-                <p>
-                  Maklumbalas bagi aduan mengenai perkhidmatan dan kemudahan
-                  akan dijawab dalam tempoh 3 hari bekerja selepas dilaporkan.
-                </p>
-              </li>
-              <li>
-                <p>
-                  Menyediakan kemudahan asas dan persekitaran pameran yang
-                  bersih dan selesa.
-                </p>
-              </li>
-              <li>
-                <p>
-                  Memastikan permohonan lawatan berpandu ke Planetarium Negara
-                  dijawab mengikut tempoh yang ditetapkan sama ada melalui e-mel
-                  atau surat.
-                </p>
-              </li>
-            </ol>
-          </div> -->
+        </div> -->
+
+        <div class="row pb-3" *ngFor="let dynamiccontent of dynamiccontents">
+          <div class="col" *ngIf="translate.currentLang == 'en'">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title_en }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_en | safe: 'html'"
+            ></div>
+          </div>
+          <div class="col" *ngIf="translate.currentLang == 'ms'">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title_ms }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_ms | safe: 'html'"
+            ></div>
+          </div>
         </div>
       </div>
     </div>

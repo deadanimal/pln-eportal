@@ -81,6 +81,27 @@
             </ol>
           </div>
         </div>
+
+        <div class="row pb-3" *ngFor="let dynamiccontent of dynamiccontents">
+          <div class="col" *ngIf="translate.currentLang == 'en'">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title_en }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_en | safe: 'html'"
+            ></div>
+          </div>
+          <div class="col" *ngIf="translate.currentLang == 'ms'">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title_ms }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_ms | safe: 'html'"
+            ></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

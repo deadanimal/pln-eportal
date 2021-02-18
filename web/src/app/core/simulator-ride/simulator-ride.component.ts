@@ -65,7 +65,7 @@ export class SimulatorRideComponent implements OnInit {
   }
 
   getFeedback() {
-    this.feedbackService.extended("module=simulator-ride").subscribe(
+    this.feedbackService.extended("module=simulator-ride&display=true").subscribe(
       (res) => {
         // console.log("res", res);
         this.simulatorridefeedbacks = res;

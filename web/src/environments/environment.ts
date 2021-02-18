@@ -7,6 +7,8 @@ export const environment = {
   assetUrl: "http://localhost:4200/assets/",
   baseUrl: "http://127.0.0.1:8000/",
   portalUrl: "http://localhost:4200/#/",
+  reCaptchaSiteKey: "6Lcw0lwaAAAAAFqNAEkV3dYsUewndOU2Uzx8SW3S",
+  reCaptchaSecretKey: "6Lcw0lwaAAAAAP-5dBKk8w-qL2RzyvfM2KSI_w1q",
 };
 
 /*

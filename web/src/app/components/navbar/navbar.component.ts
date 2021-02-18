@@ -202,6 +202,10 @@ export class NavbarComponent implements OnInit {
       (addToCartCount) => (this.addToCartCount = addToCartCount)
     );
 
+    this.w3cService.currentTranslation.subscribe(
+      (translation) => (this.languageSwitcher = translation)
+    );
+
     if (this.accessToken && this.refreshToken) {
       // to get add to cart count
       this.getAddToCartCount();
@@ -305,7 +309,7 @@ export class NavbarComponent implements OnInit {
             .get(this.authService.decodedToken().user_id)
             .subscribe(
               (res) => {
-                console.log("res", res);
+                // console.log("res", res);
                 this.user = res;
               },
               (err) => {
@@ -337,13 +341,13 @@ export class NavbarComponent implements OnInit {
 
     this.authService.registerAccount(this.registerFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         if (res) {
           this.userService
             .update(this.registerFormGroup.value, res.user.pk)
             .subscribe(
               (res) => {
-                console.log("res", res);
+                // console.log("res", res);
                 this.toastr.success(
                   "Pendaftaran anda berjaya. Sila log masuk.",
                   "Berjaya"
@@ -375,7 +379,7 @@ export class NavbarComponent implements OnInit {
       .resetPassword(this.forgotPasswordFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res) {
             swal
               .fire({
@@ -434,6 +438,7 @@ export class NavbarComponent implements OnInit {
     this.languageSwitcher = language;
     this.translate.setDefaultLang(language);
     this.translate.use(language);
+    this.w3cService.changeTranslation(language);
   }
 
   changePasswordIcon() {

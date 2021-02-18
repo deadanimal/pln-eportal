@@ -17,6 +17,10 @@ export class W3csService {
   private addToCartCount = new BehaviorSubject(0);
   currentAddToCartCount = this.addToCartCount.asObservable();
 
+  // Language Translation
+  private translationDefault = new BehaviorSubject("ms");
+  currentTranslation = this.translationDefault.asObservable();
+
   constructor() {}
 
   changeFontSize(className: string) {
@@ -29,5 +33,9 @@ export class W3csService {
 
   changeAddToCartCount(count: number) {
     this.addToCartCount.next(count);
+  }
+
+  changeTranslation(language: string) {
+    this.translationDefault.next(language);
   }
 }

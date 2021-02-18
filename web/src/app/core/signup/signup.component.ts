@@ -1,8 +1,14 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import {
+  Component,
+  ChangeDetectorRef,
+  OnInit,
+  TemplateRef,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { CustomValidators } from "src/app/shared/class/custom-validators";
+import { environment } from "src/environments/environment";
 import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
@@ -15,6 +21,7 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
   selector: "app-signup",
   templateUrl: "./signup.component.html",
   styleUrls: ["./signup.component.scss"],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignupComponent implements OnInit {
   // CSS Class
@@ -68,7 +75,23 @@ export class SignupComponent implements OnInit {
   // FormGroup
   registerFormGroup: FormGroup;
 
+  // Language translation
+  languageSwitcher: string = "ms";
+
+  // Recaptcha
+  siteKey: string = environment.reCaptchaSiteKey;
+  size: string = "normal";
+  lang: string = "ms";
+  theme: string = "light";
+  type: string = "image";
+
+  public captchaIsLoaded = false;
+  public captchaSuccess = false;
+  public captchaIsExpired = false;
+  public captchaResponse?: string;
+
   constructor(
+    private cdr: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private router: Router,
     public authService: AuthService,
@@ -136,6 +159,7 @@ export class SignupComponent implements OnInit {
         gender_type: ["", Validators.compose([Validators.required])],
         race_type: ["", Validators.compose([Validators.required])],
         user_type: ["CS"],
+        recaptcha: ["", Validators.required],
       },
       {
         // check whether our password and confirm password match
@@ -152,6 +176,10 @@ export class SignupComponent implements OnInit {
     this.w3cService.currentThemeColor.subscribe(
       (themeColor) => (this.themeColor = themeColor)
     );
+
+    this.w3cService.currentTranslation.subscribe(
+      (translation) => (this.lang = translation)
+    );
   }
 
   clickRegister() {
@@ -159,13 +187,13 @@ export class SignupComponent implements OnInit {
 
     this.authService.registerAccount(this.registerFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         if (res) {
           this.userService
             .update(this.registerFormGroup.value, res.user.pk)
             .subscribe(
               (res) => {
-                console.log("res", res);
+                // console.log("res", res);
                 this.toastr.success(
                   "Pendaftaran anda berjaya. Sila log masuk.",
                   "Berjaya"
@@ -187,6 +215,49 @@ export class SignupComponent implements OnInit {
           "Pendaftaran anda tidak berjaya. Sila cuba lagi.",
           "Ralat"
         );
+      }
+    );
+  }
+
+  // ReCaptcha
+  handleReset(): void {
+    this.captchaSuccess = false;
+    this.captchaResponse = undefined;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleSuccess(captchaResponse: string): void {
+    this.captchaSuccess = true;
+    this.captchaResponse = captchaResponse;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+    this.verifyRecaptcha(captchaResponse);
+  }
+
+  handleLoad(): void {
+    this.captchaIsLoaded = true;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleExpire(): void {
+    this.captchaSuccess = false;
+    this.captchaIsExpired = true;
+    // this.cdr.detectChanges();
+  }
+
+  verifyRecaptcha(response: string) {
+    let obj = {
+      secret: environment.reCaptchaSecretKey,
+      response: response,
+    };
+    this.userService.verify_recaptcha(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
       }
     );
   }

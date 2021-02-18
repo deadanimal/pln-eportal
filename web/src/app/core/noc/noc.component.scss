@@ -22,6 +22,14 @@ li {
 }
 
 ::ng-deep .inner-html {
+  .ql-align-center {
+    text-align: center;
+  }
+
+  .ql-align-justify {
+    text-align: justify;
+  }
+
   h1,
   h2,
   h3,

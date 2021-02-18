@@ -28,8 +28,29 @@
   <div class="main main-raised bg-white">
     <div class="section">
       <div class="container">
-        <h2 class="title text-center text-dark">{{ "CartaOrganisasi" | translate }}</h2>
-        <div class="row pb-3">
+        <!-- <h2 class="title text-center text-dark">{{ "CartaOrganisasi" | translate }}</h2> -->
+
+        <div class="row pb-3" *ngFor="let dynamiccontent of dynamiccontents">
+          <div class="col" *ngIf="translate.currentLang == 'en'">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title_en }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_en | safe: 'html'"
+            ></div>
+          </div>
+          <div class="col" *ngIf="translate.currentLang == 'ms'">
+            <h2 class="title text-center text-dark">
+              {{ dynamiccontent.title_ms }}
+            </h2>
+            <div
+              class="inner-html"
+              [innerHtml]="dynamiccontent.description_ms | safe: 'html'"
+            ></div>
+          </div>
+        </div>
+        <!-- <div class="row pb-3">
           <div class="col">
             <div class="card">
               <div class="card-body">
@@ -37,7 +58,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

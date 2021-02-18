@@ -708,6 +708,9 @@ SOFTWARE.
 
 ngx-bootstrap/datepicker
 
+ngx-captcha
+MIT
+
 ngx-chips
 MIT
 

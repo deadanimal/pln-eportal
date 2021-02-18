@@ -444,6 +444,7 @@ export class ShowsBookComponent implements OnInit {
       user: this.authService.decodedToken().user_id,
       show_booking_id: showing_cart,
       simulator_ride_booking_id: [],
+      facility_booking_id: [],
     };
     this.cartService.post(obj).subscribe(
       (res) => {
