@@ -29,6 +29,7 @@ class EmailTemplate(models.Model):
         ('EMEL09', 'Templat Lawatan - Tempahan Diproses'),
         ('EMEL10', 'Templat Lawatan - Tempahan Diterima'),
         ('EMEL11', 'Templat Lawatan - Tempahan Ditolak'),
+        ('EMEL12', 'Templat Fasiliti - Proses Pembayaran'),
         ('EMEL99', 'Tiada')
     ]
     code = models.CharField(max_length=6, choices=CODE, default='EMEL99', unique=True)

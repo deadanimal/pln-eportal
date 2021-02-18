@@ -21,6 +21,10 @@ from simulatorrides.models import (
     SimulatorRideBooking
 )
 
+from venues.models import (
+    FacilityBooking
+)
+
 class Cart(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
@@ -37,6 +41,7 @@ class Cart(models.Model):
 
     show_booking_id = models.ManyToManyField(ShowBooking, related_name='cart_show_booking', blank=True)
     simulator_ride_booking_id = models.ManyToManyField(SimulatorRideBooking, related_name='cart_simulator_ride_booking', blank=True)
+    facility_booking_id = models.ManyToManyField(FacilityBooking, related_name='cart_facility_booking', blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

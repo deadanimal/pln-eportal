@@ -26,6 +26,11 @@ from simulatorrides.serializers import (
     SimulatorRideBookingExtendedSerializer
 )
 
+from venues.serializers import (
+    FacilityBookingSerializer,
+    FacilityBookingExtendedSerializer
+)
+
 class CartSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -38,6 +43,7 @@ class CartExtendedSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
     show_booking_id = ShowBookingExtendedSerializer(read_only=True, many=True)
     simulator_ride_booking_id = SimulatorRideBookingExtendedSerializer(read_only=True, many=True)
+    facility_booking_id = FacilityBookingExtendedSerializer(read_only=True, many=True)
 
     class Meta:
         model = Cart
