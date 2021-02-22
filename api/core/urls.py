@@ -469,6 +469,15 @@ close_bookings_router = router.register(
     'close-bookings', CloseBookingViewSet
 )
 
+# Ticket Price app
+from ticketprices.views import (
+    TicketPriceViewSet
+)
+
+ticket_prices_router = router.register(
+    'ticket-prices', TicketPriceViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),
