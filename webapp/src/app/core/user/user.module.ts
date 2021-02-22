@@ -38,7 +38,6 @@ import { ShowsScheduleComponent } from "./shows/shows-schedule/shows-schedule.co
 import { ShowsListComponent } from "./shows/shows-list/shows-list.component";
 import { SimulatorRideScheduleComponent } from "./simulator-ride/simulator-ride-schedule/simulator-ride-schedule.component";
 import { SimulatorRideApplicationsComponent } from "./simulator-ride/simulator-ride-applications/simulator-ride-applications.component";
-import { TicketsPriceComponent } from "./tickets/tickets-price/tickets-price.component";
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
 import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
@@ -95,6 +94,7 @@ import { RefundsComponent } from './refunds/refunds.component';
 import { SubModulesComponent } from './cms/sub-modules/sub-modules.component';
 import { SupervisorsComponent } from './managements/supervisors/supervisors.component';
 import { CloseBookingComponent } from './close-booking/close-booking.component';
+import { TicketPricesComponent } from './ticket-prices/ticket-prices.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -120,7 +120,6 @@ FullCalendarModule.registerPlugins([
     ShowsListComponent,
     SimulatorRideScheduleComponent,
     SimulatorRideApplicationsComponent,
-    TicketsPriceComponent,
     VisitsApplicationsComponent,
     VisitsScheduleComponent,
     DashboardComponent,
@@ -177,6 +176,7 @@ FullCalendarModule.registerPlugins([
     SubModulesComponent,
     SupervisorsComponent,
     CloseBookingComponent,
+    TicketPricesComponent,
   ],
   imports: [
     CommonModule,

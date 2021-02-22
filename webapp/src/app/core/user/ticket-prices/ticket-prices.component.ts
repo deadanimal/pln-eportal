@@ -8,8 +8,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 
-import { UsersService } from "src/app/shared/services/users/users.service";
-import { SupervisorsService } from "src/app/shared/services/supervisors/supervisors.service";
+import { TicketPricesService } from "src/app/shared/services/ticket-prices/ticket-prices.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,13 +19,61 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-supervisors",
-  templateUrl: "./supervisors.component.html",
-  styleUrls: ["./supervisors.component.scss"],
+  selector: "app-ticket-prices",
+  templateUrl: "./ticket-prices.component.html",
+  styleUrls: ["./ticket-prices.component.scss"],
 })
-export class SupervisorsComponent implements OnInit {
+export class TicketPricesComponent implements OnInit {
   // Data
-  users = [];
+
+  // Dropdown
+  modules = [
+    {
+      value: "simulator-ride",
+      display_name: "Kembara Simulasi",
+    },
+    {
+      value: "shows",
+      display_name: "Tayangan",
+    },
+  ];
+  ticketcategories = [
+    {
+      value: "AD",
+      display_name: "Dewasa",
+      description: "13 tahun dan ke atas",
+    },
+    {
+      value: "KD",
+      display_name: "Kanak-kanak",
+      description: "2 sehingga 12 tahun",
+    },
+    {
+      value: "OF",
+      display_name: "Warga emas",
+      description: "",
+    },
+    {
+      value: "SD",
+      display_name: "Pelajar",
+      description: "18 tahun dan ke bawah",
+    },
+    {
+      value: "OK",
+      display_name: "OKU",
+      description: "",
+    },
+  ];
+
+  // FormGroup
+  ticketpriceFormGroup: FormGroup;
+
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog",
+  };
 
   // Table
   tableEntries: number = 5;
@@ -36,84 +83,32 @@ export class SupervisorsComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog",
-  };
-
-  // FormGroup
-  supervisorFormGroup: FormGroup;
-
-  // Dropdown
-  usertypes = [
-    {
-      value: "DR",
-      display_name: "Pengarah",
-    },
-    {
-      value: "SA",
-      display_name: "Super Admin",
-    },
-    {
-      value: "FA",
-      display_name: "Pentadbir Kewangan",
-    },
-    {
-      value: "TA",
-      display_name: "Pentadbir Teknikal",
-    },
-    {
-      value: "TC",
-      display_name: "Pentadbir Kaunter Tiket",
-    },
-    {
-      value: "VA",
-      display_name: "Pentadbir Lawatan",
-    },
-    {
-      value: "EP",
-      display_name: "Pentadbir Program Pendidikan",
-    },
-    {
-      value: "EA",
-      display_name: "Pentadbir Pameran",
-    },
-    {
-      value: "PK",
-      display_name: "Pentadbir Penerbitan & Kutubkhanah",
-    },
-    {
-      value: "SV",
-      display_name: "Pentadbir Maklum Balas / Soal Selidik",
-    },
-    {
-      value: "CS",
-      display_name: "Pelanggan",
-    },
-  ];
-
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private userService: UsersService,
-    private supervisorService: SupervisorsService
+    private ticketpriceService: TicketPricesService
   ) {
-    this.supervisorFormGroup = this.formBuilder.group({
-      id: new FormControl(""),
-      user: new FormControl(""),
-      date_on_duty: new FormControl(""),
+    this.getData();
+
+    this.ticketpriceFormGroup = this.formBuilder.group({
+      id: new FormControl("", Validators.compose([Validators.required])),
+      // title_en: new FormControl("", Validators.compose([Validators.required])),
+      // title_ms: new FormControl("", Validators.compose([Validators.required])),
+      price_citizen: new FormControl(0),
+      price_noncitizen: new FormControl(0),
+      ticket_category: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      module: new FormControl("", Validators.compose([Validators.required])),
+      status: new FormControl(false),
     });
   }
 
-  ngOnInit() {
-    this.getData();
-    this.getUser();
-  }
+  ngOnInit() {}
 
   getData() {
-    this.supervisorService.extended("").subscribe((res) => {
+    this.ticketpriceService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -122,20 +117,6 @@ export class SupervisorsComponent implements OnInit {
         };
       });
     });
-  }
-
-  getUser() {
-    this.userService.getAll().subscribe(
-      (res) => {
-        // console.log("res", res);
-        for (let i = 0; i < res.length; i++) {
-          if (res[i].user_type != "CS") this.users.push(res[i]);
-        }
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
   }
 
   entriesChange($event) {
@@ -168,13 +149,27 @@ export class SupervisorsComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.ticketpriceFormGroup.patchValue({
+      id: "",
+      title_en: "",
+      title_ms: "",
+      price_citizen: 0,
+      price_noncitizen: 0,
+      ticket_category: "",
+      module: "",
+      status: false,
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.supervisorFormGroup.reset();
+      // this.ticketpriceFormGroup.reset();
+      this.emptyFormGroup();
     } else if (process == "update") {
-      this.supervisorFormGroup.patchValue({
+      this.ticketpriceFormGroup.patchValue({
         ...row,
-        user: row.user.id,
+        status: row.status.toString(),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -184,15 +179,15 @@ export class SupervisorsComponent implements OnInit {
     this.modal.hide();
   }
 
-  checkInterceptSupervisor() {
-    let new_user = this.supervisorFormGroup.value.user;
-    let new_date_on_duty = this.supervisorFormGroup.value.date_on_duty;
+  checkInterceptTicketPrice() {
+    let new_ticket_category = this.ticketpriceFormGroup.value.ticket_category;
+    let new_module = this.ticketpriceFormGroup.value.module;
 
     if (this.tableRows.length > 0) {
       for (let i = 0; i < this.tableRows.length; i++) {
         if (
-          new_user == this.tableRows[i].user.id &&
-          new_date_on_duty == this.tableRows[i].date_on_duty
+          new_ticket_category == this.tableRows[i].ticket_category &&
+          new_module == this.tableRows[i].module
         ) {
           return false;
         } else {
@@ -203,8 +198,8 @@ export class SupervisorsComponent implements OnInit {
   }
 
   create() {
-    if (this.checkInterceptSupervisor()) {
-      this.supervisorService.post(this.supervisorFormGroup.value).subscribe(
+    if (this.checkInterceptTicketPrice()) {
+      this.ticketpriceService.post(this.ticketpriceFormGroup.value).subscribe(
         (res) => {
           // console.log("res", res);
           swal
@@ -244,55 +239,59 @@ export class SupervisorsComponent implements OnInit {
         }
       );
     } else {
-      this.sweetAlertWarning(
-        "Ralat",
-        "Hanya 2 penyelia sahaja dibenarkan dalam satu hari bekerja"
-      );
+      this.sweetAlertWarning("Ralat", "Anda telah masukkan data yang sama.");
     }
   }
 
   update() {
-    this.supervisorService
-      .update(this.supervisorFormGroup.value, this.supervisorFormGroup.value.id)
-      .subscribe(
-        (res) => {
-          // console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya dikemaskini.",
-              icon: "success",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              icon: "warning",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-warning",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
-      );
+    if (this.checkInterceptTicketPrice) {
+      this.ticketpriceService
+        .update(
+          this.ticketpriceFormGroup.value,
+          this.ticketpriceFormGroup.value.id
+        )
+        .subscribe(
+          (res) => {
+            // console.log("res", res);
+            swal
+              .fire({
+                title: "Berjaya",
+                text: "Data anda berjaya dikemaskini.",
+                icon: "success",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  this.modal.hide();
+                  this.getData();
+                }
+              });
+          },
+          (err) => {
+            console.error("err", err);
+            swal
+              .fire({
+                title: "Ralat",
+                text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
+                icon: "warning",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  // this.modal.hide();
+                }
+              });
+          }
+        );
+    } else {
+      this.sweetAlertWarning("Ralat", "Anda telah masukkan data yang sama.");
+    }
   }
 
   delete(row) {
@@ -312,7 +311,7 @@ export class SupervisorsComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.supervisorService.delete(row.id).subscribe(
+          this.ticketpriceService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -355,8 +354,15 @@ export class SupervisorsComponent implements OnInit {
     });
   }
 
-  getUserType(value: string) {
-    let result = this.usertypes.find((obj) => {
+  getModule(value: string) {
+    let result = this.modules.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getTicketCategory(value: string) {
+    let result = this.ticketcategories.find((obj) => {
       return obj.value == value;
     });
     return result.display_name;
