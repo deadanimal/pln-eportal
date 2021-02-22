@@ -301,6 +301,87 @@
                             </tr>
                           </thead>
                           <tbody>
+                            <tr *ngFor="let ticketprice of ticketprices">
+                              <th scope="row" class="text-dark">
+                                <span *ngIf="translate.currentLang == 'en'">{{
+                                  ticketprice.title_en
+                                }}</span>
+                                <span *ngIf="translate.currentLang == 'ms'">{{
+                                  ticketprice.title_ms
+                                }}</span>
+                                <br /><small
+                                  *ngIf="secondFormGroup.value.citizen"
+                                  >(RM {{ ticketprice.price_citizen }}/{{
+                                    "Tiket" | translate
+                                  }})</small
+                                ><small *ngIf="!secondFormGroup.value.citizen"
+                                  >(RM {{ ticketprice.price_noncitizen }}/{{
+                                    "Tiket" | translate
+                                  }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  [formControlName]="ticketprice.formcontrol"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Jumlah" | translate }}
+                              </th>
+                              <td class="text-dark">
+                                RM {{ secondFormGroup.value.total | number }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="row" *ngIf="totalticket > 2">
+                          <div class="col">
+                            <alert [type]="'danger'">
+                              <b>{{ "SpacePodStep3Note" | translate }}</b>
+                            </alert>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="row">
+                    <div class="col-6 mx-auto">
+                      <div class="table-responsive">
+                        <table class="table table-borderless">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "Warganegara" | translate }}
+                              </th>
+                              <th scope="col text-center">
+                                <bSwitch
+                                  switch-off-text="{{ 'Tidak' | translate }}"
+                                  switch-on-text="{{ 'Ya' | translate }}"
+                                  formControlName="citizen"
+                                  (changeState)="citizenChange()"
+                                ></bSwitch>
+                              </th>
+                            </tr>
+                          </thead>
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "JenisTiket" | translate }}
+                              </th>
+                              <th scope="col" class="text-dark">
+                                {{ "Kuantiti" | translate }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
                             <tr>
                               <th scope="row" class="text-dark">
                                 {{ "Dewasa" | translate }}<br /><small
@@ -339,34 +420,6 @@
                                 </ngx-number-spinner>
                               </td>
                             </tr>
-                            <!-- <tr>
-                          <th scope="row" class="text-dark">
-                            Warga emas<br /><small>(Percuma)</small>
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="senior"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr> -->
-                            <!-- <tr>
-                          <th scope="row" class="text-dark">
-                            OKU<br /><small>(Percuma)</small>
-                          </th>
-                          <td class="text-dark">
-                            <ngx-number-spinner
-                              [value]="0"
-                              (change)="calculateTotal()"
-                              [min]="0"
-                              formControlName="oku"
-                            >
-                            </ngx-number-spinner>
-                          </td>
-                        </tr> -->
                             <tr>
                               <th scope="row" class="text-dark">
                                 {{ "Jumlah" | translate }}
@@ -386,7 +439,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="text-center">
                     <button
                       type="button"

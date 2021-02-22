@@ -130,10 +130,80 @@
                 <ng-template matStepLabel>{{
                   "ShowStep2Label" | translate
                 }}</ng-template>
-                <div class="row">
-                  <div class="col-8 mx-auto">
-                    <form [formGroup]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                  <div class="row">
+                    <div class="col-8 mx-auto">
                       <div class="table-responsive">
+                        <table class="table table-borderless">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "Warganegara" | translate }}
+                              </th>
+                              <th scope="col">
+                                <bSwitch
+                                  switch-off-text="{{ 'Tidak' | translate }}"
+                                  switch-on-text="{{ 'Ya' | translate }}"
+                                  formControlName="citizen"
+                                  (changeState)="citizenChange()"
+                                ></bSwitch>
+                              </th>
+                            </tr>
+                          </thead>
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-dark">
+                                {{ "JenisTiket" | translate }}
+                              </th>
+                              <th scope="col" class="text-dark">
+                                {{ "Kuantiti" | translate }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let ticketprice of ticketprices">
+                              <th scope="row" class="text-dark">
+                                <span *ngIf="translate.currentLang == 'en'">{{
+                                  ticketprice.title_en
+                                }}</span>
+                                <span *ngIf="translate.currentLang == 'ms'">{{
+                                  ticketprice.title_ms
+                                }}</span>
+                                <br /><small
+                                  *ngIf="secondFormGroup.value.citizen"
+                                  >(RM {{ ticketprice.price_citizen }}/{{
+                                    "Tiket" | translate
+                                  }})</small
+                                ><small *ngIf="!secondFormGroup.value.citizen"
+                                  >(RM {{ ticketprice.price_noncitizen }}/{{
+                                    "Tiket" | translate
+                                  }})</small
+                                >
+                              </th>
+                              <td class="text-dark">
+                                <ngx-number-spinner
+                                  [value]="0"
+                                  (change)="calculateTotal()"
+                                  [min]="0"
+                                  [formControlName]="ticketprice.formcontrol"
+                                >
+                                </ngx-number-spinner>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th scope="row" class="text-dark">
+                                {{ "Jumlah" | translate }}
+                              </th>
+                              <td class="text-dark">
+                                RM {{ secondFormGroup.value.total | number }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <!-- <div class="table-responsive">
                         <table class="table table-borderless">
                           <thead>
                             <tr>
@@ -260,7 +330,7 @@
                             </tr>
                           </tbody>
                         </table>
-                      </div>
+                      </div> -->
                       <alert
                         class="alert-with-icon"
                         [type]="'default alert-with-icon'"
@@ -290,9 +360,9 @@
                           {{ "Seterusnya" | translate }}
                         </button>
                       </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
+                </form>
               </mat-step>
               <mat-step>
                 <ng-template matStepLabel>{{
@@ -326,7 +396,9 @@
                         <div class="box"></div>
                       </td>
                       <td colspan="5" class="text-center">
-                        <h1 class="title text-dark">{{ selectedSeats.length }} / {{ totalSeat }}</h1>
+                        <h1 class="title text-dark">
+                          {{ selectedSeats.length }} / {{ totalSeat }}
+                        </h1>
                       </td>
                     </tr>
                     <br />

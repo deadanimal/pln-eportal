@@ -66,8 +66,8 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
   }
 
   getSubModule() {
-    if (this.router.url.includes("arkib-kutubkhanah")) {
-      this.submoduleService.filter("submodule=arkib-kutubkhanah").subscribe(
+    if (this.router.url.includes("terbitan-bersiri")) {
+      this.submoduleService.filter("submodule=terbitan-bersiri").subscribe(
         (res) => {
           // console.log("res", res);
           this.submodule = res[0];

@@ -84,17 +84,23 @@
                   </tr>
 
                   <tr>
-                    <td class="theadcategory">{{ "BukanWarganegara" | translate }}</td>
+                    <td class="theadcategory">
+                      {{ "BukanWarganegara" | translate }}
+                    </td>
                     <td class="theadcategory">{{ "MyKAD" | translate }}</td>
-                    <td class="theadcategory">{{ "BukanWarganegara" | translate }}</td>
+                    <td class="theadcategory">
+                      {{ "BukanWarganegara" | translate }}
+                    </td>
                     <td class="theadcategory">{{ "MyKID" | translate }}</td>
-                    <td class="theadcategory">{{ "BukanWarganegara" | translate }}</td>
+                    <td class="theadcategory">
+                      {{ "BukanWarganegara" | translate }}
+                    </td>
                     <td class="theadcategory">{{ "MyKID" | translate }}</td>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr *ngFor="let ticket of tickets">
+                  <!-- <tr *ngFor="let ticket of tickets">
                     <td
                       class="theadstyle"
                       *ngIf="translate.currentLang == 'ms'"
@@ -129,6 +135,62 @@
                         [innerHtml]="'PERCUMA' | translate"
                       ></td>
                     </ng-template>
+                  </tr> -->
+
+                  <tr *ngFor="let module of modules">
+                    <td class="theadstyle">
+                      {{
+                        module.value
+                          | ticketPriceModuleFilter: translate.currentLang
+                      }}
+                    </td>
+                    <td class="tbodyprice">
+                      {{
+                        module.value
+                          | ticketPriceDetailFilter: ticketprices:"NC":"AD"
+                      }}
+                    </td>
+                    <td class="tbodyprice">
+                      {{
+                        module.value
+                          | ticketPriceDetailFilter: ticketprices:"CZ":"AD"
+                      }}
+                    </td>
+                    <td class="tbodyprice">
+                      {{
+                        module.value
+                          | ticketPriceDetailFilter: ticketprices:"NC":"KD"
+                      }}
+                    </td>
+                    <td class="tbodyprice">
+                      {{
+                        module.value
+                          | ticketPriceDetailFilter: ticketprices:"CZ":"KD"
+                      }}
+                    </td>
+                    <td class="tbodyprice">
+                      {{
+                        module.value
+                          | ticketPriceDetailFilter: ticketprices:"NC":"SD"
+                      }}
+                    </td>
+                    <td class="tbodyprice">
+                      {{
+                        module.value
+                          | ticketPriceDetailFilter: ticketprices:"CZ":"SD"
+                      }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="theadstyle">
+                      {{ "GALERIPAMERAN" | translate }}
+                    </td>
+                    <td
+                      colspan="6"
+                      class="tbodyprice"
+                      [innerHtml]="'PERCUMA' | translate"
+                    ></td>
                   </tr>
 
                   <tr>

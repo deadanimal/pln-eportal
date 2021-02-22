@@ -66,8 +66,8 @@ export class VirtualLibraryBukuComponent implements OnInit {
   }
 
   getSubModule() {
-    if (this.router.url.includes("arkib-kutubkhanah")) {
-      this.submoduleService.filter("submodule=arkib-kutubkhanah").subscribe(
+    if (this.router.url.includes("buku")) {
+      this.submoduleService.filter("submodule=buku").subscribe(
         (res) => {
           // console.log("res", res);
           this.submodule = res[0];
