@@ -27,6 +27,10 @@ from simulatorrides.models import (
     SimulatorRideBooking
 )
 
+from venues.models import (
+    FacilityBooking
+)
+
 from .serializers import (
     InvoiceReceiptSerializer,
     InvoiceReceiptExtendedSerializer
@@ -79,6 +83,7 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         cart_id = request.data['cart_id']
         show_booking_id = request.data['show_booking_id']
         simulator_ride_booking_id = request.data['simulator_ride_booking_id']
+        facility_booking_id = request.data['facility_booking_id']
 
         InvoiceReceipt.objects.filter(id=invoice_receipt_id).delete()
 
@@ -94,5 +99,10 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             for simulator_ride_booking in simulator_ride_booking_id:
                 SimulatorRideBooking.objects.filter(
                     id=simulator_ride_booking).delete()
+
+        if len(facility_booking_id) > 0:
+            for facility_booking in facility_booking_id:
+                FacilityBooking.objects.filter(
+                    id=facility_booking).delete()
 
         return Response(status=status.HTTP_200_OK)

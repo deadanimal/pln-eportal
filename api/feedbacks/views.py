@@ -74,7 +74,10 @@ class FeedbackViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         if module is not None:
             queryset = queryset.filter(module=module)
         if display is not None:
-            queryset = queryset.filter(display=display)
+            if display == "true":
+                queryset = queryset.filter(display=True)
+            elif display == "false":
+                queryset = queryset.filter(display=False)
 
         serializer_class = FeedbackExtendedSerializer(queryset, many=True)
 
