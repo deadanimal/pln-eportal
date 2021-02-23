@@ -82,8 +82,8 @@ export class VirtualLibraryEsumberComponent implements OnInit {
   }
 
   getSubModule() {
-    if (this.router.url.includes("arkib-kutubkhanah")) {
-      this.submoduleService.filter("submodule=arkib-kutubkhanah").subscribe(
+    if (this.router.url.includes("e-sumber")) {
+      this.submoduleService.filter("submodule=e-sumber").subscribe(
         (res) => {
           // console.log("res", res);
           this.submodule = res[0];

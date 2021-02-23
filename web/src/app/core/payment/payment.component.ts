@@ -226,6 +226,7 @@ export class PaymentComponent implements OnInit {
       let cart_id = [];
       let show_booking_id = [];
       let simulator_ride_booking_id = [];
+      let facility_booking_id = [];
       cart.forEach((obj) => {
         cart_id.push(obj.id);
         if (obj.show_booking_id.length > 0) {
@@ -238,6 +239,11 @@ export class PaymentComponent implements OnInit {
             simulator_ride_booking_id.push(obj.id);
           });
         }
+        if (obj.facility_booking_id.length > 0) {
+          obj.facility_booking_id.forEach((obj) => {
+            facility_booking_id.push(obj.id);
+          });
+        }
       });
 
       let obj = {
@@ -245,6 +251,7 @@ export class PaymentComponent implements OnInit {
         cart_id,
         show_booking_id,
         simulator_ride_booking_id,
+        facility_booking_id,
       };
 
       this.invoicereceiptService.delete_invoice_receipt(obj).subscribe(

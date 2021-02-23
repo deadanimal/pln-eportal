@@ -103,6 +103,8 @@ import { CheckoutComponent } from "./checkout/checkout.component";
 import { FormatFPXTransactionDateTimePipe } from "../shared/pipes/format/format-fpxtransaction-datetime.pipe";
 import { FormatBookingTimePipe } from "../shared/pipes/format/format-booking-time.pipe";
 import { FormatFacilityAreaM2Pipe } from "../shared/pipes/format/format-facility-area-m2.pipe";
+import { TicketPriceModuleFilterPipe } from "../shared/pipes/ticket-price/ticket-price-module-filter.pipe";
+import { TicketPriceDetailFilter } from "../shared/pipes/ticket-price/ticket-price-detail-filter.pipe";
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -174,6 +176,8 @@ const customConfig: ShareButtonsConfig = {
     FormatFPXTransactionDateTimePipe,
     FormatBookingTimePipe,
     FormatFacilityAreaM2Pipe,
+    TicketPriceModuleFilterPipe,
+    TicketPriceDetailFilter,
   ],
   imports: [
     CommonModule,

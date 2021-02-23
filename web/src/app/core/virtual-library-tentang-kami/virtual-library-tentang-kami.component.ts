@@ -31,8 +31,8 @@ export class VirtualLibraryTentangKamiComponent implements OnInit {
   }
 
   getSubModule() {
-    if (this.router.url.includes("arkib-kutubkhanah")) {
-      this.submoduleService.filter("submodule=arkib-kutubkhanah").subscribe(
+    if (this.router.url.includes("tentang-kami")) {
+      this.submoduleService.filter("submodule=tentang-kami").subscribe(
         (res) => {
           // console.log("res", res);
           this.submodule = res[0];

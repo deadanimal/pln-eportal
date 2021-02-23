@@ -111,7 +111,7 @@
                 <span>Tajuk Program</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.educational_program_id.title }}
+                {{ row.educational_program_id.title_ms }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -236,7 +236,7 @@
         >
           <option value="">Sila pilih</option>
           <option *ngFor="let program of programs" [value]="program.id">
-            {{ program.title }}
+            {{ program.title_ms }}
           </option>
         </select>
       </div>
@@ -398,7 +398,7 @@
         >
           <option value="">Sila pilih</option>
           <option *ngFor="let program of programs" [value]="program.id">
-            {{ program.title }}
+            {{ program.title_ms }}
           </option>
         </select>
       </div>

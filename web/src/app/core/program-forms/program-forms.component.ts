@@ -152,25 +152,70 @@ export class ProgramFormsComponent implements OnInit {
     });
 
     this.firstFormGroup = this.formBuilder.group({
-      teacher_name: new FormControl(""),
-      teacher_school_name: new FormControl(""),
-      teacher_school_address: new FormControl(""),
-      teacher_school_postcode: new FormControl(""),
-      teacher_school_division: new FormControl(""),
-      teacher_school_state: new FormControl(""),
-      teacher_tel: new FormControl(""),
-      teacher_hp: new FormControl(""),
-      teacher_email: new FormControl(""),
-      teacher_fax: new FormControl(""),
-      teacher_dob: new FormControl(""),
-      teacher_age: new FormControl(""),
-      teacher_religion: new FormControl(""),
+      teacher_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_address: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_postcode: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_division: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_state: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_hp: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_email: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_fax: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_dob: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_age: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_religion: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       teacher_gender: new FormControl(
         "",
         Validators.compose([Validators.required])
       ),
-      teacher_citizenship: new FormControl(""),
-      teacher_nric_passportno: new FormControl(""),
+      teacher_citizenship: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_nric_passportno: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       teacher_maritalstatus: new FormControl(
         "",
         Validators.compose([Validators.required])
@@ -179,10 +224,22 @@ export class ProgramFormsComponent implements OnInit {
         "",
         Validators.compose([Validators.required])
       ),
-      teacher_contactperson_name: new FormControl(""),
-      teacher_contactperson_tel: new FormControl(""),
-      teacher_anysickness: new FormControl(""),
-      teacher_anyallergies: new FormControl(""),
+      teacher_contactperson_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_contactperson_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_anysickness: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_anyallergies: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       teacher_vegetarian: new FormControl(
         "",
         Validators.compose([Validators.required])
@@ -190,22 +247,58 @@ export class ProgramFormsComponent implements OnInit {
     });
 
     this.secondFormGroup = this.formBuilder.group({
-      student_1_name: new FormControl(""),
-      student_1_dob: new FormControl(""),
-      student_1_age: new FormControl(""),
-      student_1_year: new FormControl(""),
-      student_1_religion: new FormControl(""),
-      student_1_gender: new FormControl(""),
-      student_1_citizenship: new FormControl(""),
-      student_1_nric_passportno: new FormControl(""),
+      student_1_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_dob: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_age: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_year: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_religion: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_gender: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_citizenship: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_nric_passportno: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       student_1_tshirt_size: new FormControl(
         "",
         Validators.compose([Validators.required])
       ),
-      student_1_contactperson_name: new FormControl(""),
-      student_1_contactperson_tel: new FormControl(""),
-      student_1_anysickness: new FormControl(""),
-      student_1_anyallergies: new FormControl(""),
+      student_1_contactperson_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_contactperson_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_anysickness: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_anyallergies: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       student_1_vegetarian: new FormControl(
         "",
         Validators.compose([Validators.required])
@@ -213,22 +306,58 @@ export class ProgramFormsComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.formBuilder.group({
-      student_2_name: new FormControl(""),
-      student_2_dob: new FormControl(""),
-      student_2_age: new FormControl(""),
-      student_2_year: new FormControl(""),
-      student_2_religion: new FormControl(""),
-      student_2_gender: new FormControl(""),
-      student_2_citizenship: new FormControl(""),
-      student_2_nric_passportno: new FormControl(""),
+      student_2_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_dob: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_age: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_year: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_religion: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_gender: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_citizenship: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_nric_passportno: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       student_2_tshirt_size: new FormControl(
         "",
         Validators.compose([Validators.required])
       ),
-      student_2_contactperson_name: new FormControl(""),
-      student_2_contactperson_tel: new FormControl(""),
-      student_2_anysickness: new FormControl(""),
-      student_2_anyallergies: new FormControl(""),
+      student_2_contactperson_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_contactperson_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_anysickness: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_anyallergies: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       student_2_vegetarian: new FormControl(
         "",
         Validators.compose([Validators.required])
@@ -249,7 +378,7 @@ export class ProgramFormsComponent implements OnInit {
   getProgram() {
     this.eduprogramService.filter("id=" + this.program_id).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.program = res;
         this.zeroFormGroup.patchValue({
           educational_program_id: this.program[0].id,
@@ -273,15 +402,18 @@ export class ProgramFormsComponent implements OnInit {
   }
 
   submitEntry() {
-    this.firstFormGroup.value.teacher_dob = this.formatDate(
-      this.firstFormGroup.value.teacher_dob
-    );
-    this.secondFormGroup.value.student_1_dob = this.formatDate(
-      this.secondFormGroup.value.student_1_dob
-    );
-    this.thirdFormGroup.value.student_2_dob = this.formatDate(
-      this.thirdFormGroup.value.student_2_dob
-    );
+    // if (this.firstFormGroup.value.teacher_dob)
+    //   this.firstFormGroup.value.teacher_dob = this.formatDate(
+    //     this.firstFormGroup.value.teacher_dob
+    //   );
+    // if (this.firstFormGroup.value.student_1_dob)
+    //   this.secondFormGroup.value.student_1_dob = this.formatDate(
+    //     this.secondFormGroup.value.student_1_dob
+    //   );
+    // if (this.firstFormGroup.value.student_2_dob)
+    //   this.thirdFormGroup.value.student_2_dob = this.formatDate(
+    //     this.thirdFormGroup.value.student_2_dob
+    //   );
 
     let postArray = {
       ...this.zeroFormGroup.value,
@@ -289,11 +421,11 @@ export class ProgramFormsComponent implements OnInit {
       ...this.secondFormGroup.value,
       ...this.thirdFormGroup.value,
     };
-    console.log("postArray", postArray);
+    // console.log("postArray", postArray);
 
     this.eduprogramformService.create(postArray).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             icon: "success",
@@ -319,7 +451,7 @@ export class ProgramFormsComponent implements OnInit {
         };
         this.emailtemplateService.sending_mail(obj).subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
           },
           (err) => {
             console.error("err", err);

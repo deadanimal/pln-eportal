@@ -136,6 +136,36 @@
                             >
                           </p>
                         </div>
+                        <div *ngIf="summarycarts[i][0].type == 'facility'">
+                          <h5
+                            *ngIf="summarycarts[i][0].type == 'facility'"
+                            class="title text-dark mt-0 mb-3"
+                          >
+                            <span *ngIf="translate.currentLang == 'en'"
+                              >{{ summarycarts[i][0].facility_name_en }},
+                              {{ summarycarts[i][0].booking_date }} ({{
+                                summarycarts[i][0].booking_days_en
+                              }})</span
+                            >
+                            <span *ngIf="translate.currentLang == 'ms'"
+                              >{{ summarycarts[i][0].facility_name_ms }},
+                              {{ summarycarts[i][0].booking_date }} ({{
+                                summarycarts[i][0].booking_days_ms
+                              }})</span
+                            >
+                          </h5>
+                          <p
+                            class="text-dark m-0"
+                            *ngFor="let summary of summarycarts[i]"
+                          >
+                            <span *ngIf="translate.currentLang == 'en'"
+                              >{{ summary.want_equipment_en }}
+                            </span>
+                            <span *ngIf="translate.currentLang == 'ms'"
+                              >{{ summary.want_equipment_ms }}
+                            </span>
+                          </p>
+                        </div>
                       </td>
                       <td class="text-center">
                         <!-- Booking Quantity -->
@@ -172,7 +202,10 @@
                     class="title text-dark m-0"
                     [innerHtml]="'BaucarNota' | translate"
                   ></h5>
-                  <p class="text-danger font-weight-bold" *ngIf="total_voucher > 0">
+                  <p
+                    class="text-danger font-weight-bold"
+                    *ngIf="total_voucher > 0"
+                  >
                     {{ "BaucarNilai" | translate: voucher_amount }}
                   </p>
                 </div>
@@ -198,9 +231,9 @@
                   <h4 class="title text-dark m-0">
                     {{ "Jumlah" | translate }}
                   </h4>
-                  <h2 class="font-weight-bold text-default m-0">
+                  <h3 class="font-weight-bold text-default m-0">
                     RM {{ totalprice | number: "1.2-2" }}
-                  </h2>
+                  </h3>
                 </div>
                 <div class="col text-right d-flex align-items-center">
                   <button

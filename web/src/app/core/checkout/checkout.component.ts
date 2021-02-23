@@ -12,6 +12,7 @@ import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { CartsService } from "src/app/shared/services/carts/carts.service";
+import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
@@ -27,7 +28,7 @@ export class CheckoutComponent implements OnInit {
   // CSS class
   fontSize: string;
   themeColor: string;
-  
+
   // Data
   user_id: string = "";
   carts = [];
@@ -46,6 +47,23 @@ export class CheckoutComponent implements OnInit {
   total_price_after_voucher: number = 0;
 
   // Dropdown
+  bookingdays = [
+    {
+      value: "HALF",
+      display_name_en: "Half Day",
+      display_name_ms: "Separuh Hari",
+    },
+    {
+      value: "FULL",
+      display_name_en: "Full Day",
+      display_name_ms: "Satu Hari",
+    },
+    {
+      value: "NONE",
+      display_name_en: "None",
+      display_name_ms: "Tiada",
+    },
+  ];
   simulatorridedays = [
     {
       value: "MON",
@@ -137,6 +155,23 @@ export class CheckoutComponent implements OnInit {
       display_name_ms: "OKU",
     },
   ];
+  wantequipments = [
+    {
+      value: "WITH",
+      display_name_en: "With Equipment",
+      display_name_ms: "Dengan Peralatan",
+    },
+    {
+      value: "WOUT",
+      display_name_en: "Without Equipment",
+      display_name_ms: "Tanpa Peralatan",
+    },
+    {
+      value: "NA",
+      display_name_en: "Not Available",
+      display_name_ms: "Tiada",
+    },
+  ];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -144,6 +179,7 @@ export class CheckoutComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private cartService: CartsService,
+    private facilitybookingService: FacilityBookingsService,
     private invoicereceiptService: InvoiceReceiptsService,
     private showbookingService: ShowbookingsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
@@ -199,6 +235,12 @@ export class CheckoutComponent implements OnInit {
       else if (this.carts[i].simulator_ride_booking_id.length > 0) {
         this.summarycarts.push(
           this.summarySimulatorRide(this.carts[i].simulator_ride_booking_id)
+        );
+      }
+      // to check if facility_booking_id have a value
+      else if (this.carts[i].facility_booking_id.length > 0) {
+        this.summarycarts.push(
+          this.summaryFacility(this.carts[i].facility_booking_id)
         );
       }
 
@@ -275,6 +317,37 @@ export class CheckoutComponent implements OnInit {
     return array;
   }
 
+  summaryFacility(facility_booking_id) {
+    let array = [];
+    for (let i = 0; i < facility_booking_id.length; i++) {
+      let obj = {
+        facility_name_en: facility_booking_id[i].facility_id.name_en,
+        facility_name_ms: facility_booking_id[i].facility_id.name_ms,
+        booking_date: facility_booking_id[i].booking_date,
+        booking_days_en: this.getBookingDay(
+          facility_booking_id[i].booking_days,
+          "en"
+        ),
+        booking_days_ms: this.getBookingDay(
+          facility_booking_id[i].booking_days,
+          "ms"
+        ),
+        want_equipment_en: this.getWantEquipment(
+          facility_booking_id[i].want_equipment,
+          "en"
+        ),
+        want_equipment_ms: this.getWantEquipment(
+          facility_booking_id[i].want_equipment,
+          "ms"
+        ),
+        total_price: +facility_booking_id[i].total_price,
+        type: "facility",
+      };
+      array.push(obj);
+    }
+    return array;
+  }
+
   calculatoPriceEachCart(summarycarts) {
     let total_price = 0;
     for (let i = 0; i < summarycarts.length; i++) {
@@ -302,6 +375,9 @@ export class CheckoutComponent implements OnInit {
     } else if (cart.simulator_ride_booking_id.length > 0) {
       child_array = cart.simulator_ride_booking_id;
       child_type = "simulator-ride";
+    } else if (cart.facility_booking_id.length > 0) {
+      child_array = cart.facility_booking_id;
+      child_type = "facility";
     }
 
     swal
@@ -345,6 +421,22 @@ export class CheckoutComponent implements OnInit {
                   );
                 } else if (child_type == "simulator-ride") {
                   this.simulatorridebookingService
+                    .delete(child_array[i].id)
+                    .subscribe(
+                      (res) => {
+                        // console.log("res", res);
+                      },
+                      (err) => {
+                        console.error("err", err);
+                      },
+                      () => {
+                        if (i === child_array.length - 1) {
+                          location.reload();
+                        }
+                      }
+                    );
+                } else if (child_type == "facility") {
+                  this.facilitybookingService
                     .delete(child_array[i].id)
                     .subscribe(
                       (res) => {
@@ -580,6 +672,14 @@ export class CheckoutComponent implements OnInit {
     return formatDate + "T" + formatTime + "Z";
   }
 
+  getBookingDay(value: string, lang: string) {
+    let result = this.bookingdays.find((obj) => {
+      return obj.value == value;
+    });
+    if (result && lang == "en") return result.display_name_en;
+    if (result && lang == "ms") return result.display_name_ms;
+  }
+
   getSimulatorRideDay(value: string, lang: string) {
     let result = this.simulatorridedays.find((obj) => {
       return obj.value == value;
@@ -598,6 +698,14 @@ export class CheckoutComponent implements OnInit {
 
   getTicketCategory(value: string, lang: string) {
     let result = this.ticketcategories.find((obj) => {
+      return obj.value == value;
+    });
+    if (result && lang == "en") return result.display_name_en;
+    if (result && lang == "ms") return result.display_name_ms;
+  }
+
+  getWantEquipment(value: string, lang: string) {
+    let result = this.wantequipments.find((obj) => {
       return obj.value == value;
     });
     if (result && lang == "en") return result.display_name_en;

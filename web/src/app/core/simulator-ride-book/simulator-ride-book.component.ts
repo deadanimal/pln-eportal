@@ -1,5 +1,10 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MatStepper } from "@angular/material/stepper";
 import { NavigationExtras, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
@@ -11,6 +16,7 @@ import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { SimulatorRideTimesService } from "src/app/shared/services/simulator-ride-times/simulator-ride-times.service";
+import { TicketPricesService } from "src/app/shared/services/ticket-prices/ticket-prices.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
@@ -30,6 +36,7 @@ export class SimulatorRideBookComponent implements OnInit {
   acceptedbookings = [];
   today: Date = new Date();
   threemonth: Date = new Date();
+  ticketprices = [];
   totalticket: number = 0;
   totalexistticket: number = 1;
 
@@ -90,6 +97,7 @@ export class SimulatorRideBookComponent implements OnInit {
     private cartService: CartsService,
     private simulatorridebookingService: SimulatorRideBookingsService,
     private simulatorridetimeService: SimulatorRideTimesService,
+    private ticketpriceService: TicketPricesService,
     private w3cService: W3csService
   ) {
     // minDate - to set the min date starting day after tomorrow
@@ -99,6 +107,7 @@ export class SimulatorRideBookComponent implements OnInit {
 
     this.getExistBooking();
     this.getSimRideTime();
+    this.getSimulatorRidePrice();
 
     this.zeroFormGroup = this.formBuilder.group({
       accept: [false, Validators.compose([Validators.requiredTrue])],
@@ -109,8 +118,8 @@ export class SimulatorRideBookComponent implements OnInit {
     });
     this.secondFormGroup = this.formBuilder.group({
       citizen: [true, Validators.required],
-      adult: [0, Validators.required],
-      children: [0, Validators.required],
+      // adult: [0, Validators.required],
+      // children: [0, Validators.required],
       // senior: [0, Validators.required],
       // oku: [0, Validators.required],
       total: [0, Validators.required],
@@ -141,6 +150,39 @@ export class SimulatorRideBookComponent implements OnInit {
     );
   }
 
+  getSimulatorRidePrice() {
+    this.ticketpriceService
+      .filter("module=simulator-ride&status=true")
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.ticketprices = res;
+
+          for (let i = 0; i < this.ticketprices.length; i++) {
+            // ticket_category: AD
+            if (this.ticketprices[i].ticket_category == "AD") {
+              this.ticketprices[i].formcontrol = "adult";
+              this.secondFormGroup.addControl(
+                "adult",
+                new FormControl([0, Validators.required])
+              );
+            }
+            // ticket_category: KD
+            if (this.ticketprices[i].ticket_category == "KD") {
+              this.ticketprices[i].formcontrol = "children";
+              this.secondFormGroup.addControl(
+                "children",
+                new FormControl([0, Validators.required])
+              );
+            }
+          }
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+  }
+
   ngOnInit() {
     this.w3cService.currentFontSize.subscribe(
       (fontSize) => (this.fontSize = fontSize)
@@ -156,24 +198,96 @@ export class SimulatorRideBookComponent implements OnInit {
   }
 
   calculateTotal() {
-    this.totalticket =
-      this.totalexistticket +
-      this.secondFormGroup.value.adult +
-      this.secondFormGroup.value.children;
+    let count = 0;
+    for (let i = 0; i < this.ticketprices.length; i++) {
+      let formcontrol = this.secondFormGroup.value[
+        this.ticketprices[i].formcontrol
+      ];
+      count += formcontrol;
 
-    if (this.secondFormGroup.value.citizen) {
-      this.secondFormGroup.value.total =
-        this.secondFormGroup.value.adult * 12 +
-        this.secondFormGroup.value.children * 8;
-    } else {
-      this.secondFormGroup.value.total =
-        this.secondFormGroup.value.adult * 24 +
-        this.secondFormGroup.value.children * 16;
+      if (this.secondFormGroup.value.citizen) {
+        this.secondFormGroup.value.total +=
+          formcontrol * this.ticketprices[i].price_citizen;
+      } else {
+        this.secondFormGroup.value.total +=
+          formcontrol * this.ticketprices[i].price_noncitizen;
+      }
     }
+    this.totalticket = this.totalexistticket + count;
+
+    // this.totalticket =
+    //   this.totalexistticket +
+    //   this.secondFormGroup.value.adult +
+    //   this.secondFormGroup.value.children;
+
+    // if (this.secondFormGroup.value.citizen) {
+    //   this.secondFormGroup.value.total =
+    //     this.secondFormGroup.value.adult * 12 +
+    //     this.secondFormGroup.value.children * 8;
+    // } else {
+    //   this.secondFormGroup.value.total =
+    //     this.secondFormGroup.value.adult * 24 +
+    //     this.secondFormGroup.value.children * 16;
+    // }
   }
 
   makePayment() {
-    var totalTicket =
+    var simulatorRideTimeId = this.firstFormGroup.value.time.split("_").pop();
+    var ticketType = this.secondFormGroup.value.citizen ? "CZ" : "NC";
+
+    var totalTicket = 0;
+    var arrayTotalTicket = [];
+    for (let i = 0; i < this.ticketprices.length; i++) {
+      let formcontrol = this.secondFormGroup.value[
+        this.ticketprices[i].formcontrol
+      ];
+      let obj = {
+        type: ticketType,
+        category: this.ticketprices[i].ticket_category,
+        count_ticket: formcontrol,
+        price: this.secondFormGroup.value.citizen
+          ? this.ticketprices[i].price_citizen
+          : this.ticketprices[i].price_noncitizen,
+      };
+      totalTicket += formcontrol;
+      arrayTotalTicket.push(obj);
+    }
+
+    let arrayPost = [];
+    for (let i = 0; i < arrayTotalTicket.length; i++) {
+      for (let j = 0; j < arrayTotalTicket[i].count_ticket; j++) {
+        let obj = {
+          booking_date: this.formatDate(this.firstFormGroup.value.date),
+          ticket_type: arrayTotalTicket[i].type,
+          ticket_category: arrayTotalTicket[i].category,
+          ticket_quantity: 1,
+          price: arrayTotalTicket[i].price,
+          total_price: arrayTotalTicket[i].price,
+          simulator_ride_time_id: simulatorRideTimeId,
+          user_id: this.authService.decodedToken().user_id,
+        };
+        arrayPost.push(obj);
+      }
+    }
+
+    for (let index = 0; index < arrayPost.length; index++) {
+      this.simulatorridebookingService.post(arrayPost[index]).subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.acceptedbookings.push(res);
+        },
+        (err) => {
+          console.error("err", err);
+        },
+        () => {
+          if (index === totalTicket - 1) {
+            this.updateStatusToSRB02();
+          }
+        }
+      );
+    }
+
+    /* var totalTicket =
       this.secondFormGroup.value.adult + this.secondFormGroup.value.children;
     var simulatorRideTimeId = this.firstFormGroup.value.time.split("_").pop();
     var ticketType = this.secondFormGroup.value.citizen ? "CZ" : "NC";
@@ -207,7 +321,6 @@ export class SimulatorRideBookComponent implements OnInit {
 
       this.simulatorridebookingService.post(objPost).subscribe(
         (res) => {
-          /* stuck disini untuk membuat bayaran FPX */
           // console.log("res", res);
           this.acceptedbookings.push(res);
         },
@@ -220,7 +333,7 @@ export class SimulatorRideBookComponent implements OnInit {
           }
         }
       );
-    }
+    } */
   }
 
   // to update the status of simulator ride booking from SRB01 to SRB02
@@ -350,17 +463,23 @@ export class SimulatorRideBookComponent implements OnInit {
       if (result.length == 0) {
         this.totalexistticket = 0;
         // this.totalTicket = 0;
-        this.secondFormGroup.patchValue({
-          adult: 0,
-          children: 0,
-        });
+        for (let i = 0; i < this.ticketprices.length; i++) {
+          this.secondFormGroup.get(this.ticketprices[i].formcontrol).patchValue(0);
+        }
+        // this.secondFormGroup.patchValue({
+        //   adult: 0,
+        //   children: 0,
+        // });
         stepper.next();
       } else if (result.length == 1) {
         // this.totalTicket = 0;
-        this.secondFormGroup.patchValue({
-          adult: 0,
-          children: 0,
-        });
+        for (let i = 0; i < this.ticketprices.length; i++) {
+          this.secondFormGroup.get(this.ticketprices[i].formcontrol).patchValue(0);
+        }
+        // this.secondFormGroup.patchValue({
+        //   adult: 0,
+        //   children: 0,
+        // });
         swal
           .fire({
             icon: "info",

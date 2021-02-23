@@ -1,5 +1,10 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MatStepper } from "@angular/material/stepper";
 import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
@@ -13,6 +18,7 @@ import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { ShowtimesService } from "src/app/shared/services/showtimes/showtimes.service";
 import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
+import { TicketPricesService } from "src/app/shared/services/ticket-prices/ticket-prices.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 import { Seats } from "src/assets/json/seats";
@@ -37,6 +43,7 @@ export class ShowsBookComponent implements OnInit {
   showtimes = [];
   acceptedbookings = [];
   today: Date = new Date();
+  ticketprices = [];
   totalticket: number = 0;
   totalSeat: number = 0;
   user_obj: any;
@@ -108,11 +115,13 @@ export class ShowsBookComponent implements OnInit {
     private showingService: ShowingsService,
     private showtimeService: ShowtimesService,
     private showbookingService: ShowbookingsService,
+    private ticketpriceService: TicketPricesService,
     private w3cService: W3csService
   ) {
     this.today.setDate(this.today.getDate() + 1);
 
     this.getExistBooking();
+    this.getShowsPrice();
 
     this.user_obj = this.authService.decodedToken();
     // this.route.queryParams.subscribe((params) => {
@@ -126,11 +135,11 @@ export class ShowsBookComponent implements OnInit {
     });
     this.secondFormGroup = this.formBuilder.group({
       citizen: [true, Validators.required],
-      adult: [0, Validators.required],
-      children: [0, Validators.required],
-      school: [0, Validators.required],
-      senior: [0, Validators.required],
-      oku: [0, Validators.required],
+      // adult: [0, Validators.required],
+      // children: [0, Validators.required],
+      // school: [0, Validators.required],
+      // senior: [0, Validators.required],
+      // oku: [0, Validators.required],
       total: [0, Validators.required],
     });
 
@@ -156,6 +165,61 @@ export class ShowsBookComponent implements OnInit {
       (res) => {
         // console.log("res", res);
         this.existbookings = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getShowsPrice() {
+    this.ticketpriceService.filter("module=shows&status=true").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.ticketprices = res;
+
+        for (let i = 0; i < this.ticketprices.length; i++) {
+          // ticket_category: AD
+          if (this.ticketprices[i].ticket_category == "AD") {
+            this.ticketprices[i].formcontrol = "adult";
+            this.secondFormGroup.addControl(
+              "adult",
+              new FormControl([0, Validators.required])
+            );
+          }
+          // ticket_category: KD
+          else if (this.ticketprices[i].ticket_category == "KD") {
+            this.ticketprices[i].formcontrol = "children";
+            this.secondFormGroup.addControl(
+              "children",
+              new FormControl([0, Validators.required])
+            );
+          }
+          // ticket_category: OF
+          else if (this.ticketprices[i].ticket_category == "OF") {
+            this.ticketprices[i].formcontrol = "senior";
+            this.secondFormGroup.addControl(
+              "senior",
+              new FormControl([0, Validators.required])
+            );
+          }
+          // ticket_category: SD
+          else if (this.ticketprices[i].ticket_category == "SD") {
+            this.ticketprices[i].formcontrol = "school";
+            this.secondFormGroup.addControl(
+              "school",
+              new FormControl([0, Validators.required])
+            );
+          }
+          // ticket_category: OK
+          else if (this.ticketprices[i].ticket_category == "OK") {
+            this.ticketprices[i].formcontrol = "oku";
+            this.secondFormGroup.addControl(
+              "oku",
+              new FormControl([0, Validators.required])
+            );
+          }
+        }
       },
       (err) => {
         console.error("err", err);
@@ -241,38 +305,123 @@ export class ShowsBookComponent implements OnInit {
   }
 
   calculateTotal() {
+    let count = 0;
+    for (let i = 0; i < this.ticketprices.length; i++) {
+      let formcontrol = this.secondFormGroup.value[
+        this.ticketprices[i].formcontrol
+      ];
+      count += formcontrol;
+
+      // to check either school have minimum 30 or not
+      if (this.ticketprices[i].formcontrol == "school") {
+        let school = this.secondFormGroup.value["school"];
+        if (school == 0 || school >= 30) this.schoolMinimum = false;
+        else this.schoolMinimum = true;
+      }
+
+      if (this.secondFormGroup.value.citizen) {
+        this.secondFormGroup.value.total +=
+          formcontrol * this.ticketprices[i].price_citizen;
+      } else {
+        this.secondFormGroup.value.total +=
+          formcontrol * this.ticketprices[i].price_noncitizen;
+      }
+    }
+    this.totalticket = count;
+
     // to check either school have minimum 30 or not
-    if (
-      this.secondFormGroup.value.school == 0 ||
-      this.secondFormGroup.value.school >= 30
-    ) {
-      this.schoolMinimum = false;
-    } else {
-      this.schoolMinimum = true;
-    }
+    // if (
+    //   this.secondFormGroup.value.school == 0 ||
+    //   this.secondFormGroup.value.school >= 30
+    // ) {
+    //   this.schoolMinimum = false;
+    // } else {
+    //   this.schoolMinimum = true;
+    // }
 
-    this.totalticket =
-      this.secondFormGroup.value.adult +
-      this.secondFormGroup.value.children +
-      this.secondFormGroup.value.school +
-      this.secondFormGroup.value.senior +
-      this.secondFormGroup.value.oku;
+    // this.totalticket =
+    //   this.secondFormGroup.value.adult +
+    //   this.secondFormGroup.value.children +
+    //   this.secondFormGroup.value.school +
+    //   this.secondFormGroup.value.senior +
+    //   this.secondFormGroup.value.oku;
 
-    if (this.secondFormGroup.value.citizen) {
-      this.secondFormGroup.value.total =
-        this.secondFormGroup.value.adult * 6 +
-        this.secondFormGroup.value.children * 4 +
-        this.secondFormGroup.value.school * 4;
-    } else {
-      this.secondFormGroup.value.total =
-        this.secondFormGroup.value.adult * 12 +
-        this.secondFormGroup.value.children * 8 +
-        this.secondFormGroup.value.school * 8;
-    }
+    // if (this.secondFormGroup.value.citizen) {
+    //   this.secondFormGroup.value.total =
+    //     this.secondFormGroup.value.adult * 6 +
+    //     this.secondFormGroup.value.children * 4 +
+    //     this.secondFormGroup.value.school * 4;
+    // } else {
+    //   this.secondFormGroup.value.total =
+    //     this.secondFormGroup.value.adult * 12 +
+    //     this.secondFormGroup.value.children * 8 +
+    //     this.secondFormGroup.value.school * 8;
+    // }
   }
 
   makePayment() {
-    var totalTicket =
+    var showtimeId = this.firstFormGroup.value.time.split("_").pop();
+    var ticketType = this.secondFormGroup.value.citizen ? "CZ" : "NC";
+
+    var totalTicket = 0;
+    var arrayTotalTicket = [];
+    for (let i = 0; i < this.ticketprices.length; i++) {
+      let formcontrol = this.secondFormGroup.value[
+        this.ticketprices[i].formcontrol
+      ];
+      let obj = {
+        type: ticketType,
+        category: this.ticketprices[i].ticket_category,
+        count_ticket: formcontrol,
+        price: this.secondFormGroup.value.citizen
+          ? this.ticketprices[i].price_citizen
+          : this.ticketprices[i].price_noncitizen,
+      };
+      totalTicket += formcontrol;
+      arrayTotalTicket.push(obj);
+    }
+
+    let arrayPost = [];
+    let countSeat = 0;
+    for (let i = 0; i < arrayTotalTicket.length; i++) {
+      for (let j = 0; j < arrayTotalTicket[i].count_ticket; j++) {
+        let obj = {
+          ticket_type: arrayTotalTicket[i].type,
+          ticket_category: arrayTotalTicket[i].category,
+          ticket_quantity: 1,
+          price: arrayTotalTicket[i].price,
+          total_price: arrayTotalTicket[i].price,
+          showtime_id: showtimeId,
+          user_id: this.authService.decodedToken().user_id,
+          show_id: this.route.snapshot.paramMap.get("id"),
+          ticket_seat: this.selectedSeats[countSeat++].name,
+        };
+        arrayPost.push(obj);
+      }
+    }
+
+    for (let index = 0; index < arrayPost.length; index++) {
+      this.showbookingService.post(arrayPost[index]).subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.acceptedbookings.push(res);
+        },
+        (err) => {
+          console.error("err", err);
+        },
+        () => {
+          if (index === totalTicket - 1) {
+            // make a condition here
+            // if totalTicket < 30 = no voucher = status - SB02
+            // else totalTicket >= 30 = voucher = status - SB01
+            if (totalTicket < 30) this.updateStatusToSB02();
+            else this.maintainStatusSB01();
+          }
+        }
+      );
+    }
+
+    /* var totalTicket =
       this.secondFormGroup.value.adult +
       this.secondFormGroup.value.children +
       this.secondFormGroup.value.school +
@@ -330,7 +479,6 @@ export class ShowsBookComponent implements OnInit {
 
       this.showbookingService.post(objPost).subscribe(
         (res) => {
-          /* stuck disini untuk membuat bayaran FPX */
           // console.log("res", res);
           this.acceptedbookings.push(res);
         },
@@ -347,7 +495,7 @@ export class ShowsBookComponent implements OnInit {
           }
         }
       );
-    }
+    } */
 
     /* for (let value in this.secondFormGroup.value) {
       if (
@@ -502,12 +650,17 @@ export class ShowsBookComponent implements OnInit {
   }
 
   click2ndStep() {
-    this.totalSeat =
-      this.secondFormGroup.value.adult +
-      this.secondFormGroup.value.children +
-      this.secondFormGroup.value.school +
-      this.secondFormGroup.value.senior +
-      this.secondFormGroup.value.oku;
+    for (let i = 0; i < this.ticketprices.length; i++) {
+      this.totalSeat += this.secondFormGroup.get(
+        this.ticketprices[i].formcontrol
+      ).value;
+    }
+    // this.totalSeat =
+    //   this.secondFormGroup.value.adult +
+    //   this.secondFormGroup.value.children +
+    //   this.secondFormGroup.value.school +
+    //   this.secondFormGroup.value.senior +
+    //   this.secondFormGroup.value.oku;
   }
 
   selectSeat(row: number, column: number) {
@@ -583,10 +736,13 @@ export class ShowsBookComponent implements OnInit {
     });
     this.selectedexistbookings = result;
 
+    for (let i = 0; i < this.ticketprices.length; i++) {
+      this.secondFormGroup.get(this.ticketprices[i].formcontrol).patchValue(0);
+    }
+
     // block seat if the seat have been book by other user
 
     // to check if the calendar is block the shows to be registered
-
     if (
       this.checkCalendar(
         this.route.snapshot.paramMap.get("id"),

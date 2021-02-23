@@ -153,15 +153,6 @@ export const ROUTES: RouteInfo[] = [
     ],
     role: ['DR', 'SA', 'PK']
   },
-  // {
-  //   path: "/tickets",
-  //   title: "Tiket",
-  //   type: "sub",
-  //   icontype: "fas fa-ticket-alt text-primary",
-  //   collapse: "tickets",
-  //   isCollapsed: true,
-  //   children: [{ path: "prices", title: "Harga", type: "link" }],
-  // },
   {
     path: "/surveys",
     title: "Soal Selidik",
@@ -200,6 +191,13 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [{ path: "list", title: "Senarai", type: "link" }],
     role: ['DR', 'SA', 'TA']
+  },
+  {
+    path: "/ticket-prices",
+    title: "Harga Tiket",
+    type: "link",
+    icontype: "fas fa-ticket-alt text-primary",
+    role: ['DR', 'SA', 'FA', 'TA'],
   },
   {
     path: "/refunds",

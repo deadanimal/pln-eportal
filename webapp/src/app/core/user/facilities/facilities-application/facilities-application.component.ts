@@ -698,7 +698,7 @@ export class FacilitiesApplicationComponent implements OnInit {
       user: user_id,
       show_booking_id: [],
       simulator_ride_booking_id: [],
-      faciltiy_booking_id: facility_cart,
+      facility_booking_id: facility_cart,
     };
     this.cartService.post(obj).subscribe(
       (res) => {
@@ -724,6 +724,8 @@ export class FacilitiesApplicationComponent implements OnInit {
               this.updateStatusToFB04(facility_cart[0], user_id);
             }
           );
+        } else {
+          this.updateStatusToFB04(facility_cart[0], user_id);
         }
       }
     );

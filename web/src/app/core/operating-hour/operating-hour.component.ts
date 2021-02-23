@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
+import { TicketPricesService } from "src/app/shared/services/ticket-prices/ticket-prices.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
 @Component({
@@ -14,6 +15,7 @@ export class OperatingHourComponent implements OnInit {
   themeColor: string;
 
   // Data
+  ticketprices = [];
   tickets = [
     {
       venue_ms: "TAYANGAN PLANETARIUM",
@@ -47,7 +49,48 @@ export class OperatingHourComponent implements OnInit {
     },
   ];
 
-  constructor(public translate: TranslateService, private w3cService: W3csService) {}
+  // Dropdown
+  modules = [
+    {
+      value: "shows",
+      display_name: "Tayangan",
+    },
+    {
+      value: "simulator-ride",
+      display_name: "Kembara Simulasi",
+    },
+  ];
+
+  constructor(
+    public translate: TranslateService,
+    private ticketpriceService: TicketPricesService,
+    private w3cService: W3csService
+  ) {
+    this.getData();
+  }
+
+  getData() {
+    this.ticketpriceService.filter("status=true").subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.ticketprices = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getTicketPrice(module: string, ticket_type: string, ticket_category: string) {
+    let result = this.ticketprices.find((obj) => {
+      return (
+        obj.module == module &&
+        obj.ticket_type == ticket_type &&
+        obj.ticket_category == ticket_category
+      );
+    });
+    return result;
+  }
 
   ngOnInit() {
     this.w3cService.currentFontSize.subscribe(

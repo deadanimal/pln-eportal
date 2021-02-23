@@ -56,7 +56,7 @@ import { SimulatorRideApplicationsComponent } from "./simulator-ride/simulator-r
 import { SimulatorRideScheduleComponent } from "./simulator-ride/simulator-ride-schedule/simulator-ride-schedule.component";
 import { SurveysAnswerComponent } from "./surveys/surveys-answer/surveys-answer.component";
 import { SurveysListComponent } from "./surveys/surveys-list/surveys-list.component";
-import { TicketsPriceComponent } from "./tickets/tickets-price/tickets-price.component";
+import { TicketPricesComponent } from "./ticket-prices/ticket-prices.component";
 import { VenuesComponent } from "./venues/venues.component";
 import { VirtualLibrariesListComponent } from "./virtual-libraries/virtual-libraries-list/virtual-libraries-list.component";
 import { VirtualLibraryArchivekutubkhanahCategoriesListComponent } from "./virtual-libraries/virtual-library-archivekutubkhanah-categories-list/virtual-library-archivekutubkhanah-categories-list.component";
@@ -77,6 +77,10 @@ export const UserRoutes: Routes = [
   {
     path: "",
     children: [
+      {
+        path: "ticket-prices",
+        component: TicketPricesComponent,
+      },
       {
         path: "calendar",
         component: CalendarComponent,
@@ -319,15 +323,6 @@ export const UserRoutes: Routes = [
           {
             path: "list",
             component: VenuesComponent,
-          },
-        ],
-      },
-      {
-        path: "tickets",
-        children: [
-          {
-            path: "prices",
-            component: TicketsPriceComponent,
           },
         ],
       },
