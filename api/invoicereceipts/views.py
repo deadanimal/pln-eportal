@@ -19,6 +19,10 @@ from carts.models import (
     Cart
 )
 
+from cashtransactions.models import (
+    CashTransaction
+)
+
 from showings.models import (
     ShowBooking
 )
@@ -84,6 +88,7 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         show_booking_id = request.data['show_booking_id']
         simulator_ride_booking_id = request.data['simulator_ride_booking_id']
         facility_booking_id = request.data['facility_booking_id']
+        cash_transaction_id = request.data['cash_transaction_id']
 
         InvoiceReceipt.objects.filter(id=invoice_receipt_id).delete()
 
@@ -104,5 +109,9 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             for facility_booking in facility_booking_id:
                 FacilityBooking.objects.filter(
                     id=facility_booking).delete()
+
+        if len(cash_transaction_id) > 0:
+            for cash_transaction in cash_transaction_id:
+                CashTransaction.objects.filter(id=cash_transaction).delete()
 
         return Response(status=status.HTTP_200_OK)

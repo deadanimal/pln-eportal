@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'refunds',
     'closebookings',
     'ticketprices',
+    'cashtransactions',
 
     'django_cleanup.apps.CleanupConfig'
 ]

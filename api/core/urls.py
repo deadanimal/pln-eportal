@@ -478,6 +478,15 @@ ticket_prices_router = router.register(
     'ticket-prices', TicketPriceViewSet
 )
 
+# Cash Transaction app
+from cashtransactions.views import (
+    CashTransactionViewSet
+)
+
+cash_transactions_router = router.register(
+    'cash-transactions', CashTransactionViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),
