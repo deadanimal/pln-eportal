@@ -1,5 +1,10 @@
 from django.shortcuts import render
+from django.conf import settings
 from django.db.models import Q
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+
+from weasyprint import HTML, CSS
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -145,3 +150,20 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer_class = ShowBookingExtendedSerializer(queryset, many=True)
 
         return Response(serializer_class.data)
+
+    @action(methods=['GET'], detail=False)
+    def generate_ticket(self, request):
+
+        print(settings.STATIC_ROOT)
+        print(settings.STATIC_URL)
+        # Model data
+
+        # Rendered
+        html_string = render_to_string('ticket/show_ticket.html')
+        html = HTML(string=html_string, base_url=request.build_absolute_uri())
+        result = html.write_pdf(stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
+
+        # Creating http response
+        response = HttpResponse(result, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+        return response

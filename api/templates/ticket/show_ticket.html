@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @charset "UTF-8";
+      @page {
+      }
+      body {
+        position: relative;
+        min-width: 1024px;
+        min-height: 768px;
+        height: 100%;
+      }
+
+      .planetarium {
+        font-family: "Calibri";
+        font-size: 8pt !important;
+      }
+
+      .teater-angkasa {
+        font-family: "Verdana";
+        font-size: 12pt !important;
+        font-weight: bolder;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col planetarium d-flex">
+            <img
+              src="https://portal.planetarium.prototype.com.my/assets/logo/planetarium-logo.png"
+              style="width: 20%"
+            />
+
+            <p>{% static 'image/planetarium-logo.png' %}</p>
+
+            <div class="pl-3 float-right">
+              <h6 class="text-uppercase">Planetarium Negara</h6>
+              <h6 class="text-uppercase">
+                Kementerian Sains, Teknologi, Dan<br />Inovasi (Mosti)
+              </h6>
+
+              <p class="m-0">Tel: 603-22734301</p>
+              <p class="m-0">info@planet.gov.my</p>
+              <p class="m-0">www.planetariumnegara.gov.my</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <p>Tempat :</p>
+        <h4 class="teater-angkasa">Teater<br />Angkasa</h4>
+        <p>Barisan Kerusi :</p>
+        <h4 class="teater-angkasa">D33</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>No. Tiket : 0000001</p>
+        <p class="m-0">Tajuk Tayangan : Journey To A Billion Suns</p>
+        <p class="m-0">Harga : RM 6.00</p>
+        <p class="m-0">Kategori : Dewasa (MyKAD)</p>
+        <p class="m-0">Tarikh Tayangan : 01-01-1900</p>
+        <p class="m-0">Masa Tayangan : 11:00 pagi</p>
+        <p class="m-0">Tarikh Transaksi : 01-01-1900 10:45</p>
+        <p class="m-0">Jenis Transaksi : TUNAI / DEBIT / KAD KREDIT</p>
+      </div>
+      <div class="col">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
+          style="width: 30%"
+        />
+      </div>
+    </div>
+  </body>
+</html>
