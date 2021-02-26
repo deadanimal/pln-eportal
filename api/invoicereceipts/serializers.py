@@ -21,6 +21,11 @@ from carts.serializers import (
     CartExtendedSerializer
 )
 
+from cashtransactions.serializers import (
+    CashTransactionSerializer,
+    CashTransactionExtendedSerializer
+)
+
 from fpxtransactions.serializers import (
     FpxTransactionSerializer
 )
@@ -42,6 +47,7 @@ class InvoiceReceiptExtendedSerializer(serializers.ModelSerializer):
     cart_id = CartExtendedSerializer(read_only=True, many=True)
     fpx_transaction_id = FpxTransactionSerializer(read_only=True)
     voucher_id = VoucherSerializer(read_only=True)
+    cash_transaction_id = CashTransactionExtendedSerializer(read_only=True, many=True)
 
     class Meta:
         model = InvoiceReceipt
