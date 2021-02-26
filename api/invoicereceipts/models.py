@@ -64,7 +64,7 @@ class InvoiceReceipt(models.Model):
     cart_id = models.ManyToManyField(Cart, related_name='invoice_receipt_cart', blank=True)
     fpx_transaction_id = models.ForeignKey(FpxTransaction, on_delete=models.CASCADE, null=True, related_name='invoice_receipt_fpx_transaction_id')
     voucher_id = models.ForeignKey(Voucher, on_delete=models.CASCADE, null=True, related_name='invoice_receipt_voucher_id')
-    cash_transaction_id = models.ManyToManyField(CashTransaction, related_name='invoice_receipt_cash_transaction', blank=True)
+    cash_transaction_id = models.ForeignKey(CashTransaction, on_delete=models.CASCADE, null=True, related_name='invoice_receipt_cash_transaction_id')
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
