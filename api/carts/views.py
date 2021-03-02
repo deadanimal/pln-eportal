@@ -54,3 +54,10 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer_class = CartExtendedSerializer(queryset, many=True)
 
         return Response(serializer_class.data)
+
+    @action(methods=['POST'], detail=False)
+    def bulk_delete_by_user(self, request):
+
+        cart = Cart.objects.filter(user=request.data['user'], cart_status='CR').delete()
+
+        return Response(status=status.HTTP_200_OK)
