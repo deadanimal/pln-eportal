@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
+from django.forms.models import model_to_dict
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -17,6 +18,18 @@ from .models import (
 from .serializers import (
     CartSerializer,
     CartExtendedSerializer
+)
+
+from showings.models import (
+    ShowBooking
+)
+
+from simulatorrides.models import (
+    SimulatorRideBooking
+)
+
+from venues.models import (
+    FacilityBooking
 )
 
 
@@ -57,6 +70,23 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     @action(methods=['POST'], detail=False)
     def bulk_delete_by_user(self, request):
+
+        cart = Cart.objects.filter(user=request.data['user'], cart_status='CR')#.delete()
+
+        if len(cart) > 0:
+            for cart in cart:
+
+                for show_booking in cart.show_booking_id.all():
+                    cart.show_booking_id.remove(show_booking)
+                    ShowBooking.objects.get(id=model_to_dict(show_booking)['id']).delete()
+
+                for simulator_ride_booking in cart.simulator_ride_booking_id.all():
+                    cart.simulator_ride_booking_id.remove(simulator_ride_booking)
+                    SimulatorRideBooking.objects.get(id=model_to_dict(simulator_ride_booking)['id']).delete()
+
+                for facility_booking in cart.facility_booking_id.all():
+                    cart.facility_booking_id.remove(facility_booking)
+                    FacilityBooking.objects.get(id=model_to_dict(facility_booking)['id']).delete()
 
         cart = Cart.objects.filter(user=request.data['user'], cart_status='CR').delete()
 
