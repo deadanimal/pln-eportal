@@ -180,7 +180,10 @@ class FacilityBooking(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     title = models.CharField(max_length=255, default='NA', blank=True)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_app_customer_id')
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_app_customer_id', null=True)
+    user_name = models.CharField(max_length=255, blank=True)
+    user_phone = models.CharField(max_length=100, blank=True)
+    user_email = models.CharField(max_length=100, blank=True)
     pic_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='facility_app_pic_id', null=True)
     facility_id = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='facility_id')
     organisation_name = models.CharField(max_length=255, default='NA')
