@@ -487,6 +487,15 @@ cash_transactions_router = router.register(
     'cash-transactions', CashTransactionViewSet
 )
 
+# Integration app
+from integrations.views import (
+    IntegrationViewSet
+)
+
+integrations_router = router.register(
+    'integrations', IntegrationViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

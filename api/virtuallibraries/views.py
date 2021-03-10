@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -104,6 +104,35 @@ class VirtualLibraryArticleViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serializer_class.data)
 
+    @action(methods=['GET'], detail=False)
+    def get_total_download_pdf(self, request):
+
+        queryset = VirtualLibraryArticle.objects.aggregate(
+            total_download_pdf=Sum('download_pdf_counter'))
+
+        return Response(queryset)
+
+    @action(methods=['GET'], detail=False)
+    def get_search_keyword(self, request):
+
+        search_keyword = request.query_params.get('search_keyword', None)
+        lang = request.query_params.get('lang', None)
+        if search_keyword is not None and lang is not None:
+            if lang == 'en':
+                queryset = VirtualLibraryArticle.objects.filter(
+                    description_en__icontains=search_keyword)
+            elif lang == 'ms':
+                queryset = VirtualLibraryArticle.objects.filter(
+                    description_ms__icontains=search_keyword)
+            if queryset:
+                serializer_class = VirtualLibraryArticleExtendedSerializer(
+                    queryset, many=True)
+                return Response(serializer_class.data)
+            else:
+                return Response(data=[])
+        else:
+            return Response(data=[])
+
 
 class VirtualLibraryCollectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VirtualLibraryCollection.objects.all()
@@ -185,6 +214,35 @@ class VirtualLibraryBookViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serializer_class.data)
 
+    @action(methods=['GET'], detail=False)
+    def get_total_download_pdf(self, request):
+
+        queryset = VirtualLibraryBook.objects.aggregate(
+            total_download_pdf=Sum('download_pdf_counter'))
+
+        return Response(queryset)
+
+    @action(methods=['GET'], detail=False)
+    def get_search_keyword(self, request):
+
+        search_keyword = request.query_params.get('search_keyword', None)
+        lang = request.query_params.get('lang', None)
+        if search_keyword is not None and lang is not None:
+            if lang == 'en':
+                queryset = VirtualLibraryBook.objects.filter(
+                    description_en__icontains=search_keyword)
+            elif lang == 'ms':
+                queryset = VirtualLibraryBook.objects.filter(
+                    description_ms__icontains=search_keyword)
+            if queryset:
+                serializer_class = VirtualLibraryBookExtendedSerializer(
+                    queryset, many=True)
+                return Response(serializer_class.data)
+            else:
+                return Response(data=[])
+        else:
+            return Response(data=[])
+
 
 class VirtualLibrarySerialPublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VirtualLibrarySerialPublication.objects.all()
@@ -230,6 +288,35 @@ class VirtualLibrarySerialPublicationViewSet(NestedViewSetMixin, viewsets.ModelV
             queryset, many=True)
 
         return Response(serializer_class.data)
+
+    @action(methods=['GET'], detail=False)
+    def get_total_download_pdf(self, request):
+
+        queryset = VirtualLibrarySerialPublication.objects.aggregate(
+            total_download_pdf=Sum('download_pdf_counter'))
+
+        return Response(queryset)
+
+    @action(methods=['GET'], detail=False)
+    def get_search_keyword(self, request):
+
+        search_keyword = request.query_params.get('search_keyword', None)
+        lang = request.query_params.get('lang', None)
+        if search_keyword is not None and lang is not None:
+            if lang == 'en':
+                queryset = VirtualLibrarySerialPublication.objects.filter(
+                    description_en__icontains=search_keyword)
+            elif lang == 'ms':
+                queryset = VirtualLibrarySerialPublication.objects.filter(
+                    description_ms__icontains=search_keyword)
+            if queryset:
+                serializer_class = VirtualLibrarySerialPublicationExtendedSerializer(
+                    queryset, many=True)
+                return Response(serializer_class.data)
+            else:
+                return Response(data=[])
+        else:
+            return Response(data=[])
 
 
 class VirtualLibraryESourceCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -301,6 +388,27 @@ class VirtualLibraryESourceViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serializer_class.data)
 
+    @action(methods=['GET'], detail=False)
+    def get_search_keyword(self, request):
+
+        search_keyword = request.query_params.get('search_keyword', None)
+        lang = request.query_params.get('lang', None)
+        if search_keyword is not None and lang is not None:
+            if lang == 'en':
+                queryset = VirtualLibraryESource.objects.filter(
+                    name_en__icontains=search_keyword)
+            elif lang == 'ms':
+                queryset = VirtualLibraryESource.objects.filter(
+                    name_ms__icontains=search_keyword)
+            if queryset:
+                serializer_class = VirtualLibraryESourceExtendedSerializer(
+                    queryset, many=True)
+                return Response(serializer_class.data)
+            else:
+                return Response(data=[])
+        else:
+            return Response(data=[])
+
 
 class VirtualLibraryArchiveKutubkhanahCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VirtualLibraryArchiveKutubkhanahCategory.objects.all()
@@ -371,3 +479,24 @@ class VirtualLibraryArchiveKutubkhanahViewSet(NestedViewSetMixin, viewsets.Model
             queryset, many=True)
 
         return Response(serializer_class.data)
+
+    @action(methods=['GET'], detail=False)
+    def get_search_keyword(self, request):
+
+        search_keyword = request.query_params.get('search_keyword', None)
+        lang = request.query_params.get('lang', None)
+        if search_keyword is not None and lang is not None:
+            if lang == 'en':
+                queryset = VirtualLibraryArchiveKutubkhanah.objects.filter(
+                    name_en__icontains=search_keyword)
+            elif lang == 'ms':
+                queryset = VirtualLibraryArchiveKutubkhanah.objects.filter(
+                    name_ms__icontains=search_keyword)
+            if queryset:
+                serializer_class = VirtualLibraryArchiveKutubkhanahExtendedSerializer(
+                    queryset, many=True)
+                return Response(serializer_class.data)
+            else:
+                return Response(data=[])
+        else:
+            return Response(data=[])

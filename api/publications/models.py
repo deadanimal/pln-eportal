@@ -53,12 +53,13 @@ class Publication(models.Model):
     pdf_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('publication'))
     publication_category_id = models.ForeignKey(PublicationCategory, on_delete=models.CASCADE, related_name='publication_publication_category_id', null=True)
     status = models.BooleanField(default=False)
+    download_pdf_counter = models.IntegerField(default=0)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['title_ms']
+        ordering = ['-year', 'title_ms']
 
     
     def __str__(self):

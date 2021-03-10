@@ -22,9 +22,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
 from django.shortcuts import render
 from django.db.models import Q
 
-import json
-import requests
-
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -90,20 +87,6 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = User.objects.filter(company=company.id)
         """
         return queryset
-
-    @action(methods=['POST'], detail=False)
-    def verify_recaptcha(self, request):
-
-        print('verify_recaptcha')
-        data = json.loads(request.body)
-        response = data['response']
-        secret = data['secret']
-
-        captcha_verify_url = "https://www.google.com/recaptcha/api/siteverify";
-
-        response = requests.post(captcha_verify_url, data=[('secret', secret), ('response', response)])
-
-        return JsonResponse(response.json())
 
 
 class SupervisorViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

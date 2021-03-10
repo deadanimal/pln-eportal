@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.db.models import Q
+from django.forms.models import model_to_dict
 from django.http import HttpResponse
-from django.template.loader import render_to_string
+from django.template.loader import get_template, render_to_string
 
-from weasyprint import HTML, CSS
+from uuid import UUID
+from weasyprint import default_url_fetcher, HTML, CSS
+import tempfile
+import json
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -22,6 +26,14 @@ from .models import (
     ShowBooking
 )
 
+from carts.models import (
+    Cart
+)
+
+from invoicereceipts.models import (
+    InvoiceReceipt
+)
+
 from .serializers import (
     ShowingSerializer,
     ShowtimeSerializer,
@@ -31,6 +43,30 @@ from .serializers import (
     ShowBookingSerializer,
     ShowBookingExtendedSerializer,
 )
+
+
+def get_ticket_category(ticket_type, ticket_category):
+
+    if ticket_type == 'CZ':
+        tickettype = 'MyKAD'
+    elif ticket_type == 'NC':
+        tickettype = 'Bukan Warganegara'
+
+    if ticket_category == 'AD':
+        ticketcategory = 'Dewasa'
+    elif ticket_category == 'KD':
+        ticketcategory = 'Kanak-kanak'
+    elif ticket_category == 'OF':
+        ticketcategory = 'Warga emas'
+    elif ticket_category == 'SD':
+        ticketcategory = 'Pelajar'
+    elif ticket_category == 'OK':
+        ticketcategory = 'OKU'
+
+    if ticket_type is not None:
+        return tickettype
+    elif ticket_category is not None:
+        return ticketcategory
 
 
 class ShowingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -154,16 +190,72 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def generate_ticket(self, request):
 
-        print(settings.STATIC_ROOT)
-        print(settings.STATIC_URL)
         # Model data
+        show_booking_id = request.query_params.get('id', None)
+
+        queryset = ShowBooking.objects.all()
+        if show_booking_id is not None:
+            queryset = queryset.filter(id=show_booking_id)
+
+        serializer_class = ShowBookingExtendedSerializer(queryset, many=True)
+
+        items = serializer_class.data[0].items()
+
+        # missing no tiket
+        ticket_info = {}
+        # to find invoice-receipt detail based on booking_id
+        cart = Cart.objects.filter(
+            show_booking_id__id=show_booking_id).values('id')
+        invoicereceipt = InvoiceReceipt.objects.filter(
+            cart_id__id=cart[0]['id']).values()
+
+        if invoicereceipt:
+            ticket_info['ticket_transaction_date'] = invoicereceipt[0]['payment_successful_datetime'].strftime(
+                "%Y-%m-%d %H:%M")
+            ticket_info['ticket_transaction_type'] = 'FPX'
+
+        for key, value in items:
+            # print(key, '=>', value)
+            if key == 'ticket_number':
+                ticket_info['ticket_number'] = value
+            if key == 'ticket_type':
+                ticket_info['ticket_type'] = get_ticket_category(value, None)
+            if key == 'ticket_category':
+                ticket_info['ticket_category'] = get_ticket_category(
+                    None, value)
+            if key == 'ticket_seat':
+                ticket_info['ticket_seat'] = value
+            if key == 'price':
+                ticket_info['ticket_price'] = value
+
+            if key == 'show_id':
+                for key_show, value_show in value.items():
+                    if key_show == 'title_ms':
+                        ticket_info['ticket_title'] = value_show
+
+            if key == 'showtime_id':
+                for key_showtime, value_showtime in value.items():
+                    if key_showtime == 'show_date':
+                        ticket_info['ticket_date'] = value_showtime
+                    if key_showtime == 'show_time':
+                        ticket_info['ticket_time'] = value_showtime
 
         # Rendered
-        html_string = render_to_string('ticket/show_ticket.html')
+        html_string = render_to_string(
+            'ticket/show_ticket.html', {'ticket_info': ticket_info})
         html = HTML(string=html_string, base_url=request.build_absolute_uri())
-        result = html.write_pdf(stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
+        result = html.write_pdf(
+            stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
 
         # Creating http response
+        filename = 'Tiket_Planetarium_Negara_' + ticket_info['ticket_number'] + '.pdf'
         response = HttpResponse(result, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+        response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
+        response['Content-Transfer-Encoding'] = 'binary'
+        # with tempfile.NamedTemporaryFile(delete=True) as output:
+        #     output.write(result)
+        #     output.flush()
+        #     output = open(output.name, 'rb')
+        #     response.write(output.read())
+
         return response

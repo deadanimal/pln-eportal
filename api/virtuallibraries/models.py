@@ -48,6 +48,7 @@ class VirtualLibraryArticle(models.Model):
     description_ms = models.TextField(blank=True)
     date = models.DateField(default=datetime.date.today)
     status = models.BooleanField(default=False)
+    download_pdf_counter = models.IntegerField(default=0)
     pdf_link = models.FileField(
         null=True, blank=True, upload_to=PathAndRename('virtuallibrary_article_pdf'))
     virtual_library_article_category_id = models.ForeignKey(
@@ -119,6 +120,7 @@ class VirtualLibraryBook(models.Model):
     ]
 
     status = models.CharField(max_length=3, choices=STATUS, default='ACT')
+    download_pdf_counter = models.IntegerField(default=0)
     image_link = models.ImageField(
         null=True, blank=True, upload_to=PathAndRename('virtuallibrary_book_image'))
     pdf_link = models.FileField(
@@ -161,6 +163,7 @@ class VirtualLibrarySerialPublication(models.Model):
     ]
 
     status = models.CharField(max_length=3, choices=STATUS, default='ACT')
+    download_pdf_counter = models.IntegerField(default=0)
     image_link = models.ImageField(null=True, blank=True, upload_to=PathAndRename(
         'virtuallibrary_serialpublication_image'))
     pdf_link = models.FileField(null=True, blank=True, upload_to=PathAndRename(

@@ -1,84 +1,100 @@
-{% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Tiket Tayangan Planetarium Negara</title>
 
     <style>
       @charset "UTF-8";
       @page {
+        margin: 0;
+        size: landscape;
       }
-      body {
-        position: relative;
-        min-width: 1024px;
-        min-height: 768px;
+      html {
+        align-content: center;
+        align-items: center;
+        background: #eef1f5;
+        display: flex;
         height: 100%;
+        justify-content: center;
       }
-
+      html body {
+        box-sizing: border-box;
+        display: block;
+        flex-wrap: wrap;
+        height: 8cm;
+        margin: 0;
+        padding: 10px;
+        width: 13cm;
+      }
       .planetarium {
         font-family: "Calibri";
-        font-size: 8pt !important;
+        font-size: 8pt;
       }
-
       .teater-angkasa {
         font-family: "Verdana";
-        font-size: 12pt !important;
+        font-size: 12pt;
         font-weight: bolder;
         text-transform: uppercase;
+      }
+      .ticket-detail {
+        font-family: "Verdana";
+        font-size: 9pt;
       }
     </style>
   </head>
 
   <body>
     <div class="row">
-      <div class="col">
-        <div class="row">
-          <div class="col planetarium d-flex">
-            <img
-              src="https://portal.planetarium.prototype.com.my/assets/logo/planetarium-logo.png"
-              style="width: 20%"
-            />
+      <div class="col planetarium d-flex">
+        <img
+          src="{% static 'image/planetarium-logo.png' %}"
+          style="height: 100px; width: 100px"
+        />
 
-            <p>{% static 'image/planetarium-logo.png' %}</p>
+        <div class="pl-2 float-right">
+          <p class="m-0 text-uppercase">Planetarium Negara</p>
+          <p class="text-uppercase m-1">
+            Kementerian Sains, Teknologi, Dan<br />Inovasi (Mosti)
+          </p>
 
-            <div class="pl-3 float-right">
-              <h6 class="text-uppercase">Planetarium Negara</h6>
-              <h6 class="text-uppercase">
-                Kementerian Sains, Teknologi, Dan<br />Inovasi (Mosti)
-              </h6>
-
-              <p class="m-0">Tel: 603-22734301</p>
-              <p class="m-0">info@planet.gov.my</p>
-              <p class="m-0">www.planetariumnegara.gov.my</p>
-            </div>
-          </div>
+          <p class="m-0">Tel: 603-22734301</p>
+          <p class="m-0">info@planet.gov.my</p>
+          <p class="m-0">www.planetariumnegara.gov.my</p>
         </div>
-      </div>
-      <div class="col">
-        <p>Tempat :</p>
-        <h4 class="teater-angkasa">Teater<br />Angkasa</h4>
-        <p>Barisan Kerusi :</p>
-        <h4 class="teater-angkasa">D33</h4>
+
+        <div style="padding-left: 15cm">
+          <!--position: relative; left: 70px-->
+          <p>Tempat :</p>
+          <h4 class="teater-angkasa">Teater<br />Angkasa</h4>
+          <p>Barisan Kerusi :</p>
+          <h4 class="teater-angkasa">{{ ticket_info.ticket_seat }}</h4>
+        </div>
       </div>
     </div>
     <div class="row">
-      <div class="col">
-        <p>No. Tiket : 0000001</p>
-        <p class="m-0">Tajuk Tayangan : Journey To A Billion Suns</p>
-        <p class="m-0">Harga : RM 6.00</p>
-        <p class="m-0">Kategori : Dewasa (MyKAD)</p>
-        <p class="m-0">Tarikh Tayangan : 01-01-1900</p>
-        <p class="m-0">Masa Tayangan : 11:00 pagi</p>
-        <p class="m-0">Tarikh Transaksi : 01-01-1900 10:45</p>
-        <p class="m-0">Jenis Transaksi : TUNAI / DEBIT / KAD KREDIT</p>
+      <div class="col ticket-detail d-flex">
+        <div style="white-space: nowrap">
+          <p class="m-0">No. Tiket : {{ ticket_info.ticket_number }}</p>
+          <p class="m-0">Tajuk Tayangan : {{ ticket_info.ticket_title }}</p>
+          <p class="m-0">Harga : RM {{ ticket_info.ticket_price }}</p>
+          <p class="m-0">
+            Kategori : {{ ticket_info.ticket_category }} ({{ ticket_info.ticket_type }})
+          </p>
+          <p class="m-0">Tarikh Tayangan : {{ ticket_info.ticket_date }}</p>
+          <p class="m-0">Masa Tayangan : {{ ticket_info.ticket_time }}</p>
+          <p class="m-0">
+            Tarikh Transaksi : {{ ticket_info.ticket_transaction_date }}
+          </p>
+          <p class="m-0">
+            Jenis Transaksi : {{ ticket_info.ticket_transaction_type }}
+          </p>
+        </div>
       </div>
-      <div class="col">
+      <div class="col d-flex flex-row-reverse">
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
-          style="width: 30%"
+          src="{% static 'image/qr_code.png' %}"
+          style="height: 150px; width: 180px"
         />
       </div>
     </div>

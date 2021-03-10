@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -21,6 +21,7 @@ from publications.serializers import (
     PublicationCategorySerializer
 )
 
+
 class PublicationCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = PublicationCategory.objects.all()
     serializer_class = PublicationCategorySerializer
@@ -41,9 +42,8 @@ class PublicationCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = PublicationCategory.objects.all()
         return queryset
@@ -56,9 +56,9 @@ class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'id',
         'call_number',
-        'author_name', 
+        'author_name',
         'editor_name',
-        'publisher_name', 
+        'publisher_name',
         'published_date',
         'isbn',
         'issn',
@@ -74,19 +74,47 @@ class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = Publication.objects.all()
-        return queryset    
+        return queryset
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
-        
+
         queryset = Publication.objects.all()
         serializer_class = PublicationExtendedSerializer(queryset, many=True)
-        
+
         return Response(serializer_class.data)
- 
- 
+
+    @action(methods=['GET'], detail=False)
+    def get_total_download_pdf(self, request):
+
+        queryset = Publication.objects.aggregate(
+            total_download_pdf=Sum('download_pdf_counter'))
+
+        return Response(queryset)
+
+    @action(methods=['GET'], detail=False)
+    def get_search_keyword(self, request):
+
+        search_keyword = request.query_params.get('search_keyword', None)
+        lang = request.query_params.get('lang', None)
+        print('search_keyword', search_keyword)
+        print('lang', lang)
+        if search_keyword is not None and lang is not None:
+            if lang == 'en':
+                queryset = Publication.objects.filter(
+                    description_en__icontains=search_keyword)
+            elif lang == 'ms':
+                queryset = Publication.objects.filter(
+                    description_ms__icontains=search_keyword)
+            if queryset:
+                serializer_class = PublicationExtendedSerializer(
+                    queryset, many=True)
+                return Response(serializer_class.data)
+            else:
+                return Response(data=[])
+        else:
+            return Response(data=[])

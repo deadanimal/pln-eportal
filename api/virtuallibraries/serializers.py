@@ -128,7 +128,7 @@ class VirtualLibraryESourceSerializer(serializers.ModelSerializer):
 
 
 class VirtualLibraryESourceExtendedSerializer(serializers.ModelSerializer):
-    virtual_library_esource_category_id = VirtualLibraryESourceCategorySerializer(
+    virtual_library_esource_category_id = VirtualLibraryESourceCategoryExtendedSerializer(
         read_only=True)
 
     class Meta:
@@ -164,7 +164,7 @@ class VirtualLibraryArchiveKutubkhanahSerializer(serializers.ModelSerializer):
 
 
 class VirtualLibraryArchiveKutubkhanahExtendedSerializer(serializers.ModelSerializer):
-    virtual_library_archivekutubkhanah_category_id = VirtualLibraryArchiveKutubkhanahCategorySerializer(
+    virtual_library_archivekutubkhanah_category_id = VirtualLibraryArchiveKutubkhanahCategoryExtendedSerializer(
         read_only=True)
 
     class Meta:

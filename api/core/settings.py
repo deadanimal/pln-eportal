@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_filters',
+    'django_crontab',
 
     'anymail',
     'allauth',
@@ -68,6 +69,7 @@ INSTALLED_APPS = [
     'closebookings',
     'ticketprices',
     'cashtransactions',
+    'integrations',
 
     'django_cleanup.apps.CleanupConfig'
 ]
@@ -226,6 +228,11 @@ SIMPLE_JWT = {
 
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -245,3 +252,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'info@planet.gov.my'
+
+CRONJOBS = [
+    ('0 0 * * *', 'vouchers.cron.check_voucher_valid', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
+    ('0 0 * * *', 'simulatorrides.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
+    ('0 0 * * *', 'showings.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
+    ('0 0 * * *', 'venues.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log'))
+]

@@ -23,16 +23,18 @@ from fpxtransactions.models import (
 )
 
 
-def increment_ticket_number():
-    return 'hahaha'
-    # last_ticket = ShowTicket.objects.all().order_by('id').last()
-    # if not last_ticket:
-    #     return 'P0000001'
-    # ticket_no = last_ticket.no_ticket
-    # ticket_int = int(ticket_no.split('P')[-1])
-    # new_ticket_int = ticket_int + 1
-    # new_ticket_no = '' + str(new_ticket_int)
-    # return new_ticket_no
+def increment_ticket_number(show_booking_id):
+
+    show_booking = ShowBooking.objects.filter(id=show_booking_id).first()
+    prev_instances = ShowBooking.objects.exclude(ticket_number='')
+
+    if prev_instances.exists():
+        last_instance_id = prev_instances.first().ticket_number
+        prefix = '{0:07d}'.format(int(last_instance_id)+1)
+    else:
+        prefix = '{0:07d}'.format(1)
+    
+    return prefix
 
 
 class Showing(models.Model):
@@ -165,6 +167,7 @@ class ShowBooking(models.Model):
         max_length=2, choices=TICKET_CATEGORY, default='AD')
     ticket_quantity = models.IntegerField()
     ticket_seat = models.CharField(max_length=3, default='NA')
+    ticket_number = models.CharField(max_length=7, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(
@@ -194,6 +197,13 @@ class ShowBooking(models.Model):
     created_date = models.DateTimeField(
         auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.status == 'SB05':
+            prefix = increment_ticket_number(self.id)
+            self.ticket_number = prefix
+
+        super(ShowBooking, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_date']

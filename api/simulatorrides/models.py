@@ -115,4 +115,4 @@ class SimulatorRideBooking(models.Model):
         ordering = ['ticket_type']
     
     def __str__(self):
-        return self.ticket_type
+        return str(self.id) + ' - ' + self.ticket_type + ' - ' + self.ticket_category + ' - ' + str(self.simulator_ride_time_id) + ' - ' + str(self.booking_date)
