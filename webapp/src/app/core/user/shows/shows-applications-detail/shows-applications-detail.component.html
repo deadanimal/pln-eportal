@@ -90,10 +90,10 @@
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Jenis Tiket</span>
+                <span>No Tiket</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ getTicketType(row.ticket_type) }}
+                {{ row.ticket_number }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -144,6 +144,12 @@
                 >
                   Sunting
                 </button>
+                <a
+                  class="btn btn-sm btn-info"
+                  [href]="generateTicketURL + row.id"
+                  target="_blank"
+                  >Cetak Tiket</a
+                >
                 <button
                   class="btn btn-sm btn-warning"
                   (click)="openModal(createRefund, 'refund', row)"

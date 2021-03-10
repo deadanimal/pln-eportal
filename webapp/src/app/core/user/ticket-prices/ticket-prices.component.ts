@@ -92,8 +92,8 @@ export class TicketPricesComponent implements OnInit {
 
     this.ticketpriceFormGroup = this.formBuilder.group({
       id: new FormControl("", Validators.compose([Validators.required])),
-      // title_en: new FormControl("", Validators.compose([Validators.required])),
-      // title_ms: new FormControl("", Validators.compose([Validators.required])),
+      title_en: new FormControl("", Validators.compose([Validators.required])),
+      title_ms: new FormControl("", Validators.compose([Validators.required])),
       price_citizen: new FormControl(0),
       price_noncitizen: new FormControl(0),
       ticket_category: new FormControl(

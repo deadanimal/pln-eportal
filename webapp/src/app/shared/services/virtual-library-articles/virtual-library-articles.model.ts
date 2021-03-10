@@ -6,6 +6,7 @@ export class VirtualLibraryArticle {
   public description_ms: string;
   public date: string;
   public status: boolean;
+  public download_pdf_counter: number;
   public pdf_link: string;
   public virtual_library_article_category_id: string;
   public created_date: string;
@@ -19,6 +20,7 @@ export class VirtualLibraryArticle {
     description_ms: string,
     date: string,
     status: boolean,
+    download_pdf_counter: number,
     pdf_link: string,
     virtual_library_article_category_id: string,
     created_date: string,
@@ -31,6 +33,7 @@ export class VirtualLibraryArticle {
     this.description_ms = description_ms;
     this.date = date;
     this.status = status;
+    this.download_pdf_counter = download_pdf_counter;
     this.pdf_link = pdf_link;
     this.virtual_library_article_category_id = virtual_library_article_category_id;
     this.created_date = created_date;

@@ -3,6 +3,8 @@ export class Showbooking {
   public ticket_type: string;
   public ticket_category: string;
   public ticket_quantity: string;
+  public ticket_seat: string;
+  public ticket_number: string;
   public price: number;
   public total_price: number;
   public show_id: string;
@@ -17,6 +19,8 @@ export class Showbooking {
     ticket_type: string,
     ticket_category: string,
     ticket_quantity: string,
+    ticket_seat: string,
+    ticket_number: string,
     price: number,
     total_price: number,
     show_id: string,
@@ -30,6 +34,8 @@ export class Showbooking {
     this.ticket_type = ticket_type;
     this.ticket_category = ticket_category;
     this.ticket_quantity = ticket_quantity;
+    this.ticket_seat = ticket_seat;
+    this.ticket_number = ticket_number;
     this.price = price;
     this.total_price = total_price;
     this.show_id = show_id;

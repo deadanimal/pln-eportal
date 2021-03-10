@@ -71,4 +71,13 @@ export class VirtualLibraryArticlesService {
       })
     );
   }
+
+  get_total_download_pdf() {
+    let urlGetTotalDownloadPdf = this.url + "get_total_download_pdf";
+    return this.http.get(urlGetTotalDownloadPdf).pipe(
+      tap((res) => {
+        console.log("Total download PDF", res);
+      })
+    );
+  }
 }

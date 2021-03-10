@@ -286,7 +286,9 @@
                 Bilangan Muat-Turun (PDF) Penerbitan
               </h5>
 
-              <span class="h1 font-weight-bold mb-0"> 132 </span>
+              <span class="h1 font-weight-bold mb-0">
+                {{ totaldownloadpdfpublication }}
+              </span>
             </div>
           </div>
         </div>
@@ -302,7 +304,13 @@
                 Bilangan Muat-Turun (PDF) Kutubkhanah Mini
               </h5>
 
-              <span class="h1 font-weight-bold mb-0"> 210 </span>
+              <span class="h1 font-weight-bold mb-0">
+                {{
+                  totaldownloadpdfarticle +
+                    totaldownloadpdfbook +
+                    totaldownloadpdfserialpublication
+                }}
+              </span>
             </div>
           </div>
         </div>

@@ -13,6 +13,7 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -41,6 +42,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   showtime_id: string = "";
   showings = [];
   users = [];
+  generateTicketURL = environment.baseUrl + "v1/show-booking/generate_ticket/?id=";
 
   // Dropdown
   tickettypes = [
