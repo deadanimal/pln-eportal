@@ -27,7 +27,7 @@ export class EducationalProgramsService {
   create(body: Form): Observable<EducationalProgram> {
     return this.http.post<EducationalProgram>(this.url, body).pipe(
       tap((res) => {
-        console.log('Educational program: ', res)
+        // console.log('Educational program: ', res)
       })
     )
   }
@@ -36,7 +36,7 @@ export class EducationalProgramsService {
     return this.http.get<EducationalProgram[]>(this.url).pipe(
       tap((res) => {
         this.programs = res
-        console.log('Educational programs: ', this.programs)
+        // console.log('Educational programs: ', this.programs)
       })
     )
   }
@@ -46,7 +46,7 @@ export class EducationalProgramsService {
     return this.http.get<EducationalProgram>(urlID).pipe(
       tap((res) => {
         this.program = res
-        console.log('Educational program: ', this.program)
+        // console.log('Educational program: ', this.program)
       })
     )
   }
@@ -56,7 +56,7 @@ export class EducationalProgramsService {
     return this.http.patch<EducationalProgram>(urlPatch, body).pipe(
       tap((res) => {
         this.program = res
-        console.log('Educational program: ', this.program)
+        // console.log('Educational program: ', this.program)
       })
     )
   }
@@ -65,7 +65,7 @@ export class EducationalProgramsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<EducationalProgram>(urlDelete).pipe(
       tap((res) => {
-        console.log('Educational prgoram: ', res)
+        // console.log('Educational prgoram: ', res)
       })
     )
   }
@@ -75,7 +75,7 @@ export class EducationalProgramsService {
     return this.http.get<EducationalProgram[]>(urlFilter).pipe(
       tap((res) => {
         this.programsFiltered
-        console.log('Educational programs', this.programsFiltered)
+        // console.log('Educational programs', this.programsFiltered)
       })
     )
   }

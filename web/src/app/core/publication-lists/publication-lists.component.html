@@ -66,7 +66,7 @@
                     >{{ "Edisi" | translate }} {{ pub.edition }}, </span
                   >{{ pub.year }}
                 </h5>
-                <a class="btn btn-danger" [href]="pub.pdf_link" download>
+                <a class="btn btn-danger" [href]="pub.pdf_link" download (click)="addCountDownloadPdf(pub)">
                   <span class="text-white">{{
                     "MuatTurunPDF" | translate
                   }}</span> </a

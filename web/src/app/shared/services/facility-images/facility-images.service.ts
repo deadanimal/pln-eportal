@@ -22,7 +22,7 @@ export class FacilityImagesService {
   post(body): Observable<FacilityImage> {
     return this.http.post<FacilityImage>(this.url, body).pipe(
       tap((res) => {
-        console.log("Facility image: ", res);
+        // console.log("Facility image: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class FacilityImagesService {
     return this.http.get<FacilityImage[]>(this.url).pipe(
       tap((res) => {
         this.facilityImages = res;
-        console.log("Facility images: ", res);
+        // console.log("Facility images: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class FacilityImagesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FacilityImage>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Facility image: ", res);
+        // console.log("Facility image: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class FacilityImagesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<FacilityImage>(urlDelete).pipe(
       tap((res) => {
-        console.log("Facility image: ", res);
+        // console.log("Facility image: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class FacilityImagesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<FacilityImage[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Facility images: ", res);
+        // console.log("Facility images: ", res);
       })
     );
   }
@@ -66,7 +66,7 @@ export class FacilityImagesService {
   extended(): Observable<FacilityImage[]> {
     return this.http.get<FacilityImage[]>(this.url + "extended").pipe(
       tap((res) => {
-        console.log("Facility images: ", res);
+        // console.log("Facility images: ", res);
       })
     );
   }

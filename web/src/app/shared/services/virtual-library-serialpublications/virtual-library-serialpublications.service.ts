@@ -23,7 +23,7 @@ export class VirtualLibrarySerialpublicationsService {
   post(body: Form): Observable<VirtualLibrarySerialpublication> {
     return this.http.post<VirtualLibrarySerialpublication>(this.url, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -32,7 +32,7 @@ export class VirtualLibrarySerialpublicationsService {
     return this.http.get<VirtualLibrarySerialpublication[]>(this.url).pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -43,7 +43,7 @@ export class VirtualLibrarySerialpublicationsService {
       .patch<VirtualLibrarySerialpublication>(urlPatch, body)
       .pipe(
         tap((res) => {
-          console.log("Virtual library: ", res);
+          // console.log("Virtual library: ", res);
         })
       );
   }
@@ -52,7 +52,7 @@ export class VirtualLibrarySerialpublicationsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<VirtualLibrarySerialpublication>(urlDelete).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -61,7 +61,7 @@ export class VirtualLibrarySerialpublicationsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<VirtualLibrarySerialpublication[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -72,7 +72,26 @@ export class VirtualLibrarySerialpublicationsService {
       .pipe(
         tap((res) => {
           this.virtuallibraries = res;
-          console.log("Virtual libraries: ", res);
+          // console.log("Virtual libraries: ", res);
+        })
+      );
+  }
+
+  get_search_keyword(
+    search_keyword: string,
+    lang: string
+  ): Observable<VirtualLibrarySerialpublication[]> {
+    let urlSearchKeyword =
+      this.url +
+      "get_search_keyword/?search_keyword=" +
+      search_keyword +
+      "&lang=" +
+      lang;
+    return this.http
+      .get<VirtualLibrarySerialpublication[]>(urlSearchKeyword)
+      .pipe(
+        tap((res) => {
+          // console.log("Virtual libraries: ", res);
         })
       );
   }

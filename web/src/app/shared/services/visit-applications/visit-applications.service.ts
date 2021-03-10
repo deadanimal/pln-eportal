@@ -25,7 +25,7 @@ export class VisitApplicationsService {
   post(body): Observable<VisitApplication> {
     return this.http.post<VisitApplication>(this.url, body).pipe(
       tap((res) => {
-        console.log('Visit application: ', res)
+        // console.log('Visit application: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class VisitApplicationsService {
     return this.http.get<VisitApplication[]>(this.url).pipe(
       tap((res) => {
         this.visitApplications = res
-        console.log('Visit applications: ', res)
+        // console.log('Visit applications: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class VisitApplicationsService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<VisitApplication>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Visit application: ', res)
+        // console.log('Visit application: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class VisitApplicationsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<VisitApplication>(urlDelete).pipe(
       tap((res) => {
-        console.log('Visit application: ', res)
+        // console.log('Visit application: ', res)
       })
     )
   }

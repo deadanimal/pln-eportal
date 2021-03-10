@@ -52,7 +52,7 @@ export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.vl_articles = res;
         },
         (err) => {
@@ -93,6 +93,20 @@ export class VirtualLibraryArtikelTerkiniComponent implements OnInit {
       date: "",
       pdf_link: "",
     };
+  }
+
+  addCountDownloadPdf(article) {
+    let body = {
+      download_pdf_counter: article.download_pdf_counter + 1,
+    };
+    this.virtuallibraryarticleService.update(body, article.id).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   addMetaTag() {

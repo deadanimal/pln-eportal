@@ -13,6 +13,7 @@ import { ToastrService } from "ngx-toastr";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { IntegrationsService } from "src/app/shared/services/integrations/integrations.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -95,6 +96,7 @@ export class SignupComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public authService: AuthService,
+    public integrationService: IntegrationsService,
     public jwtService: JwtService,
     public userService: UsersService,
     public translate: TranslateService,
@@ -252,7 +254,7 @@ export class SignupComponent implements OnInit {
       secret: environment.reCaptchaSecretKey,
       response: response,
     };
-    this.userService.verify_recaptcha(obj).subscribe(
+    this.integrationService.verify_recaptcha(obj).subscribe(
       (res) => {
         // console.log("res", res);
       },

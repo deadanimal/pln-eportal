@@ -4,7 +4,7 @@ export class VirtualLibraryArchiveKutubkhanah {
   public name_ms: string;
   public link: string;
   public status: boolean;
-  public virtual_library_archivekutubkhanah_category_id: string;
+  public virtual_library_archivekutubkhanah_category_id: any;
   public created_date: string;
   public modified_date: string;
 
@@ -14,7 +14,7 @@ export class VirtualLibraryArchiveKutubkhanah {
     name_ms: string,
     link: string,
     status: boolean,
-    virtual_library_archivekutubkhanah_category_id: string,
+    virtual_library_archivekutubkhanah_category_id: any,
     created_date: string,
     modified_date: string
   ) {

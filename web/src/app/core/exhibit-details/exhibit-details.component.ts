@@ -68,7 +68,7 @@ export class ExhibitDetailsComponent implements OnInit {
       .filter("exhibit_list_id=" + this.exhibit_detail_id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.exhibitdetails = res;
           this.getExhibitImage(res[0].id);
         },
@@ -83,7 +83,7 @@ export class ExhibitDetailsComponent implements OnInit {
       .filter("exhibit_detail_id=" + exhibit_detail_id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.transformImage(res);
         },
         (err) => {

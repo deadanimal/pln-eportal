@@ -23,6 +23,7 @@ import { BannersService } from "src/app/shared/services/banners/banners.service"
 import { CalendarsService } from "src/app/shared/services/calendars/calendars.service";
 import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
+import { IntegrationsService } from "src/app/shared/services/integrations/integrations.service";
 import { PartnersService } from "src/app/shared/services/partners/partners.service";
 import { WhatisinterestingsService } from "src/app/shared/services/whatisinterestings/whatisinterestings.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
@@ -46,12 +47,12 @@ export class LandingComponent implements OnInit {
   screenHeight: any;
 
   rate: number = 0;
-  totalnow: number = 8;
-  totaltoday: number = 50;
-  totalweek: number = 154;
-  totalmonth: number = 367;
-  totalyear: number = 590;
-  totalall: number = 3098;
+  totalnow: number = 0;
+  totaltoday: number = 0;
+  totalweek: number = 0;
+  totalmonth: number = 0;
+  totalyear: number = 0;
+  totalall: number = 0;
 
   // Modal
   modal: BsModalRef;
@@ -186,6 +187,7 @@ export class LandingComponent implements OnInit {
     private calendarService: CalendarsService,
     private eduprogramdateService: EducationalProgramDatesService,
     private feedbackService: FeedbacksService,
+    private integrationService: IntegrationsService,
     private partnerService: PartnersService,
     private whatisinterestingService: WhatisinterestingsService,
     private w3cService: W3csService
@@ -195,6 +197,7 @@ export class LandingComponent implements OnInit {
     this.getCalendar();
     this.getPartner();
     this.getWhatIsInteresting();
+    this.getStatCounter();
 
     this.ratingFormGroup = this.formBuilder.group({
       rating: new FormControl(0, Validators.compose([Validators.required])),
@@ -205,7 +208,7 @@ export class LandingComponent implements OnInit {
   getAnnouncement() {
     this.announcementService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.announcements = res;
       },
       (err) => {
@@ -217,7 +220,7 @@ export class LandingComponent implements OnInit {
   getBanner() {
     this.bannerService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.banners = res;
       },
       (err) => {
@@ -229,7 +232,7 @@ export class LandingComponent implements OnInit {
   getCalendar() {
     this.calendarService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
 
         for (let i = 0; i < res.length; i++) {
           let obj = {
@@ -293,14 +296,14 @@ export class LandingComponent implements OnInit {
       buttonsStyling: false,
       customClass: {
         confirmButton: "btn btn-info",
-      }
+      },
     });
   }
 
   getPartner() {
     this.partnerService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.partners = res;
       },
       (err) => {
@@ -312,8 +315,32 @@ export class LandingComponent implements OnInit {
   getWhatIsInteresting() {
     this.whatisinterestingService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.interestings = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getStatCounter() {
+    this.integrationService.get_summary_stats_daily().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.totaltoday = res.sc_data[0].unique_visits;
+      },
+      (err) => {
+        console.log("err", err);
+      }
+    );
+
+    this.integrationService.get_summary_stats_yearly().subscribe(
+      (res) => {
+        // console.log("res", res);
+        for (let i = 0; i < res.sc_data.length; i++) {
+          this.totalall += +res.sc_data[i].unique_visits;
+        }
       },
       (err) => {
         console.error("err", err);
@@ -352,7 +379,7 @@ export class LandingComponent implements OnInit {
   rating() {
     this.feedbackService.postRating(this.ratingFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal.fire({
           icon: "success",
           title: "Nilai perkhidmatan kami",
@@ -383,7 +410,7 @@ export class LandingComponent implements OnInit {
   }
 
   getBannerStyle() {
-    console.log("getBannerStyle", this.screenHeight);
+    // console.log("getBannerStyle", this.screenHeight);
     if (this.screenHeight < 720) return { height: "400px" };
     else if (this.screenHeight >= 720) return { height: "600px" };
   }

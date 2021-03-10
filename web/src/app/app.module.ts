@@ -5,7 +5,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import "hammerjs";
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
@@ -37,6 +37,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { PictureUploadComponent } from "./components/picture-upload/picture-upload.component";
 import { ScrollTopComponent } from "./components/scroll-top/scroll-top.component";
 import { W3cComponent } from "./components/w3c/w3c.component";
+import { HttpTokenInterceptor } from "./shared/interceptor/http.token.interceptor";
 
 // AOT compilation support
 export function httpTranslateLoader(http: HttpClient) {
@@ -95,7 +96,15 @@ export function getToken(): string {
       },
     }),
   ],
-  providers: [JwtHelperService, CookieService],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpTokenInterceptor,
+      multi: true,
+    },
+    JwtHelperService,
+    CookieService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -60,7 +60,7 @@ export class PublicationListsComponent implements OnInit {
       .filter("publication_category_id=" + this.publication_category_id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.publications = res;
         },
         (err) => {
@@ -126,6 +126,20 @@ export class PublicationListsComponent implements OnInit {
       edition: "",
       publication_category_id: "",
     };
+  }
+
+  addCountDownloadPdf(publication) {
+    let body = {
+      download_pdf_counter: publication.download_pdf_counter + 1,
+    };
+    this.publicationService.update(body, publication.id).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   addMetaTag() {

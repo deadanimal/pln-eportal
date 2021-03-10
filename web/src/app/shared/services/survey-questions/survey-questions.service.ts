@@ -25,7 +25,7 @@ export class SurveyQuestionsService {
   post(body: Form): Observable<SurveyQuestion> {
     return this.http.post<SurveyQuestion>(this.url, body).pipe(
       tap((res) => {
-        console.log('Survey question: ', res)
+        // console.log('Survey question: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class SurveyQuestionsService {
     return this.http.get<SurveyQuestion[]>(this.url).pipe(
       tap((res) => {
         this.surveyQuestions = res
-        console.log('Survey questions: ', res)
+        // console.log('Survey questions: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class SurveyQuestionsService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<SurveyQuestion>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Survey question: ', res)
+        // console.log('Survey question: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class SurveyQuestionsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<SurveyQuestion>(urlDelete).pipe(
       tap((res) => {
-        console.log('Survey question: ', res)
+        // console.log('Survey question: ', res)
       })
     )
   }
@@ -61,7 +61,7 @@ export class SurveyQuestionsService {
     let urlFilter = this.url + '?' + field;
     return this.http.get<SurveyQuestion[]>(urlFilter).pipe(
       tap((res) => {
-        console.log('Survey questions: ', res)
+        // console.log('Survey questions: ', res)
       })
     )
   }

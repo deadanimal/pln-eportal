@@ -22,7 +22,7 @@ export class FaqsService {
   post(body: Form): Observable<Faq> {
     return this.http.post<Faq>(this.url, body).pipe(
       tap((res) => {
-        console.log("Faq: ", res);
+        // console.log("Faq: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class FaqsService {
     return this.http.get<Faq[]>(this.url).pipe(
       tap((res) => {
         this.faqs = res;
-        console.log("Faqs: ", res);
+        // console.log("Faqs: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class FaqsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Faq>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Faq: ", res);
+        // console.log("Faq: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class FaqsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Faq>(urlDelete).pipe(
       tap((res) => {
-        console.log("Faq: ", res);
+        // console.log("Faq: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class FaqsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Faq[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Faqs: ", res);
+        // console.log("Faqs: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class FaqsService {
     return this.http.get<Faq[]>(this.url + "extended").pipe(
       tap((res) => {
         this.faqs = res;
-        console.log("Faqs: ", res);
+        // console.log("Faqs: ", res);
       })
     );
   }

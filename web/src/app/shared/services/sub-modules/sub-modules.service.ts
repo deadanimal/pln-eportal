@@ -23,7 +23,7 @@ export class SubModulesService {
   post(body): Observable<SubModule> {
     return this.http.post<SubModule>(this.url, body).pipe(
       tap((res) => {
-        console.log("SubModule: ", res);
+        // console.log("SubModule: ", res);
       })
     );
   }
@@ -32,7 +32,7 @@ export class SubModulesService {
     return this.http.get<SubModule[]>(this.url).pipe(
       tap((res) => {
         this.submodules = res;
-        console.log("SubModules: ", res);
+        // console.log("SubModules: ", res);
       })
     );
   }
@@ -41,7 +41,7 @@ export class SubModulesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<SubModule>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("SubModule: ", res);
+        // console.log("SubModule: ", res);
       })
     );
   }
@@ -50,7 +50,7 @@ export class SubModulesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<SubModule>(urlDelete).pipe(
       tap((res) => {
-        console.log("SubModule: ", res);
+        // console.log("SubModule: ", res);
       })
     );
   }
@@ -59,7 +59,7 @@ export class SubModulesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<SubModule[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("SubModules: ", res);
+        // console.log("SubModules: ", res);
       })
     );
   }

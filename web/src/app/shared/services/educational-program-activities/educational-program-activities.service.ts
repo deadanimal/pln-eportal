@@ -24,7 +24,7 @@ export class EducationalProgramActivitiesService {
   create(body: Form): Observable<EducationalProgramActivity> {
     return this.http.post<EducationalProgramActivity>(this.url, body).pipe(
       tap((res) => {
-        console.log("Educational program activity: ", res);
+        // console.log("Educational program activity: ", res);
       })
     );
   }
@@ -33,7 +33,7 @@ export class EducationalProgramActivitiesService {
     return this.http.get<EducationalProgramActivity[]>(this.url).pipe(
       tap((res) => {
         this.programactivities = res;
-        console.log("Educational program activities: ", this.programactivities);
+        // console.log("Educational program activities: ", this.programactivities);
       })
     );
   }
@@ -43,7 +43,7 @@ export class EducationalProgramActivitiesService {
     return this.http.get<EducationalProgramActivity>(urlID).pipe(
       tap((res) => {
         this.programactivity = res;
-        console.log("Educational program activity: ", this.programactivity);
+        // console.log("Educational program activity: ", this.programactivity);
       })
     );
   }
@@ -53,7 +53,7 @@ export class EducationalProgramActivitiesService {
     return this.http.patch<EducationalProgramActivity>(urlPatch, body).pipe(
       tap((res) => {
         this.programactivity = res;
-        console.log("Educational program activities: ", this.programactivity);
+        // console.log("Educational program activities: ", this.programactivity);
       })
     );
   }
@@ -62,7 +62,7 @@ export class EducationalProgramActivitiesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<EducationalProgramActivity>(urlDelete).pipe(
       tap((res) => {
-        console.log("Educational prgoram: ", res);
+        // console.log("Educational prgoram: ", res);
       })
     );
   }
@@ -72,7 +72,7 @@ export class EducationalProgramActivitiesService {
     return this.http.get<EducationalProgramActivity[]>(urlFilter).pipe(
       tap((res) => {
         this.programactivitiesFiltered;
-        console.log("Educational programs", this.programactivitiesFiltered);
+        // console.log("Educational programs", this.programactivitiesFiltered);
       })
     );
   }

@@ -64,11 +64,27 @@
         </div>
         <form class="form-inline">
           <div class="form-group no-border">
-            <input
+            <!-- <input
               type="text"
               class="form-control bg-white text-dark"
               placeholder="{{ 'Carian' | translate }}"
-            />
+            /> -->
+            <div
+              class="input-group input-group-alternative"
+            >
+              <input
+                id="search_keyword"
+                class="form-control bg-white text-dark"
+                placeholder="{{ 'Carian' | translate }}"
+                type="text"
+                (keydown.enter)="clickSearch($event)"
+              />
+              <div class="input-group-append" (click)="clickSearch($event)">
+                <span class="input-group-text bg-white">
+                  <i class="fas fa-search" style="color: black"> </i>
+                </span>
+              </div>
+            </div>
           </div>
         </form>
         <ul class="navbar-nav ml-auto">
@@ -426,10 +442,7 @@
             (blur)="focus2 = false"
             formControlName="password"
           />
-          <div
-            class="input-group-append"
-            (click)="changePasswordIcon()"
-          >
+          <div class="input-group-append" (click)="changePasswordIcon()">
             <span class="input-group-text"
               ><i
                 *ngIf="!password"

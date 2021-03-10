@@ -127,15 +127,15 @@ export class ShowsComponent implements OnInit {
   }
 
   changeAdultQuantity(value: number): void {
-    console.log(value);
+    // console.log(value);
   }
 
   changeChildrenQuantity(value: number): void {
-    console.log(value);
+    // console.log(value);
   }
 
   changeSeniorQuantity(value: number): void {
-    console.log(value);
+    // console.log(value);
   }
 
   openModal(template: TemplateRef<any>, showing) {

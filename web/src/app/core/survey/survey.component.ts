@@ -209,7 +209,6 @@ export class SurveyComponent implements OnInit {
     if (this.defaultModal) this.defaultModal.hide();
     this.typeQuestion = question;
     this.module = module;
-    console.log("module", module);
     this.module_code = module_code;
 
     if (this.typeQuestion == "soalselidik") {
@@ -227,7 +226,6 @@ export class SurveyComponent implements OnInit {
               group[question.questionnaire_fieldname] = new FormControl("");
           });
           this.surveyFormGroup = new FormGroup(group);
-          console.log(this.surveyFormGroup);
         },
         (err) => {
           console.error("err", err);
@@ -245,8 +243,8 @@ export class SurveyComponent implements OnInit {
   }
 
   changeCheckbox(event, field_name) {
-    console.log("event", event);
-    console.log("field_name", field_name);
+    // console.log("event", event);
+    // console.log("field_name", field_name);
   }
 
   changeTab(event) {
@@ -273,7 +271,7 @@ export class SurveyComponent implements OnInit {
 
         this.surveyanswerService.post(postObj).subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
           },
           (err) => {
             console.error("err", err);
@@ -311,7 +309,7 @@ export class SurveyComponent implements OnInit {
 
       this.feedbackService.post(this.feedbackFormGroup.value).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               icon: "success",
@@ -336,7 +334,7 @@ export class SurveyComponent implements OnInit {
           };
           this.emailtemplateService.sending_mail(obj).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
             },
             (err) => {
               console.error("err", err);

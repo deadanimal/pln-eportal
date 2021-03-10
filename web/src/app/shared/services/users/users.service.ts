@@ -25,7 +25,7 @@ export class UsersService {
   post(body: Form): Observable<User> {
     return this.http.post<User>(this.url, body).pipe(
       tap((res) => {
-        console.log("User: ", res);
+        // console.log("User: ", res);
       })
     );
   }
@@ -33,7 +33,7 @@ export class UsersService {
   get(id: string): Observable<any> {
     return this.http.get<any>(this.url + id).pipe(
       tap((res) => {
-        console.log("User: ", res);
+        // console.log("User: ", res);
       })
     );
   }
@@ -42,7 +42,7 @@ export class UsersService {
     return this.http.get<User[]>(this.url).pipe(
       tap((res) => {
         this.users = res;
-        console.log("Users: ", res);
+        // console.log("Users: ", res);
         this.filterTypes();
       })
     );
@@ -52,7 +52,7 @@ export class UsersService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<User>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("User: ", res);
+        // console.log("User: ", res);
       })
     );
   }
@@ -61,7 +61,7 @@ export class UsersService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<User>(urlDelete).pipe(
       tap((res) => {
-        console.log("User: ", res);
+        // console.log("User: ", res);
       })
     );
   }
@@ -80,14 +80,5 @@ export class UsersService {
         this.customer.push(user);
       }
     });
-  }
-
-  verify_recaptcha(body): Observable<User> {
-    let urlRecaptcha = this.url + "verify_recaptcha/";
-    return this.http.post<User>(urlRecaptcha, body).pipe(
-      tap((res) => {
-        console.log("User: ", res);
-      })
-    );
   }
 }

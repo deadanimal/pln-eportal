@@ -30,7 +30,7 @@ export class FaqComponent implements OnInit {
   getData() {
     this.faqService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.faqs = res;
       },
       (err) => {

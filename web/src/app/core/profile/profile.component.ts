@@ -6,8 +6,10 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router, NavigationEnd } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { CustomValidators } from "src/app/shared/class/custom-validators";
+import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -32,6 +34,23 @@ export class ProfileComponent implements OnInit {
   selectedTab: string = "maklumat-am";
 
   // Dropdown
+  bookingdays = [
+    {
+      value: "HALF",
+      display_name_en: "Half Day",
+      display_name_ms: "Separuh Hari",
+    },
+    {
+      value: "FULL",
+      display_name_en: "Full Day",
+      display_name_ms: "Satu Hari",
+    },
+    {
+      value: "NONE",
+      display_name_en: "None",
+      display_name_ms: "Tiada",
+    },
+  ];
   invoicereceiptstatuses = [
     {
       value: "IC",
@@ -98,6 +117,7 @@ export class ProfileComponent implements OnInit {
   old_password: boolean = false;
 
   constructor(
+    public translate: TranslateService,
     private formBuilder: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
@@ -175,7 +195,7 @@ export class ProfileComponent implements OnInit {
   getUser() {
     this.userService.get(this.authService.decodedToken().user_id).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.user = res;
         this.userFormGroup.patchValue({
           ...res,
@@ -193,12 +213,190 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (res) => {
           // console.log("res", res);
-          this.invoicereceipts = res;
+          this.getDescription(res);
         },
         (err) => {
           console.error("err", err);
         }
       );
+  }
+
+  getDescription(invoicereceipts) {
+    let arrayTransaksiBayaran = [];
+    for (let i = 0; i < invoicereceipts.length; i++) {
+      for (let j = 0; j < invoicereceipts[i].cart_id.length; j++) {
+        let cart_details = invoicereceipts[i].cart_id[j];
+        if (cart_details.show_booking_id.length > 0) {
+          for (let k = 0; k < cart_details.show_booking_id.length; k++) {
+            let show_booking = cart_details.show_booking_id[k];
+            let description_en =
+              show_booking.show_id.title_en +
+              ", " +
+              show_booking.showtime_id.show_date +
+              " (" +
+              show_booking.showtime_id.show_time +
+              ")" +
+              " - " +
+              show_booking.ticket_seat;
+            let description_ms =
+              show_booking.show_id.title_en +
+              ", " +
+              show_booking.showtime_id.show_date +
+              " (" +
+              show_booking.showtime_id.show_time +
+              ")" +
+              " - " +
+              show_booking.ticket_seat;
+            let urlTicket = invoicereceipts[i].payment_successful_datetime
+              ? "<a class='btn btn-sm btn-info btn-icon' href='" +
+                environment.baseUrl +
+                "v1/show-booking/generate_ticket/?id=" +
+                show_booking.id +
+                "' target='_blank'><i class='fas fa-receipt'></i></a>"
+              : "";
+            let obj = {
+              description_en,
+              description_ms,
+              date: this.getDate(
+                invoicereceipts[i].status,
+                invoicereceipts[i].invoice_created_datetime,
+                invoicereceipts[i].pending_payment_datetime,
+                invoicereceipts[i].payment_successful_datetime,
+                invoicereceipts[i].payment_rejected_datetime,
+                invoicereceipts[i].receipt_created_datetime
+              ),
+              status: invoicereceipts[i].status,
+              ticket: urlTicket,
+            };
+            arrayTransaksiBayaran.push(obj);
+          }
+        } else if (cart_details.simulator_ride_booking_id.length > 0) {
+          for (
+            let k = 0;
+            k < cart_details.simulator_ride_booking_id.length;
+            k++
+          ) {
+            let simulator_ride_booking =
+              cart_details.simulator_ride_booking_id[k];
+            let description_en =
+              "Space Pod, " +
+              simulator_ride_booking.booking_date +
+              "(" +
+              simulator_ride_booking.simulator_ride_time_id.time +
+              ")" +
+              " - " +
+              simulator_ride_booking.simulator_ride_time_id.round;
+            let description_ms =
+              "Kembara Simulasi, " +
+              simulator_ride_booking.booking_date +
+              "(" +
+              simulator_ride_booking.simulator_ride_time_id.time +
+              ")" +
+              " - " +
+              simulator_ride_booking.simulator_ride_time_id.round;
+            // let urlTicket = invoicereceipts[i].payment_successful_datetime
+            //   ? "<a class='btn btn-sm btn-info btn-icon' href='" +
+            //     environment.baseUrl +
+            //     "v1/show-booking/generate_ticket/?id=" +
+            //     cart_details.show_booking_id[k].id +
+            //     "' target='_blank'><i class='fas fa-receipt'></i></a>"
+            //   : "";
+
+            let obj = {
+              description_en,
+              description_ms,
+              date: this.getDate(
+                invoicereceipts[i].status,
+                invoicereceipts[i].invoice_created_datetime,
+                invoicereceipts[i].pending_payment_datetime,
+                invoicereceipts[i].payment_successful_datetime,
+                invoicereceipts[i].payment_rejected_datetime,
+                invoicereceipts[i].receipt_created_datetime
+              ),
+              status: invoicereceipts[i].status,
+              ticket: "",
+            };
+            arrayTransaksiBayaran.push(obj);
+          }
+        } else if (cart_details.facility_booking_id.length > 0) {
+          for (let k = 0; k < cart_details.facility_booking_id.length; k++) {
+            let facility_booking = cart_details.facility_booking_id[k];
+            let description_en =
+              facility_booking.facility_id.name_en +
+              ", " +
+              facility_booking.booking_date +
+              "(" +
+              this.getBookingDay(facility_booking.booking_days, "en") +
+              ")" +
+              " - " +
+              facility_booking.organisation_name;
+            let description_ms =
+              facility_booking.facility_id.name_ms +
+              ", " +
+              facility_booking.booking_date +
+              "(" +
+              this.getBookingDay(facility_booking.booking_days, "ms") +
+              ")" +
+              " - " +
+              facility_booking.organisation_name;
+
+            let obj = {
+              description_en,
+              description_ms,
+              date: this.getDate(
+                invoicereceipts[i].status,
+                invoicereceipts[i].invoice_created_datetime,
+                invoicereceipts[i].pending_payment_datetime,
+                invoicereceipts[i].payment_successful_datetime,
+                invoicereceipts[i].payment_rejected_datetime,
+                invoicereceipts[i].receipt_created_datetime
+              ),
+              status: invoicereceipts[i].status,
+              ticket: "",
+            };
+            arrayTransaksiBayaran.push(obj);
+          }
+        }
+      }
+    }
+    this.invoicereceipts = arrayTransaksiBayaran;
+  }
+
+  getDate(
+    status,
+    invoice_created,
+    pending_payment,
+    payment_successful,
+    payment_rejected,
+    receipt_created
+  ) {
+    let datetime = "";
+    switch (status) {
+      case "IC":
+        datetime = invoice_created;
+        break;
+      case "PP":
+        datetime = pending_payment;
+        break;
+      case "PS":
+        datetime = payment_successful;
+        break;
+      case "PR":
+        datetime = payment_rejected;
+        break;
+      case "RC":
+        datetime = receipt_created;
+        break;
+    }
+    return datetime;
+  }
+
+  getBookingDay(value: string, lang: string) {
+    let result = this.bookingdays.find((obj) => {
+      return obj.value == value;
+    });
+    if (lang == "en") return result.display_name_en;
+    if (lang == "ms") return result.display_name_ms;
   }
 
   ngOnInit() {
@@ -227,7 +425,7 @@ export class ProfileComponent implements OnInit {
       .update(this.userFormGroup.value, this.userFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal.fire({
             icon: "success",
             title: "Maklumat AM",
@@ -260,7 +458,7 @@ export class ProfileComponent implements OnInit {
       .changePassword(this.passwordchangeFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal.fire({
             icon: "success",
             title: "Tukar kata laluan",
@@ -292,20 +490,34 @@ export class ProfileComponent implements OnInit {
     let html = "";
     switch (value) {
       case "IC":
-        html = "<span class='badge badge-primary'>Invois Dibuat</span>";
+        html =
+          "<span class='badge badge-primary'>" +
+          this.translate.instant("InvoisResitStatusIC") +
+          "</span>";
         break;
       case "PP":
         html =
-          "<span class='badge badge-warning'>Pembayaran Belum Selesai</span>";
+          "<span class='badge badge-warning'>" +
+          this.translate.instant("InvoisResitStatusPP") +
+          "</span>";
         break;
       case "PS":
-        html = "<span class='badge badge-success'>Pembayaran Berjaya</span>";
+        html =
+          "<span class='badge badge-success'>" +
+          this.translate.instant("InvoisResitStatusPS") +
+          "</span>";
         break;
       case "PR":
-        html = "<span class='badge badge-danger'>Pembayaran Ditolak</span>";
+        html =
+          "<span class='badge badge-danger'>" +
+          this.translate.instant("InvoisResitStatusPR") +
+          "</span>";
         break;
       case "RC":
-        html = "<span class='badge badge-info'>Resit Dibuat</span>";
+        html =
+          "<span class='badge badge-info'>" +
+          this.translate.instant("InvoisResitStatusRC") +
+          "</span>";
         break;
     }
     return html;

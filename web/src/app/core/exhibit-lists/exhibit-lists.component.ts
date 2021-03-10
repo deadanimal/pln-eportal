@@ -57,11 +57,11 @@ export class ExhibitListsComponent implements OnInit {
   getExhibitList() {
     this.exhibitService.filter("zone=" + this.zone).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         if (res.length > 0) {
           this.exhibitlistService.filter("exhibit_id=" + res[0].id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               this.exhibitlists = res;
             },
             (err) => {

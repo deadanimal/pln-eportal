@@ -236,7 +236,9 @@
 
                 <div class="row">
                   <div class="col-3 align-self-center">
-                    <label class="labels">{{ "NomborTelefon" | translate }}</label>
+                    <label class="labels">{{
+                      "NomborTelefon" | translate
+                    }}</label>
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="form-group">
@@ -368,7 +370,9 @@
 
                 <div class="row">
                   <div class="col-3 align-self-center">
-                    <label class="labels">{{ "TarikhLahir" | translate }}</label>
+                    <label class="labels">{{
+                      "TarikhLahir" | translate
+                    }}</label>
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="form-group">
@@ -444,7 +448,9 @@
                       <button class="btn btn-default" (click)="updateProfile()">
                         {{ "Simpan" | translate }}
                       </button>
-                      <button class="btn btn-neutral">{{ "Batal" | translate }}</button>
+                      <button class="btn btn-neutral">
+                        {{ "Batal" | translate }}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -459,7 +465,9 @@
 
                 <div class="row">
                   <div class="col-3 align-self-center">
-                    <label class="labels">{{ "KataLaluanBaru" | translate }}</label>
+                    <label class="labels">{{
+                      "KataLaluanBaru" | translate
+                    }}</label>
                   </div>
                   <div class="col-5 align-self-center">
                     <div class="input-group">
@@ -492,7 +500,9 @@
 
                 <div class="row">
                   <div class="col-3 align-self-center">
-                    <label class="labels">{{ "UlangKataLaluanBaru" | translate }}</label>
+                    <label class="labels">{{
+                      "UlangKataLaluanBaru" | translate
+                    }}</label>
                   </div>
                   <div class="col-5 align-self-center">
                     <div class="input-group">
@@ -525,7 +535,9 @@
 
                 <div class="row">
                   <div class="col-3 align-self-center">
-                    <label class="labels">{{ "KataLaluanLama" | translate }}</label>
+                    <label class="labels">{{
+                      "KataLaluanLama" | translate
+                    }}</label>
                   </div>
                   <div class="col-5 align-self-center">
                     <div class="input-group">
@@ -714,7 +726,9 @@
                       >
                         {{ "Simpan" | translate }}
                       </button>
-                      <button class="btn btn-neutral">{{ "Batal" | translate }}</button>
+                      <button class="btn btn-neutral">
+                        {{ "Batal" | translate }}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -746,7 +760,9 @@
 
             <!-- Transaksi Bayaran -->
             <div *ngIf="selectedTab == 'transaksi-bayaran'">
-              <h2 class="title text-dark">{{ "TransaksiBayaran" | translate }}</h2>
+              <h2 class="title text-dark">
+                {{ "TransaksiBayaran" | translate }}
+              </h2>
               <div class="table-responsive">
                 <table class="table table-bordered table-flush">
                   <thead>
@@ -755,6 +771,7 @@
                       <td>{{ "Perkara" | translate }}</td>
                       <td>{{ "TarikhPembayaran" | translate }}</td>
                       <td>Status</td>
+                      <td>{{ "Tiket" | translate }}</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -764,13 +781,17 @@
                         let i = index
                       "
                     >
-                      <td>{{ i + 1 }}</td>
-                      <td></td>
+                      <td class="text-center">{{ i + 1 }}</td>
                       <td>
-                        {{
-                          invoicereceipt.payment_successful_datetime
-                            | date: "medium"
-                        }}
+                        <span *ngIf="translate.currentLang == 'en'">{{
+                          invoicereceipt.description_en
+                        }}</span>
+                        <span *ngIf="translate.currentLang == 'ms'">{{
+                          invoicereceipt.description_ms
+                        }}</span>
+                      </td>
+                      <td>
+                        {{ invoicereceipt.date | date: "longDate" }}
                       </td>
                       <td>
                         <div
@@ -779,6 +800,7 @@
                           "
                         ></div>
                       </td>
+                      <td><div [innerHtml]="invoicereceipt.ticket"></div></td>
                     </tr>
                   </tbody>
                 </table>

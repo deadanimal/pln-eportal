@@ -83,6 +83,7 @@
                             style="color: #dc3545; font-weight: bold"
                             download
                             [href]="vl_article.pdf_link"
+                            (click)="addCountDownloadPdf(vl_article)"
                             >{{ "MuatTurunPDF" | translate }}</a
                           >
                         </p>
@@ -135,6 +136,7 @@
                       class="btn btn-danger btn-sm"
                       download
                       [href]="selectedArticle.pdf_link"
+                      (click)="addCountDownloadPdf(selectedArticle)"
                       >{{ "MuatTurunPDF" | translate }}</a
                     >
                     <a class="btn btn-neutral btn-sm" (click)="backArticle()">{{

@@ -33,7 +33,7 @@ export class MissionVisionComponent implements OnInit {
       .filter("status=true&category=" + this.router.url.replace("/", ""))
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.dynamiccontents = res;
         },
         (err) => {

@@ -22,7 +22,7 @@ export class VouchersService {
   post(body): Observable<Voucher> {
     return this.http.post<Voucher>(this.url, body).pipe(
       tap((res) => {
-        console.log("Voucher: ", res);
+        // console.log("Voucher: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class VouchersService {
     return this.http.get<Voucher[]>(this.url).pipe(
       tap((res) => {
         this.vouchers = res;
-        console.log("Vouchers: ", res);
+        // console.log("Vouchers: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class VouchersService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Voucher>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Voucher: ", res);
+        // console.log("Voucher: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class VouchersService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Voucher>(urlDelete).pipe(
       tap((res) => {
-        console.log("Voucher: ", res);
+        // console.log("Voucher: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class VouchersService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Voucher[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Vouchers: ", res);
+        // console.log("Vouchers: ", res);
       })
     );
   }
@@ -69,7 +69,7 @@ export class VouchersService {
     else urlExtended = this.url + "extended";
     return this.http.get<Voucher[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("Vouchers: ", res);
+        // console.log("Vouchers: ", res);
       })
     );
   }

@@ -81,7 +81,9 @@
                 vl_terbitanbersiri.issn
               }}
             </p>
-            <p class="text-dark">{{ "Tahun" | translate }}: {{ vl_terbitanbersiri.year }}</p>
+            <p class="text-dark">
+              {{ "Tahun" | translate }}: {{ vl_terbitanbersiri.year }}
+            </p>
             <p class="text-dark">
               {{ "Penerbit" | translate }}:
               {{ vl_terbitanbersiri.publisher_name }}
@@ -104,6 +106,7 @@
                   [href]="vl_terbitanbersiri.pdf_link"
                   download
                   class="btn btn-danger"
+                  (click)="addCountDownloadPdf(vl_terbitanbersiri)"
                   >{{ "MuatTurunPDF" | translate }}</a
                 >
               </div>

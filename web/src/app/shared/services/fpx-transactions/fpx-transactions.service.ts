@@ -22,7 +22,7 @@ export class FpxTransactionsService {
   post(body: Form): Observable<FpxTransaction> {
     return this.http.post<FpxTransaction>(this.url, body).pipe(
       tap((res) => {
-        console.log("FpxTransaction: ", res);
+        // console.log("FpxTransaction: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class FpxTransactionsService {
     return this.http.get<FpxTransaction[]>(this.url).pipe(
       tap((res) => {
         this.fpxtransactions = res;
-        console.log("FpxTransactions: ", res);
+        // console.log("FpxTransactions: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class FpxTransactionsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FpxTransaction>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("FpxTransaction: ", res);
+        // console.log("FpxTransaction: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class FpxTransactionsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<FpxTransaction>(urlDelete).pipe(
       tap((res) => {
-        console.log("FpxTransaction: ", res);
+        // console.log("FpxTransaction: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class FpxTransactionsService {
     let urlBankList = this.url + 'fpx_get_bank_list';
     return this.http.get<FpxTransaction[]>(urlBankList).pipe(
       tap((res) => {
-        console.log("FpxTransactions: ", res);
+        // console.log("FpxTransactions: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class FpxTransactionsService {
     let urlFPXConfirm = this.url + "fpx_confirm_ar/";
     return this.http.post<FpxTransaction>(urlFPXConfirm, body).pipe(
       tap((res) => {
-        console.log("FPX Confirm: ", res);
+        // console.log("FPX Confirm: ", res);
       })
     );
   }

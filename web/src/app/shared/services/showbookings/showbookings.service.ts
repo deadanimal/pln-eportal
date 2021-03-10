@@ -22,7 +22,7 @@ export class ShowbookingsService {
   post(body): Observable<Showbooking> {
     return this.http.post<Showbooking>(this.url, body).pipe(
       tap((res) => {
-        console.log("Showbooking: ", res);
+        // console.log("Showbooking: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class ShowbookingsService {
     return this.http.get<Showbooking[]>(this.url).pipe(
       tap((res) => {
         this.showbookings = res;
-        console.log("Showbookings: ", res);
+        // console.log("Showbookings: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class ShowbookingsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Showbooking>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Showbooking: ", res);
+        // console.log("Showbooking: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class ShowbookingsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Showbooking>(urlDelete).pipe(
       tap((res) => {
-        console.log("Showbooking: ", res);
+        // console.log("Showbooking: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class ShowbookingsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Showbooking[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Showbookings", res);
+        // console.log("Showbookings", res);
       })
     );
   }
@@ -69,7 +69,7 @@ export class ShowbookingsService {
     else urlExtended = this.url + "extended";
     return this.http.get<Showbooking[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("Showbookings: ", res);
+        // console.log("Showbookings: ", res);
       })
     );
   }

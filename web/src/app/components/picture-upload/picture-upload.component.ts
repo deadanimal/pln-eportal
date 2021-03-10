@@ -36,7 +36,7 @@ export class PictureUploadComponent implements OnInit {
     reader.readAsDataURL(file);
   }
   handleClick() {
-    console.log(this.fileInput.nativeElement);
+    // console.log(this.fileInput.nativeElement);
     this.fileInput.nativeElement.click();
   }
   handleRemove() {

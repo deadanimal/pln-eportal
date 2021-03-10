@@ -88,7 +88,7 @@ export class EmployeeDirectoryComponent implements OnInit {
   getEmployeeDirectory() {
     this.employeedirectoryService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.employeedirectories = res;
         this.param = { value: this.employeedirectories.length };
       },

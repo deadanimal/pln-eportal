@@ -261,7 +261,7 @@ export class FacilityDetailsComponent implements OnInit {
         .filter("facility_category=" + this.selectedFacility.value)
         .subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
             this.facilitysubcategories = res;
           },
           (err) => {
@@ -274,7 +274,7 @@ export class FacilityDetailsComponent implements OnInit {
   getFacilityImage() {
     this.facilityimageService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.facilityimages = res;
       },
       (err) => {
@@ -286,7 +286,7 @@ export class FacilityDetailsComponent implements OnInit {
   getFacilityPrice() {
     this.facilitypriceService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.facilityprices = res;
       },
       (err) => {
@@ -477,7 +477,7 @@ export class FacilityDetailsComponent implements OnInit {
       .post(this.facilitybookingFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.defaultModal.hide();
           swal.fire({
             icon: "success",
@@ -498,7 +498,7 @@ export class FacilityDetailsComponent implements OnInit {
           };
           this.emailtemplateService.sending_mail(obj).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
             },
             (err) => {
               console.error("err", err);

@@ -51,11 +51,16 @@ import { CheckoutComponent } from "./checkout/checkout.component";
 import { environment } from "src/environments/environment";
 import { AuthGuard } from "../shared/guard/auth.guard";
 import { CloseBookingGuard } from "../shared/guard/close-booking.guard";
+import { SearchKeywordComponent } from "./search-keyword/search-keyword.component";
 
 export const CoreRoutes: Routes = [
   {
     path: "landing",
     component: LandingComponent,
+  },
+  {
+    path: "search_keyword",
+    component: SearchKeywordComponent,
   },
   {
     path: "signup",

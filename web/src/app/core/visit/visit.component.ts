@@ -186,7 +186,7 @@ export class VisitComponent implements OnInit {
   getData() {
     this.visitService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.visits = res;
       },
       (err) => {
@@ -353,7 +353,7 @@ export class VisitComponent implements OnInit {
 
     this.visitiapplicationService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.defaultModal.hide();
         swal.fire({
           icon: "success",
@@ -374,7 +374,7 @@ export class VisitComponent implements OnInit {
         };
         this.emailtemplateService.sending_mail(obj).subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
           },
           (err) => {
             console.error("err", err);

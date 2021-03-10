@@ -236,7 +236,7 @@ export class NavbarComponent implements OnInit {
   }
 
   checkTokenExpired() {
-    console.log("checkTokenExpired triggered");
+    // console.log("checkTokenExpired triggered");
     let access = this.jwtService.getToken("accessToken");
     let refresh = this.jwtService.getToken("refreshToken");
     if (access && refresh) {
@@ -404,6 +404,43 @@ export class NavbarComponent implements OnInit {
           console.error("err", err);
         }
       );
+  }
+
+  clickSearch(ev) {
+    if (ev.target.value) {
+      this.router.navigate(["/search_keyword"], {
+        queryParams: { search_keyword: ev.target.value },
+      });
+      (<HTMLInputElement>document.getElementById("search_keyword")).value = "";
+    } else if (
+      (<HTMLInputElement>document.getElementById("search_keyword")).value != ""
+    ) {
+      this.router.navigate(["/search_keyword"], {
+        queryParams: {
+          search_keyword: (<HTMLInputElement>(
+            document.getElementById("search_keyword")
+          )).value,
+        },
+      });
+      (<HTMLInputElement>document.getElementById("search_keyword")).value = "";
+    } else {
+      this.toastr.error(
+        this.translate.instant("RalatSearchKeyword"),
+        this.translate.instant("Ralat")
+      );
+    }
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   openLoginModal(template: TemplateRef<any>) {

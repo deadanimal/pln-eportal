@@ -22,7 +22,7 @@ export class VirtualLibraryBooksService {
   post(body: Form): Observable<VirtualLibraryBook> {
     return this.http.post<VirtualLibraryBook>(this.url, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class VirtualLibraryBooksService {
     return this.http.get<VirtualLibraryBook[]>(this.url).pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class VirtualLibraryBooksService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<VirtualLibraryBook>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class VirtualLibraryBooksService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<VirtualLibraryBook>(urlDelete).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class VirtualLibraryBooksService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<VirtualLibraryBook[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -67,7 +67,24 @@ export class VirtualLibraryBooksService {
     return this.http.get<VirtualLibraryBook[]>(this.url + "extended").pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
+      })
+    );
+  }
+
+  get_search_keyword(
+    search_keyword: string,
+    lang: string
+  ): Observable<VirtualLibraryBook[]> {
+    let urlSearchKeyword =
+      this.url +
+      "get_search_keyword/?search_keyword=" +
+      search_keyword +
+      "&lang=" +
+      lang;
+    return this.http.get<VirtualLibraryBook[]>(urlSearchKeyword).pipe(
+      tap((res) => {
+        // console.log("Virtual libraries: ", res);
       })
     );
   }

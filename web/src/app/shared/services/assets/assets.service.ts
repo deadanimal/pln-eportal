@@ -25,7 +25,7 @@ export class AssetsService {
   post(body: Form): Observable<Asset> {
     return this.http.post<Asset>(this.url, body).pipe(
       tap((res) => {
-        console.log('Asset: ', res)
+        // console.log('Asset: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class AssetsService {
     return this.http.get<Asset[]>(this.url).pipe(
       tap((res) => {
         this.assets = res
-        console.log('Assets: ', res)
+        // console.log('Assets: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class AssetsService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<Asset>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Asset: ', res)
+        // console.log('Asset: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class AssetsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<Asset>(urlDelete).pipe(
       tap((res) => {
-        console.log('Asset: ', res)
+        // console.log('Asset: ', res)
       })
     )
   }

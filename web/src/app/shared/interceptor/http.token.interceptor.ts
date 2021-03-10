@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from "@angular/core";
+import { Injectable } from "@angular/core";
 import {
   HttpEvent,
   HttpInterceptor,
@@ -7,17 +7,14 @@ import {
   HttpResponse,
   HttpErrorResponse,
 } from "@angular/common/http";
+import { Router } from "@angular/router";
 import { Observable, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { JwtService } from "../jwt/jwt.service";
-import { HandlerNotificationService } from "../handler-notification/handler-notification.service";
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
-  constructor(
-    private handlerNotification: HandlerNotificationService,
-    private jwtService: JwtService
-  ) {}
+  constructor(private jwtService: JwtService, private router: Router) {}
 
   private handleError(error: HttpErrorResponse) {
     let data = {};
@@ -28,17 +25,21 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     if (error instanceof HttpErrorResponse) {
       // Server or connection error happened
       if (!navigator.onLine) {
-        this.handlerNotification.openToastrConnection();
         // Handle offline error
       } else {
-        this.handlerNotification.openToastrHttp(error.status, error.statusText);
         // Handle Http Error (error.status === 403, 404...)
+        if (error.error.code == "token_not_valid") {
+          // let title = "Ralat";
+          // let message =
+          //   "Sesi anda telah tamat. Anda diminta untuk log masuk sekali lagi";
+          // this.router.navigate(["/landing"]);
+        }
       }
     } else {
       // Handle Client Error (Angular Error, ReferenceError...)
     }
-    console.error("It happens: ", error);
-    // console.log('Error: ', error)
+    // console.error("It happens: ", error);
+    // console.log("Error: ", error);
     return throwError(error);
   }
 
@@ -47,23 +48,46 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const headersConfig = {
-      "Content-Type": "application/json",
       Accept: "*/*",
     };
+    // "Content-Type": "application/json",
 
-    const token = this.jwtService.getToken("accessToken");
-
-    if (token) {
-      headersConfig["Authorization"] = `Bearer ${token}`;
+    if (req.url.includes("auth/obtain")) {
+      // console.log("Is obtain? ", req.url.includes("auth/obtain"));
+      this.jwtService.destroyToken();
     }
 
-    console.log("Intercepting...");
+    let apiUrl = [
+      "carts",
+      "facility-bookings",
+      "fpx-transactions",
+      "invoice-receipts",
+      "users",
+      "visit-applications",
+      "show-times",
+      "show-booking",
+      "supervisors",
+      "facility-bookings",
+      "simulator-ride-times",
+      "simulator-ride-bookings",
+      "bank-lists",
+      "vouchers",
+    ];
+
+    let result = apiUrl.find((value) => {
+      return req.url.includes(value);
+    });
+    if (result) {
+      const token = this.jwtService.getToken("accessToken");
+      headersConfig["Authorization"] = `Bearer ${token}`;
+      // console.log(headersConfig);
+    }
 
     const request = req.clone({ setHeaders: headersConfig });
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          console.log("Event: ", event);
+          // console.log("Event: ", event);
         }
         return event;
       }),

@@ -34,7 +34,7 @@ export class QuickLinkComponent implements OnInit {
   getCategory() {
     this.quicklinkcategoryService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.categories = res;
         for (let i = 0; i < this.categories.length; i++) {
           this.categories[i].show = false;
@@ -49,7 +49,7 @@ export class QuickLinkComponent implements OnInit {
   getData() {
     this.quicklinkService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.quicklinks = res;
       },
       (err) => {

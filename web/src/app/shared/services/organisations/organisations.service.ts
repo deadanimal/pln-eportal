@@ -25,7 +25,7 @@ export class OrganisationsService {
   post(body: Form): Observable<Organisation> {
     return this.http.post<Organisation>(this.url, body).pipe(
       tap((res) => {
-        console.log('Organisation: ', res)
+        // console.log('Organisation: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class OrganisationsService {
     return this.http.get<Organisation[]>(this.url).pipe(
       tap((res) => {
         this.organisations = res
-        console.log('Organisations: ', res)
+        // console.log('Organisations: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class OrganisationsService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<Organisation>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Organisation: ', res)
+        // console.log('Organisation: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class OrganisationsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<Organisation>(urlDelete).pipe(
       tap((res) => {
-        console.log('Organisation: ', res)
+        // console.log('Organisation: ', res)
       })
     )
   }

@@ -68,7 +68,7 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.vl_akk_categories = res;
         },
         (err) => {
@@ -82,7 +82,7 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
       .filter("status=true")
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.vl_akks = res;
         },
         (err) => {
@@ -94,7 +94,7 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
   getArkibBuku() {
     this.virtuallibrarybookService.filter("status=ARC").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.archive_books = res;
       },
       (err) => {
@@ -106,7 +106,7 @@ export class VirtualLibraryArkibKutubkhanahComponent implements OnInit {
   getArkibTerbitanBersiri() {
     this.virtuallibraryserialpublicationService.filter("status=ARC").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.archive_serialpublications = res;
       },
       (err) => {

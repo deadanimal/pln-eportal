@@ -60,7 +60,7 @@ export class VirtualLibraryEsumberComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.vl_esumber_categories = res;
         },
         (err) => {
@@ -72,7 +72,7 @@ export class VirtualLibraryEsumberComponent implements OnInit {
   getESumber() {
     this.virtuallibraryesourceService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.vl_esumbers = res;
       },
       (err) => {

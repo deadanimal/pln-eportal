@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     // Google Analytics
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        console.log(event.urlAfterRedirects);
+        // console.log(event.urlAfterRedirects);
         gtag("config", "G-QD8NVBEQQ3", {
           page_path: event.urlAfterRedirects,
         });

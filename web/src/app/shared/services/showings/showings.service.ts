@@ -25,7 +25,7 @@ export class ShowingsService {
   post(body: Form): Observable<Showing> {
     return this.http.post<Showing>(this.url, body).pipe(
       tap((res) => {
-        console.log('Showing: ', res)
+        // console.log('Showing: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class ShowingsService {
     return this.http.get<Showing[]>(this.url).pipe(
       tap((res) => {
         this.showings = res
-        console.log('Showings: ', res)
+        // console.log('Showings: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class ShowingsService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<Showing>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Showing: ', res)
+        // console.log('Showing: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class ShowingsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<Showing>(urlDelete).pipe(
       tap((res) => {
-        console.log('Showing: ', res)
+        // console.log('Showing: ', res)
       })
     )
   }
@@ -61,7 +61,7 @@ export class ShowingsService {
     let urlFilter = this.url + '?' + field
     return this.http.get<Showing[]>(urlFilter).pipe(
       tap((res) => {
-        console.log('Showings', res)
+        // console.log('Showings', res)
       })
     )
   }

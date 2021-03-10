@@ -15,9 +15,10 @@ export class VirtualLibraryBook {
   public published_date: string;
   public notes: string;
   public status: boolean;
+  public download_pdf_counter: number;
   public image_link: string;
   public pdf_link: string;
-  public virtual_library_collection_id: string;
+  public virtual_library_collection_id: any;
   public created_date: string;
   public modified_date: string;
 
@@ -38,9 +39,10 @@ export class VirtualLibraryBook {
     published_date: string,
     notes: string,
     status: boolean,
+    download_pdf_counter: number,
     image_link: string,
     pdf_link: string,
-    virtual_library_collection_id: string,
+    virtual_library_collection_id: any,
     created_date: string,
     modified_date: string
   ) {
@@ -60,6 +62,7 @@ export class VirtualLibraryBook {
     this.published_date = published_date;
     this.notes = notes;
     this.status = status;
+    this.download_pdf_counter = download_pdf_counter;
     this.image_link = image_link;
     this.pdf_link = pdf_link;
     this.virtual_library_collection_id = virtual_library_collection_id;

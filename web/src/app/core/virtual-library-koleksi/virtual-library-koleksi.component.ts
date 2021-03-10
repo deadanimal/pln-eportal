@@ -42,7 +42,7 @@ export class VirtualLibraryKoleksiComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.vl_collections = res;
         },
         (err) => {

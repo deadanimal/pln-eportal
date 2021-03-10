@@ -22,7 +22,7 @@ export class WhatisinterestingsService {
   post(body): Observable<WhatIsInteresting> {
     return this.http.post<WhatIsInteresting>(this.url, body).pipe(
       tap((res) => {
-        console.log("WhatIsInteresting: ", res);
+        // console.log("WhatIsInteresting: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class WhatisinterestingsService {
     return this.http.get<WhatIsInteresting[]>(this.url).pipe(
       tap((res) => {
         this.whatisinterestings = res;
-        console.log("WhatIsInterestings: ", res);
+        // console.log("WhatIsInterestings: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class WhatisinterestingsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<WhatIsInteresting>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("WhatIsInteresting: ", res);
+        // console.log("WhatIsInteresting: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class WhatisinterestingsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<WhatIsInteresting>(urlDelete).pipe(
       tap((res) => {
-        console.log("WhatIsInteresting: ", res);
+        // console.log("WhatIsInteresting: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class WhatisinterestingsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<WhatIsInteresting[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("WhatIsInterestings: ", res);
+        // console.log("WhatIsInterestings: ", res);
       })
     );
   }

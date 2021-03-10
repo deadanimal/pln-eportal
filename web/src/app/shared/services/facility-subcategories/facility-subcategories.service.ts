@@ -22,7 +22,7 @@ export class FacilitySubcategoriesService {
   post(body): Observable<FacilitySubcategory> {
     return this.http.post<FacilitySubcategory>(this.url, body).pipe(
       tap((res) => {
-        console.log("FacilitySubcategory: ", res);
+        // console.log("FacilitySubcategory: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class FacilitySubcategoriesService {
     return this.http.get<FacilitySubcategory[]>(this.url).pipe(
       tap((res) => {
         this.facilitysubcategories = res;
-        console.log("FacilitySubcategories: ", res);
+        // console.log("FacilitySubcategories: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class FacilitySubcategoriesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FacilitySubcategory>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("FacilitySubcategory: ", res);
+        // console.log("FacilitySubcategory: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class FacilitySubcategoriesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<FacilitySubcategory>(urlDelete).pipe(
       tap((res) => {
-        console.log("FacilitySubcategory: ", res);
+        // console.log("FacilitySubcategory: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class FacilitySubcategoriesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<FacilitySubcategory[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("FacilitySubcategories: ", res);
+        // console.log("FacilitySubcategories: ", res);
       })
     );
   }

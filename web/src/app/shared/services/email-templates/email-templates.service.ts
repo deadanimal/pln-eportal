@@ -22,7 +22,7 @@ export class EmailTemplatesService {
   post(body: Form): Observable<EmailTemplate> {
     return this.http.post<EmailTemplate>(this.url, body).pipe(
       tap((res) => {
-        console.log("EmailTemplate: ", res);
+        // console.log("EmailTemplate: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class EmailTemplatesService {
     return this.http.get<EmailTemplate[]>(this.url).pipe(
       tap((res) => {
         this.emailtemplates = res;
-        console.log("EmailTemplates: ", res);
+        // console.log("EmailTemplates: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class EmailTemplatesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<EmailTemplate>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("EmailTemplate: ", res);
+        // console.log("EmailTemplate: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class EmailTemplatesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<EmailTemplate>(urlDelete).pipe(
       tap((res) => {
-        console.log("EmailTemplate: ", res);
+        // console.log("EmailTemplate: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class EmailTemplatesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<EmailTemplate[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("EmailTemplates: ", res);
+        // console.log("EmailTemplates: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class EmailTemplatesService {
     return this.http.get<EmailTemplate[]>(this.url + "extended").pipe(
       tap((res) => {
         this.emailtemplates = res;
-        console.log("EmailTemplates: ", res);
+        // console.log("EmailTemplates: ", res);
       })
     );
   }
@@ -75,7 +75,7 @@ export class EmailTemplatesService {
   sending_mail(body): Observable<any> {
     return this.http.post<any>(this.url + 'sending_email/', body).pipe(
       tap((res) => {
-        console.log("EmailTemplate: ", res);
+        // console.log("EmailTemplate: ", res);
       })
     );
   }

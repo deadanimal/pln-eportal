@@ -22,7 +22,7 @@ export class DynamicContentsService {
   post(body: Form): Observable<DynamicContent> {
     return this.http.post<DynamicContent>(this.url, body).pipe(
       tap((res) => {
-        console.log("DynamicContent: ", res);
+        // console.log("DynamicContent: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class DynamicContentsService {
     return this.http.get<DynamicContent[]>(this.url).pipe(
       tap((res) => {
         this.dynamiccontents = res;
-        console.log("DynamicContents: ", res);
+        // console.log("DynamicContents: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class DynamicContentsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<DynamicContent>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("DynamicContent: ", res);
+        // console.log("DynamicContent: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class DynamicContentsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<DynamicContent>(urlDelete).pipe(
       tap((res) => {
-        console.log("DynamicContent: ", res);
+        // console.log("DynamicContent: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class DynamicContentsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<DynamicContent[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("DynamicContents: ", res);
+        // console.log("DynamicContents: ", res);
       })
     );
   }

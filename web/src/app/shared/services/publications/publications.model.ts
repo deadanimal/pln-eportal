@@ -17,8 +17,9 @@ export class Publication {
   public pdf_link: string;
   public year: string;
   public edition: string;
-  public publication_category_id: string;
+  public publication_category_id: any;
   public status: boolean;
+  public download_pdf_counter: number;
   public created_date: string;
   public modified_date: string;
 
@@ -41,8 +42,9 @@ export class Publication {
     pdf_link: string,
     year: string,
     edition: string,
-    publication_category_id: string,
+    publication_category_id: any,
     status: boolean,
+    download_pdf_counter: number,
     created_date: string,
     modified_date: string
   ) {
@@ -66,6 +68,7 @@ export class Publication {
     this.edition = edition;
     this.publication_category_id = publication_category_id;
     this.status = status;
+    this.download_pdf_counter = download_pdf_counter;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

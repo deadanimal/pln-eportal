@@ -11,6 +11,9 @@ export class FooterComponent implements OnInit {
   // CSS class
   fontSize: string;
 
+  // Data
+  year: any = { value: new Date().getFullYear() };
+
   constructor(private w3cService: W3csService) {}
 
   ngOnInit() {

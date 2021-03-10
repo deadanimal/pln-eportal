@@ -22,7 +22,7 @@ export class TicketPricesService {
   post(body): Observable<TicketPrice> {
     return this.http.post<TicketPrice>(this.url, body).pipe(
       tap((res) => {
-        console.log("TicketPrice: ", res);
+        // console.log("TicketPrice: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class TicketPricesService {
     return this.http.get<TicketPrice[]>(this.url).pipe(
       tap((res) => {
         this.ticketprices = res;
-        console.log("TicketPrices: ", res);
+        // console.log("TicketPrices: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class TicketPricesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<TicketPrice>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("TicketPrice: ", res);
+        // console.log("TicketPrice: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class TicketPricesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<TicketPrice>(urlDelete).pipe(
       tap((res) => {
-        console.log("TicketPrice: ", res);
+        // console.log("TicketPrice: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class TicketPricesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<TicketPrice[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("TicketPrices: ", res);
+        // console.log("TicketPrices: ", res);
       })
     );
   }

@@ -82,11 +82,11 @@ export class HomeComponent implements OnInit {
   getData() {
     this.moduleService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.modules = res;
       },
       (err) => {
-        console.log("err", err);
+        console.error("err", err);
       }
     );
   }

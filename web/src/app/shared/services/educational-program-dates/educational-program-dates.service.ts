@@ -24,7 +24,7 @@ export class EducationalProgramDatesService {
   create(body: Form): Observable<EducationalProgramDate> {
     return this.http.post<EducationalProgramDate>(this.url, body).pipe(
       tap((res) => {
-        console.log("Educational program date: ", res);
+        // console.log("Educational program date: ", res);
       })
     );
   }
@@ -33,7 +33,7 @@ export class EducationalProgramDatesService {
     return this.http.get<EducationalProgramDate[]>(this.url).pipe(
       tap((res) => {
         this.programdates = res;
-        console.log("Educational program dates: ", this.programdates);
+        // console.log("Educational program dates: ", this.programdates);
       })
     );
   }
@@ -43,7 +43,7 @@ export class EducationalProgramDatesService {
     return this.http.get<EducationalProgramDate>(urlID).pipe(
       tap((res) => {
         this.programdate = res;
-        console.log("Educational program date: ", this.programdate);
+        // console.log("Educational program date: ", this.programdate);
       })
     );
   }
@@ -53,7 +53,7 @@ export class EducationalProgramDatesService {
     return this.http.patch<EducationalProgramDate>(urlPatch, body).pipe(
       tap((res) => {
         this.programdate = res;
-        console.log("Educational program dates: ", this.programdate);
+        // console.log("Educational program dates: ", this.programdate);
       })
     );
   }
@@ -62,7 +62,7 @@ export class EducationalProgramDatesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<EducationalProgramDate>(urlDelete).pipe(
       tap((res) => {
-        console.log("Educational prgoram: ", res);
+        // console.log("Educational prgoram: ", res);
       })
     );
   }
@@ -72,7 +72,7 @@ export class EducationalProgramDatesService {
     return this.http.get<EducationalProgramDate[]>(urlFilter).pipe(
       tap((res) => {
         this.programdatesFiltered;
-        console.log("Educational programs", this.programdatesFiltered);
+        // console.log("Educational programs", this.programdatesFiltered);
       })
     );
   }
@@ -81,7 +81,7 @@ export class EducationalProgramDatesService {
     return this.http.get<EducationalProgramDate[]>(this.url + "extended").pipe(
       tap((res) => {
         this.programdatesFiltered;
-        console.log("Educational programs: ", this.programdatesFiltered);
+        // console.log("Educational programs: ", this.programdatesFiltered);
       })
     );
   }

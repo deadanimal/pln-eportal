@@ -47,7 +47,7 @@ export class VirtualLibraryComponent implements OnInit {
   getData() {
     this.virtuallibrarycategoryService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.vl_categories = res;
       },
       (err) => {

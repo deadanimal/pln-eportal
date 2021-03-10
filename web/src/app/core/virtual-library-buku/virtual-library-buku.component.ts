@@ -56,7 +56,7 @@ export class VirtualLibraryBukuComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.vl_bukus = res;
         },
         (err) => {
@@ -88,6 +88,20 @@ export class VirtualLibraryBukuComponent implements OnInit {
 
     this.w3cService.currentThemeColor.subscribe(
       (themeColor) => (this.themeColor = themeColor)
+    );
+  }
+
+  addCountDownloadPdf(book) {
+    let body = {
+      download_pdf_counter: book.download_pdf_counter + 1,
+    };
+    this.virtuallibrarybookService.update(body, book.id).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
     );
   }
 

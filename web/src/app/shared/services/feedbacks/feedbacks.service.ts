@@ -25,7 +25,7 @@ export class FeedbacksService {
   post(body: Form): Observable<Feedback> {
     return this.http.post<Feedback>(this.url, body).pipe(
       tap((res) => {
-        console.log('Feedback: ', res)
+        // console.log('Feedback: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class FeedbacksService {
     return this.http.get<Feedback[]>(this.url).pipe(
       tap((res) => {
         this.feedbacks = res
-        console.log('Feedbacks: ', res)
+        // console.log('Feedbacks: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class FeedbacksService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<Feedback>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Feedback: ', res)
+        // console.log('Feedback: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class FeedbacksService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<Feedback>(urlDelete).pipe(
       tap((res) => {
-        console.log('Feedback: ', res)
+        // console.log('Feedback: ', res)
       })
     )
   }
@@ -60,7 +60,7 @@ export class FeedbacksService {
   postRating(body: Form): Observable<any> {
     return this.http.post<any>(environment.baseUrl + 'v1/ratings/', body).pipe(
       tap((res) => {
-        console.log('Rating: ', res)
+        // console.log('Rating: ', res)
       })
     )
   }
@@ -69,7 +69,7 @@ export class FeedbacksService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Feedback[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Feedbacks: ", res);
+        // console.log("Feedbacks: ", res);
       })
     );
   }
@@ -80,7 +80,7 @@ export class FeedbacksService {
     else urlExtended = this.url + "extended";
     return this.http.get<Feedback[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("Feedbacks: ", res);
+        // console.log("Feedbacks: ", res);
       })
     );
   }

@@ -22,7 +22,7 @@ export class PaymentTicketsService {
   post(body: Form): Observable<PaymentTicket> {
     return this.http.post<PaymentTicket>(this.url, body).pipe(
       tap((res) => {
-        console.log("Payment ticket: ", res);
+        // console.log("Payment ticket: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class PaymentTicketsService {
     return this.http.get<PaymentTicket[]>(this.url).pipe(
       tap((res) => {
         this.paymentTickets = res;
-        console.log("Payment tickets: ", res);
+        // console.log("Payment tickets: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class PaymentTicketsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<PaymentTicket>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Payment ticket: ", res);
+        // console.log("Payment ticket: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class PaymentTicketsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<PaymentTicket>(urlDelete).pipe(
       tap((res) => {
-        console.log("Payment ticket: ", res);
+        // console.log("Payment ticket: ", res);
       })
     );
   }

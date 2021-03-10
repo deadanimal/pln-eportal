@@ -60,7 +60,7 @@ export class PublicationComponent implements OnInit {
   getPublicationCategory() {
     this.publicationcategoryService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.publicationcategories = res;
       },
       (err) => {

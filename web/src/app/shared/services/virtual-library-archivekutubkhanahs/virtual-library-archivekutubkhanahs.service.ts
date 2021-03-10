@@ -25,7 +25,7 @@ export class VirtualLibraryArchiveKutubkhanahsService {
       .post<VirtualLibraryArchiveKutubkhanah>(this.url, body)
       .pipe(
         tap((res) => {
-          console.log("Virtual library: ", res);
+          // console.log("Virtual library: ", res);
         })
       );
   }
@@ -34,7 +34,7 @@ export class VirtualLibraryArchiveKutubkhanahsService {
     return this.http.get<VirtualLibraryArchiveKutubkhanah[]>(this.url).pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -45,7 +45,7 @@ export class VirtualLibraryArchiveKutubkhanahsService {
       .patch<VirtualLibraryArchiveKutubkhanah>(urlPatch, body)
       .pipe(
         tap((res) => {
-          console.log("Virtual library: ", res);
+          // console.log("Virtual library: ", res);
         })
       );
   }
@@ -54,7 +54,7 @@ export class VirtualLibraryArchiveKutubkhanahsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<VirtualLibraryArchiveKutubkhanah>(urlDelete).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -63,7 +63,7 @@ export class VirtualLibraryArchiveKutubkhanahsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<VirtualLibraryArchiveKutubkhanah[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -74,7 +74,26 @@ export class VirtualLibraryArchiveKutubkhanahsService {
       .pipe(
         tap((res) => {
           this.virtuallibraries = res;
-          console.log("Virtual libraries: ", res);
+          // console.log("Virtual libraries: ", res);
+        })
+      );
+  }
+
+  get_search_keyword(
+    search_keyword: string,
+    lang: string
+  ): Observable<VirtualLibraryArchiveKutubkhanah[]> {
+    let urlSearchKeyword =
+      this.url +
+      "get_search_keyword/?search_keyword=" +
+      search_keyword +
+      "&lang=" +
+      lang;
+    return this.http
+      .get<VirtualLibraryArchiveKutubkhanah[]>(urlSearchKeyword)
+      .pipe(
+        tap((res) => {
+          // console.log("Virtual libraries: ", res);
         })
       );
   }

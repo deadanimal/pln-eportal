@@ -22,7 +22,7 @@ export class ExhibitDetailImagesService {
   post(body: Form): Observable<ExhibitDetailImage> {
     return this.http.post<ExhibitDetailImage>(this.url, body).pipe(
       tap((res) => {
-        console.log("Exhibit Detail Image: ", res);
+        // console.log("Exhibit Detail Image: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class ExhibitDetailImagesService {
     return this.http.get<ExhibitDetailImage[]>(this.url).pipe(
       tap((res) => {
         this.exhibitdetailimages = res;
-        console.log("Exhibit Detail Images: ", res);
+        // console.log("Exhibit Detail Images: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class ExhibitDetailImagesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<ExhibitDetailImage>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Exhibit Detail Image: ", res);
+        // console.log("Exhibit Detail Image: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class ExhibitDetailImagesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<ExhibitDetailImage>(urlDelete).pipe(
       tap((res) => {
-        console.log("Exhibit Detail Image: ", res);
+        // console.log("Exhibit Detail Image: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class ExhibitDetailImagesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<ExhibitDetailImage[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Exhibit Detail Images: ", res);
+        // console.log("Exhibit Detail Images: ", res);
       })
     );
   }
@@ -66,7 +66,7 @@ export class ExhibitDetailImagesService {
   extended(): Observable<ExhibitDetailImage[]> {
     return this.http.get<ExhibitDetailImage[]>(this.url + "extended").pipe(
       tap((res) => {
-        console.log("Exhibit Detail Images: ", res);
+        // console.log("Exhibit Detail Images: ", res);
       })
     );
   }

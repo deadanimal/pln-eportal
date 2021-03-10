@@ -92,7 +92,7 @@ export class PasswordResetComponent implements OnInit {
       .resetPasswordConfirm(this.passwordresetFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal.fire({
             icon: "success",
             title: "Tukar kata laluan",

@@ -56,7 +56,7 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.vl_terbitanbersiris = res;
         },
         (err) => {
@@ -89,6 +89,22 @@ export class VirtualLibraryTerbitanBersiriComponent implements OnInit {
     this.w3cService.currentThemeColor.subscribe(
       (themeColor) => (this.themeColor = themeColor)
     );
+  }
+
+  addCountDownloadPdf(serialpublication) {
+    let body = {
+      download_pdf_counter: serialpublication.download_pdf_counter + 1,
+    };
+    this.virtuallibraryserialpublicationService
+      .update(body, serialpublication.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   addMetaTag() {

@@ -26,7 +26,7 @@ import { TmNgOdometerModule } from "tm-ng-odometer";
 import { NgMarqueeModule } from "ng-marquee";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { TranslateModule } from "@ngx-translate/core";
 import { AccordionModule } from "ngx-bootstrap/accordion";
 import { GalleryModule } from "@ngx-gallery/core";
@@ -39,7 +39,7 @@ import { ShareIconsModule } from "ngx-sharebuttons/icons";
 import { NgxOrgChartModule } from "ngx-org-chart";
 // import { ToastrModule } from 'ngx-toastr';
 import { CountdownModule } from "ngx-countdown";
-import { NgxCaptchaModule } from 'ngx-captcha';
+import { NgxCaptchaModule } from "ngx-captcha";
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -105,6 +105,8 @@ import { FormatBookingTimePipe } from "../shared/pipes/format/format-booking-tim
 import { FormatFacilityAreaM2Pipe } from "../shared/pipes/format/format-facility-area-m2.pipe";
 import { TicketPriceModuleFilterPipe } from "../shared/pipes/ticket-price/ticket-price-module-filter.pipe";
 import { TicketPriceDetailFilter } from "../shared/pipes/ticket-price/ticket-price-detail-filter.pipe";
+import { HttpTokenInterceptor } from "../shared/interceptor/http.token.interceptor";
+import { SearchKeywordComponent } from './search-keyword/search-keyword.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -178,6 +180,7 @@ const customConfig: ShareButtonsConfig = {
     FormatFacilityAreaM2Pipe,
     TicketPriceModuleFilterPipe,
     TicketPriceDetailFilter,
+    SearchKeywordComponent,
   ],
   imports: [
     CommonModule,
@@ -222,5 +225,12 @@ const customConfig: ShareButtonsConfig = {
     TranslateModule,
     AccordionModule.forRoot(),
   ],
+  // providers: [
+  //   {
+  //     provide: HTTP_INTERCEPTORS,
+  //     useClass: HttpTokenInterceptor,
+  //     multi: true,
+  //   },
+  // ],
 })
 export class CoreModule {}
