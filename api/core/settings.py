@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'ticketprices',
     'cashtransactions',
     'integrations',
+    'errorlogs',
 
     'django_cleanup.apps.CleanupConfig'
 ]
@@ -259,3 +260,6 @@ CRONJOBS = [
     ('0 0 * * *', 'showings.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
     ('0 0 * * *', 'venues.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log'))
 ]
+
+ACCOUNT_EMAIL_VERIFICATION='optional'
+ACCOUNT_EMAIL_SUBJECT_PREFIX='[Planetarium Negara] '

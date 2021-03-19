@@ -1,6 +1,11 @@
 from django.shortcuts import render
+from django.conf import settings
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+from django.template.loader import get_template, render_to_string
+
+from datetime import datetime
+from weasyprint import default_url_fetcher, HTML, CSS
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -115,3 +120,93 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 CashTransaction.objects.filter(id=cash_transaction).delete()
 
         return Response(status=status.HTTP_200_OK)
+
+    @action(methods=['GET'], detail=False)
+    def generate_receipt(self, request):
+
+        # Model data
+        invoice_receipt_id = request.query_params.get('id', None)
+
+        queryset = InvoiceReceipt.objects.all()
+        if invoice_receipt_id is not None:
+            queryset = queryset.filter(id=invoice_receipt_id)
+
+        serializer_class = InvoiceReceiptExtendedSerializer(queryset, many=True)
+
+        items = serializer_class.data[0].items()
+
+        receipt_info = {}
+        receipt_info['receipt_generated_date'] = datetime.now().strftime("%d.%m.%Y")
+        receipt_info['receipt_generated_year'] = datetime.now().strftime("%Y")
+
+        payment_info = {}
+        for key, value in items:
+            # print(key, '=>', value)
+            if key == 'receipt_running_no':
+                receipt_info['receipt_running_no'] = value
+            if key == 'total_price_after_voucher':
+                receipt_info['receipt_total_price_after_voucher'] = value
+
+            # Cart
+            if key == 'cart_id':
+                for x in range(0, len(value)):
+                    for key_cart, value_cart in value[x].items():
+                        # print('cart', key_cart, '=>', value_cart)
+                        if key_cart == 'simulator_ride_booking_id':
+                            total = 0.00
+                            for i in range(0, len(value_cart)):
+
+                                for key_simulator_ride_booking, value_simulator_ride_booking in value_cart[i].items():
+                                    if key_simulator_ride_booking == 'total_price':
+                                        total = total + float(value_simulator_ride_booking)
+
+                                payment_info['simulator_ride_booking'] = {
+                                    'detail': 'Kembara Simulasi',
+                                    'amount': "{:.2f}".format(total)
+                                }
+                        
+                        if key_cart == 'show_booking_id':
+                            total = 0.00
+                            for i in range(0, len(value_cart)):
+    
+                                for key_show_booking_booking, value_show_booking_booking in value_cart[i].items():
+                                    if key_show_booking_booking == 'total_price':
+                                        total = total + float(value_show_booking_booking)
+
+                                payment_info['show_booking'] = {
+                                    'detail': 'Tayangan Planetarium',
+                                    'amount': "{:.2f}".format(total)
+                                }
+                                
+                        if key_cart == 'facility_booking_id':
+                            total = 0.00
+                            for i in range(0, len(value_cart)):
+    
+                                for key_facility_booking_booking, value_facility_booking_booking in value_cart[i].items():
+                                    if key_facility_booking_booking == 'total_price':
+                                        total = total + float(value_facility_booking_booking)
+
+                                payment_info['facility_booking'] = {
+                                    'detail': 'Tayangan Planetarium',
+                                    'amount': "{:.2f}".format(total)
+                                }
+
+        # Rendered
+        html_string = render_to_string('receipt/official_receipt.html', { 'receipt_info': receipt_info, 'payment_info': payment_info })
+        html = HTML(string=html_string, base_url=request.build_absolute_uri())
+        result = html.write_pdf(
+            stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
+
+        # Creating http response
+        filename = 'Resit_Rasmi_Planetarium_Negara.pdf'
+        response = HttpResponse(result, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
+        response['Content-Transfer-Encoding'] = 'binary'
+        # with tempfile.NamedTemporaryFile(delete=True) as output:
+        #     output.write(result)
+        #     output.flush()
+        #     output = open(output.name, 'rb')
+        #     response.write(output.read())
+
+        return response
+
