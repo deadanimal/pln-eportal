@@ -20,6 +20,18 @@ from fpxtransactions.serializers import (
     BankListSerializer
 )
 
+from showings.serializers import (
+    ShowBookingExtendedSerializer
+)
+
+from simulatorrides.serializers import (
+    SimulatorRideBookingExtendedSerializer
+)
+
+from venues.serializers import (
+    FacilityBookingExtendedSerializer
+)
+
 
 class RefundSerializer(serializers.ModelSerializer):
 
@@ -34,6 +46,10 @@ class RefundExtendedSerializer(serializers.ModelSerializer):
     incharge_id = CustomUserSerializer(read_only=True)
     user = CustomUserSerializer(read_only=True)
     pic_verification_id = CustomUserSerializer(read_only=True)
+
+    show_booking_id = ShowBookingExtendedSerializer(read_only=True)
+    simulator_ride_booking_id = SimulatorRideBookingExtendedSerializer(read_only=True)
+    facility_booking_id = FacilityBookingExtendedSerializer(read_only=True)
 
     class Meta:
         model = Refund

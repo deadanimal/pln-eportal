@@ -44,6 +44,7 @@ class SurveyQuestion(models.Model):
     ]
     questionnaire_module = models.CharField(max_length=3, choices=QUESTIONNAIRE_MODULE, default='NAV')
     questionnaire_status = models.BooleanField(default=True)
+    questionnaire_required = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)

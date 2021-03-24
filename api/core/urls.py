@@ -506,6 +506,15 @@ error_logs_router = router.register(
     'error-logs', ErrorLogViewSet
 )
 
+# POS Daily Report app
+from posdailyreports.views import (
+    PosDailyReportViewSet
+)
+
+pos_daily_reports_router = router.register(
+    'pos-daily-reports', PosDailyReportViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

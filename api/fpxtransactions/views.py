@@ -195,26 +195,27 @@ def update_cart_status(fpx_transaction_id, show_booking_status, simulator_ride_b
                 cart.save()
 
 
-def receipt_created(invoice_receipt_id):
+def receipt_created(invoice_receipt_id, transaction_type):
 
     invoice_receipt = InvoiceReceipt.objects.filter(
         id=invoice_receipt_id).first()
 
     timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
-    prefix = '{}R'.format(datetime.datetime.now(timezone_).strftime('%Y%m%d'))
+    prefix = '{}{}'.format(datetime.datetime.now(timezone_).strftime('%Y%m%d'), transaction_type)
+    current_year = datetime.datetime.now(timezone_).strftime('%Y')
     # prev_instances = InvoiceReceipt.objects.exclude(
     #     receipt_running_no__exact='')
     prev_instances = InvoiceReceipt.objects.filter(
-        receipt_running_no__contains=prefix)
+        receipt_running_no__contains=current_year)
     print('Prevs', prev_instances)
     print('Prev', prev_instances.first())
 
     if prev_instances.exists():
-        last_instance_id = prev_instances.first().receipt_running_no[-6:]
+        last_instance_id = prev_instances.first().receipt_running_no[-7:]
         invoice_receipt.receipt_running_no = prefix + \
-            '{0:06d}'.format(int(last_instance_id)+1)
+            '{0:07d}'.format(int(last_instance_id)+1)
     else:
-        invoice_receipt.receipt_running_no = prefix+'{0:06d}'.format(1)
+        invoice_receipt.receipt_running_no = prefix+'{0:07d}'.format(1)
 
     invoice_receipt.receipt_created_datetime = datetime.datetime.now(
         timezone_).strftime("%Y-%m-%d %H:%M:%S")
@@ -548,7 +549,7 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     timezone_).strftime("%Y-%m-%d %H:%M:%S")
                 invoice_receipt.save()
                 update_cart_status(fpx_transaction.id, 'SB05', 'SRB03', 'FB05')
-                receipt_created(invoice_receipt.id)
+                receipt_created(invoice_receipt.id, 'F')
             # FPX payment is rejected
             else:
                 invoice_receipt.status = 'PR'

@@ -52,6 +52,15 @@ class InvoiceReceipt(models.Model):
         ('RC', 'Receipt Created')
     ]
     status = models.CharField(choices=STATUS, max_length=2, default='IC')
+    TYPE = [
+        ('T', 'Tunai / Cash'),
+        ('F', 'FPX'),
+        ('C', 'Kad Kredit / Credit Card Portal'),
+        ('D', 'Kad Debit / Debit Card'),
+        ('Q', 'QR Pay'),
+        ('K', 'Kad Kredit / Credit Card POS')
+    ]
+    type = models.CharField(choices=TYPE, max_length=1, default='T')
     invoice_created_datetime = models.DateTimeField(null=True)
     pending_payment_datetime = models.DateTimeField(null=True)
     payment_successful_datetime = models.DateTimeField(null=True)

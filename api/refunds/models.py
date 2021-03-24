@@ -96,11 +96,11 @@ class Refund(models.Model):
             print('Prev', prev_instances.first())
             if prev_instances.exists():
                 last_instance_id = prev_instances.first(
-                ).refund_running_no[-6:]
+                ).refund_running_no[-7:]
                 self.refund_running_no = prefix + \
-                    '{0:06d}'.format(int(last_instance_id)+1)
+                    '{0:07d}'.format(int(last_instance_id)+1)
             else:
-                self.refund_running_no = prefix+'{0:06d}'.format(1)
+                self.refund_running_no = prefix+'{0:07d}'.format(1)
 
         super(Refund, self).save(*args, **kwargs)
 
