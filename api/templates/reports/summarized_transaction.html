@@ -1,0 +1,91 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ringkasan Laporan Transaksi Planetarium Negara</title>
+
+    <style>
+      @charset "UTF-8";
+      @page {
+        size: "A4";
+        /* margin: 2.54cm 2.54cm 2.54cm 2.54cm; */
+      }
+      table,
+      td,
+      th {
+        border: 1px solid black;
+        text-align: center;
+      }
+      footer {
+        position: fixed;
+        bottom: -1cm;
+        width: 100%;
+        text-align: center;
+        font-size: 10pt;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col">
+        <img
+          src="{% static 'image/jata-negara.png' %}"
+          style="height: 80px; width: 100px"
+        />
+      </div>
+      <div class="col text-center">
+        <h6>LAPORAN</h6>
+        <h6>RINGKASAN TRANSAKSI</h6>
+      </div>
+      <div class="col text-right">
+        <img
+          src="{% static 'image/planetarium-logo.png' %}"
+          style="height: 80px; width: 100px"
+        />
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 50px">
+      <div class="col">
+        <table id="border" style="width: 100%">
+          <tr>
+            <th>Bil.</th>
+            <th>No. Resit</th>
+            <th>Tarikh Resit Dijana</th>
+            <th>Jumlah Sebelum Diskaun</th>
+            <th>Jumlah Diskaun</th>
+            <th>Jumlah Selepas Diskaun</th>
+          </tr>
+
+          {% for receipt in receipt_info.values %}
+          <tr>
+            <td class="text-center">{{ forloop.counter }}</td>
+            <td class="text-center">{{ receipt.receipt_running_no }}</td>
+            <td class="text-center">{{ receipt.receipt_created_datetime }}</td>
+            <td class="text-center">
+              RM {{ receipt.total_price_before_voucher }}
+            </td>
+            <td class="text-center">RM {{ receipt.total_voucher }}</td>
+            <td class="text-center">
+              RM {{ receipt.total_price_after_voucher }}
+            </td>
+          </tr>
+          {% endfor %}
+
+          <tr>
+            <td class="text-right pr-3" colspan="5">
+              <b>Jumlah Keseluruhan</b>
+            </td>
+            <td>RM {{ total }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <footer>
+      <p class="font-italic mb-0">
+        Ini adalah cetakan komputer dan tidak perlu ditandatangani
+      </p>
+    </footer>
+  </body>
+</html>

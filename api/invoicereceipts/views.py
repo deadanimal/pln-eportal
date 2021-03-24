@@ -50,7 +50,7 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = InvoiceReceipt.objects.all()
     serializer_class = InvoiceReceiptSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['id', 'user', 'status',
+    filterset_fields = ['id', 'user', 'status', 'type',
                         'cart_id', 'fpx_transaction_id']
 
     def get_permissions(self):
@@ -131,21 +131,31 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         if invoice_receipt_id is not None:
             queryset = queryset.filter(id=invoice_receipt_id)
 
-        serializer_class = InvoiceReceiptExtendedSerializer(queryset, many=True)
+        serializer_class = InvoiceReceiptExtendedSerializer(
+            queryset, many=True)
 
         items = serializer_class.data[0].items()
 
         receipt_info = {}
-        receipt_info['receipt_generated_date'] = datetime.now().strftime("%d.%m.%Y")
+        receipt_info['receipt_generated_date'] = datetime.now().strftime(
+            "%d.%m.%Y")
         receipt_info['receipt_generated_year'] = datetime.now().strftime("%Y")
 
         payment_info = {}
         for key, value in items:
             # print(key, '=>', value)
+            if key == 'user':
+                for key_user, value_user in value.items():
+                    if key_user == 'full_name':
+                        receipt_info['receipt_full_name'] = value_user
             if key == 'receipt_running_no':
                 receipt_info['receipt_running_no'] = value
             if key == 'total_price_after_voucher':
                 receipt_info['receipt_total_price_after_voucher'] = value
+            if key == 'total_price_before_voucher':
+                receipt_info['receipt_total_price_before_voucher'] = value
+            if key == 'total_voucher':
+                receipt_info['receipt_total_voucher'] = value
 
             # Cart
             if key == 'cart_id':
@@ -158,33 +168,37 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
                                 for key_simulator_ride_booking, value_simulator_ride_booking in value_cart[i].items():
                                     if key_simulator_ride_booking == 'total_price':
-                                        total = total + float(value_simulator_ride_booking)
+                                        total = total + \
+                                            float(value_simulator_ride_booking)
 
                                 payment_info['simulator_ride_booking'] = {
                                     'detail': 'Kembara Simulasi',
                                     'amount': "{:.2f}".format(total)
                                 }
-                        
+
                         if key_cart == 'show_booking_id':
                             total = 0.00
                             for i in range(0, len(value_cart)):
-    
+
                                 for key_show_booking_booking, value_show_booking_booking in value_cart[i].items():
                                     if key_show_booking_booking == 'total_price':
-                                        total = total + float(value_show_booking_booking)
+                                        total = total + \
+                                            float(value_show_booking_booking)
 
                                 payment_info['show_booking'] = {
                                     'detail': 'Tayangan Planetarium',
                                     'amount': "{:.2f}".format(total)
                                 }
-                                
+
                         if key_cart == 'facility_booking_id':
                             total = 0.00
                             for i in range(0, len(value_cart)):
-    
+
                                 for key_facility_booking_booking, value_facility_booking_booking in value_cart[i].items():
                                     if key_facility_booking_booking == 'total_price':
-                                        total = total + float(value_facility_booking_booking)
+                                        total = total + \
+                                            float(
+                                                value_facility_booking_booking)
 
                                 payment_info['facility_booking'] = {
                                     'detail': 'Tayangan Planetarium',
@@ -192,13 +206,15 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                                 }
 
         # Rendered
-        html_string = render_to_string('receipt/official_receipt.html', { 'receipt_info': receipt_info, 'payment_info': payment_info })
+        html_string = render_to_string(
+            'receipt/official_receipt.html', {'receipt_info': receipt_info, 'payment_info': payment_info})
         html = HTML(string=html_string, base_url=request.build_absolute_uri())
         result = html.write_pdf(
             stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
 
         # Creating http response
-        filename = 'Resit_Rasmi_Planetarium_Negara.pdf'
+        filename = 'Resit_Rasmi_Planetarium_Negara_' + \
+            receipt_info['receipt_running_no'] + '.pdf'
         response = HttpResponse(result, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
         response['Content-Transfer-Encoding'] = 'binary'
@@ -210,3 +226,34 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return response
 
+    @action(methods=['GET'], detail=False)
+    def generate_summarized_transaction_report(self, request):
+
+        # Model data
+        queryset = InvoiceReceipt.objects.exclude(receipt_running_no__exact='').values(
+            'receipt_running_no', 'receipt_created_datetime', 'total_price_before_voucher', 'total_voucher', 'total_price_after_voucher')
+
+        # to find grand total of all transaction
+        total = 0
+        for q in queryset:
+            total = total + q['total_price_after_voucher']
+
+        # Rendered
+        html_string = render_to_string(
+            'reports/summarized_transaction.html', {'receipt_info': queryset, 'total': total})
+        html = HTML(string=html_string, base_url=request.build_absolute_uri())
+        result = html.write_pdf(
+            stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
+
+        # Creating http response
+        filename = 'Ringkasan_Laporan_Transaksi_Planetarium_Negara.pdf'
+        response = HttpResponse(result, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
+        response['Content-Transfer-Encoding'] = 'binary'
+        # with tempfile.NamedTemporaryFile(delete=True) as output:
+        #     output.write(result)
+        #     output.flush()
+        #     output = open(output.name, 'rb')
+        #     response.write(output.read())
+
+        return response

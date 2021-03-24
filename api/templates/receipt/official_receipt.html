@@ -40,7 +40,6 @@
         <h6>ASAL</h6>
       </div>
       <div class="col">
-        <p style="font-weight: bold">(Kew. 38E - Pin. 1/{{ receipt_info.receipt_generated_year }})</p>
         <table>
           <tr>
             <td style="width: 100px">No. Resit</td>
@@ -68,9 +67,9 @@
           </tr>
 
           <tr>
-            <td>No. Pelanggan</td>
+            <td>Nama Pelanggan</td>
             <td>:</td>
-            <td></td>
+            <td>{{ receipt_info.receipt_full_name }}</td>
           </tr>
 
           <tr>
@@ -93,8 +92,6 @@
             <th>Bil.</th>
             <th>Perihal Terimaan</th>
             <th>Cara Bayaran</th>
-            <th>Rujukan</th>
-            <th>Kod Akaun</th>
             <th>Amaun (RM)</th>
           </tr>
 
@@ -104,29 +101,27 @@
             <td id="border" class="text-center">{{ forloop.counter }}.</td>
             <td id="border" class="pl-3">{{ payment.detail }}</td>
             <td id="border" class="text-center">Tunai</td>
-            <td id="border" class="text-center">-</td>
-            <td id="border" class="text-center">H02722499</td>
             <td id="border" class="text-right pr-3">{{ payment.amount }}</td>
           </tr>
           {% endfor %}
 
           <tr>
-            <td id="border" colspan="5" class="text-right pr-3" style="font-weight: bold">
-              Jumlah Sebelum Cukai
+            <td id="border" colspan="3" class="text-right pr-3" style="font-weight: bold">
+              Jumlah Sebelum Diskaun
             </td>
-            <td id="border" class="text-right pr-3">{{ receipt_info.receipt_total_price_after_voucher }}</td>
+            <td id="border" class="text-right pr-3">{{ receipt_info.receipt_total_price_before_voucher }}</td>
           </tr>
 
           <tr>
-            <td id="border" colspan="5" class="text-right pr-3" style="font-weight: bold">
-              SST (0.00 %)
+            <td id="border" colspan="3" class="text-right pr-3" style="font-weight: bold">
+              Jumlah Diskaun
             </td>
-            <td id="border" class="text-right pr-3">0.00</td>
+            <td id="border" class="text-right pr-3">{{ receipt_info.receipt_total_voucher }}</td>
           </tr>
 
           <tr>
-            <td id="border" colspan="5" class="text-right pr-3" style="font-weight: bold">
-              Jumlah Selepas Cukai
+            <td id="border" colspan="3" class="text-right pr-3" style="font-weight: bold">
+              Jumlah Selepas Diskaun
             </td>
             <td id="border" class="text-right pr-3">{{ receipt_info.receipt_total_price_after_voucher }}</td>
           </tr>
