@@ -86,6 +86,7 @@
             [limit]="entries != -1 ? entries : undefined"
             [rows]="temp"
             (activate)="catOnActivate($event)"
+            [scrollbarH]="true"
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>

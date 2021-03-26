@@ -13,6 +13,7 @@ import { EducationalProgramApplicationsService } from "src/app/shared/services/e
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
 import { EducationalProgramDatesService } from "src/app/shared/services/educational-program-dates/educational-program-dates.service";
 import { EducationalProgramActivitiesService } from "src/app/shared/services/educational-program-activities/educational-program-activities.service";
+import { EducationalProgramFormsService } from "src/app/shared/services/educational-program-forms/educational-program-forms.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
@@ -29,6 +30,15 @@ export enum SelectionType {
   styleUrls: ["./programs-application.component.scss"],
 })
 export class ProgramsApplicationComponent implements OnInit {
+  // Data
+  programs = [];
+  programdates = [];
+  programactivities = [];
+  programforms = [];
+  users = [];
+  selectedProgramDates = [];
+  selectedProgramActivity = [];
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -37,15 +47,32 @@ export class ProgramsApplicationComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  // Table
+  entries: number = 5;
+  selected: any[] = [];
+  temp = [];
+  activeRow: any;
+  rows: any[] = [];
+
   // Modal
   modal: BsModalRef;
+  modalForm: BsModalRef;
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
   };
+  modalFormConfig = {
+    keyboard: true,
+    class: "modal-dialog modal-xl",
+  };
 
   // FormGroup
   eduprogramappFormGroup: FormGroup;
+  zeroFormGroup: FormGroup;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+  fourthFormGroup: FormGroup;
 
   // Dropdown
   organisationcategories = [
@@ -80,12 +107,150 @@ export class ProgramsApplicationComponent implements OnInit {
       display_name: "Ditolak",
     },
   ];
-  programs = [];
-  programdates = [];
-  programactivities = [];
-  users = [];
-  selectedProgramDates = [];
-  selectedProgramActivity = [];
+  religions = [
+    {
+      value: "IS",
+      display_name: "Islam",
+    },
+    {
+      value: "HD",
+      display_name: "Hindu",
+    },
+    {
+      value: "BD",
+      display_name: "Buddha",
+    },
+    {
+      value: "CT",
+      display_name: "Christian",
+    },
+    {
+      value: "OT",
+      display_name: "Other",
+    },
+  ];
+  genders = [
+    {
+      value: "FM",
+      display_name_en: "Female",
+      display_name_ms: "Perempuan",
+    },
+    {
+      value: "ML",
+      display_name_en: "Male",
+      display_name_ms: "Lelaki",
+    },
+  ];
+  citizenships = [
+    {
+      value: "CZ",
+      display_name_en: "Citizen",
+      display_name_ms: "Warganegara",
+    },
+    {
+      value: "NC",
+      display_name_en: "Non-Citizen",
+      display_name_ms: "Bukan Warganegara",
+    },
+  ];
+  maritalstatuses = [
+    {
+      value: "S",
+      display_name_en: "Single",
+      display_name_ms: "Bujang",
+    },
+    {
+      value: "M",
+      display_name_en: "Married",
+      display_name_ms: "Kahwin",
+    },
+  ];
+  tshirtsizes = [
+    {
+      value: "S",
+      display_name: "S",
+    },
+    {
+      value: "M",
+      display_name: "M",
+    },
+    {
+      value: "L",
+      display_name: "L",
+    },
+    {
+      value: "XL",
+      display_name: "XL",
+    },
+    {
+      value: "2XL",
+      display_name: "2XL",
+    },
+    {
+      value: "3XL",
+      display_name: "3XL",
+    },
+  ];
+  truefalses = [
+    {
+      value: "true",
+      display_name_en: "Yes",
+      display_name_ms: "Ya",
+    },
+    {
+      value: "false",
+      display_name_en: "No",
+      display_name_ms: "Tidak",
+    },
+  ];
+  programcategories = [
+    {
+      value: "P1",
+      display_name: "PROGRAM PEMBANGUNAN MURID/GURU",
+    },
+    {
+      value: "P2",
+      display_name: "PROGRAM PENCERAPAN",
+    },
+    {
+      value: "P3",
+      display_name: "PROGRAM KHAS",
+    },
+    {
+      value: "P4",
+      display_name: "PROGRAM KEBANGSAAN",
+    },
+    {
+      value: "P5",
+      display_name: "PROGRAM ANTARABANGSA",
+    },
+    {
+      value: "P6",
+      display_name: "PROGRAM/RAKAN KERJASAMA",
+    },
+    {
+      value: "P7",
+      display_name: "PROGRAM JANGKAUAN (6 ZON)",
+    },
+    {
+      value: "P8",
+      display_name: "SEMINAR, CERAMAH, PLANETARIUM TALKS",
+    },
+    {
+      value: "P9",
+      display_name: "LAIN-LAIN",
+    },
+  ];
+  programsubcategories = [
+    {
+      value: "NSC",
+      display_name: "National Space Challenge",
+    },
+    {
+      value: "KRK",
+      display_name: "Kejohanan Roket Kebangsaan",
+    },
+  ];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -95,6 +260,7 @@ export class ProgramsApplicationComponent implements OnInit {
     private eduprogramService: EducationalProgramsService,
     private eduprogramdateService: EducationalProgramDatesService,
     private eduprogramactivityService: EducationalProgramActivitiesService,
+    private eduprogramformService: EducationalProgramFormsService,
     private userService: UsersService
   ) {
     this.getProgram();
@@ -115,6 +281,233 @@ export class ProgramsApplicationComponent implements OnInit {
       status: new FormControl(""),
       document_link: new FormControl(""),
     });
+
+    this.zeroFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      educational_program_id: new FormControl(""),
+      customer_id: new FormControl(""),
+      status: new FormControl("IP"),
+    });
+
+    this.firstFormGroup = this.formBuilder.group({
+      teacher_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_address: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_postcode: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_division: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_school_state: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_hp: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_email: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_fax: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_dob: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_age: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_religion: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_gender: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_citizenship: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_nric_passportno: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_maritalstatus: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_tshirt_size: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_contactperson_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_contactperson_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_anysickness: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_anyallergies: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      teacher_vegetarian: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+
+    this.secondFormGroup = this.formBuilder.group({
+      student_1_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_dob: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_age: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_year: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_religion: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_gender: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_citizenship: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_nric_passportno: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_tshirt_size: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_contactperson_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_contactperson_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_anysickness: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_anyallergies: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_1_vegetarian: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+
+    this.thirdFormGroup = this.formBuilder.group({
+      student_2_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_dob: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_age: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_year: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_religion: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_gender: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_citizenship: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_nric_passportno: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_tshirt_size: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_contactperson_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_contactperson_tel: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_anysickness: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_anyallergies: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      student_2_vegetarian: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+
+    this.fourthFormGroup = this.formBuilder.group({
+      accept: new FormControl(
+        false,
+        Validators.compose([Validators.requiredTrue])
+      ),
+    });
   }
 
   getProgram() {
@@ -122,6 +515,9 @@ export class ProgramsApplicationComponent implements OnInit {
       (res) => {
         console.log("res", res);
         this.programs = res;
+        res.forEach((obj) => {
+          if (obj.program_subcategory != "NAV") this.programforms.push(obj);
+        });
       },
       (err) => {
         console.error("err", err);
@@ -157,7 +553,9 @@ export class ProgramsApplicationComponent implements OnInit {
     this.userService.getAll().subscribe(
       (res) => {
         console.log("res", res);
-        this.users = res;
+        res.forEach((obj) => {
+          if (obj.user_type == "CS") this.users.push(obj);
+        });
       },
       (err) => {
         console.error("err", err);
@@ -168,6 +566,7 @@ export class ProgramsApplicationComponent implements OnInit {
   ngOnInit() {
     // this.getCharts()
     this.getData();
+    this.getDataForm();
   }
 
   getData() {
@@ -183,8 +582,25 @@ export class ProgramsApplicationComponent implements OnInit {
     });
   }
 
+  getDataForm() {
+    this.eduprogramformService.extended().subscribe((res) => {
+      console.log("res", res);
+      this.rows = res;
+      this.temp = this.rows.map((prop, key) => {
+        return {
+          ...prop,
+          no: key,
+        };
+      });
+    });
+  }
+
   entriesChange($event) {
     this.tableEntries = $event.target.value;
+  }
+
+  entriesChangeForm($event) {
+    this.entries = $event.target.value;
   }
 
   filterTable($event) {
@@ -204,13 +620,39 @@ export class ProgramsApplicationComponent implements OnInit {
     });
   }
 
+  filterTableForm($event) {
+    let val = $event.target.value;
+    this.temp = this.rows.filter(function (d) {
+      for (var key in d) {
+        if (
+          d[key]
+            .toString()
+            .toLowerCase()
+            .indexOf(val.toString().toLowerCase()) !== -1
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
   onSelect({ selected }) {
     this.tableSelected.splice(0, this.tableSelected.length);
     this.tableSelected.push(...selected);
   }
 
+  onSelectForm({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+  }
+
   onActivate(event) {
     this.tableActiveRow = event.row;
+  }
+
+  onActivateForm(event) {
+    this.activeRow = event.row;
   }
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
@@ -236,8 +678,39 @@ export class ProgramsApplicationComponent implements OnInit {
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
+  openModalForm(modalRef: TemplateRef<any>, process: string, row) {
+    if (process == "create") {
+      this.zeroFormGroup.reset();
+      this.firstFormGroup.reset();
+      this.secondFormGroup.reset();
+      this.thirdFormGroup.reset();
+    } else if (process == "update") {
+      this.zeroFormGroup.patchValue({
+        ...row,
+        customer_id: row.customer_id.id,
+        educational_program_id: row.educational_program_id
+          ? row.educational_program_id.id
+          : "",
+      });
+      this.firstFormGroup.patchValue({
+        ...row,
+      });
+      this.secondFormGroup.patchValue({
+        ...row,
+      });
+      this.thirdFormGroup.patchValue({
+        ...row,
+      });
+    }
+    this.modalForm = this.modalService.show(modalRef, this.modalFormConfig);
+  }
+
   closeModal() {
     this.modal.hide();
+  }
+
+  closeModalForm() {
+    this.modalForm.hide();
   }
 
   // Image Process
@@ -461,6 +934,174 @@ export class ProgramsApplicationComponent implements OnInit {
       });
   }
 
+  createForm() {
+    let postArray = {
+      ...this.zeroFormGroup.value,
+      ...this.firstFormGroup.value,
+      ...this.secondFormGroup.value,
+      ...this.thirdFormGroup.value,
+    };
+    // console.log("postArray", postArray);
+
+    this.eduprogramformService.create(postArray).subscribe(
+      (res) => {
+        // console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getDataForm();
+            }
+          });
+
+        let user = this.users.filter((obj) => {
+          return obj.id == this.zeroFormGroup.value.customer_id;
+        });
+
+        let obj = {
+          code: "EMEL06",
+          to: user[0].email,
+          context: null, //JSON.stringify({ name: this.authService.decodedToken().full_name }),
+        };
+        this.emailtemplateService.sending_mail(obj).subscribe(
+          (res) => {
+            // console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
+  }
+
+  updateForm() {
+    let postArray = {
+      ...this.zeroFormGroup.value,
+      ...this.firstFormGroup.value,
+      ...this.secondFormGroup.value,
+      ...this.thirdFormGroup.value,
+    };
+    // console.log("postArray", postArray);
+
+    this.eduprogramformService
+      .update(postArray, this.zeroFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Data anda berjaya dikemaskini.",
+              icon: "success",
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getDataForm();
+              }
+            });
+        },
+        (err) => {
+          console.error("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
+              icon: "warning",
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+  }
+
+  deleteForm(row) {
+    swal
+      .fire({
+        title: "Buang data",
+        text: "Adakah anda ingin membuang data ini?",
+        icon: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
+        },
+        confirmButtonText: "Ya",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.eduprogramformService.delete(row.id).subscribe(
+            (res) => {
+              console.log("res", res);
+              swal.fire({
+                title: "Proses Buang berjaya",
+                text: "Data anda berjaya dibuang.",
+                icon: "success",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              });
+              this.getDataForm();
+            },
+            (err) => {
+              console.error("err", err);
+              swal.fire({
+                title: "Proses Buang tidak berjaya",
+                text: "Data anda tidak berjaya dibuang. Sila cuba lagi.",
+                icon: "warning",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
+              });
+            }
+          );
+        }
+      });
+  }
+
   sendmail(row) {
     let user = this.users.filter((obj) => {
       return obj.id == row.customer_id;
@@ -515,5 +1156,47 @@ export class ProgramsApplicationComponent implements OnInit {
         this.eduprogramappFormGroup.value.educational_program_id
       );
     });
+  }
+
+  getGender(value: string) {
+    let result = this.genders.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name_ms;
+  }
+
+  getMaritalStatus(value: string) {
+    let result = this.maritalstatuses.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name_ms;
+  }
+
+  getCitizenship(value: string) {
+    let result = this.citizenships.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name_ms;
+  }
+
+  getTrueFalse(value: string) {
+    let result = this.truefalses.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name_ms;
+  }
+
+  getProgramCategory(value: string) {
+    let result = this.programcategories.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
+  }
+
+  getProgramSubCategory(value: string) {
+    let result = this.programsubcategories.find((obj) => {
+      return obj.value == value;
+    });
+    return result.display_name;
   }
 }

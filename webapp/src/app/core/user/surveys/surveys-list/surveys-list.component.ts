@@ -121,6 +121,8 @@ export class SurveysListComponent implements OnInit {
       questionnaire_type: new FormControl(""),
       questionnaire_answer: new FormControl([]),
       questionnaire_module: new FormControl(""),
+      // questionnaire_status: new FormControl(""),
+      questionnaire_required: new FormControl(""),
     });
   }
 
@@ -180,6 +182,7 @@ export class SurveysListComponent implements OnInit {
         questionnaire_answer: row.questionnaire_answer
           ? row.questionnaire_answer.toString()
           : [],
+        questionnaire_required: row.questionnaire_required.toString(),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -202,47 +205,69 @@ export class SurveysListComponent implements OnInit {
           .split(","),
       });
     }
-    this.surveyquestionService
-      .post(this.surveyquestionFormGroup.value)
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya disimpan.",
-              icon: "success",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-              icon: "warning",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-warning",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
-      );
+    let result = this.tableRows.find((obj) => {
+      return (obj.questionnaire_fieldname = this.surveyquestionFormGroup.value.questionnaire_fieldname);
+    });
+
+    if (result) {
+      swal
+        .fire({
+          title: "Ralat",
+          text: "Nama Medan sudah wujud. Sila masukkan nama medan yang lain.",
+          icon: "warning",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "btn btn-warning",
+          },
+        })
+        .then((result) => {
+          if (result.value) {
+            // this.modal.hide();
+          }
+        });
+    } else {
+      this.surveyquestionService
+        .post(this.surveyquestionFormGroup.value)
+        .subscribe(
+          (res) => {
+            console.log("res", res);
+            swal
+              .fire({
+                title: "Berjaya",
+                text: "Data anda berjaya disimpan.",
+                icon: "success",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  this.modal.hide();
+                  this.getData();
+                }
+              });
+          },
+          (err) => {
+            console.error("err", err);
+            swal
+              .fire({
+                title: "Ralat",
+                text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+                icon: "warning",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  // this.modal.hide();
+                }
+              });
+          }
+        );
+    }
   }
 
   update() {
@@ -258,50 +283,72 @@ export class SurveysListComponent implements OnInit {
           .split(","),
       });
     }
-    this.surveyquestionService
-      .update(
-        this.surveyquestionFormGroup.value,
-        this.surveyquestionFormGroup.value.id
-      )
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya dikemaskini.",
-              icon: "success",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
-              icon: "warning",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-warning",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
-      );
+    let result = this.tableRows.find((obj) => {
+      return (obj.questionnaire_fieldname = this.surveyquestionFormGroup.value.questionnaire_fieldname);
+    });
+
+    if (result) {
+      swal
+        .fire({
+          title: "Ralat",
+          text: "Nama Medan sudah wujud. Sila masukkan nama medan yang lain.",
+          icon: "warning",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "btn btn-warning",
+          },
+        })
+        .then((result) => {
+          if (result.value) {
+            // this.modal.hide();
+          }
+        });
+    } else {
+      this.surveyquestionService
+        .update(
+          this.surveyquestionFormGroup.value,
+          this.surveyquestionFormGroup.value.id
+        )
+        .subscribe(
+          (res) => {
+            console.log("res", res);
+            swal
+              .fire({
+                title: "Berjaya",
+                text: "Data anda berjaya dikemaskini.",
+                icon: "success",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  this.modal.hide();
+                  this.getData();
+                }
+              });
+          },
+          (err) => {
+            console.error("err", err);
+            swal
+              .fire({
+                title: "Ralat",
+                text: "Data anda tidak berjaya dikemaskini. Sila cuba lagi",
+                icon: "warning",
+                buttonsStyling: false,
+                customClass: {
+                  confirmButton: "btn btn-warning",
+                },
+              })
+              .then((result) => {
+                if (result.value) {
+                  // this.modal.hide();
+                }
+              });
+          }
+        );
+    }
   }
 
   delete(row) {

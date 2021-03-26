@@ -710,9 +710,9 @@ export class FacilitiesApplicationComponent implements OnInit {
       () => {
         // to update the voucher status if used
         if (typeof voucher == "object") {
-          let obj = {
-            status: "AU",
-          };
+          // let obj = {
+          //   status: "AU",
+          // };
           this.voucherService.update(obj, voucher.voucher_id).subscribe(
             (res) => {
               // console.log("res", res);

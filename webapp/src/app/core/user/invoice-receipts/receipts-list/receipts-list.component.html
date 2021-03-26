@@ -16,14 +16,14 @@
           </nav>
         </div>
 
-        <!-- <div class="col-lg-6 col-5 text-right">
-            <a
-              class="btn btn-sm btn-neutral"
-              (click)="openModal(createReceipt, 'create', '')"
-            >
-              Tambah
-            </a>
-          </div> -->
+        <div class="col-lg-6 col-5 text-right">
+          <a
+            class="btn btn-sm btn-danger"
+            [href]="generateReportURL"
+            target="_blank"
+            >Cetak PDF</a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -87,6 +87,7 @@
             [limit]="tableEntries != -1 ? tableEntries : undefined"
             [rows]="tableTemp"
             (activate)="onActivate($event)"
+            [scrollbarH]="true"
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>

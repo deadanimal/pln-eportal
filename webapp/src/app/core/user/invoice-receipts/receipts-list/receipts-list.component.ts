@@ -6,6 +6,7 @@ import {
   FormControl,
 } from "@angular/forms";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
 import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
@@ -25,6 +26,7 @@ export enum SelectionType {
 })
 export class ReceiptsListComponent implements OnInit {
   // Data
+  generateReportURL = environment.baseUrl + "v1/invoice-receipts/generate_summarized_transaction_report/";
 
   // Dropdown
   statuses = [

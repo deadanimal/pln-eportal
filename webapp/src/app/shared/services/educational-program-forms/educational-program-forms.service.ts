@@ -48,7 +48,7 @@ export class EducationalProgramFormsService {
     );
   }
 
-  update(body: Form, id: string): Observable<EducationalProgramForm> {
+  update(body, id: string): Observable<EducationalProgramForm> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<EducationalProgramForm>(urlPatch, body).pipe(
       tap((res) => {
@@ -75,6 +75,15 @@ export class EducationalProgramFormsService {
         console.log("Educational programs", this.programformsFiltered);
       })
     );
+  }
+
+  extended(): Observable<EducationalProgramForm[]> {
+    return this.http.get<EducationalProgramForm[]>(this.url + 'extended').pipe(
+      tap((res) => {
+        this.programforms = res
+        console.log('Educational program forms: ', res)
+      })
+    )
   }
 }
 

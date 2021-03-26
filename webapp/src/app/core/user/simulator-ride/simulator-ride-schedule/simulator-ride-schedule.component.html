@@ -145,6 +145,7 @@
             [limit]="entries != -1 ? entries : undefined"
             [rows]="temp"
             (activate)="onActivate($event)"
+            [scrollbarH]="true"
           >
             <ngx-datatable-column [width]="10">
               <ng-template ngx-datatable-header-template>

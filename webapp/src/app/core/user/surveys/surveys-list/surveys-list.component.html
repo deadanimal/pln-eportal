@@ -87,6 +87,7 @@
             [limit]="tableEntries != -1 ? tableEntries : undefined"
             [rows]="tableTemp"
             (activate)="onActivate($event)"
+            [scrollbarH]="true"
           >
             <ngx-datatable-column [width]="10">
               <ng-template ngx-datatable-header-template>
@@ -240,6 +241,35 @@
         />
       </div>
       <div class="form-group">
+        <label class="form-control-label mr-3">Diperlukan?</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioRequiredTrue"
+            name="questionnaire_required"
+            formControlName="questionnaire_required"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioRequiredTrue"
+            >Ya</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioRequiredFalse"
+            name="questionnaire_required"
+            formControlName="questionnaire_required"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioRequiredFalse"
+            >Tidak</label
+          >
+        </div>
+      </div>
+      <div class="form-group">
         <label class="form-control-label">Soalan MS</label>
         <textarea
           class="form-control"
@@ -390,6 +420,35 @@
           formControlName="questionnaire_fieldname"
           placeholder="Nama Medan"
         />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label mr-3">Diperlukan?</label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioRequiredTrue"
+            name="questionnaire_required"
+            formControlName="questionnaire_required"
+            class="custom-control-input"
+            value="true"
+          />
+          <label class="custom-control-label" for="radioRequiredTrue"
+            >Ya</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioRequiredFalse"
+            name="questionnaire_required"
+            formControlName="questionnaire_required"
+            class="custom-control-input"
+            value="false"
+          />
+          <label class="custom-control-label" for="radioRequiredFalse"
+            >Tidak</label
+          >
+        </div>
       </div>
       <div class="form-group">
         <label class="form-control-label">Soalan MS</label>

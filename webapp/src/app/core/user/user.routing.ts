@@ -41,7 +41,6 @@ import { SupervisorsComponent } from "./managements/supervisors/supervisors.comp
 import { UsersComponent } from "./managements/users/users.component";
 import { ProgramsApplicationComponent } from "./programs/programs-application/programs-application.component";
 import { ProgramsListComponent } from "./programs/programs-list/programs-list.component";
-import { ProgramsWaitingListComponent } from "./programs/programs-waiting-list/programs-waiting-list.component";
 import { PublicationsListComponent } from "./publications/publications-list/publications-list.component";
 import { PublicationsComponent } from "./publications/publications/publications.component";
 import { RefundsComponent } from "./refunds/refunds.component";
@@ -70,7 +69,6 @@ import { VirtualLibraryEsourcesListComponent } from "./virtual-libraries/virtual
 import { VirtualLibrarySerialpublicationsListComponent } from "./virtual-libraries/virtual-library-serialpublications-list/virtual-library-serialpublications-list.component";
 import { VisitsApplicationsComponent } from "./visits/visits-applications/visits-applications.component";
 import { VisitsListComponent } from "./visits/visits-list/visits-list.component";
-import { VisitsScheduleComponent } from "./visits/visits-schedule/visits-schedule.component";
 import { VouchersComponent } from "./vouchers/vouchers.component";
 
 export const UserRoutes: Routes = [
@@ -336,10 +334,6 @@ export const UserRoutes: Routes = [
           {
             path: "applications",
             component: VisitsApplicationsComponent,
-          },
-          {
-            path: "schedule",
-            component: VisitsScheduleComponent,
           },
         ],
       },
