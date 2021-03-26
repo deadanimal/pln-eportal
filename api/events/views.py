@@ -200,6 +200,8 @@ class EducationalProgramViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'id',
         'program_code',
         'program_type',
+        'program_category',
+        'program_subcategory',
         'min_participant',
         'max_participant',
         'price',
