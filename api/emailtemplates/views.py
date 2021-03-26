@@ -53,7 +53,7 @@ class EmailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         code = self.request.data['code']
         to = self.request.data['to']
-        context = json.loads(self.request.data['context']) if self.request.data['context'] else None
+        context = self.request.data['context'] if self.request.data['context'] else None
         email_template = EmailTemplate.objects.filter(code=code)
         if email_template:
             subject = email_template[0].subject
