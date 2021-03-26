@@ -47,6 +47,7 @@ export class SurveyComponent implements OnInit {
   };
 
   // FormGroup
+  selectedSurvey = [];
   feedbackFormGroup: FormGroup;
   surveyFormGroup: FormGroup;
 
@@ -212,6 +213,7 @@ export class SurveyComponent implements OnInit {
     this.module_code = module_code;
 
     if (this.typeQuestion == "soalselidik") {
+      this.changeTab(this.modules[0], "M01");
       this.surveyquestionService.get().subscribe(
         (res) => {
           // console.log("res", res);
@@ -220,10 +222,18 @@ export class SurveyComponent implements OnInit {
           res.forEach((question) => {
             if (question.questionnaire_type == "CB") {
               group[question.questionnaire_fieldname] = this.arrayFormControl(
-                question.questionnaire_answer
+                question.questionnaire_answer,
+                question.questionnaire_required
               );
-            } else
-              group[question.questionnaire_fieldname] = new FormControl("");
+            } else {
+              if (question.questionnaire_required)
+                group[question.questionnaire_fieldname] = new FormControl(
+                  "",
+                  Validators.required
+                );
+              else
+                group[question.questionnaire_fieldname] = new FormControl("");
+            }
           });
           this.surveyFormGroup = new FormGroup(group);
         },
@@ -234,12 +244,14 @@ export class SurveyComponent implements OnInit {
     }
   }
 
-  arrayFormControl(questionnaire_answer) {
+  arrayFormControl(questionnaire_answer, questionnaire_required) {
     const arr = questionnaire_answer.map((element) => {
       return this.formBuilder.control(false);
     });
 
-    return this.formBuilder.array(arr);
+    if (questionnaire_required)
+      return this.formBuilder.array(arr, Validators.required);
+    else return this.formBuilder.array(arr);
   }
 
   changeCheckbox(event, field_name) {
@@ -247,53 +259,86 @@ export class SurveyComponent implements OnInit {
     // console.log("field_name", field_name);
   }
 
-  changeTab(event) {
-    this.module = event.heading;
+  changeTab(module, value) {
+    this.module =
+      this.translate.currentLang == "en"
+        ? module.display_name_en
+        : module.display_name_ms;
+    this.module_code = value;
+
+    // to reset the selectedSurvey to []
+    this.selectedSurvey = [];
+
+    // to check the answer is in the selected module
+    for (let i = 0; i < this.surveyquestions.length; i++) {
+      if (this.module_code == this.surveyquestions[i].questionnaire_module)
+        this.selectedSurvey.push(this.surveyquestions[i]);
+    }
   }
 
   back() {
     this.typeQuestion = "";
   }
 
+  checkSurvey() {
+    let countTrue = 0;
+
+    for (let key in this.surveyFormGroup.value) {
+      let surveyquestion = this.selectedSurvey.find((obj) => {
+        return obj.questionnaire_fieldname == key;
+      });
+
+      if (surveyquestion) {
+        if (this.surveyFormGroup.controls[key].status == "INVALID") countTrue++;
+      }
+    }
+
+    if (countTrue > 0) return true;
+    else return false;
+  }
+
   submitSurvey() {
     if (this.jwtService.getToken("accessToken")) {
       for (let key in this.surveyFormGroup.value) {
         let answer = this.surveyFormGroup.value[key];
-        let surveyquestion = this.surveyquestions.find((obj) => {
+        let surveyquestion = this.selectedSurvey.find((obj) => {
           return obj.questionnaire_fieldname == key;
         });
 
-        let postObj = {
-          answer: answer.toString(),
-          survey_question_id: surveyquestion.id,
-          user_id: this.authService.decodedToken().user_id,
-        };
+        if (surveyquestion) {
+          let postObj = {
+            answer: answer.toString(),
+            survey_question_id: surveyquestion.id,
+            module: surveyquestion.questionnaire_module,
+            user_id: this.authService.decodedToken().user_id,
+          };
 
-        this.surveyanswerService.post(postObj).subscribe(
-          (res) => {
-            // console.log("res", res);
-          },
-          (err) => {
-            console.error("err", err);
-          },
-          () => {
-            swal
-              .fire({
-                icon: "success",
-                title: "Terima kasih atas kerjasama yang diberikan",
-                buttonsStyling: false,
-                confirmButtonText: "Tutup",
-                customClass: {
-                  confirmButton: "btn btn-success",
-                },
-              })
-              .then((result) => {
-                if (result.value) {
-                  this.typeQuestion = "";
-                }
-              });
-          }
-        );
+          this.surveyanswerService.post(postObj).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              swal
+                .fire({
+                  icon: "success",
+                  title: "Terima kasih atas kerjasama yang diberikan",
+                  buttonsStyling: false,
+                  confirmButtonText: "Tutup",
+                  customClass: {
+                    confirmButton: "btn btn-success",
+                  },
+                })
+                .then((result) => {
+                  if (result.value) {
+                    this.typeQuestion = "";
+                  }
+                });
+            }
+          );
+        }
       }
     } else {
       this.toastr.error(

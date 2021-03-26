@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -69,6 +70,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
+    private router: Router,
     private authService: AuthService,
     private cartService: CartsService,
     private jwtService: JwtService,
@@ -106,6 +108,12 @@ export class HomeComponent implements OnInit {
           }
         );
     }
+  }
+
+  navigateModule(route: string) {
+    this.router.navigate([route]).then(() => {
+      window.location.reload();
+    });
   }
 
   ngOnInit() {

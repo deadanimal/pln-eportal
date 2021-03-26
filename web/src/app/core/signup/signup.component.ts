@@ -200,6 +200,7 @@ export class SignupComponent implements OnInit {
                   "Pendaftaran anda berjaya. Sila log masuk.",
                   "Berjaya"
                 );
+                this.router.navigate(['/landing']);
               },
               (err) => {
                 console.error("err", err);

@@ -40,6 +40,7 @@ import { NgxOrgChartModule } from "ngx-org-chart";
 // import { ToastrModule } from 'ngx-toastr';
 import { CountdownModule } from "ngx-countdown";
 import { NgxCaptchaModule } from "ngx-captcha";
+import { NgxPrintModule } from 'ngx-print';
 
 import { RouterModule } from "@angular/router";
 import { CoreRoutes } from "./core.routing";
@@ -107,6 +108,7 @@ import { TicketPriceModuleFilterPipe } from "../shared/pipes/ticket-price/ticket
 import { TicketPriceDetailFilter } from "../shared/pipes/ticket-price/ticket-price-detail-filter.pipe";
 import { HttpTokenInterceptor } from "../shared/interceptor/http.token.interceptor";
 import { SearchKeywordComponent } from './search-keyword/search-keyword.component';
+import { OfficialReceiptComponent } from './official-receipt/official-receipt.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -181,6 +183,7 @@ const customConfig: ShareButtonsConfig = {
     TicketPriceModuleFilterPipe,
     TicketPriceDetailFilter,
     SearchKeywordComponent,
+    OfficialReceiptComponent,
   ],
   imports: [
     CommonModule,
@@ -211,6 +214,7 @@ const customConfig: ShareButtonsConfig = {
     // ToastrModule.forRoot(),
     CountdownModule,
     NgxCaptchaModule,
+    NgxPrintModule,
     NgxNumberSpinnerModule,
     NguCarouselModule,
     NgxGalleryModule,

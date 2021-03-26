@@ -130,7 +130,14 @@ export class SimulatorRideBookComponent implements OnInit {
     this.simulatorridebookingService.get().subscribe(
       (res) => {
         // console.log("res", res);
-        this.existbookings = res;
+        // get existing booking which book tomorrow and after
+        res.forEach((obj) => {
+          if (
+            obj.status != "SRB04" &&
+            obj.booking_date > this.formatDate(new Date())
+          )
+            this.existbookings.push(obj);
+        });
       },
       (err) => {
         console.error("err", err);
@@ -394,7 +401,9 @@ export class SimulatorRideBookComponent implements OnInit {
                 this.translate.instant("TambahKeTroliBerjaya"),
                 "Info"
               );
-              this.router.navigate(["/checkout"]);
+              this.router.navigate(["/checkout"]).then(() => {
+                window.location.reload();
+              });
             }
           );
         //   this.router.navigate([
@@ -464,7 +473,9 @@ export class SimulatorRideBookComponent implements OnInit {
         this.totalexistticket = 0;
         // this.totalTicket = 0;
         for (let i = 0; i < this.ticketprices.length; i++) {
-          this.secondFormGroup.get(this.ticketprices[i].formcontrol).patchValue(0);
+          this.secondFormGroup
+            .get(this.ticketprices[i].formcontrol)
+            .patchValue(0);
         }
         // this.secondFormGroup.patchValue({
         //   adult: 0,
@@ -474,7 +485,9 @@ export class SimulatorRideBookComponent implements OnInit {
       } else if (result.length == 1) {
         // this.totalTicket = 0;
         for (let i = 0; i < this.ticketprices.length; i++) {
-          this.secondFormGroup.get(this.ticketprices[i].formcontrol).patchValue(0);
+          this.secondFormGroup
+            .get(this.ticketprices[i].formcontrol)
+            .patchValue(0);
         }
         // this.secondFormGroup.patchValue({
         //   adult: 0,

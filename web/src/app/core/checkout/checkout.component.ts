@@ -37,6 +37,7 @@ export class CheckoutComponent implements OnInit {
   voucher_id: string = "";
   voucher_code: string = "";
   voucher_amount: any;
+  voucher_status: string = "";
   done_voucher_verify: boolean = false;
   totalprice: number = 0;
   queryParams: any;
@@ -191,8 +192,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   getVoucher() {
+    // status=NU&
     this.voucherService
-      .filter("status=NU&user=" + this.authService.decodedToken().user_id)
+      .filter("user=" + this.authService.decodedToken().user_id)
       .subscribe(
         (res) => {
           // console.log("res", res);
@@ -461,23 +463,46 @@ export class CheckoutComponent implements OnInit {
 
   checkVoucherCode() {
     this.voucher_code = this.voucher_code.toUpperCase();
+    this.voucher_status = "";
+    this.done_voucher_verify = false;
+    this.totalprice = this.total_price_before_voucher;
     if (this.carts.length > 0) {
       if (this.voucher_code.length == 10 && !this.done_voucher_verify) {
         let result = this.vouchers.find((obj) => {
           return obj.voucher_code == this.voucher_code;
         });
-        if (result) {
-          this.voucher_id = result.id;
-          this.voucher_code = result.voucher_code;
-          this.total_voucher = result.voucher_amount;
-          this.voucher_amount = { value: this.total_voucher };
+        // to check if the voucher is valid
+        var currentDate = new Date();
+        var validityDate = new Date(result.validity_until);
+        if (validityDate.getTime() > currentDate.getTime()) {
+          // voucher is valid
+          if (result.status == "NU") {
+            this.voucher_id = result.id;
+            this.voucher_code = result.voucher_code;
+            this.total_voucher = result.voucher_amount;
+            this.voucher_amount = { value: this.total_voucher };
 
-          // to update total price after voucher inserted
-          this.totalprice = this.totalprice - this.total_voucher;
-          this.total_price_after_voucher = this.totalprice;
+            // to update total price after voucher inserted
+            this.totalprice = this.totalprice - this.total_voucher;
+            this.total_price_after_voucher = this.totalprice;
 
-          // to update done_voucher_verify to true
-          this.done_voucher_verify = true;
+            // to update done_voucher_verify to true
+            this.done_voucher_verify = true;
+            this.voucher_status = "NU";
+          }
+          // voucher is already used
+          else if (result.status == "AU") {
+            this.voucher_status = "AU";
+          }
+        } else {
+          // voucher is already used
+          if (result.status == "AU") {
+            this.voucher_status = "AU";
+          }
+          // voucher is expired
+          else {
+            this.voucher_status = "EX";
+          }
         }
       } else {
         this.total_price_after_voucher = this.totalprice;

@@ -110,7 +110,7 @@
                       ? module.display_name_ms
                       : module.display_name_en
                   "
-                  (selectTab)="changeTab($event)"
+                  (selectTab)="changeTab(module, module.value)"
                 >
                   <div class="row">
                     <div class="col-md-8 col-sm-12 mx-auto">
@@ -139,6 +139,14 @@
                                     {{
                                       surveyquestion.questionnaire_question_en
                                     }}
+                                    <span
+                                      class="text-danger"
+                                      *ngIf="
+                                        surveyquestion.questionnaire_required
+                                      "
+                                    >
+                                      (required)</span
+                                    >
                                   </p>
                                   <p
                                     class="text-dark"
@@ -147,6 +155,14 @@
                                     {{
                                       surveyquestion.questionnaire_question_ms
                                     }}
+                                    <span
+                                      class="text-danger"
+                                      *ngIf="
+                                        surveyquestion.questionnaire_required
+                                      "
+                                    >
+                                      (diperlukan)</span
+                                    >
                                   </p>
                                 </div>
                                 <div
@@ -163,7 +179,9 @@
                                           surveyquestion.questionnaire_fieldname
                                         "
                                       >
-                                        <option value="">{{ "Silapilih" | translate }}</option>
+                                        <option value="">
+                                          {{ "Silapilih" | translate }}
+                                        </option>
                                         <option
                                           class="text-dark"
                                           *ngFor="
@@ -324,6 +342,7 @@
                 type="button"
                 class="btn btn-default"
                 (click)="submitSurvey()"
+                [disabled]="checkSurvey()"
               >
                 {{ "Hantar" | translate }}
               </button>

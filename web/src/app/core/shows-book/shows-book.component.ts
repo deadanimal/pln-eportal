@@ -161,15 +161,21 @@ export class ShowsBookComponent implements OnInit {
   }
 
   getExistBooking() {
-    this.showbookingService.get().subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.existbookings = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
+    this.showbookingService
+      .filter("show_id=" + this.route.snapshot.paramMap.get("id"))
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          // get existing booking which book tomorrow and after
+          res.forEach((obj) => {
+            let statuses = ["SB03", "SB06"];
+            if (statuses.indexOf(obj.status) == -1) this.existbookings.push(obj);
+          });
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   getShowsPrice() {
@@ -618,7 +624,9 @@ export class ShowsBookComponent implements OnInit {
                 this.translate.instant("TambahKeTroliBerjaya"),
                 "Info"
               );
-              this.router.navigate(["/checkout"]);
+              this.router.navigate(["/checkout"]).then(() => {
+                window.location.reload();
+              });
             }
           );
         // this.router.navigate([

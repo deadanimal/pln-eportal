@@ -204,9 +204,21 @@
                   ></h5>
                   <p
                     class="text-danger font-weight-bold"
-                    *ngIf="total_voucher > 0"
+                    *ngIf="voucher_status == 'NU'"
                   >
                     {{ "BaucarNilai" | translate: voucher_amount }}
+                  </p>
+                  <p
+                    class="text-danger font-weight-bold"
+                    *ngIf="voucher_status == 'AU'"
+                  >
+                    {{ "BaucarSudahDigunakan" | translate }}
+                  </p>
+                  <p
+                    class="text-danger font-weight-bold"
+                    *ngIf="voucher_status == 'EX'"
+                  >
+                    {{ "BaucarTamatTempoh" | translate }}
                   </p>
                 </div>
                 <div class="col-2 d-flex align-items-center">

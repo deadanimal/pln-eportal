@@ -6,6 +6,8 @@ export class SurveyQuestion {
   public questionnaire_type: string;
   public questionnaire_answer: string;
   public questionnaire_module: string;
+  public questionnaire_status: boolean;
+  public questionnaire_required: boolean;
   public created_date: string;
   public modified_date: string;
 
@@ -17,6 +19,8 @@ export class SurveyQuestion {
     questionnaire_type: string,
     questionnaire_answer: string,
     questionnaire_module: string,
+    questionnaire_status: boolean,
+    questionnaire_required: boolean,
     created_date: string,
     modified_date: string
   ) {
@@ -27,6 +31,8 @@ export class SurveyQuestion {
     this.questionnaire_type = questionnaire_type;
     this.questionnaire_answer = questionnaire_answer;
     this.questionnaire_module = questionnaire_module;
+    this.questionnaire_status = questionnaire_status;
+    this.questionnaire_required = questionnaire_required;
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

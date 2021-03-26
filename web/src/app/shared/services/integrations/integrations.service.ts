@@ -29,10 +29,10 @@ export class IntegrationsService {
     var g = "daily";
     var today = new Date();
     var sd = today.getDate();
-    var sm = today.getMonth();
+    var sm = today.getMonth() + 1;
     var sy = today.getFullYear();
     var ed = today.getDate();
-    var em = today.getMonth();
+    var em = today.getMonth() + 1;
     var ey = today.getFullYear();
     var fullurl =
       "s=" +

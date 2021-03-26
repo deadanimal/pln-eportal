@@ -220,19 +220,20 @@ export class NavbarComponent implements OnInit {
   }
 
   getAddToCartCount() {
-    this.cartService
-      .extended(
-        "cart_status=CR&user=" + this.authService.decodedToken().user_id
-      )
-      .subscribe(
-        (res) => {
-          // console.log("res", res);
-          this.w3cService.changeAddToCartCount(res.length);
-        },
-        (err) => {
-          console.error("err", err);
-        }
-      );
+    if (!this.authService.isTokenExpired(this.jwtService.getToken("accessToken")))
+      this.cartService
+        .extended(
+          "cart_status=CR&user=" + this.authService.decodedToken().user_id
+        )
+        .subscribe(
+          (res) => {
+            // console.log("res", res);
+            this.w3cService.changeAddToCartCount(res.length);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
   }
 
   checkTokenExpired() {

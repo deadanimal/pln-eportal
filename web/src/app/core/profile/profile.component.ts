@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
 
   // Data
   invoicereceipts = [];
+  receipts = [];
   user: any;
   selectedTab: string = "maklumat-am";
 
@@ -209,10 +210,21 @@ export class ProfileComponent implements OnInit {
 
   getInvoiceReceipt() {
     this.invoicereceiptService
-      .extended("user=" + this.authService.decodedToken().user_id)
+      .extended(
+        "user=" + this.authService.decodedToken().user_id + "&status=RC"
+      )
       .subscribe(
         (res) => {
           // console.log("res", res);
+          res.forEach((obj) => {
+            obj["receipt"] =
+              "<a class='btn btn-sm btn-info btn-icon' href='" +
+              environment.baseUrl +
+              "v1/invoice-receipts/generate_receipt/?id=" +
+              obj.id +
+              "' target='_blank'><i class='fas fa-ticket-alt'></i></a>";
+            this.receipts.push(obj);
+          });
           this.getDescription(res);
         },
         (err) => {
@@ -252,7 +264,7 @@ export class ProfileComponent implements OnInit {
                 environment.baseUrl +
                 "v1/show-booking/generate_ticket/?id=" +
                 show_booking.id +
-                "' target='_blank'><i class='fas fa-receipt'></i></a>"
+                "' target='_blank'><i class='fas fa-ticket-alt'></i></a>"
               : "";
             let obj = {
               description_en,

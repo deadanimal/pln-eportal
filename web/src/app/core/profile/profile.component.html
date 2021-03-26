@@ -805,6 +805,36 @@
                   </tbody>
                 </table>
               </div>
+
+              <h2 class="title text-dark">
+                {{ "ResitBayaran" | translate }}
+              </h2>
+              <div class="table-responsive">
+                <table class="table table-bordered table-flush">
+                  <thead>
+                    <tr>
+                      <td>{{ "Bil" | translate }}</td>
+                      <td>{{ "Perkara" | translate }}</td>
+                      <td>{{ "TarikhResitDijana" | translate }}</td>
+                      <td>{{ "Resit" | translate }}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let receipt of receipts; let i = index">
+                      <td class="text-center">{{ i + 1 }}</td>
+                      <td>
+                        <span>{{ receipt.receipt_running_no }}</span>
+                      </td>
+                      <td>
+                        {{ receipt.receipt_created_datetime | date: "medium" }}
+                      </td>
+                      <td>
+                        <div [innerHtml]="receipt.receipt"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <!-- Log Keluar -->
