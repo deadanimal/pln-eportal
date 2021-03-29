@@ -34,6 +34,10 @@ export class DashboardComponent implements OnInit {
   facilitynew = [];
   facilityaccept = [];
   facilityreject = [];
+  facilitypendingpayment = [];
+  facilitypaymentaccept = [];
+  facilitypaymentreject = [];
+  facilityrefund = [];
   today = new Date();
   totaldownloadpdfpublication: number = 0;
   totaldownloadpdfarticle: number = 0;
@@ -76,17 +80,31 @@ export class DashboardComponent implements OnInit {
       (res) => {
         // console.log("res", res);
         this.facilitynew = res.filter((obj) => {
-          return obj.status == "IP";
+          return obj.status == "FB01";
         });
         this.facilityaccept = res.filter((obj) => {
-          return obj.status == "AP";
+          return obj.status == "FB02";
         });
         this.facilityreject = res.filter((obj) => {
-          return obj.status == "RJ";
+          return obj.status == "FB03";
+        });
+        this.facilitypendingpayment = res.filter((obj) => {
+          return obj.status == "FB04";
+        });
+        this.facilitypaymentaccept = res.filter((obj) => {
+          return obj.status == "FB05";
+        });
+        this.facilitypaymentreject = res.filter((obj) => {
+          return obj.status == "FB06";
+        });
+        this.facilityrefund = res.filter((obj) => {
+          return obj.status == "FB07";
         });
       },
       (err) => {
         console.error("err", err);
+      }, () => {
+        this.initTotalFacilityBookingChart();
       }
     );
   }
@@ -153,7 +171,7 @@ export class DashboardComponent implements OnInit {
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
       this.initDailyQuoteNumberChart();
-      this.initTotalFacilityBookingChart();
+      // this.initTotalFacilityBookingChart();
       this.initTotalEducationalProgramChart();
       this.initTotalTicketSalesRMChart();
       this.initTotalTicketSalesOnlineChart();
@@ -336,22 +354,43 @@ export class DashboardComponent implements OnInit {
 
     chart.data = [
       {
-        status: "Terima",
+        status: "Dalam proses",
         total: this.facilitynew.length,
-        color: am4core.color("#5e72e4"),
+        // color: am4core.color("#5e72e4"),
       },
       {
-        status: "Lulus",
+        status: "Diterima",
         total: this.facilityaccept.length,
-        color: am4core.color("#2dce89"),
+        // color: am4core.color("#2dce89"),
       },
       {
-        status: "Gagal",
+        status: "Ditolak",
         total: this.facilityreject.length,
-        color: am4core.color("#f5365c"),
+        // color: am4core.color("#f5365c"),
+      },
+      {
+        status: "Menunggu Pembayaran",
+        total: this.facilitypendingpayment.length,
+        // color: am4core.color("#f5365c"),
+      },
+      {
+        status: "Bayaran Diterima",
+        total: this.facilitypaymentaccept.length,
+        // color: am4core.color("#f5365c"),
+      },
+      {
+        status: "Bayaran Ditolak",
+        total: this.facilitypaymentreject.length,
+        // color: am4core.color("#f5365c"),
+      },
+      {
+        status: "Bayaran Balik",
+        total: this.facilityrefund.length,
+        // color: am4core.color("#f5365c"),
       },
     ];
 
+    console.log("chart.data", chart.data);
     this.totalFacilityBookingChart = chart;
   }
 

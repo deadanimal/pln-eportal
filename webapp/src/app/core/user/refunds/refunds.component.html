@@ -115,9 +115,42 @@
                 <span>Info Tempahan</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span *ngIf="row.show_booking_id">{{ row.show_booking_id }}</span>
-                <span *ngIf="row.simulator_ride_booking_id">{{ row.simulator_ride_booking_id }}</span>
-                <span *ngIf="row.facility_booking_id">{{ row.facility_booking_id }}</span>
+                <button
+                  class="btn btn-info btn-sm"
+                  (click)="
+                    openModal(infoShow, 'info-show', row.show_booking_id)
+                  "
+                  *ngIf="row.show_booking_id"
+                >
+                  Info Tayangan
+                </button>
+                <button
+                  class="btn btn-info btn-sm"
+                  (click)="
+                    openModal(
+                      infoSimulatorRide,
+                      'info-simulator-ride',
+                      row.simulator_ride_booking_id
+                    )
+                  "
+                  *ngIf="row.simulator_ride_booking_id"
+                >
+                  Info Kembara Simulasi
+                </button>
+
+                <button
+                  class="btn btn-info btn-sm"
+                  (click)="
+                    openModal(
+                      infoFacility,
+                      'info-facility',
+                      row.facility_booking_id
+                    )
+                  "
+                  *ngIf="row.facility_booking_id"
+                >
+                  Info Fasiliti
+                </button>
               </ng-template>
             </ngx-datatable-column>
 
@@ -234,9 +267,7 @@
             class="custom-control-input"
             value="T"
           />
-          <label class="custom-control-label" for="radioTicket"
-            >Tiket</label
-          >
+          <label class="custom-control-label" for="radioTicket">Tiket</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
           <input
@@ -247,9 +278,7 @@
             class="custom-control-input"
             value="M"
           />
-          <label class="custom-control-label" for="radioMoney"
-            >Duit</label
-          >
+          <label class="custom-control-label" for="radioMoney">Duit</label>
         </div>
       </div>
       <div class="form-group">
@@ -327,7 +356,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="form-control-label">Status</label><br />
         <div class="custom-control custom-radio custom-control-inline">
           <input
@@ -355,7 +384,7 @@
             >Ditolak</label
           >
         </div>
-      </div>
+      </div> -->
     </form>
   </div>
 
@@ -405,9 +434,7 @@
             class="custom-control-input"
             value="T"
           />
-          <label class="custom-control-label" for="radioTicket"
-            >Tiket</label
-          >
+          <label class="custom-control-label" for="radioTicket">Tiket</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
           <input
@@ -418,9 +445,7 @@
             class="custom-control-input"
             value="M"
           />
-          <label class="custom-control-label" for="radioMoney"
-            >Duit</label
-          >
+          <label class="custom-control-label" for="radioMoney">Duit</label>
         </div>
       </div>
       <div class="form-group">
@@ -498,7 +523,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="form-control-label">Status</label><br />
         <div class="custom-control custom-radio custom-control-inline">
           <input
@@ -526,7 +551,7 @@
             >Ditolak</label
           >
         </div>
-      </div>
+      </div> -->
     </form>
   </div>
 
@@ -535,6 +560,316 @@
       Simpan
     </button>
 
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #infoShow>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Info Tayangan
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table style="width: 100%">
+        <tbody>
+          <h3>Maklumat Tempahan</h3>
+
+          <tr>
+            <td>Tarikh Tempahan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.showtime_id.show_date }}</td>
+          </tr>
+          <tr>
+            <td>Masa Tempahan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.showtime_id.show_time }}</td>
+          </tr>
+          <tr>
+            <td>Warganegara</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.ticket_type }}</td>
+          </tr>
+          <tr>
+            <td>Kategori Tiket</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.ticket_category }}</td>
+          </tr>
+          <tr>
+            <td>Harga (RM)</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.total_price }}</td>
+          </tr>
+          <tr>
+            <td>Nombor Kerusi</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.ticket_seat }}</td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><hr /></td>
+          </tr>
+
+          <h3>Maklumat Tayangan</h3>
+          <tr>
+            <td>Tajuk</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.show_id.title_ms }}</td>
+          </tr>
+          <tr>
+            <td>Durasi</td>
+            <td>:</td>
+            <td>
+              {{ infobooking[0]?.show_id.duration_hours }} jam
+              {{ infobooking[0]?.show_id.duration_minutes }} minit
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><hr /></td>
+          </tr>
+
+          <h3>Maklumat Pelanggan</h3>
+          <tr>
+            <td>Nama Pelanggan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.full_name }}</td>
+          </tr>
+          <tr>
+            <td>No. Telefon</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.phone }}</td>
+          </tr>
+          <tr>
+            <td>E-mel</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #infoSimulatorRide>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Info Kembara Simulasi
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table style="width: 100%">
+        <tbody>
+          <h3>Maklumat Tempahan</h3>
+
+          <tr>
+            <td>Tarikh Tempahan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.booking_date }}</td>
+          </tr>
+          <tr>
+            <td>Masa Tempahan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.simulator_ride_time_id.time }}</td>
+          </tr>
+          <tr>
+            <td>Warganegara</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.ticket_type }}</td>
+          </tr>
+          <tr>
+            <td>Kategori Tiket</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.ticket_category }}</td>
+          </tr>
+          <tr>
+            <td>Harga (RM)</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.total_price }}</td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><hr /></td>
+          </tr>
+
+          <h3>Maklumat Pelanggan</h3>
+          <tr>
+            <td>Nama Pelanggan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.full_name }}</td>
+          </tr>
+          <tr>
+            <td>No. Telefon</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.phone }}</td>
+          </tr>
+          <tr>
+            <td>E-mel</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #infoFacility>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Info Fasiliti
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table style="width: 100%">
+        <tbody>
+          <h3>Maklumat Tempahan</h3>
+
+          <tr>
+            <td>Tarikh Tempahan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.booking_date }}</td>
+          </tr>
+          <tr>
+            <td>Masa Tempahan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.booking_days }}</td>
+          </tr>
+          <tr>
+            <td>Kategori Organisasi</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.organisation_category }}</td>
+          </tr>
+          <tr>
+            <td>Nama Organisasi</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.organisation_name }}</td>
+          </tr>
+          <tr>
+            <td>Peralatan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.want_equipment }}</td>
+          </tr>
+          <tr>
+            <td>Bilangan Orang</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.number_of_people }}</td>
+          </tr>
+          <tr>
+            <td>Harga (RM)</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.total_price }}</td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><hr /></td>
+          </tr>
+
+          <h3>Maklumat Fasiliti</h3>
+          <tr>
+            <td>Nama</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.facility_id.name_ms }}</td>
+          </tr>
+          <tr>
+            <td>PIC</td>
+            <td>:</td>
+            <td>
+              {{ infobooking[0]?.facility_id.pic_id.full_name }}
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><hr /></td>
+          </tr>
+
+          <h3>Maklumat Pelanggan</h3>
+          <tr>
+            <td>Nama Pelanggan</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.full_name }}</td>
+          </tr>
+          <tr>
+            <td>No. Telefon</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.phone }}</td>
+          </tr>
+          <tr>
+            <td>E-mel</td>
+            <td>:</td>
+            <td>{{ infobooking[0]?.user_id.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-footer">
     <button
       class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"

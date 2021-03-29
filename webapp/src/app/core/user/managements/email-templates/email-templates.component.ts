@@ -88,7 +88,6 @@ export class EmailTemplatesComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog modal-lg",
-    backdrop: true,
     ignoreBackdropClick: true,
   };
 

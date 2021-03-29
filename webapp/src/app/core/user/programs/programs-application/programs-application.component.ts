@@ -60,10 +60,12 @@ export class ProgramsApplicationComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
   modalFormConfig = {
     keyboard: true,
     class: "modal-dialog modal-xl",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup

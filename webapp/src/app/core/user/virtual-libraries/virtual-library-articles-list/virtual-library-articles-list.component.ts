@@ -41,6 +41,7 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup

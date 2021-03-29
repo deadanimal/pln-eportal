@@ -34,6 +34,7 @@ export class RefundsComponent implements OnInit {
   users = []; // user_type = CS - Customer
   incharges = []; // user_type != CS - Customer
   picverifications = []; // user_type != CS - Customer
+  infobooking = [];
 
   // Dropdown
   refundtypes = [
@@ -60,6 +61,84 @@ export class RefundsComponent implements OnInit {
       display_name: "Bayaran Balik Ditolak",
     },
   ];
+  tickettypes = [
+    {
+      value: "CZ",
+      display_name: "Warganegara",
+    },
+    {
+      value: "NC",
+      display_name: "Bukan Warganegara",
+    },
+  ];
+  ticketcategories = [
+    {
+      value: "AD",
+      display_name: "Dewasa",
+    },
+    {
+      value: "KD",
+      display_name: "Kanak-kanak",
+    },
+    {
+      value: "OF",
+      display_name: "Warga emas",
+    },
+    {
+      value: "SD",
+      display_name: "Pelajar",
+    },
+    {
+      value: "OK",
+      display_name: "OKU",
+    },
+  ];
+  organisationcategories = [
+    {
+      value: "GV",
+      display_name: "Kerajaan",
+    },
+    {
+      value: "SC",
+      display_name: "Sekolah",
+    },
+    {
+      value: "UN",
+      display_name: "Universiti",
+    },
+    {
+      value: "NA",
+      display_name: "Tiada",
+    },
+  ];
+  bookingdays = [
+    {
+      value: "HALF",
+      display_name: "Separuh Hari",
+    },
+    {
+      value: "FULL",
+      display_name: "Satu Hari",
+    },
+    {
+      value: "NONE",
+      display_name: "Tiada",
+    },
+  ];
+  wantequipments = [
+    {
+      value: "WITH",
+      display_name: "Dengan Peralatan",
+    },
+    {
+      value: "WOUT",
+      display_name: "Tanpa Peralatan",
+    },
+    {
+      value: "NA",
+      display_name: "Tiada",
+    },
+  ];
 
   // FormGroup
   refundFormGroup: FormGroup;
@@ -69,6 +148,7 @@ export class RefundsComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // Table
@@ -104,7 +184,7 @@ export class RefundsComponent implements OnInit {
       incharge_id: new FormControl(""),
       // incharge_datetime: new FormControl(""),
       user: new FormControl(""),
-      status: new FormControl(""),
+      // status: new FormControl(""),
       pic_verification_id: new FormControl(""),
       // pic_verification_datetime: new FormControl(""),
     });
@@ -216,13 +296,58 @@ export class RefundsComponent implements OnInit {
     } else if (process == "update") {
       this.refundFormGroup.patchValue({
         ...row,
+        bank_id: row.bank_id ? row.bank_id.id : "",
         user: row.user ? row.user.id : "",
+        incharge_id: row.incharge_id ? row.incharge_id.id : "",
+        pic_verification_id: row.pic_verification_id
+          ? row.pic_verification_id.id
+          : "",
       });
+    } else {
+      this.infobooking.push(row);
+      if (
+        this.infobooking[0].ticket_type &&
+        this.infobooking[0].ticket_category
+      ) {
+        if (this.infobooking[0].ticket_type.length == 2) {
+          let resultType = this.tickettypes.find((obj) => {
+            return obj.value == this.infobooking[0].ticket_type;
+          });
+          this.infobooking[0].ticket_type = resultType.display_name;
+        }
+        if (this.infobooking[0].ticket_category.length == 2) {
+          let resultCategory = this.ticketcategories.find((obj) => {
+            return obj.value == this.infobooking[0].ticket_category;
+          });
+          this.infobooking[0].ticket_category = resultCategory.display_name;
+        }
+      } else {
+        if (this.infobooking[0].booking_days.length == 4) {
+          let resultDays = this.bookingdays.find((obj) => {
+            return obj.value == this.infobooking[0].booking_days;
+          });
+          this.infobooking[0].booking_days = resultDays.display_name;
+        }
+        if (this.infobooking[0].organisation_category.length == 2) {
+          let resultCategory = this.organisationcategories.find((obj) => {
+            return obj.value == this.infobooking[0].organisation_category;
+          });
+          this.infobooking[0].organisation_category =
+            resultCategory.display_name;
+        }
+        if (this.infobooking[0].want_equipment.length == 4) {
+          let resultEquipment = this.wantequipments.find((obj) => {
+            return obj.value == this.infobooking[0].want_equipment;
+          });
+          this.infobooking[0].want_equipment = resultEquipment.display_name;
+        }
+      }
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
   closeModal() {
+    this.infobooking = [];
     this.modal.hide();
   }
 

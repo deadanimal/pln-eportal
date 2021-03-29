@@ -71,6 +71,7 @@ export class DynamicContentsComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog modal-lg",
+    ignoreBackdropClick: true,
   };
 
   // Quill

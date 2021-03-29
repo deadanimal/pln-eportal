@@ -41,6 +41,7 @@ export class SupervisorsComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup

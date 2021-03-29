@@ -47,6 +47,7 @@ export class FacilitiesListComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog modal-lg",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup

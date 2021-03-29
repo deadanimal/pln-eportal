@@ -42,7 +42,8 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   showtime_id: string = "";
   showings = [];
   users = [];
-  generateTicketURL = environment.baseUrl + "v1/show-booking/generate_ticket/?id=";
+  generateTicketURL =
+    environment.baseUrl + "v1/show-booking/generate_ticket/?id=";
 
   // Dropdown
   tickettypes = [
@@ -121,6 +122,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup
@@ -154,7 +156,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
       show_id: new FormControl(""),
       showtime_id: new FormControl(this.showtime_id),
       user_id: new FormControl(""),
-      status: new FormControl(""),
+      // status: new FormControl(""),
     });
 
     this.refundFormGroup = this.formBuilder.group({
@@ -478,6 +480,12 @@ export class ShowsApplicationsDetailComponent implements OnInit {
           });
       }
     );
+  }
+
+  displayPrintTicket(status: string) {
+    var statuses = ["SB05", "SB07"];
+    if (~statuses.indexOf(status)) return true;
+    else return false;
   }
 
   getTicketType(value: string) {

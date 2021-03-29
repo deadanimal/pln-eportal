@@ -52,6 +52,7 @@ export class VouchersComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // Table

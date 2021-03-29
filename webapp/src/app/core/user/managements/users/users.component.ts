@@ -38,6 +38,7 @@ export class UsersComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup
@@ -313,7 +314,7 @@ export class UsersComponent implements OnInit {
         customClass: {
           confirmButton: "btn btn-danger",
           cancelButton: "btn btn-secondary",
-        }, 
+        },
         confirmButtonText: "Ya",
         cancelButtonText: "Tidak",
       })

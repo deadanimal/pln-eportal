@@ -52,6 +52,7 @@ export class FacilitiesApplicationComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup
@@ -294,7 +295,7 @@ export class FacilitiesApplicationComponent implements OnInit {
     } else if (process == "update") {
       this.facilityFormGroup.patchValue({
         ...row,
-        user_id: row.user_id.id,
+        user_id: row.user_id ? row.user_id.id : "",
         pic_id: row.pic_id != null ? row.pic_id.id : null,
         facility_id: row.facility_id.id,
       });

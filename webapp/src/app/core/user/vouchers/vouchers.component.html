@@ -313,6 +313,7 @@
       <div class="form-group">
         <label class="form-control-label">Pelanggan</label>
         <select class="form-control" formControlName="user">
+          <option value="" selected>Sila pilih</option>
           <option *ngFor="let user of users" [value]="user.id">
             {{ user.full_name }}
           </option>
@@ -321,6 +322,7 @@
       <!-- <div class="form-group">
         <label class="form-control-label">Status</label>
         <select class="form-control" formControlName="status">
+          <option value="" selected>Sila pilih</option>
           <option *ngFor="let status of statuses" [value]="status.value">
             {{ status.display_name }}
           </option>

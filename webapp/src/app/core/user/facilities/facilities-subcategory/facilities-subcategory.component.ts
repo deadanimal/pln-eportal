@@ -64,6 +64,7 @@ export class FacilitiesSubcategoryComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // Table

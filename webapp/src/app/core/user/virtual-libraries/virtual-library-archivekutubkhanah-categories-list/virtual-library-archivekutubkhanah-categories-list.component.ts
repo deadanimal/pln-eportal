@@ -64,6 +64,7 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup

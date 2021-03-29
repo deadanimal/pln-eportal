@@ -46,6 +46,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // FormGroup
@@ -171,7 +172,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
       price: new FormControl(""),
       total_price: new FormControl(""),
       user_id: new FormControl(""),
-      status: new FormControl(""),
+      // status: new FormControl(""),
     });
 
     this.refundFormGroup = this.formBuilder.group({

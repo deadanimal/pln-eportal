@@ -60,6 +60,7 @@ export class ReceiptsListComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: "modal-dialog",
+    ignoreBackdropClick: true,
   };
 
   // Table
