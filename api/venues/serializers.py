@@ -106,7 +106,7 @@ class FacilityBookingSerializer(serializers.ModelSerializer):
 class FacilityBookingExtendedSerializer(serializers.ModelSerializer):
     user_id = CustomUserSerializer(read_only=True)
     pic_id = CustomUserSerializer(read_only=True)
-    facility_id = FacilitySerializer(read_only=True)
+    facility_id = FacilityExtendedSerializer(read_only=True)
     
     class Meta:
         model = FacilityBooking

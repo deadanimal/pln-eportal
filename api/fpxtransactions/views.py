@@ -206,7 +206,7 @@ def receipt_created(invoice_receipt_id, transaction_type):
     # prev_instances = InvoiceReceipt.objects.exclude(
     #     receipt_running_no__exact='')
     prev_instances = InvoiceReceipt.objects.filter(
-        receipt_running_no__contains=current_year)
+        receipt_running_no__contains=current_year).order_by('-receipt_running_no')
     print('Prevs', prev_instances)
     print('Prev', prev_instances.first())
 

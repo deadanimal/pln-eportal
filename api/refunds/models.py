@@ -90,8 +90,9 @@ class Refund(models.Model):
         if not self.refund_running_no:
             prefix = '{}B'.format(datetime.datetime.now(
                 timezone_).strftime('%Y%m%d'))
+            current_year = datetime.datetime.now(timezone_).strftime('%Y')
             prev_instances = self.__class__.objects.filter(
-                refund_running_no__contains=prefix)
+                refund_running_no__contains=current_year).order_by('-refund_running_no')
             print('Prevs', prev_instances)
             print('Prev', prev_instances.first())
             if prev_instances.exists():
