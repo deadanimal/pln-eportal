@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
         // Hide loading indicator
 
         // Present error to user
-        console.log(event.error);
+        console.error(event.error);
       }
     });
 
@@ -75,7 +75,6 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("as: ", this.user);
     this.listTitles = ROUTES.filter((listTitle) => listTitle);
   }
 

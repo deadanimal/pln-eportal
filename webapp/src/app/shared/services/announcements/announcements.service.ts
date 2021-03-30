@@ -22,7 +22,7 @@ export class AnnouncementsService {
   post(body: Form): Observable<Announcement> {
     return this.http.post<Announcement>(this.url, body).pipe(
       tap((res) => {
-        console.log("Announcement: ", res);
+        // console.log("Announcement: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class AnnouncementsService {
     return this.http.get<Announcement[]>(this.url).pipe(
       tap((res) => {
         this.announcements = res;
-        console.log("Announcements: ", res);
+        // console.log("Announcements: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class AnnouncementsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Announcement>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Announcement: ", res);
+        // console.log("Announcement: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class AnnouncementsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Announcement>(urlDelete).pipe(
       tap((res) => {
-        console.log("Announcement: ", res);
+        // console.log("Announcement: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class AnnouncementsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Announcement[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Announcements: ", res);
+        // console.log("Announcements: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class AnnouncementsService {
     return this.http.get<Announcement[]>(this.url + "extended").pipe(
       tap((res) => {
         this.announcements = res;
-        console.log("Announcements: ", res);
+        // console.log("Announcements: ", res);
       })
     );
   }

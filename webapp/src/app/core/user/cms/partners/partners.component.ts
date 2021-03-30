@@ -69,7 +69,7 @@ export class PartnersComponent implements OnInit {
   getData() {
     this.partnerService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -148,7 +148,7 @@ export class PartnersComponent implements OnInit {
 
     this.partnerService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -203,7 +203,7 @@ export class PartnersComponent implements OnInit {
       .update(formData, this.partnerFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -261,7 +261,7 @@ export class PartnersComponent implements OnInit {
         if (result.value) {
           this.partnerService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

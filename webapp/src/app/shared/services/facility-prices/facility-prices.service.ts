@@ -22,7 +22,7 @@ export class FacilityPricesService {
   post(body: Form): Observable<FacilityPrice> {
     return this.http.post<FacilityPrice>(this.url, body).pipe(
       tap((res) => {
-        console.log("Facility price: ", res);
+        // console.log("Facility price: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class FacilityPricesService {
     return this.http.get<FacilityPrice[]>(this.url).pipe(
       tap((res) => {
         this.facilityPrices = res;
-        console.log("Facility prices: ", res);
+        // console.log("Facility prices: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class FacilityPricesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FacilityPrice>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Facility price: ", res);
+        // console.log("Facility price: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class FacilityPricesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<FacilityPrice>(urlDelete).pipe(
       tap((res) => {
-        console.log("Facility price: ", res);
+        // console.log("Facility price: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class FacilityPricesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<FacilityPrice[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Facility prices: ", res);
+        // console.log("Facility prices: ", res);
       })
     );
   }
@@ -66,7 +66,7 @@ export class FacilityPricesService {
   extended(): Observable<FacilityPrice[]> {
     return this.http.get<FacilityPrice[]>(this.url + "extended").pipe(
       tap((res) => {
-        console.log("Facility prices: ", res);
+        // console.log("Facility prices: ", res);
       })
     );
   }

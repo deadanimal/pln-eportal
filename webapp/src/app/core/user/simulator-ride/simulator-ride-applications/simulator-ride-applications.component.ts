@@ -203,7 +203,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   getData() {
     this.simridebookingService.extended("").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -221,7 +221,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   getTime() {
     this.simridetiemService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.times = res;
       },
       (err) => {
@@ -319,7 +319,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
       .post(this.simridebookingFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -366,7 +366,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -424,7 +424,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
         if (result.value) {
           this.simridebookingService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -456,7 +456,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
   refund() {
     this.refundService.post(this.refundFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
 
         let obj = {
           status: "SRB05",
@@ -465,7 +465,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
           .update(obj, this.refundFormGroup.value.simulator_ride_booking_id)
           .subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
             },
             (err) => {
               console.error("err", err);

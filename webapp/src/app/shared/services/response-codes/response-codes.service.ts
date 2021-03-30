@@ -22,7 +22,7 @@ export class ResponseCodesService {
   post(body: Form): Observable<ResponseCode> {
     return this.http.post<ResponseCode>(this.url, body).pipe(
       tap((res) => {
-        console.log("ResponseCode: ", res);
+        // console.log("ResponseCode: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class ResponseCodesService {
     return this.http.get<ResponseCode[]>(this.url).pipe(
       tap((res) => {
         this.responsecodes = res;
-        console.log("ResponseCodes: ", res);
+        // console.log("ResponseCodes: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class ResponseCodesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<ResponseCode>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("ResponseCode: ", res);
+        // console.log("ResponseCode: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class ResponseCodesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<ResponseCode>(urlDelete).pipe(
       tap((res) => {
-        console.log("ResponseCode: ", res);
+        // console.log("ResponseCode: ", res);
       })
     );
   }

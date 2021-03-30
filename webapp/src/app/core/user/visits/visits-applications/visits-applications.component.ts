@@ -227,7 +227,7 @@ export class VisitsApplicationsComponent implements OnInit {
 
     this.visitappService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -361,7 +361,7 @@ export class VisitsApplicationsComponent implements OnInit {
         if (result.value) {
           this.visitappService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -403,10 +403,10 @@ export class VisitsApplicationsComponent implements OnInit {
         to: user[0].email,
         context: null,
       };
-      console.log("obj", obj);
+      // console.log("obj", obj);
       this.emailtemplateService.sending_mail(obj).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
         },
         (err) => {
           console.error("err", err);
@@ -418,10 +418,10 @@ export class VisitsApplicationsComponent implements OnInit {
         to: user[0].email,
         context: null,
       };
-      console.log("obj", obj);
+      // console.log("obj", obj);
       this.emailtemplateService.sending_mail(obj).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
         },
         (err) => {
           console.error("err", err);

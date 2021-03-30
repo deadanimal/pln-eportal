@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.authService.obtainToken(this.loginForm.value).subscribe(
       (res) => {
         // Success
-        console.log("res", res);
+        // console.log("res", res);
         this.loadingBar.complete();
         if (this.authService.decodedToken().user_type != "CS") {
           this.navigatePage("/dashboard");

@@ -136,7 +136,7 @@ export class ModulesComponent implements OnInit {
   getData() {
     this.moduleService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -227,7 +227,7 @@ export class ModulesComponent implements OnInit {
 
     this.moduleService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -286,7 +286,7 @@ export class ModulesComponent implements OnInit {
       .update(formData, this.moduleFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -344,7 +344,7 @@ export class ModulesComponent implements OnInit {
         if (result.value) {
           this.moduleService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

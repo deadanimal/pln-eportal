@@ -73,7 +73,7 @@ export class BannersComponent implements OnInit {
   getProgram() {
     this.educationalprogramService.filter("status=AV").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programs = res;
       },
       (err) => {
@@ -87,7 +87,7 @@ export class BannersComponent implements OnInit {
   getData() {
     this.bannerService.extended().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -178,7 +178,7 @@ export class BannersComponent implements OnInit {
 
     this.bannerService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -235,7 +235,7 @@ export class BannersComponent implements OnInit {
       .update(formData, this.bannerFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -293,7 +293,7 @@ export class BannersComponent implements OnInit {
         if (result.value) {
           this.bannerService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

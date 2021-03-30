@@ -22,7 +22,7 @@ export class SurveyAnswersService {
   post(body: Form): Observable<SurveyAnswer> {
     return this.http.post<SurveyAnswer>(this.url, body).pipe(
       tap((res) => {
-        console.log("Survey answer: ", res);
+        // console.log("Survey answer: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class SurveyAnswersService {
     return this.http.get<SurveyAnswer[]>(this.url).pipe(
       tap((res) => {
         this.surveyAnswers = res;
-        console.log("Survey answers: ", res);
+        // console.log("Survey answers: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class SurveyAnswersService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<SurveyAnswer>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Survey answer: ", res);
+        // console.log("Survey answer: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class SurveyAnswersService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<SurveyAnswer>(urlDelete).pipe(
       tap((res) => {
-        console.log("Survey answer: ", res);
+        // console.log("Survey answer: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class SurveyAnswersService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<SurveyAnswer[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Survey answer", res);
+        // console.log("Survey answer", res);
       })
     );
   }

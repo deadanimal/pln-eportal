@@ -22,7 +22,7 @@ export class CartsService {
   post(body): Observable<Cart> {
     return this.http.post<Cart>(this.url, body).pipe(
       tap((res) => {
-        console.log("Cart: ", res);
+        // console.log("Cart: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class CartsService {
     return this.http.get<Cart[]>(this.url).pipe(
       tap((res) => {
         this.carts = res;
-        console.log("Carts: ", res);
+        // console.log("Carts: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class CartsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Cart>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Cart: ", res);
+        // console.log("Cart: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class CartsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Cart>(urlDelete).pipe(
       tap((res) => {
-        console.log("Cart: ", res);
+        // console.log("Cart: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class CartsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Cart[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Carts: ", res);
+        // console.log("Carts: ", res);
       })
     );
   }
@@ -69,7 +69,7 @@ export class CartsService {
     else urlExtended = this.url + "extended";
     return this.http.get<Cart[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("Carts: ", res);
+        // console.log("Carts: ", res);
       })
     );
   }

@@ -286,7 +286,7 @@ export class VirtualLibraryBooksListComponent implements OnInit {
 
     this.virtuallibrarybookService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -386,7 +386,7 @@ export class VirtualLibraryBooksListComponent implements OnInit {
       .update(formData, this.virtuallibrarybookFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -444,7 +444,7 @@ export class VirtualLibraryBooksListComponent implements OnInit {
         if (result.value) {
           this.virtuallibrarybookService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -496,7 +496,7 @@ export class VirtualLibraryBooksListComponent implements OnInit {
       .update(formData, this.virtuallibrarybookPDFFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -547,7 +547,7 @@ export class VirtualLibraryBooksListComponent implements OnInit {
       .update(formData, this.virtuallibrarybookImageFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",

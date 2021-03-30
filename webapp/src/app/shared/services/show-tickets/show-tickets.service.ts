@@ -25,7 +25,7 @@ export class ShowTicketsService {
   post(body: Form): Observable<ShowTicket> {
     return this.http.post<ShowTicket>(this.url, body).pipe(
       tap((res) => {
-        console.log('Show ticket: ', res)
+        // console.log('Show ticket: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class ShowTicketsService {
     return this.http.get<ShowTicket[]>(this.url).pipe(
       tap((res) => {
         this.showTickets = res
-        console.log('Show tickets: ', res)
+        // console.log('Show tickets: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class ShowTicketsService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<ShowTicket>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Show ticket: ', res)
+        // console.log('Show ticket: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class ShowTicketsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<ShowTicket>(urlDelete).pipe(
       tap((res) => {
-        console.log('Show ticket: ', res)
+        // console.log('Show ticket: ', res)
       })
     )
   }

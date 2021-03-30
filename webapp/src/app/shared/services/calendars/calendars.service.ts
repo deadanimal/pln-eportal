@@ -22,7 +22,7 @@ export class CalendarsService {
   post(body): Observable<Calendar> {
     return this.http.post<Calendar>(this.url, body).pipe(
       tap((res) => {
-        console.log("Calendar: ", res);
+        // console.log("Calendar: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class CalendarsService {
     return this.http.get<Calendar[]>(this.url).pipe(
       tap((res) => {
         this.calendars = res;
-        console.log("Calendars: ", res);
+        // console.log("Calendars: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class CalendarsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Calendar>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Calendar: ", res);
+        // console.log("Calendar: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class CalendarsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Calendar>(urlDelete).pipe(
       tap((res) => {
-        console.log("Calendar: ", res);
+        // console.log("Calendar: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class CalendarsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Calendar[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Calendars: ", res);
+        // console.log("Calendars: ", res);
       })
     );
   }

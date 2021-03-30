@@ -128,7 +128,7 @@ export class ExhibitsDetailComponent implements OnInit {
       .filter("exhibit_list_id=" + this.exhibit_list_id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.length > 0) {
             this.exhibitdetailFormGroup.patchValue({
               ...res[0],
@@ -150,7 +150,7 @@ export class ExhibitsDetailComponent implements OnInit {
   getVenue() {
     this.venueService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.venues = res;
       },
       (err) => {
@@ -164,7 +164,7 @@ export class ExhibitsDetailComponent implements OnInit {
       .filter("exhibit_detail_id=" + exhibit_detail_id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.tableRows = res;
           this.tableTemp = this.tableRows.map((prop, key) => {
             return {
@@ -238,7 +238,7 @@ export class ExhibitsDetailComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
             this.exhibitdetailimageFormGroup.patchValue({
               exhibit_detail_id: this.exhibitdetailFormGroup.value.id,
             });
@@ -283,7 +283,7 @@ export class ExhibitsDetailComponent implements OnInit {
         .post(this.exhibitdetailFormGroup.value)
         .subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
             this.exhibitdetailFormGroup.patchValue({
               ...res,
             });
@@ -350,7 +350,7 @@ export class ExhibitsDetailComponent implements OnInit {
 
     this.exhibitdetailimagesService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -406,7 +406,7 @@ export class ExhibitsDetailComponent implements OnInit {
       .update(formData, this.exhibitdetailimageFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -466,7 +466,7 @@ export class ExhibitsDetailComponent implements OnInit {
         if (result.value) {
           this.exhibitdetailimagesService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

@@ -22,7 +22,7 @@ export class SupervisorsService {
   post(body: Form): Observable<Supervisor> {
     return this.http.post<Supervisor>(this.url, body).pipe(
       tap((res) => {
-        console.log("Supervisor: ", res);
+        // console.log("Supervisor: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class SupervisorsService {
     return this.http.get<Supervisor[]>(this.url).pipe(
       tap((res) => {
         this.supervisors = res;
-        console.log("Supervisors: ", res);
+        // console.log("Supervisors: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class SupervisorsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Supervisor>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Supervisor: ", res);
+        // console.log("Supervisor: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class SupervisorsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Supervisor>(urlDelete).pipe(
       tap((res) => {
-        console.log("Supervisor: ", res);
+        // console.log("Supervisor: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class SupervisorsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Supervisor[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Supervisor", res);
+        // console.log("Supervisor", res);
       })
     );
   }
@@ -69,7 +69,7 @@ export class SupervisorsService {
     else urlExtended = this.url + "extended";
     return this.http.get<Supervisor[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("Supervisors: ", res);
+        // console.log("Supervisors: ", res);
       })
     );
   }

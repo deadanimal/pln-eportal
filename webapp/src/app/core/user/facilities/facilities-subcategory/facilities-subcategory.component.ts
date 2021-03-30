@@ -185,7 +185,7 @@ export class FacilitiesSubcategoryComponent implements OnInit {
 
     this.facilitysubcategoryService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -245,7 +245,7 @@ export class FacilitiesSubcategoryComponent implements OnInit {
       .update(formData, this.subcategoryFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -303,7 +303,7 @@ export class FacilitiesSubcategoryComponent implements OnInit {
         if (result.value) {
           this.facilitysubcategoryService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

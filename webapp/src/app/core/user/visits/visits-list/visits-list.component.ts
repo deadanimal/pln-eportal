@@ -151,7 +151,7 @@ export class VisitsListComponent implements OnInit {
 
     this.visitService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -262,7 +262,7 @@ export class VisitsListComponent implements OnInit {
         if (result.value) {
           this.visitService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

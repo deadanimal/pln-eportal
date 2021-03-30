@@ -22,7 +22,7 @@ export class QuickLinkCategoriesService {
   post(body: Form): Observable<QuickLinkCategory> {
     return this.http.post<QuickLinkCategory>(this.url, body).pipe(
       tap((res) => {
-        console.log("QuickLinkCategory: ", res);
+        // console.log("QuickLinkCategory: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class QuickLinkCategoriesService {
     return this.http.get<QuickLinkCategory[]>(this.url).pipe(
       tap((res) => {
         this.quicklinkcategories = res;
-        console.log("QuickLinkCategories: ", res);
+        // console.log("QuickLinkCategories: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class QuickLinkCategoriesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<QuickLinkCategory>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("QuickLinkCategory: ", res);
+        // console.log("QuickLinkCategory: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class QuickLinkCategoriesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<QuickLinkCategory>(urlDelete).pipe(
       tap((res) => {
-        console.log("QuickLinkCategory: ", res);
+        // console.log("QuickLinkCategory: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class QuickLinkCategoriesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<QuickLinkCategory[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("QuickLinkCategories: ", res);
+        // console.log("QuickLinkCategories: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class QuickLinkCategoriesService {
     return this.http.get<QuickLinkCategory[]>(this.url + "extended").pipe(
       tap((res) => {
         this.quicklinkcategories = res;
-        console.log("QuickLinkCategories: ", res);
+        // console.log("QuickLinkCategories: ", res);
       })
     );
   }

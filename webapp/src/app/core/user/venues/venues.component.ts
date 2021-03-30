@@ -159,7 +159,7 @@ export class VenuesComponent implements OnInit {
   create() {
     this.venueService.post(this.venueFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -203,7 +203,7 @@ export class VenuesComponent implements OnInit {
       .update(this.venueFormGroup.value, this.venueFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -261,7 +261,7 @@ export class VenuesComponent implements OnInit {
         if (result.value) {
           this.venueService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

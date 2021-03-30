@@ -22,7 +22,7 @@ export class VisitsService {
   post(body): Observable<Visit> {
     return this.http.post<Visit>(this.url, body).pipe(
       tap((res) => {
-        console.log("Visit: ", res);
+        // console.log("Visit: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class VisitsService {
     return this.http.get<Visit[]>(this.url).pipe(
       tap((res) => {
         this.visits = res;
-        console.log("Visits: ", res);
+        // console.log("Visits: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class VisitsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Visit>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Visit: ", res);
+        // console.log("Visit: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class VisitsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Visit>(urlDelete).pipe(
       tap((res) => {
-        console.log("Visit: ", res);
+        // console.log("Visit: ", res);
       })
     );
   }
@@ -59,7 +59,7 @@ export class VisitsService {
     return this.http.get<Visit[]>(urlFilter).pipe(
       tap((res) => {
         this.visits = res;
-        console.log("Visits: ", res);
+        // console.log("Visits: ", res);
       })
     );
   }

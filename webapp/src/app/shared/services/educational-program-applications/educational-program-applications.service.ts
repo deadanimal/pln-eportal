@@ -25,7 +25,7 @@ export class EducationalProgramApplicationsService {
   post(body): Observable<EducationalProgramApplication> {
     return this.http.post<EducationalProgramApplication>(this.url, body).pipe(
       tap((res) => {
-        console.log('Educational program application: ', res)
+        // console.log('Educational program application: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class EducationalProgramApplicationsService {
     return this.http.get<EducationalProgramApplication[]>(this.url).pipe(
       tap((res) => {
         this.educationalProgramApplications = res
-        console.log('Educational program applications: ', res)
+        // console.log('Educational program applications: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class EducationalProgramApplicationsService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<EducationalProgramApplication>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Educational program application: ', res)
+        // console.log('Educational program application: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class EducationalProgramApplicationsService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<EducationalProgramApplication>(urlDelete).pipe(
       tap((res) => {
-        console.log('Educational program application: ', res)
+        // console.log('Educational program application: ', res)
       })
     )
   }
@@ -61,7 +61,7 @@ export class EducationalProgramApplicationsService {
     return this.http.get<EducationalProgramApplication[]>(this.url + 'extended').pipe(
       tap((res) => {
         this.educationalProgramApplications = res
-        console.log('Educational program applications: ', res)
+        // console.log('Educational program applications: ', res)
       })
     )
   }
@@ -70,7 +70,7 @@ export class EducationalProgramApplicationsService {
     let url = this.url + "number_of_program_participants/";
     return this.http.post<any[]>(url, body).pipe(
       tap((res) => {
-        console.log("Educational program applications: ", res);
+        // console.log("Educational program applications: ", res);
       })
     );
   }

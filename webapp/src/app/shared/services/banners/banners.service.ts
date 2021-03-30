@@ -22,7 +22,7 @@ export class BannersService {
   post(body): Observable<Banner> {
     return this.http.post<Banner>(this.url, body).pipe(
       tap((res) => {
-        console.log("Banner: ", res);
+        // console.log("Banner: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class BannersService {
     return this.http.get<Banner[]>(this.url).pipe(
       tap((res) => {
         this.banners = res;
-        console.log("Banners: ", res);
+        // console.log("Banners: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class BannersService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Banner>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Banner: ", res);
+        // console.log("Banner: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class BannersService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Banner>(urlDelete).pipe(
       tap((res) => {
-        console.log("Banner: ", res);
+        // console.log("Banner: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class BannersService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Banner[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Banners: ", res);
+        // console.log("Banners: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class BannersService {
     return this.http.get<Banner[]>(this.url + "extended").pipe(
       tap((res) => {
         this.banners = res;
-        console.log("Banners: ", res);
+        // console.log("Banners: ", res);
       })
     );
   }

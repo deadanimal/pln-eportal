@@ -24,7 +24,7 @@ export class EducationalProgramImagesService {
   create(body): Observable<EducationalProgramImage> {
     return this.http.post<EducationalProgramImage>(this.url, body).pipe(
       tap((res) => {
-        console.log("Educational program image: ", res);
+        // console.log("Educational program image: ", res);
       })
     );
   }
@@ -33,7 +33,7 @@ export class EducationalProgramImagesService {
     return this.http.get<EducationalProgramImage[]>(this.url).pipe(
       tap((res) => {
         this.programimages = res;
-        console.log("Educational program images: ", this.programimages);
+        // console.log("Educational program images: ", this.programimages);
       })
     );
   }
@@ -43,7 +43,7 @@ export class EducationalProgramImagesService {
     return this.http.get<EducationalProgramImage>(urlID).pipe(
       tap((res) => {
         this.programimage = res;
-        console.log("Educational program image: ", this.programimage);
+        // console.log("Educational program image: ", this.programimage);
       })
     );
   }
@@ -53,7 +53,7 @@ export class EducationalProgramImagesService {
     return this.http.patch<EducationalProgramImage>(urlPatch, body).pipe(
       tap((res) => {
         this.programimage = res;
-        console.log("Educational program images: ", this.programimage);
+        // console.log("Educational program images: ", this.programimage);
       })
     );
   }
@@ -62,7 +62,7 @@ export class EducationalProgramImagesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<EducationalProgramImage>(urlDelete).pipe(
       tap((res) => {
-        console.log("Educational prgoram: ", res);
+        // console.log("Educational prgoram: ", res);
       })
     );
   }
@@ -72,7 +72,7 @@ export class EducationalProgramImagesService {
     return this.http.get<EducationalProgramImage[]>(urlFilter).pipe(
       tap((res) => {
         this.programimagesFiltered;
-        console.log("Educational programs", this.programimagesFiltered);
+        // console.log("Educational programs", this.programimagesFiltered);
       })
     );
   }

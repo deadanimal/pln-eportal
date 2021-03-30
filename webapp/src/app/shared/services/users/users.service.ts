@@ -23,7 +23,7 @@ export class UsersService {
   create(body: Form): Observable<User> {
     return this.http.post<any>(this.urlUser, body).pipe(
       tap((res) => {
-        console.log("User: ", res);
+        // console.log("User: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class UsersService {
   getAll(): Observable<User[]> {
     return this.http.get<User[]>(this.urlUser).pipe(
       tap((res) => {
-        console.log("Users: ", res);
+        // console.log("Users: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class UsersService {
     let urlUserOne = this.urlUser + id + "/";
     return this.http.get<User>(urlUserOne).pipe(
       tap((res) => {
-        console.log("User: ", res);
+        // console.log("User: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class UsersService {
     let urlUserOne = this.urlUser + id + "/";
     return this.http.put<User>(urlUserOne, body).pipe(
       tap((res) => {
-        console.log("User", res);
+        // console.log("User", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class UsersService {
     let urlDelete = this.urlUser + id + "/";
     return this.http.delete<User>(urlDelete).pipe(
       tap((res) => {
-        console.log("User: ", res);
+        // console.log("User: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class UsersService {
     let urlFilter = this.urlUser + "?" + field;
     return this.http.get<User[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Users", res);
+        // console.log("Users", res);
       })
     );
   }

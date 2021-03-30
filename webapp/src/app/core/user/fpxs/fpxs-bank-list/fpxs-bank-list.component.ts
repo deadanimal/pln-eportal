@@ -131,7 +131,7 @@ export class FpxsBankListComponent implements OnInit {
   create() {
     this.banklistService.post(this.banklistFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -175,7 +175,7 @@ export class FpxsBankListComponent implements OnInit {
       .update(this.banklistFormGroup.value, this.banklistFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -233,7 +233,7 @@ export class FpxsBankListComponent implements OnInit {
         if (result.value) {
           this.banklistService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

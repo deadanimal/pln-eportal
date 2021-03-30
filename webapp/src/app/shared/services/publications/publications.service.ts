@@ -22,7 +22,7 @@ export class PublicationsService {
   post(body): Observable<Publication> {
     return this.http.post<Publication>(this.url, body).pipe(
       tap((res) => {
-        console.log("Publication: ", res);
+        // console.log("Publication: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class PublicationsService {
     return this.http.get<Publication[]>(this.url).pipe(
       tap((res) => {
         this.publications = res;
-        console.log("Publications: ", res);
+        // console.log("Publications: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class PublicationsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Publication>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Publication: ", res);
+        // console.log("Publication: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class PublicationsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Publication>(urlDelete).pipe(
       tap((res) => {
-        console.log("Publication: ", res);
+        // console.log("Publication: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class PublicationsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Publication[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Publications: ", res);
+        // console.log("Publications: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class PublicationsService {
     return this.http.get<Publication[]>(this.url + "extended").pipe(
       tap((res) => {
         this.publications = res;
-        console.log("Publications: ", res);
+        // console.log("Publications: ", res);
       })
     );
   }
@@ -76,7 +76,7 @@ export class PublicationsService {
     let urlGetTotalDownloadPdf = this.url + "get_total_download_pdf";
     return this.http.get(urlGetTotalDownloadPdf).pipe(
       tap((res) => {
-        console.log("Total download PDF", res);
+        // console.log("Total download PDF", res);
       })
     );
   }

@@ -119,7 +119,7 @@ export class SubModulesComponent implements OnInit {
   getData() {
     this.submoduleService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -195,7 +195,7 @@ export class SubModulesComponent implements OnInit {
   create() {
     this.submoduleService.post(this.submoduleFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -239,7 +239,7 @@ export class SubModulesComponent implements OnInit {
       .update(this.submoduleFormGroup.value, this.submoduleFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -297,7 +297,7 @@ export class SubModulesComponent implements OnInit {
         if (result.value) {
           this.submoduleService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

@@ -105,7 +105,7 @@ export class FeedbacksListComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.users = res;
       },
       (err) => {
@@ -180,7 +180,7 @@ export class FeedbacksListComponent implements OnInit {
   create() {
     this.feedbackService.post(this.feedbackFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -224,7 +224,7 @@ export class FeedbacksListComponent implements OnInit {
       .update(this.feedbackFormGroup.value, this.feedbackFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -282,7 +282,7 @@ export class FeedbacksListComponent implements OnInit {
         if (result.value) {
           this.feedbackService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -322,7 +322,7 @@ export class FeedbacksListComponent implements OnInit {
     };
     this.emailtemplateService.sending_mail(obj).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.feedbackFormGroup.patchValue({
           ...row,
           user_id: row.user_id.id,
@@ -332,7 +332,7 @@ export class FeedbacksListComponent implements OnInit {
           .update(this.feedbackFormGroup.value, row.id)
           .subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal
                 .fire({
                   title: "Berjaya",

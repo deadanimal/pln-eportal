@@ -56,8 +56,6 @@ export class TotalTicketSalesShowsComponent implements OnInit {
       data.push({ date2: new Date(2017, 0, i), price2: price2 });
     }
 
-    console.log("dataone", data);
-
     chart.data = data;
 
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -268,7 +266,7 @@ export class TotalTicketSalesShowsComponent implements OnInit {
   }
 
   search() {
-    console.log("searchFormGroup", this.searchFormGroup.value);
+    // console.log("searchFormGroup", this.searchFormGroup.value);
   }
 
   reset() {

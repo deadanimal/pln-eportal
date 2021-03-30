@@ -291,7 +291,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   create() {
     this.showbookingService.post(this.showbookingFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -338,7 +338,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -396,7 +396,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
         if (result.value) {
           this.showbookingService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -428,7 +428,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   refund() {
     this.refundService.post(this.refundFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
 
         let obj = {
           status: "SB07",
@@ -437,7 +437,7 @@ export class ShowsApplicationsDetailComponent implements OnInit {
           .update(obj, this.refundFormGroup.value.show_booking_id)
           .subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
             },
             (err) => {
               console.error("err", err);

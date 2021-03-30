@@ -170,7 +170,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
   getVenue() {
     this.venueService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.venues = res;
       },
       (err) => {
@@ -326,7 +326,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
   getSimulatorRideTime() {
     this.simridetimeService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.rows = res;
         this.temp = this.rows.map((prop, key) => {
           return {
@@ -387,8 +387,6 @@ export class SimulatorRideScheduleComponent implements OnInit {
   }
 
   create() {
-    console.log("simridetimeFormGroup", this.simridetimeFormGroup.value);
-
     this.simridetimeService
       .filter(
         "day=" +
@@ -399,7 +397,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.length > 0) {
             swal
               .fire({
@@ -422,7 +420,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
               .post(this.simridetimeFormGroup.value)
               .subscribe(
                 (res) => {
-                  console.log("res", res);
+                  // console.log("res", res);
                   swal
                     .fire({
                       title: "Berjaya",
@@ -475,7 +473,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -533,7 +531,7 @@ export class SimulatorRideScheduleComponent implements OnInit {
         if (result.value) {
           this.simridetimeService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

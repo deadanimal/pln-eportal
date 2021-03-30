@@ -172,7 +172,7 @@ export class NumberOfVisitorsComponent implements OnInit {
   }
 
   search() {
-    console.log("searchFormGroup", this.searchFormGroup.value);
+    // console.log("searchFormGroup", this.searchFormGroup.value);
   }
 
   reset() {

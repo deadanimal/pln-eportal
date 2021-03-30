@@ -22,7 +22,7 @@ export class ExhibitListsService {
   post(body): Observable<ExhibitList> {
     return this.http.post<ExhibitList>(this.url, body).pipe(
       tap((res) => {
-        console.log("ExhibitList: ", res);
+        // console.log("ExhibitList: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class ExhibitListsService {
     return this.http.get<ExhibitList[]>(this.url).pipe(
       tap((res) => {
         this.exhibitlists = res;
-        console.log("ExhibitLists: ", res);
+        // console.log("ExhibitLists: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class ExhibitListsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<ExhibitList>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("ExhibitList: ", res);
+        // console.log("ExhibitList: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class ExhibitListsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<ExhibitList>(urlDelete).pipe(
       tap((res) => {
-        console.log("ExhibitList: ", res);
+        // console.log("ExhibitList: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class ExhibitListsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<ExhibitList[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("ExhibitLists: ", res);
+        // console.log("ExhibitLists: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class ExhibitListsService {
     return this.http.get<ExhibitList[]>(this.url + "extended").pipe(
       tap((res) => {
         this.exhibitlists = res;
-        console.log("ExhibitLists: ", res);
+        // console.log("ExhibitLists: ", res);
       })
     );
   }

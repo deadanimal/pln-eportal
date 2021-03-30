@@ -24,7 +24,7 @@ export class AppComponent {
              // Hide loading indicator
 
              // Present error to user
-             console.log(event.error);
+             console.error(event.error);
          }
      });
    }

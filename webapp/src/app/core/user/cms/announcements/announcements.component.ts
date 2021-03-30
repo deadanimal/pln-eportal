@@ -122,7 +122,7 @@ export class AnnouncementsComponent implements OnInit {
   create() {
     this.announcementService.post(this.announcementFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -169,7 +169,7 @@ export class AnnouncementsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -227,7 +227,7 @@ export class AnnouncementsComponent implements OnInit {
         if (result.value) {
           this.announcementService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

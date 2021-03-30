@@ -179,7 +179,7 @@ export class EmployeeDirectoriesComponent implements OnInit {
       .post(this.employeedirectoryFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -226,7 +226,7 @@ export class EmployeeDirectoriesComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -284,7 +284,7 @@ export class EmployeeDirectoriesComponent implements OnInit {
         if (result.value) {
           this.employeedirectoryService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

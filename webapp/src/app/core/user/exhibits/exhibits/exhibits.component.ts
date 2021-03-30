@@ -147,7 +147,7 @@ export class ExhibitsComponent implements OnInit {
   getAsset() {
     this.assetService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.assets = res;
       },
       (err) => {
@@ -159,7 +159,7 @@ export class ExhibitsComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.users = res;
       },
       (err) => {
@@ -175,7 +175,7 @@ export class ExhibitsComponent implements OnInit {
   getData() {
     this.exhibitService.extended().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -240,7 +240,7 @@ export class ExhibitsComponent implements OnInit {
   create() {
     this.exhibitService.post(this.exhibitFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -280,12 +280,11 @@ export class ExhibitsComponent implements OnInit {
   }
 
   update() {
-    console.log(this.exhibitFormGroup.value);
     this.exhibitService
       .update(this.exhibitFormGroup.value, this.exhibitFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -343,7 +342,7 @@ export class ExhibitsComponent implements OnInit {
         if (result.value) {
           this.exhibitService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

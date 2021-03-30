@@ -22,7 +22,7 @@ export class BankListsService {
   post(body: Form): Observable<BankList> {
     return this.http.post<BankList>(this.url, body).pipe(
       tap((res) => {
-        console.log("BankList: ", res);
+        // console.log("BankList: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class BankListsService {
     return this.http.get<BankList[]>(this.url).pipe(
       tap((res) => {
         this.banklists = res;
-        console.log("BankLists: ", res);
+        // console.log("BankLists: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class BankListsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<BankList>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("BankList: ", res);
+        // console.log("BankList: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class BankListsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<BankList>(urlDelete).pipe(
       tap((res) => {
-        console.log("BankList: ", res);
+        // console.log("BankList: ", res);
       })
     );
   }

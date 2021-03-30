@@ -22,7 +22,7 @@ export class QuickLinksService {
   post(body: Form): Observable<QuickLink> {
     return this.http.post<QuickLink>(this.url, body).pipe(
       tap((res) => {
-        console.log("QuickLink: ", res);
+        // console.log("QuickLink: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class QuickLinksService {
     return this.http.get<QuickLink[]>(this.url).pipe(
       tap((res) => {
         this.quicklinks = res;
-        console.log("QuickLinks: ", res);
+        // console.log("QuickLinks: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class QuickLinksService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<QuickLink>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("QuickLink: ", res);
+        // console.log("QuickLink: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class QuickLinksService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<QuickLink>(urlDelete).pipe(
       tap((res) => {
-        console.log("QuickLink: ", res);
+        // console.log("QuickLink: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class QuickLinksService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<QuickLink[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("QuickLinks: ", res);
+        // console.log("QuickLinks: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class QuickLinksService {
     return this.http.get<QuickLink[]>(this.url + "extended").pipe(
       tap((res) => {
         this.quicklinks = res;
-        console.log("QuickLinks: ", res);
+        // console.log("QuickLinks: ", res);
       })
     );
   }

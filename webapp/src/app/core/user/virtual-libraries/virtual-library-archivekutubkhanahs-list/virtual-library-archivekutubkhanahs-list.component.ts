@@ -161,7 +161,7 @@ export class VirtualLibraryArchivekutubkhanahsListComponent implements OnInit {
       .post(this.virtuallibraryarchivekutubkhanahFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -208,7 +208,7 @@ export class VirtualLibraryArchivekutubkhanahsListComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -266,7 +266,7 @@ export class VirtualLibraryArchivekutubkhanahsListComponent implements OnInit {
         if (result.value) {
           this.virtuallibraryarchivekutubkhanahService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

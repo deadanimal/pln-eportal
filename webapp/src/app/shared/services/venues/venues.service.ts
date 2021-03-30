@@ -25,7 +25,7 @@ export class VenuesService {
   post(body: Form): Observable<Venue> {
     return this.http.post<Venue>(this.url, body).pipe(
       tap((res) => {
-        console.log('Venue: ', res)
+        // console.log('Venue: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class VenuesService {
     return this.http.get<Venue[]>(this.url).pipe(
       tap((res) => {
         this.venues = res
-        console.log('Venues: ', res)
+        // console.log('Venues: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class VenuesService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<Venue>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Venue: ', res)
+        // console.log('Venue: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class VenuesService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<Venue>(urlDelete).pipe(
       tap((res) => {
-        console.log('Venue: ', res)
+        // console.log('Venue: ', res)
       })
     )
   }

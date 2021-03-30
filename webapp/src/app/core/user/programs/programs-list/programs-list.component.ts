@@ -209,7 +209,7 @@ export class ProgramsListComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.users = res;
       },
       (err) => {
@@ -221,7 +221,7 @@ export class ProgramsListComponent implements OnInit {
   getVenue() {
     this.venueService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.venues = res;
       },
       (err) => {
@@ -314,7 +314,7 @@ export class ProgramsListComponent implements OnInit {
     } else if (process == "createupdatedate") {
       this.eduprogramdateService.filter("program_id=" + row.id).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.eduprogramdates = res;
         },
         (err) => {
@@ -327,7 +327,7 @@ export class ProgramsListComponent implements OnInit {
     } else if (process == "createupdateactivity") {
       this.eduprogramactivityService.filter("program_id=" + row.id).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.eduprogramactivities = res;
         },
         (err) => {
@@ -345,7 +345,7 @@ export class ProgramsListComponent implements OnInit {
     } else if (process == "upload") {
       this.eduprogramimageService.filter("program_id=" + row.id).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.eduprogramimages = res;
         },
         (err) => {
@@ -366,7 +366,7 @@ export class ProgramsListComponent implements OnInit {
   create() {
     this.eduprogramService.create(this.eduprogramFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -410,7 +410,7 @@ export class ProgramsListComponent implements OnInit {
       .update(this.eduprogramFormGroup.value, this.eduprogramFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -468,7 +468,7 @@ export class ProgramsListComponent implements OnInit {
         if (result.value) {
           this.eduprogramService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -502,7 +502,7 @@ export class ProgramsListComponent implements OnInit {
       .create(this.eduprogramdateFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -560,7 +560,7 @@ export class ProgramsListComponent implements OnInit {
         if (result.value) {
           this.eduprogramdateService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -594,7 +594,7 @@ export class ProgramsListComponent implements OnInit {
       .create(this.eduprogramactivityFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -652,7 +652,7 @@ export class ProgramsListComponent implements OnInit {
         if (result.value) {
           this.eduprogramactivityService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -698,7 +698,7 @@ export class ProgramsListComponent implements OnInit {
       .update(formData, this.eduprogramattachmentFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -765,7 +765,7 @@ export class ProgramsListComponent implements OnInit {
 
     this.eduprogramimageService.create(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -807,7 +807,7 @@ export class ProgramsListComponent implements OnInit {
   deleteimage(image) {
     this.eduprogramimageService.delete(image.id).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",

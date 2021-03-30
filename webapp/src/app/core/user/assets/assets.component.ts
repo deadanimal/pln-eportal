@@ -68,7 +68,7 @@ export class AssetsComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.users = res;
       },
       (err) => {
@@ -142,7 +142,7 @@ export class AssetsComponent implements OnInit {
   create() {
     this.assetService.post(this.assetFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -186,7 +186,7 @@ export class AssetsComponent implements OnInit {
       .update(this.assetFormGroup.value, this.assetFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -244,7 +244,7 @@ export class AssetsComponent implements OnInit {
         if (result.value) {
           this.assetService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

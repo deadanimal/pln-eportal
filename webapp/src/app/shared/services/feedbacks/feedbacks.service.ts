@@ -22,7 +22,7 @@ export class FeedbacksService {
   post(body: Form): Observable<Feedback> {
     return this.http.post<Feedback>(this.url, body).pipe(
       tap((res) => {
-        console.log("Feedback: ", res);
+        // console.log("Feedback: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class FeedbacksService {
     return this.http.get<Feedback[]>(this.url).pipe(
       tap((res) => {
         this.feedbacks = res;
-        console.log("Feedbacks: ", res);
+        // console.log("Feedbacks: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class FeedbacksService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Feedback>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Feedback: ", res);
+        // console.log("Feedback: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class FeedbacksService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Feedback>(urlDelete).pipe(
       tap((res) => {
-        console.log("Feedback: ", res);
+        // console.log("Feedback: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class FeedbacksService {
     return this.http.get<Feedback[]>(this.url + 'extended').pipe(
       tap((res) => {
         this.feedbacks = res;
-        console.log("Feedbacks: ", res);
+        // console.log("Feedbacks: ", res);
       })
     );
   }

@@ -22,7 +22,7 @@ export class RefundsService {
   post(body): Observable<Refund> {
     return this.http.post<Refund>(this.url, body).pipe(
       tap((res) => {
-        console.log("Refund: ", res);
+        // console.log("Refund: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class RefundsService {
     return this.http.get<Refund[]>(this.url).pipe(
       tap((res) => {
         this.refunds = res;
-        console.log("Refunds: ", res);
+        // console.log("Refunds: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class RefundsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Refund>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Refund: ", res);
+        // console.log("Refund: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class RefundsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Refund>(urlDelete).pipe(
       tap((res) => {
-        console.log("Refund: ", res);
+        // console.log("Refund: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class RefundsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Refund[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Refunds: ", res);
+        // console.log("Refunds: ", res);
       })
     );
   }
@@ -69,7 +69,7 @@ export class RefundsService {
     else urlExtended = this.url + "extended";
     return this.http.get<Refund[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("Refunds: ", res);
+        // console.log("Refunds: ", res);
       })
     );
   }

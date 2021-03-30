@@ -193,7 +193,7 @@ export class CalendarComponent implements OnInit {
   getData() {
     this.calendarService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -441,7 +441,7 @@ export class CalendarComponent implements OnInit {
     postArray.forEach((obj) => {
       this.calendarService.post(obj).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -488,7 +488,7 @@ export class CalendarComponent implements OnInit {
       .update(this.calendarFormGroup.value, this.calendarFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -546,7 +546,7 @@ export class CalendarComponent implements OnInit {
         if (result.value) {
           this.calendarService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

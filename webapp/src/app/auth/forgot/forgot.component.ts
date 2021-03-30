@@ -43,7 +43,7 @@ export class ForgotComponent implements OnInit {
 
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         res.forEach((value) => {
           if (value.user_type != "CS") {
             this.users.push(value);
@@ -74,7 +74,7 @@ export class ForgotComponent implements OnInit {
       this.authService.resetPassword(this.resetForm.value).subscribe(
         (res) => {
           // Success
-          console.log("res", res);
+          // console.log("res", res);
           this.loadingBar.complete();
           this.successMessage(
             "Berjaya",

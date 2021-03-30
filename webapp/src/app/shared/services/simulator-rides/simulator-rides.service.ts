@@ -22,7 +22,7 @@ export class SimulatorRidesService {
   post(body: Form): Observable<SimulatorRide> {
     return this.http.post<SimulatorRide>(this.url, body).pipe(
       tap((res) => {
-        console.log("SimulatorRide: ", res);
+        // console.log("SimulatorRide: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class SimulatorRidesService {
     return this.http.get<SimulatorRide[]>(this.url).pipe(
       tap((res) => {
         this.simulatorrides = res;
-        console.log("SimulatorRides: ", res);
+        // console.log("SimulatorRides: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class SimulatorRidesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<SimulatorRide>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("SimulatorRide: ", res);
+        // console.log("SimulatorRide: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class SimulatorRidesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<SimulatorRide>(urlDelete).pipe(
       tap((res) => {
-        console.log("SimulatorRide: ", res);
+        // console.log("SimulatorRide: ", res);
       })
     );
   }

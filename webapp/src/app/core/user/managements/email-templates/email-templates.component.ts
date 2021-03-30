@@ -203,7 +203,7 @@ export class EmailTemplatesComponent implements OnInit {
   create() {
     this.emailtemplateService.post(this.emailtemplateFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -250,7 +250,7 @@ export class EmailTemplatesComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -308,7 +308,7 @@ export class EmailTemplatesComponent implements OnInit {
         if (result.value) {
           this.emailtemplateService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

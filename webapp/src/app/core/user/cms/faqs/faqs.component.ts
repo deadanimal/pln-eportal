@@ -148,7 +148,7 @@ export class FaqsComponent implements OnInit {
   create() {
     this.faqService.post(this.faqFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -192,7 +192,7 @@ export class FaqsComponent implements OnInit {
       .update(this.faqFormGroup.value, this.faqFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -250,7 +250,7 @@ export class FaqsComponent implements OnInit {
         if (result.value) {
           this.faqService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

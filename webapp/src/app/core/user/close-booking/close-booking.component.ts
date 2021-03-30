@@ -184,7 +184,7 @@ export class CloseBookingComponent implements OnInit {
     if (this.checkInterceptDate() == 0) {
       this.closebookingService.post(this.closebookingFormGroup.value).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -243,7 +243,7 @@ export class CloseBookingComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -301,7 +301,7 @@ export class CloseBookingComponent implements OnInit {
         if (result.value) {
           this.closebookingService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

@@ -133,7 +133,7 @@ export class SurveysListComponent implements OnInit {
 
   getData() {
     this.surveyquestionService.get().subscribe((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -231,7 +231,7 @@ export class SurveysListComponent implements OnInit {
         .post(this.surveyquestionFormGroup.value)
         .subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
             swal
               .fire({
                 title: "Berjaya",
@@ -312,7 +312,7 @@ export class SurveysListComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
             swal
               .fire({
                 title: "Berjaya",
@@ -371,7 +371,7 @@ export class SurveysListComponent implements OnInit {
         if (result.value) {
           this.surveyquestionService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

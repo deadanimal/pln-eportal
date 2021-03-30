@@ -22,7 +22,7 @@ export class PublicationCategoriesService {
   post(body: Form): Observable<PublicationCategory> {
     return this.http.post<PublicationCategory>(this.url, body).pipe(
       tap((res) => {
-        console.log("PublicationCategory: ", res);
+        // console.log("PublicationCategory: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class PublicationCategoriesService {
     return this.http.get<PublicationCategory[]>(this.url).pipe(
       tap((res) => {
         this.publicationcategories = res;
-        console.log("PublicationCategories: ", res);
+        // console.log("PublicationCategories: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class PublicationCategoriesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<PublicationCategory>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("PublicationCategory: ", res);
+        // console.log("PublicationCategory: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class PublicationCategoriesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<PublicationCategory>(urlDelete).pipe(
       tap((res) => {
-        console.log("PublicationCategory: ", res);
+        // console.log("PublicationCategory: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class PublicationCategoriesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<PublicationCategory[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("PublicationCategories: ", res);
+        // console.log("PublicationCategories: ", res);
       })
     );
   }

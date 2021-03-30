@@ -22,7 +22,7 @@ export class RatingsService {
   post(body: Form): Observable<Rating> {
     return this.http.post<Rating>(this.url, body).pipe(
       tap((res) => {
-        console.log("Rating: ", res);
+        // console.log("Rating: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class RatingsService {
     return this.http.get<Rating[]>(this.url).pipe(
       tap((res) => {
         this.ratings = res;
-        console.log("Ratings: ", res);
+        // console.log("Ratings: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class RatingsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Rating>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Rating: ", res);
+        // console.log("Rating: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class RatingsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Rating>(urlDelete).pipe(
       tap((res) => {
-        console.log("Rating: ", res);
+        // console.log("Rating: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class RatingsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Rating[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Ratings: ", res);
+        // console.log("Ratings: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class RatingsService {
     return this.http.get<Rating[]>(this.url + "extended").pipe(
       tap((res) => {
         this.ratings = res;
-        console.log("Ratings: ", res);
+        // console.log("Ratings: ", res);
       })
     );
   }

@@ -22,7 +22,7 @@ export class VirtualLibraryCategoriesService {
   post(body: Form): Observable<VirtualLibraryCategory> {
     return this.http.post<VirtualLibraryCategory>(this.url, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class VirtualLibraryCategoriesService {
     return this.http.get<VirtualLibraryCategory[]>(this.url).pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class VirtualLibraryCategoriesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<VirtualLibraryCategory>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class VirtualLibraryCategoriesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<VirtualLibraryCategory>(urlDelete).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class VirtualLibraryCategoriesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<VirtualLibraryCategory[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class VirtualLibraryCategoriesService {
     return this.http.get<VirtualLibraryCategory[]>(this.url + "extended").pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }

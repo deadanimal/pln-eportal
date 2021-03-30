@@ -22,7 +22,7 @@ export class SimulatorRideBookingsService {
   post(body: Form): Observable<SimulatorRideBooking> {
     return this.http.post<SimulatorRideBooking>(this.url, body).pipe(
       tap((res) => {
-        console.log("SimulatorRideBooking: ", res);
+        // console.log("SimulatorRideBooking: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class SimulatorRideBookingsService {
     return this.http.get<SimulatorRideBooking[]>(this.url).pipe(
       tap((res) => {
         this.simulatorridebookings = res;
-        console.log("SimulatorRideBookings: ", res);
+        // console.log("SimulatorRideBookings: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class SimulatorRideBookingsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<SimulatorRideBooking>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("SimulatorRideBooking: ", res);
+        // console.log("SimulatorRideBooking: ", res);
       })
     );
   }
@@ -49,17 +49,16 @@ export class SimulatorRideBookingsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<SimulatorRideBooking>(urlDelete).pipe(
       tap((res) => {
-        console.log("SimulatorRideBooking: ", res);
+        // console.log("SimulatorRideBooking: ", res);
       })
     );
   }
 
   filter(field: string): Observable<SimulatorRideBooking[]> {
     let urlFilter = this.url + '?' + field;
-    console.log(urlFilter);
     return this.http.get<SimulatorRideBooking[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("SimulatorRideBookings: ", res);
+        // console.log("SimulatorRideBookings: ", res);
       })
     );
   }
@@ -70,7 +69,7 @@ export class SimulatorRideBookingsService {
     else urlExtended = this.url + "extended";
     return this.http.get<SimulatorRideBooking[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("SimulatorRideBookings: ", res);
+        // console.log("SimulatorRideBookings: ", res);
       })
     );
   }

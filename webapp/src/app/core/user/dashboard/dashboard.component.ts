@@ -390,7 +390,6 @@ export class DashboardComponent implements OnInit {
       },
     ];
 
-    console.log("chart.data", chart.data);
     this.totalFacilityBookingChart = chart;
   }
 

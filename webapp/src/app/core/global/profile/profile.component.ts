@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
         this.userFormGroup.patchValue({
           ...res,
         });
-        console.log("userFormGroup", this.userFormGroup.value);
+        // console.log("userFormGroup", this.userFormGroup.value);
       },
       (err) => {
         console.error("err", err);
@@ -108,7 +108,7 @@ export class ProfileComponent implements OnInit {
       .update(this.authService.decodedToken().user_id, this.userFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",

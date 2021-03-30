@@ -150,7 +150,7 @@ export class VirtualLibraryCategoriesListComponent implements OnInit {
       .post(this.virtuallibrarycategoryFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -197,7 +197,7 @@ export class VirtualLibraryCategoriesListComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -255,7 +255,7 @@ export class VirtualLibraryCategoriesListComponent implements OnInit {
         if (result.value) {
           this.virtuallibrarycategoryService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

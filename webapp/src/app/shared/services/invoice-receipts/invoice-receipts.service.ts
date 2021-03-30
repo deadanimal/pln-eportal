@@ -22,7 +22,7 @@ export class InvoiceReceiptsService {
   post(body): Observable<InvoiceReceipt> {
     return this.http.post<InvoiceReceipt>(this.url, body).pipe(
       tap((res) => {
-        console.log("InvoiceReceipt: ", res);
+        // console.log("InvoiceReceipt: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class InvoiceReceiptsService {
     return this.http.get<InvoiceReceipt[]>(this.url).pipe(
       tap((res) => {
         this.invoicereceipts = res;
-        console.log("InvoiceReceipts: ", res);
+        // console.log("InvoiceReceipts: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class InvoiceReceiptsService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<InvoiceReceipt>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("InvoiceReceipt: ", res);
+        // console.log("InvoiceReceipt: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class InvoiceReceiptsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<InvoiceReceipt>(urlDelete).pipe(
       tap((res) => {
-        console.log("InvoiceReceipt: ", res);
+        // console.log("InvoiceReceipt: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class InvoiceReceiptsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<InvoiceReceipt[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("InvoiceReceipts: ", res);
+        // console.log("InvoiceReceipts: ", res);
       })
     );
   }
@@ -69,7 +69,7 @@ export class InvoiceReceiptsService {
     else urlExtended = this.url + "extended";
     return this.http.get<InvoiceReceipt[]>(urlExtended).pipe(
       tap((res) => {
-        console.log("InvoiceReceipts: ", res);
+        // console.log("InvoiceReceipts: ", res);
       })
     );
   }
@@ -79,7 +79,7 @@ export class InvoiceReceiptsService {
     let url = this.url + "delete_invoice_receipt/";
     return this.http.post<InvoiceReceipt>(url, body).pipe(
       tap((res) => {
-        console.log("InvoiceReceipt: ", res);
+        // console.log("InvoiceReceipt: ", res);
       })
     );
   }

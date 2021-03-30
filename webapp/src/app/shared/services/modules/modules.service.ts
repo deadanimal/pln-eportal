@@ -23,7 +23,7 @@ export class ModulesService {
   post(body): Observable<Module> {
     return this.http.post<Module>(this.url, body).pipe(
       tap((res) => {
-        console.log("Module: ", res);
+        // console.log("Module: ", res);
       })
     );
   }
@@ -32,7 +32,7 @@ export class ModulesService {
     return this.http.get<Module[]>(this.url).pipe(
       tap((res) => {
         this.modules = res;
-        console.log("Modules: ", res);
+        // console.log("Modules: ", res);
       })
     );
   }
@@ -41,7 +41,7 @@ export class ModulesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Module>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Module: ", res);
+        // console.log("Module: ", res);
       })
     );
   }
@@ -50,7 +50,7 @@ export class ModulesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Module>(urlDelete).pipe(
       tap((res) => {
-        console.log("Module: ", res);
+        // console.log("Module: ", res);
       })
     );
   }
@@ -59,7 +59,7 @@ export class ModulesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Module[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Modules: ", res);
+        // console.log("Modules: ", res);
       })
     );
   }

@@ -139,7 +139,7 @@ export class SurveysAnswerComponent implements OnInit {
       .filter("id=" + this.surveyanswerFormGroup.value.survey_question_id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.surveyquestion = res[0];
         },
         (err) => {
@@ -151,7 +151,7 @@ export class SurveysAnswerComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.users = res;
       },
       (err) => {
@@ -229,7 +229,7 @@ export class SurveysAnswerComponent implements OnInit {
   create() {
     this.surveyanswerService.post(this.surveyanswerFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -276,7 +276,7 @@ export class SurveysAnswerComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -334,7 +334,7 @@ export class SurveysAnswerComponent implements OnInit {
         if (result.value) {
           this.surveyanswerService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

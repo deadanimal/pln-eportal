@@ -193,13 +193,13 @@ export class UsersComponent implements OnInit {
 
     this.authService.register(this.userFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         if (res) {
           this.userService
             .update(res.user.pk, this.userFormGroup.value)
             .subscribe(
               (res) => {
-                console.log("res", res);
+                // console.log("res", res);
                 swal
                   .fire({
                     title: "Berjaya",
@@ -264,7 +264,7 @@ export class UsersComponent implements OnInit {
       .update(this.userFormGroup.value.id, this.userFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -322,7 +322,7 @@ export class UsersComponent implements OnInit {
         if (result.value) {
           this.userService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

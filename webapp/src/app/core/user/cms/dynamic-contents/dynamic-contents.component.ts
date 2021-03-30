@@ -131,7 +131,7 @@ export class DynamicContentsComponent implements OnInit {
   getData() {
     this.dynamiccontentService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -204,7 +204,7 @@ export class DynamicContentsComponent implements OnInit {
       .post(this.dynamiccontentFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -251,7 +251,7 @@ export class DynamicContentsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -309,7 +309,7 @@ export class DynamicContentsComponent implements OnInit {
         if (result.value) {
           this.dynamiccontentService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

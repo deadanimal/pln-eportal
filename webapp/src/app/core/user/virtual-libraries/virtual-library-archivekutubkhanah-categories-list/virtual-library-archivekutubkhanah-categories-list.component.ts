@@ -174,7 +174,7 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
       .post(this.virtuallibraryarchivekutubkhanahcategoryFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -221,7 +221,7 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -281,7 +281,7 @@ export class VirtualLibraryArchivekutubkhanahCategoriesListComponent
             .delete(row.id)
             .subscribe(
               (res) => {
-                console.log("res", res);
+                // console.log("res", res);
                 swal.fire({
                   title: "Proses Buang berjaya",
                   text: "Data anda berjaya dibuang.",

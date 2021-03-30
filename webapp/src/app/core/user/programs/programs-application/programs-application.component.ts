@@ -515,7 +515,7 @@ export class ProgramsApplicationComponent implements OnInit {
   getProgram() {
     this.eduprogramService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programs = res;
         res.forEach((obj) => {
           if (obj.program_subcategory != "NAV") this.programforms.push(obj);
@@ -530,7 +530,7 @@ export class ProgramsApplicationComponent implements OnInit {
   getProgramDate() {
     this.eduprogramdateService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programdates = res;
       },
       (err) => {
@@ -542,7 +542,7 @@ export class ProgramsApplicationComponent implements OnInit {
   getProgramActivity() {
     this.eduprogramactivityService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.programactivities = res;
       },
       (err) => {
@@ -554,7 +554,7 @@ export class ProgramsApplicationComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         res.forEach((obj) => {
           if (obj.user_type == "CS") this.users.push(obj);
         });
@@ -573,7 +573,7 @@ export class ProgramsApplicationComponent implements OnInit {
 
   getData() {
     this.eduprogramappService.extended().subscribe((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -586,7 +586,7 @@ export class ProgramsApplicationComponent implements OnInit {
 
   getDataForm() {
     this.eduprogramformService.extended().subscribe((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       this.rows = res;
       this.temp = this.rows.map((prop, key) => {
         return {
@@ -764,7 +764,7 @@ export class ProgramsApplicationComponent implements OnInit {
 
     this.eduprogramappService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -847,7 +847,7 @@ export class ProgramsApplicationComponent implements OnInit {
       .update(formData, this.eduprogramappFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -907,7 +907,7 @@ export class ProgramsApplicationComponent implements OnInit {
         if (result.value) {
           this.eduprogramappService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -1075,7 +1075,7 @@ export class ProgramsApplicationComponent implements OnInit {
         if (result.value) {
           this.eduprogramformService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -1117,10 +1117,10 @@ export class ProgramsApplicationComponent implements OnInit {
         to: user[0].email,
         context: null,
       };
-      console.log("obj", obj);
+      // console.log("obj", obj);
       this.emailtemplateService.sending_mail(obj).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
         },
         (err) => {
           console.error("err", err);
@@ -1132,10 +1132,10 @@ export class ProgramsApplicationComponent implements OnInit {
         to: user[0].email,
         context: null,
       };
-      console.log("obj", obj);
+      // console.log("obj", obj);
       this.emailtemplateService.sending_mail(obj).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
         },
         (err) => {
           console.error("err", err);

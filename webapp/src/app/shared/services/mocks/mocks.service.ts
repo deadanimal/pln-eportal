@@ -23,7 +23,7 @@ export class MocksService {
     return this.http.get<any>(urlPath).pipe(
       tap((res) => {
         this.datas = res
-        console.log('Data: ', this.datas)
+        // console.log('Data: ', this.datas)
       })
     )
   }

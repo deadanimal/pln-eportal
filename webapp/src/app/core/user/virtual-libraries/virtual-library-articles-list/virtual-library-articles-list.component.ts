@@ -99,7 +99,7 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
 
     this.virtuallibrarycategoryService.filter("link=artikel-terkini").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.categories = res;
         if (this.categories) {
           this.virtuallibraryarticleFormGroup.patchValue({
@@ -235,7 +235,7 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
 
     this.virtuallibraryarticleService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -313,7 +313,7 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
       .update(formData, this.virtuallibraryarticleFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -371,7 +371,7 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
         if (result.value) {
           this.virtuallibraryarticleService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -420,7 +420,7 @@ export class VirtualLibraryArticlesListComponent implements OnInit {
       .update(formData, this.virtuallibraryarticlePDFFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",

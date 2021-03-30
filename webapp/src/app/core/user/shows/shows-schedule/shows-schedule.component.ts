@@ -89,7 +89,7 @@ export class ShowsScheduleComponent implements OnInit {
   getShowing() {
     this.showingService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.shows = res;
       },
       (err) => {
@@ -101,7 +101,7 @@ export class ShowsScheduleComponent implements OnInit {
   getVenue() {
     this.venueService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.venues = res;
       },
       (err) => {
@@ -117,7 +117,6 @@ export class ShowsScheduleComponent implements OnInit {
   ngOnDestroy() {
     this.zone.runOutsideAngular(() => {
       if (this.chart) {
-        console.log("Chart disposed");
         this.chart.dispose();
       }
     });
@@ -126,7 +125,7 @@ export class ShowsScheduleComponent implements OnInit {
   getData() {
     this.showtimeService.extended().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.getCharts();
         this.tableTemp = this.tableRows.map((prop, key) => {
@@ -222,7 +221,6 @@ export class ShowsScheduleComponent implements OnInit {
   }
 
   generateData(colorSet) {
-    console.log("tableRows", this.tableRows);
     let arrayChart = [];
     for (let i = 0; i < this.tableRows.length; i++) {
       var days = [
@@ -285,7 +283,7 @@ export class ShowsScheduleComponent implements OnInit {
         this.showtimeFormGroup.value.show_date = this.formatDate(loop);
         this.showtimeService.post(this.showtimeFormGroup.value).subscribe(
           (res) => {
-            console.log("res", res);
+            // console.log("res", res);
             swal
               .fire({
                 title: "Berjaya",
@@ -334,7 +332,7 @@ export class ShowsScheduleComponent implements OnInit {
       .update(this.showtimeFormGroup.value, this.showtimeFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -392,7 +390,7 @@ export class ShowsScheduleComponent implements OnInit {
         if (result.value) {
           this.showtimeService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

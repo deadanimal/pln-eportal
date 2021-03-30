@@ -32,11 +32,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.zone.runOutsideAngular(
       () => {
         if (this.chart) {
-          console.log('Chart disposed')
+          // console.log('Chart disposed')
           this.chart.dispose()
         }
         if (this.chart1) {
-          console.log('Chart disposed')
+          // console.log('Chart disposed')
           this.chart1.dispose()
         }
       }

@@ -22,7 +22,7 @@ export class FacilitiesService {
   post(body: Form): Observable<Facility> {
     return this.http.post<Facility>(this.url, body).pipe(
       tap((res) => {
-        console.log("Facility: ", res);
+        // console.log("Facility: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class FacilitiesService {
     return this.http.get<Facility[]>(this.url).pipe(
       tap((res) => {
         this.facilities = res;
-        console.log("Facilities: ", res);
+        // console.log("Facilities: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class FacilitiesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Facility>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Facility: ", res);
+        // console.log("Facility: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class FacilitiesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Facility>(urlDelete).pipe(
       tap((res) => {
-        console.log("Facility: ", res);
+        // console.log("Facility: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class FacilitiesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Facility[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Facilities: ", res);
+        // console.log("Facilities: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class FacilitiesService {
     return this.http.get<Facility[]>(this.url + "extended").pipe(
       tap((res) => {
         this.facilities = res;
-        console.log("Facilities: ", res);
+        // console.log("Facilities: ", res);
       })
     );
   }

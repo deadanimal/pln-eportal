@@ -189,7 +189,7 @@ export class FacilitiesListComponent implements OnInit {
   /* getAsset() {
     this.assetService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.assets = res;
       },
       (err) => {
@@ -201,7 +201,7 @@ export class FacilitiesListComponent implements OnInit {
   getUser() {
     this.userService.getAll().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         res.forEach((obj) => {
           if (obj.user_type != "CS") this.users.push(obj);
         });
@@ -215,7 +215,7 @@ export class FacilitiesListComponent implements OnInit {
   getVenue() {
     this.venueService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.venues = res;
       },
       (err) => {
@@ -227,7 +227,7 @@ export class FacilitiesListComponent implements OnInit {
   getFacilitySubcategory() {
     this.facilitysubcategoryService.filter("status=true").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.facilitysubcategories = res;
       },
       (err) => {
@@ -333,7 +333,7 @@ export class FacilitiesListComponent implements OnInit {
       this.emptyFacilityPriceFormGroup();
       this.facilitypriceService.filter("facility_id=" + row.id).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.facilityprices = res;
         },
         (err) => {
@@ -346,7 +346,7 @@ export class FacilitiesListComponent implements OnInit {
     } else if (process == "upload") {
       this.facilityimageService.filter("facility_id=" + row.id).subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           this.facilityimages = res;
         },
         (err) => {
@@ -367,7 +367,7 @@ export class FacilitiesListComponent implements OnInit {
   create() {
     this.facilityService.post(this.facilityFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -411,7 +411,7 @@ export class FacilitiesListComponent implements OnInit {
       .update(this.facilityFormGroup.value, this.facilityFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -469,7 +469,7 @@ export class FacilitiesListComponent implements OnInit {
         if (result.value) {
           this.facilityService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -506,7 +506,7 @@ export class FacilitiesListComponent implements OnInit {
   createprice() {
     this.facilitypriceService.post(this.facilitypriceFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -553,7 +553,7 @@ export class FacilitiesListComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -611,7 +611,7 @@ export class FacilitiesListComponent implements OnInit {
         if (result.value) {
           this.facilitypriceService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -662,7 +662,7 @@ export class FacilitiesListComponent implements OnInit {
 
     this.facilityimageService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -704,7 +704,7 @@ export class FacilitiesListComponent implements OnInit {
   deleteimage(image) {
     this.facilityimageService.delete(image.id).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",

@@ -93,7 +93,7 @@ export class VirtualLibraryCollectionsListComponent implements OnInit {
 
     this.virtuallibrarycategoryService.filter("link=koleksi").subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.categories = res;
         if (this.categories) {
           this.virtuallibrarycollectionFormGroup.patchValue({
@@ -178,7 +178,7 @@ export class VirtualLibraryCollectionsListComponent implements OnInit {
       .post(this.virtuallibrarycollectionFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -225,7 +225,7 @@ export class VirtualLibraryCollectionsListComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -283,7 +283,7 @@ export class VirtualLibraryCollectionsListComponent implements OnInit {
         if (result.value) {
           this.virtuallibrarycollectionService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

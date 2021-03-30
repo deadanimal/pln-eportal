@@ -161,7 +161,7 @@ export class VirtualLibraryEsourcesListComponent implements OnInit {
       .post(this.virtuallibraryesourceFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -208,7 +208,7 @@ export class VirtualLibraryEsourcesListComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -266,7 +266,7 @@ export class VirtualLibraryEsourcesListComponent implements OnInit {
         if (result.value) {
           this.virtuallibraryesourceService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

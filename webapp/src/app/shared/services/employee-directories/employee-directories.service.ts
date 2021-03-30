@@ -22,7 +22,7 @@ export class EmployeeDirectoriesService {
   post(body: Form): Observable<EmployeeDirectory> {
     return this.http.post<EmployeeDirectory>(this.url, body).pipe(
       tap((res) => {
-        console.log("EmployeeDirectory: ", res);
+        // console.log("EmployeeDirectory: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class EmployeeDirectoriesService {
     return this.http.get<EmployeeDirectory[]>(this.url).pipe(
       tap((res) => {
         this.employeedirectories = res;
-        console.log("EmployeeDirectories: ", res);
+        // console.log("EmployeeDirectories: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class EmployeeDirectoriesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<EmployeeDirectory>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("EmployeeDirectory: ", res);
+        // console.log("EmployeeDirectory: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class EmployeeDirectoriesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<EmployeeDirectory>(urlDelete).pipe(
       tap((res) => {
-        console.log("EmployeeDirectory: ", res);
+        // console.log("EmployeeDirectory: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class EmployeeDirectoriesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<EmployeeDirectory[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("EmployeeDirectories: ", res);
+        // console.log("EmployeeDirectories: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class EmployeeDirectoriesService {
     return this.http.get<EmployeeDirectory[]>(this.url + "extended").pipe(
       tap((res) => {
         this.employeedirectories = res;
-        console.log("EmployeeDirectories: ", res);
+        // console.log("EmployeeDirectories: ", res);
       })
     );
   }

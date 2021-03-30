@@ -22,7 +22,7 @@ export class VirtualLibraryArticlesService {
   post(body): Observable<VirtualLibraryArticle> {
     return this.http.post<VirtualLibraryArticle>(this.url, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class VirtualLibraryArticlesService {
     return this.http.get<VirtualLibraryArticle[]>(this.url).pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class VirtualLibraryArticlesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<VirtualLibraryArticle>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class VirtualLibraryArticlesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<VirtualLibraryArticle>(urlDelete).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class VirtualLibraryArticlesService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<VirtualLibraryArticle[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class VirtualLibraryArticlesService {
     return this.http.get<VirtualLibraryArticle[]>(this.url + "extended").pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -76,7 +76,7 @@ export class VirtualLibraryArticlesService {
     let urlGetTotalDownloadPdf = this.url + "get_total_download_pdf";
     return this.http.get(urlGetTotalDownloadPdf).pipe(
       tap((res) => {
-        console.log("Total download PDF", res);
+        // console.log("Total download PDF", res);
       })
     );
   }

@@ -202,7 +202,7 @@ export class QuickLinksComponent implements OnInit {
   createCat() {
     this.quicklinkcategoryService.post(this.categoryFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -247,7 +247,7 @@ export class QuickLinksComponent implements OnInit {
       .update(this.categoryFormGroup.value, this.categoryFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -306,7 +306,7 @@ export class QuickLinksComponent implements OnInit {
         if (result.value) {
           this.quicklinkcategoryService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -339,7 +339,7 @@ export class QuickLinksComponent implements OnInit {
   create() {
     this.quicklinkService.post(this.quicklinkFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -384,7 +384,7 @@ export class QuickLinksComponent implements OnInit {
       .update(this.quicklinkFormGroup.value, this.quicklinkFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -443,7 +443,7 @@ export class QuickLinksComponent implements OnInit {
         if (result.value) {
           this.quicklinkService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

@@ -22,7 +22,7 @@ export class PartnersService {
   post(body): Observable<Partner> {
     return this.http.post<Partner>(this.url, body).pipe(
       tap((res) => {
-        console.log("Partner: ", res);
+        // console.log("Partner: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class PartnersService {
     return this.http.get<Partner[]>(this.url).pipe(
       tap((res) => {
         this.partners = res;
-        console.log("Partners: ", res);
+        // console.log("Partners: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class PartnersService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<Partner>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("Partner: ", res);
+        // console.log("Partner: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class PartnersService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<Partner>(urlDelete).pipe(
       tap((res) => {
-        console.log("Partner: ", res);
+        // console.log("Partner: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class PartnersService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<Partner[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Partners: ", res);
+        // console.log("Partners: ", res);
       })
     );
   }
@@ -67,7 +67,7 @@ export class PartnersService {
     return this.http.get<Partner[]>(this.url + "extended").pipe(
       tap((res) => {
         this.partners = res;
-        console.log("Partners: ", res);
+        // console.log("Partners: ", res);
       })
     );
   }

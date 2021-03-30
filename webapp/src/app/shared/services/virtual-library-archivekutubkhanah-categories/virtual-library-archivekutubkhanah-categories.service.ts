@@ -25,7 +25,7 @@ export class VirtualLibraryArchiveKutubkhanahCategoriesService {
       .post<VirtualLibraryArchiveKutubkhanahCategory>(this.url, body)
       .pipe(
         tap((res) => {
-          console.log("Virtual library: ", res);
+          // console.log("Virtual library: ", res);
         })
       );
   }
@@ -36,7 +36,7 @@ export class VirtualLibraryArchiveKutubkhanahCategoriesService {
       .pipe(
         tap((res) => {
           this.virtuallibraries = res;
-          console.log("Virtual libraries: ", res);
+          // console.log("Virtual libraries: ", res);
         })
       );
   }
@@ -50,7 +50,7 @@ export class VirtualLibraryArchiveKutubkhanahCategoriesService {
       .patch<VirtualLibraryArchiveKutubkhanahCategory>(urlPatch, body)
       .pipe(
         tap((res) => {
-          console.log("Virtual library: ", res);
+          // console.log("Virtual library: ", res);
         })
       );
   }
@@ -61,7 +61,7 @@ export class VirtualLibraryArchiveKutubkhanahCategoriesService {
       .delete<VirtualLibraryArchiveKutubkhanahCategory>(urlDelete)
       .pipe(
         tap((res) => {
-          console.log("Virtual library: ", res);
+          // console.log("Virtual library: ", res);
         })
       );
   }
@@ -74,7 +74,7 @@ export class VirtualLibraryArchiveKutubkhanahCategoriesService {
       .get<VirtualLibraryArchiveKutubkhanahCategory[]>(urlFilter)
       .pipe(
         tap((res) => {
-          console.log("Virtual libraries: ", res);
+          // console.log("Virtual libraries: ", res);
         })
       );
   }
@@ -85,7 +85,7 @@ export class VirtualLibraryArchiveKutubkhanahCategoriesService {
       .pipe(
         tap((res) => {
           this.virtuallibraries = res;
-          console.log("Virtual libraries: ", res);
+          // console.log("Virtual libraries: ", res);
         })
       );
   }

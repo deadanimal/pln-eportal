@@ -23,7 +23,7 @@ export class VirtualLibrarySerialpublicationsService {
   post(body): Observable<VirtualLibrarySerialpublication> {
     return this.http.post<VirtualLibrarySerialpublication>(this.url, body).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -32,7 +32,7 @@ export class VirtualLibrarySerialpublicationsService {
     return this.http.get<VirtualLibrarySerialpublication[]>(this.url).pipe(
       tap((res) => {
         this.virtuallibraries = res;
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -43,7 +43,7 @@ export class VirtualLibrarySerialpublicationsService {
       .patch<VirtualLibrarySerialpublication>(urlPatch, body)
       .pipe(
         tap((res) => {
-          console.log("Virtual library: ", res);
+          // console.log("Virtual library: ", res);
         })
       );
   }
@@ -52,7 +52,7 @@ export class VirtualLibrarySerialpublicationsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<VirtualLibrarySerialpublication>(urlDelete).pipe(
       tap((res) => {
-        console.log("Virtual library: ", res);
+        // console.log("Virtual library: ", res);
       })
     );
   }
@@ -61,7 +61,7 @@ export class VirtualLibrarySerialpublicationsService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<VirtualLibrarySerialpublication[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("Virtual libraries: ", res);
+        // console.log("Virtual libraries: ", res);
       })
     );
   }
@@ -72,7 +72,7 @@ export class VirtualLibrarySerialpublicationsService {
       .pipe(
         tap((res) => {
           this.virtuallibraries = res;
-          console.log("Virtual libraries: ", res);
+          // console.log("Virtual libraries: ", res);
         })
       );
   }
@@ -81,7 +81,7 @@ export class VirtualLibrarySerialpublicationsService {
     let urlGetTotalDownloadPdf = this.url + "get_total_download_pdf";
     return this.http.get(urlGetTotalDownloadPdf).pipe(
       tap((res) => {
-        console.log("Total download PDF", res);
+        // console.log("Total download PDF", res);
       })
     );
   }

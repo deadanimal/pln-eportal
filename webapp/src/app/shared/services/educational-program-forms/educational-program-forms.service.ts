@@ -24,7 +24,7 @@ export class EducationalProgramFormsService {
   create(body): Observable<EducationalProgramForm> {
     return this.http.post<EducationalProgramForm>(this.url, body).pipe(
       tap((res) => {
-        console.log("Educational program form: ", res);
+        // console.log("Educational program form: ", res);
       })
     );
   }
@@ -33,7 +33,7 @@ export class EducationalProgramFormsService {
     return this.http.get<EducationalProgramForm[]>(this.url).pipe(
       tap((res) => {
         this.programforms = res;
-        console.log("Educational program forms: ", this.programforms);
+        // console.log("Educational program forms: ", this.programforms);
       })
     );
   }
@@ -43,7 +43,7 @@ export class EducationalProgramFormsService {
     return this.http.get<EducationalProgramForm>(urlID).pipe(
       tap((res) => {
         this.programform = res;
-        console.log("Educational program form: ", this.programform);
+        // console.log("Educational program form: ", this.programform);
       })
     );
   }
@@ -53,7 +53,7 @@ export class EducationalProgramFormsService {
     return this.http.patch<EducationalProgramForm>(urlPatch, body).pipe(
       tap((res) => {
         this.programform = res;
-        console.log("Educational program forms: ", this.programform);
+        // console.log("Educational program forms: ", this.programform);
       })
     );
   }
@@ -62,7 +62,7 @@ export class EducationalProgramFormsService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<EducationalProgramForm>(urlDelete).pipe(
       tap((res) => {
-        console.log("Educational prgoram: ", res);
+        // console.log("Educational prgoram: ", res);
       })
     );
   }
@@ -72,7 +72,7 @@ export class EducationalProgramFormsService {
     return this.http.get<EducationalProgramForm[]>(urlFilter).pipe(
       tap((res) => {
         this.programformsFiltered;
-        console.log("Educational programs", this.programformsFiltered);
+        // console.log("Educational programs", this.programformsFiltered);
       })
     );
   }
@@ -81,7 +81,7 @@ export class EducationalProgramFormsService {
     return this.http.get<EducationalProgramForm[]>(this.url + 'extended').pipe(
       tap((res) => {
         this.programforms = res
-        console.log('Educational program forms: ', res)
+        // console.log('Educational program forms: ', res)
       })
     )
   }

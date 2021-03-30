@@ -129,7 +129,7 @@ export class PublicationsComponent implements OnInit {
       .post(this.publicationcategoryFormGroup.value)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -176,7 +176,7 @@ export class PublicationsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -234,7 +234,7 @@ export class PublicationsComponent implements OnInit {
         if (result.value) {
           this.publicationcategoryService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

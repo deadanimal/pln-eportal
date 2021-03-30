@@ -245,7 +245,7 @@ export class PublicationsListComponent implements OnInit {
 
     this.publicationService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -329,7 +329,7 @@ export class PublicationsListComponent implements OnInit {
       .update(formData, this.publicationFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -387,7 +387,7 @@ export class PublicationsListComponent implements OnInit {
         if (result.value) {
           this.publicationService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",
@@ -439,7 +439,7 @@ export class PublicationsListComponent implements OnInit {
       .update(formData, this.publicationPDFFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -490,7 +490,7 @@ export class PublicationsListComponent implements OnInit {
       .update(formData, this.publicationPosterFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",

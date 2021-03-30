@@ -125,7 +125,7 @@ export class RatingsComponent implements OnInit {
   create() {
     this.ratingService.post(this.ratingFormGroup.value).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -169,7 +169,7 @@ export class RatingsComponent implements OnInit {
       .update(this.ratingFormGroup.value, this.ratingFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",

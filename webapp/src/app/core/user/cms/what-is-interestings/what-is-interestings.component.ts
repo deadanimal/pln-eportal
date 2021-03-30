@@ -97,7 +97,7 @@ export class WhatIsInterestingsComponent implements OnInit {
   getData() {
     this.whatisinterestingService.get().subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         this.tableRows = res;
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
@@ -196,7 +196,7 @@ export class WhatIsInterestingsComponent implements OnInit {
 
     this.whatisinterestingService.post(formData).subscribe(
       (res) => {
-        console.log("res", res);
+        // console.log("res", res);
         swal
           .fire({
             title: "Berjaya",
@@ -262,7 +262,7 @@ export class WhatIsInterestingsComponent implements OnInit {
       .update(formData, this.whatisinterestingFormGroup.value.id)
       .subscribe(
         (res) => {
-          console.log("res", res);
+          // console.log("res", res);
           swal
             .fire({
               title: "Berjaya",
@@ -320,7 +320,7 @@ export class WhatIsInterestingsComponent implements OnInit {
         if (result.value) {
           this.whatisinterestingService.delete(row.id).subscribe(
             (res) => {
-              console.log("res", res);
+              // console.log("res", res);
               swal.fire({
                 title: "Proses Buang berjaya",
                 text: "Data anda berjaya dibuang.",

@@ -22,7 +22,7 @@ export class SimulatorRideTimesService {
   post(body: Form): Observable<SimulatorRideTime> {
     return this.http.post<SimulatorRideTime>(this.url, body).pipe(
       tap((res) => {
-        console.log("SimulatorRideTime: ", res);
+        // console.log("SimulatorRideTime: ", res);
       })
     );
   }
@@ -31,7 +31,7 @@ export class SimulatorRideTimesService {
     return this.http.get<SimulatorRideTime[]>(this.url).pipe(
       tap((res) => {
         this.simulatorridetimes = res;
-        console.log("SimulatorRideTimes: ", res);
+        // console.log("SimulatorRideTimes: ", res);
       })
     );
   }
@@ -40,7 +40,7 @@ export class SimulatorRideTimesService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<SimulatorRideTime>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("SimulatorRideTime: ", res);
+        // console.log("SimulatorRideTime: ", res);
       })
     );
   }
@@ -49,7 +49,7 @@ export class SimulatorRideTimesService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<SimulatorRideTime>(urlDelete).pipe(
       tap((res) => {
-        console.log("SimulatorRideTime: ", res);
+        // console.log("SimulatorRideTime: ", res);
       })
     );
   }
@@ -58,7 +58,7 @@ export class SimulatorRideTimesService {
     let urlFilter = this.url + '?' + field;
     return this.http.get<SimulatorRideTime[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("SimulatorRideTimes: ", res);
+        // console.log("SimulatorRideTimes: ", res);
       })
     );
   }

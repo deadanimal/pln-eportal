@@ -25,7 +25,7 @@ export class ShowtimesService {
   post(body: Form): Observable<Showtime> {
     return this.http.post<Showtime>(this.url, body).pipe(
       tap((res) => {
-        console.log('Showtime: ', res)
+        // console.log('Showtime: ', res)
       })
     )
   }
@@ -34,7 +34,7 @@ export class ShowtimesService {
     return this.http.get<Showtime[]>(this.url).pipe(
       tap((res) => {
         this.showtimes = res
-        console.log('Showtimes: ', res)
+        // console.log('Showtimes: ', res)
       })
     )
   }
@@ -43,7 +43,7 @@ export class ShowtimesService {
     let urlPatch = this.url + id + '/'
     return this.http.patch<Showtime>(urlPatch, body).pipe(
       tap((res) => {
-        console.log('Showtime: ', res)
+        // console.log('Showtime: ', res)
       })
     )
   }
@@ -52,7 +52,7 @@ export class ShowtimesService {
     let urlDelete = this.url + id + '/'
     return this.http.delete<Showtime>(urlDelete).pipe(
       tap((res) => {
-        console.log('Showtime: ', res)
+        // console.log('Showtime: ', res)
       })
     )
   }
@@ -61,7 +61,7 @@ export class ShowtimesService {
     return this.http.get<Showtime[]>(this.url + 'extended').pipe(
       tap((res) => {
         this.showtimes = res
-        console.log('Showtimes: ', res)
+        // console.log('Showtimes: ', res)
       })
     )
   }
