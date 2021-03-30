@@ -103,7 +103,7 @@
                 <span>Deskripsi MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.description_ms }}
+                {{ row.description_ms | slice: 0:200 }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -185,6 +185,7 @@
       <div class="form-group">
         <label class="form-control-label">Deskripsi MS</label>
         <textarea
+          rows="5"
           class="form-control"
           formControlName="description_ms"
           placeholder="Deskripsi MS"
@@ -202,6 +203,7 @@
       <div class="form-group">
         <label class="form-control-label">Deskripsi EN</label>
         <textarea
+          rows="5"
           class="form-control"
           formControlName="description_en"
           placeholder="Deskripsi EN"
@@ -319,6 +321,7 @@
       <div class="form-group">
         <label class="form-control-label">Deskripsi MS</label>
         <textarea
+          rows="5"
           class="form-control"
           formControlName="description_ms"
           placeholder="Deskripsi MS"
@@ -336,6 +339,7 @@
       <div class="form-group">
         <label class="form-control-label">Deskripsi EN</label>
         <textarea
+          rows="5"
           class="form-control"
           formControlName="description_en"
           placeholder="Deskripsi EN"
@@ -440,6 +444,17 @@
   </div>
 
   <div class="modal-body">
+    <div class="alert alert-danger" role="alert">
+      <h2 class="text-white">Nota</h2>
+
+      <ol class="pl-3">
+        <li>
+          Ukuran poster mestilah bersaiz sekurang-kurangnya
+          <b>1080 x 720 px</b>
+        </li>
+        <li>Saiz fail poster mestilah kurang daripada <b>2 MB</b> sahaja.</li>
+      </ol>
+    </div>
     <form [formGroup]="showingposterFormGroup">
       <div class="form-group">
         <label class="form-control-label">Pilih poster</label><br />

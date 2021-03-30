@@ -606,6 +606,15 @@
   </div>
 
   <div class="modal-body">
+    <div class="alert alert-danger" role="alert">
+      <h2 class="text-white">Nota</h2>
+
+      <ol class="pl-3">
+        <li>
+          Saiz fail PDF mestilah kurang daripada <b>2 MB</b> sahaja.
+        </li>
+      </ol>
+    </div>
     <form [formGroup]="virtuallibrarybookPDFFormGroup">
       <div class="form-group">
         <label class="form-control-label">Pilih PDF</label><br />
@@ -653,6 +662,19 @@
   </div>
 
   <div class="modal-body">
+    <div class="alert alert-danger" role="alert">
+      <h2 class="text-white">Nota</h2>
+
+      <ol class="pl-3">
+        <li>
+          Ukuran gambar mestilah bersaiz sekurang-kurangnya
+          <b>1080 x 720 px</b>
+        </li>
+        <li>
+          Saiz fail gambar mestilah kurang daripada <b>2 MB</b> sahaja.
+        </li>
+      </ol>
+    </div>
     <form [formGroup]="virtuallibrarybookImageFormGroup">
       <div class="form-group">
         <label class="form-control-label">Pilih gambar</label><br />
