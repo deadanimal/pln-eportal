@@ -187,10 +187,16 @@ export class PublicationsListComponent implements OnInit {
             : "",
       });
     } else if (process == "uploadpdf") {
+      this.publicationFormGroup.patchValue({
+        ...row,
+      });
       this.publicationPDFFormGroup.patchValue({
         id: row.id,
       });
     } else if (process == "uploadposter") {
+      this.publicationFormGroup.patchValue({
+        ...row,
+      });
       this.publicationPosterFormGroup.patchValue({
         id: row.id,
       });
@@ -206,8 +212,14 @@ export class PublicationsListComponent implements OnInit {
     const formData = new FormData();
     formData.append("title_en", this.publicationFormGroup.value.title_en);
     formData.append("title_ms", this.publicationFormGroup.value.title_ms);
-    formData.append("description_en", this.publicationFormGroup.value.description_en);
-    formData.append("description_ms", this.publicationFormGroup.value.description_ms);
+    formData.append(
+      "description_en",
+      this.publicationFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.publicationFormGroup.value.description_ms
+    );
     formData.append("call_number", this.publicationFormGroup.value.call_number);
     formData.append("abstract_en", this.publicationFormGroup.value.abstract_en);
     formData.append("abstract_ms", this.publicationFormGroup.value.abstract_ms);
@@ -288,8 +300,14 @@ export class PublicationsListComponent implements OnInit {
     const formData = new FormData();
     formData.append("title_en", this.publicationFormGroup.value.title_en);
     formData.append("title_ms", this.publicationFormGroup.value.title_ms);
-    formData.append("description_en", this.publicationFormGroup.value.description_en);
-    formData.append("description_ms", this.publicationFormGroup.value.description_ms);
+    formData.append(
+      "description_en",
+      this.publicationFormGroup.value.description_en
+    );
+    formData.append(
+      "description_ms",
+      this.publicationFormGroup.value.description_ms
+    );
     formData.append("call_number", this.publicationFormGroup.value.call_number);
     formData.append("abstract_en", this.publicationFormGroup.value.abstract_en);
     formData.append("abstract_ms", this.publicationFormGroup.value.abstract_ms);
@@ -478,6 +496,44 @@ export class PublicationsListComponent implements OnInit {
       );
   }
 
+  deletePDFProcess() {
+    let body = {
+      pdf_link: null,
+    };
+    this.publicationService
+      .update(body, this.publicationFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal.fire({
+            title: "Proses Buang berjaya",
+            text: "PDF anda berjaya dibuang.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        },
+        (err) => {
+          console.error("err", err);
+          swal.fire({
+            title: "Proses Buang tidak berjaya",
+            text: "PDF anda tidak berjaya dibuang. Sila cuba lagi.",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          });
+        },
+        () => {
+          this.modal.hide();
+          this.getData();
+        }
+      );
+  }
+
   uploadPosterProcess() {
     const formData = new FormData();
     formData.append(
@@ -525,6 +581,44 @@ export class PublicationsListComponent implements OnInit {
                 // this.modal.hide();
               }
             });
+        }
+      );
+  }
+
+  deletePosterProcess() {
+    let body = {
+      poster_link: null,
+    };
+    this.publicationService
+      .update(body, this.publicationFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal.fire({
+            title: "Proses Buang berjaya",
+            text: "Poster anda berjaya dibuang.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        },
+        (err) => {
+          console.error("err", err);
+          swal.fire({
+            title: "Proses Buang tidak berjaya",
+            text: "Poster anda tidak berjaya dibuang. Sila cuba lagi.",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          });
+        },
+        () => {
+          this.modal.hide();
+          this.getData();
         }
       );
   }

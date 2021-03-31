@@ -378,12 +378,12 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
@@ -582,12 +582,12 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
@@ -616,6 +616,24 @@
       </ol>
     </div>
     <form [formGroup]="virtuallibraryserialpublicationPDFFormGroup">
+      <div
+        class="row pb-3"
+        *ngIf="virtuallibraryserialpublicationFormGroup.value.pdf_link"
+      >
+        <div class="col-auto text-align-center">
+          <a
+            [href]="virtuallibraryserialpublicationFormGroup.value.pdf_link"
+            target="_blank"
+          >
+            <i class="fas fa-file-pdf text-danger fa-3x"></i>
+          </a>
+        </div>
+        <div class="col">
+          <p class="mb-0">
+            Sila klik pada ikon PDF untuk lihat PDF yang telah dimuat-naik.
+          </p>
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-control-label">Pilih PDF</label><br />
         <input
@@ -632,14 +650,22 @@
     <button class="btn btn-success" type="button" (click)="uploadPDFProcess()">
       Simpan
     </button>
+    <button
+      *ngIf="virtuallibraryserialpublicationFormGroup.value.pdf_link"
+      class="btn btn-danger"
+      type="button"
+      (click)="deletePDFProcess()"
+    >
+      Buang
+    </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
@@ -674,6 +700,17 @@
       </ol>
     </div>
     <form [formGroup]="virtuallibraryserialpublicationImageFormGroup">
+      <div
+        class="row pb-3"
+        *ngIf="virtuallibraryserialpublicationFormGroup.value.image_link"
+      >
+        <div class="col">
+          <img
+            [src]="virtuallibraryserialpublicationFormGroup.value.image_link"
+            style="width: 100%"
+          />
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-control-label">Pilih gambar</label><br />
         <input
@@ -694,14 +731,22 @@
     >
       Simpan
     </button>
+    <button
+      *ngIf="virtuallibraryserialpublicationFormGroup.value.image_link"
+      class="btn btn-danger"
+      type="button"
+      (click)="deleteImageProcess()"
+    >
+      Buang
+    </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>

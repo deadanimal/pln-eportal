@@ -212,10 +212,16 @@ export class VirtualLibraryBooksListComponent implements OnInit {
         pdf_link: row.pdf_link != null ? row.pdf_link : "",
       });
     } else if (process == "uploadpdf") {
+      this.virtuallibrarybookFormGroup.patchValue({
+        ...row,
+      });
       this.virtuallibrarybookPDFFormGroup.patchValue({
         id: row.id,
       });
     } else if (process == "uploadimage") {
+      this.virtuallibrarybookFormGroup.patchValue({
+        ...row,
+      });
       this.virtuallibrarybookImageFormGroup.patchValue({
         id: row.id,
       });
@@ -229,8 +235,14 @@ export class VirtualLibraryBooksListComponent implements OnInit {
 
   create() {
     const formData = new FormData();
-    formData.append("title_en", this.virtuallibrarybookFormGroup.value.title_en);
-    formData.append("title_ms", this.virtuallibrarybookFormGroup.value.title_ms);
+    formData.append(
+      "title_en",
+      this.virtuallibrarybookFormGroup.value.title_en
+    );
+    formData.append(
+      "title_ms",
+      this.virtuallibrarybookFormGroup.value.title_ms
+    );
     formData.append(
       "description_en",
       this.virtuallibrarybookFormGroup.value.description_en
@@ -327,8 +339,14 @@ export class VirtualLibraryBooksListComponent implements OnInit {
 
   update() {
     const formData = new FormData();
-    formData.append("title_en", this.virtuallibrarybookFormGroup.value.title_en);
-    formData.append("title_ms", this.virtuallibrarybookFormGroup.value.title_ms);
+    formData.append(
+      "title_en",
+      this.virtuallibrarybookFormGroup.value.title_en
+    );
+    formData.append(
+      "title_ms",
+      this.virtuallibrarybookFormGroup.value.title_ms
+    );
     formData.append(
       "description_en",
       this.virtuallibrarybookFormGroup.value.description_en
@@ -535,6 +553,44 @@ export class VirtualLibraryBooksListComponent implements OnInit {
       );
   }
 
+  deletePDFProcess() {
+    let body = {
+      pdf_link: null,
+    };
+    this.virtuallibrarybookService
+      .update(body, this.virtuallibrarybookFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal.fire({
+            title: "Proses Buang berjaya",
+            text: "PDF anda berjaya dibuang.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        },
+        (err) => {
+          console.error("err", err);
+          swal.fire({
+            title: "Proses Buang tidak berjaya",
+            text: "PDF anda tidak berjaya dibuang. Sila cuba lagi.",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          });
+        },
+        () => {
+          this.modal.hide();
+          this.getData();
+        }
+      );
+  }
+
   uploadImageProcess() {
     const formData = new FormData();
     formData.append(
@@ -582,6 +638,44 @@ export class VirtualLibraryBooksListComponent implements OnInit {
                 // this.modal.hide();
               }
             });
+        }
+      );
+  }
+
+  deleteImageProcess() {
+    let body = {
+      image_link: null,
+    };
+    this.virtuallibrarybookService
+      .update(body, this.virtuallibrarybookFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal.fire({
+            title: "Proses Buang berjaya",
+            text: "Gambar anda berjaya dibuang.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        },
+        (err) => {
+          console.error("err", err);
+          swal.fire({
+            title: "Proses Buang tidak berjaya",
+            text: "Gambar anda tidak berjaya dibuang. Sila cuba lagi.",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          });
+        },
+        () => {
+          this.modal.hide();
+          this.getData();
         }
       );
   }

@@ -376,12 +376,12 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
@@ -580,12 +580,12 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
@@ -610,12 +610,25 @@
       <h2 class="text-white">Nota</h2>
 
       <ol class="pl-3">
-        <li>
-          Saiz fail PDF mestilah kurang daripada <b>2 MB</b> sahaja.
-        </li>
+        <li>Saiz fail PDF mestilah kurang daripada <b>2 MB</b> sahaja.</li>
       </ol>
     </div>
     <form [formGroup]="virtuallibrarybookPDFFormGroup">
+      <div class="row pb-3" *ngIf="virtuallibrarybookFormGroup.value.pdf_link">
+        <div class="col-auto text-align-center">
+          <a
+            [href]="virtuallibrarybookFormGroup.value.pdf_link"
+            target="_blank"
+          >
+            <i class="fas fa-file-pdf text-danger fa-3x"></i>
+          </a>
+        </div>
+        <div class="col">
+          <p class="mb-0">
+            Sila klik pada ikon PDF untuk lihat PDF yang telah dimuat-naik.
+          </p>
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-control-label">Pilih PDF</label><br />
         <input
@@ -632,14 +645,22 @@
     <button class="btn btn-success" type="button" (click)="uploadPDFProcess()">
       Simpan
     </button>
+    <button
+      *ngIf="virtuallibrarybookFormGroup.value.pdf_link"
+      class="btn btn-danger"
+      type="button"
+      (click)="deletePDFProcess()"
+    >
+      Buang
+    </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
@@ -670,12 +691,21 @@
           Ukuran gambar mestilah bersaiz sekurang-kurangnya
           <b>1080 x 720 px</b>
         </li>
-        <li>
-          Saiz fail gambar mestilah kurang daripada <b>2 MB</b> sahaja.
-        </li>
+        <li>Saiz fail gambar mestilah kurang daripada <b>2 MB</b> sahaja.</li>
       </ol>
     </div>
     <form [formGroup]="virtuallibrarybookImageFormGroup">
+      <div
+        class="row pb-3"
+        *ngIf="virtuallibrarybookFormGroup.value.image_link"
+      >
+        <div class="col">
+          <img
+            [src]="virtuallibrarybookFormGroup.value.image_link"
+            style="width: 100%"
+          />
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-control-label">Pilih gambar</label><br />
         <input
@@ -696,14 +726,22 @@
     >
       Simpan
     </button>
+    <button
+      *ngIf="virtuallibrarybookFormGroup.value.image_link"
+      class="btn btn-danger"
+      type="button"
+      (click)="deleteImageProcess()"
+    >
+      Buang
+    </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>

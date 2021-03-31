@@ -214,10 +214,16 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
         pdf_link: row.pdf_link != null ? row.pdf_link : "",
       });
     } else if (process == "uploadpdf") {
+      this.virtuallibraryserialpublicationFormGroup.patchValue({
+        ...row,
+      });
       this.virtuallibraryserialpublicationPDFFormGroup.patchValue({
         id: row.id,
       });
     } else if (process == "uploadimage") {
+      this.virtuallibraryserialpublicationFormGroup.patchValue({
+        ...row,
+      });
       this.virtuallibraryserialpublicationImageFormGroup.patchValue({
         id: row.id,
       });
@@ -605,6 +611,44 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
       );
   }
 
+  deletePDFProcess() {
+    let body = {
+      pdf_link: null,
+    };
+    this.virtuallibraryserialpublicationService
+      .update(body, this.virtuallibraryserialpublicationFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal.fire({
+            title: "Proses Buang berjaya",
+            text: "PDF anda berjaya dibuang.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        },
+        (err) => {
+          console.error("err", err);
+          swal.fire({
+            title: "Proses Buang tidak berjaya",
+            text: "PDF anda tidak berjaya dibuang. Sila cuba lagi.",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          });
+        },
+        () => {
+          this.modal.hide();
+          this.getData();
+        }
+      );
+  }
+
   uploadImageProcess() {
     const formData = new FormData();
     formData.append(
@@ -658,6 +702,44 @@ export class VirtualLibrarySerialpublicationsListComponent implements OnInit {
                 // this.modal.hide();
               }
             });
+        }
+      );
+  }
+
+  deleteImageProcess() {
+    let body = {
+      image_link: null,
+    };
+    this.virtuallibraryserialpublicationService
+      .update(body, this.virtuallibraryserialpublicationFormGroup.value.id)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal.fire({
+            title: "Proses Buang berjaya",
+            text: "Gambar anda berjaya dibuang.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        },
+        (err) => {
+          console.error("err", err);
+          swal.fire({
+            title: "Proses Buang tidak berjaya",
+            text: "Gambar anda tidak berjaya dibuang. Sila cuba lagi.",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          });
+        },
+        () => {
+          this.modal.hide();
+          this.getData();
         }
       );
   }

@@ -103,7 +103,9 @@
                 <span>Deskripsi MS</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <div [innerHtml]="row.description_ms | slice: 0:200 | safe: 'html'"></div>
+                <div
+                  [innerHtml]="row.description_ms | slice: 0:200 | safe: 'html'"
+                ></div>
               </ng-template>
             </ngx-datatable-column>
 
@@ -219,7 +221,10 @@
         <label class="form-control-label required-field">Sub Modul</label>
         <select class="form-control" formControlName="submodule">
           <option value="">Sila pilih</option>
-          <option *ngFor="let submodule of submodulelists" [value]="submodule.value">
+          <option
+            *ngFor="let submodule of submodulelists"
+            [value]="submodule.value"
+          >
             {{ submodule.display_name }}
           </option>
         </select>
@@ -262,12 +267,12 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
@@ -329,7 +334,10 @@
         <label class="form-control-label required-field">Sub Modul</label>
         <select class="form-control" formControlName="submodule">
           <option value="">Sila pilih</option>
-          <option *ngFor="let submodule of submodulelists" [value]="submodule.value">
+          <option
+            *ngFor="let submodule of submodulelists"
+            [value]="submodule.value"
+          >
             {{ submodule.display_name }}
           </option>
         </select>
@@ -372,12 +380,12 @@
     </button>
 
     <button
-      class="btn btn-outline-danger ml-auto"
+      class="btn btn-outline-primary ml-auto"
       data-dismiss="modal"
       type="button"
       (click)="closeModal()"
     >
-      Batal
+      Tutup
     </button>
   </div>
 </ng-template>
