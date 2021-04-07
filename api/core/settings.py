@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'integrations',
     'errorlogs',
     'posdailyreports',
+    'dailyoperatingreports',
 
     'django_cleanup.apps.CleanupConfig'
 ]

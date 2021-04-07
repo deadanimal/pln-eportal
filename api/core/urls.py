@@ -515,6 +515,35 @@ pos_daily_reports_router = router.register(
     'pos-daily-reports', PosDailyReportViewSet
 )
 
+# Daily Operating Report app
+from dailyoperatingreports.views import (
+    DailyOperatingReportViewSet,
+    ContractorViewSet,
+    OperatingScheduleViewSet,
+    VisitorSummaryViewSet,
+    DetailReportViewSet
+)
+
+daily_operating_reports_router = router.register(
+    'daily-operating-reports', DailyOperatingReportViewSet
+)
+
+contractors_router = router.register(
+    'contractors', ContractorViewSet
+)
+
+operating_schedules_router = router.register(
+    'operating-schedules', OperatingScheduleViewSet
+)
+
+visitor_summaries_router = router.register(
+    'visitor-summaries', VisitorSummaryViewSet
+)
+
+detail_reports_router = router.register(
+    'detail-reports', DetailReportViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),
