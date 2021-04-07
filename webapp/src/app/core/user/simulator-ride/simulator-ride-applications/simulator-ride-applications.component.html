@@ -187,6 +187,13 @@
                 >
                   Sunting
                 </button>
+                <a
+                  class="btn btn-sm btn-info"
+                  [href]="generateTicketURL + row.id"
+                  target="_blank"
+                  *ngIf="displayPrintTicket(row.status)"
+                  >Cetak Tiket</a
+                >
                 <button
                   class="btn btn-sm btn-warning"
                   (click)="openModal(createRefund, 'refund', row)"

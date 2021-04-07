@@ -5,11 +5,12 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
-import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
-import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
+import { DailyOperatingReportsService } from "src/app/shared/services/daily-operating-reports/daily-operating-reports.service";
+import { VisitorSummariesService } from "src/app/shared/services/visitor-summaries/visitor-summaries.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,44 +21,40 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-receipts-list",
-  templateUrl: "./receipts-list.component.html",
-  styleUrls: ["./receipts-list.component.scss"],
+  selector: "app-visitor-summaries",
+  templateUrl: "./visitor-summaries.component.html",
+  styleUrls: ["./visitor-summaries.component.scss"],
 })
-export class ReceiptsListComponent implements OnInit {
+export class VisitorSummariesComponent implements OnInit {
   // Data
-  generateReportURL =
-    environment.baseUrl +
-    "v1/invoice-receipts/generate_summarized_transaction_report/";
-  generateReceiptURL =
-    environment.baseUrl + "v1/invoice-receipts/generate_receipt/?id=";
+  dailyoperatingreport = [];
 
   // Dropdown
-  statuses = [
+  services = [
     {
-      value: "IC",
-      display_name: "Invois Dicipta",
+      value: "M & E",
+      display_name: "M & E",
     },
     {
-      value: "PP",
-      display_name: "Pembayaran Belum Selesai",
+      value: "Safety",
+      display_name: "Keselamatan",
     },
     {
-      value: "PS",
-      display_name: "Pembayaran Berjaya",
+      value: "Cleaning",
+      display_name: "Kebersihan",
     },
     {
-      value: "PR",
-      display_name: "Pembayaran Ditolak",
+      value: "Landscape",
+      display_name: "Landskap",
     },
     {
-      value: "RC",
-      display_name: "Resit Dicipta",
+      value: "NA",
+      display_name: "Tiada",
     },
   ];
 
   // FormGroup
-  invoicereceiptFormGroup: FormGroup;
+  visitorsummaryFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -78,11 +75,35 @@ export class ReceiptsListComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private invoicereceiptService: InvoiceReceiptsService
+    private route: ActivatedRoute,
+    private visitorsummaryService: VisitorSummariesService,
+    private dailyoperatingreportService: DailyOperatingReportsService
   ) {
-    this.invoicereceiptFormGroup = this.formBuilder.group({
-      id: new FormControl("", Validators.compose([Validators.required])),
+    this.getDailyOperatingReport();
+
+    this.visitorsummaryFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      visitor_summary_show: new FormControl(0),
+      visitor_summary_space_pod: new FormControl(0),
+      visitor_summary_exhibition: new FormControl(0),
+      visitor_summary_kutubkhanah: new FormControl(0),
+      visitor_summary_all: new FormControl(0),
+      daily_operating_report_id: new FormControl(""),
     });
+  }
+
+  getDailyOperatingReport() {
+    this.dailyoperatingreportService
+      .filter("id=" + this.route.snapshot.paramMap.get("id"))
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.dailyoperatingreport = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   ngOnInit() {
@@ -90,7 +111,7 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   getData() {
-    this.invoicereceiptService.extended("status=RC").subscribe((res) => {
+    this.visitorsummaryService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -133,10 +154,13 @@ export class ReceiptsListComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.invoicereceiptFormGroup.reset();
+      this.visitorsummaryFormGroup.patchValue({
+        daily_operating_report_id: this.route.snapshot.paramMap.get("id"),
+      });
     } else if (process == "update") {
-      this.invoicereceiptFormGroup.patchValue({
+      this.visitorsummaryFormGroup.patchValue({
         ...row,
+        daily_operating_report_id: this.route.snapshot.paramMap.get("id"),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -147,8 +171,8 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   create() {
-    this.invoicereceiptService
-      .post(this.invoicereceiptFormGroup.value)
+    this.visitorsummaryService
+      .post(this.visitorsummaryFormGroup.value)
       .subscribe(
         (res) => {
           // console.log("res", res);
@@ -191,10 +215,10 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   update() {
-    this.invoicereceiptService
+    this.visitorsummaryService
       .update(
-        this.invoicereceiptFormGroup.value,
-        this.invoicereceiptFormGroup.value.id
+        this.visitorsummaryFormGroup.value,
+        this.visitorsummaryFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -254,7 +278,7 @@ export class ReceiptsListComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.invoicereceiptService.delete(row.id).subscribe(
+          this.visitorsummaryService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -283,12 +307,5 @@ export class ReceiptsListComponent implements OnInit {
           );
         }
       });
-  }
-
-  getStatus(value: string) {
-    let result = this.statuses.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
   }
 }

@@ -12,6 +12,9 @@ import { forkJoin } from "rxjs";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
+  // Icons
+  password: boolean = false;
+
   // Image
   imgLogo: string = "assets/img/logo/planetarium-logo.png";
 
@@ -128,5 +131,9 @@ export class LoginComponent implements OnInit {
       },
       () => {}
     );
+  }
+
+  changePasswordIcon() {
+    this.password = !this.password;
   }
 }

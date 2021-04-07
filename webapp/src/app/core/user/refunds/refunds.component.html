@@ -168,7 +168,10 @@
                 <span>Petugas</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.incharge_id.full_name }}
+                <span *ngIf="row.incharge_id; else no_incharge_id">
+                  {{ row.incharge_id.full_name }}
+                </span>
+                <ng-template #no_incharge_id>Tiada</ng-template>
               </ng-template>
             </ngx-datatable-column>
 
@@ -589,6 +592,7 @@
   </div>
 
   <div class="modal-body">
+    <h1>No. Resit: <span class="float-right">{{ invoicereceipts[0]?.receipt_running_no }}</span></h1>
     <div class="table-responsive">
       <table style="width: 100%">
         <tbody>
@@ -699,6 +703,7 @@
   </div>
 
   <div class="modal-body">
+    <h1>No. Resit: <span class="float-right">{{ invoicereceipts[0]?.receipt_running_no }}</span></h1>
     <div class="table-responsive">
       <table style="width: 100%">
         <tbody>
@@ -785,6 +790,7 @@
   </div>
 
   <div class="modal-body">
+    <h1>No. Resit: <span class="float-right">{{ invoicereceipts[0]?.receipt_running_no }}</span></h1>
     <div class="table-responsive">
       <table style="width: 100%">
         <tbody>

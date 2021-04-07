@@ -279,9 +279,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: "reports",
     isCollapsed: true,
     children: [
-      { path: "operation", title: "Operasi", type: "link" },
-      { path: "analysis", title: "Analisa", type: "link" },
-      { path: "ticket-sales", title: "Penjualan Tiket", type: "link" },
+      { path: "daily-operatings", title: "Laporan Harian Operasi", type: "link" },
     ],
     role: ['DR', 'SA', 'FA', 'TA', 'TC', 'VA', 'EP', 'EA', 'PK', 'SV']
   },

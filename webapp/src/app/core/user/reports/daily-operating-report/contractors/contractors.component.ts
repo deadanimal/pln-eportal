@@ -5,11 +5,12 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
-import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
-import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
+import { ContractorsService } from "src/app/shared/services/contractors/contractors.service";
+import { DailyOperatingReportsService } from "src/app/shared/services/daily-operating-reports/daily-operating-reports.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,44 +21,40 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-receipts-list",
-  templateUrl: "./receipts-list.component.html",
-  styleUrls: ["./receipts-list.component.scss"],
+  selector: "app-contractors",
+  templateUrl: "./contractors.component.html",
+  styleUrls: ["./contractors.component.scss"],
 })
-export class ReceiptsListComponent implements OnInit {
+export class ContractorsComponent implements OnInit {
   // Data
-  generateReportURL =
-    environment.baseUrl +
-    "v1/invoice-receipts/generate_summarized_transaction_report/";
-  generateReceiptURL =
-    environment.baseUrl + "v1/invoice-receipts/generate_receipt/?id=";
+  dailyoperatingreport = [];
 
   // Dropdown
-  statuses = [
+  services = [
     {
-      value: "IC",
-      display_name: "Invois Dicipta",
+      value: "M & E",
+      display_name: "M & E",
     },
     {
-      value: "PP",
-      display_name: "Pembayaran Belum Selesai",
+      value: "Safety",
+      display_name: "Keselamatan",
     },
     {
-      value: "PS",
-      display_name: "Pembayaran Berjaya",
+      value: "Cleaning",
+      display_name: "Kebersihan",
     },
     {
-      value: "PR",
-      display_name: "Pembayaran Ditolak",
+      value: "Landscape",
+      display_name: "Landskap",
     },
     {
-      value: "RC",
-      display_name: "Resit Dicipta",
+      value: "NA",
+      display_name: "Tiada",
     },
   ];
 
   // FormGroup
-  invoicereceiptFormGroup: FormGroup;
+  contractorFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
@@ -78,11 +75,35 @@ export class ReceiptsListComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private invoicereceiptService: InvoiceReceiptsService
+    private route: ActivatedRoute,
+    private contractorService: ContractorsService,
+    private dailyoperatingreportService: DailyOperatingReportsService
   ) {
-    this.invoicereceiptFormGroup = this.formBuilder.group({
-      id: new FormControl("", Validators.compose([Validators.required])),
+    this.getDailyOperatingReport();
+
+    this.contractorFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      service: new FormControl(""),
+      contractor_name: new FormControl(""),
+      officer_name: new FormControl(""),
+      attendance: new FormControl(""),
+      notes: new FormControl(""),
+      daily_operating_report_id: new FormControl(""),
     });
+  }
+
+  getDailyOperatingReport() {
+    this.dailyoperatingreportService
+      .filter("id=" + this.route.snapshot.paramMap.get("id"))
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.dailyoperatingreport = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   ngOnInit() {
@@ -90,7 +111,7 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   getData() {
-    this.invoicereceiptService.extended("status=RC").subscribe((res) => {
+    this.contractorService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -133,10 +154,13 @@ export class ReceiptsListComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.invoicereceiptFormGroup.reset();
+      this.contractorFormGroup.patchValue({
+        daily_operating_report_id: this.route.snapshot.paramMap.get("id"),
+      });
     } else if (process == "update") {
-      this.invoicereceiptFormGroup.patchValue({
+      this.contractorFormGroup.patchValue({
         ...row,
+        daily_operating_report_id: this.route.snapshot.paramMap.get("id"),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -147,55 +171,50 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   create() {
-    this.invoicereceiptService
-      .post(this.invoicereceiptFormGroup.value)
-      .subscribe(
-        (res) => {
-          // console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya disimpan.",
-              icon: "success",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-              icon: "warning",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-warning",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
-      );
+    this.contractorService.post(this.contractorFormGroup.value).subscribe(
+      (res) => {
+        // console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   update() {
-    this.invoicereceiptService
-      .update(
-        this.invoicereceiptFormGroup.value,
-        this.invoicereceiptFormGroup.value.id
-      )
+    this.contractorService
+      .update(this.contractorFormGroup.value, this.contractorFormGroup.value.id)
       .subscribe(
         (res) => {
           // console.log("res", res);
@@ -254,7 +273,7 @@ export class ReceiptsListComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.invoicereceiptService.delete(row.id).subscribe(
+          this.contractorService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -283,12 +302,5 @@ export class ReceiptsListComponent implements OnInit {
           );
         }
       });
-  }
-
-  getStatus(value: string) {
-    let result = this.statuses.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
   }
 }

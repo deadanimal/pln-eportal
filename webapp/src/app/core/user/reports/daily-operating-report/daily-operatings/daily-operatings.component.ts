@@ -9,7 +9,9 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
-import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
+import { DailyOperatingReportsService } from "src/app/shared/services/daily-operating-reports/daily-operating-reports.service";
+import { EmployeeDirectoriesService } from "src/app/shared/services/employee-directories/employee-directories.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,50 +22,34 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-receipts-list",
-  templateUrl: "./receipts-list.component.html",
-  styleUrls: ["./receipts-list.component.scss"],
+  selector: "app-daily-operatings",
+  templateUrl: "./daily-operatings.component.html",
+  styleUrls: ["./daily-operatings.component.scss"],
 })
-export class ReceiptsListComponent implements OnInit {
+export class DailyOperatingsComponent implements OnInit {
   // Data
   generateReportURL =
     environment.baseUrl +
-    "v1/invoice-receipts/generate_summarized_transaction_report/";
-  generateReceiptURL =
-    environment.baseUrl + "v1/invoice-receipts/generate_receipt/?id=";
+    "v1/daily-operating-reports/generate_daily_operating_report/?id=";
+  technicalofficers = [];
+  ticketcounterclerks = [];
 
   // Dropdown
-  statuses = [
-    {
-      value: "IC",
-      display_name: "Invois Dicipta",
-    },
-    {
-      value: "PP",
-      display_name: "Pembayaran Belum Selesai",
-    },
-    {
-      value: "PS",
-      display_name: "Pembayaran Berjaya",
-    },
-    {
-      value: "PR",
-      display_name: "Pembayaran Ditolak",
-    },
-    {
-      value: "RC",
-      display_name: "Resit Dicipta",
-    },
-  ];
+  employeedirectories = [];
+  users = [];
 
   // FormGroup
-  invoicereceiptFormGroup: FormGroup;
+  contractorFormGroup: FormGroup;
+  dailyoperatingreportFormGroup: FormGroup;
+  detailreportFormGroup: FormGroup;
+  operatingscheduleFormGroup: FormGroup;
+  visitorsummaryFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog",
+    class: "modal-dialog modal-lg",
     ignoreBackdropClick: true,
   };
 
@@ -78,11 +64,49 @@ export class ReceiptsListComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private invoicereceiptService: InvoiceReceiptsService
+    private dailyoperatingreportService: DailyOperatingReportsService,
+    private employeedirectoryService: EmployeeDirectoriesService,
+    private userService: UsersService
   ) {
-    this.invoicereceiptFormGroup = this.formBuilder.group({
-      id: new FormControl("", Validators.compose([Validators.required])),
+    this.getEmployeeDirectory();
+    this.getUser();
+
+    this.dailyoperatingreportFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      report_date: new FormControl(""),
+      report_by: new FormControl(""),
+      report_by_position: new FormControl(""),
+      operations_manager: new FormControl(""),
+      technical_officer: new FormControl(""),
+      ticket_counter_clerk: new FormControl(""),
+      stage_officer: new FormControl(""),
+      info_counter_clerk: new FormControl(""),
+      librarian: new FormControl(""),
     });
+  }
+
+  getEmployeeDirectory() {
+    this.employeedirectoryService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.employeedirectories = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
+  getUser() {
+    this.userService.getAll().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.users = res.filter((item) => item.user_type != "CS");
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   ngOnInit() {
@@ -90,7 +114,7 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   getData() {
-    this.invoicereceiptService.extended("status=RC").subscribe((res) => {
+    this.dailyoperatingreportService.extended("").subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -133,10 +157,24 @@ export class ReceiptsListComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.invoicereceiptFormGroup.reset();
+      this.dailyoperatingreportFormGroup.reset();
     } else if (process == "update") {
-      this.invoicereceiptFormGroup.patchValue({
+      this.dailyoperatingreportFormGroup.patchValue({
         ...row,
+        report_by: row.report_by ? row.report_by.id : "",
+      });
+
+      // empty first the arrays
+      this.technicalofficers = [];
+      this.ticketcounterclerks = [];
+
+      // push the value into arrays
+      row.technical_officer.forEach((value) => {
+        this.technicalofficers.push({ value: value });
+      });
+
+      row.ticket_counter_clerk.forEach((value) => {
+        this.ticketcounterclerks.push({ value: value });
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -146,9 +184,30 @@ export class ReceiptsListComponent implements OnInit {
     this.modal.hide();
   }
 
+  addInput(input_name: string) {
+    if (input_name == "technicalofficers")
+      this.technicalofficers.push({ value: "" });
+    if (input_name == "ticketcounterclerks")
+      this.ticketcounterclerks.push({ value: "" });
+  }
+
+  removeInput(input_name: string, index) {
+    if (input_name == "technicalofficers")
+      this.technicalofficers.splice(index, 1);
+    if (input_name == "ticketcounterclerks")
+      this.ticketcounterclerks.splice(index, 1);
+  }
+
   create() {
-    this.invoicereceiptService
-      .post(this.invoicereceiptFormGroup.value)
+    this.dailyoperatingreportFormGroup.value.technical_officer = this.technicalofficers.map(
+      (item) => item["value"]
+    );
+    this.dailyoperatingreportFormGroup.value.ticket_counter_clerk = this.ticketcounterclerks.map(
+      (item) => item["value"]
+    );
+
+    this.dailyoperatingreportService
+      .post(this.dailyoperatingreportFormGroup.value)
       .subscribe(
         (res) => {
           // console.log("res", res);
@@ -191,10 +250,17 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   update() {
-    this.invoicereceiptService
+    this.dailyoperatingreportFormGroup.value.technical_officer = this.technicalofficers.map(
+      (item) => item["value"]
+    );
+    this.dailyoperatingreportFormGroup.value.ticket_counter_clerk = this.ticketcounterclerks.map(
+      (item) => item["value"]
+    );
+
+    this.dailyoperatingreportService
       .update(
-        this.invoicereceiptFormGroup.value,
-        this.invoicereceiptFormGroup.value.id
+        this.dailyoperatingreportFormGroup.value,
+        this.dailyoperatingreportFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -254,7 +320,7 @@ export class ReceiptsListComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.invoicereceiptService.delete(row.id).subscribe(
+          this.dailyoperatingreportService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -283,12 +349,5 @@ export class ReceiptsListComponent implements OnInit {
           );
         }
       });
-  }
-
-  getStatus(value: string) {
-    let result = this.statuses.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
   }
 }

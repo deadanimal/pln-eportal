@@ -5,11 +5,12 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
-import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
-import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
+import { DailyOperatingReportsService } from "src/app/shared/services/daily-operating-reports/daily-operating-reports.service";
+import { DetailReportsService } from "src/app/shared/services/detail-reports/detail-reports.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,51 +21,50 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-receipts-list",
-  templateUrl: "./receipts-list.component.html",
-  styleUrls: ["./receipts-list.component.scss"],
+  selector: "app-details",
+  templateUrl: "./details.component.html",
+  styleUrls: ["./details.component.scss"],
 })
-export class ReceiptsListComponent implements OnInit {
+export class DetailsComponent implements OnInit {
   // Data
-  generateReportURL =
-    environment.baseUrl +
-    "v1/invoice-receipts/generate_summarized_transaction_report/";
-  generateReceiptURL =
-    environment.baseUrl + "v1/invoice-receipts/generate_receipt/?id=";
+  dailyoperatingreport = [];
 
   // Dropdown
-  statuses = [
-    {
-      value: "IC",
-      display_name: "Invois Dicipta",
-    },
-    {
-      value: "PP",
-      display_name: "Pembayaran Belum Selesai",
-    },
-    {
-      value: "PS",
-      display_name: "Pembayaran Berjaya",
-    },
-    {
-      value: "PR",
-      display_name: "Pembayaran Ditolak",
-    },
-    {
-      value: "RC",
-      display_name: "Resit Dicipta",
-    },
-  ];
 
   // FormGroup
-  invoicereceiptFormGroup: FormGroup;
+  detailreportFormGroup: FormGroup;
 
   // Modal
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog",
+    class: "modal-dialog modal-lg",
     ignoreBackdropClick: true,
+  };
+
+  // Quill
+  modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+
+      ["clean"], // remove formatting button
+
+      ["link", "image"], // link and image, video
+    ],
   };
 
   // Table
@@ -78,11 +78,33 @@ export class ReceiptsListComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private invoicereceiptService: InvoiceReceiptsService
+    private route: ActivatedRoute,
+    private dailyoperatingreportService: DailyOperatingReportsService,
+    private detailreportService: DetailReportsService
   ) {
-    this.invoicereceiptFormGroup = this.formBuilder.group({
-      id: new FormControl("", Validators.compose([Validators.required])),
+    this.getDailyOperatingReport();
+
+    this.detailreportFormGroup = this.formBuilder.group({
+      id: new FormControl(""),
+      detail: new FormControl(""),
+      description: new FormControl(""),
+      action: new FormControl(""),
+      daily_operating_report_id: new FormControl(""),
     });
+  }
+
+  getDailyOperatingReport() {
+    this.dailyoperatingreportService
+      .filter("id=" + this.route.snapshot.paramMap.get("id"))
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.dailyoperatingreport = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   ngOnInit() {
@@ -90,7 +112,7 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   getData() {
-    this.invoicereceiptService.extended("status=RC").subscribe((res) => {
+    this.detailreportService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -133,10 +155,13 @@ export class ReceiptsListComponent implements OnInit {
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.invoicereceiptFormGroup.reset();
+      this.detailreportFormGroup.patchValue({
+        daily_operating_report_id: this.route.snapshot.paramMap.get("id"),
+      });
     } else if (process == "update") {
-      this.invoicereceiptFormGroup.patchValue({
+      this.detailreportFormGroup.patchValue({
         ...row,
+        daily_operating_report_id: this.route.snapshot.paramMap.get("id"),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -147,54 +172,52 @@ export class ReceiptsListComponent implements OnInit {
   }
 
   create() {
-    this.invoicereceiptService
-      .post(this.invoicereceiptFormGroup.value)
-      .subscribe(
-        (res) => {
-          // console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya disimpan.",
-              icon: "success",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-              icon: "warning",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-warning",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
-      );
+    this.detailreportService.post(this.detailreportFormGroup.value).subscribe(
+      (res) => {
+        // console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   update() {
-    this.invoicereceiptService
+    this.detailreportService
       .update(
-        this.invoicereceiptFormGroup.value,
-        this.invoicereceiptFormGroup.value.id
+        this.detailreportFormGroup.value,
+        this.detailreportFormGroup.value.id
       )
       .subscribe(
         (res) => {
@@ -254,7 +277,7 @@ export class ReceiptsListComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.invoicereceiptService.delete(row.id).subscribe(
+          this.detailreportService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -283,12 +306,5 @@ export class ReceiptsListComponent implements OnInit {
           );
         }
       });
-  }
-
-  getStatus(value: string) {
-    let result = this.statuses.find((obj) => {
-      return obj.value == value;
-    });
-    return result.display_name;
   }
 }

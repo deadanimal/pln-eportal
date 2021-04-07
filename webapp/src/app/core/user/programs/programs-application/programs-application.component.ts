@@ -282,6 +282,8 @@ export class ProgramsApplicationComponent implements OnInit {
       activity: new FormControl(""),
       status: new FormControl(""),
       document_link: new FormControl(""),
+      image_link: new FormControl(""),
+      video_link: new FormControl(""),
     });
 
     this.zeroFormGroup = this.formBuilder.group({
@@ -662,6 +664,8 @@ export class ProgramsApplicationComponent implements OnInit {
       this.eduprogramappFormGroup.reset();
       this.eduprogramappFormGroup.patchValue({
         document_link: "",
+        image_link: "",
+        video_link: "",
       });
     } else if (process == "update") {
       this.eduprogramappFormGroup.patchValue({
@@ -674,6 +678,8 @@ export class ProgramsApplicationComponent implements OnInit {
           ? row.educational_program_date_id.id
           : "",
         document_link: row.document_link ? row.document_link : "",
+        image_link: row.image_link ? row.image_link : "",
+        video_link: row.video_link ? row.video_link : "",
       });
       this.changeProgram();
     }
@@ -716,10 +722,15 @@ export class ProgramsApplicationComponent implements OnInit {
   }
 
   // Image Process
-  onChange(event) {
+  onChange(event, type: string) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.eduprogramappFormGroup.get("document_link").setValue(file);
+      if (type == "document_link")
+        this.eduprogramappFormGroup.get("document_link").setValue(file);
+      if (type == "image_link")
+        this.eduprogramappFormGroup.get("image_link").setValue(file);
+      if (type == "video_link")
+        this.eduprogramappFormGroup.get("video_link").setValue(file);
     }
   }
 
@@ -759,6 +770,22 @@ export class ProgramsApplicationComponent implements OnInit {
       formData.append(
         "document_link",
         this.eduprogramappFormGroup.get("document_link").value
+      );
+    }
+    if (
+      typeof this.eduprogramappFormGroup.get("image_link").value != "string"
+    ) {
+      formData.append(
+        "image_link",
+        this.eduprogramappFormGroup.get("image_link").value
+      );
+    }
+    if (
+      typeof this.eduprogramappFormGroup.get("video_link").value != "string"
+    ) {
+      formData.append(
+        "video_link",
+        this.eduprogramappFormGroup.get("video_link").value
       );
     }
 
@@ -842,6 +869,22 @@ export class ProgramsApplicationComponent implements OnInit {
         this.eduprogramappFormGroup.get("document_link").value
       );
     }
+    if (
+      typeof this.eduprogramappFormGroup.get("image_link").value != "string"
+    ) {
+      formData.append(
+        "image_link",
+        this.eduprogramappFormGroup.get("image_link").value
+      );
+    }
+    if (
+      typeof this.eduprogramappFormGroup.get("video_link").value != "string"
+    ) {
+      formData.append(
+        "video_link",
+        this.eduprogramappFormGroup.get("video_link").value
+      );
+    }
 
     this.eduprogramappService
       .update(formData, this.eduprogramappFormGroup.value.id)
@@ -864,8 +907,6 @@ export class ProgramsApplicationComponent implements OnInit {
                 this.getData();
               }
             });
-
-          this.sendmail(this.eduprogramappFormGroup.value);
         },
         (err) => {
           console.error("err", err);
@@ -934,6 +975,110 @@ export class ProgramsApplicationComponent implements OnInit {
           );
         }
       });
+  }
+
+  verify(row) {
+    swal
+      .fire({
+        title: "Pengesahan Program Pendidikan",
+        text: "Adakah anda ingin meluluskan penyertaan program pendidikan ini?",
+        icon: "warning",
+        // showCancelButton: true,
+        buttonsStyling: false,
+        showDenyButton: true,
+        customClass: {
+          confirmButton: "btn btn-success",
+          // cancelButton: "btn btn-danger",
+          denyButton: "btn btn-danger",
+        },
+        confirmButtonText: "Ya",
+        denyButtonText: "Tidak",
+        // cancelButtonText: "Tidak",
+        showCloseButton: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed == true) {
+          // to accept the educational program application
+          let objUpdate = {
+            status: "AP",
+          };
+          this.eduprogramappService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getData();
+
+              this.sweetAlertSuccess(
+                "Diterima",
+                "Anda telah menerima penyertaan program pendidikan ini."
+              );
+
+              let objMail = {
+                status: "AP",
+                customer_id: row.customer_id.id,
+              };
+
+              this.sendmail(objMail);
+            }
+          );
+        } else if (result.isDenied == true) {
+          // to reject the educational program application
+          let objUpdate = {
+            status: "RJ",
+          };
+          this.eduprogramappService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getData();
+
+              this.sweetAlertWarning(
+                "Ditolak",
+                "Anda telah menolak penyertaan program pendidkan ini."
+              );
+
+              let objMail = {
+                status: "RJ",
+                customer_id: row.customer_id.id,
+              };
+
+              this.sendmail(objMail);
+            }
+          );
+        }
+      });
+  }
+
+  sweetAlertSuccess(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "success",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-success",
+      },
+    });
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   createForm() {

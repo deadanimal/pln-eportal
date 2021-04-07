@@ -10,6 +10,8 @@ import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { BankListsService } from "src/app/shared/services/bank-lists/bank-lists.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
 import { SupervisorsService } from "src/app/shared/services/supervisors/supervisors.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -30,6 +32,8 @@ export enum SelectionType {
 export class RefundsComponent implements OnInit {
   // Data
   banklists = [];
+  carts = [];
+  invoicereceipts = [];
   supervisors = [];
   users = []; // user_type = CS - Customer
   incharges = []; // user_type != CS - Customer
@@ -164,6 +168,8 @@ export class RefundsComponent implements OnInit {
     private modalService: BsModalService,
     private authService: AuthService,
     private banklistService: BankListsService,
+    private cartService: CartsService,
+    private invoicereceiptService: InvoiceReceiptsService,
     private refundService: RefundsService,
     private supervisorService: SupervisorsService,
     private userService: UsersService
@@ -232,6 +238,38 @@ export class RefundsComponent implements OnInit {
           console.error("err", err);
         }
       );
+  }
+
+  getCart(row, process: string) {
+    var urlFilter = "";
+    if (process == "info-show") urlFilter = "show_booking_id=" + row.id;
+    else if (process == "info-simulator-ride")
+      urlFilter = "simulator_ride_booking_id=" + row.id;
+    else if (process == "info-facility")
+      urlFilter = "facility_booking_id=" + row.id;
+
+    this.cartService.filter(urlFilter).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.carts = res;
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.invoicereceiptService
+          .filter("cart_id=" + this.carts[0].id)
+          .subscribe(
+            (res) => {
+              // console.log("res", res);
+              this.invoicereceipts = res;
+            },
+            (err) => {
+              console.error("err", err);
+            }
+          );
+      }
+    );
   }
 
   ngOnInit() {}
@@ -304,6 +342,7 @@ export class RefundsComponent implements OnInit {
           : "",
       });
     } else {
+      this.getCart(row, process);
       this.infobooking.push(row);
       if (
         this.infobooking[0].ticket_type &&
@@ -576,6 +615,7 @@ export class RefundsComponent implements OnInit {
             );
           }
         } else {
+          console.log("result", result);
           this.sweetAlertWarning(
             "Ralat",
             "ID Penyelia yang anda masukkan tidak sama dengan penyelia yang bertugas pada hari ini."

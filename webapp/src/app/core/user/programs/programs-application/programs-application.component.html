@@ -153,6 +153,13 @@
                 >
                   Sunting
                 </button>
+                <button
+                  class="btn btn-sm btn-warning"
+                  *ngIf="row.status == 'IP'"
+                  (click)="verify(row)"
+                >
+                  Pengesahan
+                </button>
                 <button class="btn btn-sm btn-danger" (click)="delete(row)">
                   Buang
                 </button>
@@ -296,6 +303,13 @@
                 >
                   Sunting
                 </button>
+                <button
+                  class="btn btn-sm btn-warning"
+                  *ngIf="row.status == 'IP'"
+                  (click)="verify(row)"
+                >
+                  Pengesahan
+                </button>
                 <button class="btn btn-sm btn-danger" (click)="deleteForm(row)">
                   Buang
                 </button>
@@ -387,34 +401,21 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Tarikh Dimohon</label>
-        <select
-          class="form-control"
-          formControlName="educational_program_date_id"
-          placeholder="Sila pilih"
-        >
-          <option value="">Sila pilih</option>
-          <option
-            *ngFor="let programdate of selectedProgramDates"
-            [value]="programdate.id"
-          >
-            {{ programdate.program_date }}
-          </option>
-        </select>
-      </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Status</label>
+            <label class="form-control-label">Tarikh Dimohon</label>
             <select
               class="form-control"
-              formControlName="status"
+              formControlName="educational_program_date_id"
               placeholder="Sila pilih"
             >
               <option value="">Sila pilih</option>
-              <option *ngFor="let status of statuses" [value]="status.value">
-                {{ status.display_name }}
+              <option
+                *ngFor="let programdate of selectedProgramDates"
+                [value]="programdate.id"
+              >
+                {{ programdate.program_date }}
               </option>
             </select>
           </div>
@@ -427,12 +428,76 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Dokumen berkaitan</label><br />
+        <label class="form-control-label"
+          >Dokumen berkaitan
+          <small class="text-danger"
+            >* hanya fail jenis DOC, DOCX atau PDF sahaja diterima</small
+          ></label
+        ><br />
+        <div
+          class="row pb-3"
+          *ngIf="eduprogramappFormGroup.value.document_link"
+        >
+          <div class="col-auto text-align-center">
+            <a
+              [href]="eduprogramappFormGroup.value.document_link"
+              target="_blank"
+            >
+              <i class="fas fa-file-pdf text-danger fa-3x"></i>
+            </a>
+          </div>
+          <div class="col">
+            <p class="mb-0">
+              Sila klik pada ikon WORD / PDF untuk lihat WORD / PDF yang telah
+              dimuat-naik.
+            </p>
+          </div>
+        </div>
         <input
           type="file"
           name="document_link"
           accept="application/msword, application/pdf, .doc, .docx, .pdf"
-          (change)="onChange($event)"
+          (change)="onChange($event, 'document_link')"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"
+          >Gambar <small class="text-danger">* sekiranya perlu</small></label
+        ><br />
+        <div class="row pb-3" *ngIf="eduprogramappFormGroup.value.image_link">
+          <div class="col">
+            <img
+              [src]="eduprogramappFormGroup.value.image_link"
+              style="width: 100%"
+            />
+          </div>
+        </div>
+        <input
+          type="file"
+          name="image_link"
+          accept="image/*"
+          (change)="onChange($event, 'image_link')"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"
+          >Video <small class="text-danger">* sekiranya perlu</small></label
+        ><br />
+        <div class="row pb-3" *ngIf="eduprogramappFormGroup.value.video_link">
+          <div class="col">
+            <video width="320" height="240" controls>
+              <source
+                [src]="eduprogramappFormGroup.value.video_link"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+        </div>
+        <input
+          type="file"
+          name="video_link"
+          accept="video/*"
+          (change)="onChange($event, 'video_link')"
         />
       </div>
       <div class="form-group" *ngIf="selectedProgramActivity.length > 0">
@@ -549,34 +614,21 @@
           </option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Tarikh Dimohon</label>
-        <select
-          class="form-control"
-          formControlName="educational_program_date_id"
-          placeholder="Sila pilih"
-        >
-          <option value="">Sila pilih</option>
-          <option
-            *ngFor="let programdate of selectedProgramDates"
-            [value]="programdate.id"
-          >
-            {{ programdate.program_date }}
-          </option>
-        </select>
-      </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Status</label>
+            <label class="form-control-label">Tarikh Dimohon</label>
             <select
               class="form-control"
-              formControlName="status"
+              formControlName="educational_program_date_id"
               placeholder="Sila pilih"
             >
               <option value="">Sila pilih</option>
-              <option *ngFor="let status of statuses" [value]="status.value">
-                {{ status.display_name }}
+              <option
+                *ngFor="let programdate of selectedProgramDates"
+                [value]="programdate.id"
+              >
+                {{ programdate.program_date }}
               </option>
             </select>
           </div>
@@ -589,12 +641,76 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Dokumen berkaitan</label><br />
+        <label class="form-control-label"
+          >Dokumen berkaitan
+          <small class="text-danger"
+            >* hanya fail jenis DOC, DOCX atau PDF sahaja diterima</small
+          ></label
+        ><br />
+        <div
+          class="row pb-3"
+          *ngIf="eduprogramappFormGroup.value.document_link"
+        >
+          <div class="col-auto text-align-center">
+            <a
+              [href]="eduprogramappFormGroup.value.document_link"
+              target="_blank"
+            >
+              <i class="fas fa-file-pdf text-danger fa-3x"></i>
+            </a>
+          </div>
+          <div class="col">
+            <p class="mb-0">
+              Sila klik pada ikon WORD / PDF untuk lihat WORD / PDF yang telah
+              dimuat-naik.
+            </p>
+          </div>
+        </div>
         <input
           type="file"
           name="document_link"
           accept="application/msword, application/pdf, .doc, .docx, .pdf"
-          (change)="onChange($event)"
+          (change)="onChange($event, 'document_link')"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"
+          >Gambar <small class="text-danger">* sekiranya perlu</small></label
+        ><br />
+        <div class="row pb-3" *ngIf="eduprogramappFormGroup.value.image_link">
+          <div class="col">
+            <img
+              [src]="eduprogramappFormGroup.value.image_link"
+              style="width: 100%"
+            />
+          </div>
+        </div>
+        <input
+          type="file"
+          name="image_link"
+          accept="image/*"
+          (change)="onChange($event, 'image_link')"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"
+          >Video <small class="text-danger">* sekiranya perlu</small></label
+        ><br />
+        <div class="row pb-3" *ngIf="eduprogramappFormGroup.value.video_link">
+          <div class="col">
+            <video width="320" height="240" controls>
+              <source
+                [src]="eduprogramappFormGroup.value.video_link"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+        </div>
+        <input
+          type="file"
+          name="video_link"
+          accept="video/*"
+          (change)="onChange($event, 'video_link')"
         />
       </div>
       <div class="form-group" *ngIf="selectedProgramActivity.length > 0">

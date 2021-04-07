@@ -44,9 +44,11 @@ import { ProgramsListComponent } from "./programs/programs-list/programs-list.co
 import { PublicationsListComponent } from "./publications/publications-list/publications-list.component";
 import { PublicationsComponent } from "./publications/publications/publications.component";
 import { RefundsComponent } from "./refunds/refunds.component";
-import { ReportsAnalysisComponent } from "./reports/reports-analysis/reports-analysis.component";
-import { ReportsOperationComponent } from "./reports/reports-operation/reports-operation.component";
-import { ReportsTicketSalesComponent } from "./reports/reports-ticket-sales/reports-ticket-sales.component";
+import { ContractorsComponent } from "./reports/daily-operating-report/contractors/contractors.component";
+import { DailyOperatingsComponent } from "./reports/daily-operating-report/daily-operatings/daily-operatings.component";
+import { DetailsComponent } from "./reports/daily-operating-report/details/details.component";
+import { OperatingSchedulesComponent } from "./reports/daily-operating-report/operating-schedules/operating-schedules.component";
+import { VisitorSummariesComponent } from "./reports/daily-operating-report/visitor-summaries/visitor-summaries.component";
 import { ShowsApplicationsDetailComponent } from "./shows/shows-applications-detail/shows-applications-detail.component";
 import { ShowsApplicationsComponent } from "./shows/shows-applications/shows-applications.component";
 import { ShowsListComponent } from "./shows/shows-list/shows-list.component";
@@ -237,16 +239,24 @@ export const UserRoutes: Routes = [
         path: "reports",
         children: [
           {
-            path: "analysis",
-            component: ReportsAnalysisComponent,
+            path: "daily-operatings",
+            component: DailyOperatingsComponent,
           },
           {
-            path: "operation",
-            component: ReportsOperationComponent,
+            path: "daily-operatings/contractors/:id",
+            component: ContractorsComponent,
           },
           {
-            path: "ticket-sales",
-            component: ReportsTicketSalesComponent,
+            path: "daily-operatings/operating-schedules/:id",
+            component: OperatingSchedulesComponent,
+          },
+          {
+            path: "daily-operatings/visitor-summaries/:id",
+            component: VisitorSummariesComponent,
+          },
+          {
+            path: "daily-operatings/details/:id",
+            component: DetailsComponent,
           },
         ],
       },

@@ -32,9 +32,6 @@ import { FacilitiesListComponent } from "./facilities/facilities-list/facilities
 import { ProgramsApplicationComponent } from "./programs/programs-application/programs-application.component";
 import { ProgramsListComponent } from "./programs/programs-list/programs-list.component";
 import { PublicationsListComponent } from "./publications/publications-list/publications-list.component";
-import { ReportsOperationComponent } from "./reports/reports-operation/reports-operation.component";
-import { ReportsAnalysisComponent } from "./reports/reports-analysis/reports-analysis.component";
-import { ReportsTicketSalesComponent } from "./reports/reports-ticket-sales/reports-ticket-sales.component";
 import { ShowsScheduleComponent } from "./shows/shows-schedule/shows-schedule.component";
 import { ShowsListComponent } from "./shows/shows-list/shows-list.component";
 import { SimulatorRideScheduleComponent } from "./simulator-ride/simulator-ride-schedule/simulator-ride-schedule.component";
@@ -84,22 +81,24 @@ import { ModulesComponent } from "./cms/modules/modules.component";
 import { WhatIsInterestingsComponent } from "./cms/what-is-interestings/what-is-interestings.component";
 import { DynamicContentsComponent } from "./cms/dynamic-contents/dynamic-contents.component";
 import { CustomersComponent } from "./managements/customers/customers.component";
-import { FpxsListComponent } from './fpxs/fpxs-list/fpxs-list.component';
-import { FpxsBankListComponent } from './fpxs/fpxs-bank-list/fpxs-bank-list.component';
-import { FpxsResponseCodeListComponent } from './fpxs/fpxs-response-code-list/fpxs-response-code-list.component';
-import { InvoicesListComponent } from './invoice-receipts/invoices-list/invoices-list.component';
-import { ReceiptsListComponent } from './invoice-receipts/receipts-list/receipts-list.component';
-import { VouchersComponent } from './vouchers/vouchers.component';
-import { RefundsComponent } from './refunds/refunds.component';
-import { SubModulesComponent } from './cms/sub-modules/sub-modules.component';
-import { SupervisorsComponent } from './managements/supervisors/supervisors.component';
-import { CloseBookingComponent } from './close-booking/close-booking.component';
-import { TicketPricesComponent } from './ticket-prices/ticket-prices.component';
+import { FpxsListComponent } from "./fpxs/fpxs-list/fpxs-list.component";
+import { FpxsBankListComponent } from "./fpxs/fpxs-bank-list/fpxs-bank-list.component";
+import { FpxsResponseCodeListComponent } from "./fpxs/fpxs-response-code-list/fpxs-response-code-list.component";
+import { InvoicesListComponent } from "./invoice-receipts/invoices-list/invoices-list.component";
+import { ReceiptsListComponent } from "./invoice-receipts/receipts-list/receipts-list.component";
+import { VouchersComponent } from "./vouchers/vouchers.component";
+import { RefundsComponent } from "./refunds/refunds.component";
+import { SubModulesComponent } from "./cms/sub-modules/sub-modules.component";
+import { SupervisorsComponent } from "./managements/supervisors/supervisors.component";
+import { CloseBookingComponent } from "./close-booking/close-booking.component";
+import { TicketPricesComponent } from "./ticket-prices/ticket-prices.component";
+import { DailyOperatingsComponent } from "./reports/daily-operating-report/daily-operatings/daily-operatings.component";
+import { ContractorsComponent } from "./reports/daily-operating-report/contractors/contractors.component";
+import { DetailsComponent } from "./reports/daily-operating-report/details/details.component";
+import { OperatingSchedulesComponent } from "./reports/daily-operating-report/operating-schedules/operating-schedules.component";
+import { VisitorSummariesComponent } from "./reports/daily-operating-report/visitor-summaries/visitor-summaries.component";
 
-FullCalendarModule.registerPlugins([
-  dayGridPlugin,
-  interactionPlugin
-]);
+FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
 
 @NgModule({
   declarations: [
@@ -112,9 +111,6 @@ FullCalendarModule.registerPlugins([
     PublicationsListComponent,
     ProgramsApplicationComponent,
     ProgramsListComponent,
-    ReportsOperationComponent,
-    ReportsAnalysisComponent,
-    ReportsTicketSalesComponent,
     ShowsScheduleComponent,
     ShowsListComponent,
     SimulatorRideScheduleComponent,
@@ -175,6 +171,11 @@ FullCalendarModule.registerPlugins([
     SupervisorsComponent,
     CloseBookingComponent,
     TicketPricesComponent,
+    DailyOperatingsComponent,
+    ContractorsComponent,
+    DetailsComponent,
+    OperatingSchedulesComponent,
+    VisitorSummariesComponent,
   ],
   imports: [
     CommonModule,

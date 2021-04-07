@@ -49,7 +49,7 @@
                 class="form-group"
                 [ngClass]="{ focused: focusPassword === true }"
               >
-                <div class="input-group input-group-alternative">
+                <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text bg-primary">
                       <i class="fas fa-lock text-white"></i>
@@ -58,11 +58,28 @@
                   <input
                     class="form-control"
                     placeholder="Kata Laluan"
-                    type="password"
+                    [type]="password ? 'text' : 'password'"
                     formControlName="password"
                     (focus)="focusPassword = true"
                     (blur)="focusPassword = false"
                   />
+                  <div
+                    class="input-group-append"
+                    (click)="changePasswordIcon()"
+                  >
+                    <span class="input-group-text"
+                      ><i
+                        *ngIf="!password"
+                        class="fas fa-eye-slash fa-lg"
+                        style="color: gainsboro"
+                      ></i>
+                      <i
+                        *ngIf="password"
+                        class="fas fa-eye fa-lg"
+                        style="color: black"
+                      ></i
+                    ></span>
+                  </div>
                 </div>
                 <div class="validation-errors">
                   <ng-container
@@ -83,7 +100,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-6">
                   <div
                     class="custom-control custom-control-alternative custom-checkbox"
@@ -103,7 +120,7 @@
                     <span>Lupa Kata Laluan</span>
                   </label>
                 </div>
-              </div>
+              </div> -->
             </form>
 
             <div class="text-center">

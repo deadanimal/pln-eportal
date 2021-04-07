@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -32,6 +33,8 @@ export enum SelectionType {
 export class SimulatorRideApplicationsComponent implements OnInit {
   // Data
   banklists = [];
+  generateTicketURL =
+    environment.baseUrl + "v1/simulator-ride-bookings/generate_ticket/?id=";
 
   // Table
   tableEntries: number = 5;
@@ -508,6 +511,12 @@ export class SimulatorRideApplicationsComponent implements OnInit {
           });
       }
     );
+  }
+
+  displayPrintTicket(status: string) {
+    var statuses = ["SRB03", "SRB05"];
+    if (~statuses.indexOf(status)) return true;
+    else return false;
   }
 
   getType(value: string) {
