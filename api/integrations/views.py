@@ -105,3 +105,13 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             url+request_url+'&sha1='+after_sha1.hexdigest())
 
         return Response(response.json())
+
+    @action(methods=['POST'], detail=False)
+    def post_head_counter_value(self, request):
+
+        with open("integrations/head_counter_json.txt", mode="a", encoding="utf-8") as myfile:
+            json_string = request.data
+            myfile.write(str(json_string)+"\n")
+            myfile.close()
+
+        return Response(request.data)
