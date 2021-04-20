@@ -2,6 +2,7 @@ import { Component, NgZone, OnInit } from "@angular/core";
 
 import { EducationalProgramApplicationsService } from "src/app/shared/services/educational-program-applications/educational-program-applications.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
+import { IntegrationsService } from "src/app/shared/services/integrations/integrations.service";
 import { PublicationsService } from "src/app/shared/services/publications/publications.service";
 import { VirtualLibraryArticlesService } from "src/app/shared/services/virtual-library-articles/virtual-library-articles.service";
 import { VirtualLibraryBooksService } from "src/app/shared/services/virtual-library-books/virtual-library-books.service";
@@ -38,16 +39,20 @@ export class DashboardComponent implements OnInit {
   facilitypaymentaccept = [];
   facilitypaymentreject = [];
   facilityrefund = [];
+  headcounter;
   today = new Date();
   totaldownloadpdfpublication: number = 0;
   totaldownloadpdfarticle: number = 0;
   totaldownloadpdfbook: number = 0;
   totaldownloadpdfserialpublication: number = 0;
+  totalvisitor: number = 0;
+  varheadcounterinterval;
 
   constructor(
     private zone: NgZone,
     private eduprogramappService: EducationalProgramApplicationsService,
     private facilitybookingService: FacilityBookingsService,
+    private integrationService: IntegrationsService,
     private publicationService: PublicationsService,
     private vlarticleService: VirtualLibraryArticlesService,
     private vlbookService: VirtualLibraryBooksService,
@@ -56,6 +61,8 @@ export class DashboardComponent implements OnInit {
     this.getEduProgram();
     this.getFacility();
     this.getTotalDownloadPdf();
+    this.getHeadCounter();
+    this.getTotalVisitor();
   }
 
   getEduProgram() {
@@ -71,6 +78,9 @@ export class DashboardComponent implements OnInit {
       },
       (err) => {
         console.error("err", err);
+      },
+      () => {
+        this.initTotalEducationalProgramChart();
       }
     );
   }
@@ -103,8 +113,11 @@ export class DashboardComponent implements OnInit {
       },
       (err) => {
         console.error("err", err);
-      }, () => {
-        this.initTotalFacilityBookingChart();
+      },
+      () => {
+        setTimeout(() => {
+          this.initTotalFacilityBookingChart();
+        }, 5000);
       }
     );
   }
@@ -151,6 +164,34 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  getHeadCounter() {
+    this.varheadcounterinterval = setInterval(() => {
+      this.integrationService.get_head_counter_value().subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.headcounter = res;
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    }, 10000);
+  }
+
+  getTotalVisitor() {
+    this.integrationService.get_summary_stats_yearly().subscribe(
+      (res) => {
+        // console.log("res", res);
+        for (let i = 0; i < res.sc_data.length; i++) {
+          this.totalvisitor += +res.sc_data[i].unique_visits;
+        }
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
+
   ngOnInit() {}
 
   ngOnDestroy() {
@@ -166,13 +207,15 @@ export class DashboardComponent implements OnInit {
       if (this.totalTicketSalesCounterChart)
         this.totalTicketSalesCounterChart.dispose();
     });
+
+    clearInterval(this.varheadcounterinterval);
   }
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
       this.initDailyQuoteNumberChart();
       // this.initTotalFacilityBookingChart();
-      this.initTotalEducationalProgramChart();
+      // this.initTotalEducationalProgramChart();
       this.initTotalTicketSalesRMChart();
       this.initTotalTicketSalesOnlineChart();
       this.initTotalTicketSalesCounterChart();
@@ -352,43 +395,56 @@ export class DashboardComponent implements OnInit {
     // Add a legend
     chart.legend = new am4charts.Legend();
 
-    chart.data = [
+    let array_data = [
       {
         status: "Dalam proses",
-        total: this.facilitynew.length,
+        total: this.facilitynew.length > 0 ? this.facilitynew.length : 0,
         // color: am4core.color("#5e72e4"),
       },
       {
         status: "Diterima",
-        total: this.facilityaccept.length,
+        total: this.facilityaccept.length > 0 ? this.facilityaccept.length : 0,
         // color: am4core.color("#2dce89"),
       },
       {
         status: "Ditolak",
-        total: this.facilityreject.length,
+        total: this.facilityreject.length > 0 ? this.facilityreject.length : 0,
         // color: am4core.color("#f5365c"),
       },
       {
         status: "Menunggu Pembayaran",
-        total: this.facilitypendingpayment.length,
+        total:
+          this.facilitypendingpayment.length > 0
+            ? this.facilitypendingpayment.length
+            : 0,
         // color: am4core.color("#f5365c"),
       },
       {
         status: "Bayaran Diterima",
-        total: this.facilitypaymentaccept.length,
+        total:
+          this.facilitypaymentaccept.length > 0
+            ? this.facilitypaymentaccept.length
+            : 0,
         // color: am4core.color("#f5365c"),
       },
       {
         status: "Bayaran Ditolak",
-        total: this.facilitypaymentreject.length,
+        total:
+          this.facilitypaymentreject.length > 0
+            ? this.facilitypaymentreject.length
+            : 0,
         // color: am4core.color("#f5365c"),
       },
       {
         status: "Bayaran Balik",
-        total: this.facilityrefund.length,
+        total: this.facilityrefund.length > 0 ? this.facilityrefund.length : 0,
         // color: am4core.color("#f5365c"),
       },
     ];
+
+    chart.data = array_data.filter((obj) => {
+      return obj.total != 0;
+    });
 
     this.totalFacilityBookingChart = chart;
   }
@@ -559,7 +615,10 @@ export class DashboardComponent implements OnInit {
   }
 
   initTotalTicketSalesOnlineChart() {
-    let chart = am4core.create("totalticketsalesonlinechart", am4charts.XYChart);
+    let chart = am4core.create(
+      "totalticketsalesonlinechart",
+      am4charts.XYChart
+    );
     chart.colors.step = 2;
 
     chart.legend = new am4charts.Legend();
@@ -656,7 +715,10 @@ export class DashboardComponent implements OnInit {
   }
 
   initTotalTicketSalesCounterChart() {
-    let chart = am4core.create("totalticketsalescounterchart", am4charts.XYChart);
+    let chart = am4core.create(
+      "totalticketsalescounterchart",
+      am4charts.XYChart
+    );
     chart.colors.step = 2;
 
     chart.legend = new am4charts.Legend();
