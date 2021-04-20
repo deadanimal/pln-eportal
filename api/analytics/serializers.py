@@ -9,20 +9,13 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Integration,
-    HeadCounter
+    Analytic
 )
 
-class IntegrationSerializer(serializers.ModelSerializer):
+class AnalyticSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = Integration
+        model = Analytic
         fields = '__all__'
         read_only_fields = ['id']
 
-class HeadCounterSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = HeadCounter
-        fields = '__all__'
-        read_only_fields = ['id']

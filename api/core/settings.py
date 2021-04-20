@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'errorlogs',
     'posdailyreports',
     'dailyoperatingreports',
+    'analytics',
 
     'django_cleanup.apps.CleanupConfig'
 ]
@@ -260,7 +261,8 @@ CRONJOBS = [
     ('0 0 * * *', 'vouchers.cron.check_voucher_valid', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
     ('0 0 * * *', 'simulatorrides.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
     ('0 0 * * *', 'showings.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
-    ('0 0 * * *', 'venues.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log'))
+    ('0 0 * * *', 'venues.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
+    ('0 0 * * *', 'integrations.cron.empty_head_counter_json', '>> '+os.path.join(BASE_DIR,'log/cron.log'))
 ]
 
 ACCOUNT_EMAIL_VERIFICATION='optional'

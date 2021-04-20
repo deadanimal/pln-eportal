@@ -490,11 +490,16 @@ cash_transactions_router = router.register(
 
 # Integration app
 from integrations.views import (
-    IntegrationViewSet
+    IntegrationViewSet,
+    HeadCounterViewSet
 )
 
 integrations_router = router.register(
     'integrations', IntegrationViewSet
+)
+
+head_counters_router = router.register(
+    'head-counters', HeadCounterViewSet
 )
 
 # Error log app
@@ -542,6 +547,15 @@ visitor_summaries_router = router.register(
 
 detail_reports_router = router.register(
     'detail-reports', DetailReportViewSet
+)
+
+# Analytic app
+from analytics.views import (
+    AnalyticViewSet
+)
+
+analytics_router = router.register(
+    'analytics', AnalyticViewSet
 )
 
 urlpatterns = [

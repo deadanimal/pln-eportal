@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 import json
 import requests
@@ -17,12 +17,29 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
-    Integration
+    Integration,
+    HeadCounter
 )
 
 from .serializers import (
-    IntegrationSerializer
+    IntegrationSerializer,
+    HeadCounterSerializer
 )
+
+def change_str_to_date_plus8(day, month, year, time):
+
+    month_ms = ['JANUARI', 'FEBRUARI', 'MAC', 'APRIL', 'MEI', 'JUN', 'JULAI', 'OGOS', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DISEMBER']
+    day_ms = ['ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT', 'SABTU', 'AHAD']
+
+    date_str = day+'/'+month+'/'+year+' '+time
+    format_str = '%d/%m/%Y %H:%M:%S'
+    datetime_obj = datetime.strptime(date_str, format_str)
+
+    hours = 8
+    hours_added = timedelta(hours = hours)
+    plus8_datetime = datetime_obj + hours_added
+
+    return plus8_datetime
 
 class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Integration.objects.all()
@@ -109,9 +126,56 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['POST'], detail=False)
     def post_head_counter_value(self, request):
 
+        print('post_head_counter_value')
         with open("integrations/head_counter_json.txt", mode="a", encoding="utf-8") as myfile:
             json_string = request.data
-            myfile.write(str(json_string)+"\n")
+            utc_datetime = json_string['Source']['UtcTime']
+            day = utc_datetime[8:10]
+            month = utc_datetime[5:7]
+            year = utc_datetime[0:4]
+            time = utc_datetime[11:19]
+            plus8_time = change_str_to_date_plus8(day, month, year, time)
+            # to restrict only the data within 8 AM to 6 PM
+            if (plus8_time.hour >= 8 and plus8_time.hour <= 18):
+                myfile.write(str(json_string)+"\n")
             myfile.close()
 
         return Response(request.data)
+
+    @action(methods=['GET'], detail=False)
+    def get_head_counter_value(self, request):
+
+        print('get_head_counter_value')
+        with open("integrations/head_counter_json.txt", mode="r", encoding="utf-8") as myfile:
+            mylist = myfile.read().splitlines()
+            total_in = 0
+            total_out = 0
+            for line in mylist:
+                json_line = json.loads(line.replace("\'", "\""))
+                count_in = json_line['Data'][0]['CountingInfo'][0]['In']
+                count_out = json_line['Data'][0]['CountingInfo'][0]['Out']
+                total_in = total_in + count_in
+                total_out = total_out + count_out
+            
+            data = {
+                'total_in': total_in,
+                'total_out': total_out
+            }
+
+            myfile.close()
+
+        return Response(data)
+
+
+class HeadCounterViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = HeadCounter.objects.all()
+    serializer_class = HeadCounterSerializer
+
+    def get_permissions(self):
+        permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        queryset = HeadCounter.objects.all()
+        return queryset

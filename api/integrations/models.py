@@ -20,6 +20,8 @@ class Integration(models.Model):
         ('VR', 'Verify Recaptcha'),
         ('SD', 'Statcounter - Summary Stats - Daily'),
         ('SY', 'Statcounter - Sumaary Stats - Yearly'),
+        ('PH', 'Head Counter - Post'),
+        ('GH', 'Head Counter - Get'),
         ('NA', 'Not Available')
     ]
 
@@ -37,3 +39,20 @@ class Integration(models.Model):
 
     def __str__(self):
         return self.integration_type
+
+
+class HeadCounter(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+
+    total_in = models.IntegerField(default=0, null=True)
+    total_out = models.IntegerField(default=0, null=True)
+    total_stay = models.IntegerField(default=0, null=True)
+    date = models.DateField(null=True)
+
+    created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
