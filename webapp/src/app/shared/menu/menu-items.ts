@@ -371,7 +371,7 @@ export const ROUTES: RouteInfo[] = [
       },
       { path: "partners", title: "Rakan Kerjasama", type: "link" },
     ],
-    role: ['SA']
+    role: ['SA', 'PK']
   },
   {
     path: "/managements",
