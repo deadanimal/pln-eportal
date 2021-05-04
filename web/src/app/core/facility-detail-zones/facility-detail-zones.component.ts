@@ -211,9 +211,9 @@ export class FacilityDetailZonesComponent implements OnInit {
 
     this.facilitybookingFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      full_name: new FormControl(""),
-      email: new FormControl(""),
-      phone: new FormControl(""),
+      user_name: new FormControl(""),
+      user_email: new FormControl(""),
+      user_phone: new FormControl(""),
       title: new FormControl(""),
       organisation_name: new FormControl(
         "",

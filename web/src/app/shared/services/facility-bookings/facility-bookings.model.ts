@@ -1,5 +1,8 @@
 export class FacilityBooking {
   public id: string;
+  public user_name: string;
+  public user_phone: string;
+  public user_email: string;
   public title: string;
   public user_id: string;
   public pic_id: string;
@@ -17,6 +20,9 @@ export class FacilityBooking {
 
   constructor(
     id: string,
+    user_name: string,
+    user_phone: string,
+    user_email: string,
     title: string,
     user_id: string,
     pic_id: string,
@@ -33,6 +39,9 @@ export class FacilityBooking {
     modified_date: string
   ) {
     this.id = id;
+    this.user_name = user_name;
+    this.user_phone = user_phone;
+    this.user_email = user_email;
     this.title = title;
     this.user_id = user_id;
     this.pic_id = pic_id;
