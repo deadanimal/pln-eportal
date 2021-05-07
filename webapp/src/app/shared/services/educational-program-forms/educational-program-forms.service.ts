@@ -85,5 +85,13 @@ export class EducationalProgramFormsService {
       })
     )
   }
+
+  get_dashboard(): Observable<any> {
+    return this.http.get<any>(this.url + 'get_dashboard').pipe(
+      tap((res) => {
+        // console.log('Educational program applications: ', res)
+      })
+    )
+  }
 }
 

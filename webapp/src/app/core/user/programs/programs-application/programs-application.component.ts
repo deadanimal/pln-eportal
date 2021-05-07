@@ -977,7 +977,7 @@ export class ProgramsApplicationComponent implements OnInit {
       });
   }
 
-  verify(row) {
+  verifyApp(row) {
     swal
       .fire({
         title: "Pengesahan Program Pendidikan",
@@ -1042,7 +1042,87 @@ export class ProgramsApplicationComponent implements OnInit {
 
               this.sweetAlertWarning(
                 "Ditolak",
-                "Anda telah menolak penyertaan program pendidkan ini."
+                "Anda telah menolak penyertaan program pendidikan ini."
+              );
+
+              let objMail = {
+                status: "RJ",
+                customer_id: row.customer_id.id,
+              };
+
+              this.sendmail(objMail);
+            }
+          );
+        }
+      });
+  }
+
+  verifyForm(row) {
+    swal
+      .fire({
+        title: "Pengesahan Penyertaan (NSC & Rocket)",
+        text: "Adakah anda ingin meluluskan penyertaan ini?",
+        icon: "warning",
+        // showCancelButton: true,
+        buttonsStyling: false,
+        showDenyButton: true,
+        customClass: {
+          confirmButton: "btn btn-success",
+          // cancelButton: "btn btn-danger",
+          denyButton: "btn btn-danger",
+        },
+        confirmButtonText: "Ya",
+        denyButtonText: "Tidak",
+        // cancelButtonText: "Tidak",
+        showCloseButton: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed == true) {
+          // to accept the educational program application
+          let objUpdate = {
+            status: "AP",
+          };
+          this.eduprogramformService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getDataForm();
+
+              this.sweetAlertSuccess(
+                "Diterima",
+                "Anda telah menerima penyertaan ini."
+              );
+
+              let objMail = {
+                status: "AP",
+                customer_id: row.customer_id.id,
+              };
+
+              this.sendmail(objMail);
+            }
+          );
+        } else if (result.isDenied == true) {
+          // to reject the educational program application
+          let objUpdate = {
+            status: "RJ",
+          };
+          this.eduprogramformService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getDataForm();
+
+              this.sweetAlertWarning(
+                "Ditolak",
+                "Anda telah menolak penyertaan ini."
               );
 
               let objMail = {
@@ -1105,7 +1185,7 @@ export class ProgramsApplicationComponent implements OnInit {
           })
           .then((result) => {
             if (result.value) {
-              this.modal.hide();
+              this.modalForm.hide();
               this.getDataForm();
             }
           });
@@ -1175,7 +1255,7 @@ export class ProgramsApplicationComponent implements OnInit {
             })
             .then((result) => {
               if (result.value) {
-                this.modal.hide();
+                this.modalForm.hide();
                 this.getDataForm();
               }
             });

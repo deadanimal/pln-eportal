@@ -28,10 +28,11 @@
           <div class="card">
             <div class="card-header">
               <h4 class="title mb-0">Kutipan Jualan Harian (RM) - Fasiliti, Kembara Simulasi & Tayangan</h4>
+              <small>Data mengikut 7 hari sebelum tarikh hari ini ({{ today | date: "mediumDate" }})</small>
             </div>
             <div class="card-body">
               <div
-                style="width: 100%; height: 360px"
+                style="width: 100%; height: 330px"
                 id="dailyquotenumberchart"
               ></div>
             </div>
@@ -181,6 +182,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="title mb-0">Bilangan Tempahan Fasiliti</h4>
+              <small>pada bulan ini ({{ today | date: "MMM, y" }})</small>
             </div>
             <div class="card-body">
               <div
@@ -194,6 +196,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="title mb-0">Bilangan Peserta Program Pendidikan</h4>
+              <small>pada bulan ini ({{ today | date: "MMM, y" }})</small>
             </div>
             <div class="card-body">
               <div
@@ -210,6 +213,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="title mb-0">Jumlah Jualan Tiket (Bilangan Orang)</h4>
+              <small>pada hari ini ({{ today | date: "mediumDate" }})</small>
             </div>
             <div class="card-body">
               <div
@@ -223,6 +227,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="title mb-0">Kutipan Jualan Harian (Online)</h4>
+              <small>pada hari ini ({{ today | date: "mediumDate" }})</small>
             </div>
             <div class="card-body">
               <div
@@ -236,6 +241,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="title mb-0">Kutipan Jualan Harian (Kaunter)</h4>
+              <small>pada hari ini ({{ today | date: "mediumDate" }})</small>
             </div>
             <div class="card-body">
               <div

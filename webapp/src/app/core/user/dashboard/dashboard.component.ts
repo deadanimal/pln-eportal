@@ -1,9 +1,13 @@
 import { Component, NgZone, OnInit } from "@angular/core";
 
 import { EducationalProgramApplicationsService } from "src/app/shared/services/educational-program-applications/educational-program-applications.service";
+import { EducationalProgramFormsService } from "src/app/shared/services/educational-program-forms/educational-program-forms.service";
 import { FacilityBookingsService } from "src/app/shared/services/facility-bookings/facility-bookings.service";
 import { IntegrationsService } from "src/app/shared/services/integrations/integrations.service";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { PublicationsService } from "src/app/shared/services/publications/publications.service";
+import { ShowbookingsService } from "src/app/shared/services/showbookings/showbookings.service";
+import { SimulatorRideBookingsService } from "src/app/shared/services/simulator-ride-bookings/simulator-ride-bookings.service";
 import { VirtualLibraryArticlesService } from "src/app/shared/services/virtual-library-articles/virtual-library-articles.service";
 import { VirtualLibraryBooksService } from "src/app/shared/services/virtual-library-books/virtual-library-books.service";
 import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services/virtual-library-serialpublications/virtual-library-serialpublications.service";
@@ -30,8 +34,9 @@ export class DashboardComponent implements OnInit {
   totalTicketSalesCounterChart: am4charts.XYChart;
 
   // Data
-  eduprogramsignup = [];
-  eduprogramattend = [];
+  eduprogramsignup: number = 0;
+  eduprogramaccept: number = 0;
+  eduprogramreject: number = 0;
   facilitynew = [];
   facilityaccept = [];
   facilityreject = [];
@@ -41,19 +46,30 @@ export class DashboardComponent implements OnInit {
   facilityrefund = [];
   headcounter;
   today = new Date();
+  totaldailysales = [];
+  totaldailysalesonlineshowing: number = 0;
+  totaldailysalesonlinesimulatorride: number = 0;
+  totaldailysalescountershowing: number = 0;
+  totaldailysalescountersimulatorride: number = 0;
   totaldownloadpdfpublication: number = 0;
   totaldownloadpdfarticle: number = 0;
   totaldownloadpdfbook: number = 0;
   totaldownloadpdfserialpublication: number = 0;
+  totalticketshowing: number = 0;
+  totalticketsimulatorride: number = 0;
   totalvisitor: number = 0;
   varheadcounterinterval;
 
   constructor(
     private zone: NgZone,
     private eduprogramappService: EducationalProgramApplicationsService,
+    private eduprogramformService: EducationalProgramFormsService,
     private facilitybookingService: FacilityBookingsService,
     private integrationService: IntegrationsService,
+    private invoicereceiptService: InvoiceReceiptsService,
     private publicationService: PublicationsService,
+    private showbookingService: ShowbookingsService,
+    private simulatorridebookingService: SimulatorRideBookingsService,
     private vlarticleService: VirtualLibraryArticlesService,
     private vlbookService: VirtualLibraryBooksService,
     private vlserialpublicationService: VirtualLibrarySerialpublicationsService
@@ -63,63 +79,51 @@ export class DashboardComponent implements OnInit {
     this.getTotalDownloadPdf();
     this.getHeadCounter();
     this.getTotalVisitor();
+    this.getTotalTicket();
+    this.getDailySales();
+    this.getDailySalesMain();
   }
 
   getEduProgram() {
-    this.eduprogramappService.get().subscribe(
+    this.eduprogramappService.get_dashboard().subscribe(
       (res) => {
         // console.log("res", res);
-        this.eduprogramsignup = res.filter((obj) => {
-          return obj.status == "IP";
-        });
-        this.eduprogramattend = res.filter((obj) => {
-          return obj.status == "AP";
-        });
+        this.eduprogramsignup += res.queryset_created.length;
+        this.eduprogramaccept += res.queryset_approved.length;
+        this.eduprogramreject += res.queryset_rejected.length;
       },
       (err) => {
         console.error("err", err);
       },
       () => {
-        this.initTotalEducationalProgramChart();
+        this.eduprogramformService.get_dashboard().subscribe(
+          (res) => {
+            // console.log("res", res);
+            this.eduprogramsignup += res.queryset_created.length;
+            this.eduprogramaccept += res.queryset_approved.length;
+            this.eduprogramreject += res.queryset_rejected.length;
+          },
+          (err) => {
+            console.error("err", err);
+          }, () => {
+            this.initTotalEducationalProgramChart();
+          }
+        );
       }
     );
   }
 
   getFacility() {
-    this.facilitybookingService.get().subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.facilitynew = res.filter((obj) => {
-          return obj.status == "FB01";
-        });
-        this.facilityaccept = res.filter((obj) => {
-          return obj.status == "FB02";
-        });
-        this.facilityreject = res.filter((obj) => {
-          return obj.status == "FB03";
-        });
-        this.facilitypendingpayment = res.filter((obj) => {
-          return obj.status == "FB04";
-        });
-        this.facilitypaymentaccept = res.filter((obj) => {
-          return obj.status == "FB05";
-        });
-        this.facilitypaymentreject = res.filter((obj) => {
-          return obj.status == "FB06";
-        });
-        this.facilityrefund = res.filter((obj) => {
-          return obj.status == "FB07";
-        });
-      },
-      (err) => {
-        console.error("err", err);
-      },
-      () => {
-        setTimeout(() => {
-          this.initTotalFacilityBookingChart();
-        }, 5000);
-      }
-    );
+    this.facilitybookingService.get_dashboard().subscribe((res) => {
+      // console.log("res", res);
+      this.facilitynew = res.queryset_created.length;
+      this.facilityaccept = res.queryset_approved.length;
+      this.facilityreject = res.queryset_rejected.length;
+    }, (err) => {
+      console.error("err", err);
+    }, () => {
+      this.initTotalFacilityBookingChart();
+    });
   }
 
   getTotalDownloadPdf() {
@@ -192,6 +196,62 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  getTotalTicket() {
+    this.simulatorridebookingService.get_dashboard().subscribe((res) => {
+      // console.log("res", res);
+      this.totalticketsimulatorride = res.queryset_simulator_ride.length;
+    }, (err) => {
+      console.error("err", err);
+    }, () => {
+      this.showbookingService.get_dashboard().subscribe((res) => {
+        // console.log("res", res);
+        this.totalticketshowing = res.queryset_showing.length;
+      }, (err) => {
+        console.error("err", err);
+      }, () => {
+        this.initTotalTicketSalesRMChart();
+      })
+    })
+  }
+
+  getDailySales() {
+    // Kaunter
+    this.invoicereceiptService.get_dashboard("sales_category=Kaunter").subscribe((res) => {
+      // console.log("res", res);
+      this.totaldailysalescountershowing = res.queryset_showing.length;
+      this.totaldailysalescountersimulatorride = res.queryset_simulator_ride.length;
+    }, (err) => {
+      console.error("err", err);
+    }, () => {
+      this.initTotalTicketSalesCounterChart();
+    });
+
+    // Online
+    this.invoicereceiptService.get_dashboard("sales_category=Online").subscribe((res) => {
+      // console.log("res", res);
+      this.totaldailysalesonlineshowing = res.queryset_showing.length;
+      this.totaldailysalesonlinesimulatorride = res.queryset_simulator_ride.length;
+    }, (err) => {
+      console.error("err", err);
+    }, () => {
+      this.initTotalTicketSalesOnlineChart();
+    });
+  }
+
+  getDailySalesMain() {
+    this.invoicereceiptService.get_dashboard_2().subscribe((res) => {
+      // console.log("res", res);
+      this.totaldailysales = res;
+      res.forEach((obj, index) => {
+        this.totaldailysales[index].date = new Date(obj.date);
+      });
+    }, (err) => {
+      console.error("err", err);
+    }, () => {
+      this.initDailyQuoteNumberChart();
+    });
+  }
+
   ngOnInit() {}
 
   ngOnDestroy() {
@@ -213,12 +273,12 @@ export class DashboardComponent implements OnInit {
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      this.initDailyQuoteNumberChart();
+      // this.initDailyQuoteNumberChart();
       // this.initTotalFacilityBookingChart();
       // this.initTotalEducationalProgramChart();
-      this.initTotalTicketSalesRMChart();
-      this.initTotalTicketSalesOnlineChart();
-      this.initTotalTicketSalesCounterChart();
+      // this.initTotalTicketSalesRMChart();
+      // this.initTotalTicketSalesOnlineChart();
+      // this.initTotalTicketSalesCounterChart();
     });
   }
 
@@ -230,14 +290,14 @@ export class DashboardComponent implements OnInit {
     chart.colors.step = 2;
 
     // Add data
-    chart.data = generateChartData();
+    chart.data = this.totaldailysales;
 
     // Create axes
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
 
     // Create series
-    function createAxisAndSeries(field, name, opposite, bullet) {
+    function createAxisAndSeries(field, name, opposite, bullet, color) {
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis() as any);
       if (chart.yAxes.indexOf(valueAxis) != 0) {
         valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
@@ -246,14 +306,13 @@ export class DashboardComponent implements OnInit {
       let series = chart.series.push(new am4charts.LineSeries());
       series.dataFields.valueY = field;
       series.dataFields.dateX = "date";
+      series.stroke = am4core.color(color);
       series.strokeWidth = 2;
       series.yAxis = valueAxis;
       series.name = name;
-      series.tooltipText = "{name}: [bold]{valueY}[/]";
+      series.tooltipText = "{name}: [bold]RM {valueY}[/]";
       series.tensionX = 0.8;
       series.showOnInit = true;
-
-      let interfaceColors = new am4core.InterfaceColorSet();
 
       switch (bullet) {
         case "triangle":
@@ -264,7 +323,8 @@ export class DashboardComponent implements OnInit {
           triangleBullet.verticalCenter = "middle";
 
           let triangle = triangleBullet.createChild(am4core.Triangle);
-          triangle.stroke = interfaceColors.getFor("background");
+          triangle.fill = am4core.color("#172b4d");
+          triangle.stroke = am4core.color("#172b4d");
           triangle.strokeWidth = 2;
           triangle.direction = "top";
           triangle.width = 12;
@@ -278,14 +338,16 @@ export class DashboardComponent implements OnInit {
           rectangleBullet.verticalCenter = "middle";
 
           let rectangle = rectangleBullet.createChild(am4core.Rectangle);
-          rectangle.stroke = interfaceColors.getFor("background");
+          rectangle.fill = am4core.color("#5e72e4");
+          rectangle.stroke = am4core.color("#5e72e4");
           rectangle.strokeWidth = 2;
           rectangle.width = 10;
           rectangle.height = 10;
           break;
         default:
           let bullet = series.bullets.push(new am4charts.CircleBullet());
-          bullet.circle.stroke = interfaceColors.getFor("background");
+          bullet.fill = am4core.color("#11cdef");
+          bullet.circle.stroke = am4core.color("#11cdef");
           bullet.circle.strokeWidth = 2;
           break;
       }
@@ -297,51 +359,15 @@ export class DashboardComponent implements OnInit {
       valueAxis.renderer.opposite = opposite;
     }
 
-    createAxisAndSeries("visits", "Visits", false, "circle");
-    createAxisAndSeries("views", "Views", true, "triangle");
-    createAxisAndSeries("hits", "Hits", true, "rectangle");
+    createAxisAndSeries("total_sales_showing", "Tayangan", false, "circle", "#11cdef");
+    createAxisAndSeries("total_sales_simulator_ride", "Kembara Simulasi", true, "triangle", "#172b4d");
+    createAxisAndSeries("total_sales_facility", "Fasiliti", true, "rectangle", "#5e72e4");
 
     // Add legend
     chart.legend = new am4charts.Legend();
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
-
-    // generate some random data, quite different range
-    function generateChartData() {
-      let chartData = [];
-      let firstDate = new Date();
-      firstDate.setDate(firstDate.getDate() - 100);
-      firstDate.setHours(0, 0, 0, 0);
-
-      let visits = 1600;
-      let hits = 2900;
-      let views = 8700;
-
-      for (var i = 0; i < 15; i++) {
-        // we create date objects here. In your data, you can have date strings
-        // and then set format of your dates using chart.dataDateFormat property,
-        // however when possible, use date objects, as this will speed up chart rendering.
-        let newDate = new Date(firstDate);
-        newDate.setDate(newDate.getDate() + i);
-
-        visits += Math.round(
-          (Math.random() < 0.5 ? 1 : -1) * Math.random() * 10
-        );
-        hits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-        views += Math.round(
-          (Math.random() < 0.5 ? 1 : -1) * Math.random() * 10
-        );
-
-        chartData.push({
-          date: newDate,
-          visits: visits,
-          hits: hits,
-          views: views,
-        });
-      }
-      return chartData;
-    }
 
     this.dailyQuoteNumberChart = chart;
   }
@@ -395,56 +421,23 @@ export class DashboardComponent implements OnInit {
     // Add a legend
     chart.legend = new am4charts.Legend();
 
-    let array_data = [
+    chart.data = [
       {
-        status: "Dalam proses",
-        total: this.facilitynew.length > 0 ? this.facilitynew.length : 0,
-        // color: am4core.color("#5e72e4"),
+        status: "Daftar",
+        total: this.facilitynew,
+        color: am4core.color("#5e72e4"),
       },
       {
-        status: "Diterima",
-        total: this.facilityaccept.length > 0 ? this.facilityaccept.length : 0,
-        // color: am4core.color("#2dce89"),
+        status: "Lulus",
+        total: this.facilityaccept,
+        color: am4core.color("#2dce89"),
       },
       {
         status: "Ditolak",
-        total: this.facilityreject.length > 0 ? this.facilityreject.length : 0,
-        // color: am4core.color("#f5365c"),
-      },
-      {
-        status: "Menunggu Pembayaran",
-        total:
-          this.facilitypendingpayment.length > 0
-            ? this.facilitypendingpayment.length
-            : 0,
-        // color: am4core.color("#f5365c"),
-      },
-      {
-        status: "Bayaran Diterima",
-        total:
-          this.facilitypaymentaccept.length > 0
-            ? this.facilitypaymentaccept.length
-            : 0,
-        // color: am4core.color("#f5365c"),
-      },
-      {
-        status: "Bayaran Ditolak",
-        total:
-          this.facilitypaymentreject.length > 0
-            ? this.facilitypaymentreject.length
-            : 0,
-        // color: am4core.color("#f5365c"),
-      },
-      {
-        status: "Bayaran Balik",
-        total: this.facilityrefund.length > 0 ? this.facilityrefund.length : 0,
-        // color: am4core.color("#f5365c"),
+        total: this.facilityreject,
+        color: am4core.color("#f5365c"),
       },
     ];
-
-    chart.data = array_data.filter((obj) => {
-      return obj.total != 0;
-    });
 
     this.totalFacilityBookingChart = chart;
   }
@@ -504,13 +497,18 @@ export class DashboardComponent implements OnInit {
     chart.data = [
       {
         status: "Daftar",
-        total: this.eduprogramsignup.length,
+        total: this.eduprogramsignup,
         color: am4core.color("#5e72e4"),
       },
       {
-        status: "Hadir",
-        total: this.eduprogramattend.length,
+        status: "Lulus",
+        total: this.eduprogramaccept,
         color: am4core.color("#2dce89"),
+      },
+      {
+        status: "Ditolak",
+        total: this.eduprogramreject,
+        color: am4core.color("#f5365c"),
       },
     ];
 
@@ -535,11 +533,13 @@ export class DashboardComponent implements OnInit {
     let yAxis = chart.yAxes.push(new am4charts.ValueAxis());
     yAxis.min = 0;
 
-    function createSeries(value, name) {
+    function createSeries(value, name, color) {
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = value;
       series.dataFields.categoryX = "category";
       series.name = name;
+      series.columns.template.stroke = am4core.color(color);
+      series.columns.template.fill = am4core.color(color);
 
       series.events.on("hidden", arrangeColumns);
       series.events.on("shown", arrangeColumns);
@@ -555,14 +555,14 @@ export class DashboardComponent implements OnInit {
 
     chart.data = [
       {
-        category: "Place #1",
-        first: 50,
-        second: 33,
+        category: "Jualan Tiket",
+        simulator_ride: this.totalticketsimulatorride,
+        showing: this.totalticketshowing,
       },
     ];
 
-    createSeries("first", "The First");
-    createSeries("second", "The Second");
+    createSeries("simulator_ride", "Kembara Simulasi", "#172b4d");
+    createSeries("showing", "Tayangan", "#11cdef");
 
     function arrangeColumns() {
       let series = chart.series.getIndex(0);
@@ -635,11 +635,13 @@ export class DashboardComponent implements OnInit {
     let yAxis = chart.yAxes.push(new am4charts.ValueAxis());
     yAxis.min = 0;
 
-    function createSeries(value, name) {
+    function createSeries(value, name, color) {
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = value;
       series.dataFields.categoryX = "category";
       series.name = name;
+      series.columns.template.stroke = am4core.color(color);
+      series.columns.template.fill = am4core.color(color);
 
       series.events.on("hidden", arrangeColumns);
       series.events.on("shown", arrangeColumns);
@@ -655,14 +657,14 @@ export class DashboardComponent implements OnInit {
 
     chart.data = [
       {
-        category: "Place #1",
-        first: 50,
-        second: 33,
+        category: "Kutipan Jualan",
+        simulator_ride: this.totaldailysalesonlinesimulatorride,
+        showing: this.totaldailysalesonlineshowing,
       },
     ];
 
-    createSeries("first", "The First");
-    createSeries("second", "The Second");
+    createSeries("simulator_ride", "Kembara Simulasi", "#172b4d");
+    createSeries("showing", "Tayangan", "#11cdef");
 
     function arrangeColumns() {
       let series = chart.series.getIndex(0);
@@ -735,11 +737,13 @@ export class DashboardComponent implements OnInit {
     let yAxis = chart.yAxes.push(new am4charts.ValueAxis());
     yAxis.min = 0;
 
-    function createSeries(value, name) {
+    function createSeries(value, name, color) {
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = value;
       series.dataFields.categoryX = "category";
       series.name = name;
+      series.columns.template.stroke = am4core.color(color);
+      series.columns.template.fill = am4core.color(color);
 
       series.events.on("hidden", arrangeColumns);
       series.events.on("shown", arrangeColumns);
@@ -755,14 +759,14 @@ export class DashboardComponent implements OnInit {
 
     chart.data = [
       {
-        category: "Place #1",
-        first: 50,
-        second: 33,
+        category: "Kutipan Jualan",
+        simulator_ride: this.totaldailysalescountersimulatorride,
+        showing: this.totaldailysalescountershowing,
       },
     ];
 
-    createSeries("first", "The First");
-    createSeries("second", "The Second");
+    createSeries("simulator_ride", "Kembara Simulasi", "#172b4d");
+    createSeries("showing", "Tayangan", "#11cdef");
 
     function arrangeColumns() {
       let series = chart.series.getIndex(0);

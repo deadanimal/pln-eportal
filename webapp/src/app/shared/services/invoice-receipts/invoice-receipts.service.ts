@@ -83,4 +83,20 @@ export class InvoiceReceiptsService {
       })
     );
   }
+
+  get_dashboard(field): Observable<any> {
+    return this.http.get<any>(this.url + 'get_dashboard/?' + field).pipe(
+      tap((res) => {
+        // console.log('Educational program applications: ', res)
+      })
+    )
+  }
+
+  get_dashboard_2(): Observable<any> {
+    return this.http.get<any>(this.url + 'get_dashboard_2').pipe(
+      tap((res) => {
+        // console.log('Educational program applications: ', res)
+      })
+    )
+  }
 }
