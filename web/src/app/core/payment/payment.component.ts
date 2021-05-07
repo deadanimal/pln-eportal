@@ -28,6 +28,11 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
   styleUrls: ["./payment.component.scss"],
 })
 export class PaymentComponent implements OnInit {
+
+  // Transaction Type
+  // F - FPX
+  // C - Kad Kredit / Credit Card Portal
+
   // CSS class
   fontSize: string;
   themeColor: string;
@@ -325,6 +330,7 @@ export class PaymentComponent implements OnInit {
               let obj = {
                 pending_payment_datetime: this.getCurrentDateTime(),
                 fpx_transaction_id: this.fpx_created.id,
+                type: this.paymentdetailFormGroup.value.payment_method,
                 status: "PP",
               };
               this.invoicereceiptService
