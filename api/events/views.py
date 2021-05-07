@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models import Count, Func, Q
 from django.http import JsonResponse
 
+from datetime import datetime
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -359,6 +361,24 @@ class EducationalProgramApplicationViewSet(NestedViewSetMixin, viewsets.ModelVie
 
         return JsonResponse(data, safe=False)
 
+    @action(methods=['GET'], detail=False)
+    def get_dashboard(self, request):
+
+        current_year = datetime.today().year
+        current_month = datetime.today().month
+
+        queryset_created = EducationalProgramApplication.objects.filter(created_date__month=current_month, created_date__year=current_year).values()
+        queryset_approved = EducationalProgramApplication.objects.filter(approved_date__month=current_month, approved_date__year=current_year).values()
+        queryset_rejected = EducationalProgramApplication.objects.filter(rejected_date__month=current_month, rejected_date__year=current_year).values()
+
+        data = {
+            'queryset_created': queryset_created,
+            'queryset_approved': queryset_approved,
+            'queryset_rejected': queryset_rejected
+        }
+
+        return Response(data)
+
 
 class EducationalProgramFormViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EducationalProgramForm.objects.all()
@@ -391,6 +411,24 @@ class EducationalProgramFormViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             queryset, many=True)
 
         return Response(serializer_class.data)
+
+    @action(methods=['GET'], detail=False)
+    def get_dashboard(self, request):
+
+        current_year = datetime.today().year
+        current_month = datetime.today().month
+
+        queryset_created = EducationalProgramForm.objects.filter(created_date__month=current_month, created_date__year=current_year).values()
+        queryset_approved = EducationalProgramForm.objects.filter(approved_date__month=current_month, approved_date__year=current_year).values()
+        queryset_rejected = EducationalProgramForm.objects.filter(rejected_date__month=current_month, rejected_date__year=current_year).values()
+
+        data = {
+            'queryset_created': queryset_created,
+            'queryset_approved': queryset_approved,
+            'queryset_rejected': queryset_rejected
+        }
+
+        return Response(data)
 
 
 class VisitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import get_template, render_to_string
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from weasyprint import default_url_fetcher, HTML, CSS
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -257,3 +257,77 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         #     response.write(output.read())
 
         return response
+
+    @action(methods=['GET'], detail=False)
+    def get_dashboard(self, request):
+
+        current_year = datetime.today().year
+        current_month = datetime.today().month
+        current_day = datetime.today().day
+
+        # Kaunter = [T, D, Q, K]
+        # Online = [F, C]
+        sales_category = self.request.query_params['sales_category']
+        if sales_category == 'Kaunter':
+            type_in = ['T', 'D', 'Q', 'K']
+        elif sales_category == 'Online':
+            type_in = ['F', 'C']
+
+        queryset_showing = InvoiceReceipt.objects.filter(type__in=type_in, cart_id__show_booking_id__isnull=False, payment_successful_datetime__day=current_day,
+                                                         payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values()
+        queryset_simulator_ride = InvoiceReceipt.objects.filter(type__in=type_in, cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__day=current_day,
+                                                                payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values()
+
+        data = {
+            'queryset_showing': queryset_showing,
+            'queryset_simulator_ride': queryset_simulator_ride
+        }
+
+        return Response(data)
+
+    @action(methods=['GET'], detail=False)
+    def get_dashboard_2(self, request):
+
+        data = []
+        for x in range(7):
+            
+            current_date = datetime.now()
+            last7_date = current_date - timedelta(days = (7 - x))
+            
+            current_year = last7_date.year
+            current_month = last7_date.month
+            current_day = last7_date.day
+
+            queryset_showing = InvoiceReceipt.objects.filter(cart_id__show_booking_id__isnull=False, payment_successful_datetime__day=current_day, payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
+            # to remove duplicates which is same key and value (objects)
+            new_queryset_showing = [dict(t) for t in {tuple(d.items()) for d in queryset_showing}]
+
+            queryset_simulator_ride = InvoiceReceipt.objects.filter(cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__day=current_day, payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
+            # to remove duplicates which is same key and value (objects)
+            new_queryset_simulator_ride = [dict(t) for t in {tuple(d.items()) for d in queryset_simulator_ride}]
+
+            queryset_facility = InvoiceReceipt.objects.filter(cart_id__facility_booking_id__isnull=False, payment_successful_datetime__day=current_day, payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
+            # to remove duplicates which is same key and value (objects)
+            new_queryset_facility = [dict(t) for t in {tuple(d.items()) for d in queryset_facility}]
+
+            total_sales_showing = 0
+            for showing in new_queryset_showing:
+                total_sales_showing += showing['total_price_after_voucher']
+
+            total_sales_simulator_ride = 0
+            for simulator_ride in new_queryset_simulator_ride:
+                total_sales_simulator_ride += simulator_ride['total_price_after_voucher']
+
+            total_sales_facility = 0
+            for facility in new_queryset_facility:
+                total_sales_facility += facility['total_price_after_voucher']
+
+            data_per_date = {
+                'date': last7_date.date(),
+                'total_sales_showing': total_sales_showing,
+                'total_sales_simulator_ride': total_sales_simulator_ride,
+                'total_sales_facility': total_sales_facility
+            }
+            data.append(data_per_date)
+
+        return Response(data)

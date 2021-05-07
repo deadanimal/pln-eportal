@@ -261,6 +261,9 @@ class EducationalProgramApplication(models.Model):
     image_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('image'))
     video_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('video'))
 
+    approved_date = models.DateTimeField(null=True)
+    rejected_date = models.DateTimeField(null=True)
+
     STATUS = [
         ('AP', 'Approved'),
         ('IP', 'In process'),
@@ -270,6 +273,14 @@ class EducationalProgramApplication(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.status == 'AP':
+            self.approved_date = datetime.datetime.now()
+        elif self.status == 'RJ':
+            self.rejected_date = datetime.datetime.now()
+
+        super(EducationalProgramApplication, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['organisation_name']
@@ -372,6 +383,9 @@ class EducationalProgramForm(models.Model):
     student_2_anyallergies = models.CharField(max_length=255, blank=True)
     student_2_vegetarian = models.BooleanField(default=False)
 
+    approved_date = models.DateTimeField(null=True)
+    rejected_date = models.DateTimeField(null=True)
+
     STATUS = [
         ('AP', 'Approved'),
         ('IP', 'In process'),
@@ -381,6 +395,14 @@ class EducationalProgramForm(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.status == 'AP':
+            self.approved_date = datetime.datetime.now()
+        elif self.status == 'RJ':
+            self.rejected_date = datetime.datetime.now()
+
+        super(EducationalProgramForm, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_date']

@@ -222,6 +222,10 @@ class FacilityBooking(models.Model):
     # payment diterima - selepas FPX menghantar status 00 (Berjaya) ke dalam sistem
     # payment ditolak - selepas FPX menghantar status selain 00 ke dalam sistem
     # refund - pengguna ingat refund tempahan mereka
+
+    approved_date = models.DateTimeField(null=True)
+    rejected_date = models.DateTimeField(null=True)
+
     STATUS = [
         ('FB01', 'In Progress'),
         ('FB02', 'Approved'),
@@ -235,6 +239,14 @@ class FacilityBooking(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.status == 'FB02':
+            self.approved_date = datetime.datetime.now()
+        elif self.status == 'FB03':
+            self.rejected_date = datetime.datetime.now()
+
+        super(FacilityBooking, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['title']

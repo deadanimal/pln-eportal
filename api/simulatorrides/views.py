@@ -5,6 +5,7 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.template.loader import get_template, render_to_string
 
+from datetime import datetime
 from uuid import UUID
 from weasyprint import default_url_fetcher, HTML, CSS
 import tempfile
@@ -219,3 +220,14 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         #     response.write(output.read())
 
         return response
+
+    @action(methods=['GET'], detail=False)
+    def get_dashboard(self, request):
+
+        queryset_simulator_ride = SimulatorRideBooking.objects.filter(booking_date=datetime.today()).values()
+
+        data = {
+            'queryset_simulator_ride': queryset_simulator_ride
+        }
+
+        return Response(data)

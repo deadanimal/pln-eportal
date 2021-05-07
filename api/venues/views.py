@@ -3,6 +3,8 @@ from django.core import serializers
 from django.db.models import Count, Q
 from django.http import JsonResponse
 
+from datetime import datetime
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -219,3 +221,21 @@ class FacilityBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data = list(FacilityBooking.objects.all().values('status').annotate(total=Count('status')))
 
         return JsonResponse(data, safe=False)
+
+    @action(methods=['GET'], detail=False)
+    def get_dashboard(self, request):
+
+        current_year = datetime.today().year
+        current_month = datetime.today().month
+
+        queryset_created = FacilityBooking.objects.filter(created_date__month=current_month, created_date__year=current_year).values()
+        queryset_approved = FacilityBooking.objects.filter(approved_date__month=current_month, approved_date__year=current_year).values()
+        queryset_rejected = FacilityBooking.objects.filter(rejected_date__month=current_month, rejected_date__year=current_year).values()
+
+        data = {
+            'queryset_created': queryset_created,
+            'queryset_approved': queryset_approved,
+            'queryset_rejected': queryset_rejected
+        }
+
+        return Response(data)
