@@ -1,5 +1,7 @@
 import { Component, OnInit, NgZone } from "@angular/core";
 import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
+import { forkJoin, Subscription } from "rxjs";
+import swal from "sweetalert2";
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -7,10 +9,14 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
 
+import { VirtualLibraryArticlesService } from "src/app/shared/services/virtual-library-articles/virtual-library-articles.service";
+import { VirtualLibraryBooksService } from "src/app/shared/services/virtual-library-books/virtual-library-books.service";
+import { VirtualLibrarySerialpublicationsService } from "src/app/shared/services/virtual-library-serialpublications/virtual-library-serialpublications.service";
+
 @Component({
-  selector: 'app-total-downloads-pdf-virtual-library',
-  templateUrl: './total-downloads-pdf-virtual-library.component.html',
-  styleUrls: ['./total-downloads-pdf-virtual-library.component.scss']
+  selector: "app-total-downloads-pdf-virtual-library",
+  templateUrl: "./total-downloads-pdf-virtual-library.component.html",
+  styleUrls: ["./total-downloads-pdf-virtual-library.component.scss"],
 })
 export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
   // Chart
@@ -19,7 +25,16 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
   // FormGroup
   searchFormGroup: FormGroup;
 
-  constructor(public formBuilder: FormBuilder, private zone: NgZone) {
+  // Subscription
+  subscription: Subscription;
+
+  constructor(
+    public formBuilder: FormBuilder,
+    private vlarticleService: VirtualLibraryArticlesService,
+    private vlbookService: VirtualLibraryBooksService,
+    private vlserialpublicationService: VirtualLibrarySerialpublicationsService,
+    private zone: NgZone
+  ) {
     this.searchFormGroup = this.formBuilder.group({
       monthstart: new FormControl(""),
       monthend: new FormControl(""),
@@ -29,265 +44,97 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.zone.runOutsideAngular(() => {
-      this.initChartOne();
-    });
+    this.subscription = forkJoin([
+      this.vlarticleService.get_analytic_total_download_pdf(),
+      this.vlbookService.get_analytic_total_download_pdf(),
+      this.vlserialpublicationService.get_analytic_total_download_pdf(),
+    ]).subscribe(
+      (res) => {
+        // console.log("res", res);
+
+        if (res.length > 0) {
+          this.ngOnDestroy();
+
+          let arrayZero = [];
+          let arrayOne = [];
+          let arrayTwo = [];
+          let rangeArray = [];
+
+          // mapping the retrieved data into new object
+          arrayZero = res[0].map((item) => {
+            return {
+              label: item.virtual_library_article_category_id__name_ms,
+              title: item.name_ms,
+              total: item.download_pdf_counter,
+            };
+          });
+
+          // to find first and last index for range data
+          rangeArray.push({
+            label: arrayZero[0].label,
+            start: arrayZero[0].title,
+            end: arrayZero[arrayZero.length - 1].title,
+            color: 0,
+          });
+
+          // mapping the retrieved data into new object
+          arrayOne = res[1].map((item) => {
+            return {
+              label: item.virtual_library_collection_id__name_ms,
+              title: item.title_ms,
+              total: item.download_pdf_counter,
+            };
+          });
+
+          // to find first and last index for range data
+          rangeArray.push({
+            label: arrayOne[0].label,
+            start: arrayOne[0].title,
+            end: arrayOne[arrayOne.length - 1].title,
+            color: 1,
+          });
+
+          // mapping the retrieved data into new object
+          arrayTwo = res[2].map((item) => {
+            return {
+              label: item.virtual_library_collection_id__name_ms,
+              title: item.title_ms,
+              total: item.download_pdf_counter,
+            };
+          });
+
+          // to find first and last index for range data
+          rangeArray.push({
+            label: arrayTwo[0].label,
+            start: arrayTwo[0].title,
+            end: arrayTwo[arrayTwo.length - 1].title,
+            color: 2,
+          });
+
+          let combinedArray = [...arrayZero, ...arrayOne, ...arrayTwo];
+          this.initChartOne(combinedArray, rangeArray);
+        } else {
+          this.sweetAlertInfo(
+            "Info",
+            "Harap maaf. Tiada data untuk carian yang dibuat."
+          );
+        }
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {}
+    );
   }
 
-  initChartOne() {
+  initChartOne(chartData, rangeData) {
     let chart = am4core.create("chartdivone", am4charts.XYChart);
 
-    chart.data = [
-      {
-        region: "Central",
-        state: "North Dakota",
-        sales: 920,
-      },
-      {
-        region: "Central",
-        state: "South Dakota",
-        sales: 1317,
-      },
-      {
-        region: "Central",
-        state: "Kansas",
-        sales: 2916,
-      },
-      {
-        region: "Central",
-        state: "Iowa",
-        sales: 4577,
-      },
-      {
-        region: "Central",
-        state: "Nebraska",
-        sales: 7464,
-      },
-      {
-        region: "Central",
-        state: "Oklahoma",
-        sales: 19686,
-      },
-      {
-        region: "Central",
-        state: "Missouri",
-        sales: 22207,
-      },
-      {
-        region: "Central",
-        state: "Minnesota",
-        sales: 29865,
-      },
-      {
-        region: "Central",
-        state: "Wisconsin",
-        sales: 32125,
-      },
-      {
-        region: "Central",
-        state: "Indiana",
-        sales: 53549,
-      },
-      {
-        region: "Central",
-        state: "Michigan",
-        sales: 76281,
-      },
-      {
-        region: "Central",
-        state: "Illinois",
-        sales: 80162,
-      },
-      {
-        region: "Central",
-        state: "Texas",
-        sales: 170187,
-      },
-      {
-        region: "East",
-        state: "West Virginia",
-        sales: 1209,
-      },
-      {
-        region: "East",
-        state: "Maine",
-        sales: 1270,
-      },
-      {
-        region: "East",
-        state: "District of Columbia",
-        sales: 2866,
-      },
-      {
-        region: "East",
-        state: "New Hampshire",
-        sales: 7294,
-      },
-      {
-        region: "East",
-        state: "Vermont",
-        sales: 8929,
-      },
-      {
-        region: "East",
-        state: "Connecticut",
-        sales: 13386,
-      },
-      {
-        region: "East",
-        state: "Rhode Island",
-        sales: 22629,
-      },
-      {
-        region: "East",
-        state: "Maryland",
-        sales: 23707,
-      },
-      {
-        region: "East",
-        state: "Delaware",
-        sales: 27453,
-      },
-      {
-        region: "East",
-        state: "Massachusetts",
-        sales: 28639,
-      },
-      {
-        region: "East",
-        state: "New Jersey",
-        sales: 35763,
-      },
-      {
-        region: "East",
-        state: "Ohio",
-        sales: 78253,
-      },
-      {
-        region: "East",
-        state: "Pennsylvania",
-        sales: 116522,
-      },
-      {
-        region: "East",
-        state: "New York",
-        sales: 310914,
-      },
-      {
-        region: "South",
-        state: "South Carolina",
-        sales: 8483,
-      },
-      {
-        region: "South",
-        state: "Louisiana",
-        sales: 9219,
-      },
-      {
-        region: "South",
-        state: "Mississippi",
-        sales: 10772,
-      },
-      {
-        region: "South",
-        state: "Arkansas",
-        sales: 11678,
-      },
-      {
-        region: "South",
-        state: "Alabama",
-        sales: 19511,
-      },
-      {
-        region: "South",
-        state: "Tennessee",
-        sales: 30662,
-      },
-      {
-        region: "South",
-        state: "Kentucky",
-        sales: 36598,
-      },
-      {
-        region: "South",
-        state: "Georgia",
-        sales: 49103,
-      },
-      {
-        region: "South",
-        state: "North Carolina",
-        sales: 55604,
-      },
-      {
-        region: "South",
-        state: "Virginia",
-        sales: 70641,
-      },
-      {
-        region: "South",
-        state: "Florida",
-        sales: 89479,
-      },
-      {
-        region: "West",
-        state: "Wyoming",
-        sales: 1603,
-      },
-      {
-        region: "West",
-        state: "Idaho",
-        sales: 4380,
-      },
-      {
-        region: "West",
-        state: "New Mexico",
-        sales: 4779,
-      },
-      {
-        region: "West",
-        state: "Montana",
-        sales: 5589,
-      },
-      {
-        region: "West",
-        state: "Utah",
-        sales: 11223,
-      },
-      {
-        region: "West",
-        state: "Nevada",
-        sales: 16729,
-      },
-      {
-        region: "West",
-        state: "Oregon",
-        sales: 17431,
-      },
-      {
-        region: "West",
-        state: "Colorado",
-        sales: 32110,
-      },
-      {
-        region: "West",
-        state: "Arizona",
-        sales: 35283,
-      },
-      {
-        region: "West",
-        state: "Washington",
-        sales: 138656,
-      },
-      {
-        region: "West",
-        state: "California",
-        sales: 457731,
-      },
-    ];
+    chart.data = chartData;
 
     // Create axes
     let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-    yAxis.dataFields.category = "state";
+    yAxis.dataFields.category = "title";
     yAxis.renderer.grid.template.location = 0;
     yAxis.renderer.labels.template.fontSize = 10;
     yAxis.renderer.minGridDistance = 10;
@@ -296,27 +143,17 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
 
     // Create series
     let series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueX = "sales";
-    series.dataFields.categoryY = "state";
+    series.dataFields.valueX = "total";
+    series.dataFields.categoryY = "title";
     series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
     series.columns.template.strokeWidth = 0;
     series.columns.template.adapter.add("fill", function (fill, target) {
       const ctx = target.dataItem.dataContext as any;
       if (ctx) {
-        switch (ctx.region) {
-          case "Central":
-            return chart.colors.getIndex(0);
-            break;
-          case "East":
-            return chart.colors.getIndex(1);
-            break;
-          case "South":
-            return chart.colors.getIndex(2);
-            break;
-          case "West":
-            return chart.colors.getIndex(3);
-            break;
-        }
+        let result = rangeData.find((res) => {
+          return res.label === ctx.label;
+        });
+        return chart.colors.getIndex(result.color);
       }
       return fill;
     });
@@ -361,10 +198,14 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
       legendData.push({ name: label, fill: color });
     }
 
-    addRange("Central", "Texas", "North Dakota", chart.colors.getIndex(0));
-    addRange("East", "New York", "West Virginia", chart.colors.getIndex(1));
-    addRange("South", "Florida", "South Carolina", chart.colors.getIndex(2));
-    addRange("West", "California", "Wyoming", chart.colors.getIndex(3));
+    for (let i = 0; i < rangeData.length; i++) {
+      addRange(
+        rangeData[i].label,
+        rangeData[i].start,
+        rangeData[i].end,
+        chart.colors.getIndex(rangeData[i].color)
+      );
+    }
 
     chart.cursor = new am4charts.XYCursor();
 
@@ -389,13 +230,13 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
         );
         yAxis.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.hide(1000, 500);
           }
         });
         series.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.hide(1000, 0, 0, ["valueX"]);
           }
         });
@@ -407,14 +248,14 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
         );
         yAxis.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.show(1000);
           }
         });
 
         series.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.show(1000, 0, ["valueX"]);
           }
         });
@@ -428,6 +269,8 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
     this.zone.runOutsideAngular(() => {
       if (this.chartone) this.chartone.dispose();
     });
+
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   search() {
@@ -436,5 +279,18 @@ export class TotalDownloadsPdfVirtualLibraryComponent implements OnInit {
 
   reset() {
     this.searchFormGroup.reset();
+    this.ngOnDestroy();
+  }
+
+  sweetAlertInfo(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "info",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-info",
+      },
+    });
   }
 }

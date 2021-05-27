@@ -65,7 +65,7 @@ export class ShowbookingsService {
 
   extended(field: string): Observable<Showbooking[]> {
     let urlExtended = "";
-    if(field) urlExtended = this.url + "extended/?" + field;
+    if (field) urlExtended = this.url + "extended/?" + field;
     else urlExtended = this.url + "extended";
     return this.http.get<Showbooking[]>(urlExtended).pipe(
       tap((res) => {
@@ -75,10 +75,10 @@ export class ShowbookingsService {
   }
 
   get_dashboard(): Observable<any> {
-    return this.http.get<any>(this.url + 'get_dashboard').pipe(
+    return this.http.get<any>(this.url + "get_dashboard").pipe(
       tap((res) => {
-        // console.log('Educational program applications: ', res)
+        // console.log('Showbookings: ', res)
       })
-    )
+    );
   }
 }

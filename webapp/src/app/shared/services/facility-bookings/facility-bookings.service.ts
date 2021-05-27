@@ -71,6 +71,14 @@ export class FacilityBookingsService {
     );
   }
 
+  get_dashboard(): Observable<any> {
+    return this.http.get<any>(this.url + 'get_dashboard').pipe(
+      tap((res) => {
+        // console.log('Educational program applications: ', res)
+      })
+    )
+  }
+
   number_of_facility_bookings(body: Form): Observable<any[]> {
     let url = this.url + "number_of_facility_bookings/";
     return this.http.post<any[]>(url, body).pipe(
@@ -80,11 +88,21 @@ export class FacilityBookingsService {
     );
   }
 
-  get_dashboard(): Observable<any> {
-    return this.http.get<any>(this.url + 'get_dashboard').pipe(
+  number_of_facility_bookings_frequency(body: Form): Observable<any[]> {
+    let url = this.url + "number_of_facility_bookings_frequency/";
+    return this.http.post<any[]>(url, body).pipe(
       tap((res) => {
-        // console.log('Educational program applications: ', res)
+        // console.log("Facility bookings: ", res);
       })
-    )
+    );
+  }
+
+  number_of_facility_bookings_statistic(body: Form): Observable<any[]> {
+    let url = this.url + "number_of_facility_bookings_statistic/";
+    return this.http.post<any[]>(url, body).pipe(
+      tap((res) => {
+        // console.log("Facility bookings: ", res);
+      })
+    );
   }
 }

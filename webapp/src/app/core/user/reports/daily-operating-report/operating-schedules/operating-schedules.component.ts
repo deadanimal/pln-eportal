@@ -6,7 +6,7 @@ import {
   FormControl,
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { DailyOperatingReportsService } from "src/app/shared/services/daily-operating-reports/daily-operating-reports.service";

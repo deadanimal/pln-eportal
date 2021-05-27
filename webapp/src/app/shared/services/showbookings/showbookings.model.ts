@@ -5,6 +5,7 @@ export class Showbooking {
   public ticket_quantity: string;
   public ticket_seat: string;
   public ticket_number: string;
+  public ticket_free: boolean;
   public price: number;
   public total_price: number;
   public show_id: string;
@@ -21,6 +22,7 @@ export class Showbooking {
     ticket_quantity: string,
     ticket_seat: string,
     ticket_number: string,
+    ticket_free: boolean,
     price: number,
     total_price: number,
     show_id: string,
@@ -36,6 +38,7 @@ export class Showbooking {
     this.ticket_quantity = ticket_quantity;
     this.ticket_seat = ticket_seat;
     this.ticket_number = ticket_number;
+    this.ticket_free = ticket_free;
     this.price = price;
     this.total_price = total_price;
     this.show_id = show_id;

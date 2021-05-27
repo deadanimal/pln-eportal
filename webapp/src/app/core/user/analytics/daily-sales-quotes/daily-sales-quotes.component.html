@@ -34,21 +34,21 @@
             <div class="row">
               <div class="col-md-4 col-sm-12">
                 <div class="form-group">
-                  <label class="form-control-label">Tarikh Mula</label>
+                  <label class="form-control-label">Tarikh (mula)</label>
                   <input
                     type="date"
                     class="form-control"
-                    formControlName="datestart"
+                    formControlName="start_date"
                   />
                 </div>
               </div>
               <div class="col-md-4 col-sm-12">
                 <div class="form-group">
-                  <label class="form-control-label">Tarikh Akhir</label>
+                  <label class="form-control-label">Tarikh (akhir)</label>
                   <input
                     type="date"
                     class="form-control"
-                    formControlName="dateend"
+                    formControlName="end_date"
                   />
                 </div>
               </div>
@@ -80,7 +80,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
-          <h3 class="m-0">Kutipan Jualan Harian</h3>
+          <h3 class="m-0">Kutipan Jualan Harian (RM)</h3>
         </div>
         <div class="card-body">
           <div id="chartdivone" style="width: 100%; height: 400px"></div>
@@ -90,6 +90,38 @@
   </div>
 
   <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">
+            Kuantiti Jualan Tiket
+            {{ "(" + searchFormGroup.value.category + ")" }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <div id="chartdivtwo" style="width: 100%; height: 400px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">
+            Kuantiti Jualan Tiket Mengikut Kategori Tiket
+            {{ "(" + searchFormGroup.value.category + ")" }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <div id="chartdivthree" style="width: 100%; height: 400px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
@@ -122,5 +154,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

@@ -66,6 +66,14 @@ export class EducationalProgramApplicationsService {
     )
   }
 
+  get_dashboard(): Observable<any> {
+    return this.http.get<any>(this.url + 'get_dashboard').pipe(
+      tap((res) => {
+        // console.log('Educational program applications: ', res)
+      })
+    )
+  }
+
   number_of_program_participants(body: Form): Observable<any[]> {
     let url = this.url + "number_of_program_participants/";
     return this.http.post<any[]>(url, body).pipe(
@@ -73,13 +81,5 @@ export class EducationalProgramApplicationsService {
         // console.log("Educational program applications: ", res);
       })
     );
-  }
-
-  get_dashboard(): Observable<any> {
-    return this.http.get<any>(this.url + 'get_dashboard').pipe(
-      tap((res) => {
-        // console.log('Educational program applications: ', res)
-      })
-    )
   }
 }

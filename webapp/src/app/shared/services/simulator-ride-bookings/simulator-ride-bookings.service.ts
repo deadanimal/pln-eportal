@@ -19,7 +19,7 @@ export class SimulatorRideBookingsService {
 
   constructor(private http: HttpClient) {}
 
-  post(body: Form): Observable<SimulatorRideBooking> {
+  post(body): Observable<SimulatorRideBooking> {
     return this.http.post<SimulatorRideBooking>(this.url, body).pipe(
       tap((res) => {
         // console.log("SimulatorRideBooking: ", res);
@@ -55,7 +55,7 @@ export class SimulatorRideBookingsService {
   }
 
   filter(field: string): Observable<SimulatorRideBooking[]> {
-    let urlFilter = this.url + '?' + field;
+    let urlFilter = this.url + "?" + field;
     return this.http.get<SimulatorRideBooking[]>(urlFilter).pipe(
       tap((res) => {
         // console.log("SimulatorRideBookings: ", res);
@@ -65,7 +65,7 @@ export class SimulatorRideBookingsService {
 
   extended(field: string): Observable<SimulatorRideBooking[]> {
     let urlExtended = "";
-    if(field) urlExtended = this.url + "extended/?" + field;
+    if (field) urlExtended = this.url + "extended/?" + field;
     else urlExtended = this.url + "extended";
     return this.http.get<SimulatorRideBooking[]>(urlExtended).pipe(
       tap((res) => {
@@ -75,11 +75,10 @@ export class SimulatorRideBookingsService {
   }
 
   get_dashboard(): Observable<any> {
-    return this.http.get<any>(this.url + 'get_dashboard').pipe(
+    return this.http.get<any>(this.url + "get_dashboard").pipe(
       tap((res) => {
-        // console.log('Educational program applications: ', res)
+        // console.log('SimulatorRideBookings: ', res)
       })
-    )
+    );
   }
 }
-

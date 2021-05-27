@@ -85,4 +85,14 @@ export class VirtualLibrarySerialpublicationsService {
       })
     );
   }
+
+  get_analytic_total_download_pdf(): Observable<any[]> {
+    let urlGetAnalyticTotalDownloadPdf =
+      this.url + "get_analytic_total_download_pdf";
+    return this.http.get<any[]>(urlGetAnalyticTotalDownloadPdf).pipe(
+      tap((res) => {
+        // console.log("Analytic Total download PDF", res);
+      })
+    );
+  }
 }

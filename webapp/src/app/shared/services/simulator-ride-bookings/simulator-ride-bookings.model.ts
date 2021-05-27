@@ -5,6 +5,7 @@ export class SimulatorRideBooking {
   public ticket_type: string;
   public ticket_category: string;
   public ticket_quantity: number;
+  public ticket_free: boolean;
   public price: number;
   public total_price: number;
   public user_id: string;
@@ -19,6 +20,7 @@ export class SimulatorRideBooking {
     ticket_type: string,
     ticket_category: string,
     ticket_quantity: number,
+    ticket_free: boolean,
     price: number,
     total_price: number,
     user_id: string,
@@ -32,6 +34,7 @@ export class SimulatorRideBooking {
     this.ticket_type = ticket_type;
     this.ticket_category = ticket_category;
     this.ticket_quantity = ticket_quantity;
+    this.ticket_free = ticket_free;
     this.price = price;
     this.total_price = total_price;
     this.user_id = user_id;

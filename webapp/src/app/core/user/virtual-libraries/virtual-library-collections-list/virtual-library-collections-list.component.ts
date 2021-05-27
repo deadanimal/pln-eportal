@@ -6,7 +6,7 @@ import {
   FormControl,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { VirtualLibraryCategoriesService } from "src/app/shared/services/virtual-library-categories/virtual-library-categories.service";

@@ -5,8 +5,8 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { environment } from "src/environments/environment";
 import swal from "sweetalert2";
 
@@ -158,6 +158,7 @@ export class SimulatorRideApplicationsComponent implements OnInit {
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private banklistService: BankListsService,
     private refundService: RefundsService,
@@ -289,6 +290,12 @@ export class SimulatorRideApplicationsComponent implements OnInit {
 
   onActivate(event) {
     this.tableActiveRow = event.row;
+  }
+
+  openBooking() {
+    this.router.navigate(["/simulator-ride/bookings"]).then(() => {
+      window.location.reload();
+    });
   }
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {

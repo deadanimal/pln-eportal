@@ -66,4 +66,13 @@ export class ShowtimesService {
     )
   }
 
+  filter(field: String): Observable<Showtime[]> {
+    let urlFilter = this.url + '?' + field
+    return this.http.get<Showtime[]>(urlFilter).pipe(
+      tap((res) => {
+        // console.log('Showtimes', res)
+      })
+    )
+  }
+
 }

@@ -5,7 +5,7 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { EmailTemplatesService } from "src/app/shared/services/email-templates/email-templates.service";
@@ -77,16 +77,32 @@ export class VisitsApplicationsComponent implements OnInit {
 
     this.visitappFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl(""),
-      organisation_name: new FormControl(""),
-      organisation_category: new FormControl(""),
-      visit_date: new FormControl(""),
-      visit_time: new FormControl(""),
-      total_participant: new FormControl(""),
-      customer_id: new FormControl(""),
+      organisation_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      organisation_category: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      visit_date: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      visit_time: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      total_participant: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      customer_id: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       pic_id: new FormControl(""),
-      tour_guide: new FormControl(false),
+      tour_guide: new FormControl(false, Validators.required),
       status: new FormControl(""),
       other_activities: new FormControl(""),
       document_link: new FormControl(""),
@@ -177,6 +193,7 @@ export class VisitsApplicationsComponent implements OnInit {
         customer_id: row.customer_id ? row.customer_id.id : "",
         pic_id: row.pic_id ? row.pic_id.id : "",
         document_link: row.document_link ? row.document_link : "",
+        tour_guide: row.tour_guide.toString(),
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -319,7 +336,7 @@ export class VisitsApplicationsComponent implements OnInit {
               }
             });
 
-          this.sendmail(this.visitappFormGroup.value);
+          // this.sendmail(this.visitappFormGroup.value);
         },
         (err) => {
           console.error("err", err);
@@ -388,6 +405,110 @@ export class VisitsApplicationsComponent implements OnInit {
           );
         }
       });
+  }
+
+  verifyVisit(row) {
+    swal
+      .fire({
+        title: "Pengesahan Lawatan",
+        text: "Adakah anda ingin meluluskan permohonan lawatan ini?",
+        icon: "warning",
+        // showCancelButton: true,
+        buttonsStyling: false,
+        showDenyButton: true,
+        customClass: {
+          confirmButton: "btn btn-success",
+          // cancelButton: "btn btn-danger",
+          denyButton: "btn btn-danger",
+        },
+        confirmButtonText: "Ya",
+        denyButtonText: "Tidak",
+        // cancelButtonText: "Tidak",
+        showCloseButton: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed == true) {
+          // to accept the educational program application
+          let objUpdate = {
+            status: "AP",
+          };
+          this.visitappService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getData();
+
+              this.sweetAlertSuccess(
+                "Diterima",
+                "Anda telah menerima permohonan lawatan ini."
+              );
+
+              let objMail = {
+                status: "AP",
+                customer_id: row.customer_id.id,
+              };
+
+              this.sendmail(objMail);
+            }
+          );
+        } else if (result.isDenied == true) {
+          // to reject the educational program application
+          let objUpdate = {
+            status: "RJ",
+          };
+          this.visitappService.update(objUpdate, row.id).subscribe(
+            (res) => {
+              // console.log("res", res);
+            },
+            (err) => {
+              console.error("err", err);
+            },
+            () => {
+              this.getData();
+
+              this.sweetAlertWarning(
+                "Ditolak",
+                "Anda telah menolak permohonan lawatan ini."
+              );
+
+              let objMail = {
+                status: "RJ",
+                customer_id: row.customer_id.id,
+              };
+
+              this.sendmail(objMail);
+            }
+          );
+        }
+      });
+  }
+
+  sweetAlertSuccess(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "success",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-success",
+      },
+    });
+  }
+
+  sweetAlertWarning(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-warning",
+      },
+    });
   }
 
   sendmail(row) {

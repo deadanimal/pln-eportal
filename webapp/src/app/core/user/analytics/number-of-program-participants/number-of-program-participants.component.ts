@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from "@angular/core";
 import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
+import swal from "sweetalert2";
 
 import { EducationalProgramApplicationsService } from "src/app/shared/services/educational-program-applications/educational-program-applications.service";
 
@@ -20,6 +21,7 @@ export class NumberOfProgramParticipantsComponent implements OnInit {
 
   // Data
   eduprogramapps = [];
+  last5Years = [];
 
   // FormGroup
   searchFormGroup: FormGroup;
@@ -32,37 +34,15 @@ export class NumberOfProgramParticipantsComponent implements OnInit {
     this.searchFormGroup = this.formBuilder.group({
       year: new FormControl(""),
     });
+
+    for (let i = 0; i < 5; i++) {
+      this.last5Years.push(new Date().getFullYear() - i);
+    }
   }
 
   ngOnInit() {}
 
-  ngAfterViewInit() {
-    this.zone.runOutsideAngular(() => {
-      if (this.chartone) this.chartone.dispose();
-
-      this.eduprogramappService
-        .number_of_program_participants(this.searchFormGroup.value)
-        .subscribe(
-          (res) => {
-            // console.log("res", res);
-            res.forEach((value) => {
-              let obj = {
-                inprocess: value.status == "IP" ? value.total : 0,
-                approve: value.status == "AP" ? value.total : 0,
-                reject: value.status == "RJ" ? value.total : 0,
-                year: value.year
-              }
-
-              this.eduprogramapps.push(obj);
-            });
-            this.initChartOne(this.eduprogramapps);
-          },
-          (err) => {
-            console.error("err", err);
-          }
-        );
-    });
-  }
+  ngAfterViewInit() {}
 
   initChartOne(data) {
     let chart = am4core.create("chartdivone", am4charts.XYChart);
@@ -72,7 +52,7 @@ export class NumberOfProgramParticipantsComponent implements OnInit {
 
     // Create axes
     let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "year";
+    categoryAxis.dataFields.category = "program_name";
     categoryAxis.numberFormatter.numberFormat = "#";
     categoryAxis.renderer.inversed = true;
     categoryAxis.renderer.grid.template.location = 0;
@@ -86,7 +66,7 @@ export class NumberOfProgramParticipantsComponent implements OnInit {
     function createSeries(field, name) {
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueX = field;
-      series.dataFields.categoryY = "year";
+      series.dataFields.categoryY = "program_name";
       series.name = name;
       series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
       series.columns.template.height = am4core.percent(100);
@@ -108,8 +88,8 @@ export class NumberOfProgramParticipantsComponent implements OnInit {
       categoryLabel.label.truncate = false;
     }
 
-    createSeries("inprocess", "Dalam Proses");
-    createSeries("approce", "Diterima");
+    createSeries("inprocess", "Daftar");
+    createSeries("approve", "Lulus");
     createSeries("reject", "Ditolak");
 
     this.chartone = chart;
@@ -122,11 +102,69 @@ export class NumberOfProgramParticipantsComponent implements OnInit {
   }
 
   search() {
-    this.ngAfterViewInit();
+    this.eduprogramappService
+      .number_of_program_participants(this.searchFormGroup.value)
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+
+          if (res.length > 0) {
+            this.ngOnDestroy();
+
+            let arrayOld = [];
+            arrayOld = res.map((item) => {
+              return {
+                program_name: item.educational_program_id__title_ms,
+                inprocess: item.status == "IP" ? item.total : 0,
+                approve: item.status == "AP" ? item.total : 0,
+                reject: item.status == "RJ" ? item.total : 0,
+              };
+            });
+
+            let arrayNew = [];
+            arrayOld.forEach((obj) => {
+              if (!this[obj.program_name]) {
+                this[obj.program_name] = {
+                  program_name: obj.program_name,
+                  inprocess: 0,
+                  approve: 0,
+                  reject: 0,
+                };
+                arrayNew.push(this[obj.program_name]);
+              }
+              this[obj.program_name].inprocess += obj.inprocess;
+              this[obj.program_name].approve += obj.approve;
+              this[obj.program_name].reject += obj.reject;
+            }, Object.create(null));
+
+            this.initChartOne(arrayNew);
+          } else {
+            this.sweetAlertInfo(
+              "Info",
+              "Harap maaf. Tiada data untuk carian yang dibuat."
+            );
+          }
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
   }
 
   reset() {
     this.searchFormGroup.reset();
-    this.ngAfterViewInit();
+    this.ngOnDestroy();
+  }
+
+  sweetAlertInfo(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "info",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-info",
+      },
+    });
   }
 }

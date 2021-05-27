@@ -214,6 +214,20 @@ export const ROUTES: RouteInfo[] = [
     role: ['DR', 'SA', 'FA', 'TA']
   },
   {
+    path: "/carts",
+    title: "Troli",
+    type: "link",
+    icontype: "fas fa-shopping-cart text-primary",
+    role: ['DR', 'SA', 'FA', 'TA']
+  },
+  {
+    path: "/invoices",
+    title: "Invois",
+    type: "link",
+    icontype: "fas fa-file-invoice text-primary",
+    role: ['DR', 'SA', 'FA', 'TA']
+  },
+  {
     path: "/receipts",
     title: "Resit",
     type: "link",
@@ -228,7 +242,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: "reports",
     isCollapsed: true,
     children: [
-      {
+      /* {
         path: "total-ticket-sales-shows",
         title: "Jumlah Jualan Tiket Tayangan",
         type: "link",
@@ -237,7 +251,7 @@ export const ROUTES: RouteInfo[] = [
         path: "total-ticket-sales-simulator-rides",
         title: "Jumlah Jualan Tiket Kembara Simulasi",
         type: "link",
-      },
+      }, */
       {
         path: "total-downloads-pdf-publication",
         title: "Bilangan muat-turun (PDF) penerbitan",

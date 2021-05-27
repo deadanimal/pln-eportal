@@ -1,15 +1,13 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import {
-  AccordionModule,
-  BsDropdownModule,
-  ModalModule,
-  ProgressbarModule,
-  RatingModule,
-  TabsModule,
-  TooltipModule,
-} from "ngx-bootstrap";
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { MatStepperModule } from "@angular/material/stepper";
@@ -19,8 +17,10 @@ import { FullCalendarModule } from "@fullcalendar/angular";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { QuillModule } from "ngx-quill";
+import { NgxNumberSpinnerModule } from 'ngx-number-spinner';
 
 import { CheckboxCheckedPipe } from "src/app/shared/pipes/checkbox/checkbox-checked.pipe";
+import { FormatBookingTimePipe } from "src/app/shared/pipes/format/format-booking-time.pipe";
 import { SafePipe } from "src/app/shared/pipes/safe/safe.pipe";
 
 import { RouterModule } from "@angular/router";
@@ -97,12 +97,16 @@ import { ContractorsComponent } from "./reports/daily-operating-report/contracto
 import { DetailsComponent } from "./reports/daily-operating-report/details/details.component";
 import { OperatingSchedulesComponent } from "./reports/daily-operating-report/operating-schedules/operating-schedules.component";
 import { VisitorSummariesComponent } from "./reports/daily-operating-report/visitor-summaries/visitor-summaries.component";
+import { SimulatorRideBookingsComponent } from './simulator-ride/simulator-ride-bookings/simulator-ride-bookings.component';
+import { ShowsBookingsComponent } from './shows/shows-bookings/shows-bookings.component';
+import { CartsComponent } from './carts/carts.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
 
 @NgModule({
   declarations: [
     CheckboxCheckedPipe,
+    FormatBookingTimePipe,
     SafePipe,
     CalendarComponent,
     ExhibitsListComponent,
@@ -176,6 +180,9 @@ FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
     DetailsComponent,
     OperatingSchedulesComponent,
     VisitorSummariesComponent,
+    SimulatorRideBookingsComponent,
+    ShowsBookingsComponent,
+    CartsComponent,
   ],
   imports: [
     CommonModule,
@@ -193,6 +200,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
     ReactiveFormsModule,
     LoadingBarModule,
     NgxDatatableModule,
+    NgxNumberSpinnerModule,
     MatStepperModule,
     MatFormFieldModule,
     RouterModule.forChild(UserRoutes),

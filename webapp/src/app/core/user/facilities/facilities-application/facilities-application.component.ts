@@ -5,7 +5,7 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -17,7 +17,6 @@ import { FacilityBookingsService } from "src/app/shared/services/facility-bookin
 import { FacilityPricesService } from "src/app/shared/services/facility-prices/facility-prices.service";
 import { FacilitiesService } from "src/app/shared/services/facilities/facilities.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
-import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
 
 export enum SelectionType {
   single = "single",
@@ -136,30 +135,49 @@ export class FacilitiesApplicationComponent implements OnInit {
     private facilitybookingService: FacilityBookingsService,
     private facilitypriceService: FacilityPricesService,
     private facilityService: FacilitiesService,
-    private userService: UsersService,
-    private voucherService: VouchersService
+    private userService: UsersService
   ) {
     this.getData();
     this.getFacility();
     this.getUser();
     this.getBankList();
-    this.getVoucher();
     this.getPrice();
 
     this.facilityFormGroup = this.formBuilder.group({
       id: new FormControl(""),
+      user_name: new FormControl(""),
+      user_email: new FormControl(""),
+      user_phone: new FormControl(""),
       title: new FormControl(""),
+      organisation_name: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      organisation_category: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      booking_date: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      booking_days: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      number_of_people: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      total_price: new FormControl(0.0),
+      want_equipment: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
       user_id: new FormControl(""),
       pic_id: new FormControl(""),
-      facility_id: new FormControl(""),
+      facility_id: new FormControl("", Validators.required),
       status: new FormControl(""),
-      organisation_name: new FormControl(""),
-      organisation_category: new FormControl(""),
-      booking_date: new FormControl(""),
-      booking_days: new FormControl(""),
-      number_of_people: new FormControl(""),
-      total_price: new FormControl(0.0),
-      want_equipment: new FormControl(""),
     });
 
     this.refundFormGroup = this.formBuilder.group({
@@ -214,18 +232,6 @@ export class FacilitiesApplicationComponent implements OnInit {
       (res) => {
         // console.log("res", res);
         this.banklists = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
-  getVoucher() {
-    this.voucherService.filter("status=NU").subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.vouchers = res;
       },
       (err) => {
         console.error("err", err);
@@ -289,9 +295,30 @@ export class FacilitiesApplicationComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.facilityFormGroup.patchValue({
+      user_name: "",
+      user_email: "",
+      user_phone: "",
+      title: "",
+      organisation_name: "",
+      organisation_category: "",
+      booking_date: "",
+      booking_days: "",
+      number_of_people: "",
+      total_price: 0.0,
+      want_equipment: "",
+      user_id: "",
+      pic_id: "",
+      facility_id: "",
+      status: "",
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.facilityFormGroup.reset();
+      // this.facilityFormGroup.reset();
+      this.emptyFormGroup();
     } else if (process == "update") {
       this.facilityFormGroup.patchValue({
         ...row,
@@ -458,8 +485,7 @@ export class FacilitiesApplicationComponent implements OnInit {
     swal
       .fire({
         title: "Pengesahan Tempahan Fasiliti",
-        html:
-          '<input type="text" id="voucher_code" class="swal2-input" placeholder="Masukkan baucar sekiranya perlu">',
+        html: '<input type="text" id="voucher_code" class="swal2-input" placeholder="Masukkan baucar sekiranya perlu">',
         text: "Adakah anda ingin meluluskan permohonan tempahan fasiliti ini?",
         icon: "warning",
         // showCancelButton: true,
@@ -709,25 +735,7 @@ export class FacilitiesApplicationComponent implements OnInit {
         console.error("err", err);
       },
       () => {
-        // to update the voucher status if used
-        if (typeof voucher == "object") {
-          // let obj = {
-          //   status: "AU",
-          // };
-          this.voucherService.update(obj, voucher.voucher_id).subscribe(
-            (res) => {
-              // console.log("res", res);
-            },
-            (err) => {
-              console.error("err", err);
-            },
-            () => {
-              this.updateStatusToFB04(facility_cart[0], user_id);
-            }
-          );
-        } else {
-          this.updateStatusToFB04(facility_cart[0], user_id);
-        }
+        this.updateStatusToFB04(facility_cart[0], user_id);
       }
     );
   }

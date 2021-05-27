@@ -85,18 +85,50 @@ export class InvoiceReceiptsService {
   }
 
   get_dashboard(field): Observable<any> {
-    return this.http.get<any>(this.url + 'get_dashboard/?' + field).pipe(
+    return this.http.get<any>(this.url + "get_dashboard/?" + field).pipe(
       tap((res) => {
-        // console.log('Educational program applications: ', res)
+        // console.log('InvoiceReceipts: ', res)
       })
-    )
+    );
   }
 
   get_dashboard_2(): Observable<any> {
-    return this.http.get<any>(this.url + 'get_dashboard_2').pipe(
+    return this.http.get<any>(this.url + "get_dashboard_2").pipe(
       tap((res) => {
-        // console.log('Educational program applications: ', res)
+        // console.log('InvoiceReceipts: ', res)
       })
-    )
+    );
+  }
+
+  get_analytic_daily_quote_sales_rm(body): Observable<any> {
+    let urlGetAnalyticDailyQuoteSalesRM =
+      this.url + "get_analytic_daily_quote_sales_rm/";
+    return this.http.post(urlGetAnalyticDailyQuoteSalesRM, body).pipe(
+      tap((res) => {
+        // console.log('InvoiceReceipts: ', res)
+      })
+    );
+  }
+
+  get_analytic_daily_quote_sales_ticket(body): Observable<any> {
+    let urlGetAnalyticDailyQuoteSalesTicket =
+      this.url + "get_analytic_daily_quote_sales_ticket/";
+    return this.http.post(urlGetAnalyticDailyQuoteSalesTicket, body).pipe(
+      tap((res) => {
+        // console.log('InvoiceReceipts: ', res)
+      })
+    );
+  }
+
+  get_analytic_daily_quote_sales_ticket_category(body): Observable<any> {
+    let urlGetAnalyticDailyQuoteSalesTicketCategory =
+      this.url + "get_analytic_daily_quote_sales_ticket_category/";
+    return this.http
+      .post(urlGetAnalyticDailyQuoteSalesTicketCategory, body)
+      .pipe(
+        tap((res) => {
+          // console.log('InvoiceReceipts: ', res)
+        })
+      );
   }
 }

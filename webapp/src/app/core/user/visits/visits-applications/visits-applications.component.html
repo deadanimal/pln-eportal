@@ -159,6 +159,13 @@
                 >
                   Sunting
                 </button>
+                <button
+                  class="btn btn-sm btn-warning"
+                  *ngIf="row.status == 'IP'"
+                  (click)="verifyVisit(row)"
+                >
+                  Pengesahan
+                </button>
                 <button class="btn btn-sm btn-danger" (click)="delete(row)">
                   Buang
                 </button>
@@ -191,7 +198,7 @@
   <div class="modal-body">
     <form [formGroup]="visitappFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Pemohon</label>
+        <label class="form-control-label required-field">Nama Pemohon</label>
         <select
           class="form-control"
           formControlName="customer_id"
@@ -203,9 +210,9 @@
         </select>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Tarikh</label>
+            <label class="form-control-label required-field">Tarikh</label>
             <input
               type="date"
               class="form-control"
@@ -214,27 +221,30 @@
             />
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Masa</label>
+            <label class="form-control-label required-field">Waktu</label>
             <input
               type="time"
               class="form-control"
               formControlName="visit_time"
-              placeholder="Pilih masa"
+              placeholder="Pilih waktu"
             />
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Kategori Organisasi</label>
+            <label class="form-control-label required-field"
+              >Kategori Organisasi</label
+            >
             <select
               class="form-control"
               formControlName="organisation_category"
               placeholder="Sila pilih"
             >
+              <option selected hidden value="">Sila pilih</option>
               <option
                 *ngFor="let organisationcategory of organisationcategories"
                 [value]="organisationcategory.value"
@@ -244,46 +254,38 @@
             </select>
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Bilangan orang</label>
+            <label class="form-control-label required-field"
+              >Nama Organisasi</label
+            >
             <input
               class="form-control"
-              formControlName="total_participant"
-              placeholder="Bilangan orang"
-              type="number"
+              formControlName="organisation_name"
+              placeholder="Nama Organisasi"
+              type="text"
             />
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Nama organisasi</label>
-        <input
-          class="form-control"
-          formControlName="organisation_name"
-          placeholder="Nama organisasi"
-          type="text"
-        />
-      </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Juru Iring</label>
-            <select
-              class="form-control"
-              formControlName="pic_id"
-              placeholder="Sila pilih"
+            <label class="form-control-label required-field"
+              >Bilangan Orang</label
             >
-              <option *ngFor="let user of users" [value]="user.id">
-                {{ user.full_name }}
-              </option>
-            </select>
+            <input
+              class="form-control"
+              formControlName="total_participant"
+              placeholder="Bilangan Orang"
+              type="number"
+            />
           </div>
         </div>
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">
-              Lawatan berpandu (min 10 orang) </label
+            <label class="form-control-label required-field">
+              Lawatan Berpandu (min 10 orang) </label
             ><br />
             <div class="form-check form-check-radio form-check-inline pl-0">
               <label class="form-check-label text-dark">
@@ -314,7 +316,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="form-control-label">Status</label>
         <select
           class="form-control"
@@ -325,18 +327,23 @@
           <option value="AP">Diterima</option>
           <option value="RJ">Ditolak</option>
         </select>
-      </div>
+      </div> -->
       <div class="form-group">
-        <label class="form-control-label"> Lain-lain aktiviti </label>
+        <label class="form-control-label"> Lain-lain Aktiviti </label>
         <input
           class="form-control"
-          placeholder="contoh: Meneropong bintang pada waktu malam"
+          placeholder="contoh: Menggunakan teleskop untup mencerap matahari"
           type="text"
           formControlName="other_activities"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label"> Dokumen berkaitan </label><br />
+        <label class="form-control-label">
+          Dokumen Berkaitan
+          <small class="text-info"
+            >* hanya fail jenis DOC, DOCX atau PDF sahaja diterima</small
+          ></label
+        ><br />
         <input
           class="text-dark"
           type="file"
@@ -345,11 +352,29 @@
           (change)="onChange($event)"
         />
       </div>
+      <div class="form-group">
+        <label class="form-control-label">Juru Iring</label>
+        <select
+          class="form-control"
+          formControlName="pic_id"
+          placeholder="Sila pilih"
+        >
+          <option selected hidden value="">Sila pilih</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="create()">
+    <button
+      class="btn btn-success"
+      type="button"
+      [disabled]="!visitappFormGroup.valid"
+      (click)="create()"
+    >
       Simpan
     </button>
 
@@ -384,7 +409,7 @@
   <div class="modal-body">
     <form [formGroup]="visitappFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Pemohon</label>
+        <label class="form-control-label required-field">Nama Pemohon</label>
         <select
           class="form-control"
           formControlName="customer_id"
@@ -396,9 +421,9 @@
         </select>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Tarikh</label>
+            <label class="form-control-label required-field">Tarikh</label>
             <input
               type="date"
               class="form-control"
@@ -407,27 +432,30 @@
             />
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Masa</label>
+            <label class="form-control-label required-field">Waktu</label>
             <input
               type="time"
               class="form-control"
               formControlName="visit_time"
-              placeholder="Pilih masa"
+              placeholder="Pilih waktu"
             />
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Kategori Organisasi</label>
+            <label class="form-control-label required-field"
+              >Kategori Organisasi</label
+            >
             <select
               class="form-control"
               formControlName="organisation_category"
               placeholder="Sila pilih"
             >
+              <option selected hidden value="">Sila pilih</option>
               <option
                 *ngFor="let organisationcategory of organisationcategories"
                 [value]="organisationcategory.value"
@@ -437,46 +465,38 @@
             </select>
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Bilangan orang</label>
+            <label class="form-control-label required-field"
+              >Nama Organisasi</label
+            >
             <input
               class="form-control"
-              formControlName="total_participant"
-              placeholder="Bilangan orang"
-              type="number"
+              formControlName="organisation_name"
+              placeholder="Nama Organisasi"
+              type="text"
             />
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Nama organisasi</label>
-        <input
-          class="form-control"
-          formControlName="organisation_name"
-          placeholder="Nama organisasi"
-          type="text"
-        />
-      </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Juru Iring</label>
-            <select
-              class="form-control"
-              formControlName="pic_id"
-              placeholder="Sila pilih"
+            <label class="form-control-label required-field"
+              >Bilangan Orang</label
             >
-              <option *ngFor="let user of users" [value]="user.id">
-                {{ user.full_name }}
-              </option>
-            </select>
+            <input
+              class="form-control"
+              formControlName="total_participant"
+              placeholder="Bilangan Orang"
+              type="number"
+            />
           </div>
         </div>
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">
-              Lawatan berpandu (min 10 orang) </label
+            <label class="form-control-label required-field">
+              Lawatan Berpandu (min 10 orang) </label
             ><br />
             <div class="form-check form-check-radio form-check-inline pl-0">
               <label class="form-check-label text-dark">
@@ -507,7 +527,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="form-control-label">Status</label>
         <select
           class="form-control"
@@ -518,18 +538,23 @@
           <option value="AP">Diterima</option>
           <option value="RJ">Ditolak</option>
         </select>
-      </div>
+      </div> -->
       <div class="form-group">
-        <label class="form-control-label"> Lain-lain aktiviti </label>
+        <label class="form-control-label"> Lain-lain Aktiviti </label>
         <input
           class="form-control"
-          placeholder="contoh: Meneropong bintang pada waktu malam"
+          placeholder="contoh: Menggunakan teleskop untup mencerap matahari"
           type="text"
           formControlName="other_activities"
         />
       </div>
       <div class="form-group">
-        <label class="form-control-label"> Dokumen berkaitan </label><br />
+        <label class="form-control-label">
+          Dokumen Berkaitan
+          <small class="text-info"
+            >* hanya fail jenis DOC, DOCX atau PDF sahaja diterima</small
+          ></label
+        ><br />
         <input
           class="text-dark"
           type="file"
@@ -538,19 +563,40 @@
           (change)="onChange($event)"
         />
       </div>
-      <div class="row" *ngIf="visitappFormGroup.value.document_link">
+      <div class="row pb-3" *ngIf="visitappFormGroup.value.document_link">
         <div class="col">
-          <a [href]="visitappFormGroup.value.document_link" download
+          <a
+            target="_blank"
+            [href]="visitappFormGroup.value.document_link"
+            download
             ><i class="fas fa-file-alt text-primary"></i> Tekan sini untuk lihat
             fail</a
           >
         </div>
       </div>
+      <div class="form-group">
+        <label class="form-control-label">Juru Iring</label>
+        <select
+          class="form-control"
+          formControlName="pic_id"
+          placeholder="Sila pilih"
+        >
+          <option selected hidden value="">Sila pilih</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.full_name }}
+          </option>
+        </select>
+      </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="update()">
+    <button
+      class="btn btn-success"
+      type="button"
+      [disabled]="!visitappFormGroup.valid"
+      (click)="update()"
+    >
       Simpan
     </button>
 

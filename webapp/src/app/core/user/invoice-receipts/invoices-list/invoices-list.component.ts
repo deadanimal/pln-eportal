@@ -5,7 +5,8 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { LoadingBarService } from "@ngx-loading-bar/core";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
@@ -71,6 +72,7 @@ export class InvoicesListComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
+    private loadingBar: LoadingBarService,
     private modalService: BsModalService,
     private invoicereceiptService: InvoiceReceiptsService
   ) {
@@ -84,15 +86,24 @@ export class InvoicesListComponent implements OnInit {
   }
 
   getData() {
-    this.invoicereceiptService.extended("").subscribe((res) => {
-      this.tableRows = res;
-      this.tableTemp = this.tableRows.map((prop, key) => {
-        return {
-          ...prop,
-          no: key,
-        };
-      });
-    });
+    this.loadingBar.start();
+    this.invoicereceiptService.extended("").subscribe(
+      (res) => {
+        this.tableRows = res;
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            no: key,
+          };
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.loadingBar.complete();
+      }
+    );
   }
 
   entriesChange($event) {

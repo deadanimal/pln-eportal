@@ -7,6 +7,8 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
 
+import { PublicationsService } from "src/app/shared/services/publications/publications.service";
+
 @Component({
   selector: "app-total-downloads-pdf-publication",
   templateUrl: "./total-downloads-pdf-publication.component.html",
@@ -19,7 +21,11 @@ export class TotalDownloadsPdfPublicationComponent implements OnInit {
   // FormGroup
   searchFormGroup: FormGroup;
 
-  constructor(public formBuilder: FormBuilder, private zone: NgZone) {
+  constructor(
+    public formBuilder: FormBuilder,
+    private publicationService: PublicationsService,
+    private zone: NgZone
+  ) {
     this.searchFormGroup = this.formBuilder.group({
       monthstart: new FormControl(""),
       monthend: new FormControl(""),
@@ -29,265 +35,57 @@ export class TotalDownloadsPdfPublicationComponent implements OnInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.zone.runOutsideAngular(() => {
-      this.initChartOne();
-    });
+    this.publicationService.get_analytic_total_download_pdf().subscribe(
+      (res) => {
+        // console.log("res", res);
+        let array = [];
+        array = res.map((item) => {
+          return {
+            label: item.publication_category_id__name_ms,
+            title: item.title_ms,
+            total: item.download_pdf_counter,
+          };
+        });
+        this.arrayRange(array);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
-  initChartOne() {
+  arrayRange(res) {
+    let arrayRange = [];
+    let dupes = {};
+
+    res.forEach((item, index) => {
+      dupes[item.label] = dupes[item.label] || [];
+      dupes[item.label].push(index);
+    });
+
+    let countObj = 0;
+    for (let object in dupes) {
+      let obj = {
+        label: object,
+        start: res[dupes[object][0]].title,
+        end: res[dupes[object][dupes[object].length - 1]].title,
+        color: countObj,
+      };
+      countObj++;
+      arrayRange.push(obj);
+    }
+
+    if (arrayRange.length > 0) this.initChartOne(res, arrayRange);
+  }
+
+  initChartOne(chartData, rangeData) {
     let chart = am4core.create("chartdivone", am4charts.XYChart);
 
-    chart.data = [
-      {
-        region: "Central",
-        state: "North Dakota",
-        sales: 920,
-      },
-      {
-        region: "Central",
-        state: "South Dakota",
-        sales: 1317,
-      },
-      {
-        region: "Central",
-        state: "Kansas",
-        sales: 2916,
-      },
-      {
-        region: "Central",
-        state: "Iowa",
-        sales: 4577,
-      },
-      {
-        region: "Central",
-        state: "Nebraska",
-        sales: 7464,
-      },
-      {
-        region: "Central",
-        state: "Oklahoma",
-        sales: 19686,
-      },
-      {
-        region: "Central",
-        state: "Missouri",
-        sales: 22207,
-      },
-      {
-        region: "Central",
-        state: "Minnesota",
-        sales: 29865,
-      },
-      {
-        region: "Central",
-        state: "Wisconsin",
-        sales: 32125,
-      },
-      {
-        region: "Central",
-        state: "Indiana",
-        sales: 53549,
-      },
-      {
-        region: "Central",
-        state: "Michigan",
-        sales: 76281,
-      },
-      {
-        region: "Central",
-        state: "Illinois",
-        sales: 80162,
-      },
-      {
-        region: "Central",
-        state: "Texas",
-        sales: 170187,
-      },
-      {
-        region: "East",
-        state: "West Virginia",
-        sales: 1209,
-      },
-      {
-        region: "East",
-        state: "Maine",
-        sales: 1270,
-      },
-      {
-        region: "East",
-        state: "District of Columbia",
-        sales: 2866,
-      },
-      {
-        region: "East",
-        state: "New Hampshire",
-        sales: 7294,
-      },
-      {
-        region: "East",
-        state: "Vermont",
-        sales: 8929,
-      },
-      {
-        region: "East",
-        state: "Connecticut",
-        sales: 13386,
-      },
-      {
-        region: "East",
-        state: "Rhode Island",
-        sales: 22629,
-      },
-      {
-        region: "East",
-        state: "Maryland",
-        sales: 23707,
-      },
-      {
-        region: "East",
-        state: "Delaware",
-        sales: 27453,
-      },
-      {
-        region: "East",
-        state: "Massachusetts",
-        sales: 28639,
-      },
-      {
-        region: "East",
-        state: "New Jersey",
-        sales: 35763,
-      },
-      {
-        region: "East",
-        state: "Ohio",
-        sales: 78253,
-      },
-      {
-        region: "East",
-        state: "Pennsylvania",
-        sales: 116522,
-      },
-      {
-        region: "East",
-        state: "New York",
-        sales: 310914,
-      },
-      {
-        region: "South",
-        state: "South Carolina",
-        sales: 8483,
-      },
-      {
-        region: "South",
-        state: "Louisiana",
-        sales: 9219,
-      },
-      {
-        region: "South",
-        state: "Mississippi",
-        sales: 10772,
-      },
-      {
-        region: "South",
-        state: "Arkansas",
-        sales: 11678,
-      },
-      {
-        region: "South",
-        state: "Alabama",
-        sales: 19511,
-      },
-      {
-        region: "South",
-        state: "Tennessee",
-        sales: 30662,
-      },
-      {
-        region: "South",
-        state: "Kentucky",
-        sales: 36598,
-      },
-      {
-        region: "South",
-        state: "Georgia",
-        sales: 49103,
-      },
-      {
-        region: "South",
-        state: "North Carolina",
-        sales: 55604,
-      },
-      {
-        region: "South",
-        state: "Virginia",
-        sales: 70641,
-      },
-      {
-        region: "South",
-        state: "Florida",
-        sales: 89479,
-      },
-      {
-        region: "West",
-        state: "Wyoming",
-        sales: 1603,
-      },
-      {
-        region: "West",
-        state: "Idaho",
-        sales: 4380,
-      },
-      {
-        region: "West",
-        state: "New Mexico",
-        sales: 4779,
-      },
-      {
-        region: "West",
-        state: "Montana",
-        sales: 5589,
-      },
-      {
-        region: "West",
-        state: "Utah",
-        sales: 11223,
-      },
-      {
-        region: "West",
-        state: "Nevada",
-        sales: 16729,
-      },
-      {
-        region: "West",
-        state: "Oregon",
-        sales: 17431,
-      },
-      {
-        region: "West",
-        state: "Colorado",
-        sales: 32110,
-      },
-      {
-        region: "West",
-        state: "Arizona",
-        sales: 35283,
-      },
-      {
-        region: "West",
-        state: "Washington",
-        sales: 138656,
-      },
-      {
-        region: "West",
-        state: "California",
-        sales: 457731,
-      },
-    ];
+    chart.data = chartData;
 
     // Create axes
     let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-    yAxis.dataFields.category = "state";
+    yAxis.dataFields.category = "title";
     yAxis.renderer.grid.template.location = 0;
     yAxis.renderer.labels.template.fontSize = 10;
     yAxis.renderer.minGridDistance = 10;
@@ -296,27 +94,17 @@ export class TotalDownloadsPdfPublicationComponent implements OnInit {
 
     // Create series
     let series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueX = "sales";
-    series.dataFields.categoryY = "state";
+    series.dataFields.valueX = "total";
+    series.dataFields.categoryY = "title";
     series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
     series.columns.template.strokeWidth = 0;
     series.columns.template.adapter.add("fill", function (fill, target) {
       const ctx = target.dataItem.dataContext as any;
       if (ctx) {
-        switch (ctx.region) {
-          case "Central":
-            return chart.colors.getIndex(0);
-            break;
-          case "East":
-            return chart.colors.getIndex(1);
-            break;
-          case "South":
-            return chart.colors.getIndex(2);
-            break;
-          case "West":
-            return chart.colors.getIndex(3);
-            break;
-        }
+        let result = rangeData.find((res) => {
+          return res.label === ctx.label;
+        });
+        return chart.colors.getIndex(result.color);
       }
       return fill;
     });
@@ -361,10 +149,14 @@ export class TotalDownloadsPdfPublicationComponent implements OnInit {
       legendData.push({ name: label, fill: color });
     }
 
-    addRange("Central", "Texas", "North Dakota", chart.colors.getIndex(0));
-    addRange("East", "New York", "West Virginia", chart.colors.getIndex(1));
-    addRange("South", "Florida", "South Carolina", chart.colors.getIndex(2));
-    addRange("West", "California", "Wyoming", chart.colors.getIndex(3));
+    for (let i = 0; i < rangeData.length; i++) {
+      addRange(
+        rangeData[i].label,
+        rangeData[i].start,
+        rangeData[i].end,
+        chart.colors.getIndex(rangeData[i].color)
+      );
+    }
 
     chart.cursor = new am4charts.XYCursor();
 
@@ -389,13 +181,13 @@ export class TotalDownloadsPdfPublicationComponent implements OnInit {
         );
         yAxis.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.hide(1000, 500);
           }
         });
         series.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.hide(1000, 0, 0, ["valueX"]);
           }
         });
@@ -407,14 +199,14 @@ export class TotalDownloadsPdfPublicationComponent implements OnInit {
         );
         yAxis.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.show(1000);
           }
         });
 
         series.dataItems.each(function (dataItem) {
           let ctx = dataItem.dataContext as any;
-          if (ctx.region == name) {
+          if (ctx.label == name) {
             dataItem.show(1000, 0, ["valueX"]);
           }
         });

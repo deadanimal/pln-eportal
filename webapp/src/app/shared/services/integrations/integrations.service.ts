@@ -24,16 +24,18 @@ export class IntegrationsService {
     );
   }
 
-  get_summary_stats_daily(): Observable<any> {
+  get_summary_stats_daily(body): Observable<any> {
+    var arr_start_date = body.start_date.split("-");
+    var arr_end_date = body.end_date.split("-");
     var s = "summary";
     var g = "daily";
     var today = new Date();
-    var sd = today.getDate();
-    var sm = today.getMonth() + 1;
-    var sy = today.getFullYear();
-    var ed = today.getDate();
-    var em = today.getMonth() + 1;
-    var ey = today.getFullYear();
+    var sd = arr_start_date[2];
+    var sm = arr_start_date[1];
+    var sy = arr_start_date[0];
+    var ed = arr_end_date[2];
+    var em = arr_end_date[1];
+    var ey = arr_end_date[0];
     var fullurl =
       "s=" +
       s +

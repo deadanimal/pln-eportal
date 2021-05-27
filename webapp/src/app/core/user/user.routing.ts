@@ -10,6 +10,7 @@ import { TotalTicketSalesSimulatorRidesComponent } from "./analytics/total-ticke
 import { AssetsComponent } from "./assets/assets.component";
 
 import { CalendarComponent } from "./calendar/calendar.component";
+import { CartsComponent } from "./carts/carts.component";
 import { CloseBookingComponent } from "./close-booking/close-booking.component";
 import { AnnouncementsComponent } from "./cms/announcements/announcements.component";
 import { BannersComponent } from "./cms/banners/banners.component";
@@ -51,9 +52,11 @@ import { OperatingSchedulesComponent } from "./reports/daily-operating-report/op
 import { VisitorSummariesComponent } from "./reports/daily-operating-report/visitor-summaries/visitor-summaries.component";
 import { ShowsApplicationsDetailComponent } from "./shows/shows-applications-detail/shows-applications-detail.component";
 import { ShowsApplicationsComponent } from "./shows/shows-applications/shows-applications.component";
+import { ShowsBookingsComponent } from "./shows/shows-bookings/shows-bookings.component";
 import { ShowsListComponent } from "./shows/shows-list/shows-list.component";
 import { ShowsScheduleComponent } from "./shows/shows-schedule/shows-schedule.component";
 import { SimulatorRideApplicationsComponent } from "./simulator-ride/simulator-ride-applications/simulator-ride-applications.component";
+import { SimulatorRideBookingsComponent } from "./simulator-ride/simulator-ride-bookings/simulator-ride-bookings.component";
 import { SimulatorRideScheduleComponent } from "./simulator-ride/simulator-ride-schedule/simulator-ride-schedule.component";
 import { SurveysAnswerComponent } from "./surveys/surveys-answer/surveys-answer.component";
 import { SurveysListComponent } from "./surveys/surveys-list/surveys-list.component";
@@ -276,6 +279,10 @@ export const UserRoutes: Routes = [
             component: ShowsApplicationsDetailComponent,
           },
           {
+            path: "applications/:showtime_id/bookings",
+            component: ShowsBookingsComponent
+          },
+          {
             path: "schedule",
             component: ShowsScheduleComponent,
           },
@@ -287,6 +294,10 @@ export const UserRoutes: Routes = [
           {
             path: "applications",
             component: SimulatorRideApplicationsComponent,
+          },
+          {
+            path: "bookings",
+            component: SimulatorRideBookingsComponent,
           },
           {
             path: "schedule",
@@ -420,6 +431,14 @@ export const UserRoutes: Routes = [
       {
         path: "vouchers",
         component: VouchersComponent,
+      },
+      {
+        path: "carts",
+        component: CartsComponent,
+      },
+      {
+        path: "invoices",
+        component: InvoicesListComponent
       },
       {
         path: "receipts",

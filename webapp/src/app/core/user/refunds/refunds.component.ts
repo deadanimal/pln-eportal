@@ -5,7 +5,7 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -528,8 +528,7 @@ export class RefundsComponent implements OnInit {
     swal
       .fire({
         title: "Pengesahan Bayaran Balik",
-        html:
-          '<input type="text" id="supervisor_id" class="swal2-input" placeholder="Masukkan ID Penyelia / Staf">',
+        html: '<input type="text" id="supervisor_id" class="swal2-input" placeholder="Masukkan ID Penyelia / Staf">',
         text: "Adakah anda ingin meluluskan bayaran balik ini?",
         icon: "warning",
         buttonsStyling: false,
@@ -615,7 +614,6 @@ export class RefundsComponent implements OnInit {
             );
           }
         } else {
-          console.log("result", result);
           this.sweetAlertWarning(
             "Ralat",
             "ID Penyelia yang anda masukkan tidak sama dengan penyelia yang bertugas pada hari ini."

@@ -1,5 +1,7 @@
 import { Component, OnInit, NgZone } from "@angular/core";
 import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
+import { forkJoin, Subscription } from "rxjs";
+import swal from "sweetalert2";
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -7,10 +9,13 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
 
+import { HeadCountersService } from "src/app/shared/services/head-counters/head-counters.service";
+import { IntegrationsService } from "src/app/shared/services/integrations/integrations.service";
+
 @Component({
-  selector: 'app-number-of-visitors',
-  templateUrl: './number-of-visitors.component.html',
-  styleUrls: ['./number-of-visitors.component.scss']
+  selector: "app-number-of-visitors",
+  templateUrl: "./number-of-visitors.component.html",
+  styleUrls: ["./number-of-visitors.component.scss"],
 })
 export class NumberOfVisitorsComponent implements OnInit {
   // Chart
@@ -19,22 +24,26 @@ export class NumberOfVisitorsComponent implements OnInit {
   // FormGroup
   searchFormGroup: FormGroup;
 
-  constructor(public formBuilder: FormBuilder, private zone: NgZone) {
+  // Subscription
+  subscription: Subscription;
+
+  constructor(
+    public formBuilder: FormBuilder,
+    private headcounterService: HeadCountersService,
+    private integrationService: IntegrationsService,
+    private zone: NgZone
+  ) {
     this.searchFormGroup = this.formBuilder.group({
-      monthstart: new FormControl(""),
-      monthend: new FormControl(""),
+      start_date: new FormControl(""),
+      end_date: new FormControl(""),
     });
   }
 
   ngOnInit() {}
 
-  ngAfterViewInit() {
-    this.zone.runOutsideAngular(() => {
-      this.initChartOne();
-    });
-  }
+  ngAfterViewInit() {}
 
-  initChartOne() {
+  initChartOne(chartData, maxValue) {
     let chart = am4core.create("chartdivone", am4charts.XYChart);
     chart.colors.step = 2;
 
@@ -44,7 +53,7 @@ export class NumberOfVisitorsComponent implements OnInit {
     chart.legend.labels.template.maxWidth = 95;
 
     let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    xAxis.dataFields.category = "month";
+    xAxis.dataFields.category = "date";
     xAxis.renderer.cellStartLocation = 0.1;
     xAxis.renderer.cellEndLocation = 0.9;
     xAxis.renderer.grid.template.location = 0;
@@ -52,11 +61,12 @@ export class NumberOfVisitorsComponent implements OnInit {
 
     let yAxis = chart.yAxes.push(new am4charts.ValueAxis());
     yAxis.min = 0;
+    yAxis.max = Math.ceil(maxValue) + 10;
 
     function createSeries(value, name) {
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = value;
-      series.dataFields.categoryX = "month";
+      series.dataFields.categoryX = "date";
       series.name = name;
 
       series.events.on("hidden", arrangeColumns);
@@ -64,50 +74,14 @@ export class NumberOfVisitorsComponent implements OnInit {
 
       let bullet = series.bullets.push(new am4charts.LabelBullet());
       bullet.interactionsEnabled = false;
-      bullet.dy = 30;
+      bullet.dy = -20;
       bullet.label.text = "{valueY}";
-      bullet.label.fill = am4core.color("#ffffff");
+      bullet.label.fill = am4core.color("#000000");
 
       return series;
     }
 
-    chart.data = [
-      {
-        month: "Jun 20'",
-        website: 31,
-        headcount: 29,
-      },
-      {
-        month: "Jul 20'",
-        website: 56,
-        headcount: 32,
-      },
-      {
-        month: "Aug 20'",
-        website: 67,
-        headcount: 58,
-      },
-      {
-        month: "Sep 20'",
-        website: 40,
-        headcount: 55,
-      },
-      {
-        month: "Oct 20'",
-        website: 30,
-        headcount: 78,
-      },
-      {
-        month: "Nov 20'",
-        website: 27,
-        headcount: 40,
-      },
-      {
-        month: "Dec 20'",
-        website: 50,
-        headcount: 33,
-      },
-    ];
+    chart.data = chartData;
 
     createSeries("website", "Website");
     createSeries("headcount", "Head Count");
@@ -169,13 +143,74 @@ export class NumberOfVisitorsComponent implements OnInit {
     this.zone.runOutsideAngular(() => {
       if (this.chartone) this.chartone.dispose();
     });
+
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   search() {
-    // console.log("searchFormGroup", this.searchFormGroup.value);
+    this.subscription = forkJoin([
+      this.headcounterService.get_analytic_total_head_counter(
+        this.searchFormGroup.value
+      ),
+      this.integrationService.get_summary_stats_daily(
+        this.searchFormGroup.value
+      ),
+    ]).subscribe(
+      (res) => {
+        // console.log("res", res);
+
+        if (res.length > 0) {
+          this.ngOnDestroy();
+
+          let combinedArray = [];
+          let maxValue = 0;
+
+          // mapping the retrieved data into new object
+          res[0].forEach((obj, index) => {
+            if (+res[1].sc_data[index].unique_visits > maxValue) {
+              maxValue = +res[1].sc_data[index].unique_visits;
+            }
+            if (obj.total_in > maxValue) {
+              maxValue = obj.total_in;
+            }
+
+            let object = {
+              date: obj.date,
+              website: +res[1].sc_data[index].unique_visits,
+              headcount: obj.total_in,
+            };
+            combinedArray.push(object);
+          });
+
+          this.initChartOne(combinedArray, maxValue);
+        } else {
+          this.sweetAlertInfo(
+            "Info",
+            "Harap maaf. Tiada data untuk carian yang dibuat."
+          );
+        }
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {}
+    );
   }
 
   reset() {
     this.searchFormGroup.reset();
+    this.ngOnDestroy();
+  }
+
+  sweetAlertInfo(title, text) {
+    swal.fire({
+      title,
+      text,
+      icon: "info",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-info",
+      },
+    });
   }
 }

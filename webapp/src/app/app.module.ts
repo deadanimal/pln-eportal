@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpTokenInterceptor } from "./shared/interceptor/http.token.interceptor";
-import { BsDropdownModule } from "ngx-bootstrap";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";

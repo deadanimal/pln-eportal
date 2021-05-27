@@ -15,7 +15,7 @@ import { VectorMapComponent1 } from "./vector-map/vector-map.component";
 import { RouterModule } from "@angular/router";
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { DxVectorMapModule } from "devextreme-angular";
-import { BsDropdownModule } from "ngx-bootstrap";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 
 @NgModule({
   imports: [

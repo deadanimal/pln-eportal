@@ -215,55 +215,30 @@
           formControlName="user_id"
           placeholder="Sila pilih"
         >
-          <option value="">Sila pilih</option>
+          <option selected hidden value="">Sila pilih</option>
           <option *ngFor="let user of users" [value]="user.id">
             {{ user.full_name }}
           </option>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Fasiliti</label>
+        <label class="form-control-label required-field">Fasiliti</label>
         <select
           class="form-control"
           formControlName="facility_id"
           placeholder="Sila pilih"
           (change)="changeRadioEquipment()"
         >
-          <option value="">Sila pilih</option>
+          <option selected hidden value="">Sila pilih</option>
           <option *ngFor="let facility of facilities" [value]="facility.id">
             {{ facility.name_ms }}
           </option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Nama Organisasi</label>
-        <input
-          class="form-control"
-          formControlName="organisation_name"
-          placeholder="Nama Organisasi"
-          type="text"
-        />
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Kategori Organisasi</label>
-        <select
-          class="form-control"
-          formControlName="organisation_category"
-          placeholder="Sila pilih"
-        >
-          <option value="">Sila pilih</option>
-          <option
-            *ngFor="let organisationcategory of organisationcategories"
-            [value]="organisationcategory.value"
-          >
-            {{ organisationcategory.display_name }}
-          </option>
-        </select>
-      </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Tarikh Tempah</label>
+            <label class="form-control-label required-field">Tarikh</label>
             <input
               class="form-control"
               formControlName="booking_date"
@@ -272,15 +247,15 @@
             />
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Masa Tempah</label>
+            <label class="form-control-label required-field">Waktu</label>
             <select
               class="form-control"
               formControlName="booking_days"
               (change)="changeRadioEquipment()"
             >
-              <option value="">Sila pilih</option>
+              <option selected hidden value="">Sila pilih</option>
               <option
                 *ngFor="let bookingday of bookingdays"
                 [value]="bookingday.value"
@@ -291,79 +266,106 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Perlukan peralatan?</label><br />
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioEquipmentWITH"
-                name="want_equipment"
-                formControlName="want_equipment"
-                class="custom-control-input"
-                value="WITH"
-                (change)="changeRadioEquipment()"
-              />
-              <label class="custom-control-label" for="radioEquipmentWITH"
-                >Dengan peralatan</label
-              >
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioEquipmentWOUT"
-                name="want_equipment"
-                formControlName="want_equipment"
-                class="custom-control-input"
-                value="WOUT"
-                (change)="changeRadioEquipment()"
-              />
-              <label class="custom-control-label" for="radioEquipmentWOUT"
-                >Tanpa peralatan</label
-              >
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioEquipmentNA"
-                name="want_equipment"
-                formControlName="want_equipment"
-                class="custom-control-input"
-                value="NA"
-                (change)="changeRadioEquipment()"
-              />
-              <label class="custom-control-label" for="radioEquipmentNA"
-                >Tiada</label
-              >
-            </div>
-          </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Bilangan Orang</label>
+        <input
+          class="form-control"
+          formControlName="number_of_people"
+          placeholder="contoh: 30"
+          type="number"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field"
+          >Perlukan peralatan?</label
+        ><br />
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioEquipmentWITH"
+            name="want_equipment"
+            formControlName="want_equipment"
+            class="custom-control-input"
+            value="WITH"
+            (change)="changeRadioEquipment()"
+          />
+          <label class="custom-control-label" for="radioEquipmentWITH"
+            >Dengan peralatan</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioEquipmentWOUT"
+            name="want_equipment"
+            formControlName="want_equipment"
+            class="custom-control-input"
+            value="WOUT"
+            (change)="changeRadioEquipment()"
+          />
+          <label class="custom-control-label" for="radioEquipmentWOUT"
+            >Tanpa peralatan</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioEquipmentNA"
+            name="want_equipment"
+            formControlName="want_equipment"
+            class="custom-control-input"
+            value="NA"
+            (change)="changeRadioEquipment()"
+          />
+          <label class="custom-control-label" for="radioEquipmentNA"
+            >Tiada</label
+          >
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Jumlah Harga (RM)</label>
+            <label class="form-control-label required-field"
+              >Kategori Organisasi</label
+            >
+            <select
+              class="form-control"
+              formControlName="organisation_category"
+              placeholder="Sila pilih"
+            >
+              <option selected hidden value="">Sila pilih</option>
+              <option
+                *ngFor="let organisationcategory of organisationcategories"
+                [value]="organisationcategory.value"
+              >
+                {{ organisationcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label required-field"
+              >Nama Organisasi</label
+            >
             <input
               class="form-control"
-              formControlName="total_price"
-              placeholder="contoh: 500.00"
-              type="number"
-              readonly
+              formControlName="organisation_name"
+              placeholder="Nama Organisasi"
+              type="text"
             />
           </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Bilangan orang</label>
-            <input
-              class="form-control"
-              formControlName="number_of_people"
-              placeholder="contoh: 30"
-              type="number"
-            />
-          </div>
-        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Jumlah Harga (RM)</label>
+        <input
+          class="form-control"
+          formControlName="total_price"
+          placeholder="contoh: 500.00"
+          type="number"
+          readonly
+        />
       </div>
       <div class="form-group">
         <label class="form-control-label">PIC</label>
@@ -372,7 +374,7 @@
           formControlName="pic_id"
           placeholder="Sila pilih"
         >
-          <option value="">Sila pilih</option>
+          <option selected hidden value="">Sila pilih</option>
           <option *ngFor="let pic of pics" [value]="pic.id">
             {{ pic.full_name }}
           </option>
@@ -395,7 +397,12 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="create()">
+    <button
+      class="btn btn-success"
+      type="button"
+      [disabled]="!facilityFormGroup.valid"
+      (click)="create()"
+    >
       Simpan
     </button>
 
@@ -445,55 +452,31 @@
           formControlName="user_id"
           placeholder="Sila pilih"
         >
-          <option value="">Sila pilih</option>
+          <option selected hidden value="">Sila pilih</option>
           <option *ngFor="let user of users" [value]="user.id">
             {{ user.full_name }}
           </option>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Fasiliti</label>
+        <label class="form-control-label required-field">Fasiliti</label>
         <select
           class="form-control"
           formControlName="facility_id"
           placeholder="Sila pilih"
           (change)="changeRadioEquipment()"
+          disabled
         >
-          <option value="">Sila pilih</option>
+          <option selected hidden value="">Sila pilih</option>
           <option *ngFor="let facility of facilities" [value]="facility.id">
             {{ facility.name_ms }}
           </option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Nama Organisasi</label>
-        <input
-          class="form-control"
-          formControlName="organisation_name"
-          placeholder="Nama Organisasi"
-          type="text"
-        />
-      </div>
-      <div class="form-group">
-        <label class="form-control-label">Kategori Organisasi</label>
-        <select
-          class="form-control"
-          formControlName="organisation_category"
-          placeholder="Sila pilih"
-        >
-          <option value="">Sila pilih</option>
-          <option
-            *ngFor="let organisationcategory of organisationcategories"
-            [value]="organisationcategory.value"
-          >
-            {{ organisationcategory.display_name }}
-          </option>
-        </select>
-      </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Tarikh Tempah</label>
+            <label class="form-control-label required-field">Tarikh</label>
             <input
               class="form-control"
               formControlName="booking_date"
@@ -502,15 +485,15 @@
             />
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Masa Tempah</label>
+            <label class="form-control-label required-field">Waktu</label>
             <select
               class="form-control"
               formControlName="booking_days"
               (change)="changeRadioEquipment()"
             >
-              <option value="">Sila pilih</option>
+              <option selected hidden value="">Sila pilih</option>
               <option
                 *ngFor="let bookingday of bookingdays"
                 [value]="bookingday.value"
@@ -521,79 +504,106 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Perlukan peralatan?</label><br />
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioEquipmentWITH"
-                name="want_equipment"
-                formControlName="want_equipment"
-                class="custom-control-input"
-                value="WITH"
-                (change)="changeRadioEquipment()"
-              />
-              <label class="custom-control-label" for="radioEquipmentWITH"
-                >Dengan peralatan</label
-              >
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioEquipmentWOUT"
-                name="want_equipment"
-                formControlName="want_equipment"
-                class="custom-control-input"
-                value="WOUT"
-                (change)="changeRadioEquipment()"
-              />
-              <label class="custom-control-label" for="radioEquipmentWOUT"
-                >Tanpa peralatan</label
-              >
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                id="radioEquipmentNA"
-                name="want_equipment"
-                formControlName="want_equipment"
-                class="custom-control-input"
-                value="NA"
-                (change)="changeRadioEquipment()"
-              />
-              <label class="custom-control-label" for="radioEquipmentNA"
-                >Tiada</label
-              >
-            </div>
-          </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Bilangan Orang</label>
+        <input
+          class="form-control"
+          formControlName="number_of_people"
+          placeholder="contoh: 30"
+          type="number"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field"
+          >Perlukan peralatan?</label
+        ><br />
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioEquipmentWITH"
+            name="want_equipment"
+            formControlName="want_equipment"
+            class="custom-control-input"
+            value="WITH"
+            (change)="changeRadioEquipment()"
+          />
+          <label class="custom-control-label" for="radioEquipmentWITH"
+            >Dengan peralatan</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioEquipmentWOUT"
+            name="want_equipment"
+            formControlName="want_equipment"
+            class="custom-control-input"
+            value="WOUT"
+            (change)="changeRadioEquipment()"
+          />
+          <label class="custom-control-label" for="radioEquipmentWOUT"
+            >Tanpa peralatan</label
+          >
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="radioEquipmentNA"
+            name="want_equipment"
+            formControlName="want_equipment"
+            class="custom-control-input"
+            value="NA"
+            (change)="changeRadioEquipment()"
+          />
+          <label class="custom-control-label" for="radioEquipmentNA"
+            >Tiada</label
+          >
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <label class="form-control-label">Jumlah Harga (RM)</label>
+            <label class="form-control-label required-field"
+              >Kategori Organisasi</label
+            >
+            <select
+              class="form-control"
+              formControlName="organisation_category"
+              placeholder="Sila pilih"
+            >
+              <option selected hidden value="">Sila pilih</option>
+              <option
+                *ngFor="let organisationcategory of organisationcategories"
+                [value]="organisationcategory.value"
+              >
+                {{ organisationcategory.display_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="form-control-label required-field"
+              >Nama Organisasi</label
+            >
             <input
               class="form-control"
-              formControlName="total_price"
-              placeholder="contoh: 500.00"
-              type="number"
-              readonly
+              formControlName="organisation_name"
+              placeholder="Nama Organisasi"
+              type="text"
             />
           </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Bilangan orang</label>
-            <input
-              class="form-control"
-              formControlName="number_of_people"
-              placeholder="contoh: 30"
-              type="number"
-            />
-          </div>
-        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Jumlah Harga (RM)</label>
+        <input
+          class="form-control"
+          formControlName="total_price"
+          placeholder="contoh: 500.00"
+          type="number"
+          readonly
+        />
       </div>
       <div class="form-group">
         <label class="form-control-label">PIC</label>
@@ -602,7 +612,7 @@
           formControlName="pic_id"
           placeholder="Sila pilih"
         >
-          <option value="">Sila pilih</option>
+          <option selected hidden value="">Sila pilih</option>
           <option *ngFor="let pic of pics" [value]="pic.id">
             {{ pic.full_name }}
           </option>
@@ -625,7 +635,12 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="update()">
+    <button
+      class="btn btn-success"
+      type="button"
+      [disabled]="!facilityFormGroup.valid"
+      (click)="update()"
+    >
       Simpan
     </button>
 

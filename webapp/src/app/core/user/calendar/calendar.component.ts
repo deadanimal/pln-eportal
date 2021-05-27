@@ -10,7 +10,7 @@ import { ActivatedRoute } from "@angular/router";
 import { CalendarOptions } from "@fullcalendar/angular";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { CalendarsService } from "src/app/shared/services/calendars/calendars.service";
