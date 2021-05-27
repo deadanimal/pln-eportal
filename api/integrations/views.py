@@ -26,9 +26,11 @@ from .serializers import (
     HeadCounterSerializer
 )
 
+
 def change_str_to_date_plus8(day, month, year, time):
 
-    month_ms = ['JANUARI', 'FEBRUARI', 'MAC', 'APRIL', 'MEI', 'JUN', 'JULAI', 'OGOS', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DISEMBER']
+    month_ms = ['JANUARI', 'FEBRUARI', 'MAC', 'APRIL', 'MEI', 'JUN',
+                'JULAI', 'OGOS', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DISEMBER']
     day_ms = ['ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT', 'SABTU', 'AHAD']
 
     date_str = day+'/'+month+'/'+year+' '+time
@@ -36,10 +38,11 @@ def change_str_to_date_plus8(day, month, year, time):
     datetime_obj = datetime.strptime(date_str, format_str)
 
     hours = 8
-    hours_added = timedelta(hours = hours)
+    hours_added = timedelta(hours=hours)
     plus8_datetime = datetime_obj + hours_added
 
     return plus8_datetime
+
 
 class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Integration.objects.all()
@@ -91,7 +94,8 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         # http://api.statcounter.com/stats/?vn=VERSION_NUMBER&s=summary&g=GRANULARITY&sd=START_DAY&sm=START_MONTH&sy=START_YEAR&ed=END_DAY&em=END_MONTH&ey=END_YEAR&pi=PROJECT_ID&t=TIME_OF_EXECUTION&u=USERNAME&f=FORMAT&sha1=SHA-1_TO_PROVE_IDENTITY
 
         if (sd is not None and sm is not None and sy is not None and ed is not None and em is not None and ey is not None):
-            fullurl = "s=" + s + "&g=" + g + "&sd=" + sd + "&sm=" + sm + "&sy=" + sy + "&ed=" + ed + "&em=" + em + "&ey=" + ey
+            fullurl = "s=" + s + "&g=" + g + "&sd=" + sd + "&sm=" + \
+                sm + "&sy=" + sy + "&ed=" + ed + "&em=" + em + "&ey=" + ey
 
         # Summary Stats - Yearly
         # http://api.statcounter.com/stats/?vn=VERSION_NUMBER&s=summary&g=GRANULARITY&sy=START_YEAR&ey=END_YEAR&pi=PROJECT_ID&t=TIME_OF_EXECUTION&u=USERNAME&f=FORMAT&sha1=SHA-1_TO_PROVE_IDENTITY
@@ -156,7 +160,7 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 count_out = json_line['Data'][0]['CountingInfo'][0]['Out']
                 total_in = total_in + count_in
                 total_out = total_out + count_out
-            
+
             data = {
                 'total_in': total_in,
                 'total_out': total_out
@@ -179,3 +183,16 @@ class HeadCounterViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = HeadCounter.objects.all()
         return queryset
+
+    @action(methods=['POST'], detail=False)
+    def get_analytic_total_head_counter(self, request):
+
+        data = json.loads(request.body)
+
+        start_date = data['start_date']
+        end_date = data['end_date']
+
+        queryset = HeadCounter.objects.filter(date__range=(start_date, end_date)).values(
+            'total_in', 'total_out', 'total_stay', 'date').order_by('date')
+
+        return Response(queryset)

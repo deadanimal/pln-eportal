@@ -1,5 +1,5 @@
 from __future__ import unicode_literals 
-import uuid, datetime
+import uuid, datetime, pytz
 from django.db import models
 from django.utils.formats import get_format
 # from django import models
@@ -77,6 +77,24 @@ class InvoiceReceipt(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        if self.status == 'IC':
+            prefix = '{}I'.format(datetime.datetime.now(
+                timezone_).strftime('%Y%m%d'))
+            current_year = datetime.datetime.now(timezone_).strftime('%Y')
+            prev_instances = self.__class__.objects.filter(
+                invoice_running_no__contains=current_year).order_by('-invoice_running_no')
+            if prev_instances.exists():
+                last_instance_id = prev_instances.first(
+                ).invoice_running_no[-7:]
+                self.invoice_running_no = prefix + \
+                    '{0:07d}'.format(int(last_instance_id)+1)
+            else:
+                self.invoice_running_no = prefix+'{0:07d}'.format(1)
+
+        super(InvoiceReceipt, self).save(*args, **kwargs)
 
     class meta:
         ordering = ['-created_date']

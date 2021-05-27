@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.core import serializers
-from django.db.models import Count, Q
+from django.db import connection
+from django.db.models import Q, Count, Sum
+from django.db.models.functions import ExtractMonth, TruncMonth
 from django.http import JsonResponse
 
 from datetime import datetime
+import itertools
+import json
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -22,6 +26,9 @@ from .models import (
     FacilityImage,
     FacilityBooking
 )
+
+from carts.models import Cart
+from invoicereceipts.models import InvoiceReceipt
 
 from .serializers import (
     VenueSerializer,
@@ -211,31 +218,110 @@ class FacilityBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serializer_class.data)
 
-    @action(methods=['POST'], detail=False)
-    def number_of_facility_bookings(self, request, *args, **kwargs):
-
-        year = self.request.data['year'] if self.request.data['year'] else None
-        if (year is not None):
-            data = list(FacilityBooking.objects.all().values('status').annotate(total=Count('status')).filter(modified_date__year=year))
-        else:
-            data = list(FacilityBooking.objects.all().values('status').annotate(total=Count('status')))
-
-        return JsonResponse(data, safe=False)
-
     @action(methods=['GET'], detail=False)
     def get_dashboard(self, request):
 
         current_year = datetime.today().year
         current_month = datetime.today().month
 
-        queryset_created = FacilityBooking.objects.filter(created_date__month=current_month, created_date__year=current_year).values()
-        queryset_approved = FacilityBooking.objects.filter(approved_date__month=current_month, approved_date__year=current_year).values()
-        queryset_rejected = FacilityBooking.objects.filter(rejected_date__month=current_month, rejected_date__year=current_year).values()
+        queryset_created = FacilityBooking.objects.filter(
+            created_date__month=current_month, created_date__year=current_year).values()
+        queryset_approved = FacilityBooking.objects.filter(
+            approved_date__month=current_month, approved_date__year=current_year).values()
+        queryset_rejected = FacilityBooking.objects.filter(
+            rejected_date__month=current_month, rejected_date__year=current_year).values()
 
         data = {
             'queryset_created': queryset_created,
             'queryset_approved': queryset_approved,
             'queryset_rejected': queryset_rejected
         }
+
+        return Response(data)
+
+    @action(methods=['POST'], detail=False)
+    def number_of_facility_bookings(self, request, *args, **kwargs):
+
+        data = json.loads(request.body)
+
+        start_date = data['start_date']
+        end_date = data['end_date']
+
+        queryset = FacilityBooking.objects.values('facility_id__name_ms', 'booking_date').filter(
+            booking_date__range=(start_date, end_date)).annotate(total_booking=Count('facility_id')).order_by('booking_date', 'facility_id__name_ms')
+
+        return Response(queryset)
+
+    @action(methods=['POST'], detail=False)
+    def number_of_facility_bookings_frequency(self, request, *args, **kwargs):
+
+        data = json.loads(request.body)
+
+        start_date = data['start_date']
+        end_date = data['end_date']
+
+        queryset = InvoiceReceipt.objects.filter(invoice_created_datetime__range=(
+            start_date, end_date), cart_id__facility_booking_id__isnull=False).values('id', 'invoice_created_datetime__month', 'cart_id')  # payment_successful_datetime__date
+
+        # # to remove duplicates which is same key and value (objects)
+        new_queryset = [dict(t) for t in {tuple(d.items()) for d in queryset}]
+
+        unsortedData = []
+        for qs in new_queryset:
+            queryset = Cart.objects.filter(id=qs['cart_id']).values('facility_booking_id__facility_id__name_ms').annotate(
+                total_booking=Count('facility_booking_id__facility_id__name_ms'))
+
+            for qset in queryset:
+                obj = {
+                    'month_booking': qs['invoice_created_datetime__month'],
+                    'facility_name': qset['facility_booking_id__facility_id__name_ms'],
+                    'total_booking': qset['total_booking']
+                }
+                unsortedData.append(obj)
+
+        data = []
+        for k, g in itertools.groupby(sorted(unsortedData, key=lambda x: (x['month_booking'], x['facility_name'])), key=lambda x: (x['month_booking'], x['facility_name'])):
+            l = list(g)
+            data.append(
+                {k[0]: [{k[1]: str(sum([int(x['total_booking']) for x in l]))}]})
+            # data.append(
+            #     {'month_booking': k[0], 'facility_name': k[1], 'total_booking': str(sum([int(x['total_booking']) for x in l]))})
+
+        return Response(data)
+
+    @action(methods=['POST'], detail=False)
+    def number_of_facility_bookings_statistic(self, request, *args, **kwargs):
+
+        data = json.loads(request.body)
+
+        start_date = data['start_date']
+        end_date = data['end_date']
+
+        queryset = InvoiceReceipt.objects.filter(invoice_created_datetime__range=(
+            start_date, end_date), cart_id__facility_booking_id__isnull=False).values('id', 'invoice_created_datetime__month', 'cart_id')  # payment_successful_datetime__date
+
+        # # to remove duplicates which is same key and value (objects)
+        new_queryset = [dict(t) for t in {tuple(d.items()) for d in queryset}]
+
+        unsortedData = []
+        for qs in new_queryset:
+            queryset = Cart.objects.filter(id=qs['cart_id']).values('facility_booking_id__facility_id__name_ms').annotate(
+                total_price=Sum('facility_booking_id__total_price'))
+
+            for qset in queryset:
+                obj = {
+                    'month_booking': qs['invoice_created_datetime__month'],
+                    'facility_name': qset['facility_booking_id__facility_id__name_ms'],
+                    'total_price': qset['total_price']
+                }
+                unsortedData.append(obj)
+
+        data = []
+        for k, g in itertools.groupby(sorted(unsortedData, key=lambda x: (x['month_booking'], x['facility_name'])), key=lambda x: (x['month_booking'], x['facility_name'])):
+            l = list(g)
+            data.append(
+                {k[0]: [{k[1]: str(sum([int(x['total_price']) for x in l]))}]})
+            # data.append(
+            #     {'month_booking': k[0], 'facility_name': k[1], 'total_price': str(sum([int(x['total_price']) for x in l]))})
 
         return Response(data)

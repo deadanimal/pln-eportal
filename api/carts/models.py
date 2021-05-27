@@ -35,6 +35,7 @@ class Cart(models.Model):
         ('CM', 'Completed'),
         ('AB', 'Abandoned'),
         ('CR', 'Created'),
+        ('PD', 'Pending'),
         ('NA', 'Not Available')
     ]
     cart_status = models.CharField(choices=CART_STATUS, max_length=2, default='CR')

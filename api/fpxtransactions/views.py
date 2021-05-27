@@ -207,8 +207,6 @@ def receipt_created(invoice_receipt_id, transaction_type):
     #     receipt_running_no__exact='')
     prev_instances = InvoiceReceipt.objects.filter(
         receipt_running_no__contains=current_year).order_by('-receipt_running_no')
-    print('Prevs', prev_instances)
-    print('Prev', prev_instances.first())
 
     if prev_instances.exists():
         last_instance_id = prev_instances.first().receipt_running_no[-7:]
@@ -220,11 +218,6 @@ def receipt_created(invoice_receipt_id, transaction_type):
     invoice_receipt.receipt_created_datetime = datetime.datetime.now(
         timezone_).strftime("%Y-%m-%d %H:%M:%S")
     invoice_receipt.status = 'RC'
-
-    print('receipt_created function')
-    print('invoice_receipt_id', invoice_receipt_id)
-    print('invoice_receipt.receipt_running_no',
-          invoice_receipt.receipt_running_no)
 
     invoice_receipt.save()
 

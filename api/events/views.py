@@ -345,31 +345,18 @@ class EducationalProgramApplicationViewSet(NestedViewSetMixin, viewsets.ModelVie
 
         return Response(serializer_class.data)
 
-    @action(methods=['POST'], detail=False)
-    def number_of_program_participants(self, request, *args, **kwargs):
-
-        year = self.request.data['year'] if self.request.data['year'] else None
-        if (year is not None):
-            data = list(EducationalProgramApplication.objects.all().annotate(year=Year('modified_date'))
-                        .values('status', 'year').annotate(total=Count('status')).filter(modified_date__year=year).order_by())
-        else:
-            data = list(EducationalProgramApplication.objects.all().annotate(year=Year('modified_date'))
-                        .values('status', 'year').annotate(total=Count('status')).order_by())
-
-        queryset = EducationalProgramApplication.objects.all().values(
-            'status').annotate(total=Count('status'))
-
-        return JsonResponse(data, safe=False)
-
     @action(methods=['GET'], detail=False)
     def get_dashboard(self, request):
 
         current_year = datetime.today().year
         current_month = datetime.today().month
 
-        queryset_created = EducationalProgramApplication.objects.filter(created_date__month=current_month, created_date__year=current_year).values()
-        queryset_approved = EducationalProgramApplication.objects.filter(approved_date__month=current_month, approved_date__year=current_year).values()
-        queryset_rejected = EducationalProgramApplication.objects.filter(rejected_date__month=current_month, rejected_date__year=current_year).values()
+        queryset_created = EducationalProgramApplication.objects.filter(
+            created_date__month=current_month, created_date__year=current_year).values()
+        queryset_approved = EducationalProgramApplication.objects.filter(
+            approved_date__month=current_month, approved_date__year=current_year).values()
+        queryset_rejected = EducationalProgramApplication.objects.filter(
+            rejected_date__month=current_month, rejected_date__year=current_year).values()
 
         data = {
             'queryset_created': queryset_created,
@@ -378,6 +365,22 @@ class EducationalProgramApplicationViewSet(NestedViewSetMixin, viewsets.ModelVie
         }
 
         return Response(data)
+
+    @action(methods=['POST'], detail=False)
+    def number_of_program_participants(self, request, *args, **kwargs):
+
+        year = self.request.data['year'] if self.request.data['year'] else None
+        if (year is not None):
+            data = list(EducationalProgramApplication.objects.all().annotate(year=Year('modified_date'))
+                        .values('educational_program_id__title_ms', 'status', 'year').annotate(total=Count('status')).filter(educational_program_date_id__program_date__year=year).order_by('educational_program_id__title_ms'))
+        else:
+            data = list(EducationalProgramApplication.objects.all().annotate(year=Year('modified_date'))
+                        .values('educational_program_id__title_ms', 'status', 'year').annotate(total=Count('status')).order_by('educational_program_id__title_ms'))
+
+        queryset = EducationalProgramApplication.objects.all().values(
+            'status').annotate(total=Count('status'))
+
+        return JsonResponse(data, safe=False)
 
 
 class EducationalProgramFormViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -418,9 +421,12 @@ class EducationalProgramFormViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         current_year = datetime.today().year
         current_month = datetime.today().month
 
-        queryset_created = EducationalProgramForm.objects.filter(created_date__month=current_month, created_date__year=current_year).values()
-        queryset_approved = EducationalProgramForm.objects.filter(approved_date__month=current_month, approved_date__year=current_year).values()
-        queryset_rejected = EducationalProgramForm.objects.filter(rejected_date__month=current_month, rejected_date__year=current_year).values()
+        queryset_created = EducationalProgramForm.objects.filter(
+            created_date__month=current_month, created_date__year=current_year).values()
+        queryset_approved = EducationalProgramForm.objects.filter(
+            approved_date__month=current_month, approved_date__year=current_year).values()
+        queryset_rejected = EducationalProgramForm.objects.filter(
+            rejected_date__month=current_month, rejected_date__year=current_year).values()
 
         data = {
             'queryset_created': queryset_created,

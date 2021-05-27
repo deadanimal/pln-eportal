@@ -133,6 +133,14 @@ class VirtualLibraryArticleViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             return Response(data=[])
 
+    @action(methods=['GET'], detail=False)
+    def get_analytic_total_download_pdf(self, request):
+
+        queryset = VirtualLibraryArticle.objects.select_related('virtual_library_article_category_id').values(
+            'virtual_library_article_category_id__name_ms', 'name_ms', 'download_pdf_counter').order_by('virtual_library_article_category_id__name_ms')
+
+        return Response(queryset)
+
 
 class VirtualLibraryCollectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VirtualLibraryCollection.objects.all()
@@ -243,6 +251,14 @@ class VirtualLibraryBookViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             return Response(data=[])
 
+    @action(methods=['GET'], detail=False)
+    def get_analytic_total_download_pdf(self, request):
+
+        queryset = VirtualLibraryBook.objects.select_related('virtual_library_collection_id').values(
+            'virtual_library_collection_id__name_ms', 'title_ms', 'download_pdf_counter').order_by('virtual_library_collection_id__name_ms')
+
+        return Response(queryset)
+
 
 class VirtualLibrarySerialPublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VirtualLibrarySerialPublication.objects.all()
@@ -317,6 +333,14 @@ class VirtualLibrarySerialPublicationViewSet(NestedViewSetMixin, viewsets.ModelV
                 return Response(data=[])
         else:
             return Response(data=[])
+
+    @action(methods=['GET'], detail=False)
+    def get_analytic_total_download_pdf(self, request):
+
+        queryset = VirtualLibrarySerialPublication.objects.select_related('virtual_library_collection_id').values(
+            'virtual_library_collection_id__name_ms', 'title_ms', 'download_pdf_counter').order_by('virtual_library_collection_id__name_ms')
+
+        return Response(queryset)
 
 
 class VirtualLibraryESourceCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

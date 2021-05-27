@@ -119,7 +119,7 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = SimulatorRideBookingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = ['simulator_ride_time_id', 'booking_date',
-                        'ticket_type', 'ticket_category', 'user_id', 'status']
+                        'ticket_type', 'ticket_category', 'ticket_free', 'user_id', 'status']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -132,6 +132,15 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = SimulatorRideBooking.objects.all()
         return queryset
+
+    def create(self, request):
+        is_many = isinstance(request.data, list)
+
+        serializer = self.get_serializer(data=request.data, many=is_many)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
@@ -224,7 +233,8 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def get_dashboard(self, request):
 
-        queryset_simulator_ride = SimulatorRideBooking.objects.filter(booking_date=datetime.today()).values()
+        queryset_simulator_ride = SimulatorRideBooking.objects.filter(
+            booking_date=datetime.today()).values()
 
         data = {
             'queryset_simulator_ride': queryset_simulator_ride

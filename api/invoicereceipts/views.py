@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.db.models import Q, Sum
+from django.db import connection
+from django.db.models import Q, Count, Sum
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import get_template, render_to_string
 
 from datetime import datetime, timedelta
 from weasyprint import default_url_fetcher, HTML, CSS
+import itertools
+import json
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -290,25 +293,31 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         data = []
         for x in range(7):
-            
+
             current_date = datetime.now()
-            last7_date = current_date - timedelta(days = (7 - x))
-            
+            last7_date = current_date - timedelta(days=(7 - x))
+
             current_year = last7_date.year
             current_month = last7_date.month
             current_day = last7_date.day
 
-            queryset_showing = InvoiceReceipt.objects.filter(cart_id__show_booking_id__isnull=False, payment_successful_datetime__day=current_day, payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
+            queryset_showing = InvoiceReceipt.objects.filter(cart_id__show_booking_id__isnull=False, payment_successful_datetime__day=current_day,
+                                                             payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
             # to remove duplicates which is same key and value (objects)
-            new_queryset_showing = [dict(t) for t in {tuple(d.items()) for d in queryset_showing}]
+            new_queryset_showing = [
+                dict(t) for t in {tuple(d.items()) for d in queryset_showing}]
 
-            queryset_simulator_ride = InvoiceReceipt.objects.filter(cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__day=current_day, payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
+            queryset_simulator_ride = InvoiceReceipt.objects.filter(cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__day=current_day,
+                                                                    payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
             # to remove duplicates which is same key and value (objects)
-            new_queryset_simulator_ride = [dict(t) for t in {tuple(d.items()) for d in queryset_simulator_ride}]
+            new_queryset_simulator_ride = [
+                dict(t) for t in {tuple(d.items()) for d in queryset_simulator_ride}]
 
-            queryset_facility = InvoiceReceipt.objects.filter(cart_id__facility_booking_id__isnull=False, payment_successful_datetime__day=current_day, payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
+            queryset_facility = InvoiceReceipt.objects.filter(cart_id__facility_booking_id__isnull=False, payment_successful_datetime__day=current_day,
+                                                              payment_successful_datetime__month=current_month, payment_successful_datetime__year=current_year).values('id', 'total_price_after_voucher')
             # to remove duplicates which is same key and value (objects)
-            new_queryset_facility = [dict(t) for t in {tuple(d.items()) for d in queryset_facility}]
+            new_queryset_facility = [
+                dict(t) for t in {tuple(d.items()) for d in queryset_facility}]
 
             total_sales_showing = 0
             for showing in new_queryset_showing:
@@ -329,5 +338,263 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 'total_sales_facility': total_sales_facility
             }
             data.append(data_per_date)
+
+        return Response(data)
+
+    @action(methods=['POST'], detail=False)
+    def get_analytic_daily_quote_sales_rm(self, request):
+
+        data = json.loads(request.body)
+
+        start_date = data['start_date']
+        end_date = data['end_date']
+        category = data['category']
+
+        if category == 'Tayangan':
+            queryset = InvoiceReceipt.objects.filter(payment_successful_datetime__range=(
+                start_date, end_date), cart_id__show_booking_id__isnull=False).values('id', 'payment_successful_datetime__date', 'cart_id')
+
+        elif category == 'Kembara Simulasi':
+            queryset = InvoiceReceipt.objects.filter(payment_successful_datetime__range=(
+                start_date, end_date), cart_id__simulator_ride_booking_id__isnull=False).values('id', 'payment_successful_datetime__date', 'cart_id').order_by('payment_successful_datetime__date')
+
+        elif category == 'Fasiliti':
+            queryset = InvoiceReceipt.objects.filter(payment_successful_datetime__range=(
+                start_date, end_date), cart_id__facility_booking_id__isnull=False).values('id', 'payment_successful_datetime__date', 'cart_id')
+
+        # to remove duplicates which is same key and value (objects)
+        new_queryset = [dict(t) for t in {tuple(d.items()) for d in queryset}]
+
+        unsortedData = []
+        for qs in new_queryset:
+            if category == 'Tayangan':
+                queryset = Cart.objects.filter(id=qs['cart_id']).aggregate(
+                    Sum('show_booking_id__total_price'))
+
+                obj = {
+                    'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                    'total_price': queryset['show_booking_id__total_price__sum']
+                }
+                unsortedData.append(obj)
+
+            elif category == 'Kembara Simulasi':
+                queryset = Cart.objects.filter(id=qs['cart_id']).aggregate(
+                    Sum('simulator_ride_booking_id__total_price'))
+
+                obj = {
+                    'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                    'total_price': queryset['simulator_ride_booking_id__total_price__sum']
+                }
+                unsortedData.append(obj)
+
+            elif category == 'Fasiliti':
+                queryset = Cart.objects.filter(id=qs['cart_id']).aggregate(
+                    Sum('facility_booking_id__total_price'))
+
+                obj = {
+                    'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                    'total_price': queryset['facility_booking_id__total_price__sum']
+                }
+                unsortedData.append(obj)
+
+        data = []
+        for k, g in itertools.groupby(sorted(unsortedData, key=lambda x: x['payment_successful_datetime']), key=lambda x: x['payment_successful_datetime']):
+            l = list(g)
+            data.append(
+                {'payment_successful_datetime': k, 'total_price': str(sum([int(x['total_price']) for x in l]))})
+
+        return Response(data)
+
+    @action(methods=['POST'], detail=False)
+    def get_analytic_daily_quote_sales_ticket(self, request):
+
+        data = json.loads(request.body)
+
+        start_date = data['start_date']
+        end_date = data['end_date']
+        category = data['category']
+
+        # Kaunter = [T, D, Q, K]
+        # Online = [F, C]
+
+        if category == 'Tayangan':
+            queryset_counter = InvoiceReceipt.objects.filter(type__in=(
+                'T', 'D', 'Q', 'K'), cart_id__show_booking_id__isnull=False, payment_successful_datetime__range=(start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+            queryset_online = InvoiceReceipt.objects.filter(type__in=(
+                'F', 'C'), cart_id__show_booking_id__isnull=False, payment_successful_datetime__range=(start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+
+        elif category == 'Kembara Simulasi':
+            queryset_counter = InvoiceReceipt.objects.filter(type__in=(
+                'T', 'D', 'Q', 'K'), cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__range=(start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+            queryset_online = InvoiceReceipt.objects.filter(type__in=(
+                'F', 'C'), cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__range=(start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+
+        # to remove duplicates which is same key and value (objects)
+        new_queryset_counter = [
+            dict(t) for t in {tuple(d.items()) for d in queryset_counter}]
+        new_queryset_online = [
+            dict(t) for t in {tuple(d.items()) for d in queryset_online}]
+
+        data_counter = []
+        for qs in new_queryset_counter:
+            if category == 'Tayangan':
+                queryset = Cart.objects.filter(id=qs['cart_id']).aggregate(
+                    Count('show_booking_id__id'))
+
+                obj = {
+                    'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                    'total_ticket': queryset['show_booking_id__id__count']
+                }
+                data_counter.append(obj)
+
+            elif category == 'Kembara Simulasi':
+                queryset = Cart.objects.filter(id=qs['cart_id']).aggregate(
+                    Count('simulator_ride_booking_id__id'))
+
+                obj = {
+                    'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                    'total_ticket': queryset['simulator_ride_booking_id__id__count']
+                }
+                data_counter.append(obj)
+
+        data_online = []
+        for qs in new_queryset_online:
+            if category == 'Tayangan':
+                queryset = Cart.objects.filter(id=qs['cart_id']).aggregate(
+                    Count('show_booking_id__id'))
+
+                obj = {
+                    'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                    'total_ticket': queryset['show_booking_id__id__count']
+                }
+                data_online.append(obj)
+
+            elif category == 'Kembara Simulasi':
+                queryset = Cart.objects.filter(id=qs['cart_id']).aggregate(
+                    Count('simulator_ride_booking_id__id'))
+
+                obj = {
+                    'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                    'total_ticket': queryset['simulator_ride_booking_id__id__count']
+                }
+                data_online.append(obj)
+
+        sortedData_counter = []
+        for k, g in itertools.groupby(sorted(data_counter, key=lambda x: x['payment_successful_datetime']), key=lambda x: x['payment_successful_datetime']):
+            l = list(g)
+            sortedData_counter.append(
+                {'payment_successful_datetime': k, 'total_ticket': str(sum([int(x['total_ticket']) for x in l]))})
+
+        sortedData_online = []
+        for k, g in itertools.groupby(sorted(data_online, key=lambda x: x['payment_successful_datetime']), key=lambda x: x['payment_successful_datetime']):
+            l = list(g)
+            sortedData_online.append(
+                {'payment_successful_datetime': k, 'total_ticket': str(sum([int(x['total_ticket']) for x in l]))})
+
+        data = {
+            'queryset_counter': sortedData_counter,
+            'queryset_online': sortedData_online
+        }
+
+        return Response(data)
+
+    @action(methods=['POST'], detail=False)
+    def get_analytic_daily_quote_sales_ticket_category(self, request):
+
+        data = json.loads(request.body)
+
+        start_date = data['start_date']
+        end_date = data['end_date']
+        category = data['category']
+
+        # Warganegara = CZ : Warganegara, NC : Bukan Warganegara
+        # Kategori = AD : Dewasa, KD : Kanak-kanak, OF : Warga Emas, SD : Pelajar, OK : OKU
+
+        if category == 'Tayangan':
+            queryset_citizen = InvoiceReceipt.objects.filter(cart_id__show_booking_id__ticket_type='CZ', cart_id__show_booking_id__isnull=False, payment_successful_datetime__range=(
+                start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+            queryset_noncitizen = InvoiceReceipt.objects.filter(cart_id__show_booking_id__ticket_type='NC', cart_id__show_booking_id__isnull=False, payment_successful_datetime__range=(
+                start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+
+        elif category == 'Kembara Simulasi':
+            queryset_citizen = InvoiceReceipt.objects.filter(cart_id__simulator_ride_booking_id__ticket_type='CZ', cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__range=(
+                start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+            queryset_noncitizen = InvoiceReceipt.objects.filter(cart_id__simulator_ride_booking_id__ticket_type='NC', cart_id__simulator_ride_booking_id__isnull=False, payment_successful_datetime__range=(
+                start_date, end_date)).values('id', 'payment_successful_datetime__date', 'cart_id')
+
+        # to remove duplicates which is same key and value (objects)
+        new_queryset_citizen = [
+            dict(t) for t in {tuple(d.items()) for d in queryset_citizen}]
+        new_queryset_noncitizen = [
+            dict(t) for t in {tuple(d.items()) for d in queryset_noncitizen}]
+
+        data_citizen = []
+        for qs in new_queryset_citizen:
+            if category == 'Tayangan':
+                queryset = Cart.objects.filter(id=qs['cart_id']).values('show_booking_id__ticket_category').annotate(
+                    total_ticket_category=Count('show_booking_id__ticket_category'))
+
+                for qset in queryset:
+                    obj = {
+                        'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                        'ticket_category': qset['show_booking_id__ticket_category'],
+                        'total_ticket_category': qset['total_ticket_category']
+                    }
+                    data_citizen.append(obj)
+
+            elif category == 'Kembara Simulasi':
+                queryset = Cart.objects.filter(id=qs['cart_id']).values('simulator_ride_booking_id__ticket_category').annotate(
+                    total_ticket_category=Count('simulator_ride_booking_id__ticket_category'))
+
+                for qset in queryset:
+                    obj = {
+                        'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                        'ticket_category': qset['simulator_ride_booking_id__ticket_category'],
+                        'total_ticket_category': qset['total_ticket_category']
+                    }
+                    data_citizen.append(obj)
+
+        data_noncitizen = []
+        for qs in new_queryset_noncitizen:
+            if category == 'Tayangan':
+                queryset = Cart.objects.filter(id=qs['cart_id']).values('show_booking_id__ticket_category').annotate(
+                    total_ticket_category=Count('show_booking_id__ticket_category'))
+
+                for qset in queryset:
+                    obj = {
+                        'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                        'ticket_category': qset['show_booking_id__ticket_category'],
+                        'total_ticket_category': qset['total_ticket_category']
+                    }
+                    data_noncitizen.append(obj)
+
+            elif category == 'Kembara Simulasi':
+                queryset = Cart.objects.filter(id=qs['cart_id']).values('simulator_ride_booking_id__ticket_category').annotate(
+                    total_ticket_category=Count('simulator_ride_booking_id__ticket_category'))
+
+                for qset in queryset:
+                    obj = {
+                        'payment_successful_datetime': qs['payment_successful_datetime__date'],
+                        'ticket_category': qset['simulator_ride_booking_id__ticket_category'],
+                        'total_ticket_category': qset['total_ticket_category']
+                    }
+                    data_noncitizen.append(obj)
+
+        sortedData_citizen = []
+        for k, g in itertools.groupby(sorted(data_citizen, key=lambda x: x['payment_successful_datetime']), key=lambda x: (x['payment_successful_datetime'], x['ticket_category'])):
+            l = list(g)
+            sortedData_citizen.append(
+                {'type': 'CZ', 'payment_successful_datetime': k[0], 'ticket_category': k[1], 'total_ticket_category': str(sum([int(x['total_ticket_category']) for x in l]))})
+
+        sortedData_noncitizen = []
+        for k, g in itertools.groupby(sorted(data_noncitizen, key=lambda x: x['payment_successful_datetime']), key=lambda x: (x['payment_successful_datetime'], x['ticket_category'])):
+            l = list(g)
+            sortedData_noncitizen.append(
+                {'type': 'NC', 'payment_successful_datetime': k[0], 'ticket_category': k[1], 'total_ticket_category': str(sum([int(x['total_ticket_category']) for x in l]))})
+
+        data = {
+            'queryset_citizen': sortedData_citizen,
+            'queryset_noncitizen': sortedData_noncitizen
+        }
 
         return Response(data)

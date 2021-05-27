@@ -56,9 +56,12 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def extended(self, request, *args, **kwargs):
 
         queryset = Cart.objects.all()
+        id = request.query_params.get('id', None)
         cart_status = request.query_params.get('cart_status', None)
         user = request.query_params.get('user', None)
 
+        if id is not None:
+            queryset = queryset.filter(id=id)
         if cart_status is not None:
             queryset = queryset.filter(cart_status=cart_status)
         if user is not None:

@@ -89,6 +89,9 @@ class SimulatorRideBooking(models.Model):
     ]
     ticket_category = models.CharField(max_length=2, choices=TICKET_CATEGORY, default='AD')
     ticket_quantity = models.IntegerField(default=0)
+    # True - Free Ticket
+    # False - Paid Ticket
+    ticket_free = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="simulator_ride_booking_user_id")
@@ -112,7 +115,7 @@ class SimulatorRideBooking(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['ticket_type']
+        ordering = ['-created_date']
     
     def __str__(self):
         return str(self.id) + ' - ' + self.ticket_type + ' - ' + self.ticket_category + ' - ' + str(self.simulator_ride_time_id) + ' - ' + str(self.booking_date)

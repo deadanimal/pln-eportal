@@ -94,7 +94,8 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Showtime.objects.all()
     serializer_class = ShowtimeSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['showing_id', 'venue_id', 'created_date', 'show_date']
+    filterset_fields = ['id', 'showing_id',
+                        'venue_id', 'created_date', 'show_date']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -156,7 +157,7 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = ShowBookingSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = ['showtime_id', 'user_id',
-                        'show_id', 'ticket_seat', 'status']
+                        'show_id', 'ticket_seat', 'ticket_number', 'ticket_free', 'status']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -169,6 +170,15 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = ShowBooking.objects.all()
         return queryset
+
+    def create(self, request):
+        is_many = isinstance(request.data, list)
+
+        serializer = self.get_serializer(data=request.data, many=is_many)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
@@ -249,7 +259,8 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
 
         # Creating http response
-        filename = 'Tiket_Planetarium_Negara_' + ticket_info['ticket_number'] + '.pdf'
+        filename = 'Tiket_Planetarium_Negara_' + \
+            ticket_info['ticket_number'] + '.pdf'
         response = HttpResponse(result, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
         response['Content-Transfer-Encoding'] = 'binary'
@@ -264,7 +275,8 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def get_dashboard(self, request):
 
-        queryset_showing = ShowBooking.objects.filter(showtime_id__show_date=datetime.today()).values()
+        queryset_showing = ShowBooking.objects.filter(
+            showtime_id__show_date=datetime.today()).values()
 
         data = {
             'queryset_showing': queryset_showing

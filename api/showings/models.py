@@ -125,6 +125,9 @@ class ShowTicket(models.Model):
     ticket_type = models.CharField(
         max_length=2, choices=TICKET_TYPE, default='CZ')
     ticket_seat = models.CharField(max_length=3, default='NA')
+    # True - Free Ticket
+    # False - Paid Ticket
+    ticket_free = models.BooleanField(default=False)
     qrcode = models.CharField(max_length=100, default='NA')
     user_id = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="showticket_customer", default="")
@@ -168,6 +171,9 @@ class ShowBooking(models.Model):
     ticket_quantity = models.IntegerField()
     ticket_seat = models.CharField(max_length=3, default='NA')
     ticket_number = models.CharField(max_length=7, blank=True)
+    # True - Free Ticket
+    # False - Paid Ticket
+    ticket_free = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(

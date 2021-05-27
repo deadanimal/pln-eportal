@@ -118,3 +118,11 @@ class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 return Response(data=[])
         else:
             return Response(data=[])
+
+    @action(methods=['GET'], detail=False)
+    def get_analytic_total_download_pdf(self, request):
+
+        queryset = Publication.objects.select_related('publication_category_id').values(
+            'publication_category_id__name_ms', 'title_ms', 'download_pdf_counter').order_by('publication_category_id__name_ms')
+
+        return Response(queryset)

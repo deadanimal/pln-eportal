@@ -93,8 +93,6 @@ class Refund(models.Model):
             current_year = datetime.datetime.now(timezone_).strftime('%Y')
             prev_instances = self.__class__.objects.filter(
                 refund_running_no__contains=current_year).order_by('-refund_running_no')
-            print('Prevs', prev_instances)
-            print('Prev', prev_instances.first())
             if prev_instances.exists():
                 last_instance_id = prev_instances.first(
                 ).refund_running_no[-7:]
