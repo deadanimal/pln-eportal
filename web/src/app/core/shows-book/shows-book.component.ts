@@ -10,6 +10,7 @@ import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
+import { take } from "rxjs/operators";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -41,7 +42,7 @@ export class ShowsBookComponent implements OnInit {
   show: any;
   showings = [];
   showtimes = [];
-  acceptedbookings = [];
+  acceptedbookings: any;
   today: Date = new Date();
   ticketprices = [];
   totalticket: number = 0;
@@ -169,7 +170,8 @@ export class ShowsBookComponent implements OnInit {
           // get existing booking which book tomorrow and after
           res.forEach((obj) => {
             let statuses = ["SB03", "SB06"];
-            if (statuses.indexOf(obj.status) == -1) this.existbookings.push(obj);
+            if (statuses.indexOf(obj.status) == -1)
+              this.existbookings.push(obj);
           });
         },
         (err) => {
@@ -313,9 +315,8 @@ export class ShowsBookComponent implements OnInit {
   calculateTotal() {
     let count = 0;
     for (let i = 0; i < this.ticketprices.length; i++) {
-      let formcontrol = this.secondFormGroup.value[
-        this.ticketprices[i].formcontrol
-      ];
+      let formcontrol =
+        this.secondFormGroup.value[this.ticketprices[i].formcontrol];
       count += formcontrol;
 
       // to check either school have minimum 30 or not
@@ -372,9 +373,8 @@ export class ShowsBookComponent implements OnInit {
     var totalTicket = 0;
     var arrayTotalTicket = [];
     for (let i = 0; i < this.ticketprices.length; i++) {
-      let formcontrol = this.secondFormGroup.value[
-        this.ticketprices[i].formcontrol
-      ];
+      let formcontrol =
+        this.secondFormGroup.value[this.ticketprices[i].formcontrol];
       let obj = {
         type: ticketType,
         category: this.ticketprices[i].ticket_category,
@@ -406,26 +406,26 @@ export class ShowsBookComponent implements OnInit {
       }
     }
 
-    for (let index = 0; index < arrayPost.length; index++) {
-      this.showbookingService.post(arrayPost[index]).subscribe(
-        (res) => {
-          // console.log("res", res);
-          this.acceptedbookings.push(res);
-        },
-        (err) => {
-          console.error("err", err);
-        },
-        () => {
-          if (index === totalTicket - 1) {
-            // make a condition here
-            // if totalTicket < 30 = no voucher = status - SB02
-            // else totalTicket >= 30 = voucher = status - SB01
-            if (totalTicket < 30) this.updateStatusToSB02();
-            else this.maintainStatusSB01();
-          }
-        }
-      );
-    }
+    // for (let index = 0; index < arrayPost.length; index++) {
+    this.showbookingService.post(arrayPost).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.acceptedbookings = res;
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        // if (index === totalTicket - 1) {
+        // make a condition here
+        // if totalTicket < 30 = no voucher = status - SB02
+        // else totalTicket >= 30 = voucher = status - SB01
+        if (totalTicket < 30) this.updateStatusToSB02();
+        else this.maintainStatusSB01();
+        // }
+      }
+    );
+    // }
 
     /* var totalTicket =
       this.secondFormGroup.value.adult +
@@ -568,11 +568,35 @@ export class ShowsBookComponent implements OnInit {
 
   // to update the status of showing booking from SB01 to SB02
   updateStatusToSB02() {
+    for (let i = 0; i < this.acceptedbookings.length; i++) {
+      let obj = {
+        status: "SB02",
+      };
+      this.showbookingService
+        .update(obj, this.acceptedbookings[i].id)
+        .subscribe(
+          (res) => {
+            // console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          },
+          () => {
+            if (i === this.acceptedbookings.length - 1) {
+              this.updateStatusToSB04();
+            }
+          }
+        );
+    }
+  }
+
+  // to update the status of showing booking from SB02 to SB04
+  updateStatusToSB04() {
     let showing_cart = [];
     for (let i = 0; i < this.acceptedbookings.length; i++) {
       showing_cart.push(this.acceptedbookings[i].id);
       let obj = {
-        status: "SB02",
+        status: "SB04",
       };
       this.showbookingService
         .update(obj, this.acceptedbookings[i].id)
@@ -620,13 +644,14 @@ export class ShowsBookComponent implements OnInit {
               console.error("err", err);
             },
             () => {
-              this.toastr.info(
-                this.translate.instant("TambahKeTroliBerjaya"),
-                "Info"
-              );
-              this.router.navigate(["/checkout"]).then(() => {
-                window.location.reload();
-              });
+              this.toastr
+                .info(this.translate.instant("TambahKeTroliBerjaya"), "Info")
+                .onHidden.pipe(take(1))
+                .subscribe(() => {
+                  this.router.navigate(["/checkout"]).then(() => {
+                    window.location.reload();
+                  });
+                });
             }
           );
         // this.router.navigate([

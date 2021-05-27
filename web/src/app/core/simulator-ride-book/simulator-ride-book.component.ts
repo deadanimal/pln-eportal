@@ -10,6 +10,7 @@ import { NavigationExtras, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
+import { take } from "rxjs/operators";
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
@@ -33,7 +34,7 @@ export class SimulatorRideBookComponent implements OnInit {
   bookingtimes = ["10", "11", "12", "14", "15", "16"];
   existbookings = [];
   simridetimes = [];
-  acceptedbookings = [];
+  acceptedbookings: any;
   today: Date = new Date();
   threemonth: Date = new Date();
   ticketprices = [];
@@ -207,9 +208,8 @@ export class SimulatorRideBookComponent implements OnInit {
   calculateTotal() {
     let count = 0;
     for (let i = 0; i < this.ticketprices.length; i++) {
-      let formcontrol = this.secondFormGroup.value[
-        this.ticketprices[i].formcontrol
-      ];
+      let formcontrol =
+        this.secondFormGroup.value[this.ticketprices[i].formcontrol];
       count += formcontrol;
 
       if (this.secondFormGroup.value.citizen) {
@@ -245,9 +245,8 @@ export class SimulatorRideBookComponent implements OnInit {
     var totalTicket = 0;
     var arrayTotalTicket = [];
     for (let i = 0; i < this.ticketprices.length; i++) {
-      let formcontrol = this.secondFormGroup.value[
-        this.ticketprices[i].formcontrol
-      ];
+      let formcontrol =
+        this.secondFormGroup.value[this.ticketprices[i].formcontrol];
       let obj = {
         type: ticketType,
         category: this.ticketprices[i].ticket_category,
@@ -277,22 +276,23 @@ export class SimulatorRideBookComponent implements OnInit {
       }
     }
 
-    for (let index = 0; index < arrayPost.length; index++) {
-      this.simulatorridebookingService.post(arrayPost[index]).subscribe(
-        (res) => {
-          // console.log("res", res);
-          this.acceptedbookings.push(res);
-        },
-        (err) => {
-          console.error("err", err);
-        },
-        () => {
-          if (index === totalTicket - 1) {
-            this.updateStatusToSRB02();
-          }
-        }
-      );
-    }
+    // for (let index = 0; index < arrayPost.length; index++) {
+    this.simulatorridebookingService.post(arrayPost).subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.acceptedbookings = res;
+      },
+      (err) => {
+        console.error("err", err);
+      },
+      () => {
+        this.updateStatusToSRB02();
+        // if (index === totalTicket - 1) {
+        //   this.updateStatusToSRB02();
+        // }
+      }
+    );
+    // }
 
     /* var totalTicket =
       this.secondFormGroup.value.adult + this.secondFormGroup.value.children;
@@ -397,13 +397,14 @@ export class SimulatorRideBookComponent implements OnInit {
               console.error("err", err);
             },
             () => {
-              this.toastr.info(
-                this.translate.instant("TambahKeTroliBerjaya"),
-                "Info"
-              );
-              this.router.navigate(["/checkout"]).then(() => {
-                window.location.reload();
-              });
+              this.toastr
+                .info(this.translate.instant("TambahKeTroliBerjaya"), "Info")
+                .onHidden.pipe(take(1))
+                .subscribe(() => {
+                  this.router.navigate(["/checkout"]).then(() => {
+                    window.location.reload();
+                  });
+                });
             }
           );
         //   this.router.navigate([
@@ -497,8 +498,7 @@ export class SimulatorRideBookComponent implements OnInit {
           .fire({
             icon: "info",
             title: "Tempahan Kembara Simulasi",
-            text:
-              "Tarikh dan waktu tempahan yang anda pilih hanya berbaki 1 kerusi sahaja. Adakah anda ingin meneruskan tempahan?",
+            text: "Tarikh dan waktu tempahan yang anda pilih hanya berbaki 1 kerusi sahaja. Adakah anda ingin meneruskan tempahan?",
             buttonsStyling: false,
             showCancelButton: true,
             confirmButtonText: "Ya",
@@ -517,8 +517,7 @@ export class SimulatorRideBookComponent implements OnInit {
         swal.fire({
           icon: "info",
           title: "Tempahan Kembara Simulasi",
-          text:
-            "Harap maaf, tarikh ATAU waktu tempahan anda sudah ditempah oleh orang lain. Sila pilih tarikh ATAU waktu yang berbeza untuk menempah. Terima kasih.",
+          text: "Harap maaf, tarikh ATAU waktu tempahan anda sudah ditempah oleh orang lain. Sila pilih tarikh ATAU waktu yang berbeza untuk menempah. Terima kasih.",
           buttonsStyling: false,
           confirmButtonText: "Tutup",
           customClass: {

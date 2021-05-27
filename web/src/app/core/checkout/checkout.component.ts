@@ -541,13 +541,11 @@ export class CheckoutComponent implements OnInit {
                         invoice_created_datetime: this.getCurrentDateTime(),
                         user: this.authService.decodedToken().user_id,
                         cart_id: cart_id,
-                        total_price_before_voucher: this.total_price_before_voucher.toFixed(
-                          2
-                        ),
+                        total_price_before_voucher:
+                          this.total_price_before_voucher.toFixed(2),
                         total_voucher: this.total_voucher.toFixed(2),
-                        total_price_after_voucher: this.total_price_after_voucher.toFixed(
-                          2
-                        ),
+                        total_price_after_voucher:
+                          this.total_price_after_voucher.toFixed(2),
                         voucher_id: this.voucher_id,
                       };
                       this.invoicereceiptService.post(obj).subscribe(
@@ -574,15 +572,11 @@ export class CheckoutComponent implements OnInit {
                                   console.error("err", err);
                                 },
                                 () => {
-                                  this.router.navigate(["/payment"], {
-                                    queryParams: { id: this.queryParams },
-                                  });
+                                  this.updateCartStatusToPD();
                                 }
                               );
                           } else {
-                            this.router.navigate(["/payment"], {
-                              queryParams: { id: this.queryParams },
-                            });
+                            this.updateCartStatusToPD();
                           }
                         }
                       );
@@ -603,13 +597,11 @@ export class CheckoutComponent implements OnInit {
                 invoice_created_datetime: this.getCurrentDateTime(),
                 user: this.authService.decodedToken().user_id,
                 cart_id: cart_id,
-                total_price_before_voucher: this.total_price_before_voucher.toFixed(
-                  2
-                ),
+                total_price_before_voucher:
+                  this.total_price_before_voucher.toFixed(2),
                 total_voucher: this.total_voucher,
-                total_price_after_voucher: this.total_price_after_voucher.toFixed(
-                  2
-                ),
+                total_price_after_voucher:
+                  this.total_price_after_voucher.toFixed(2),
                 voucher_id: this.voucher_id,
               };
               this.invoicereceiptService.post(obj).subscribe(
@@ -634,15 +626,11 @@ export class CheckoutComponent implements OnInit {
                         console.error("err", err);
                       },
                       () => {
-                        this.router.navigate(["/payment"], {
-                          queryParams: { id: this.queryParams },
-                        });
+                        this.updateCartStatusToPD();
                       }
                     );
                   } else {
-                    this.router.navigate(["/payment"], {
-                      queryParams: { id: this.queryParams },
-                    });
+                    this.updateCartStatusToPD();
                   }
                 }
               );
@@ -653,6 +641,29 @@ export class CheckoutComponent implements OnInit {
           console.error("err", err);
         }
       );
+  }
+
+  updateCartStatusToPD() {
+    for (let i = 0; i < this.carts.length; i++) {
+      let obj = {
+        cart_status: "PD",
+      };
+      this.cartService.update(obj, this.carts[i].id).subscribe(
+        (res) => {
+          // console.log("res", res);
+        },
+        (err) => {
+          console.error("err", err);
+        },
+        () => {
+          if (i === this.carts.length - 1) {
+            this.router.navigate(["/payment"], {
+              queryParams: { id: this.queryParams },
+            });
+          }
+        }
+      );
+    }
   }
 
   ngOnInit() {

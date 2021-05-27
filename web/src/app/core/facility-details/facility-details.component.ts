@@ -315,6 +315,9 @@ export class FacilityDetailsComponent implements OnInit {
         this.facilitybookingFormGroup.patchValue({
           ...res,
           user_id: res.id,
+          user_name: res.full_name != "" ? res.full_name : "",
+          user_email: res.email != "" ? res.email : "",
+          user_phone: res.phone != "" ? res.phone : "",
         });
       },
       (err) => {
