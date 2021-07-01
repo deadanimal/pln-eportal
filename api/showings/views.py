@@ -10,6 +10,7 @@ from uuid import UUID
 from weasyprint import default_url_fetcher, HTML, CSS
 import tempfile
 import json
+import pytz
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -211,6 +212,25 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer_class = ShowBookingExtendedSerializer(queryset, many=True)
 
         items = serializer_class.data[0].items()
+        
+        # QR code format = PLN<current_year>|<ticket_number>|<showtime_id>|<show_id>|<user_id>
+        """
+        QR code array
+        [0]: PLN<current_year
+        [1]: <ticket_number>
+        [2]: <showtime_id>
+        [3]: <show_id>
+        [4]: <user_id>
+        """
+        
+        # Get current date based on timezone
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_year = datetime.now(timezone_).year
+        
+        # Develop QR code string
+        queryset = ShowBooking.objects.filter(id=show_booking_id).values('ticket_number', 'showtime_id', 'show_id', 'user_id')
+        qr_code_array = [str('PLN{}'.format(current_year)), str(queryset[0]['ticket_number']), str(queryset[0]['showtime_id']), str(queryset[0]['show_id']), str(queryset[0]['user_id'])]
+        qr_code_str = '|'.join(qr_code_array)
 
         # missing no tiket
         ticket_info = {}
@@ -220,10 +240,25 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         invoicereceipt = InvoiceReceipt.objects.filter(
             cart_id__id=cart[0]['id']).values()
 
+        ticket_info['ticket_qrcode'] = qr_code_str
+
         if invoicereceipt:
             ticket_info['ticket_transaction_date'] = invoicereceipt[0]['payment_successful_datetime'].strftime(
                 "%Y-%m-%d %H:%M")
-            ticket_info['ticket_transaction_type'] = 'FPX'
+            ticket_transaction_type = ''
+            if invoicereceipt[0]['type'] == 'T':
+                ticket_transaction_type = 'Tunai / Cash'
+            elif invoicereceipt[0]['type'] == 'F':
+                ticket_transaction_type = 'FPX'
+            elif invoicereceipt[0]['type'] == 'C':
+                ticket_transaction_type = 'Kad Kredit / Credit Card'
+            elif invoicereceipt[0]['type'] == 'D':
+                ticket_transaction_type = 'Kad Debit / Debit Card'
+            elif invoicereceipt[0]['type'] == 'Q':
+                ticket_transaction_type = 'QR Pay'
+            elif invoicereceipt[0]['type'] == 'K':
+                ticket_transaction_type = 'Kad Kredit / Credit Card'
+            ticket_info['ticket_transaction_type'] = ticket_transaction_type
 
         for key, value in items:
             # print(key, '=>', value)

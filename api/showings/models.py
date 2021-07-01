@@ -196,7 +196,8 @@ class ShowBooking(models.Model):
         ('SB04', 'Pending Payment'),
         ('SB05', 'Payment Accepted'),
         ('SB06', 'Payment Rejected'),
-        ('SB07', 'Refund')
+        ('SB07', 'Refund'),
+        ('SB08', 'QR validate')
     ]
     status = models.CharField(max_length=4, choices=STATUS, default='SB01')
 

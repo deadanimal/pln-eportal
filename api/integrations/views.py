@@ -21,6 +21,8 @@ from .models import (
     HeadCounter
 )
 
+from showings.models import ShowBooking
+
 from .serializers import (
     IntegrationSerializer,
     HeadCounterSerializer
@@ -168,6 +170,48 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
             myfile.close()
 
+        return Response(data)
+    
+    @action(methods=['POST'], detail=False)
+    def get_flap_barrier_qr_code(self, request):
+        
+        print('get_flap_barrier_qr_code')
+        data = json.loads(request.body)
+        qr_code = data['qr_code']
+        
+        # QR code format = PLN<current_year>|<ticket_number>|<showtime_id>|<show_id>|<user_id>
+        """
+        QR code array
+        [0]: PLN<current_year
+        [1]: <ticket_number>
+        [2]: <showtime_id>
+        [3]: <show_id>
+        [4]: <user_id>
+        """
+        
+        # Get current date based on timezone
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_date = datetime.now(timezone_).strftime("%Y-%m-%d")
+        
+        qr_code_array = qr_code.split('|')
+        queryset = ShowBooking.objects.filter(showtime_id__show_date=current_date, ticket_number=qr_code_array[1], showtime_id=qr_code_array[2], show_id=qr_code_array[3], user_id=qr_code_array[4], status='SB05').values('id')
+        
+        if queryset.count() > 0:
+            # To update the status of QR code authentication
+            queryset_save = ShowBooking.objects.get(id=queryset[0]['id'])
+            queryset_save.status = 'SB08'
+            queryset_save.save()
+            
+            data = {
+                "authenticated": True,
+                "message": "The QR code is valid."
+            }
+        else:
+            data = {
+                "authenticated": False,
+                "message": "The QR code is invalid. Please try again"
+            }
+        
         return Response(data)
 
 

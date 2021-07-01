@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load qr_code %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -63,7 +64,7 @@
           <p class="m-0">www.planetariumnegara.gov.my</p>
         </div>
 
-        <div style="padding-left: 15cm">
+        <div style="padding-left: 15.5cm">
           <!--position: relative; left: 70px-->
           <p>Tempat :</p>
           <h4 class="teater-angkasa">Teater<br />Angkasa</h4>
@@ -92,10 +93,7 @@
         </div>
       </div>
       <div class="col d-flex flex-row-reverse">
-        <img
-          src="{% static 'image/qr_code.png' %}"
-          style="height: 150px; width: 180px"
-        />
+        {% qr_from_text ticket_info.ticket_qrcode size="2" image_format="png" %}
       </div>
     </div>
   </body>

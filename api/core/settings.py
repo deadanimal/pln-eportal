@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'simple_history',
+    'qr_code',
 
     'assets',
     'events',
