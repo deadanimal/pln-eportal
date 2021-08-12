@@ -15,9 +15,9 @@ from users.models import (
 class Feedback(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
-    comment_user = models.CharField(max_length=255, default='NA', blank=True)
-    comment_admin = models.CharField(max_length=255, default='NA', blank=True)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="feedback_user_id")
+    comment_user = models.CharField(max_length=255, default='NA', blank=True, null=True)
+    comment_admin = models.CharField(max_length=255, default='NA', blank=True, null=True)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="feedback_user_id", null=True)
 
     MODULES = [
         ('simulator-ride', 'Kembara Simulasi'),

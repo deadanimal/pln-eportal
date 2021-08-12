@@ -177,7 +177,7 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         print('get_flap_barrier_qr_code')
         data = json.loads(request.body)
-        qr_code = data['qr_code']
+        qr_code = data['QR_data']
         
         # QR code format = PLN<current_year>|<ticket_number>|<showtime_id>|<show_id>|<user_id>
         """
@@ -204,11 +204,13 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             
             data = {
                 "authenticated": True,
+                "buka": True,
                 "message": "The QR code is valid."
             }
         else:
             data = {
                 "authenticated": False,
+                "buka": False,
                 "message": "The QR code is invalid. Please try again"
             }
         

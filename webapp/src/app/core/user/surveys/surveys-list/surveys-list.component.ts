@@ -207,7 +207,7 @@ export class SurveysListComponent implements OnInit {
       });
     }
     let result = this.tableRows.find((obj) => {
-      return (obj.questionnaire_fieldname = this.surveyquestionFormGroup.value.questionnaire_fieldname);
+      return (obj.questionnaire_fieldname == this.surveyquestionFormGroup.value.questionnaire_fieldname);
     });
 
     if (result) {
@@ -284,9 +284,10 @@ export class SurveysListComponent implements OnInit {
           .split(","),
       });
     }
-    let result = this.tableRows.find((obj) => {
-      return (obj.questionnaire_fieldname = this.surveyquestionFormGroup.value.questionnaire_fieldname);
+    /* let result = this.tableRows.find((obj) => {
+      return (obj.questionnaire_fieldname == this.surveyquestionFormGroup.value.questionnaire_fieldname);
     });
+    console.log("result", result)
 
     if (result) {
       swal
@@ -304,7 +305,7 @@ export class SurveysListComponent implements OnInit {
             // this.modal.hide();
           }
         });
-    } else {
+    } else { */
       this.surveyquestionService
         .update(
           this.surveyquestionFormGroup.value,
@@ -349,7 +350,7 @@ export class SurveysListComponent implements OnInit {
               });
           }
         );
-    }
+    // }
   }
 
   delete(row) {
