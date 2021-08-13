@@ -317,8 +317,13 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
                 ticketTime_str = f"{i.show_date} {i.show_time}"
                 ticketTime_dt = datetime.strptime(ticketTime_str, '%Y-%m-%d %H:%M:%S')
-                ticketTime = int(datetime.timestamp(ticketTime_dt))
+                ticketTime = int(datetime.timestamp(ticketTime_dt)) 
+                ticketTime = ticketTime - (8*3600)
+
+                print("tt", ticketTime)
+                print("ct", currentTime)
                 if currentTime >= ticketTime:
+                    
                     i.show_time_status = "Sedang Ditayang"
                     i.save()
                     print("sedang ditayang id", i)
@@ -328,8 +333,9 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             for i in showings:
                 currentTime = int(time.time())
                 ticketTime_str = f"{i.show_date} {i.show_time}"
-                ticketTime_dt = datetime.strptime(ticketTime_str, '%Y-%m-%d %H:%M:%S')
-                ticketTime = int(datetime.timestamp(ticketTime_dt))
+                ticketTime_dt = datetime.strptime(ticketTime_str, '%Y-%m-%d %H:%M:%S') 
+                ticketTime = int(datetime.timestamp(ticketTime_dt)) 
+                ticketTime = ticketTime - (8*3600)
 
                 showing_duration = i.showing_id.duration_minutes * 60 + ticketTime
 
