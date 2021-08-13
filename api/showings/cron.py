@@ -57,6 +57,10 @@ def auto_change_status(self, request):
             ticketTime_str = f"{i.show_date} {i.show_time}"
             ticketTime_dt = datetime.strptime(ticketTime_str, '%Y-%m-%d %H:%M:%S')
             ticketTime = int(datetime.timestamp(ticketTime_dt))
+
+            print("ctime", currentTime)
+            print("ticketTime", ticketTime)
+
             if currentTime >= ticketTime:
                 i.show_time_status = "Sedang Ditayang"
                 i.save()
