@@ -263,7 +263,8 @@ CRONJOBS = [
     ('0 0 * * *', 'simulatorrides.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
     ('0 0 * * *', 'showings.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
     ('0 0 * * *', 'venues.cron.delete_booking_expired', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
-    ('0 0 * * *', 'integrations.cron.empty_head_counter_json', '>> '+os.path.join(BASE_DIR,'log/cron.log'))
+    ('0 0 * * *', 'integrations.cron.empty_head_counter_json', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
+    ('0 0 * * *', 'posdailyreports.cron.auto_close_counter', '>> '+os.path.join(BASE_DIR,'log/cron.log')),
 ]
 
 ACCOUNT_EMAIL_VERIFICATION='optional'

@@ -118,7 +118,7 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serializer_class.data)
 
-
+    
 class ShowTicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ShowTicket.objects.all()
     serializer_class = ShowTicketSerializer
@@ -318,3 +318,29 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         return Response(data)
+
+    #@action(methods=['GET'], detail=False)
+    #def update_available_seat(self, request, *args, **kwargs):
+    #    invoice_receipt_id = request.query_params.get('id', None)
+    #    carts = InvoiceReceipt.objects.filter(id=invoice_receipt_id).values_list('cart_id', flat=True)
+
+    #    show_booking_ids = []
+    #    for cart in carts:
+    #        a = Cart.objects.filter(id=cart).values_list('show_booking_id', flat=True)
+    #        print(a)
+    #        #if len(a) > 0:
+    #        #    show_booking_ids.append(a[0].values_list('show_booking_id', flat=True))
+
+    #    print(show_booking_ids)
+    #    for ids in show_booking_ids:
+    #        booking = ShowBooking.objects.filter(id=ids)
+    #        print(booking)
+    #        if len(booking) > 0:
+
+    #            schedule = Showtime.objects.filter(id=booking[0].showtime_id)
+    #            schedule.available_ticket = schedule.available_ticket - booking.ticket_quantity
+    #            schedule.save()
+
+    #    return Response({"msg":"update seat available"})
+
+
