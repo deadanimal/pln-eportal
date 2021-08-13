@@ -308,6 +308,40 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return response
 
     @action(methods=['GET'], detail=False)
+    def auto_change_status(self, request):
+        import time
+        shows = Showtime.objects.filter(show_time_status='Ada')
+        if len(shows) > 0:
+            for i in shows:
+                currentTime = int(time.time())
+
+                ticketTime_str = f"{i.show_date} {i.show_time}"
+                ticketTime_dt = datetime.strptime(ticketTime_str, '%Y-%m-%d %H:%M:%S')
+                ticketTime = int(datetime.timestamp(ticketTime_dt))
+                if currentTime >= ticketTime:
+                    i.show_time_status = "Sedang Ditayang"
+                    i.save()
+                    print("sedang ditayang id", i)
+
+        showings = Showtime.objects.filter(show_time_status='Sedang Ditayang')
+        if len(showings) > 0:
+            for i in showings:
+                currentTime = int(time.time())
+                ticketTime_str = f"{i.show_date} {i.show_time}"
+                ticketTime_dt = datetime.strptime(ticketTime_str, '%Y-%m-%d %H:%M:%S')
+                ticketTime = int(datetime.timestamp(ticketTime_dt))
+
+                showing_duration = i.showing_id.duration_minutes * 60 + ticketTime
+
+                if currentTime > showing_duration: 
+                    i.show_time_status = "Telah Ditayang"
+                    i.save()
+                    print("telah ditayang id", i)
+                
+        return Response({})
+
+
+    @action(methods=['GET'], detail=False)
     def get_dashboard(self, request):
 
         queryset_showing = ShowBooking.objects.filter(
