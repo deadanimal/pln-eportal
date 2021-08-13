@@ -67,6 +67,7 @@ class SimulatorRideTime(models.Model):
         ('Sedang Ditayang', 'Sedang Ditayang'),
         ('Tunda', 'Tunda'),
         ('Batal', 'Batal'),
+        ('Telah Ditayang', 'Telah Ditayang'),
     ]
 
     simulator_time_status = models.CharField(max_length=40, choices=SIMULATOR_TIME_STATUS, default='Ada')
