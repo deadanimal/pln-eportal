@@ -80,10 +80,20 @@ class Showing(models.Model):
 
 
 class Showtime(models.Model):
+    SHOWTIME_STATUS = [
+        ('Ada', 'Ada'),
+        ('Sedang Ditayang', 'Sedang Ditayang'),
+        ('Tunda', 'Tunda'),
+        ('Batal', 'Batal'),
+        ('Telah Ditayang', 'Telah Ditayang'),
+    ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     show_date = models.DateField(default=datetime.date.today)
     show_time = models.TimeField(null=True)
+    show_time_status = models.CharField(max_length=40, choices=SHOWTIME_STATUS, default='Ada')
+
+    available_ticket = models.IntegerField(default=100)
     # start_datetime = models.DateTimeField(blank=True)
     # end_datetime = models.DateTimeField(blank=True)
     showing_id = models.ForeignKey(
