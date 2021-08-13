@@ -62,11 +62,20 @@ class SimulatorRideTime(models.Model):
     ]
     round = models.CharField(max_length=2, choices=ROUNDS, default='P1')
 
+    SIMULATOR_TIME_STATUS = [
+        ('Ada', 'Ada'),
+        ('Sedang Ditayang', 'Sedang Ditayang'),
+        ('Tunda', 'Tunda'),
+        ('Batal', 'Batal'),
+    ]
+
+    simulator_time_status = models.CharField(max_length=40, choices=SIMULATOR_TIME_STATUS, default='Ada')
+
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['time']
+        ordering = ['round']
     
     def __str__(self):
         return self.day
