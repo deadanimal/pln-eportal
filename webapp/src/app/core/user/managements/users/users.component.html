@@ -234,7 +234,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">No Telefon</label>
+            <label class="form-control-label required-field">No Telefon</label>
             <input
               class="form-control"
               formControlName="phone"
@@ -245,7 +245,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Alamat Surat Menyurat</label>
+        <label class="form-control-label required-field"
+          >Alamat Surat Menyurat</label
+        >
         <input
           class="form-control"
           formControlName="address"
@@ -357,7 +359,12 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="create()">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="create()"
+      [disabled]="!userFormGroup.valid"
+    >
       Simpan
     </button>
 
@@ -423,7 +430,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">No Telefon</label>
+            <label class="form-control-label required-field">No Telefon</label>
             <input
               class="form-control"
               formControlName="phone"
@@ -434,7 +441,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Alamat Surat Menyurat</label>
+        <label class="form-control-label required-field"
+          >Alamat Surat Menyurat</label
+        >
         <input
           class="form-control"
           formControlName="address"
@@ -544,7 +553,12 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="update()">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="update()"
+      [disabled]="!userFormGroup.valid"
+    >
       Simpan
     </button>
 

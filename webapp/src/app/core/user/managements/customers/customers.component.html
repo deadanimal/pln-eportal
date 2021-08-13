@@ -225,7 +225,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">No Telefon</label>
+            <label class="form-control-label required-field">No Telefon</label>
             <input
               class="form-control"
               formControlName="phone"
@@ -236,7 +236,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Alamat Surat Menyurat</label>
+        <label class="form-control-label required-field">Alamat Surat Menyurat</label>
         <input
           class="form-control"
           formControlName="address"
@@ -348,7 +348,12 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="create()">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="create()"
+      [disabled]="!userFormGroup.valid"
+    >
       Simpan
     </button>
 
@@ -383,7 +388,7 @@
   <div class="modal-body">
     <form [formGroup]="userFormGroup">
       <div class="form-group">
-        <label class="form-control-label">Nama Penuh</label>
+        <label class="form-control-label required-field">Nama Penuh</label>
         <input
           class="form-control"
           formControlName="full_name"
@@ -394,7 +399,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Emel</label>
+            <label class="form-control-label required-field">Emel</label>
             <input
               class="form-control"
               formControlName="email"
@@ -405,7 +410,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">No Telefon</label>
+            <label class="form-control-label required-field">No Telefon</label>
             <input
               class="form-control"
               formControlName="phone"
@@ -416,7 +421,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="form-control-label">Alamat Surat Menyurat</label>
+        <label class="form-control-label required-field">Alamat Surat Menyurat</label>
         <input
           class="form-control"
           formControlName="address"
@@ -427,7 +432,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Poskod</label>
+            <label class="form-control-label required-field">Poskod</label>
             <input
               class="form-control"
               formControlName="postcode"
@@ -438,7 +443,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Bandar</label>
+            <label class="form-control-label required-field">Bandar</label>
             <input
               class="form-control"
               formControlName="city"
@@ -451,7 +456,7 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Negeri</label>
+            <label class="form-control-label required-field">Negeri</label>
             <select
               class="form-control"
               formControlName="state"
@@ -479,7 +484,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Negara</label>
+            <label class="form-control-label required-field">Negara</label>
             <input
               class="form-control"
               formControlName="country"
@@ -510,7 +515,7 @@
         </div> -->
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Status</label>
+            <label class="form-control-label required-field">Status</label>
             <select
               class="form-control"
               formControlName="is_active"
@@ -526,7 +531,12 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="update()">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="update()"
+      [disabled]="!userFormGroup.valid"
+    >
       Simpan
     </button>
 

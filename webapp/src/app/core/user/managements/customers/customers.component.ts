@@ -60,23 +60,23 @@ export class CustomersComponent implements OnInit {
   ) {
     this.userFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      full_name: new FormControl(""),
+      full_name: new FormControl("", Validators.compose([Validators.required])),
       // nric: new FormControl(""),
       // nric_picture: new FormControl(""),
-      email: new FormControl(""),
-      phone: new FormControl(""),
+      email: new FormControl("", Validators.compose([Validators.required])),
+      phone: new FormControl("", Validators.compose([Validators.required])),
       // birth_date: new FormControl(""),
       // age: new FormControl(""),
-      address: new FormControl(""),
-      postcode: new FormControl(""),
-      city: new FormControl(""),
-      state: new FormControl(""),
-      country: new FormControl(""),
+      address: new FormControl("", Validators.compose([Validators.required])),
+      postcode: new FormControl("", Validators.compose([Validators.required])),
+      city: new FormControl("", Validators.compose([Validators.required])),
+      state: new FormControl("", Validators.compose([Validators.required])),
+      country: new FormControl("", Validators.compose([Validators.required])),
       user_icon: new FormControl("CS"),
       is_active: new FormControl(false),
       // gender_icon: new FormControl(""),
       // race_icon: new FormControl(""),
-      username: new FormControl(""),
+      username: new FormControl("", Validators.compose([Validators.required])),
       password1: new FormControl(""),
       password2: new FormControl(""),
     });
@@ -88,10 +88,10 @@ export class CustomersComponent implements OnInit {
 
   getData() {
     if (this.tableRows.length > 0) this.tableRows = [];
-    this.userService.getAll().subscribe((res) => {
-      for (let i = 0; i < res.length; i++) {
-        if (res[i].user_type != 'CS') res.splice(i, 1);
-      }
+    this.userService.filter("user_type=CS").subscribe((res) => {
+      // for (let i = 0; i < res.length; i++) {
+      //   if (res[i].user_type != 'CS') res.splice(i, 1);
+      // }
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -315,6 +315,7 @@ export class CustomersComponent implements OnInit {
     let result = this.usertypes.find((obj) => {
       return obj.value == value;
     });
-    return result.display_name;
+    if (result) return result.display_name;
+    else return "";
   }
 }
