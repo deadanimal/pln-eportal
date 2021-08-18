@@ -202,16 +202,18 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             queryset_save.status = 'SB08'
             queryset_save.save()
             
+            # If QR code is valid
             data = {
                 "authenticated": True,
-                "buka": True,
-                "message": "The QR code is valid."
+                "ip_address": "http://192.168.1.81/on",
+                "message": "ON"
             }
         else:
+            # If QR code is invalid
             data = {
                 "authenticated": False,
-                "buka": False,
-                "message": "The QR code is invalid. Please try again"
+                "ip_address": "http://192.168.1.81/off",
+                "message": "OFF"
             }
         
         return Response(data)
