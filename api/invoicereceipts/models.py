@@ -66,6 +66,7 @@ class InvoiceReceipt(models.Model):
     payment_successful_datetime = models.DateTimeField(null=True)
     payment_rejected_datetime = models.DateTimeField(null=True)
     receipt_created_datetime = models.DateTimeField(null=True)
+    qr_notes = models.CharField(max_length=200, blank=True, null=True)
 
     invoice_running_no = models.CharField(max_length=100, blank=True)
     receipt_running_no = models.CharField(max_length=100, blank=True)
