@@ -118,6 +118,29 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serializer_class.data)
 
+    @action(methods=['GET'], detail=False)
+    def get_timetable(self, request, *args, **kwargs):
+
+        # To get today and onward timetable
+        queryset = Showtime.objects.filter(show_date__gte=datetime.today().strftime('%Y-%m-%d'))
+
+        array = []
+        for data in queryset:
+            array.append({
+                'title_en': data.showing_id.title_en,
+                'title_ms': data.showing_id.title_ms,
+                'description_en': data.showing_id.description_en,
+                'description_ms': data.showing_id.description_ms,
+                'duration_hours': data.showing_id.duration_hours,
+                'duration_minutes': data.showing_id.duration_minutes,
+                'poster_link': data.showing_id.poster_link.url,
+                'trailer_link': data.showing_id.trailer_link,
+                'show_date': data.show_date,
+                'show_time': data.show_time,
+                'available_ticket': data.available_ticket
+            })
+
+        return Response(array)
     
 class ShowTicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ShowTicket.objects.all()

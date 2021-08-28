@@ -113,6 +113,26 @@ class SimulatorRideTimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return Response(serializer_class.data)
 
+    @action(methods=['GET'], detail=False)
+    def get_timetable(self, request, *args, **kwargs):
+
+        # To get today timetable
+        queryset = SimulatorRideTime.objects.all()
+
+        array = []
+        for data in queryset:
+
+            queryset_booking = SimulatorRideBooking.objects.filter(simulator_ride_time_id=data.id, booking_date=datetime.today().strftime('%Y-%m-%d')).count()
+
+            array.append({
+                'time': data.time,
+                'day': data.get_day_display(),
+                'round': data.get_round_display(),
+                'booking': queryset_booking
+            })
+
+        return Response(array)
+
 
 class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SimulatorRideBooking.objects.all()
