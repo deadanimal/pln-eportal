@@ -40,10 +40,6 @@ export class UsersComponent implements OnInit {
     },
   ];
 
-  // Icons
-  password1: boolean = false;
-  password2: boolean = false;
-
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -62,7 +58,6 @@ export class UsersComponent implements OnInit {
 
   // FormGroup
   userFormGroup: FormGroup;
-  passwordFormGroup: FormGroup;
 
   // Dropdown
   usertypes = [
@@ -141,44 +136,6 @@ export class UsersComponent implements OnInit {
       password1: new FormControl(""),
       password2: new FormControl(""),
     });
-
-    this.passwordFormGroup = this.formBuilder.group(
-      {
-        id: new FormControl(""),
-        full_name: new FormControl(""),
-        email: new FormControl(""),
-        password1: [
-          "",
-          Validators.compose([
-            Validators.required, // check whether the entered password has a number
-            CustomValidators.patternValidator(/\d/, {
-              hasNumber: true,
-            }),
-            // check whether the entered password has upper case letter
-            CustomValidators.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true,
-            }),
-            // check whether the entered password has a lower case letter
-            CustomValidators.patternValidator(/[a-z]/, {
-              hasSmallCase: true,
-            }),
-            // check whether the entered password has a special character
-            CustomValidators.patternValidator(
-              /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
-              {
-                hasSpecialCharacters: true,
-              }
-            ),
-            Validators.minLength(8),
-          ]),
-        ],
-        password2: ["", Validators.compose([Validators.required])],
-      },
-      {
-        // check whether our password and confirm password match
-        validator: CustomValidators.passwordMatchValidator,
-      }
-    );
   }
 
   ngOnInit() {
@@ -235,11 +192,6 @@ export class UsersComponent implements OnInit {
       this.userFormGroup.reset();
     } else if (process == "update") {
       this.userFormGroup.patchValue({
-        ...row,
-      });
-    } else if ((process = "change-password")) {
-      this.passwordFormGroup.reset();
-      this.passwordFormGroup.patchValue({
         ...row,
       });
     }
@@ -420,59 +372,68 @@ export class UsersComponent implements OnInit {
       });
   }
 
-  changeNewPassword() {
-    this.userService
-      .changeNewPassword(
-        this.passwordFormGroup.value.id,
-        this.passwordFormGroup.value["password1"]
-      )
-      .subscribe(
-        (res) => {
-          // console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Kata laluan baru anda berjaya dikemaskini.",
-              icon: "success",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
+  resetOldPassword(row) {
+    swal
+      .fire({
+        title: "Tetap semula kata laluan",
+        text: "Adakah anda ingin menetap semula kata laluan (planetarium@2020) untuk pengguna ini?",
+        icon: "warning",
+        showCancelButton: true,
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-secondary",
         },
-        (err) => {
-          console.log("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Kata laluan baru anda tidak berjaya dikemaskini. Sila cuba lagi",
-              icon: "warning",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-warning",
+        confirmButtonText: "Ya",
+        cancelButtonText: "Tidak",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.userService
+            .changeNewPassword(
+              row.id,
+              "planetarium@2020"
+            )
+            .subscribe(
+              (res) => {
+                // console.log("res", res);
+                swal
+                  .fire({
+                    title: "Berjaya",
+                    text: "Kata laluan baru anda berjaya ditetap semula.",
+                    icon: "success",
+                    buttonsStyling: false,
+                    customClass: {
+                      confirmButton: "btn btn-success",
+                    },
+                  })
+                  .then((result) => {
+                    if (result.value) {
+                      this.getData();
+                    }
+                  });
               },
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
+              (err) => {
+                console.log("err", err);
+                swal
+                  .fire({
+                    title: "Ralat",
+                    text: "Kata laluan baru anda tidak berjaya ditetap semula. Sila cuba lagi",
+                    icon: "warning",
+                    buttonsStyling: false,
+                    customClass: {
+                      confirmButton: "btn btn-warning",
+                    },
+                  })
+                  .then((result) => {
+                    if (result.value) {
+                      // this.modal.hide();
+                    }
+                  });
               }
-            });
+            );
         }
-      );
-  }
-
-  changePassword1Icon() {
-    this.password1 = !this.password1;
-  }
-
-  changePassword2Icon() {
-    this.password2 = !this.password2;
+      });
   }
 
   getUserType(value: string) {

@@ -99,6 +99,8 @@ export class NavbarComponent implements OnInit {
       return this.router.navigate(["/global/profile"]);
     } else if (path == "settings") {
       return this.router.navigate(["/global/settings"]);
+    } else if (path == "change-password") {
+      return this.router.navigate(["/global/change-password"]);
     } else if (path == "home") {
       return this.router.navigate(["/auth/login"]);
     }
