@@ -7,6 +7,7 @@ import {
   HttpResponse,
   HttpErrorResponse,
 } from "@angular/common/http";
+import { Router } from "@angular/router";
 import { Observable, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { JwtService } from "../handler/jwt/jwt.service";
@@ -16,7 +17,8 @@ import { NotifyService } from "../handler/notify/notify.service";
 export class HttpTokenInterceptor implements HttpInterceptor {
   constructor(
     private handlerNotification: NotifyService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private router: Router
   ) {}
 
   private handleError(error: HttpErrorResponse) {
@@ -33,6 +35,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
       } else {
         // Handle Http Error (error.status === 403, 404...)
         this.handlerNotification.openToastrHttp(error.status, error.statusText);
+        if (error.status == 401) {
+          this.jwtService.destroyToken();
+          return this.router.navigate(["/auth/login"]);
+        }
       }
     } else {
       // Handle Client Error (Angular Error, ReferenceError...)

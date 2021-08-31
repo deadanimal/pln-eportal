@@ -28,17 +28,17 @@ export interface ChildrenItems2 {
 /*
   List of All Roles
 
-  DR - Director
-  SA - Super Admin
-  FA - Finance Admin
-  TA - Technical Admin
-  TC - Ticket Counter Admin
-  VA - Visit Admin
-  EP - Educational Program Admin
-  EA - Exhibition Admin
-  PK - Publishing & Kutubkhanah Admin
-  SV - Survey Admin
-  CS - Customer
+  DR - Director - Pengarah
+  SA - Super Admin - Super Admin
+  FA - Finance Admin - Pentadbir Kewangan
+  TA - Technical Admin - Pentadbir Teknikal
+  TC - Ticket Counter Admin - Pentadbir Kaunter Tiket
+  VA - Visit Admin - Pentadbir Lawatan
+  EP - Educational Program Admin - Pentadbir Program Pendidikan
+  EA - Exhibition Admin - Pentadbir Pameran
+  PK - Publishing & Kutubkhanah Admin - Pentadbir Penerbitan & Kutubkhanah
+  SV - Survey Admin - Pentadbir Maklum Balas / Soal Selidik
+  CS - Customer - Pelanggan
 */
 
 // Menu Items
@@ -48,7 +48,7 @@ export const ROUTES: RouteInfo[] = [
     title: "Dashboard",
     type: "link",
     icontype: "fas fa-desktop text-primary",
-    role: ['DR', 'SA', 'FA', 'TA', 'TC', 'VA', 'EP', 'EA', 'PK', 'SV']
+    role: ["DR", "SA", "FA", "TA", "TC", "VA", "EP", "EA", "PK", "SV"],
   },
   {
     path: "/shows",
@@ -62,7 +62,7 @@ export const ROUTES: RouteInfo[] = [
       { path: "schedule", title: "Jadual", type: "link" },
       { path: "applications", title: "Permohonan", type: "link" },
     ],
-    role: ['DR', 'SA', 'FA', 'TA']
+    role: ["DR", "SA", "FA", "TA"],
   },
   {
     path: "/simulator-ride",
@@ -75,17 +75,7 @@ export const ROUTES: RouteInfo[] = [
       { path: "schedule", title: "Jadual", type: "link" },
       { path: "applications", title: "Permohonan", type: "link" },
     ],
-    role: ['DR', 'SA', 'FA', 'TA']
-  },
-  {
-    path: "/exhibits",
-    title: "Pameran",
-    type: "sub",
-    icontype: "fas fa-person-booth text-primary",
-    collapse: "exhibits",
-    isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
-    role: ['DR', 'SA', 'EA']
+    role: ["DR", "SA", "FA", "TA"],
   },
   {
     path: "/visits",
@@ -99,7 +89,7 @@ export const ROUTES: RouteInfo[] = [
       { path: "applications", title: "Permohonan", type: "link" },
       // { path: "schedule", title: "Jadual Penutupan", type: "link" },
     ],
-    role: ['DR', 'SA', 'VA']
+    role: ["DR", "SA", "VA"],
   },
   {
     path: "/programs",
@@ -113,7 +103,7 @@ export const ROUTES: RouteInfo[] = [
       { path: "applications", title: "Permohonan", type: "link" },
       // { path: 'waiting-list', title: 'Senarai Menunggu', type: 'link' }
     ],
-    role: ['DR', 'SA', 'EP']
+    role: ["DR", "SA", "EP"],
   },
   {
     path: "/facilities",
@@ -127,17 +117,7 @@ export const ROUTES: RouteInfo[] = [
       { path: "list", title: "Senarai", type: "link" },
       { path: "applications", title: "Permohonan", type: "link" },
     ],
-    role: ['DR', 'SA', 'FA', 'TA']
-  },
-  {
-    path: "/publications",
-    title: "Penerbitan",
-    type: "sub",
-    icontype: "fas fa-book text-primary",
-    collapse: "publications",
-    isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
-    role: ['DR', 'SA', 'PK']
+    role: ["DR", "SA", "FA", "TA"],
   },
   {
     path: "/virtual-libraries",
@@ -151,27 +131,35 @@ export const ROUTES: RouteInfo[] = [
       { path: "articles", title: "Artikel Terkini", type: "link" },
       { path: "collections", title: "Koleksi", type: "link" },
     ],
-    role: ['DR', 'SA', 'PK']
+    role: ["DR", "SA", "PK"],
+  },
+  {
+    path: "/publications",
+    title: "Penerbitan",
+    type: "link",
+    icontype: "fas fa-book text-primary",
+    role: ["DR", "SA", "PK"],
+  },
+  {
+    path: "/exhibits",
+    title: "Pameran",
+    type: "link",
+    icontype: "fas fa-person-booth text-primary",
+    role: ["DR", "SA", "EA"],
   },
   {
     path: "/surveys",
     title: "Soal Selidik",
-    type: "sub",
+    type: "link",
     icontype: "fas fa-poll-h text-primary",
-    collapse: "surveys",
-    isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
-    role: ['DR', 'SA', 'SV']
+    role: ["DR", "SA", "SV"],
   },
   {
     path: "/feedbacks",
     title: "Maklum Balas",
-    type: "sub",
+    type: "link",
     icontype: "fas fa-comments text-primary",
-    collapse: "feedbacks",
-    isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
-    role: ['DR', 'SA', 'SV']
+    role: ["DR", "SA", "SV"],
   },
   // {
   //   path: "/assets",
@@ -183,56 +171,45 @@ export const ROUTES: RouteInfo[] = [
   //   children: [{ path: "list", title: "Senarai", type: "link" }],
   // },
   {
-    path: "/venues",
-    title: "Tempat",
+    path: "/transactions",
+    title: "Transaksi",
     type: "sub",
-    icontype: "fas fa-monument text-primary",
-    collapse: "assets",
+    icontype: "fas fa-cash-register text-primary",
+    collapse: "transactions",
     isCollapsed: true,
-    children: [{ path: "list", title: "Senarai", type: "link" }],
-    role: ['DR', 'SA', 'TA']
-  },
-  {
-    path: "/ticket-prices",
-    title: "Harga Tiket",
-    type: "link",
-    icontype: "fas fa-ticket-alt text-primary",
-    role: ['DR', 'SA', 'FA', 'TA'],
-  },
-  {
-    path: "/refunds",
-    title: "Bayaran Balik",
-    type: "link",
-    icontype: "fas fa-hand-holding-usd text-primary",
-    role: ['DR', 'SA']
-  },
-  {
-    path: "/vouchers",
-    title: "Baucar",
-    type: "link",
-    icontype: "fas fa-money-check text-primary",
-    role: ['DR', 'SA', 'FA', 'TA']
-  },
-  {
-    path: "/carts",
-    title: "Troli",
-    type: "link",
-    icontype: "fas fa-shopping-cart text-primary",
-    role: ['DR', 'SA', 'FA', 'TA']
-  },
-  {
-    path: "/invoices",
-    title: "Invois",
-    type: "link",
-    icontype: "fas fa-file-invoice text-primary",
-    role: ['DR', 'SA', 'FA', 'TA']
-  },
-  {
-    path: "/receipts",
-    title: "Resit",
-    type: "link",
-    icontype: "fas fa-receipt text-primary",
-    role: ['DR', 'SA', 'FA', 'TA']
+    children: [
+      {
+        path: "ticket-prices",
+        title: "Harga Tiket",
+        type: "link",
+      },
+      {
+        path: "refunds",
+        title: "Bayaran Balik",
+        type: "link",
+      },
+      {
+        path: "vouchers",
+        title: "Baucar",
+        type: "link",
+      },
+      {
+        path: "carts",
+        title: "Troli",
+        type: "link",
+      },
+      {
+        path: "invoices",
+        title: "Invois",
+        type: "link",
+      },
+      {
+        path: "receipts",
+        title: "Resit",
+        type: "link",
+      },
+    ],
+    role: ["DR", "SA", "FA", "TA"],
   },
   {
     path: "/analytics",
@@ -283,7 +260,7 @@ export const ROUTES: RouteInfo[] = [
         type: "link",
       },
     ],
-    role: ['DR', 'SA', 'FA', 'TA', 'TC', 'VA', 'EP', 'EA', 'PK', 'SV']
+    role: ["DR", "SA", "FA", "TA", "TC", "VA", "EP", "EA", "PK", "SV"],
   },
   {
     path: "/reports",
@@ -293,23 +270,13 @@ export const ROUTES: RouteInfo[] = [
     collapse: "reports",
     isCollapsed: true,
     children: [
-      { path: "daily-operatings", title: "Laporan Harian Operasi", type: "link" },
+      {
+        path: "daily-operatings",
+        title: "Laporan Harian Operasi",
+        type: "link",
+      },
     ],
-    role: ['DR', 'SA', 'FA', 'TA', 'TC', 'VA', 'EP', 'EA', 'PK', 'SV']
-  },
-  {
-    path: "/close-booking",
-    title: "Penutupan Tempahan",
-    type: "link",
-    icontype: "fas fa-times-circle text-primary",
-    role: ['DR', 'SA']
-  },
-  {
-    path: "/calendar",
-    title: "Kalendar",
-    type: "link",
-    icontype: "fas fa-calendar text-primary",
-    role: ['DR', 'SA', 'FA', 'TA', 'TC', 'VA', 'EP', 'EA', 'PK', 'SV']
+    role: ["DR", "SA", "FA", "TA", "TC", "VA", "EP", "EA", "PK", "SV"],
   },
   {
     path: "/fpxs",
@@ -323,7 +290,7 @@ export const ROUTES: RouteInfo[] = [
       { path: "bank-list", title: "Senarai Bank", type: "link" },
       { path: "response-code-list", title: "Kod Respon", type: "link" },
     ],
-    role: ['DR', 'SA', 'FA', 'TA']
+    role: ["DR", "SA", "FA", "TA"],
   },
   {
     path: "/cms",
@@ -341,6 +308,11 @@ export const ROUTES: RouteInfo[] = [
       {
         path: "sub-modules",
         title: "Sub Modul",
+        type: "link",
+      },
+      {
+        path: "venues",
+        title: "Tempat",
         type: "link",
       },
       {
@@ -384,8 +356,18 @@ export const ROUTES: RouteInfo[] = [
         type: "link",
       },
       { path: "partners", title: "Rakan Kerjasama", type: "link" },
+      {
+        path: "close-booking",
+        title: "Penutupan Tempahan",
+        type: "link",
+      },
+      {
+        path: "calendar",
+        title: "Kalendar",
+        type: "link",
+      },
     ],
-    role: ['SA', 'PK']
+    role: ["SA", "PK"],
   },
   {
     path: "/managements",
@@ -400,6 +382,6 @@ export const ROUTES: RouteInfo[] = [
       { path: "supervisors", title: "Penyelia", type: "link" },
       { path: "email-templates", title: "Templat Emel", type: "link" },
     ],
-    role: ['SA']
+    role: ["SA"],
   },
 ];

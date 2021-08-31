@@ -5,17 +5,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { PresentationComponent } from './examples/presentation/presentation.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'auth/login',
     pathMatch: 'full'
-  },
-  {
-    path: 'presentation',
-    component: PresentationComponent
   },
   {
     path: '',
