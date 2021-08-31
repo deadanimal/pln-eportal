@@ -49,6 +49,25 @@ def delete_booking_expired():
 
 
 def auto_change_status(self, request):
+
+    shows = Showtime.objects.filter(show_time_status='Ada')
+    if len(shows) > 0:
+        for i in shows:
+            currentTime = int(time.time())
+
+            ticketTime_str = f"{i.show_date} {i.show_time}"
+            ticketTime_dt = datetime.strptime(ticketTime_str, '%Y-%m-%d %H:%M:%S')
+            ticketTime = int(datetime.timestamp(ticketTime_dt)) - 10*60
+
+            print("ctime", currentTime)
+            print("ticketTime", ticketTime)
+
+            if currentTime >= ticketTime:
+                i.show_time_status = "Bakal Ditayang"
+                i.save()
+                print("sedang ditayang id", i)
+
+
     shows = Showtime.objects.filter(show_time_status='Ada')
     if len(shows) > 0:
         for i in shows:
@@ -77,7 +96,7 @@ def auto_change_status(self, request):
             showing_duration = i.showing_id.duration_minutes * 60 + ticketTime
 
             if currentTime > showing_duration: 
-                i.show_time_status = "Telah Ditayang"
+                i.show_time_status = "Tamat"
                 i.save()
                 print("telah ditayang id", i)
      
