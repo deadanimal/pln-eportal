@@ -291,7 +291,7 @@ class ShowBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             'ticket/show_ticket.html', {'ticket_info': ticket_info})
         html = HTML(string=html_string, base_url=request.build_absolute_uri())
         result = html.write_pdf(
-            stylesheets=[CSS(settings.STATIC_ROOT + '/css/bootstrap.css')])
+            stylesheets=[CSS(settings.STATIC_ROOT + 'admin/css/bootstrap.css')])
 
         # Creating http response
         filename = 'Tiket_Planetarium_Negara_' + \
