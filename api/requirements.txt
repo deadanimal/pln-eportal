@@ -57,6 +57,7 @@ Pillow==7.1.2
 psycopg2==2.8.5
 ptyprocess==0.6.0
 pycparser==2.20
+pycurl==7.43.0.6
 PyJWT==1.7.1
 PyMySQL==0.9.3
 pyOpenSSL==20.0.1

@@ -558,6 +558,15 @@ analytics_router = router.register(
     'analytics', AnalyticViewSet
 )
 
+# Credit card app
+from creditcards.views import (
+    CreditCardViewSet
+)
+
+credit_cards_router = router.register(
+    'credit-cards', CreditCardViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

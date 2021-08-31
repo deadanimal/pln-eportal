@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'posdailyreports',
     'dailyoperatingreports',
     'analytics',
+    'creditcards',
 
     'django_cleanup.apps.CleanupConfig'
 ]
