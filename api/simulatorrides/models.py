@@ -64,10 +64,11 @@ class SimulatorRideTime(models.Model):
 
     SIMULATOR_TIME_STATUS = [
         ('Ada', 'Ada'),
-        ('Sedang Ditayang', 'Sedang Ditayang'),
-        ('Tunda', 'Tunda'),
+        ('Sedang Berlangsung', 'Sedang Berlangsung'),
+        ('Berbaki 1 Kerusi', 'Berbaki 1 Kerusi'),
+        ('Penuh', 'Penuh'),
         ('Batal', 'Batal'),
-        ('Telah Ditayang', 'Telah Ditayang'),
+        ('Tamat', 'Tamat'),
     ]
 
     simulator_time_status = models.CharField(max_length=40, choices=SIMULATOR_TIME_STATUS, default='Ada')
