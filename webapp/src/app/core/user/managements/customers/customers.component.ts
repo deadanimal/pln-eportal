@@ -20,11 +20,25 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: 'app-customers',
-  templateUrl: './customers.component.html',
-  styleUrls: ['./customers.component.scss']
+  selector: "app-customers",
+  templateUrl: "./customers.component.html",
+  styleUrls: ["./customers.component.scss"],
 })
 export class CustomersComponent implements OnInit {
+  // Errors
+  errors = [
+    {
+      email: {
+        exist: "Pengguna sudah didaftarkan dengan alamat emel ini.",
+      },
+    },
+    {
+      username: {
+        exist: "Pengguna dengan nama pengguna tersebut sudah wujud.",
+      },
+    },
+  ];
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -200,10 +214,16 @@ export class CustomersComponent implements OnInit {
       },
       (err) => {
         console.error("err", err);
+        let errorMsg = "";
+        if (err.error.email) errorMsg += this.errors[0].email.exist;
+        if (err.error.username) errorMsg += this.errors[1].username.exist;
         swal
           .fire({
             title: "Ralat",
-            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            text:
+              "Data anda tidak berjaya disimpan." +
+              errorMsg +
+              " Sila cuba lagi",
             icon: "warning",
             buttonsStyling: false,
             customClass: {

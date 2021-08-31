@@ -22,6 +22,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
 from django.shortcuts import render
 from django.db.models import Q
 
+import json
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -88,6 +90,14 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         """
         return queryset
 
+    @action(methods=['POST'], detail=True)
+    def change_password(self, request, pk=None, *args, **kwargs):
+        received_data = json.loads(request.body)
+        user = CustomUser.objects.filter(id=pk).first()
+        user.set_password(received_data['password'])
+        user.save()
+
+        return Response('Ok')
 
 class SupervisorViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Supervisor.objects.all()

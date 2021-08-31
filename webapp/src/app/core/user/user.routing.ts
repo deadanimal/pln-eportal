@@ -81,18 +81,6 @@ export const UserRoutes: Routes = [
     path: "",
     children: [
       {
-        path: "ticket-prices",
-        component: TicketPricesComponent,
-      },
-      {
-        path: "calendar",
-        component: CalendarComponent,
-      },
-      {
-        path: "close-booking",
-        component: CloseBookingComponent,
-      },
-      {
         path: "dashboard",
         component: DashboardComponent,
       },
@@ -100,7 +88,7 @@ export const UserRoutes: Routes = [
         path: "exhibits",
         children: [
           {
-            path: "list",
+            path: "",
             component: ExhibitsComponent,
           },
           {
@@ -151,7 +139,7 @@ export const UserRoutes: Routes = [
         path: "publications",
         children: [
           {
-            path: "list",
+            path: "",
             component: PublicationsComponent,
           },
           {
@@ -280,7 +268,7 @@ export const UserRoutes: Routes = [
           },
           {
             path: "applications/:showtime_id/bookings",
-            component: ShowsBookingsComponent
+            component: ShowsBookingsComponent,
           },
           {
             path: "schedule",
@@ -309,7 +297,7 @@ export const UserRoutes: Routes = [
         path: "surveys",
         children: [
           {
-            path: "list",
+            path: "",
             component: SurveysListComponent,
           },
           {
@@ -320,12 +308,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "feedbacks",
-        children: [
-          {
-            path: "list",
-            component: FeedbacksListComponent,
-          },
-        ],
+        component: FeedbacksListComponent,
       },
       {
         path: "assets",
@@ -333,15 +316,6 @@ export const UserRoutes: Routes = [
           {
             path: "list",
             component: AssetsComponent,
-          },
-        ],
-      },
-      {
-        path: "venues",
-        children: [
-          {
-            path: "list",
-            component: VenuesComponent,
           },
         ],
       },
@@ -405,6 +379,47 @@ export const UserRoutes: Routes = [
             path: "faqs",
             component: FaqsComponent,
           },
+          {
+            path: "close-booking",
+            component: CloseBookingComponent,
+          },
+          {
+            path: "venues",
+            component: VenuesComponent,
+          },
+          {
+            path: "calendar",
+            component: CalendarComponent,
+          },
+        ],
+      },
+      {
+        path: "transactions",
+        children: [
+          {
+            path: "ticket-prices",
+            component: TicketPricesComponent,
+          },
+          {
+            path: "refunds",
+            component: RefundsComponent,
+          },
+          {
+            path: "vouchers",
+            component: VouchersComponent,
+          },
+          {
+            path: "carts",
+            component: CartsComponent,
+          },
+          {
+            path: "invoices",
+            component: InvoicesListComponent,
+          },
+          {
+            path: "receipts",
+            component: ReceiptsListComponent,
+          },
         ],
       },
       {
@@ -423,26 +438,6 @@ export const UserRoutes: Routes = [
             component: FpxsResponseCodeListComponent,
           },
         ],
-      },
-      {
-        path: "refunds",
-        component: RefundsComponent,
-      },
-      {
-        path: "vouchers",
-        component: VouchersComponent,
-      },
-      {
-        path: "carts",
-        component: CartsComponent,
-      },
-      {
-        path: "invoices",
-        component: InvoicesListComponent
-      },
-      {
-        path: "receipts",
-        component: ReceiptsListComponent,
       },
       {
         path: "managements",

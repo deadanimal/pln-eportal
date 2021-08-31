@@ -6,6 +6,7 @@ import {
   FormControl,
 } from "@angular/forms";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { CustomValidators } from "src/app/shared/class/custom-validators";
 import swal from "sweetalert2";
 
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -25,6 +26,24 @@ export enum SelectionType {
   styleUrls: ["./users.component.scss"],
 })
 export class UsersComponent implements OnInit {
+  // Errors
+  errors = [
+    {
+      email: {
+        exist: "Pengguna sudah didaftarkan dengan alamat emel ini.",
+      },
+    },
+    {
+      username: {
+        exist: "Pengguna dengan nama pengguna tersebut sudah wujud.",
+      },
+    },
+  ];
+
+  // Icons
+  password1: boolean = false;
+  password2: boolean = false;
+
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -43,6 +62,7 @@ export class UsersComponent implements OnInit {
 
   // FormGroup
   userFormGroup: FormGroup;
+  passwordFormGroup: FormGroup;
 
   // Dropdown
   usertypes = [
@@ -121,6 +141,44 @@ export class UsersComponent implements OnInit {
       password1: new FormControl(""),
       password2: new FormControl(""),
     });
+
+    this.passwordFormGroup = this.formBuilder.group(
+      {
+        id: new FormControl(""),
+        full_name: new FormControl(""),
+        email: new FormControl(""),
+        password1: [
+          "",
+          Validators.compose([
+            Validators.required, // check whether the entered password has a number
+            CustomValidators.patternValidator(/\d/, {
+              hasNumber: true,
+            }),
+            // check whether the entered password has upper case letter
+            CustomValidators.patternValidator(/[A-Z]/, {
+              hasCapitalCase: true,
+            }),
+            // check whether the entered password has a lower case letter
+            CustomValidators.patternValidator(/[a-z]/, {
+              hasSmallCase: true,
+            }),
+            // check whether the entered password has a special character
+            CustomValidators.patternValidator(
+              /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+              {
+                hasSpecialCharacters: true,
+              }
+            ),
+            Validators.minLength(8),
+          ]),
+        ],
+        password2: ["", Validators.compose([Validators.required])],
+      },
+      {
+        // check whether our password and confirm password match
+        validator: CustomValidators.passwordMatchValidator,
+      }
+    );
   }
 
   ngOnInit() {
@@ -177,6 +235,11 @@ export class UsersComponent implements OnInit {
       this.userFormGroup.reset();
     } else if (process == "update") {
       this.userFormGroup.patchValue({
+        ...row,
+      });
+    } else if ((process = "change-password")) {
+      this.passwordFormGroup.reset();
+      this.passwordFormGroup.patchValue({
         ...row,
       });
     }
@@ -240,10 +303,16 @@ export class UsersComponent implements OnInit {
       },
       (err) => {
         console.error("err", err);
+        let errorMsg = "";
+        if (err.error.email) errorMsg += this.errors[0].email.exist;
+        if (err.error.username) errorMsg += this.errors[1].username.exist;
         swal
           .fire({
             title: "Ralat",
-            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            text:
+              "Data anda tidak berjaya disimpan." +
+              errorMsg +
+              " Sila cuba lagi",
             icon: "warning",
             buttonsStyling: false,
             customClass: {
@@ -349,6 +418,61 @@ export class UsersComponent implements OnInit {
           );
         }
       });
+  }
+
+  changeNewPassword() {
+    this.userService
+      .changeNewPassword(
+        this.passwordFormGroup.value.id,
+        this.passwordFormGroup.value["password1"]
+      )
+      .subscribe(
+        (res) => {
+          // console.log("res", res);
+          swal
+            .fire({
+              title: "Berjaya",
+              text: "Kata laluan baru anda berjaya dikemaskini.",
+              icon: "success",
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            })
+            .then((result) => {
+              if (result.value) {
+                this.modal.hide();
+                this.getData();
+              }
+            });
+        },
+        (err) => {
+          console.log("err", err);
+          swal
+            .fire({
+              title: "Ralat",
+              text: "Kata laluan baru anda tidak berjaya dikemaskini. Sila cuba lagi",
+              icon: "warning",
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: "btn btn-warning",
+              },
+            })
+            .then((result) => {
+              if (result.value) {
+                // this.modal.hide();
+              }
+            });
+        }
+      );
+  }
+
+  changePassword1Icon() {
+    this.password1 = !this.password1;
+  }
+
+  changePassword2Icon() {
+    this.password2 = !this.password2;
   }
 
   getUserType(value: string) {

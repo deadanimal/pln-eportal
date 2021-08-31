@@ -154,6 +154,12 @@
                 >
                   Sunting
                 </button>
+                <button
+                  class="btn btn-sm btn-default"
+                  (click)="openModal(changePassword, 'change-password', row)"
+                >
+                  Tukar Kata Laluan
+                </button>
                 <button class="btn btn-sm btn-danger" (click)="delete(row)">
                   Buang
                 </button>
@@ -560,6 +566,310 @@
       [disabled]="!userFormGroup.valid"
     >
       Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #changePassword>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Tukar Kata Laluan
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="passwordFormGroup">
+      <div class="form-group">
+        <label class="form-control-label">Nama Penuh</label>
+        <input
+          class="form-control"
+          formControlName="full_name"
+          placeholder="Nama Penuh"
+          type="text"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Emel</label>
+        <input
+          class="form-control"
+          formControlName="email"
+          placeholder="Emel"
+          type="email"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Kata Laluan Baru</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text bg-primary">
+              <i class="fas fa-lock text-white"></i>
+            </span>
+          </div>
+          <input
+            class="form-control"
+            placeholder="Kata Laluan Baru"
+            [type]="password1 ? 'text' : 'password'"
+            formControlName="password1"
+          />
+          <div class="input-group-append" (click)="changePassword1Icon()">
+            <span class="input-group-text"
+              ><i
+                *ngIf="!password1"
+                class="fas fa-eye-slash fa-lg"
+                style="color: gainsboro"
+              ></i>
+              <i
+                *ngIf="password1"
+                class="fas fa-eye fa-lg"
+                style="color: black"
+              ></i
+            ></span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Ulang Kata Laluan Baru</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text bg-primary">
+              <i class="fas fa-lock text-white"></i>
+            </span>
+          </div>
+          <input
+            class="form-control"
+            placeholder="Ulang Kata Laluan Baru"
+            [type]="password2 ? 'text' : 'password'"
+            formControlName="password2"
+          />
+          <div class="input-group-append" (click)="changePassword2Icon()">
+            <span class="input-group-text"
+              ><i
+                *ngIf="!password2"
+                class="fas fa-eye-slash fa-lg"
+                style="color: gainsboro"
+              ></i>
+              <i
+                *ngIf="password2"
+                class="fas fa-eye fa-lg"
+                style="color: black"
+              ></i
+            ></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-danger text-justify" role="alert">
+            Kata laluan mestilah mempunyai sekurang-kurangnya 1 huruf kecil, 1
+            huruf besar, nombor dan simbol khas. Panjang kata laluan mestilah
+            melebihi 8 patah perkataan.
+          </div>
+        </div>
+      </div>
+      <div class="row pb-3">
+        <div class="col">
+          <div class="card bg-white m-0">
+            <div class="card-body">
+              <p
+                style="font-size: 1rem"
+                [ngClass]="
+                  passwordFormGroup.controls['password1'].hasError(
+                    'required'
+                  ) ||
+                  passwordFormGroup.controls['password1'].hasError('minlength')
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <i
+                  [ngClass]="
+                    passwordFormGroup.controls['password1'].hasError(
+                      'required'
+                    ) ||
+                    passwordFormGroup.controls['password1'].hasError(
+                      'minlength'
+                    )
+                      ? 'fas fa-times-circle'
+                      : 'fas fa-check-circle'
+                  "
+                ></i>
+                Panjang 8 aksara atau lebih
+              </p>
+
+              <p
+                style="font-size: 1rem"
+                [ngClass]="
+                  passwordFormGroup.controls['password1'].hasError(
+                    'required'
+                  ) ||
+                  passwordFormGroup.controls['password1'].hasError(
+                    'hasCapitalCase'
+                  )
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <i
+                  [ngClass]="
+                    passwordFormGroup.controls['password1'].hasError(
+                      'required'
+                    ) ||
+                    passwordFormGroup.controls['password1'].hasError(
+                      'hasCapitalCase'
+                    )
+                      ? 'fas fa-times-circle'
+                      : 'fas fa-check-circle'
+                  "
+                ></i>
+                Sekurang-kurangnya 1 huruf besar (A-Z)
+              </p>
+
+              <p
+                style="font-size: 1rem"
+                [ngClass]="
+                  passwordFormGroup.controls['password1'].hasError(
+                    'required'
+                  ) ||
+                  passwordFormGroup.controls['password1'].hasError(
+                    'hasSmallCase'
+                  )
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <i
+                  [ngClass]="
+                    passwordFormGroup.controls['password1'].hasError(
+                      'required'
+                    ) ||
+                    passwordFormGroup.controls['password1'].hasError(
+                      'hasSmallCase'
+                    )
+                      ? 'fas fa-times-circle'
+                      : 'fas fa-check-circle'
+                  "
+                ></i>
+                Sekurang-kurangnya 1 huruf kecil (a-z)
+              </p>
+
+              <p
+                style="font-size: 1rem"
+                [ngClass]="
+                  passwordFormGroup.controls['password1'].hasError(
+                    'required'
+                  ) ||
+                  passwordFormGroup.controls['password1'].hasError('hasNumber')
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <i
+                  [ngClass]="
+                    passwordFormGroup.controls['password1'].hasError(
+                      'required'
+                    ) ||
+                    passwordFormGroup.controls['password1'].hasError(
+                      'hasNumber'
+                    )
+                      ? 'fas fa-times-circle'
+                      : 'fas fa-check-circle'
+                  "
+                ></i>
+                Sekurang-kurangnya 1 nombor (0-9)
+              </p>
+
+              <p
+                style="font-size: 1rem"
+                [ngClass]="
+                  passwordFormGroup.controls['password1'].hasError(
+                    'required'
+                  ) ||
+                  passwordFormGroup.controls['password1'].hasError(
+                    'hasSpecialCharacters'
+                  )
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <i
+                  [ngClass]="
+                    passwordFormGroup.controls['password1'].hasError(
+                      'required'
+                    ) ||
+                    passwordFormGroup.controls['password1'].hasError(
+                      'hasSpecialCharacters'
+                    )
+                      ? 'fas fa-times-circle'
+                      : 'fas fa-check-circle'
+                  "
+                ></i>
+                Mengandungi sekurang-kurangnya 1 simbol khas (!@#$%^&*)
+              </p>
+
+              <p
+                style="font-size: 1rem"
+                [ngClass]="
+                  passwordFormGroup.controls['password2'].hasError(
+                    'required'
+                  ) ||
+                  passwordFormGroup.controls['password2'].hasError(
+                    'NoPassswordMatch'
+                  )
+                    ? 'text-danger'
+                    : 'text-success'
+                "
+              >
+                <i
+                  [ngClass]="
+                    passwordFormGroup.controls['password2'].hasError(
+                      'required'
+                    ) ||
+                    passwordFormGroup.controls['password2'].hasError(
+                      'NoPassswordMatch'
+                    )
+                      ? 'fas fa-times-circle'
+                      : 'fas fa-check-circle'
+                  "
+                ></i>
+                Ulang Kata Laluan mestilah sama dengan Kata Laluan
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="changeNewPassword()"
+      [disabled]="!passwordFormGroup.valid"
+    >
+      Tukar kata laluan
     </button>
 
     <button
