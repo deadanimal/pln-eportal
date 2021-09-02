@@ -4,6 +4,7 @@ from django.db.models import Count, Func, Q
 from django.http import JsonResponse
 
 from datetime import datetime
+from itertools import chain
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -84,6 +85,22 @@ class ExhibitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Exhibit.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Exhibit.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = ExhibitList.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset3 = ExhibitDetail.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset4 = ExhibitDetailImage.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Pameran'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Senarai pameran'
+        for qs in queryset3:
+            qs['history_model_name'] = 'Maklumat pameran'
+        for qs in queryset4:
+            qs['history_model_name'] = 'Gambar pameran'
+        return Response(chain(queryset1, queryset2, queryset3, queryset4))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
@@ -224,6 +241,28 @@ class EducationalProgramViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = EducationalProgram.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = EducationalProgram.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = EducationalProgramDate.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset3 = EducationalProgramImage.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset4 = EducationalProgramActivity.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset5 = EducationalProgramApplication.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset6 = EducationalProgramForm.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Program pendidikan'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Tarikh program pendidikan'
+        for qs in queryset3:
+            qs['history_model_name'] = 'Gambar program pendidikan'
+        for qs in queryset4:
+            qs['history_model_name'] = 'Aktiviti program pendidikan'
+        for qs in queryset5:
+            qs['history_model_name'] = 'Permohonan program pendidikan'
+        for qs in queryset6:
+            qs['history_model_name'] = 'Borang program pendidikan'
+        return Response(chain(queryset1, queryset2, queryset3, queryset4, queryset5, queryset6))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
@@ -458,6 +497,16 @@ class VisitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Visit.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Visit.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = VisitApplication.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Lawatan'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Permohonan lawatan'
+        return Response(chain(queryset1, queryset2))
 
 
 class VisitApplicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

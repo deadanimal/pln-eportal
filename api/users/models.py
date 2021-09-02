@@ -61,6 +61,7 @@ class CustomUser(AbstractUser):
         ('NA', 'Not Available')
     ]
     race_type = models.CharField(max_length=2, choices=RACE_TYPE, default='NA')
+    history = HistoricalRecords()
 
     # profile_picture = models.ImageField(null=True, upload_to=PathAndRename('images'))
 
@@ -81,6 +82,7 @@ class Supervisor(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['user']

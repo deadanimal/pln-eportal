@@ -22,6 +22,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 from django.shortcuts import render
 from django.db.models import Q
 
+from itertools import chain
 import json
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -90,6 +91,16 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         """
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = CustomUser.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            if qs['user_type'] != 'CS':
+                qs['history_model_name'] = 'Pengguna'
+            elif qs['user_type'] == 'CS':
+                qs['history_model_name'] = 'Pelanggan'
+        return Response(chain(queryset1))
+
     @action(methods=['POST'], detail=True)
     def change_password(self, request, pk=None, *args, **kwargs):
         received_data = json.loads(request.body)
@@ -120,6 +131,13 @@ class SupervisorViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Supervisor.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Supervisor.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Penyelia'
+        return Response(chain(queryset1))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):

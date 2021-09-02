@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.template.loader import get_template, render_to_string
 
 from datetime import datetime
+from itertools import chain
 from uuid import UUID
 from weasyprint import default_url_fetcher, HTML, CSS
 import tempfile
@@ -90,6 +91,21 @@ class ShowingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = Showing.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Showing.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = Showtime.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset3 = ShowTicket.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset4 = ShowBooking.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Tayangan'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Masa tayangan'
+        for qs in queryset3:
+            qs['history_model_name'] = 'Tiket tayangan'
+        for qs in queryset4:
+            qs['history_model_name'] = 'Tempahan tayangan'
+        return Response(chain(queryset1, queryset2, queryset3, queryset4))
 
 class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Showtime.objects.all()

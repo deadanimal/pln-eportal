@@ -6,6 +6,7 @@ from django.utils.formats import get_format
 #from django import models
 from django.contrib.gis.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
@@ -31,6 +32,7 @@ class VirtualLibraryCategory(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['name_ms']
@@ -56,6 +58,7 @@ class VirtualLibraryArticle(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -87,6 +90,7 @@ class VirtualLibraryCollection(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['name_ms']
@@ -130,6 +134,7 @@ class VirtualLibraryBook(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -173,6 +178,7 @@ class VirtualLibrarySerialPublication(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -193,6 +199,7 @@ class VirtualLibraryESourceCategory(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -213,6 +220,7 @@ class VirtualLibraryESource(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -241,6 +249,7 @@ class VirtualLibraryArchiveKutubkhanahCategory(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -261,6 +270,7 @@ class VirtualLibraryArchiveKutubkhanah(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']

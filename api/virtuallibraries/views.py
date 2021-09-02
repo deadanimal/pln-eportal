@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.db.models import Q, Sum
 
+from itertools import chain
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -68,6 +70,36 @@ class VirtualLibraryCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = VirtualLibraryCategory.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = VirtualLibraryCategory.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = VirtualLibraryArticle.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset3 = VirtualLibraryCollection.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset4 = VirtualLibraryBook.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset5 = VirtualLibrarySerialPublication.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset6 = VirtualLibraryESourceCategory.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset7 = VirtualLibraryESource.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset8 = VirtualLibraryArchiveKutubkhanahCategory.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset9 = VirtualLibraryArchiveKutubkhanah.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Kategori kutubkhanah mini'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Artikel kutubkhanah mini'
+        for qs in queryset3:
+            qs['history_model_name'] = 'Koleksi kutubkhanah mini'
+        for qs in queryset4:
+            qs['history_model_name'] = 'Buku kutubkhanah mini'
+        for qs in queryset5:
+            qs['history_model_name'] = 'Terbitan bersiri kutubkhanah mini'
+        for qs in queryset6:
+            qs['history_model_name'] = 'Kategori e-sumber kutubkhanah mini'
+        for qs in queryset7:
+            qs['history_model_name'] = 'E-sumber kutubkhanah mini'
+        for qs in queryset8:
+            qs['history_model_name'] = 'Kategori arkib kutubkhanah mini'
+        for qs in queryset9:
+            qs['history_model_name'] = 'Arkib kutubkhanah mini'
+        return Response(chain(queryset1, queryset2, queryset3, queryset4, queryset5, queryset6, queryset7, queryset8, queryset9))
 
 class VirtualLibraryArticleViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = VirtualLibraryArticle.objects.all()

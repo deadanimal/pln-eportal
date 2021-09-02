@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.db.models import Q
 
+from itertools import chain
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -72,6 +74,16 @@ class QuickLinkViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = QuickLink.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = QuickLink.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = QuickLinkCategory.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Pautan pantas'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Kategori pautan pantas'
+        return Response(chain(queryset1, queryset2))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):

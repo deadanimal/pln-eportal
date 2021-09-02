@@ -1,0 +1,173 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">Audit Log</h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Audit Log</h3>
+        </div>
+
+        <div class="row p-3">
+          <div class="col">
+            <div class="form-group">
+              <label class="form-control-label">Pilih Modul</label>
+              <select class="form-control" [(ngModel)]="module">
+                <option value="" selected>Sila pilih</option>
+                <option *ngFor="let module of modules" [value]="module.value">
+                  {{ module.display_name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col"></div>
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <button
+              class="btn btn-sm btn-default"
+              (click)="getData()"
+              [disabled]="!module"
+            >
+              Cari
+            </button>
+            <button class="btn btn-sm btn-secondary" (click)="resetData()">
+              Set semula
+            </button>
+          </div>
+        </div>
+
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Papar
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="5" [selected]="tableEntries == 5">5</option>
+                    <option value="10" [selected]="tableEntries == 10">
+                      10
+                    </option>
+                    <option value="15" [selected]="tableEntries == 15">
+                      15
+                    </option>
+                    <option value="-1" [selected]="tableEntries == -1">
+                      Semua
+                    </option>
+                  </select>
+                  rekod
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Cari rekod"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+            (activate)="onActivate($event)"
+            [scrollbarH]="true"
+          >
+            <ngx-datatable-column [width]="30">
+              <ng-template ngx-datatable-header-template>
+                <span>No.</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.no }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Modul</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.history_model_name }}
+              </ng-template>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Perkara</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="row.history_type == '+'">Tambah {{ row.history_model_name }}</span>
+                <span *ngIf="row.history_type == '~'">Kemaskini {{ row.history_model_name }}</span>
+                <span *ngIf="row.history_type == '-'">Buang {{ row.history_model_name }}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Pengguna</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.history_user__full_name }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tarikh Audit</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.history_date | date: "longDate" }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Masa Audit</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.history_date | date: "mediumTime" }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@ from django.utils.formats import get_format
 # from django import models
 from django.contrib.gis.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
@@ -38,6 +39,7 @@ class Module(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -67,6 +69,7 @@ class SubModule(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']

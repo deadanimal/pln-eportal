@@ -6,6 +6,7 @@ from django.db.models.functions import ExtractMonth, TruncMonth
 from django.http import JsonResponse
 
 from datetime import datetime
+from itertools import chain
 import itertools
 import json
 
@@ -62,6 +63,13 @@ class VenueViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = Venue.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Venue.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Tempat'
+        return Response(chain(queryset1))
+
 
 class FacilitySubcategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = FacilitySubcategory.objects.all()
@@ -113,6 +121,25 @@ class FacilityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Facility.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Facility.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = FacilitySubcategory.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset3 = FacilityPrice.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset4 = FacilityImage.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset5 = FacilityBooking.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Fasiliti'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Subkategori fasiliti'
+        for qs in queryset3:
+            qs['history_model_name'] = 'Harga fasiliti'
+        for qs in queryset4:
+            qs['history_model_name'] = 'Gambar fasiliti'
+        for qs in queryset5:
+            qs['history_model_name'] = 'Tempahan fasiliti'
+        return Response(chain(queryset1, queryset2, queryset3, queryset4, queryset5))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):

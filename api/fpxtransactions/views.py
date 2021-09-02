@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 
 from decouple import config
+from itertools import chain
 from OpenSSL import crypto
 from urllib.parse import unquote
 
@@ -239,6 +240,19 @@ class FpxTransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = FpxTransaction.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = FpxTransaction.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = BankList.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset3 = ResponseCode.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Transaksi FPX'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Senarai Bank'
+        for qs in queryset3:
+            qs['history_model_name'] = 'Kod Respon'
+        return Response(chain(queryset1, queryset2, queryset3))
 
     @action(methods=['GET'], detail=False)
     def fpx_get_bank_list(self, request, *args, **kwargs):

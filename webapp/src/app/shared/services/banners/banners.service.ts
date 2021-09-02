@@ -71,4 +71,12 @@ export class BannersService {
       })
     );
   }
+
+  getAuditLog(): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "get_audit_log/").pipe(
+      tap((res) => {
+        // console.log("Audit Logs: ", res);
+      })
+    );
+  }
 }

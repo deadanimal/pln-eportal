@@ -6,6 +6,7 @@ from django.utils.formats import get_format
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
@@ -34,6 +35,7 @@ class Calendar(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']

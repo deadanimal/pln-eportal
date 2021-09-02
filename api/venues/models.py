@@ -5,6 +5,7 @@ from django.utils.formats import get_format
 # from django import models
 from django.contrib.gis.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
@@ -36,6 +37,7 @@ class Venue(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['name']
@@ -66,6 +68,7 @@ class FacilitySubcategory(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['code']
@@ -118,6 +121,7 @@ class Facility(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['name_ms']
@@ -152,6 +156,7 @@ class FacilityPrice(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -168,6 +173,7 @@ class FacilityImage(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -239,6 +245,7 @@ class FacilityBooking(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     def save(self, *args, **kwargs):
         if self.status == 'FB02':

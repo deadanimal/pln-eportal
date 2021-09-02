@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.template import Context, Template
 from django.utils.html import strip_tags
 
+from itertools import chain
 import json
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -47,6 +48,13 @@ class EmailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = EmailTemplate.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = EmailTemplate.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Templat emel'
+        return Response(chain(queryset1))
 
     @action(methods=['POST'], detail=False)
     def sending_email(self, request, *args, **kwargs):

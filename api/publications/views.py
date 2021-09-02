@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.db.models import Q, Sum
 
+from itertools import chain
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -126,3 +128,13 @@ class PublicationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             'publication_category_id__name_ms', 'title_ms', 'download_pdf_counter').order_by('publication_category_id__name_ms')
 
         return Response(queryset)
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Publication.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = PublicationCategory.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Penerbitan'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Kategori penerbitan'
+        return Response(chain(queryset1, queryset2))

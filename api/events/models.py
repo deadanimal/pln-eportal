@@ -5,6 +5,7 @@ from django.utils.formats import get_format
 # from django import models
 from django.contrib.gis.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
@@ -53,6 +54,7 @@ class Exhibit(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['name']
@@ -77,6 +79,7 @@ class ExhibitList(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['name_ms']
@@ -96,6 +99,7 @@ class ExhibitDetail(models.Model):
     video_link = models.FileField(null=True, blank=True, upload_to=PathAndRename('video'))
     venue_id = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='exhibit_detail_venue', null=True)
     qrcode = models.CharField(max_length=255, default='NA')
+    history = HistoricalRecords()
 
     STATUS = [
         ('AV', 'Available'),
@@ -122,6 +126,7 @@ class ExhibitDetailImage(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -187,6 +192,7 @@ class EducationalProgram(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['title_ms']
@@ -202,6 +208,7 @@ class EducationalProgramDate(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -217,6 +224,7 @@ class EducationalProgramImage(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -232,6 +240,7 @@ class EducationalProgramActivity(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -273,6 +282,7 @@ class EducationalProgramApplication(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     def save(self, *args, **kwargs):
         if self.status == 'AP':
@@ -395,6 +405,7 @@ class EducationalProgramForm(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     def save(self, *args, **kwargs):
         if self.status == 'AP':
@@ -421,6 +432,7 @@ class Visit(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -461,6 +473,7 @@ class VisitApplication(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True) # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']

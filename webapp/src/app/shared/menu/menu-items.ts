@@ -371,7 +371,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "/managements",
-    title: "Pentadbiran",
+    title: "Pentadbiran Sistem",
     type: "sub",
     icontype: "fas fa-cogs text-primary",
     collapse: "managements",
@@ -381,6 +381,7 @@ export const ROUTES: RouteInfo[] = [
       { path: "customers", title: "Pelanggan", type: "link" },
       { path: "supervisors", title: "Penyelia", type: "link" },
       { path: "email-templates", title: "Templat Emel", type: "link" },
+      { path: "audit-logs", title: "Audit Log", type: "link" },
     ],
     role: ["SA"],
   },

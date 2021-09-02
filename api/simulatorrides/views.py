@@ -6,10 +6,12 @@ from django.http import HttpResponse
 from django.template.loader import get_template, render_to_string
 
 from datetime import datetime
+from itertools import chain
 from uuid import UUID
 from weasyprint import default_url_fetcher, HTML, CSS
 import tempfile
 import json
+import pytz
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -85,6 +87,19 @@ class SimulatorRideViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = SimulatorRide.objects.all()
         return queryset
 
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = SimulatorRide.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset2 = SimulatorRideTime.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        queryset3 = SimulatorRideBooking.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Kembara simulasi'
+        for qs in queryset2:
+            qs['history_model_name'] = 'Masa kembara simulasi'
+        for qs in queryset3:
+            qs['history_model_name'] = 'Tempahan kembara simulasi'
+        return Response(chain(queryset1, queryset2, queryset3))
+
 
 class SimulatorRideTimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = SimulatorRideTime.objects.all()
@@ -116,8 +131,13 @@ class SimulatorRideTimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def get_timetable(self, request, *args, **kwargs):
 
+        # To get today day
+        days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_weekday = datetime.now(timezone_).weekday()
+
         # To get today timetable
-        queryset = SimulatorRideTime.objects.all()
+        queryset = SimulatorRideTime.objects.filter(day=days[current_weekday]).order_by('time', 'round')
 
         array = []
         for data in queryset:
@@ -125,10 +145,12 @@ class SimulatorRideTimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             queryset_booking = SimulatorRideBooking.objects.filter(simulator_ride_time_id=data.id, booking_date=datetime.today().strftime('%Y-%m-%d')).count()
 
             array.append({
+                'date': datetime.now(timezone_).strftime("%Y-%m-%d"),
                 'time': data.time,
                 'day': data.get_day_display(),
                 'round': data.get_round_display(),
-                'booking': queryset_booking
+                'booking': queryset_booking,
+                'status': data.simulator_time_status
             })
 
         return Response(array)

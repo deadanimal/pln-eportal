@@ -55,7 +55,7 @@ export class BannersComponent implements OnInit {
     private modalService: BsModalService,
     private route: ActivatedRoute,
     private bannerService: BannersService,
-    private educationalprogramService: EducationalProgramsService
+    private eduprogramService: EducationalProgramsService
   ) {
     this.getData();
     this.getProgram();
@@ -71,7 +71,7 @@ export class BannersComponent implements OnInit {
   }
 
   getProgram() {
-    this.educationalprogramService.filter("status=AV").subscribe(
+    this.eduprogramService.filter("status=AV").subscribe(
       (res) => {
         // console.log("res", res);
         this.programs = res;

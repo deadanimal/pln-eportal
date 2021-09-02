@@ -7,6 +7,7 @@ from django.utils.formats import get_format
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
@@ -26,7 +27,7 @@ from fpxtransactions.models import (
 def increment_ticket_number(show_booking_id):
 
     show_booking = ShowBooking.objects.filter(id=show_booking_id).first()
-    prev_instances = ShowBooking.objects.exclude(ticket_number='')
+    prev_instances = ShowBooking.objects.exclude(ticket_number='').order_by('-ticket_number')
 
     if prev_instances.exists():
         last_instance_id = prev_instances.first().ticket_number
@@ -71,6 +72,7 @@ class Showing(models.Model):
     created_date = models.DateTimeField(
         auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['title_ms']
@@ -104,6 +106,7 @@ class Showtime(models.Model):
     created_date = models.DateTimeField(
         auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['show_date']
@@ -150,6 +153,7 @@ class ShowTicket(models.Model):
     created_date = models.DateTimeField(
         auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['-created_date']
@@ -215,6 +219,7 @@ class ShowBooking(models.Model):
     created_date = models.DateTimeField(
         auto_now_add=True)  # can add null=True if got error
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     def save(self, *args, **kwargs):
         if self.status == 'SB05':

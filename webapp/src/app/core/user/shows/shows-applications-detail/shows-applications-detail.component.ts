@@ -107,6 +107,10 @@ export class ShowsApplicationsDetailComponent implements OnInit {
       value: "SB07",
       display_name: "Bayaran Balik",
     },
+    {
+      value: "SB08",
+      display_name: "QR sudah disahkan"
+    }
   ];
 
   // Table

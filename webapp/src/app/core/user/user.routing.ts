@@ -8,6 +8,7 @@ import { TotalDownloadsPdfVirtualLibraryComponent } from "./analytics/total-down
 import { TotalTicketSalesShowsComponent } from "./analytics/total-ticket-sales-shows/total-ticket-sales-shows.component";
 import { TotalTicketSalesSimulatorRidesComponent } from "./analytics/total-ticket-sales-simulator-rides/total-ticket-sales-simulator-rides.component";
 import { AssetsComponent } from "./assets/assets.component";
+import { AuditLogsComponent } from "./audit-logs/audit-logs.component";
 
 import { CalendarComponent } from "./calendar/calendar.component";
 import { CartsComponent } from "./carts/carts.component";
@@ -457,6 +458,10 @@ export const UserRoutes: Routes = [
           {
             path: "email-templates",
             component: EmailTemplatesComponent,
+          },
+          {
+            path: "audit-logs",
+            component: AuditLogsComponent,
           },
         ],
       },
