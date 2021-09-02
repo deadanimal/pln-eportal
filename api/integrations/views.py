@@ -205,14 +205,14 @@ class IntegrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             # If QR code is valid
             data = {
                 "authenticated": True,
-                "ip_address": "http://192.168.1.81/on",
+                "ip_address": "http://192.168.1.80:5000/on",
                 "message": "ON"
             }
         else:
             # If QR code is invalid
             data = {
                 "authenticated": False,
-                "ip_address": "http://192.168.1.81/off",
+                "ip_address": "http://192.168.1.80:5000/off",
                 "message": "OFF"
             }
         
