@@ -7,6 +7,7 @@ from django.template.loader import get_template, render_to_string
 
 from datetime import datetime, timedelta
 from weasyprint import default_url_fetcher, HTML, CSS
+from itertools import chain
 import itertools
 import json
 
@@ -67,6 +68,13 @@ class InvoiceReceiptViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = InvoiceReceipt.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = InvoiceReceipt.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Invois & resit'
+        return Response(chain(queryset1))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):

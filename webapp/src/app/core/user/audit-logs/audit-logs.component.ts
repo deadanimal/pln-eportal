@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 import { AnnouncementsService } from "src/app/shared/services/announcements/announcements.service";
 import { BannersService } from "src/app/shared/services/banners/banners.service";
 import { CalendarsService } from "src/app/shared/services/calendars/calendars.service";
+import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { CloseBookingsService } from "src/app/shared/services/close-bookings/close-bookings.service";
 import { DynamicContentsService } from "src/app/shared/services/dynamic-contents/dynamic-contents.service";
 import { EducationalProgramsService } from "src/app/shared/services/educational-programs/educational-programs.service";
@@ -21,18 +22,22 @@ import { FacilitiesService } from "src/app/shared/services/facilities/facilities
 import { FaqsService } from "src/app/shared/services/faqs/faqs.service";
 import { FeedbacksService } from "src/app/shared/services/feedbacks/feedbacks.service";
 import { FpxTransactionsService } from "src/app/shared/services/fpx-transactions/fpx-transactions.service";
+import { InvoiceReceiptsService } from "src/app/shared/services/invoice-receipts/invoice-receipts.service";
 import { ModulesService } from "src/app/shared/services/modules/modules.service";
 import { PartnersService } from "src/app/shared/services/partners/partners.service";
 import { PublicationsService } from "src/app/shared/services/publications/publications.service";
 import { QuickLinksService } from "src/app/shared/services/quick-links/quick-links.service";
+import { RefundsService } from "src/app/shared/services/refunds/refunds.service";
 import { ShowingsService } from "src/app/shared/services/showings/showings.service";
 import { SimulatorRidesService } from "src/app/shared/services/simulator-rides/simulator-rides.service";
 import { SupervisorsService } from "src/app/shared/services/supervisors/supervisors.service";
 import { SurveyQuestionsService } from "src/app/shared/services/survey-questions/survey-questions.service";
+import { TicketPricesService } from "src/app/shared/services/ticket-prices/ticket-prices.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { VenuesService } from "src/app/shared/services/venues/venues.service";
 import { VirtualLibraryCategoriesService } from "src/app/shared/services/virtual-library-categories/virtual-library-categories.service";
 import { VisitsService } from "src/app/shared/services/visits/visits.service";
+import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
 import { WhatisinterestingsService } from "src/app/shared/services/whatisinterestings/whatisinterestings.service";
 
 export enum SelectionType {
@@ -183,6 +188,26 @@ export class AuditLogsComponent implements OnInit {
       value: "email-template",
       display_name: "Templet Emel",
     },
+    {
+      value: "ticket-price",
+      display_name: "Harga Tiket",
+    },
+    {
+      value: "refund",
+      display_name: "Bayaran Balik",
+    },
+    {
+      value: "voucher",
+      display_name: "Baucar",
+    },
+    {
+      value: "cart",
+      display_name: "Troli",
+    },
+    {
+      value: "invoice-receipt",
+      display_name: "Invois & Resit",
+    },
   ];
 
   constructor(
@@ -191,6 +216,7 @@ export class AuditLogsComponent implements OnInit {
     private announcementService: AnnouncementsService,
     private bannerService: BannersService,
     private calendarService: CalendarsService,
+    private cartService: CartsService,
     private closebookingService: CloseBookingsService,
     private dynamiccontentService: DynamicContentsService,
     private eduprogramService: EducationalProgramsService,
@@ -201,18 +227,22 @@ export class AuditLogsComponent implements OnInit {
     private faqService: FaqsService,
     private feedbackService: FeedbacksService,
     private fpxtransactionService: FpxTransactionsService,
+    private invoicereceiptService: InvoiceReceiptsService,
     private moduleService: ModulesService,
     private partnerService: PartnersService,
     private publicationService: PublicationsService,
     private quicklinkService: QuickLinksService,
+    private refundService: RefundsService,
     private showingService: ShowingsService,
     private simulatorrideService: SimulatorRidesService,
     private supervisorService: SupervisorsService,
     private surveyquestionService: SurveyQuestionsService,
+    private ticketpriceService: TicketPricesService,
     private userService: UsersService,
     private venueService: VenuesService,
     private vlcategoryService: VirtualLibraryCategoriesService,
     private visitService: VisitsService,
+    private voucherService: VouchersService,
     private whatisinterestingService: WhatisinterestingsService
   ) {}
 
@@ -473,6 +503,56 @@ export class AuditLogsComponent implements OnInit {
       );
     } else if (this.module == "email-template") {
       this.emailtemplateService.getAuditLog().subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.setDatatable(res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    } else if (this.module == "ticket-price") {
+      this.ticketpriceService.getAuditLog().subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.setDatatable(res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    } else if (this.module == "refund") {
+      this.refundService.getAuditLog().subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.setDatatable(res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    } else if (this.module == "voucher") {
+      this.voucherService.getAuditLog().subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.setDatatable(res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    } else if (this.module == "cart") {
+      this.cartService.getAuditLog().subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.setDatatable(res);
+        },
+        (err) => {
+          console.error("err", err);
+        }
+      );
+    } else if (this.module == "invoice-receipt") {
+      this.invoicereceiptService.getAuditLog().subscribe(
         (res) => {
           // console.log("res", res);
           this.setDatatable(res);

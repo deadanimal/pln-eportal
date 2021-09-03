@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q
 from django.http import JsonResponse
 
+from itertools import chain
 import datetime
 import pytz
 
@@ -41,6 +42,13 @@ class VoucherViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Voucher.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Voucher.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Baucar'
+        return Response(chain(queryset1))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):

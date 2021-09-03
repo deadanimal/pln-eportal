@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.db.models import Q
 from django.http import JsonResponse
 
+from itertools import chain
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -39,6 +41,13 @@ class RefundViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Refund.objects.all()
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def get_audit_log(self, request, *args, **kwargs):
+        queryset1 = Refund.history.all().values('history_id', 'history_date', 'history_change_reason', 'history_type', 'history_user__full_name')
+        for qs in queryset1:
+            qs['history_model_name'] = 'Bayaran balik'
+        return Response(chain(queryset1))
 
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
