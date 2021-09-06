@@ -89,6 +89,7 @@ class Showtime(models.Model):
         ('Tunda', 'Tunda'),
         ('Batal', 'Batal'),
         ('Penuh', 'Penuh'),
+        ('Tamat', 'Tamat'),
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
