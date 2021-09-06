@@ -153,6 +153,7 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 'trailer_link': data.showing_id.trailer_link,
                 'show_date': data.show_date,
                 'show_time': data.show_time,
+                'status': data.show_time_status,
                 'available_ticket': data.available_ticket
             })
 
