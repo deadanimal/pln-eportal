@@ -223,10 +223,14 @@ class ShowBooking(models.Model):
     history = HistoricalRecords()
 
     def save(self, *args, **kwargs):
-        if self.status == 'SB05':
+        #if self.status == 'SB05':
+        #    prefix = increment_ticket_number(self.id)
+        #    self.ticket_number = prefix
+
+        if self.ticket_number == '':
             prefix = increment_ticket_number(self.id)
             self.ticket_number = prefix
-
+        
         super(ShowBooking, self).save(*args, **kwargs)
 
     class Meta:
