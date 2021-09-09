@@ -13,8 +13,7 @@ def delete_booking_expired():
         showtime_id__show_date__lt=date.today(), status='SB01')
     show_booking_pendingpayment = ShowBooking.objects.filter(
         showtime_id__show_date__lt=date.today(), status='SB04')
-
-    if len(show_booking_inprogress) > 0:
+if len(show_booking_inprogress) > 0:
         for sb in show_booking_inprogress:
             print(sb)
             sb.delete()
@@ -43,7 +42,7 @@ def delete_booking_expired():
                 facility = True
 
             if (simulator_ride or show or facility):
-                # print(c.id)
+                print(c.id)
             else:
                 c.delete()
 
