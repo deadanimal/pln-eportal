@@ -47,8 +47,8 @@ if len(show_booking_inprogress) > 0:
                 c.delete()
 
 
-def auto_change_status(self, request):
-
+def auto_change_status():
+    print("initiate cron show")
     shows = Showtime.objects.filter(show_time_status='Ada')
     if len(shows) > 0:
         for i in shows:
@@ -99,3 +99,4 @@ def auto_change_status(self, request):
                 i.save()
                 print("telah ditayang id", i)
      
+    

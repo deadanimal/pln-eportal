@@ -45,6 +45,8 @@ from simulatorrides.serializers import (
 )
 
 
+timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+
 def get_ticket_category(ticket_type, ticket_category):
 
     if ticket_type == 'CZ':
@@ -283,3 +285,32 @@ class SimulatorRideBookingViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         return Response(data)
+
+    @action(methods=['GET'], detail=False)
+    def auto_change_status(self, request):
+        print("initiate cron sim")
+        days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+        current_weekday = datetime.now(timezone_).weekday()
+        queryset = SimulatorRideTime.objects.filter(day=days[current_weekday]).order_by('time', 'round')
+
+        for data in queryset:
+
+            queryset_booking = SimulatorRideBooking.objects.filter(simulator_ride_time_id=data.id, booking_date=datetime.today().strftime('%Y-%m-%d')).count()
+            if queryset_booking == 2:
+                simulator_ride = SimulatorRideTime.objects.get(id=data.id)
+                simulator_ride.simulator_time_status = "Penuh"
+                simulator_ride.save()
+
+
+            current_time = datetime.now(timezone_)
+            slot_time = datetime.now(timezone_).replace(hour=int(data.time.hour), minute=int(data.time.minute)) 
+            time_elapsed_second = datetime.timestamp(current_time) - datetime.timestamp(slot_time)
+
+            if time_elapsed_second >= 10*60:
+                simulator_ride = SimulatorRideTime.objects.get(id=data.id)
+                simulator_ride.simulator_time_status = "Tamat"
+                simulator_ride.save()
+
+
+
+        return Response({})
