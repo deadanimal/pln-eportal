@@ -227,7 +227,7 @@ class ShowBooking(models.Model):
         #    prefix = increment_ticket_number(self.id)
         #    self.ticket_number = prefix
 
-        if self.ticket_number == '':
+        if self.ticket_number == '' and self.status == 'SB05':
             prefix = increment_ticket_number(self.id)
             self.ticket_number = prefix
         

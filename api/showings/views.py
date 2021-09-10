@@ -137,8 +137,8 @@ class ShowtimeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def get_timetable(self, request, *args, **kwargs):
 
-        # To get today and onward timetable
-        queryset = Showtime.objects.filter(show_date__gte=datetime.today().strftime('%Y-%m-%d'))
+        # To get today timetable
+        queryset = Showtime.objects.filter(show_date=datetime.today().strftime('%Y-%m-%d')).order_by('show_time')
 
         array = []
         for data in queryset:
