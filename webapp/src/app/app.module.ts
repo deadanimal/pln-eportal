@@ -13,6 +13,7 @@ import { ToastrModule } from "ngx-toastr";
 import { AppComponent } from "./app.component";
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
+import { PagenotfoundComponent } from "./core/global/pagenotfound/pagenotfound.component";
 
 import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "./app-routing.module";
@@ -36,7 +37,12 @@ import { ComponentsModule } from "./components/components.module";
     }),
     LeafletModule,
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
+  declarations: [
+    AppComponent,
+    AdminLayoutComponent,
+    AuthLayoutComponent,
+    PagenotfoundComponent,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

@@ -18,13 +18,15 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 @NgModule({
   declarations: [
     NotificationsComponent,
     ProfileComponent,
     SettingsComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    PagenotfoundComponent
   ],
   imports: [
     CommonModule,
