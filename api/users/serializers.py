@@ -11,9 +11,17 @@ from django.utils.timezone import now
 # from api.settings import AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME
 
 from .models import (
+    Role,
     CustomUser,
     Supervisor
 )
+
+class RoleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Role
+        fields = '__all__'
+        read_only_fields = ['id']
 
 class CustomUserSerializer(serializers.ModelSerializer):
     # nric_picture = Base64ImageField(required=False)
@@ -38,6 +46,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'country',
             'staff_id',
             'user_type',
+            'role',
             'gender_type',
             'race_type',
             'is_active',
@@ -45,6 +54,13 @@ class CustomUserSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id', 'date_joined')
 
+class CustomUserExtendedSerializer(serializers.ModelSerializer):
+    role = RoleSerializer(read_only=True)
+
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+        read_only_fields = ['id']
 
 class SupervisorSerializer(serializers.ModelSerializer):
 

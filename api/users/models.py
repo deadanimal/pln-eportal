@@ -12,6 +12,19 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
+class Role(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    code = models.CharField(blank=True, max_length=2)
+    name = models.CharField(blank=True, max_length=255)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.code + ' - ' + self.name
+
+
 class CustomUser(AbstractUser):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -45,6 +58,7 @@ class CustomUser(AbstractUser):
         ('CS', 'Customer')
     ]
     user_type = models.CharField(max_length=2, choices=USER_TYPE, default='CS')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='role', null=True)
 
     GENDER_TYPE = [
         ('FM', 'Female'),

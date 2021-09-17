@@ -232,8 +232,13 @@ ratings_router = router.register(
 
 # Users app
 from users.views import (
+    RoleViewSet,
     CustomUserViewSet,
     SupervisorViewSet
+)
+
+roles_router = router.register(
+    'roles', RoleViewSet
 )
 
 users_router = router.register(
@@ -565,6 +570,20 @@ from creditcards.views import (
 
 credit_cards_router = router.register(
     'credit-cards', CreditCardViewSet
+)
+
+# Menu app
+from menus.views import (
+    MenuViewSet,
+    MenuRoleViewSet
+)
+
+menus_router = router.register(
+    'menus', MenuViewSet
+)
+
+menu_roles_router = router.register(
+    'menu-roles', MenuRoleViewSet
 )
 
 urlpatterns = [
