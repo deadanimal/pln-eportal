@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { CartsService } from "src/app/shared/services/carts/carts.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { RolesService } from "src/app/shared/services/roles/roles.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
@@ -102,6 +103,7 @@ export class NavbarComponent implements OnInit {
     public authService: AuthService,
     public cartService: CartsService,
     public jwtService: JwtService,
+    public roleService: RolesService,
     public userService: UsersService,
     public translate: TranslateService,
     private modalService: BsModalService,
@@ -173,13 +175,20 @@ export class NavbarComponent implements OnInit {
         birth_date: ["", Validators.compose([Validators.required])],
         gender_type: ["", Validators.compose([Validators.required])],
         race_type: ["", Validators.compose([Validators.required])],
-        user_type: ["CS"],
+        role: [""],
       },
       {
         // check whether our password and confirm password match
         validator: CustomValidators.passwordMatchValidator,
       }
     );
+
+    this.roleService.filter("code=CS").subscribe((res) => {
+      // console.log("res", res);
+      this.registerFormGroup.patchValue({
+        role: res[0].id,
+      });
+    });
   }
 
   ngOnInit() {
@@ -187,11 +196,10 @@ export class NavbarComponent implements OnInit {
     this.refreshToken = this.jwtService.getToken("refreshToken");
 
     if (this.authService.subsVar == undefined) {
-      this.authService.subsVar = this.authService.invokeLogoutFunction.subscribe(
-        (name: string) => {
+      this.authService.subsVar =
+        this.authService.invokeLogoutFunction.subscribe((name: string) => {
           this.clickLogout();
-        }
-      );
+        });
     }
 
     this.w3cService.currentThemeColor.subscribe(
@@ -220,7 +228,9 @@ export class NavbarComponent implements OnInit {
   }
 
   getAddToCartCount() {
-    if (!this.authService.isTokenExpired(this.jwtService.getToken("accessToken")))
+    if (
+      !this.authService.isTokenExpired(this.jwtService.getToken("accessToken"))
+    )
       this.cartService
         .extended(
           "cart_status=CR&user=" + this.authService.decodedToken().user_id
@@ -386,8 +396,7 @@ export class NavbarComponent implements OnInit {
               .fire({
                 icon: "success",
                 title: "Tukar kata laluan",
-                text:
-                  "Tukar kata laluan sudah dihantar kepada emel anda. Sila semak emel anda. Terima kasih.",
+                text: "Tukar kata laluan sudah dihantar kepada emel anda. Sila semak emel anda. Terima kasih.",
                 buttonsStyling: false,
                 confirmButtonText: "Tutup",
                 customClass: {

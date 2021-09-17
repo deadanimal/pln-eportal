@@ -15,6 +15,7 @@ import swal from "sweetalert2";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { IntegrationsService } from "src/app/shared/services/integrations/integrations.service";
 import { JwtService } from "src/app/shared/jwt/jwt.service";
+import { RolesService } from "src/app/shared/services/roles/roles.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
 
@@ -98,6 +99,7 @@ export class SignupComponent implements OnInit {
     public authService: AuthService,
     public integrationService: IntegrationsService,
     public jwtService: JwtService,
+    public roleService: RolesService,
     public userService: UsersService,
     public translate: TranslateService,
     private toastr: ToastrService,
@@ -160,7 +162,7 @@ export class SignupComponent implements OnInit {
         birth_date: ["", Validators.compose([Validators.required])],
         gender_type: ["", Validators.compose([Validators.required])],
         race_type: ["", Validators.compose([Validators.required])],
-        user_type: ["CS"],
+        role: [""],
         recaptcha: ["", Validators.required],
       },
       {
@@ -168,6 +170,13 @@ export class SignupComponent implements OnInit {
         validator: CustomValidators.passwordMatchValidator,
       }
     );
+
+    this.roleService.filter("code=CS").subscribe((res) => {
+      // console.log("res", res);
+      this.registerFormGroup.patchValue({
+        role: res[0].id,
+      });
+    });
   }
 
   ngOnInit() {
@@ -200,7 +209,7 @@ export class SignupComponent implements OnInit {
                   "Pendaftaran anda berjaya. Sila log masuk.",
                   "Berjaya"
                 );
-                this.router.navigate(['/landing']);
+                this.router.navigate(["/landing"]);
               },
               (err) => {
                 console.error("err", err);

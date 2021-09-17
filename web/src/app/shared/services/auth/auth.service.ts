@@ -35,7 +35,7 @@ export class AuthService {
   public email: string;
   public username: string;
   public userID: string;
-  public userType: string;
+  public userRole: string;
 
   constructor(private jwtService: JwtService, private http: HttpClient) {}
 
@@ -93,7 +93,7 @@ export class AuthService {
         this.email = decodedToken.email;
         this.username = decodedToken.username;
         this.userID = decodedToken.user_id;
-        this.userType = decodedToken.user_type;
+        this.userRole = decodedToken.role;
 
         this.jwtService.saveToken("accessToken", this.tokenAccess);
         this.jwtService.saveToken("refreshToken", this.tokenRefresh);
@@ -126,7 +126,7 @@ export class AuthService {
       username: decodedToken.username,
       full_name: decodedToken.full_name,
       email: decodedToken.email,
-      user_type: decodedToken.user_type,
+      role: decodedToken.role,
     };
     return user_obj;
   }

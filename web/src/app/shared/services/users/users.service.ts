@@ -43,7 +43,6 @@ export class UsersService {
       tap((res) => {
         this.users = res;
         // console.log("Users: ", res);
-        this.filterTypes();
       })
     );
   }
@@ -64,21 +63,5 @@ export class UsersService {
         // console.log("User: ", res);
       })
     );
-  }
-
-  filterTypes() {
-    this.administrator = [];
-    this.staffs = [];
-    this.customer = [];
-
-    this.users.forEach((user) => {
-      if (user.user_type == "AD") {
-        this.administrator.push(user);
-      } else if (user.user_type == "ST") {
-        this.staffs.push(user);
-      } else if (user.user_type == "CS") {
-        this.customer.push(user);
-      }
-    });
   }
 }

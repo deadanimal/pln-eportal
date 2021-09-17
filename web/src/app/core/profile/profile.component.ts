@@ -144,7 +144,7 @@ export class ProfileComponent implements OnInit {
       city: new FormControl(""),
       state: new FormControl(""),
       country: new FormControl(""),
-      user_type: new FormControl(""),
+      role: new FormControl(""),
       gender_type: new FormControl(""),
       race_type: new FormControl(""),
       is_active: new FormControl(false),
