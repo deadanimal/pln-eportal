@@ -15,7 +15,7 @@ export class User {
   public state: string;
   public country: string;
   public staff_id: string;
-  public user_type: string;
+  public role: any;
   public gender_type: string;
   public race_type: string;
   public is_active: boolean;
@@ -38,7 +38,7 @@ export class User {
     state: string,
     country: string,
     staff_id: string,
-    user_type: string,
+    role: any,
     gender_type: string,
     race_type: string,
     is_active: boolean,
@@ -60,7 +60,7 @@ export class User {
     this.state = state;
     this.country = country;
     this.staff_id = staff_id;
-    this.user_type = user_type;
+    this.role = role;
     this.gender_type = gender_type;
     this.race_type = race_type;
     this.is_active = is_active;

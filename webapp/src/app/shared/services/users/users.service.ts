@@ -72,6 +72,18 @@ export class UsersService {
     );
   }
 
+  extended(field): Observable<User[]> {
+    let urlExtended = "";
+    if (field) urlExtended = this.urlUser + "extended/?" + field;
+    else urlExtended = this.urlUser + "extended";
+    return this.http.get<User[]>(urlExtended).pipe(
+      tap((res) => {
+        this.users = res
+        // console.log('Showtimes: ', res)
+      })
+    )
+  }
+
   changeNewPassword(id: string, password: string) {
     let urlTemp = this.urlUser + id + '/change_password/'
     let data = {

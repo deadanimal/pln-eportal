@@ -98,10 +98,10 @@ export class DailyOperatingsComponent implements OnInit {
   }
 
   getUser() {
-    this.userService.getAll().subscribe(
+    this.userService.extended("").subscribe(
       (res) => {
         // console.log("res", res);
-        this.users = res.filter((item) => item.user_type != "CS");
+        this.users = res.filter((item) => item.role.code != "CS");
       },
       (err) => {
         console.error("err", err);

@@ -8,6 +8,7 @@ import {
 import swal from "sweetalert2";
 
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { RolesService } from "src/app/shared/services/roles/roles.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private roleService: RolesService,
     private userService: UsersService
   ) {
     this.userFormGroup = this.formBuilder.group({
@@ -43,7 +45,7 @@ export class ProfileComponent implements OnInit {
       city: new FormControl({ value: "" }),
       state: new FormControl({ value: "" }),
       country: new FormControl({ value: "" }),
-      user_type: new FormControl({ value: "" }),
+      role: new FormControl({ value: "" }),
       gender_type: new FormControl({ value: "" }),
       race_type: new FormControl({ value: "" }),
       // is_active: new FormControl(false),

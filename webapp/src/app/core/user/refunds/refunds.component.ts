@@ -35,9 +35,9 @@ export class RefundsComponent implements OnInit {
   carts = [];
   invoicereceipts = [];
   supervisors = [];
-  users = []; // user_type = CS - Customer
-  incharges = []; // user_type != CS - Customer
-  picverifications = []; // user_type != CS - Customer
+  users = []; // role.code = CS - Customer
+  incharges = []; // role.code != CS - Customer
+  picverifications = []; // role.code != CS - Customer
   infobooking = [];
 
   // Dropdown
@@ -197,11 +197,11 @@ export class RefundsComponent implements OnInit {
   }
 
   getUser() {
-    this.userService.getAll().subscribe(
+    this.userService.extended("").subscribe(
       (res) => {
         // console.log("res", res);
         res.forEach((obj) => {
-          if (obj.user_type == "CS") this.users.push(obj);
+          if (obj.role.code == "CS") this.users.push(obj);
           else {
             this.incharges.push(obj);
             this.picverifications.push(obj);

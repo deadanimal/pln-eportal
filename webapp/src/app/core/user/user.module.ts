@@ -101,6 +101,9 @@ import { SimulatorRideBookingsComponent } from './simulator-ride/simulator-ride-
 import { ShowsBookingsComponent } from './shows/shows-bookings/shows-bookings.component';
 import { CartsComponent } from './carts/carts.component';
 import { AuditLogsComponent } from './audit-logs/audit-logs.component';
+import { MenusComponent } from './managements/menus/menus.component';
+import { RolesComponent } from './managements/roles/roles.component';
+import { UserAccessesComponent } from './managements/user-accesses/user-accesses.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
 
@@ -185,6 +188,9 @@ FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
     ShowsBookingsComponent,
     CartsComponent,
     AuditLogsComponent,
+    MenusComponent,
+    RolesComponent,
+    UserAccessesComponent,
   ],
   imports: [
     CommonModule,

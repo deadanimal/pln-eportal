@@ -197,11 +197,11 @@ export class ShowsApplicationsDetailComponent implements OnInit {
   }
 
   getUser() {
-    this.userService.getAll().subscribe(
+    this.userService.extended("").subscribe(
       (res) => {
         // console.log("res", res);
         res.forEach((obj) => {
-          if (obj.user_type == "CS") this.users.push(obj);
+          if (obj.role.code == "CS") this.users.push(obj);
         });
       },
       (err) => {

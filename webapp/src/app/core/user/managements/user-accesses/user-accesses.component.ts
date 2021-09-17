@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import {
   Validators,
+  FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
@@ -8,8 +9,9 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
-import { UsersService } from "src/app/shared/services/users/users.service";
-import { VouchersService } from "src/app/shared/services/vouchers/vouchers.service";
+import { UserAccessesService } from "src/app/shared/services/user-accesses/user-accesses.service";
+import { MenusService } from "src/app/shared/services/menus/menus.service";
+import { RolesService } from "src/app/shared/services/roles/roles.service";
 
 export enum SelectionType {
   single = "single",
@@ -20,40 +22,16 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-vouchers",
-  templateUrl: "./vouchers.component.html",
-  styleUrls: ["./vouchers.component.scss"],
+  selector: "app-user-accesses",
+  templateUrl: "./user-accesses.component.html",
+  styleUrls: ["./user-accesses.component.scss"],
 })
-export class VouchersComponent implements OnInit {
+export class UserAccessesComponent implements OnInit {
   // Data
-  users = [];
-
-  // Dropdown
-  statuses = [
-    {
-      value: "NU",
-      display_name: "Tidak Digunakan",
-    },
-    {
-      value: "AU",
-      display_name: "Sudah Digunakan",
-    },
-    {
-      value: "EX",
-      display_name: "Tamat Tempoh",
-    },
-  ];
-
-  // FormGroup
-  voucherFormGroup: FormGroup;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: "modal-dialog",
-    ignoreBackdropClick: true,
-  };
+  menus = [];
+  menuExists = [];
+  menuNews = [];
+  roles = [];
 
   // Table
   tableEntries: number = 5;
@@ -63,43 +41,42 @@ export class VouchersComponent implements OnInit {
   tableRows: any[] = [];
   SelectionType = SelectionType;
 
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog",
+    ignoreBackdropClick: true,
+  };
+
+  // FormGroup
+  menuroleFormGroup: FormGroup;
+
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private userService: UsersService,
-    private voucherService: VouchersService
+    private useraccessService: UserAccessesService,
+    private menuService: MenusService,
+    private roleService: RolesService
   ) {
-    this.getData();
-    this.getUser();
-
-    this.voucherFormGroup = this.formBuilder.group({
+    this.menuroleFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      // voucher_code: new FormControl(""),
-      voucher_amount: new FormControl(0),
-      validity_until: new FormControl(""),
-      description: new FormControl(""),
-      // status: new FormControl(""),
-      user: new FormControl(""),
-      // invoice_receipt_id: new FormControl(""),
+      menu: new FormControl(""),
+      role: new FormControl("", Validators.compose([Validators.required])),
+      menuArray: this.formBuilder.array(
+        [],
+        Validators.compose([Validators.required])
+      ),
     });
   }
 
-  getUser() {
-    this.userService.extended("role=CS").subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.users = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
+  ngOnInit() {
+    this.getData();
   }
 
-  ngOnInit() {}
-
   getData() {
-    this.voucherService.extended("").subscribe((res) => {
+    if (this.tableRows.length > 0) this.tableRows = [];
+    this.useraccessService.extended("").subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -108,6 +85,32 @@ export class VouchersComponent implements OnInit {
         };
       });
     });
+
+    this.menuService.filter("active=true").subscribe(
+      (res) => {
+        // console.log("res", res);
+        res.forEach((obj) => {
+          if ((obj.type == "link" && obj.mainmenu == "") || obj.type == "sub") {
+            this.menus.push(obj);
+          }
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+
+    this.roleService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        res.forEach((obj) => {
+          if (obj.code != "CS") this.roles.push(obj);
+        });
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   entriesChange($event) {
@@ -141,24 +144,21 @@ export class VouchersComponent implements OnInit {
   }
 
   emptyFormGroup() {
-    this.voucherFormGroup.patchValue({
+    this.menuroleFormGroup.patchValue({
       id: "",
-      voucher_code: "",
-      voucher_amount: 0,
-      validity_until: "",
-      description: "",
-      status: "",
-      user: "",
+      menu: "",
+      role: "",
     });
   }
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.voucherFormGroup.reset();
+      this.emptyFormGroup();
     } else if (process == "update") {
-      this.voucherFormGroup.patchValue({
+      this.menuroleFormGroup.patchValue({
         ...row,
-        user: row.user ? row.user.id : "",
+        menu: row.menu.id,
+        role: row.role.id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -169,7 +169,53 @@ export class VouchersComponent implements OnInit {
   }
 
   create() {
-    this.voucherService.post(this.voucherFormGroup.value).subscribe(
+    for (let i = 0; i < this.menuroleFormGroup.value.menuArray.length; i++) {
+      let role = this.menuroleFormGroup.value.role;
+      let menu = this.menuroleFormGroup.value.menuArray[i];
+
+      let result = this.tableRows.find((obj) => {
+        return obj.role.id == role && obj.menu.id == menu;
+      });
+
+      if (!result) {
+        // to insert new data into database
+        let body = {
+          menu,
+          role,
+        };
+        this.useraccessService.post(body).subscribe(
+          (res) => {
+            // console.log("res", res);
+          },
+          (err) => {
+            console.error("err", err);
+          }
+        );
+      } else {
+        // console.log("ada", role, menu);
+      }
+
+      if (i === this.menuroleFormGroup.value.menuArray.length - 1) {
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              window.location.reload();
+            }
+          });
+      }
+    }
+
+    /* this.useraccessService.post(this.menuroleFormGroup.value).subscribe(
       (res) => {
         // console.log("res", res);
         swal
@@ -185,7 +231,7 @@ export class VouchersComponent implements OnInit {
           .then((result) => {
             if (result.value) {
               this.modal.hide();
-              this.getData();
+              window.location.reload();
             }
           });
       },
@@ -207,12 +253,12 @@ export class VouchersComponent implements OnInit {
             }
           });
       }
-    );
+    ); */
   }
 
   update() {
-    this.voucherService
-      .update(this.voucherFormGroup.value, this.voucherFormGroup.value.id)
+    this.useraccessService
+      .update(this.menuroleFormGroup.value.id, this.menuroleFormGroup.value)
       .subscribe(
         (res) => {
           // console.log("res", res);
@@ -229,7 +275,7 @@ export class VouchersComponent implements OnInit {
             .then((result) => {
               if (result.value) {
                 this.modal.hide();
-                this.getData();
+                window.location.reload();
               }
             });
         },
@@ -271,7 +317,7 @@ export class VouchersComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.voucherService.delete(row.id).subscribe(
+          this.useraccessService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -283,7 +329,7 @@ export class VouchersComponent implements OnInit {
                   confirmButton: "btn btn-success",
                 },
               });
-              this.getData();
+              window.location.reload();
             },
             (err) => {
               console.error("err", err);
@@ -302,10 +348,37 @@ export class VouchersComponent implements OnInit {
       });
   }
 
-  getStatus(value: string) {
-    let result = this.statuses.find((obj) => {
-      return obj.value == value;
+  selectChange() {
+    const menuArray: FormArray = this.menuroleFormGroup.get(
+      "menuArray"
+    ) as FormArray;
+
+    let result = this.tableRows.filter((obj) => {
+      return obj.role.id == this.menuroleFormGroup.value.role;
     });
-    return result.display_name;
+    if (result) {
+      result.forEach((obj) => {
+        menuArray.push(new FormControl(obj.menu.id));
+      });
+    }
+  }
+
+  onCheckboxChange(e) {
+    const menuArray: FormArray = this.menuroleFormGroup.get(
+      "menuArray"
+    ) as FormArray;
+
+    if (e.target.checked) {
+      menuArray.push(new FormControl(e.target.value));
+    } else {
+      let i: number = 0;
+      menuArray.controls.forEach((item: FormControl) => {
+        if (item.value == e.target.value) {
+          menuArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
   }
 }

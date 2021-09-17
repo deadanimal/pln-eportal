@@ -41,11 +41,11 @@ export class ForgotComponent implements OnInit {
   ngOnInit() {
     this.initForm();
 
-    this.userService.getAll().subscribe(
+    this.userService.extended("").subscribe(
       (res) => {
         // console.log("res", res);
         res.forEach((value) => {
-          if (value.user_type != "CS") {
+          if (value.role.code != "CS") {
             this.users.push(value);
           }
         });

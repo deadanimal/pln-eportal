@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { AuthGuard } from "src/app/shared/guard/auth.guard";
 import { DailySalesQuotesComponent } from "./analytics/daily-sales-quotes/daily-sales-quotes.component";
 import { NumberOfFacilityBookingsComponent } from "./analytics/number-of-facility-bookings/number-of-facility-bookings.component";
 import { NumberOfProgramParticipantsComponent } from "./analytics/number-of-program-participants/number-of-program-participants.component";
@@ -39,7 +40,10 @@ import { InvoicesListComponent } from "./invoice-receipts/invoices-list/invoices
 import { ReceiptsListComponent } from "./invoice-receipts/receipts-list/receipts-list.component";
 import { CustomersComponent } from "./managements/customers/customers.component";
 import { EmailTemplatesComponent } from "./managements/email-templates/email-templates.component";
+import { MenusComponent } from "./managements/menus/menus.component";
+import { RolesComponent } from "./managements/roles/roles.component";
 import { SupervisorsComponent } from "./managements/supervisors/supervisors.component";
+import { UserAccessesComponent } from "./managements/user-accesses/user-accesses.component";
 import { UsersComponent } from "./managements/users/users.component";
 import { ProgramsApplicationComponent } from "./programs/programs-application/programs-application.component";
 import { ProgramsListComponent } from "./programs/programs-list/programs-list.component";
@@ -83,10 +87,12 @@ export const UserRoutes: Routes = [
     children: [
       {
         path: "dashboard",
+        canActivate: [AuthGuard],
         component: DashboardComponent,
       },
       {
         path: "exhibits",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "",
@@ -104,6 +110,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "facilities",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "subcategory",
@@ -121,6 +128,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "programs",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "applications",
@@ -138,6 +146,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "publications",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "",
@@ -151,6 +160,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "virtual-libraries",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "list",
@@ -192,6 +202,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "analytics",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "total-ticket-sales-shows",
@@ -229,6 +240,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "reports",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "daily-operatings",
@@ -254,6 +266,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "shows",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "list",
@@ -279,6 +292,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "simulator-ride",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "applications",
@@ -296,6 +310,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "surveys",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "",
@@ -309,10 +324,12 @@ export const UserRoutes: Routes = [
       },
       {
         path: "feedbacks",
+        canActivate: [AuthGuard],
         component: FeedbacksListComponent,
       },
       {
         path: "assets",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "list",
@@ -322,6 +339,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "visits",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "list",
@@ -335,6 +353,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "cms",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "modules",
@@ -396,6 +415,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "transactions",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "ticket-prices",
@@ -425,6 +445,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "fpxs",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "list",
@@ -442,6 +463,7 @@ export const UserRoutes: Routes = [
       },
       {
         path: "managements",
+        canActivate: [AuthGuard],
         children: [
           {
             path: "users",
@@ -454,6 +476,18 @@ export const UserRoutes: Routes = [
           {
             path: "supervisors",
             component: SupervisorsComponent,
+          },
+          {
+            path: "user-accesses",
+            component: UserAccessesComponent,
+          },
+          {
+            path: "roles",
+            component: RolesComponent,
+          },
+          {
+            path: "menus",
+            component: MenusComponent,
           },
           {
             path: "email-templates",

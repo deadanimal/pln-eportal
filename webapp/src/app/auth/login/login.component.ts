@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
         // Success
         // console.log("res", res);
         this.loadingBar.complete();
-        if (this.authService.decodedToken().user_type != "CS") {
+        if (this.authService.decodedToken().role != "CS") {
           this.navigatePage("/dashboard");
         } else {
           this.wrongRoleMessage();

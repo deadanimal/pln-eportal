@@ -9,8 +9,9 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { CustomValidators } from "src/app/shared/class/custom-validators";
 import swal from "sweetalert2";
 
-import { UsersService } from "src/app/shared/services/users/users.service";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { RolesService } from "src/app/shared/services/roles/roles.service";
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
   single = "single",
@@ -26,6 +27,9 @@ export enum SelectionType {
   styleUrls: ["./users.component.scss"],
 })
 export class UsersComponent implements OnInit {
+  // Data
+  roles = [];
+
   // Errors
   errors = [
     {
@@ -59,59 +63,12 @@ export class UsersComponent implements OnInit {
   // FormGroup
   userFormGroup: FormGroup;
 
-  // Dropdown
-  usertypes = [
-    {
-      value: "DR",
-      display_name: "Pengarah",
-    },
-    {
-      value: "SA",
-      display_name: "Super Admin",
-    },
-    {
-      value: "FA",
-      display_name: "Pentadbir Kewangan",
-    },
-    {
-      value: "TA",
-      display_name: "Pentadbir Teknikal",
-    },
-    {
-      value: "TC",
-      display_name: "Pentadbir Kaunter Tiket",
-    },
-    {
-      value: "VA",
-      display_name: "Pentadbir Lawatan",
-    },
-    {
-      value: "EP",
-      display_name: "Pentadbir Program Pendidikan",
-    },
-    {
-      value: "EA",
-      display_name: "Pentadbir Pameran",
-    },
-    {
-      value: "PK",
-      display_name: "Pentadbir Penerbitan & Kutubkhanah",
-    },
-    {
-      value: "SV",
-      display_name: "Pentadbir Maklum Balas / Soal Selidik",
-    },
-    {
-      value: "CS",
-      display_name: "Pelanggan",
-    },
-  ];
-
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private userService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private roleService: RolesService,
+    private userService: UsersService
   ) {
     this.userFormGroup = this.formBuilder.group({
       id: new FormControl(""),
@@ -128,7 +85,7 @@ export class UsersComponent implements OnInit {
       state: new FormControl("", Validators.compose([Validators.required])),
       country: new FormControl("", Validators.compose([Validators.required])),
       staff_id: new FormControl("", Validators.compose([Validators.required])),
-      user_type: new FormControl("", Validators.compose([Validators.required])),
+      role: new FormControl("", Validators.compose([Validators.required])),
       is_active: new FormControl(false),
       // gender_type: new FormControl(""),
       // race_type: new FormControl(""),
@@ -144,10 +101,11 @@ export class UsersComponent implements OnInit {
 
   getData() {
     if (this.tableRows.length > 0) this.tableRows = [];
-    this.userService.getAll().subscribe((res) => {
-      res.forEach((obj) => {
-        if (obj.user_type != "CS") this.tableRows.push(obj);
-      });
+    this.userService.extended("").subscribe((res) => {
+      // res.forEach((obj) => {
+      //   if (obj.role.code != "CS") this.tableRows.push(obj);
+      // });
+      this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
           ...prop,
@@ -155,6 +113,16 @@ export class UsersComponent implements OnInit {
         };
       });
     });
+
+    this.roleService.get().subscribe(
+      (res) => {
+        // console.log("res", res);
+        this.roles = res;
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
   entriesChange($event) {
@@ -390,10 +358,7 @@ export class UsersComponent implements OnInit {
       .then((result) => {
         if (result.value) {
           this.userService
-            .changeNewPassword(
-              row.id,
-              "planetarium@2020"
-            )
+            .changeNewPassword(row.id, "planetarium@2020")
             .subscribe(
               (res) => {
                 // console.log("res", res);
@@ -436,10 +401,11 @@ export class UsersComponent implements OnInit {
       });
   }
 
-  getUserType(value: string) {
-    let result = this.usertypes.find((obj) => {
-      return obj.value == value;
+  getRole(value: string) {
+    let result = this.roles.find((obj) => {
+      return obj.id == value;
     });
-    return result.display_name;
+    if (result) return result.name;
+    else return;
   }
 }

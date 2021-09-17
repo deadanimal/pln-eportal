@@ -16,7 +16,8 @@ export class AuthService {
   public urlRegister: string = environment.baseUrl + "auth/registration/";
   public urlPasswordChange: string =
     environment.baseUrl + "auth/password/change/";
-  public urlPasswordReset: string = environment.baseUrl + "auth/password/reset/";
+  public urlPasswordReset: string =
+    environment.baseUrl + "auth/password/reset/";
   public urlTokenObtain: string = environment.baseUrl + "auth/obtain/";
   public urlTokenRefresh: string = environment.baseUrl + "auth/refresh/";
   public urlTokenVerify: string = environment.baseUrl + "auth/verify/";
@@ -29,8 +30,7 @@ export class AuthService {
   public email: string;
   public userID: string;
   public username: string;
-  public userType: string;
-  public userRole: number = 1;
+  public userRole: string;
 
   // Temp
   userDetail: any;
@@ -74,7 +74,7 @@ export class AuthService {
         this.email = decodedToken.email;
         this.username = decodedToken.username;
         this.userID = decodedToken.user_id;
-        this.userType = decodedToken.user_type;
+        this.userRole = decodedToken.role;
         // console.log('Decoded token: ', decodedToken)
         // console.log('Post response: ', res)
         // console.log('Refresh token', this.tokenRefresh)
@@ -83,7 +83,7 @@ export class AuthService {
         // console.log('Email: ', this.email)
         // console.log('Username: ', this.username)
         // console.log('User ID: ', this.userID)
-        // console.log('User type: ', this.userType)
+        // console.log('User role: ', this.userRole)
         this.jwtService.saveToken("accessToken", this.tokenAccess);
         this.jwtService.saveToken("refreshToken", this.tokenRefresh);
       })
@@ -110,6 +110,14 @@ export class AuthService {
     );
   }
 
+  isAuthenticated(): boolean {
+    let jwtHelper: JwtHelperService = new JwtHelperService();
+    const token = localStorage.getItem("accessToken");
+    // Check whether the token is expired and return
+    // true or false
+    return !jwtHelper.isTokenExpired(token);
+  }
+
   getUserDetail(): Observable<any> {
     let selfInformationUrl = this.urlUser + this.userID + "/";
     return this.http.get<any>(selfInformationUrl).pipe(
@@ -129,7 +137,7 @@ export class AuthService {
       username: decodedToken.username,
       full_name: decodedToken.full_name,
       email: decodedToken.email,
-      user_type: decodedToken.user_type,
+      role: decodedToken.role,
     };
     return user_obj;
   }

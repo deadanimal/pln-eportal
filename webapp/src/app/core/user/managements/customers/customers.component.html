@@ -118,15 +118,6 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Jenis Pengguna</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ getUserType(row.user_type) }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
@@ -310,26 +301,6 @@
         </div>
       </div>
       <div class="row">
-        <!-- <div class="col">
-          <div class="form-group">
-            <label class="form-control-label required-field"
-              >Jenis Pengguna</label
-            >
-            <select
-              class="form-control"
-              formControlName="user_type"
-              placeholder="Sila pilih"
-            >
-              <option value="">Sila pilih</option>
-              <option
-                *ngFor="let usertype of usertypes"
-                [value]="usertype.value"
-              >
-                {{ usertype.display_name }}
-              </option>
-            </select>
-          </div>
-        </div> -->
         <div class="col">
           <div class="form-group">
             <label class="form-control-label required-field">Status</label>
@@ -495,24 +466,6 @@
         </div>
       </div>
       <div class="row">
-        <!-- <div class="col">
-          <div class="form-group">
-            <label class="form-control-label">Jenis Pengguna</label>
-            <select
-              class="form-control"
-              formControlName="user_type"
-              placeholder="Sila pilih"
-            >
-              <option value="">Sila pilih</option>
-              <option
-                *ngFor="let usertype of usertypes"
-                [value]="usertype.value"
-              >
-                {{ usertype.display_name }}
-              </option>
-            </select>
-          </div>
-        </div> -->
         <div class="col">
           <div class="form-group">
             <label class="form-control-label required-field">Status</label>

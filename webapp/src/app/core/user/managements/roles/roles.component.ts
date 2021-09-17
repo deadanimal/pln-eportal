@@ -9,8 +9,6 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import swal from "sweetalert2";
 
 import { RolesService } from "src/app/shared/services/roles/roles.service";
-import { SupervisorsService } from "src/app/shared/services/supervisors/supervisors.service";
-import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
   single = "single",
@@ -21,15 +19,11 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-supervisors",
-  templateUrl: "./supervisors.component.html",
-  styleUrls: ["./supervisors.component.scss"],
+  selector: "app-roles",
+  templateUrl: "./roles.component.html",
+  styleUrls: ["./roles.component.scss"],
 })
-export class SupervisorsComponent implements OnInit {
-  // Data
-  roles = [];
-  users = [];
-
+export class RolesComponent implements OnInit {
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -47,29 +41,27 @@ export class SupervisorsComponent implements OnInit {
   };
 
   // FormGroup
-  supervisorFormGroup: FormGroup;
+  roleFormGroup: FormGroup;
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private roleService: RolesService,
-    private supervisorService: SupervisorsService,
-    private userService: UsersService
+    private roleService: RolesService
   ) {
-    this.supervisorFormGroup = this.formBuilder.group({
+    this.roleFormGroup = this.formBuilder.group({
       id: new FormControl(""),
-      user: new FormControl(""),
-      date_on_duty: new FormControl(""),
+      code: new FormControl("", Validators.compose([Validators.required])),
+      name: new FormControl("", Validators.compose([Validators.required])),
     });
   }
 
   ngOnInit() {
     this.getData();
-    this.getUser();
   }
 
   getData() {
-    this.supervisorService.extended("").subscribe((res) => {
+    if (this.tableRows.length > 0) this.tableRows = [];
+    this.roleService.get().subscribe((res) => {
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
@@ -78,30 +70,6 @@ export class SupervisorsComponent implements OnInit {
         };
       });
     });
-
-    this.roleService.get().subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.roles = res;
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
-  }
-
-  getUser() {
-    this.userService.extended("").subscribe(
-      (res) => {
-        // console.log("res", res);
-        for (let i = 0; i < res.length; i++) {
-          if (res[i].role.code != "CS") this.users.push(res[i]);
-        }
-      },
-      (err) => {
-        console.error("err", err);
-      }
-    );
   }
 
   entriesChange($event) {
@@ -134,13 +102,20 @@ export class SupervisorsComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  emptyFormGroup() {
+    this.roleFormGroup.patchValue({
+      id: "",
+      code: "",
+      name: "",
+    });
+  }
+
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "create") {
-      this.supervisorFormGroup.reset();
+      this.emptyFormGroup();
     } else if (process == "update") {
-      this.supervisorFormGroup.patchValue({
+      this.roleFormGroup.patchValue({
         ...row,
-        user: row.user.id,
       });
     }
     this.modal = this.modalService.show(modalRef, this.modalConfig);
@@ -150,76 +125,51 @@ export class SupervisorsComponent implements OnInit {
     this.modal.hide();
   }
 
-  checkInterceptSupervisor() {
-    let new_user = this.supervisorFormGroup.value.user;
-    let new_date_on_duty = this.supervisorFormGroup.value.date_on_duty;
-
-    if (this.tableRows.length > 0) {
-      for (let i = 0; i < this.tableRows.length; i++) {
-        if (
-          new_user == this.tableRows[i].user.id &&
-          new_date_on_duty == this.tableRows[i].date_on_duty
-        ) {
-          return false;
-        } else {
-          return true;
-        }
-      }
-    } else return true;
-  }
-
   create() {
-    if (this.checkInterceptSupervisor()) {
-      this.supervisorService.post(this.supervisorFormGroup.value).subscribe(
-        (res) => {
-          // console.log("res", res);
-          swal
-            .fire({
-              title: "Berjaya",
-              text: "Data anda berjaya disimpan.",
-              icon: "success",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-success",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                this.modal.hide();
-                this.getData();
-              }
-            });
-        },
-        (err) => {
-          console.error("err", err);
-          swal
-            .fire({
-              title: "Ralat",
-              text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
-              icon: "warning",
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: "btn btn-warning",
-              },
-            })
-            .then((result) => {
-              if (result.value) {
-                // this.modal.hide();
-              }
-            });
-        }
-      );
-    } else {
-      this.sweetAlertWarning(
-        "Ralat",
-        "Hanya 2 penyelia sahaja dibenarkan dalam satu hari bekerja"
-      );
-    }
+    this.roleService.post(this.roleFormGroup.value).subscribe(
+      (res) => {
+        // console.log("res", res);
+        swal
+          .fire({
+            title: "Berjaya",
+            text: "Data anda berjaya disimpan.",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              this.modal.hide();
+              this.getData();
+            }
+          });
+      },
+      (err) => {
+        console.error("err", err);
+        swal
+          .fire({
+            title: "Ralat",
+            text: "Data anda tidak berjaya disimpan. Sila cuba lagi",
+            icon: "warning",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "btn btn-warning",
+            },
+          })
+          .then((result) => {
+            if (result.value) {
+              // this.modal.hide();
+            }
+          });
+      }
+    );
   }
 
   update() {
-    this.supervisorService
-      .update(this.supervisorFormGroup.value, this.supervisorFormGroup.value.id)
+    this.roleService
+      .update(this.roleFormGroup.value.id, this.roleFormGroup.value)
       .subscribe(
         (res) => {
           // console.log("res", res);
@@ -278,7 +228,7 @@ export class SupervisorsComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.supervisorService.delete(row.id).subscribe(
+          this.roleService.delete(row.id).subscribe(
             (res) => {
               // console.log("res", res);
               swal.fire({
@@ -307,25 +257,5 @@ export class SupervisorsComponent implements OnInit {
           );
         }
       });
-  }
-
-  sweetAlertWarning(title, text) {
-    swal.fire({
-      title,
-      text,
-      icon: "warning",
-      buttonsStyling: false,
-      customClass: {
-        confirmButton: "btn btn-warning",
-      },
-    });
-  }
-
-  getRole(value: string) {
-    let result = this.roles.find((obj) => {
-      return obj.id == value;
-    });
-    if (result) return result.name;
-    else return;
   }
 }

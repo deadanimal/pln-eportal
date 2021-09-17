@@ -218,6 +218,8 @@ export class ShowsScheduleComponent implements OnInit {
     series1.columns.template.strokeOpacity = 1;
 
     // chart.scrollbarX = new am4core.Scrollbar();
+
+    this.chart = chart;
   }
 
   generateData(colorSet) {

@@ -58,14 +58,6 @@ export class CustomersComponent implements OnInit {
   // FormGroup
   userFormGroup: FormGroup;
 
-  // Dropdown
-  usertypes = [
-    {
-      value: "CS",
-      display_name: "Pelanggan",
-    },
-  ];
-
   constructor(
     public formBuilder: FormBuilder,
     private modalService: BsModalService,
@@ -102,9 +94,9 @@ export class CustomersComponent implements OnInit {
 
   getData() {
     if (this.tableRows.length > 0) this.tableRows = [];
-    this.userService.filter("user_type=CS").subscribe((res) => {
+    this.userService.extended("role=CS").subscribe((res) => {
       // for (let i = 0; i < res.length; i++) {
-      //   if (res[i].user_type != 'CS') res.splice(i, 1);
+      //   if (res[i].role.code != 'CS') res.splice(i, 1);
       // }
       this.tableRows = res;
       this.tableTemp = this.tableRows.map((prop, key) => {
@@ -329,13 +321,5 @@ export class CustomersComponent implements OnInit {
           );
         }
       });
-  }
-
-  getUserType(value: string) {
-    let result = this.usertypes.find((obj) => {
-      return obj.value == value;
-    });
-    if (result) return result.display_name;
-    else return "";
   }
 }
