@@ -28,7 +28,6 @@ import { W3csService } from "src/app/shared/services/w3cs/w3cs.service";
   styleUrls: ["./payment.component.scss"],
 })
 export class PaymentComponent implements OnInit {
-
   // Transaction Type
   // F - FPX
   // C - Kad Kredit / Credit Card Portal
@@ -51,6 +50,7 @@ export class PaymentComponent implements OnInit {
   // FormGroup
   paymentdetailFormGroup: FormGroup;
   fpxtransactionFormGroup: FormGroup; // Request Message - AR
+  cardcreditFormGroup: FormGroup;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -82,10 +82,7 @@ export class PaymentComponent implements OnInit {
         "",
         Validators.compose([Validators.required])
       ),
-      bank_selected: new FormControl(
-        "",
-        Validators.compose([Validators.required])
-      ),
+      bank_selected: new FormControl(""),
     });
 
     this.fpxtransactionFormGroup = this.formBuilder.group({
@@ -112,6 +109,43 @@ export class PaymentComponent implements OnInit {
       fpx_version: new FormControl(""),
       fpx_eaccountNum: new FormControl(""),
       fpx_ebuyerId: new FormControl(""),
+    });
+
+    this.cardcreditFormGroup = this.formBuilder.group({
+      card_number: new FormControl(""),
+      card_number1: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      card_number2: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      card_number3: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      card_number4: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      expiry_month: new FormControl(
+        "",
+        Validators.compose([Validators.required, Validators.maxLength(2)])
+      ),
+      expiry_year: new FormControl(
+        "",
+        Validators.compose([Validators.required, Validators.maxLength(2)])
+      ),
+      security_code: new FormControl(
+        "",
+        Validators.compose([Validators.required, Validators.maxLength(4)])
+      ),
+      transaction_amount: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+      currency: new FormControl("MYR"),
     });
   }
 
@@ -182,6 +216,9 @@ export class PaymentComponent implements OnInit {
           (res) => {
             // console.log("res", res);
             this.totalprice = res[0].total_price_after_voucher;
+            this.cardcreditFormGroup.patchValue({
+              transaction_amount: this.totalprice,
+            });
             this.getInvoiceCreatedDateTime(
               res[0].invoice_created_datetime,
               res[0].id,
@@ -289,70 +326,93 @@ export class PaymentComponent implements OnInit {
     });
   }
 
+  submitPaymentValidation() {
+    if (this.paymentdetailFormGroup.value.payment_method == "F") {
+      if (this.paymentdetailFormGroup.invalid) return true;
+    } else if (this.paymentdetailFormGroup.value.payment_method == "C") {
+      if (this.cardcreditFormGroup.invalid) return true;
+    }
+
+    if (this.paymentdetailFormGroup.value.payment_method == "") return true;
+  }
+
   submitPayment() {
-    let body = {
-      fpx_buyerBankId: this.paymentdetailFormGroup.value.bank_selected,
-      fpx_buyerEmail:
-        this.paymentdetailFormGroup.value.email.length <= 50
-          ? this.paymentdetailFormGroup.value.email
-          : "",
-      fpx_buyerName:
-        this.paymentdetailFormGroup.value.full_name.length <= 40
-          ? this.paymentdetailFormGroup.value.full_name
-          : "",
-      fpx_txnAmount: this.totalprice,
-    };
-    // To generate checksum and other information for FPX from backend
-    this.fpxtransactionService.fpx_confirm(body).subscribe(
-      (res) => {
-        // console.log("res", res);
-        this.fpxtransactionFormGroup.patchValue({
-          ...res,
-        });
-      },
-      (err) => {
-        console.error("err", err);
-      },
-      () => {
-        // To submit the generated information from backend into fpx_transaction table
-        this.fpxtransactionService
-          .post(this.fpxtransactionFormGroup.value)
-          .subscribe(
-            (res) => {
-              // console.log("res", res);
-              this.fpx_created = res;
-            },
-            (err) => {
-              console.error("err", err);
-            },
-            () => {
-              // to update fpx_transaction_id on table invoice_receipt
-              let obj = {
-                pending_payment_datetime: this.getCurrentDateTime(),
-                fpx_transaction_id: this.fpx_created.id,
-                type: this.paymentdetailFormGroup.value.payment_method,
-                status: "PP",
-              };
-              this.invoicereceiptService
-                .update(obj, this.invoice_receipt_id)
-                .subscribe(
-                  (res) => {
-                    // console.log("res", res);
-                  },
-                  (err) => {
-                    console.error("err", err);
-                  },
-                  () => {
-                    this.redirectService.post(
-                      this.fpxtransactionFormGroup.value,
-                      "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
-                    );
-                  }
-                );
-            }
-          );
-      }
-    );
+    if (this.paymentdetailFormGroup.value.payment_method == "F") {
+      let body = {
+        fpx_buyerBankId: this.paymentdetailFormGroup.value.bank_selected,
+        fpx_buyerEmail:
+          this.paymentdetailFormGroup.value.email.length <= 50
+            ? this.paymentdetailFormGroup.value.email
+            : "",
+        fpx_buyerName:
+          this.paymentdetailFormGroup.value.full_name.length <= 40
+            ? this.paymentdetailFormGroup.value.full_name
+            : "",
+        fpx_txnAmount: this.totalprice,
+      };
+      // To generate checksum and other information for FPX from backend
+      this.fpxtransactionService.fpx_confirm(body).subscribe(
+        (res) => {
+          // console.log("res", res);
+          this.fpxtransactionFormGroup.patchValue({
+            ...res,
+          });
+        },
+        (err) => {
+          console.error("err", err);
+        },
+        () => {
+          // To submit the generated information from backend into fpx_transaction table
+          this.fpxtransactionService
+            .post(this.fpxtransactionFormGroup.value)
+            .subscribe(
+              (res) => {
+                // console.log("res", res);
+                this.fpx_created = res;
+              },
+              (err) => {
+                console.error("err", err);
+              },
+              () => {
+                // to update fpx_transaction_id on table invoice_receipt
+                let obj = {
+                  pending_payment_datetime: this.getCurrentDateTime(),
+                  fpx_transaction_id: this.fpx_created.id,
+                  type: this.paymentdetailFormGroup.value.payment_method,
+                  status: "PP",
+                };
+                this.invoicereceiptService
+                  .update(obj, this.invoice_receipt_id)
+                  .subscribe(
+                    (res) => {
+                      // console.log("res", res);
+                    },
+                    (err) => {
+                      console.error("err", err);
+                    },
+                    () => {
+                      this.redirectService.post(
+                        this.fpxtransactionFormGroup.value,
+                        "https://uat.mepsfpx.com.my/FPXMain/seller2DReceiver.jsp"
+                      );
+                    }
+                  );
+              }
+            );
+        }
+      );
+    } else if (this.paymentdetailFormGroup.value.payment_method == "C") {
+      let card_number_arr = [
+        this.cardcreditFormGroup.value.card_number1,
+        this.cardcreditFormGroup.value.card_number2,
+        this.cardcreditFormGroup.value.card_number3,
+        this.cardcreditFormGroup.value.card_number4,
+      ];
+      let card_number = card_number_arr.join("-");
+      this.cardcreditFormGroup.patchValue({
+        card_number,
+      });
+    }
   }
 
   getCurrentDateTime() {

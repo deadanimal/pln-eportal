@@ -91,58 +91,182 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6 col-sm-12"></div>
-                  </div>
-
-                  <h4 class="title text-dark">
-                    {{ "PilihPerbankanInternet" | translate }}
-                  </h4>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <select
-                          class="form-control text-dark"
-                          formControlName="bank_selected"
-                        >
-                          <option value="" selected>
-                            {{ "Silapilih" | translate }}
-                          </option>
-                          <option
-                            *ngFor="let banklist of banklists"
-                            [value]="banklist.bank_id"
-                          >
-                            {{ banklist.bank_display_name }}
-                          </option>
-                        </select>
+                    <div class="col-md-6 col-sm-12">
+                      <div
+                        class="card bg-transparent mt-0"
+                        (click)="selectPaymentMethod('C')"
+                        [ngClass]="{
+                          'card-selected':
+                            paymentdetailFormGroup.value.payment_method == 'C'
+                        }"
+                      >
+                        <div class="card-body">
+                          <div class="card-image">
+                            <img
+                              src="../../../assets/img/mastercard_logo.png"
+                              alt="FPX"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row pt-3">
-                    <div class="col text-right">
-                      <p
-                        class="text-dark"
-                        [innerHtml]="'FPXAgreement' | translate"
-                      ></p>
-                      <p>
-                        <a
-                          class="font-weight-bold"
-                          style="color: #1d8cf8"
-                          href="https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp"
-                          target="_blank"
-                          >{{ "FPXTermAndCondition" | translate }}</a
-                        >
-                      </p>
+                  <div
+                    *ngIf="paymentdetailFormGroup.value.payment_method == 'F'"
+                  >
+                    <h4 class="title text-dark">
+                      {{ "PilihPerbankanInternet" | translate }}
+                    </h4>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <select
+                            class="form-control text-dark"
+                            formControlName="bank_selected"
+                          >
+                            <option value="" selected>
+                              {{ "Silapilih" | translate }}
+                            </option>
+                            <option
+                              *ngFor="let banklist of banklists"
+                              [value]="banklist.bank_id"
+                            >
+                              {{ banklist.bank_display_name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row pt-3">
+                      <div class="col text-right">
+                        <p
+                          class="text-dark"
+                          [innerHtml]="'FPXAgreement' | translate"
+                        ></p>
+                        <p>
+                          <a
+                            class="font-weight-bold"
+                            style="color: #1d8cf8"
+                            href="https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp"
+                            target="_blank"
+                            >{{ "FPXTermAndCondition" | translate }}</a
+                          >
+                        </p>
+                      </div>
                     </div>
                   </div>
 
+                  <div
+                    *ngIf="paymentdetailFormGroup.value.payment_method == 'C'"
+                  >
+                    <form [formGroup]="cardcreditFormGroup">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <h4 class="title text-dark">
+                            {{ "NomborKadKredit" | translate }}
+                          </h4>
+                          <div class="row">
+                            <div class="col pr-0">
+                              <div class="form-group">
+                                <input
+                                  class="form-control text-dark"
+                                  formControlName="card_number1"
+                                  placeholder=""
+                                  type="number"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col pr-0">
+                              <div class="form-group">
+                                <input
+                                  class="form-control text-dark"
+                                  formControlName="card_number2"
+                                  placeholder=""
+                                  type="number"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col">
+                              <div class="form-group">
+                                <input
+                                  class="form-control text-dark"
+                                  formControlName="card_number3"
+                                  placeholder=""
+                                  type="number"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col pl-0">
+                              <div class="form-group">
+                                <input
+                                  class="form-control text-dark"
+                                  formControlName="card_number4"
+                                  placeholder=""
+                                  type="number"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <h4 class="title text-dark">
+                            {{ "KodSekuriti" | translate }}
+                          </h4>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <input
+                                  class="form-control text-dark"
+                                  formControlName="security_code"
+                                  placeholder=""
+                                  type="number"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <h4 class="title text-dark">
+                            {{ "TarikhLuputTahun" | translate }}
+                          </h4>
+                          <div class="form-group">
+                            <input
+                              class="form-control text-dark"
+                              formControlName="expiry_year"
+                              placeholder=""
+                              type="number"
+                            />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <h4 class="title text-dark">
+                            {{ "TarikhLuputBulan" | translate }}
+                          </h4>
+                          <div class="form-group">
+                            <input
+                              class="form-control text-dark"
+                              formControlName="expiry_month"
+                              placeholder=""
+                              type="number"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- !paymentdetailFormGroup.valid || totalprice == 0 -->
                   <div class="pt-3 pb-3 text-right">
                     <button
                       class="btn btn-info"
                       (click)="submitPayment()"
-                      [disabled]="
-                        !paymentdetailFormGroup.valid || totalprice == 0
-                      "
+                      [disabled]="submitPaymentValidation()"
                     >
                       {{ "Seterusnya" | translate }}
                     </button>
