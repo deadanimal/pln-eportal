@@ -62,6 +62,7 @@
     }
     td,
     th {
+      font-size: 1vw;
       text-align: center;
     }
   </style>
@@ -333,6 +334,7 @@
         getShowTime();
         getSimulatorRideTime();
 
+        // to make a slideshow between 3 pages
         setInterval(() => {
           if ($("#page1").is(":visible")) {
             $("#page1").hide(1000);
@@ -352,6 +354,7 @@
           }
         }, 10000);
 
+        // to create real time clock (date and time)
         setInterval(() => {
           const today = new Date();
           let day = today.getDate();
@@ -369,6 +372,7 @@
             day + "/" + month + "/" + year;
         }, 1000);
 
+        // request the data withn 5 minutes interval
         setInterval(() => {
           getBanner();
           getAnnouncement();
