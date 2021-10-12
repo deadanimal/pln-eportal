@@ -109,6 +109,7 @@ class SimulatorRideBooking(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="simulator_ride_booking_user_id")
+    ticket_number = models.CharField(max_length=7, blank=True)
 
     # status kembara simulasi: diterima, pending payment, payment diterima, payment gagal, refund
     # diterima - selepas pengguna tekan butang buat bayaran di langkah 4 tempahan kembara simulasi
