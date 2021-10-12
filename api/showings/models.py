@@ -28,12 +28,19 @@ def increment_ticket_number(show_booking_id):
 
     show_booking = ShowBooking.objects.filter(id=show_booking_id).first()
     prev_instances = ShowBooking.objects.exclude(ticket_number='').order_by('-ticket_number')
+    #print(prev_instances)
+    #last_instance_id = prev_instances.first().ticket_number
+    #print(last_instance_id)
 
     if prev_instances.exists():
         last_instance_id = prev_instances.first().ticket_number
         prefix = '{0:07d}'.format(int(last_instance_id)+1)
     else:
         prefix = '{0:07d}'.format(1)
+    
+    prefix = '{0:07d}'.format(int(last_instance_id)+1)
+    print(prefix)
+
     
     return prefix
 
