@@ -287,7 +287,8 @@ facility_bookings_router = router.register(
 from simulatorrides.views import (
     SimulatorRideViewSet,
     SimulatorRideTimeViewSet,
-    SimulatorRideBookingViewSet
+    SimulatorRideBookingViewSet,
+    SimulatorRideTicketViewSet
 )
 
 simulator_rides_router = router.register(
@@ -301,6 +302,11 @@ simulator_ride_times_router = router.register(
 simulator_ride_bookings_router = router.register(
     'simulator-ride-bookings', SimulatorRideBookingViewSet
 )
+
+simulator_ride_tickets_router = router.register(
+    'simulator-ride-tickets', SimulatorRideTicketViewSet
+)
+
 
 # Employee Directory app
 from employeedirectories.views import (

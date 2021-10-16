@@ -135,3 +135,11 @@ class SimulatorRideBooking(models.Model):
     
     def __str__(self):
         return str(self.id) + ' - ' + self.ticket_type + ' - ' + self.ticket_category + ' - ' + str(self.simulator_ride_time_id) + ' - ' + str(self.booking_date)
+
+class SimulatorRideTicket(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    ticket_booking_id = models.CharField(max_length=100, default='AD')
+    ticket_link = models.TextField(blank=True, null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
