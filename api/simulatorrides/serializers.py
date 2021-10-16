@@ -11,7 +11,8 @@ from django.utils.timezone import now
 from .models import (
     SimulatorRide,
     SimulatorRideTime,
-    SimulatorRideBooking
+    SimulatorRideBooking,
+    SimulatorRideTicket
 )
 
 from venues.serializers import (
@@ -35,6 +36,15 @@ class SimulatorRideTimeSerializer(serializers.ModelSerializer):
         model = SimulatorRideTime
         fields = '__all__'
         read_only_fields = ['id']
+
+class SimulatorRideTicketSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = SimulatorRideTicket
+        fields = '__all__'
+        read_only_fields = ['id']
+
+
 
 class SimulatorRideTimeExtendedSerializer(serializers.ModelSerializer):
     venue_id = VenueSerializer(read_only=True)
