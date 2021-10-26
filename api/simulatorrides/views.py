@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.conf import settings
 from django.db.models import Q
 from django.forms.models import model_to_dict
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template.loader import get_template, render_to_string
+
+from wsgiref.util import FileWrapper
+import io as BytesIO
 
 import codecs
 import base64
@@ -409,14 +412,12 @@ class SimulatorRideTicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         html = f'<iframe src={ticket.ticket_link} style="width:100%;height:100%;"></iframe>'
         return HttpResponse(html)
 
-        #simulator_ride_booking_id = request.query_params.get('id', None)
-        #ticket = SimulatorRideTicket.objects.filter(ticket_booking_id=simulator_ride_booking_id)[0]
-
-        #with open("ticket.pdf", "wb") as f:
-        #    f.write(base64.b64decode(ticket.ticket_link))
-
-        #html = "siap convert cek file"
-        #return HttpResponse(html)
-
-
+    @action(methods=['GET'], detail=False)
+    def reprint_ticket(self, request):
+        simulator_ride_booking_id = request.query_params.get('id', None)
+        ticket = SimulatorRideTicket.objects.filter(ticket_booking_id=simulator_ride_booking_id)[0]
+        res = {
+            "base64pdf": ticket.ticket_link
+        }
+        return JsonResponse(res)
 
