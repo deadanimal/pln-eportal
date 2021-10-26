@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Digital Signage - Planetarium Negara</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link
       rel="stylesheet"
       href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
@@ -511,29 +512,51 @@
     </div>
 
     <div class="footer">
+
       
-      <div class="row pt-1" style="height: 50%;">
-	<div class="col-1 mt-3">
-	   <img
-                  src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png"
-                  style="height: 10vh"
-                />
-	</div>
+      <div class="row pt-1 pb-3" style="height: 60%;">
 
-	<!--
-	<div class="col-2 text-white mt-3">
 
-	    <h4 style="float: left;" class="m-0 p-0">Hubungi Kami:</h4>
-	    <h4 style="float: left;" class="m-0 p-0">03-22734303</h4>
-	    <h4 style="float: left;" class="m-0 p-0">info@planet.gov.my</h4>
-	    <h4 style="float: left;" class="m-0 p-0">www.planetariumnegara.gov.my</h4>
+
+        <!-- <div class="col-3">
+          <div class="">
+            <h4 style="margin-right: 4px;" class="m-0 p-0">&nbsp;&nbsp;&nbsp;Hubungi Kami: </h4>
+          </div>
+
+          <div class="row">
+            <div class="col-4 mt-3">
+              <div style="margin-top: 1px !important;">
+                <img src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png" style="height: 10vh"/>
+              </div>
+              
+            </div>
+      
+            <div class="col-8 text-white mt-3">
+              <h4 style="float: left;" class="m-0 p-0">03-22734303</h4>
+              <h4 style="float: left;" class="m-0 p-0">info@planet.gov.my</h4>
+              <h4 style="float: left;" class="m-0 p-0">www.planetariumnegara.gov.my</h4>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="col-1 mt-2">
+          <img src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png" style="height: 10vh"/>
         </div>
-	-->
 
-        <div class="col-10">
+        <div class="col-2">
+          <h4 style="float: left;" class="m-0 p-0">Hubungi Kami: </h4>
+          <br>
+          <h4 style="float: left;" class="m-0 p-0">03-22734303</h4>
+          <h4 style="float: left;" class="m-0 p-0">info@planet.gov.my</h4>
+          <h4 style="float: left;" class="m-0 p-0">www.planetariumnegara.gov.my</h4>
 
-          <h3 style="float: left; margin-left: 20px;">Pengumuman Terkini</h3>
-	  <br>
+        </div>
+
+        
+
+        <div class="col-8">
+          <!-- <h3 style="float: left; margin-left: 20px;">Pengumuman Terkini</h3>
+	        <br>
           <marquee
             id="pengumuman"
             width="100%"
@@ -543,8 +566,35 @@
             style="font-size: 40px"
           >
           </marquee>
+           -->
+
+          <div class="row">
+            
+            <div class="col-2">
+              <br>
+              <h3 style="float: left; margin-left: 20px;">Pengumuman Terkini</h3>
+            </div>
+
+            <div class="col-10">
+              <br>
+              <marquee
+                id="pengumuman"
+                width="100%"
+                direction="left"
+                height="70px"
+                class="text-white"
+                style="font-size: 50px"
+              >
+              </marquee>
+            </div>
+          </div>
+
+
+
+
         </div>
-        <div style="float: right;" class="mt-4 mr-2 col-1 text-center text-white">
+
+        <div style="float: right;" class="mt-4 col-1 text-center text-white">
 	  <div class="row">
               <h4>
                 <span id="time"></span>
@@ -553,7 +603,9 @@
               </h4>
 	  </div>
         </div>
+        
       </div>
+
     </div>
 
     <script
@@ -567,7 +619,9 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
     ></script>
 
     <script>
@@ -582,57 +636,19 @@
           if ($("#page1").is(":visible")) {
             $("#page1").hide(1000);
             $("#page3").hide(1000);
-            $("#page4").hide(1000);
-            $("#page5").hide(1000);
-            $("#page6").hide(1000);
-
 
             $("#page2").show();
           } else if ($("#page2").is(":visible")) {
             $("#page1").hide(1000);
             $("#page2").hide(1000);
-            $("#page4").hide(1000);
-            $("#page5").hide(1000);
-            $("#page6").hide(1000);
-
 
             $("#page3").show();
           } else if ($("#page3").is(":visible")) {
-            $("#page1").hide(1000);
             $("#page2").hide(1000);
             $("#page3").hide(1000);
-            $("#page5").hide(1000);
-            $("#page6").hide(1000);
 
-            $("#page4").show();
-          } else if ($("#page4").is(":visible")) {
-            $("#page1").hide(1000);
-            $("#page2").hide(1000);
-            $("#page3").hide(1000);
-            $("#page4").hide(1000);
-            $("#page6").hide(1000);
-            $("#page5").show();
-
-          
-          } else if ($("#page5").is(":visible")) {
-            $("#page1").hide(1000);
-            $("#page2").hide(1000);
-            $("#page3").hide(1000);
-            $("#page4").hide(1000);
-            $("#page5").hide(1000);
-            $("#page6").show();
-
-
-          } else if ($("#page6").is(":visible")) {
-            $("#page2").hide(1000);
-            $("#page3").hide(1000);
-            $("#page4").hide(1000);
-            $("#page5").hide(1000);
-            $("#page6").hide(1000);
             $("#page1").show();
-
           }
-
         }, 10000);
 
         // to create real time clock (date and time)
