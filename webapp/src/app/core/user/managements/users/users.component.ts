@@ -110,12 +110,14 @@ export class UsersComponent implements OnInit {
         }
       });
       // this.tableRows = res;
+      
       this.tableTemp = this.tableRows.map((prop, key) => {
         return {
           ...prop,
           no: key,
         };
       });
+      console.log("tt", this.tableTemp);
     });
 
     this.roleService.get().subscribe(
