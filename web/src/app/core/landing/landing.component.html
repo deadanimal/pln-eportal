@@ -1,0 +1,377 @@
+<div class="header header-4">
+  <div class="header-wrapper">
+    <div class="page-header header-video header-filter">
+      <!-- <div class="overlay"></div> -->
+      <video
+        autoplay="autoplay"
+        loop="loop"
+        muted="muted"
+        oncanplay="this.play()"
+        onloadedmetadata="this.muted = true"
+      >
+        <source
+          src="../../../assets/video/planetarium-homepage-video.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div class="container text-center">
+        <div class="video-text">
+          <h1 class="title">
+            {{ "PortalRasmiPlanetariumNegara" | translate }}
+          </h1>
+          <h4 class="text-center">
+            {{ "MOSTI" | translate }}
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
+  <!-- Basic Info -->
+  <div class="basic-info">
+    <div class="container p-4">
+      <div class="row">
+        <div class="col-md-4 col-sm-12 text-center">
+          <h2 class="title">{{ "WaktuOperasi" | translate }}</h2>
+          <p class="text-justify">
+            {{ "BukaDari" | translate }}
+          </p>
+          <p class="text-justify">
+            {{ "DitutupPada" | translate }} {{ "HariCuti" | translate }}
+          </p>
+        </div>
+        <div class="col-md-4 col-sm-12 text-center">
+          <h2 class="title">{{ "Lokasi" | translate }}</h2>
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col">
+              <a href="https://goo.gl/maps/LPr4y8fK8Pvvoy2Y8">
+                <img
+                  src="../../../assets/icon/google-maps.svg"
+                  alt="Google Maps"
+                />
+              </a>
+            </div>
+            <div class="col">
+              <a
+                href="https://www.waze.com/ul?place=ChIJ2yat5MVJzDERUIHFb1rkGGw&ll=3.13955440%2C101.68868380&navigate=yes"
+              >
+                <img src="../../../assets/icon/waze.svg" alt="Waze" />
+              </a>
+            </div>
+            <div class="col-3"></div>
+          </div>
+          <div class="row pt-3">
+            <div class="col">
+              <small>{{ "NOTALOKASI" | translate }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 text-center">
+          <h2 class="title text-capitalize">
+            {{ "Mengenaikami" | translate }}
+          </h2>
+          <p class="text-justify">
+            {{ "Mengenaikamideskripsi" | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="page-content">
+    <div class="pb-5 pl-5 pr-5">
+      <div class="pt-3 pb-3">
+        <ng-marquee speed="drowsy">
+          <mark
+            *ngFor="let announcement of announcements"
+            class="bg-white"
+            style="padding-right: 20vw"
+            ><h3
+              class="title text-dark"
+              style="display: inline"
+              *ngIf="translate.currentLang == 'en'"
+            >
+              {{ announcement.title_en }}: {{ announcement.description_en }}
+            </h3>
+            <h3
+              class="title text-dark"
+              style="display: inline"
+              *ngIf="translate.currentLang == 'ms'"
+            >
+              {{ announcement.title_ms }}: {{ announcement.description_ms }}
+            </h3></mark
+          >
+        </ng-marquee>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8 col-sm-12">
+          <carousel [noPause]="false" showIndicators="false">
+            <slide *ngFor="let banner of banners">
+              <img
+                [src]="banner.image_link"
+                style="display: block; width: 100%"
+                [ngStyle]="{
+                  'height.px': screenHeight < '720' ? '500' : '500'
+                }"
+              />
+              <div class="carousel-caption d-none d-md-block">
+                <h1 class="title text-white">{{ banner.title }}</h1>
+                <p class="font-weight-bold text-white">
+                  {{ banner.description }}
+                </p>
+              </div>
+            </slide>
+          </carousel>
+        </div>
+        <div class="col-md-4 col-sm-12 text-center">
+          <full-calendar style="height: 500px;" [options]="calendarOptions"></full-calendar>
+          <small class="text-danger">{{ "NOTAKALENDAR" | translate }}</small>
+        </div>
+      </div>
+
+      <h1 class="title text-center">{{ "ApaYangMenarik" | translate }}</h1>
+      <div class="row">
+        <div
+          class="col-md-3 col-sm-12"
+          *ngFor="let interesting of interestings"
+        >
+          <div class="card" style="height: auto">
+            <img class="card-img-top" [src]="interesting.image_link" />
+            <div class="card-body text-center">
+              <h4
+                class="card-title font-weight-bold text-uppercase"
+                *ngIf="translate.currentLang == 'en'"
+              >
+                {{ interesting.title_en }}
+              </h4>
+              <h4
+                class="card-title font-weight-bold text-uppercase"
+                *ngIf="translate.currentLang == 'ms'"
+              >
+                {{ interesting.title_ms }}
+              </h4>
+            </div>
+            <div class="card-footer p-3 text-center">
+              <button
+                class="btn btn-sm btn-info"
+                (click)="openModal(interestingModal, interesting)"
+              >
+                Info
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rakan Kerjasama -->
+  <h2 class="title text-center">{{ "RakanKerjasama" | translate }}</h2>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <!-- <carousel
+          [itemsPerSlide]="itemsPerSlide"
+          [singleSlideOffset]="false"
+          [interval]="1500"
+          [showIndicators]="false"
+          [isAnimated]="true"
+        >
+          <slide class="mx-auto" *ngFor="let collaboration of collaborations">
+            <div style="display: block; text-align: center">
+              <img [src]="collaboration.image" style="width: 40%" />
+              <h5 class="title">{{ collaboration.name }}</h5>
+            </div>
+          </slide>
+        </carousel> -->
+        <carousel
+          [itemsPerSlide]="itemsPerSlide"
+          [singleSlideOffset]="singleSlideOffset"
+          [interval]="2000"
+          [showIndicators]="false"
+          [noWrap]="noWrap"
+          *ngIf="partners.length > 0"
+        >
+          <slide *ngFor="let partner of partners">
+            <div style="display: block; text-align: center">
+              <img [src]="partner.image_link" style="width: 40%" />
+              <h5 class="title">{{ partner.name }}</h5>
+            </div>
+          </slide>
+        </carousel>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Subfooter -->
+  <div class="page-subfooter">
+    <div class="container" style="height: auto">
+      <div class="row pb-3">
+        <div class="col-md-4 col-sm-12">
+          <h3 class="title text-center">
+            {{ "JumlahPengunjungPortal" | translate }}
+          </h3>
+          <!-- <div class="row">
+            <div class="col">
+              <h6>Semasa</h6>
+            </div>
+            <div class="col-auto text-right">
+              <tm-ng-odometer
+                [number]="totalnow"
+                [config]="{ theme: 'train-station' }"
+              ></tm-ng-odometer>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col">
+              <p>{{ "Hariini" | translate }}</p>
+            </div>
+            <div class="col-auto text-right">
+              <tm-ng-odometer
+                [number]="totaltoday"
+                [config]="{ theme: 'train-station' }"
+              ></tm-ng-odometer>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col">
+              <h6>Minggu Ini</h6>
+            </div>
+            <div class="col-auto text-right">
+              <tm-ng-odometer
+                [number]="totalweek"
+                [config]="{ theme: 'train-station' }"
+              ></tm-ng-odometer>
+            </div>
+          </div> -->
+          <!-- <div class="row">
+            <div class="col">
+              <h6>Bulan Ini</h6>
+            </div>
+            <div class="col-auto text-right">
+              <tm-ng-odometer
+                [number]="totalmonth"
+                [config]="{ theme: 'train-station' }"
+              ></tm-ng-odometer>
+            </div>
+          </div> -->
+          <!-- <div class="row">
+            <div class="col">
+              <h6>Tahun Ini</h6>
+            </div>
+            <div class="col-auto text-right">
+              <tm-ng-odometer
+                [number]="totalyear"
+                [config]="{ theme: 'train-station' }"
+              ></tm-ng-odometer>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col">
+              <p>{{ "JumlahPelawat" | translate }}</p>
+            </div>
+            <div class="col-auto text-right">
+              <tm-ng-odometer
+                [number]="totalall"
+                [config]="{ theme: 'train-station' }"
+              ></tm-ng-odometer>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center">
+              <h4 class="title">
+                {{ "TarikhKemaskini" | translate }}:
+                {{ currentDate.getDate() }}
+                {{ months[currentDate.getMonth()] }}
+                {{ currentDate.getFullYear() }}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 col-sm-12">
+          <h3 class="title text-center">
+            {{ "Nilaiperkhidmatankami" | translate }}
+          </h3>
+          <form [formGroup]="ratingFormGroup">
+            <div class="row">
+              <div class="col-md-4 col-sm-12 p-0">
+                <bar-rating
+                  style="display: flex; justify-content: center"
+                  [(rate)]="rate"
+                  [max]="5"
+                  [theme]="'stars'"
+                  formControlName="rating"
+                ></bar-rating>
+              </div>
+              <div class="col-md-8 col-sm-12 p-0">
+                <div style="height: auto">
+                  <textarea
+                    class="form-control bg-white text-dark"
+                    rows="5"
+                    placeholder="{{ 'WriteComment' | translate }}"
+                    formControlName="comment"
+                  ></textarea>
+                </div>
+                <div class="p-3 text-center">
+                  <button
+                    type="button"
+                    class="btn btn-info"
+                    (click)="rating()"
+                    [disabled]="ratingFormGroup.value.rating == 0"
+                  >
+                    {{ "Hantar" | translate }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    [routerLink]="['/survey']"
+                  >
+                    {{ "MaklumBalas" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #interestingModal>
+  <div class="modal-header justify-content-center">
+    <button
+      aria-hidden="true"
+      class="close"
+      data-dismiss="modal"
+      (click)="closeModal()"
+      type="button"
+    >
+      <i class="tim-icons icon-simple-remove text-dark"> </i>
+    </button>
+    <div class="text-dark text-center ml-auto mr-auto">
+      <h3 class="title mb-0" *ngIf="translate.currentLang == 'en'">
+        {{ interesting.title_en }}
+      </h3>
+      <h3 class="title mb-0" *ngIf="translate.currentLang == 'ms'">
+        {{ interesting.title_ms }}
+      </h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div
+      class="inner-html"
+      *ngIf="translate.currentLang == 'en'"
+      [innerHtml]="interesting.description_en | safe: 'html'"
+    ></div>
+    <div
+      class="inner-html"
+      *ngIf="translate.currentLang == 'ms'"
+      [innerHtml]="interesting.description_ms | safe: 'html'"
+    ></div>
+  </div>
+</ng-template>

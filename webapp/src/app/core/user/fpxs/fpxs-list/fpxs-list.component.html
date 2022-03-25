@@ -1,0 +1,400 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">
+            Senarai Transaksi FPX
+          </h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <!-- <div class="col-lg-6 col-5 text-right">
+          <a
+            class="btn btn-sm btn-neutral"
+            (click)="openModal(createFpxTransaction, 'create', '')"
+          >
+            Tambah
+          </a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Senarai Transaksi FPX</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Papar
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="5" [selected]="tableEntries == 5">5</option>
+                    <option value="10" [selected]="tableEntries == 10">
+                      10
+                    </option>
+                    <option value="15" [selected]="tableEntries == 15">
+                      15
+                    </option>
+                    <option value="-1" [selected]="tableEntries == -1">
+                      Semua
+                    </option>
+                  </select>
+                  rekod
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Cari rekod"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+            (activate)="onActivate($event)"
+            [scrollbarH]="true"
+          >
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>No. Pesanan Penjual</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.fpx_sellerOrderNo }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Jumlah</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.fpx_txnAmount }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Nama Pembeli</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.fpx_buyerName }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Emel Pembeli</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.fpx_buyerEmail }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tindakan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <button
+                  class="btn btn-sm btn-primary"
+                  (click)="openModal(viewFpxTransaction, 'view', row)"
+                >
+                  Lihat
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #viewFpxTransaction>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Lihat Transaksi FPX
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_msgType</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_msgType }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_msgToken</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_msgToken }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_fpxTxnId</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_fpxTxnId }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_sellerExId</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_sellerExId }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_sellerExOrderNo</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_sellerExOrderNo }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_fpxTxnTime</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_fpxTxnTime }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_sellerTxnTime</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_sellerTxnTime }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_sellerOrderNo</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_sellerOrderNo }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_sellerId</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_sellerId }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_sellerBankCode</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_sellerBankCode }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_txnCurrency</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_txnCurrency }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_txnAmount</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_txnAmount }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_buyerEmail</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_buyerEmail }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_checkSum</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_checkSum }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_buyerName</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_buyerName }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_buyerBankId</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_buyerBankId }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_buyerBankBranch</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_buyerBankBranch }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_buyerAccNo</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_buyerAccNo }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_buyerId</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_buyerId }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_makerName</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_makerName }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_buyerIban</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_buyerIban }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_debitAuthCode</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_debitAuthCode }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_debitAuthNo</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_debitAuthNo }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_creditAuthCode</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_creditAuthCode }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_creditAuthNo</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_creditAuthNo }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_xtrainfo</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_xtrainfo }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_productDesc</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_productDesc }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_version</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_version }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_eaccountNum</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_eaccountNum }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12">fpx_ebuyerId</div>
+      <div class="col-md-6 col-sm-12">
+        {{ fpxtransactionFormGroup.value.fpx_ebuyerId }}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>

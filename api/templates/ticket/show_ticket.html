@@ -1,0 +1,100 @@
+{% load staticfiles %}
+{% load qr_code %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tiket Tayangan Planetarium Negara</title>
+
+    <style>
+      @charset "UTF-8";
+      @page {
+        margin: 0;
+        size: landscape;
+      }
+      html {
+        align-content: center;
+        align-items: center;
+        background: #eef1f5;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+      }
+      html body {
+        box-sizing: border-box;
+        display: block;
+        flex-wrap: wrap;
+        height: 8cm;
+        margin: 0;
+        padding: 10px;
+        width: 13cm;
+      }
+      .planetarium {
+        font-family: "Calibri";
+        font-size: 8pt;
+      }
+      .teater-angkasa {
+        font-family: "Verdana";
+        font-size: 12pt;
+        font-weight: bolder;
+        text-transform: uppercase;
+      }
+      .ticket-detail {
+        font-family: "Verdana";
+        font-size: 9pt;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col planetarium d-flex">
+        <img
+          src="{% static 'image/planetarium-logo.png' %}"
+          style="height: 100px; width: 100px"
+        />
+
+        <div class="pl-2 float-right">
+          <p class="m-0 text-uppercase">Planetarium Negara</p>
+          <p class="text-uppercase m-1">
+            Kementerian Sains, Teknologi, Dan<br />Inovasi (Mosti)
+          </p>
+
+          <p class="m-0">Tel: 603-22734301</p>
+          <p class="m-0">info@planet.gov.my</p>
+          <p class="m-0">www.planetariumnegara.gov.my</p>
+        </div>
+
+        <div style="padding-left: 15.5cm">
+          <!--position: relative; left: 70px-->
+          <p>Tempat :</p>
+          <h4 class="teater-angkasa">Teater<br />Angkasa</h4>
+          <p>Barisan Kerusi :</p>
+          <h4 class="teater-angkasa">{{ ticket_info.ticket_seat }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col ticket-detail d-flex">
+        <div style="white-space: nowrap">
+          <p class="m-0">No. Tiket : {{ ticket_info.ticket_number }}</p>
+          <p class="m-0">Tajuk Tayangan : {{ ticket_info.ticket_title }}</p>
+          <p class="m-0">Harga : RM {{ ticket_info.ticket_price }}</p>
+          <p class="m-0">
+            Kategori : {{ ticket_info.ticket_category }} ({{ ticket_info.ticket_type }})
+          </p>
+          <p class="m-0">Tarikh Tayangan : {{ ticket_info.ticket_date }}</p>
+          <p class="m-0">Masa Tayangan : {{ ticket_info.ticket_time }}</p>
+          <p class="m-0">
+            Tarikh Transaksi : {{ ticket_info.ticket_transaction_date }}
+          </p>
+          <p class="m-0">
+            Jenis Transaksi : {{ ticket_info.ticket_transaction_type }}
+          </p>
+        </div>
+      </div>
+      <div class="col d-flex flex-row-reverse">
+        {% qr_from_text ticket_info.ticket_qrcode size="2" image_format="png" %}
+      </div>
+    </div>
+  </body>
+</html>

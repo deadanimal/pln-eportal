@@ -1,0 +1,401 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">
+            Tempahan Kembara Simulasi
+          </h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="col-lg-6 col-5 text-right">
+          <a
+            class="btn btn-sm btn-neutral"
+            [routerLink]="['/simulator-ride/applications']"
+          >
+            Kembali
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <mat-horizontal-stepper [linear]="true" #stepper>
+        <mat-step [stepControl]="zerothFormGroup">
+          <ng-template matStepLabel> Pilih Pengguna</ng-template>
+          <form [formGroup]="zerothFormGroup">
+            <div class="row">
+              <div class="col-md-3 col-sm-12"></div>
+              <div class="col-md-6 col-sm-12">
+                <div class="alert alert-danger">
+                  <b>Nota: Sila pilih pengguna untuk dibelikan tiket.</b>
+                </div>
+                <div class="form-group text-center">
+                  <label>Pengguna</label><br />
+                  <p
+                    class="text-danger"
+                    *ngIf="!zerothFormGroup.value.selected_user"
+                  >
+                    Sila pengguna terlebih dahulu!
+                  </p>
+                  <select formControlName="selected_user" class="form-control">
+                    <option [ngValue]="null" disabled>Pilih Pengguna</option>
+                    <option *ngFor="let user of users" [ngValue]="user.id">
+                      {{ user.email }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12"></div>
+            </div>
+
+            <div class="p-3 text-center">
+              <button
+                type="button"
+                class="btn btn-default"
+                matStepperNext
+                [disabled]="!zerothFormGroup.valid"
+              >
+                Seterusnya
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel> Pilih Tarikh & Masa </ng-template>
+            <div class="row pb-3">
+              <div class="col-md-7 col-sm-12 mx-auto">
+                <div class="alert alert-danger">
+                  <b
+                    >Nota: Tiket online perlu ditempah sehari lebih awal untuk
+                    memudahkan urusan Planetarium.</b
+                  >
+                </div>
+                <div class="form-group">
+                  <label>Tarikh</label>
+                  <input
+                    type="text"
+                    placeholder="Tarikh"
+                    class="form-control"
+                    formControlName="date"
+                    bsDatepicker
+                    [minDate]="today"
+                    [maxDate]="threemonth"
+                    [daysDisabled]="[1]"
+                    [bsConfig]="{
+                      isAnimated: true,
+                      containerClass: 'theme-dark-blue',
+                      dateInputFormat: 'YYYY-MM-DD'
+                    }"
+                    (bsValueChange)="changeDate($event)"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Masa</label><br />
+                  <div *ngIf="times.length == 0">
+                    <p class="text-danger">
+                      Sila pilih tarikh terlebih dahulu!
+                    </p>
+                  </div>
+                  <div
+                    class="row d-flex justify-content-center"
+                    *ngFor="let bookingtime of bookingtimes"
+                  >
+                    <div *ngFor="let time of times">
+                      <div
+                        class="col mx-auto"
+                        *ngIf="bookingtime === time.time.substring(0, 2)"
+                      >
+                        <div class="form-check form-check-radio">
+                          <label class="form-check-label">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="time"
+                              [value]="time.time + '_' + time.id"
+                              formControlName="time"
+                            />
+                            {{ time.time | formatBookingTime }}
+                            <span class="form-check-sign"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 text-center">
+              <button type="button" class="btn btn-warning" matStepperPrevious>
+                Kembali
+              </button>
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="checkExistBooking(stepper)"
+                [disabled]="!firstFormGroup.valid"
+              >
+                Seterusnya
+              </button>
+              <!-- matStepperNext -->
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <ng-template matStepLabel> Tempahan Tiket </ng-template>
+          <form [formGroup]="secondFormGroup">
+            <div class="row">
+              <div class="col-6 mx-auto">
+                <div class="table-responsive">
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-dark">Warganegara</th>
+                        <th scope="col text-center">
+                          <div
+                            id="bootstrap-switch-component"
+                            class="tab-pane tab-example-result fade show active"
+                            role="tabpanel"
+                            aria-labelledby="bootstrap-switch-component-tab"
+                          >
+                            <label class="custom-toggle">
+                              <input
+                                type="checkbox"
+                                formControlName="citizen"
+                                (change)="citizenChange()"
+                                checked=""
+                              />
+                              <span
+                                class="custom-toggle-slider rounded-circle"
+                                data-label-off="Tidak"
+                                data-label-on="Ya"
+                              ></span>
+                            </label>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-dark">Tiket Percuma?</th>
+                        <th scope="col text-center">
+                          <div
+                            id="bootstrap-switch-component"
+                            class="tab-pane tab-example-result fade show active"
+                            role="tabpanel"
+                            aria-labelledby="bootstrap-switch-component-tab"
+                          >
+                            <label class="custom-toggle">
+                              <input
+                                type="checkbox"
+                                formControlName="ticket_free"
+                                (change)="citizenChange()"
+                                checked=""
+                              />
+                              <span
+                                class="custom-toggle-slider rounded-circle"
+                                data-label-off="Tidak"
+                                data-label-on="Ya"
+                              ></span>
+                            </label>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-dark">Jenis Tiket</th>
+                        <th scope="col" class="text-dark">Kuantiti</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let ticketprice of ticketprices">
+                        <td
+                          style="padding: 1rem"
+                          class="font-weight-bold text-dark"
+                        >
+                          <span>{{ ticketprice.title_ms }}</span>
+                          <br /><small *ngIf="secondFormGroup.value.citizen"
+                            >(RM {{ ticketprice.price_citizen }}/ Tiket )</small
+                          ><small *ngIf="!secondFormGroup.value.citizen"
+                            >(RM {{ ticketprice.price_noncitizen }}/ Tiket
+                            )</small
+                          >
+                        </td>
+                        <td class="text-dark">
+                          <ngx-number-spinner
+                            [value]="0"
+                            (change)="calculateTotal()"
+                            [min]="0"
+                            [formControlName]="ticketprice.formcontrol"
+                          >
+                          </ngx-number-spinner>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td
+                          style="padding: 1rem"
+                          class="font-weight-bold text-dark"
+                        >
+                          Jumlah
+                        </td>
+                        <td class="text-dark">
+                          RM {{ secondFormGroup.value.total | number }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="row" *ngIf="totalticket > 2">
+                    <div class="col">
+                      <div class="alert alert-danger">
+                        <b
+                          >Nota: Harap maaf. Kembara simulasi hanya boleh
+                          dinaiki seramai 2 orang dalam 1 masa.</b
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button type="button" class="btn btn-warning" matStepperPrevious>
+                Kembali
+              </button>
+              <button
+                type="button"
+                class="btn btn-default"
+                matStepperNext
+                [disabled]="totalticket > 2 || totalticket == 0"
+              >
+                Seterusnya
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel> Pengesahan </ng-template>
+          <div class="row">
+            <div class="col-6 mx-auto">
+              <div class="table-responsive">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td
+                        style="padding: 1rem"
+                        class="font-weight-bold text-dark"
+                      >
+                        Tarikh
+                      </td>
+                      <td class="text-dark text-right">
+                        {{ firstFormGroup.value.date | date }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        style="padding: 1rem"
+                        class="font-weight-bold text-dark"
+                      >
+                        Masa
+                      </td>
+                      <td class="text-dark text-right">
+                        <!-- betulkan yang ini -->
+                        {{ firstFormGroup.value.time.split("_", 1) }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        style="padding: 1rem"
+                        class="font-weight-bold text-dark"
+                      >
+                        Jumlah Tiket
+                      </td>
+                      <td class="text-dark text-right">
+                        {{ secondFormGroup.value.adult +
+                        secondFormGroup.value.children }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        style="padding: 1rem"
+                        class="font-weight-bold text-dark"
+                      >
+                        Jumlah Harga Tiket
+                      </td>
+                      <td class="text-dark text-right">
+                        RM {{ secondFormGroup.value.total }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        style="padding: 1rem"
+                        class="font-weight-bold text-dark"
+                      >
+                        Tiket Percuma?
+                      </td>
+                      <td style="padding: 1rem" class="text-dark text-right">
+                        <span
+                          class="font-weight-bold"
+                          *ngIf="secondFormGroup.value.ticket_free == true"
+                          >Ya</span
+                        >
+                        <span
+                          class="font-weight-bold"
+                          *ngIf="secondFormGroup.value.ticket_free == false"
+                          >Tidak</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="alert alert-danger">
+                    <b
+                      >Nota: Sila berada 10 minit lebih awal sebelum kembara
+                      simulasi bermula dan elakkan daripada membuat tempahan
+                      bertindih dengan masa tayangan planetarium (sekiranya
+                      ada). Terima kasih.</b
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-warning" matStepperPrevious>
+              Kembali
+            </button>
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="makePayment()"
+            >
+              Tambah ke troli
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+video {
+  // filter: opacity(70%);
+
+  h1 {
+    filter: opacity(10%);
+    color: black;
+  }
+}
+
+.section {
+  padding: 100px 0;
+}
+
+.required-field::after {
+  content: " *";
+  color: red;
+}
+
+.form-control[readonly] {
+  background-color: #e9ecef !important;
+}
+
+.table > thead > tr > td {
+  color: #000000;
+}
+
+.table > tbody > tr > td {
+  color: #000000;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.005) translateZ(0);
+  box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11), 0 24px 46px #000000;
+}
+
+
+#list1 {
+  overflow-y: scroll;
+  /*  Setting overflow-y does the trick here, since the scrollbar is native
+  to the unordered list only -- as you will see below */
+  height: 100px;
+  /*  Based on the fiddle, this height determines the state of the scrollbar  */
+}
+
+/* Increasing specifity(using #list1), ensures the scrollbar sytling affects
+the area within the #list1 only making it native to those elements only */
+/* It would still work either way but its best to contain it for the specific element */
+#list1::-webkit-scrollbar-track {
+  background-color: steelblue;
+  width: 30px;
+}
+
+#list1::-webkit-scrollbar {
+  width: 30px;
+  background-color: green;
+}
+
+#list1::-webkit-scrollbar-thumb {
+  background-color: red;
+  height: 30px;
+}

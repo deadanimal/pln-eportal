@@ -1,0 +1,51 @@
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
+  <div class="section">
+    <div class="container">
+      <div class="row pt-5">
+        <div class="col text-center">
+          <h2 class="title">
+            <span
+              *ngIf="
+                invoicereceipts[0]?.fpx_transaction_id.fpx_debitAuthCode == '00'
+              "
+              >{{ "ResitTerimaKasih" | translate }}</span
+            >
+            <span
+              class="text-uppercase font-weight-bold"
+              *ngIf="
+                invoicereceipts[0]?.fpx_transaction_id.fpx_debitAuthCode != '00'
+              "
+              >{{ "ResitTidakBerjaya" | translate }}</span
+            >
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-sm-12 mx-auto">
+          <div class="card" style="background-color: #ffffff">
+            <div class="card-header" style="background-color: #2d71f6">
+              <div class="row">
+                <div class="col">
+                  <h3 class="title text-white mt-0">
+                    {{ "ResitBayaran" | translate }}
+                  </h3>
+                </div>
+                <div class="col-auto text-right">
+                  <button
+                    class="btn btn-default btn-sm"
+                    [useExistingCss]="true"
+                    printSectionId="print-section"
+                    ngxPrint
+                  >
+                    {{ "CetakResit" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <app-official-receipt id="print-section"></app-official-receipt>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

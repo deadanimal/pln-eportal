@@ -1,0 +1,142 @@
+<div class="header pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col">
+            <h6 class="h2 text-dark d-inline-block mb-0">
+              Statistik Pendaftaran
+            </h6>
+  
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)">
+                    <i class="fas fa-file-invoice text-dark"></i>
+                  </a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-secondary">
+            <h3 class="m-0">Carian</h3>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="searchFormGroup">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="form-control-label">Tarikh (mula)</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      formControlName="start_date"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="form-control-label">Tarikh (akhir)</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      formControlName="end_date"
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer text-right">
+            <button class="btn btn-primary" [disabled]="!searchFormGroup.valid" (click)="search()">Cari</button>
+            <button class="btn btn-secondary" (click)="reset()">
+              Set Semula
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-secondary">
+            <h3 class="m-0">
+              Negara
+            </h3>
+          </div>
+          <div class="card-body">
+            <div id="chartdivcountry" style="width: 100%; height: 400px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-secondary">
+            <h3 class="m-0">
+              Negeri
+            </h3>
+          </div>
+          <div class="card-body">
+            <div id="chartdivstate" style="width: 100%; height: 400px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-6">
+        <div class="card">
+          <div class="card-header bg-secondary">
+            <h3 class="m-0">
+              Bangsa
+            </h3>
+          </div>
+          <div class="card-body">
+            <div id="chartdivrace" style="width: 100%; height: 400px"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-secondary">
+            <h3 class="m-0">Jantina</h3>
+          </div>
+          <div class="card-body">
+            <div id="chartdivgender" style="width: 100%; height: 400px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+   
+
+    <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header bg-secondary">
+              <h3 class="m-0">
+                Umur
+              </h3>
+            </div>
+            <div class="card-body">
+              <div id="chartdivage" style="width: 100%; height: 400px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    
+  </div>
+  

@@ -1,0 +1,439 @@
+<ngx-loading-bar
+  height="4px"
+  diameter="16px"
+  [includeSpinner]="false"
+></ngx-loading-bar>
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Troli</h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <!-- <div class="col-lg-6 col-5 text-right">
+            <a
+              class="btn btn-sm btn-neutral"
+              (click)="openModal(createCart, 'create', '')"
+            >
+              Tambah
+            </a>
+          </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Pilihan Troli</h3>
+        </div>
+      </div>
+      <accordion [isAnimated]="true">
+        <accordion-group *ngFor="let selected of tableSelected">
+          <button
+            class="btn btn-link btn-block clearfix"
+            accordion-heading
+            type="button"
+          >
+            <div class="pull-left float-left">
+              Pelanggan: {{ selected.user.full_name }}
+            </div>
+            <span class="badge badge-info float-right pull-right"
+              >Klik sini untuk lihat</span
+            >
+          </button>
+          <h4 *ngIf="selected.show_booking_id.length > 0">Tayangan</h4>
+          <div *ngFor="let shows of selected.show_booking_id">
+            <p>
+              {{ shows.show_id.title_ms }} -
+              {{ shows.showtime_id.show_date }} ({{
+                shows.showtime_id.show_time
+              }}) - RM {{ shows.total_price | number: "1.2-2" }}
+            </p>
+          </div>
+          <h4 *ngIf="selected.simulator_ride_booking_id.length > 0">
+            Kembara Simulasi
+          </h4>
+          <div
+            *ngFor="let simulator_ride of selected.simulator_ride_booking_id"
+          >
+            <p>
+              {{ simulator_ride.booking_date }} - ({{
+                simulator_ride.simulator_ride_time_id.time
+              }}) - RM {{ simulator_ride.total_price | number: "1.2-2" }}
+            </p>
+          </div>
+          <h4 *ngIf="selected.facility_booking_id.length > 0">Fasiliti</h4>
+          <div *ngFor="let facility of selected.facility_booking_id">
+            <p>
+              {{ facility.facility_id.name_ms }} -
+              {{ facility.booking_date }} ({{ facility.booking_days }}) - RM
+              {{ facility.total_price | number: "1.2-2" }}
+            </p>
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Hantar Invois</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-control-label"
+              >Kod Baucar
+              <small class="text-red"
+                >* Masukkan kod baucar (sekiranya ada)</small
+              ></label
+            >
+            <input
+              class="form-control"
+              type="text"
+              maxlength="10"
+              [(ngModel)]="voucher_code"
+              style="text-transform: uppercase"
+            />
+            <p
+              class="text-danger font-weight-bold"
+              *ngIf="voucher_status == 'NU'"
+            >
+              Baucar anda yang bernilai RM {{ voucher_amount }} adalah sah.
+            </p>
+            <p
+              class="text-danger font-weight-bold"
+              *ngIf="voucher_status == 'AU'"
+            >
+              Baucar anda sudah digunakan pada item yang lain.
+            </p>
+            <p
+              class="text-danger font-weight-bold"
+              *ngIf="voucher_status == 'EX'"
+            >
+              Baucar anda sudah tamat tempoh.
+            </p>
+          </div>
+          <div class="text-center">
+            <!-- <button
+              class="btn btn-primary btn-sm"
+              [disabled]="carts.length == 0"
+              (click)="checkVoucherCode()"
+            >
+              Semak & Kira
+            </button> -->
+            <!-- <button
+              class="btn btn-secondary btn-sm"
+              (click)="resetVoucherCode()"
+            >
+              Set Semula
+            </button> -->
+          </div>
+
+          <div class="row pt-3 pb-3">
+            <div class="col">Jumlah Harga Sebelum Baucar</div>
+            <div class="col-auto text-right">
+              RM {{ total_price_before_voucher | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="row pb-3">
+            <div class="col">Jumlah Baucar</div>
+            <div class="col-auto text-right">
+              RM {{ total_voucher | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="row pb-3">
+            <div class="col">Jumlah Harga Selepas Baucar</div>
+            <div class="col-auto text-right">
+              RM {{ total_price_after_voucher | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="row text-center">
+            <div class="col">
+              <h3>Adakah anda ingin menghantar troli ini kepada invois?</h3>
+              <button
+                class="btn btn-primary btn-sm"
+                [disabled]="carts.length == 0"
+                (click)="checkVoucherCode()"
+              >
+                Semak & Kira
+              </button>
+              <button
+                class="btn btn-default btn-sm"
+                [disabled]="!btn_submit_invoice"
+                (click)="submitInvoice()"
+              >
+                Hantar
+              </button>
+              <button class="btn btn-secondary btn-sm" (click)="resetInvoice()">
+                Set Semula
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Senarai Troli</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Papar
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="5" [selected]="tableEntries == 5">5</option>
+                    <option value="10" [selected]="tableEntries == 10">
+                      10
+                    </option>
+                    <option value="15" [selected]="tableEntries == 15">
+                      15
+                    </option>
+                    <option value="-1" [selected]="tableEntries == -1">
+                      Semua
+                    </option>
+                  </select>
+                  rekod
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Cari rekod"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+            [selected]="tableSelected"
+            [selectionType]="SelectionType.checkbox"
+            [selectAllRowsOnPage]="false"
+            (activate)="onActivate($event)"
+            (select)="onSelect($event)"
+            [scrollbarH]="true"
+          >
+            <ngx-datatable-column
+              [width]="50"
+              [sortable]="false"
+              [canAutoResize]="false"
+              [draggable]="false"
+              [resizeable]="false"
+              [headerCheckboxable]="false"
+              [checkboxable]="false"
+            >
+              <!-- Check-All checkbox -->
+              <ng-template
+                ngx-datatable-header-template
+                let-value="value"
+                let-allRowsSelected="allRowsSelected"
+                let-selectFn="selectFn"
+              >
+                <!-- <input
+                  type="checkbox"
+                  [checked]="allRowsSelected"
+                  (change)="selectFn(!allRowsSelected)"
+                /> -->
+              </ng-template>
+              <!-- Check-Row checkbox -->
+              <ng-template
+                ngx-datatable-cell-template
+                let-row="row"
+                let-value="value"
+                let-isSelected="isSelected"
+                let-onCheckboxChangeFn="onCheckboxChangeFn"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="isSelected"
+                  [disabled]="row.cart_status != 'CR' ? true : false"
+                  (change)="onCheckboxChangeFn($event)"
+                />
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [width]="50">
+              <ng-template ngx-datatable-header-template>
+                <span>No.</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.no + 1 }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tarikh Troli Dicipta</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.created_date | date: "mediumDate" }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Pelanggan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.user?.full_name }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span
+                  *ngIf="row.cart_status == 'CR'"
+                  class="badge badge-pill badge-default"
+                  >Troli Dicipta</span
+                >
+                <span
+                  *ngIf="row.cart_status == 'CM'"
+                  class="badge badge-pill badge-success"
+                  >Troli Selesai</span
+                >
+                <span
+                  *ngIf="row.cart_status == 'AB'"
+                  class="badge badge-pill badge-danger"
+                  >Troli Ditinggalkan</span
+                >
+                <span
+                  *ngIf="row.cart_status == 'PD'"
+                  class="badge badge-pill badge-warning"
+                  >Troli Belum Selesai</span
+                >
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tindakan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <!-- <button
+                    class="btn btn-sm btn-primary"
+                    (click)="openModal(editCart, 'update', row)"
+                  >
+                    Sunting
+                  </button> -->
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createCart>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Tambah
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body"></div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="create()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editCart>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Ubah Suai
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body"></div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="update()">
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>

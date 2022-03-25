@@ -1,0 +1,235 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Laporan Harian Operasi Planetarium Negara</title>
+
+    <style>
+      @charset "UTF-8";
+      @page {
+        size: "A4";
+        /* margin: 2.54cm 2.54cm 2.54cm 2.54cm; */
+      }
+      table,
+      td,
+      th {
+        border: 1px solid black;
+        font-size: 10pt;
+        text-transform: uppercase;
+        padding: 3px;
+      }
+      th {
+        background-color: #8DB5E4;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      footer {
+        position: fixed;
+        bottom: -1cm;
+        width: 100%;
+        text-align: center;
+        font-size: 10pt;
+      }
+      .peach {
+        background-color: #E6B8B7;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col">
+        <img
+          src="{% static 'image/jata-negara.png' %}"
+          style="height: 80px; width: 100px"
+        />
+      </div>
+      <div class="col text-center">
+        <h6 class="font-weight-bold">LAPORAN HARIAN OPERASI PLANETARIUM NEGARA KUALA LUMPUR</h6>
+      </div>
+      <div class="col text-right">
+        <img
+          src="{% static 'image/planetarium-logo.png' %}"
+          style="height: 80px; width: 100px"
+        />
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px">
+      <div class="col">
+        <table style="width: 100%">
+          <tr>
+            <th colspan="2" class="text-center">SENARAI PETUGAS</th>
+            <th colspan="2">TARIKH: {{ petugas_info.report_date }}</th>
+          </tr>
+
+          <tr style="background-color: #FEC6CE; color: #C1514E">
+            <td class="text-center">PENGURUS OPERASI (PO)</td>
+            <td colspan="3">{{ petugas_info.operations_manager }}</td>
+          </tr>
+
+          <tr>
+            <td rowspan="3" class="text-center">PETUGAS TEKNIKAL</td>
+            <td rowspan="3" class="text-center">{{ petugas_info.technical_officer|linebreaksbr }}</td>
+            <td class="text-center">PETUGAS PANGGUNG</td>
+            <td class="text-center">{{ petugas_info.stage_officer }}</td>  
+            <tr>
+              <td class="text-center">PETUGAS KAUNTER INFO</td>
+              <td class="text-center">{{ petugas_info.info_counter_clerk }}</td>
+            </tr>
+            <tr>
+              <td class="text-center">PETUGAS KUTUB KHANAH</td>
+              <td class="text-center">{{ petugas_info.librarian }}</td>
+            </tr>
+          </tr>
+
+          <tr>
+            <td class="text-center">PETUGAS KAUNTER TIKET</td>
+            <td class="text-center">{{ petugas_info.ticket_counter_clerk|linebreaksbr }}</td>
+            <td colspan="2"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px;">
+      <div class="col">
+        <table style="width: 100%;">
+          <tr>
+            <th colspan="5" class="text-center">SENARAI KONTRAKTOR</th>
+          </tr>
+
+          <tr class="peach">
+            <td>PERKHIDMATAN</td>
+            <td>KONTRAKTOR</td>
+            <td>JURUTERA TAPAK/ PENYELIA/ KETUA PENGAWAL</td>
+            <td>KEHADIRAN</td>
+            <td>CATATAN</td>
+          </tr>
+
+          {% for kontraktor in kontraktor_info.values %}
+          <tr>
+            <td class="font-weight-bold text-center">{{ kontraktor.service }}</td>
+            <td class="font-weight-bold">{{ kontraktor.contractor_name }}</td>
+            <td class="font-weight-bold text-center">{{ kontraktor.officer_name }}</td>
+            <td class="font-weight-bold text-center">{{ kontraktor.attendance }}</td>
+            <td class="peach">{{ kontraktor.notes }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px">
+      <div class="col pr-0 mr-0">
+        <table style="width: 100%;">
+          <tr>
+            <th colspan="5" class="text-center">JADUAL KENDALIAN TAYANGAN DAN SPACE POD</th>
+          </tr>
+
+          <tr>
+            <td class="peach">MASA</td>
+            <td class="peach">TAJUK TAYANGAN</td>
+            <td class="peach">BIL. PENONTON <br/>TAYANGAN</td>
+            <td class="peach">BIL. PESERTA <br/>SPACE POD</td>
+            <td class="peach">CATATAN</td>
+          </tr>
+
+          {% for jadual_kendalian in jadual_kendalian_info.values %}
+          <tr>
+            <td class="text-center">{{ jadual_kendalian.time }}</td>
+            <td class="text-center">{{ jadual_kendalian.show_name }}</td>
+            <td class="text-center">{{ jadual_kendalian.show_audience }}</td>
+            <td class="text-center">{{ jadual_kendalian.space_pod_participant }}</td>
+            <td class="text-center">{{ jadual_kendalian.notes }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+      <div class="col pl-0 ml-0" style="margin-right: 30px;">
+        <table style="width: 100%">
+          <tr>
+            <th colspan="2" class="text-center">RUMUSAN PELAWAT PN</th>
+          </tr>
+
+          <tr>
+            <td class="peach">PELAWAT / PENONTON / <br/>PESERTA</td>
+            <td class="peach">JUMLAH</td>
+          </tr>
+
+          <tr>
+            <td class="text-center">PENONTON TAYANGAN</td>
+            <td class="text-center">{{ rumusan_pelawat_info.0.visitor_summary_show }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-center">PESERTA SPACE POD</td>
+            <td class="text-center">{{ rumusan_pelawat_info.0.visitor_summary_space_pod }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-center">PELAWAT PAMERAN</td>
+            <td class="text-center">{{ rumusan_pelawat_info.0.visitor_summary_exhibition }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-center">KUTUB KHANAH</td>
+            <td class="text-center">{{ rumusan_pelawat_info.0.visitor_summary_kutubkhanah }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-center">SEMUA PELAWAT PN (CTS)</td>
+            <td class="text-center">{{ rumusan_pelawat_info.0.visitor_summary_all }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px;">
+      <div class="col">
+        <table style="width: 100%">
+          <tr>
+            <th class="text-center">BIL</th>
+            <th class="text-center">PERKARA</th>
+            <th class="text-center">KETERANGAN</th>
+            <th class="text-center">TINDAKAN</th>
+          </tr>
+
+          {% for keterangan in keterangan_info.values %}
+          <tr>
+            <td class="font-weight-bold text-center">{{ forloop.counter }}</td>
+            <td class="font-weight-bold text-center">{{ keterangan.detail }}</td>
+            <td>{{ keterangan.description|safe }}</td>
+            <td class="text-center">{{ keterangan.action }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px;">
+      <div class="col">
+        <table style="border: 0px;">
+          <tr>
+            <td class="font-weight-bold" style="border: 0px;">LAPORAN HARIAN DISEDIAKAN OLEH</td>
+            <td class="font-weight-bold" style="border: 0px;">:</td>
+            <td class="font-weight-bold text-uppercase" style="border: 0px;">{{ petugas_info.full_name }}</td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold" style="border: 0px;" colspan="2"></td>
+            <td class="font-weight-bold text-uppercase" style="border: 0px;">{{ petugas_info.report_by_position }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <footer>
+      <p class="font-italic mb-0">
+        Ini adalah cetakan komputer dan tidak perlu ditandatangani
+      </p>
+    </footer>
+  </body>
+</html>

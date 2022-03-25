@@ -1,0 +1,69 @@
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
+  <div class="main main-raised bg-white">
+    <div class="section">
+      <div class="container">
+        <h2 class="title text-center text-dark">
+          {{ "HasilCarian" | translate }}
+        </h2>
+        <hr style="width: 100%" />
+
+        <div class="row">
+          <div class="col">
+            <p class="text-dark">
+              {{ "KataKunci" | translate }}:
+              <span class="font-weight-bold">{{ search_keyword }}</span>
+            </p>
+            <p class="text-dark">
+              {{ "Jumlahrekoddijumpai" | translate }}:
+              <span class="font-weight-bold">{{ searchkeywords.length }}</span>
+            </p>
+          </div>
+        </div>
+        <div class="row pb-3" *ngFor="let searchkeyword of searchkeywords">
+          <div class="col" *ngIf="translate.currentLang == 'en'">
+            <h4 class="title text-dark mb-0">
+              <a
+                class="font-weight-bold"
+                [href]="searchkeyword.url"
+                target="_self"
+              >
+                <u *ngIf="searchkeyword.title_en">{{
+                  searchkeyword.title_en
+                }}</u>
+                <u *ngIf="searchkeyword.name_en">{{
+                  searchkeyword.name_en
+                }}</u></a
+              >
+            </h4>
+            <div
+              *ngIf="searchkeyword.description_en"
+              class="inner-html"
+              [innerHtml]="searchkeyword.description_en | safe: 'html'"
+            ></div>
+          </div>
+          <div class="col" *ngIf="translate.currentLang == 'ms'">
+            <h4 class="title text-dark mb-0">
+              <a
+                class="font-weight-bold"
+                [href]="searchkeyword.url"
+                target="_self"
+              >
+                <u *ngIf="searchkeyword.title_ms">{{
+                  searchkeyword.title_ms
+                }}</u>
+                <u *ngIf="searchkeyword.name_ms">{{
+                  searchkeyword.name_ms
+                }}</u></a
+              >
+            </h4>
+            <div
+              *ngIf="searchkeyword.description_ms"
+              class="inner-html"
+              [innerHtml]="searchkeyword.description_ms | safe: 'html'"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

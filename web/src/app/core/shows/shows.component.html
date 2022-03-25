@@ -1,0 +1,193 @@
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
+  <div class="page-header page-header-small header-filter">
+    <!-- <div
+      class="page-header-image rellax"
+      data-parallax="true"
+      style="background-image: url('assets/img/show/nasa.jpg')"
+    ></div>
+    <div class="content-center">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-center">
+          <h1 class="title">Tayangan</h1>
+          <h2 class="description">
+            Tontoni tayangan khas daripada Planetarium kepada anda secara dalam
+            talian.
+          </h2>
+        </div>
+      </div>
+    </div> -->
+    <carousel>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+    </carousel>
+  </div>
+  <div class="main main-raised bg-white">
+    <div class="section">
+      <div class="container">
+        <h2 class="title text-center text-dark">
+          {{ "TayanganPlanetariumTajuk" | translate }}
+          <share-button button="facebook"></share-button
+          ><share-button button="twitter"></share-button
+          ><share-button button="whatsapp"></share-button>
+        </h2>
+        <div class="row">
+          <div class="col">
+            <!-- <p class="text-dark text-justify">
+              {{ "TayanganPlanetariumDeskripsi" | translate }}
+            </p> -->
+            <p
+              class="text-dark text-justify inner-html"
+              *ngIf="translate.currentLang == 'en'"
+              [innerHtml]="module?.description_en | safe: 'html'"
+            ></p>
+            <p
+              class="text-dark text-justify inner-html"
+              *ngIf="translate.currentLang == 'ms'"
+              [innerHtml]="module?.description_ms | safe: 'html'"
+            ></p>
+          </div>
+        </div>
+
+        <!--jadual-->
+        <br />
+        <div
+          class="row pb-3 px-5 text-center"
+          [innerHtml]="jadualImg | safe: 'html'"
+        ></div>
+
+        <div class="row pb-3">
+          <div class="col-lg-12">
+            <div class="row">
+              <div
+                class="col-lg-4 col-md-6 col-sm-12"
+                *ngFor="let showing of showings; let i = index"
+              >
+                <div class="card card-blog card-plain">
+                  <div class="card-image">
+                    <img class="img rounded" [src]="showing.poster_link" />
+                  </div>
+                  <div class="card-body">
+                    <!-- <h6 class="category text-primary">Features</h6> -->
+                    <h4
+                      class="card-title text-info"
+                      *ngIf="translate.currentLang == 'en'"
+                    >
+                      {{ showing.title_en }}
+                    </h4>
+                    <h4
+                      class="card-title text-info"
+                      *ngIf="translate.currentLang == 'ms'"
+                    >
+                      {{ showing.title_ms }}
+                    </h4>
+                    <div *ngIf="translate.currentLang == 'en'">
+                      <p
+                        *ngIf="!showing.show"
+                        class="card-description text-dark text-justify"
+                        style="height: 150px"
+                      >
+                        {{ showing.description_en | truncate: 200:true }}
+                      </p>
+                      <p
+                        *ngIf="showing.show"
+                        class="card-description text-dark text-justify"
+                      >
+                        {{ showing.description_en }}
+                      </p>
+                    </div>
+                    <div *ngIf="translate.currentLang == 'ms'">
+                      <p
+                        *ngIf="!showing.show"
+                        class="card-description text-dark text-justify"
+                        style="height: 150px"
+                      >
+                        {{ showing.description_ms | truncate: 200:true }}
+                      </p>
+                      <p
+                        *ngIf="showing.show"
+                        class="card-description text-dark text-justify"
+                      >
+                        {{ showing.description_ms }}
+                      </p>
+                    </div>
+                    <a
+                      style="color: #ba54f5; font-weight: bold"
+                      (click)="showMore(i)"
+                      >{{ "Bacaselanjutnya" | translate }}</a
+                    >
+                    <div class="card-footer">
+                      <div class="author">
+                        <button
+                          class="btn btn-default btn-sm"
+                          (click)="makeBooking(showing.id, showing.title)"
+                        >
+                          {{ "Tempah" | translate }}
+                        </button>
+                        <button
+                          class="btn btn-danger btn-sm"
+                          (click)="openModal(modalVideo, showing)"
+                          [lightbox]
+                          *ngIf="showing.trailer_link"
+                        >
+                          {{ "Lihat" | translate }}
+                        </button>
+                      </div>
+                      <div class="stats stats-right">
+                        <i class="fas fa-clock"></i>
+                        {{ showing.duration_hours }} {{ "jam" | translate }} {{
+                        showing.duration_minutes }} {{ "minit" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalVideo>
+  <div class="modal-header">
+    <h2 class="modal-title pull-left">Modal</h2>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="videoModal.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/DnSmFC-JgvQ"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+</ng-template>

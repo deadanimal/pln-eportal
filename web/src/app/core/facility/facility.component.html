@@ -1,0 +1,286 @@
+<div class="wrapper" [ngClass]="fontSize" [ngClass]="themeColor">
+  <div class="page-header page-header-small header-filter">
+    <!-- <div
+      class="page-header-image rellax"
+      data-parallax="true"
+      style="background-image: url('assets/img/facility/gabriel.jpg')"
+    ></div>
+    <div class="content-center">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-center">
+          <h1 class="title">Fasiliti</h1>
+          <h2 class="description">
+            Fasiliti-fasiliti Planetarium yang boleh disewa untuk pelbagai
+            kegunaan.
+          </h2>
+        </div>
+      </div>
+    </div> -->
+    <carousel>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-1.jpg"
+          alt="second slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-2.jpg"
+          alt="third slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+      <slide>
+        <img
+          src="../../../assets/img/show/show-3.jpg"
+          alt="first slide"
+          style="display: block; width: 100%"
+        />
+      </slide>
+    </carousel>
+  </div>
+  <div class="main main-raised bg-white">
+    <div class="section">
+      <div class="container pb-5">
+        <h2 class="title text-center text-dark">
+          {{ "FasilitiPlanetarium" | translate }}
+          <share-button button="facebook"></share-button
+          ><share-button button="twitter"></share-button
+          ><share-button button="whatsapp"></share-button>
+        </h2>
+        <div class="row">
+          <div class="col">
+            <!-- <p class="text-dark text-justify">
+              {{ "FasilitiPlanetariumDescription" | translate }}
+            </p> -->
+            <p
+              class="text-dark text-justify inner-html"
+              *ngIf="translate.currentLang == 'en'"
+              [innerHtml]="module?.description_en | safe: 'html'"
+            ></p>
+            <p
+              class="text-dark text-justify inner-html"
+              *ngIf="translate.currentLang == 'ms'"
+              [innerHtml]="module?.description_ms | safe: 'html'"
+            ></p>
+          </div>
+        </div>
+        <div class="row pb-3">
+          <div class="col-lg-4">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="
+                  background-image: url('assets/img/facility/fasiliti_10.jpg');
+                "
+              ></div>
+              <div class="card-body">
+                <div class="content-bottom">
+                  <!-- <h6 class="card-category">Teater Angkasa</h6> -->
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <a>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium1" | translate }}
+                        </h3>
+                      </a>
+                    </div>
+                    <div class="col-auto text-right">
+                      <button
+                        class="btn btn-primary btn-sm"
+                        [routerLink]="['/facility/details/', 'TA']"
+                      >
+                        {{ "Lihat" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="
+                  background-image: url('assets/img/facility/fasiliti_2.jpg');
+                "
+              ></div>
+              <div class="card-body">
+                <div class="content-bottom">
+                  <!-- <h6 class="card-category">Galeri Pameran</h6> -->
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <a>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium2" | translate }}
+                        </h3>
+                      </a>
+                    </div>
+                    <div class="col-auto text-right">
+                      <button
+                        class="btn btn-primary btn-sm"
+                        [routerLink]="['/facility/details/', 'GP']"
+                      >
+                        {{ "Lihat" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="
+                  background-image: url('assets/img/facility/fasiliti_9.jpg');
+                "
+              ></div>
+              <div class="card-body">
+                <div class="content-bottom">
+                  <!-- <h6 class="card-category">Teatret</h6> -->
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <a>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium3" | translate }}
+                        </h3>
+                      </a>
+                    </div>
+                    <div class="col-auto text-right">
+                      <button
+                        class="btn btn-primary btn-sm"
+                        [routerLink]="['/facility/details/', 'TT']"
+                      >
+                        {{ "Lihat" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="
+                  background-image: url('assets/img/facility/1 centaurus.jpg');
+                "
+              ></div>
+              <div class="card-body">
+                <div class="content-bottom">
+                  <!-- <h6 class="card-category">Bilik Centaurus</h6> -->
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <a>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium4" | translate }}
+                        </h3>
+                      </a>
+                    </div>
+                    <div class="col-auto text-right">
+                      <button
+                        class="btn btn-primary btn-sm"
+                        [routerLink]="['/facility/details/', 'BC']"
+                      >
+                        {{ "Lihat" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="
+                  background-image: url('assets/img/facility/fasiliti_8.jpg');
+                "
+              ></div>
+              <div class="card-body">
+                <div class="content-bottom">
+                  <!-- <h6 class="card-category">Kawasan Rekreasi</h6> -->
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <a>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium5" | translate }}
+                        </h3>
+                      </a>
+                    </div>
+                    <div class="col-auto text-right">
+                      <button
+                        class="btn btn-primary btn-sm"
+                        [routerLink]="['/facility/details/', 'KR']"
+                      >
+                        {{ "Lihat" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="
+                  background-image: url('assets/img/facility/fasiliti_5.jpg');
+                "
+              ></div>
+              <div class="card-body">
+                <div class="content-bottom">
+                  <!-- <h6 class="card-category">Stesen Mikrosatelit</h6> -->
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <a>
+                        <h3 class="card-title">
+                          {{ "FasilitiPlanetarium6" | translate }}
+                        </h3>
+                      </a>
+                    </div>
+                    <div class="col-auto text-right">
+                      <button
+                        class="btn btn-primary btn-sm"
+                        [routerLink]="['/facility/details/', 'SM']"
+                      >
+                        {{ "Lihat" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

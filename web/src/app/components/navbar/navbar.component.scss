@@ -1,0 +1,25 @@
+.brand-img {
+  max-height: 3.5rem !important;
+  margin-right: 0.2rem !important;
+}
+
+.dropdown-item {
+  color: black;
+  font-size: .9rem;
+}
+
+.required-field::after {
+  content: " *";
+  color: red;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.nav-link {
+  cursor: pointer;
+}

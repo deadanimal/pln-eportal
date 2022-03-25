@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Signage - Planetarium Negara</title>
+
+    <link
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+  </head>
+  <style>
+    html,
+    body {
+  
+      height: 100%;
+      margin: 0;
+    }
+    .bg-one {
+      background-color: #202251;
+    }
+    .bg-two {
+      background-color: #afd1e6;
+    }
+    .blink {
+      animation: blinker 0.6s linear infinite;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+    @keyframes blinker {
+      50% {
+        opacity: 0;
+      }
+    }
+    .full-height {
+      height: 100%;
+    }
+    .tab {
+      display: inline-block;
+      margin-left: 100px;
+    }
+    .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      color: white;
+      text-align: center;
+    }
+    thead {
+      background-color: #202251;
+      color: white;
+    }
+    td,
+    th {
+      font-size: 2vw;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    h5, h6, p {
+      font-size:0.8rem;
+    }
+  </style>
+  <body>
+    <div id="page1" class="full-height">
+      <div class="container-fluid bg-one h-100">
+        <div class="row">
+          <div class="col pl-0">
+            <div class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner"></div>
+            </div>
+          </div>
+	  <!--
+          <div class="col-2 pl-0">
+            <div class="row">
+              <div class="col text-center">
+                <img
+                  src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png"
+                  style="height: 20vh"
+                />
+              </div>
+            </div>
+            <div class="row bg-two">
+              <div class="col pl-5">
+                <h5 class="mt-4 mb-4">Waktu Perkhidmatan:</h5>
+                <p>Selasa - Ahad : 9.00 pagi - 4.30 petang</p>
+                <hr />
+                <h5 class="mt-4 mb-4">Tutup pada:</h5>
+                <p>Isnin & Cuti Umum terpilih</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col pl-5">
+                <p class="text-white" style="margin-top: 1rem">Hubungi Kami:</p>
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-phone-volume text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">03-22734303</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-envelope  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">info@planet.gov.my</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-globe  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">
+                      https://www.planetariumnegara.gov.my
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+	  </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div id="page2" class="full-height">
+      <div class="container-fluid bg-one h-100">
+        <div class="row">
+          <div class="col bg-two">
+            <h1 class="font-weight-bold text-center text-uppercase">
+              Jadual Tayangan Planetarium
+            </h1>
+
+            <div class="table-responsive">
+              <table id="tayangan" class="table" style="min-height: 77vh; max-height: 77vh;">
+                <thead>
+                  <tr>
+                    <th scope="col">Tajuk</th>
+                    <th scope="col">Waktu</th>
+                    <th scope="col">Tempoh</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Baki Seat</th>
+                  </tr>
+                </thead>
+
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+	  <!--
+          <div class="col-2 pl-0">
+            <div class="row">
+              <div class="col text-center">
+                <img
+                  src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png"
+                  style="height: 20vh"
+                />
+              </div>
+            </div>
+            <div class="row bg-two">
+              <div class="col pl-5">
+                <h5 class="mt-4 mb-4">Waktu Perkhidmatan:</h5>
+                <p>Selasa - Ahad : 9.00 pagi - 4.30 petang</p>
+                <hr />
+                <h5 class="mt-4 mb-4">Tutup pada:</h5>
+                <p>Isnin & Cuti Umum terpilih</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col pl-5">
+                <p class="text-white" style="margin-top: 1rem">Hubungi Kami:</p>
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-phone-volume  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">03-22734303</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-envelope  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">info@planet.gov.my</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-globe  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">
+                      https://www.planetariumnegara.gov.my
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+	  </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div id="page3" class="full-height">
+      <div class="container-fluid bg-one h-100">
+        <div class="row">
+          <div class="col bg-two">
+            <h1 class="font-weight-bold text-center text-uppercase">
+              Kembara Simulasi
+            </h1>
+
+            <div class="table-responsive">
+              <table id="kembarasimulasi" class="table" style="min-height:77vh; max-height: 77vh;">
+                <thead>
+                  <tr>
+                    <th scope="col">Pusingan 1</th>
+                    <th scope="col">Pusingan 2</th>
+                    <th scope="col">Pusingan 3</th>
+                    <th scope="col">Pusingan 4</th>
+                    <th scope="col">Pusingan 5</th>
+                  </tr>
+                </thead>
+
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+	  <!--
+          <div class="col-2 pl-0">
+            <div class="row">
+              <div class="col text-center">
+                <img
+                  src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png"
+                  style="height: 20vh"
+                />
+              </div>
+            </div>
+            <div class="row bg-two">
+              <div class="col pl-5">
+                <h5 class="mt-4 mb-4">Waktu Perkhidmatan:</h5>
+                <p>Selasa - Ahad : 9.00 pagi - 4.30 petang</p>
+                <hr />
+                <h5 class="mt-4 mb-4">Tutup pada:</h5>
+                <p>Isnin & Cuti Umum terpilih</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col pl-5">
+                <p class="text-white" style="margin-top: 1rem">Hubungi Kami:</p>
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-phone-volume  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">03-22734303</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-envelope  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">info@planet.gov.my</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-globe  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">
+                      https://www.planetariumnegara.gov.my
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+	  </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div id="page4" class="full-height">
+      <div class="container-fluid bg-one h-100">
+        <div class="row">
+          <div class="col pl-0">
+            <div class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner"></div>
+            </div>
+          </div>
+	  <!--
+          <div class="col-2 pl-0">
+            <div class="row">
+              <div class="col text-center">
+                <img
+                  src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png"
+                  style="height: 20vh"
+                />
+              </div>
+            </div>
+            <div class="row bg-two">
+              <div class="col pl-5">
+                <h5 class="mt-4 mb-4">Waktu Perkhidmatan:</h5>
+                <p>Selasa - Ahad : 9.00 pagi - 4.30 petang</p>
+                <hr />
+                <h5 class="mt-4 mb-4">Tutup pada:</h5>
+                <p>Isnin & Cuti Umum terpilih</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col pl-5">
+                <p class="text-white" style="margin-top: 1rem">Hubungi Kami:</p>
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-phone-volume text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">03-22734303</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-envelope  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">info@planet.gov.my</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-globe  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">
+                      https://www.planetariumnegara.gov.my
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+	  </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div id="page5" class="full-height">
+      <div class="container-fluid bg-one h-100">
+        <div class="row">
+          <div class="col bg-two">
+            <h1 class="font-weight-bold text-center text-uppercase">
+              Planetarium Show Schedule 
+            </h1>
+
+            <div class="table-responsive">
+              <table id="tayangan" class="table" style="min-height: 77vh; max-height: 77vh;">
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Period</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Available Seat</th>
+                  </tr>
+                </thead>
+
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+	  <!--
+          <div class="col-2 pl-0">
+            <div class="row">
+              <div class="col text-center">
+                <img
+                  src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png"
+                  style="height: 20vh"
+                />
+              </div>
+            </div>
+            <div class="row bg-two">
+              <div class="col pl-5">
+                <h5 class="mt-4 mb-4">Waktu Perkhidmatan:</h5>
+                <p>Selasa - Ahad : 9.00 pagi - 4.30 petang</p>
+                <hr />
+                <h5 class="mt-4 mb-4">Tutup pada:</h5>
+                <p>Isnin & Cuti Umum terpilih</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col pl-5">
+                <p class="text-white" style="margin-top: 1rem">Hubungi Kami:</p>
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-phone-volume  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">03-22734303</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-envelope  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">info@planet.gov.my</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-globe  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">
+                      https://www.planetariumnegara.gov.my
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+	  </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div id="page6" class="full-height">
+      <div class="container-fluid bg-one h-100">
+        <div class="row">
+          <div class="col bg-two">
+            <h1 class="font-weight-bold text-center text-uppercase">
+              Space Simulator 
+            </h1>
+
+            <div class="table-responsive">
+              <table id="kembarasimulasi" class="table" style="min-height:77vh; max-height: 77vh;">
+                <thead>
+                  <tr>
+                    <th scope="col">Round 1</th>
+                    <th scope="col">Round 2</th>
+                    <th scope="col">Round 3</th>
+                    <th scope="col">Round 4</th>
+                    <th scope="col">Round 5</th>
+                  </tr>
+                </thead>
+
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+	  <!--
+          <div class="col-2 pl-0">
+            <div class="row">
+              <div class="col text-center">
+                <img
+                  src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png"
+                  style="height: 20vh"
+                />
+              </div>
+            </div>
+            <div class="row bg-two">
+              <div class="col pl-5">
+                <h5 class="mt-4 mb-4">Waktu Perkhidmatan:</h5>
+                <p>Selasa - Ahad : 9.00 pagi - 4.30 petang</p>
+                <hr />
+                <h5 class="mt-4 mb-4">Tutup pada:</h5>
+                <p>Isnin & Cuti Umum terpilih</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col pl-5">
+                <p class="text-white" style="margin-top: 1rem">Hubungi Kami:</p>
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-phone-volume  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">03-22734303</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-envelope  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">info@planet.gov.my</p>
+                  </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                  <div class="col-2">
+                    <i class="fas fa-globe  text-white"></i>
+                  </div>
+                  <div class="col">
+                    <p class="text-white">
+                      https://www.planetariumnegara.gov.my
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+	  </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+
+      
+      <div class="row pt-1 pb-3" style="height: 60%;">
+
+
+
+        <!-- <div class="col-3">
+          <div class="">
+            <h4 style="margin-right: 4px;" class="m-0 p-0">&nbsp;&nbsp;&nbsp;Hubungi Kami: </h4>
+          </div>
+
+          <div class="row">
+            <div class="col-4 mt-3">
+              <div style="margin-top: 1px !important;">
+                <img src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png" style="height: 10vh"/>
+              </div>
+              
+            </div>
+      
+            <div class="col-8 text-white mt-3">
+              <h4 style="float: left;" class="m-0 p-0">03-22734303</h4>
+              <h4 style="float: left;" class="m-0 p-0">info@planet.gov.my</h4>
+              <h4 style="float: left;" class="m-0 p-0">www.planetariumnegara.gov.my</h4>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="col-1 mt-2">
+          <img src="https://www.planetariumnegara.gov.my/assets/logo/planetarium-logo.png" style="height: 10vh"/>
+        </div>
+
+        <div class="col-2">
+          <h4 style="float: left;" class="m-0 p-0">Hubungi Kami: </h4>
+          <br>
+          <h4 style="float: left;" class="m-0 p-0">03-22734303</h4>
+          <h4 style="float: left;" class="m-0 p-0">info@planet.gov.my</h4>
+          <h4 style="float: left;" class="m-0 p-0">www.planetariumnegara.gov.my</h4>
+
+        </div>
+
+        
+
+        <div class="col-8">
+          <!-- <h3 style="float: left; margin-left: 20px;">Pengumuman Terkini</h3>
+	        <br>
+          <marquee
+            id="pengumuman"
+            width="100%"
+            direction="left"
+            height="70px"
+            class="text-white"
+            style="font-size: 40px"
+          >
+          </marquee>
+           -->
+
+          <div class="row">
+            
+            <div class="col-2">
+              <br>
+              <h3 style="float: left; margin-left: 20px;">Pengumuman Terkini</h3>
+            </div>
+
+            <div class="col-10">
+              <br>
+              <marquee
+                id="pengumuman"
+                width="100%"
+                direction="left"
+                height="70px"
+                class="text-white"
+                style="font-size: 50px"
+              >
+              </marquee>
+            </div>
+          </div>
+
+
+
+
+        </div>
+
+        <div style="float: right;" class="mt-4 col-1 text-center text-white">
+	  <div class="row">
+              <h4>
+                <span id="time"></span>
+                <br />
+                <span id="date"></span>
+              </h4>
+	  </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $(document).ready(function () {
+        getBanner();
+        getAnnouncement();
+        getShowTime();
+        getSimulatorRideTime();
+
+        // to make a slideshow between 3 pages
+        setInterval(() => {
+          if ($("#page1").is(":visible")) {
+            $("#page1").hide(1000);
+            $("#page3").hide(1000);
+
+            $("#page2").show();
+          } else if ($("#page2").is(":visible")) {
+            $("#page1").hide(1000);
+            $("#page2").hide(1000);
+
+            $("#page3").show();
+          } else if ($("#page3").is(":visible")) {
+            $("#page2").hide(1000);
+            $("#page3").hide(1000);
+
+            $("#page1").show();
+          }
+        }, 10000);
+
+        // to create real time clock (date and time)
+        setInterval(() => {
+          const today = new Date();
+          let day = today.getDate();
+          let month = today.getMonth();
+          let year = today.getFullYear();
+          let h = today.getHours();
+          let m = today.getMinutes();
+          let s = today.getSeconds();
+          if (m < 10) m = "0" + m;
+          if (s < 10) s = "0" + s;
+          if (day < 10) day = "0" + day;
+          if (month < 10) month = "0" + month;
+          document.getElementById("time").innerHTML = h + ":" + m + ":" + s;
+          document.getElementById("date").innerHTML =
+            day + "/" + month + "/" + year;
+        }, 1000);
+
+        // request the data withn 5 minutes interval
+        setInterval(() => {
+          getBanner();
+          getAnnouncement();
+          getShowTime();
+          getSimulatorRideTime();
+        }, 300000);
+
+        function getBanner() {
+          $.get(
+            "https://api.planetariumnegara.gov.my/v1/banners/?status=true",
+            function (data, status) {
+              console.log("banners", data);
+              data.forEach((obj, index) => {
+                if (index == 0) {
+                  $(".carousel-inner").append(
+                    "<div class='carousel-item active'>\
+                  <img class='d-block w-100' style='height: 85vh' src='" +
+                      obj.image_link +
+                      "'/> \
+                </div>"
+                  );
+                } else {
+                  $(".carousel-inner").append(
+                    "<div class='carousel-item'>\
+                  <img class='d-block w-100' style='height: 85vh' src='" +
+                      obj.image_link +
+                      "'/> \
+                </div>"
+                  );
+                }
+              });
+            }
+          );
+        }
+
+        function getAnnouncement() {
+          $.get(
+            "https://api.planetariumnegara.gov.my/v1/announcements/?status=true",
+            function (data, status) {
+              console.log("announcements", data);
+              data.forEach((obj) => {
+                $("#pengumuman").append(
+                  "<span class='tab'>" + obj.description_ms + "</span>"
+                );
+              });
+            }
+          );
+        }
+
+        function getShowTime() {
+          $.get(
+            "https://api.planetariumnegara.gov.my/v1/show-times/get_timetable/",
+            function (data, status) {
+              console.log("show-times", data);
+              data.forEach((obj, index) => {
+                var statusColor = "";
+
+                if (obj.status == "Ada") statusColor = "text-success";
+                else if (obj.status == "Sedang Ditayang")
+                  statusColor = "text-success";
+                else if (obj.status == "Bakal Ditayang")
+                  statusColor = "blink text-warning";
+                else if (obj.status == "Tunda") statusColor = "text-danger";
+                else if (obj.status == "Batal") statusColor = "text-danger";
+                else if (obj.status == "Penuh") statusColor = "text-danger";
+                else if (obj.status == "Tamat") statusColor = "text-danger";
+
+                var tempoh = "";
+                if (obj.duration_hours != 0)
+                  tempoh += obj.duration_hours + " jam ";
+                if (obj.duration_minutes != 0)
+                  tempoh += obj.duration_minutes + " minit";
+                var markup =
+                  "<tr><td class='font-weight-bold'>" +
+                  obj.title_ms +
+                  "</td><td>" +
+                  obj.show_time.substr(0, 5) +
+                  "</td><td>" +
+                  tempoh +
+                  "</td><td class='font-weight-bold " +
+                  statusColor +
+                  "'>" +
+                  obj.status +
+                  "</td><td>" +
+                  obj.available_ticket +
+                  "</td></tr>";
+                $("#tayangan tbody").append(markup);
+              });
+            }
+          );
+        }
+
+        function getSimulatorRideTime() {
+          $.get(
+            "https://api.planetariumnegara.gov.my/v1/simulator-ride-times/get_timetable/",
+            function (data, status) {
+              console.log("simulator-ride-times", data);
+              var markup = "";
+              data.forEach((obj, index) => {
+                var statusColor = "";
+
+                if (obj.status == "Ada") statusColor = "text-success";
+                else if (obj.status == "Sedang Berlangsung")
+                  statusColor = "text-success";
+                else if (obj.status == "Berbaki 1 Kerusi")
+                  statusColor = "blink text-warning";
+                else if (obj.status == "Penuh") statusColor = "text-danger";
+                else if (obj.status == "Tamat") statusColor = "text-danger";
+                else if (obj.status == "Batal") statusColor = "text-danger";
+
+                var timeDurationStart = [
+                  "10:00",
+                  "11:00",
+                  "12:00",
+                  "14:00",
+                  "15:00",
+                  "16:00",
+                ];
+                var timeDurationEnd = [
+                  "10:40",
+                  "11:40",
+                  "12:40",
+                  "14:40",
+                  "15:40",
+                  "16:40",
+                ];
+
+                if (~timeDurationStart.indexOf(obj.time.substr(0, 5))) {
+                  markup += "<tr>";
+                }
+                markup +=
+                  "<td class='" + statusColor + "'>" + obj.time + "</td>";
+                if (~timeDurationEnd.indexOf(obj.time.substr(0, 5))) {
+                  markup += "</tr>";
+                }
+              });
+
+              $("#kembarasimulasi tbody").append(markup);
+            }
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

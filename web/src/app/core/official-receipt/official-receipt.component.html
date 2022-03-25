@@ -1,0 +1,258 @@
+<div id="print-section" class="card-body">
+  <div class="row pt-3">
+    <div class="col-md-4 col-sm-12">
+      <img src="../../../assets/logo/jata-negara.png" style="width: 30%" />
+    </div>
+    <div class="col-md-4 col-sm-12 text-center">
+      <h6 class="text-dark">
+        {{ "KERAJAANMALAYSIA" | translate }}
+      </h6>
+      <h6 class="text-dark">{{ "RESITRASMI" | translate }}</h6>
+      <h6 class="text-dark">{{ "ASAL" | translate }}</h6>
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <table>
+        <tr>
+          <td style="width: 130px">{{ "ResitNo" | translate }}</td>
+          <td>{{ invoicereceipts[0]?.receipt_running_no }}</td>
+        </tr>
+        <tr>
+          <td>{{ "Tarikh" | translate }}</td>
+          <td>
+            {{
+              invoicereceipts[0]?.receipt_created_datetime | date: "dd.MM.yyyy"
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "MukaSurat" | translate }}</td>
+          <td>1/1</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row" style="padding-top: 50px">
+    <div class="col">
+      <table style="width: 100%">
+        <tr>
+          <td>
+            <p>{{ "Diterimadaripada" | translate }}</p>
+          </td>
+          <td style="width: 50px">:</td>
+          <td>
+            <p>{{ "PENGARAHPLANETARIUMNEGARA" | translate }}</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>{{ "Namapelanggan" | translate }}</p>
+          </td>
+          <td>:</td>
+          <td>
+            <p>{{ user?.full_name | uppercase }}</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="vertical-align: top">
+            <p>{{ "Alamat" | translate }}</p>
+          </td>
+          <td style="vertical-align: top">:</td>
+          <td>
+            <p>LOT 53 TAMAN TASIK PERDANA</p>
+            <p>TAMAN TASIK PERDANA</p>
+            <p>KUALA LUMPUR</p>
+            <p>KUALA LUMPUR</p>
+            <p>59100</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row" style="padding-top: 50px">
+    <div class="col">
+      <table id="border" style="width: 100%">
+        <thead>
+          <tr>
+            <th class="text-center">{{ "Bil" | translate }}.</th>
+            <th class="text-center">
+              {{ "PerihalTerimaan" | translate }}
+            </th>
+            <th class="text-center">
+              {{ "CaraBayaran" | translate }}
+            </th>
+            <th class="text-center">{{ "Amaun" | translate }} (RM)</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let summarycart of summarycarts; let i = index">
+            <td class="text-center">{{ i + 1 }}</td>
+            <td class="pl-2">
+              <div *ngIf="summarycart[0].type == 'simulator-ride'">
+                {{ "KembaraSimulasi" | translate }} -
+                <span *ngIf="translate.currentLang == 'en'">
+                  {{ summarycart[0].simulator_ride_day_en }},
+                  {{ summarycart[0].simulator_ride_round_en }} ({{
+                    summarycart[0].simulator_ride_time
+                  }})
+                </span>
+                <span *ngIf="translate.currentLang == 'ms'">
+                  {{ summarycart[0].simulator_ride_day_ms }},
+                  {{ summarycart[0].simulator_ride_round_ms }} ({{
+                    summarycart[0].simulator_ride_time
+                  }})
+                </span>
+              </div>
+
+              <div *ngIf="summarycart[0].type == 'showing'">
+                {{ "Tayangan" | translate }} -
+                <span *ngIf="translate.currentLang == 'en'"
+                  >{{ summarycarts[i][0].showing_title_en }},
+                  {{ summarycarts[i][0].showtime_show_date }}, ({{
+                    summarycarts[i][0].showtime_show_time
+                  }})</span
+                >
+                <span *ngIf="translate.currentLang == 'ms'"
+                  >{{ summarycarts[i][0].showing_title_ms }},
+                  {{ summarycarts[i][0].showtime_show_date }}, ({{
+                    summarycarts[i][0].showtime_show_time
+                  }})
+                </span>
+              </div>
+            </td>
+            <td class="text-center">Tunai</td>
+            <td class="pr-2 text-right">
+              RM {{ calculatoPriceEachCart(summarycarts[i]) }}
+            </td>
+          </tr>
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <td
+              id="border"
+              colspan="3"
+              class="text-right pr-3"
+              style="font-weight: bold"
+            >
+              {{ "JumlahSebelumDiskaun" | translate }}
+            </td>
+            <td id="border" class="text-right pr-2">
+              {{ invoicereceipts[0]?.total_price_before_voucher }}
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              id="border"
+              colspan="3"
+              class="text-right pr-3"
+              style="font-weight: bold"
+            >
+              {{ "JumlahDiskaun" | translate }}
+            </td>
+            <td id="border" class="text-right pr-2">
+              {{ invoicereceipts[0]?.total_voucher }}
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              id="border"
+              colspan="3"
+              class="text-right pr-3"
+              style="font-weight: bold"
+            >
+              {{ "JumlahSelepasDiskaun" | translate }}
+            </td>
+            <td id="border" class="text-right pr-2">
+              {{ invoicereceipts[0]?.total_price_after_voucher }}
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <hr class="line-info mb-3" />
+
+  <div class="row">
+    <div class="col-md-8 col-sm-6 text-right">
+      <p class="font-weight-semi-bold text-dark">
+        {{ "TarikhTransaksi" | translate }}
+      </p>
+    </div>
+    <div class="col-md-4 col-sm-6 text-right">
+      {{
+        invoicereceipts[0]?.fpx_transaction_id.fpx_fpxTxnTime
+          | formatFPXTransactionDateTime
+      }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-sm-6 text-right">
+      <p class="font-weight-semi-bold text-dark">
+        {{ "NomborPesananPenjual" | translate }}
+      </p>
+    </div>
+    <div class="col-md-4 col-sm-6 text-right">
+      {{ invoicereceipts[0]?.fpx_transaction_id.fpx_sellerOrderNo }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-sm-6 text-right">
+      <p class="font-weight-semi-bold text-dark">
+        {{ "IDTransaksiFPX" | translate }}
+      </p>
+    </div>
+    <div class="col-md-4 col-sm-6 text-right">
+      {{ invoicereceipts[0]?.fpx_transaction_id.fpx_fpxTxnId }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-sm-6 text-right">
+      <p class="font-weight-semi-bold text-dark">
+        {{ "JumlahTransaksi" | translate }}
+      </p>
+    </div>
+    <div class="col-md-4 col-sm-6 text-right">
+      RM {{ invoicereceipts[0]?.fpx_transaction_id.fpx_txnAmount }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-sm-6 text-right">
+      <p class="font-weight-semi-bold text-dark">
+        {{ "NamaBankPembeli" | translate }}
+      </p>
+    </div>
+    <div class="col-md-4 col-sm-6 text-right">
+      {{ invoicereceipts[0]?.fpx_transaction_id.fpx_buyerBankBranch }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-sm-6 text-right">
+      <p class="font-weight-semi-bold text-dark">Status</p>
+    </div>
+    <div class="col-md-4 col-sm-6 text-right">
+      <span
+        class="text-uppercase font-weight-bold"
+        *ngIf="invoicereceipts[0]?.fpx_transaction_id.fpx_debitAuthCode == '00'"
+        >{{ "Berjaya" | translate }}</span
+      >
+      <span
+        class="text-uppercase font-weight-bold"
+        *ngIf="invoicereceipts[0]?.fpx_transaction_id.fpx_debitAuthCode != '00'"
+        >{{ "TidakBerjaya" | translate }}</span
+      >
+    </div>
+  </div>
+
+  <div class="row pt-3">
+    <div class="col text-center">
+      <small class="text-dark"
+        ><i>{{ "CetakanBerkomputer" | translate }}</i></small
+      >
+    </div>
+  </div>
+</div>

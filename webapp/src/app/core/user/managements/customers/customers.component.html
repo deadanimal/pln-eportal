@@ -1,0 +1,505 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">Senarai Pelanggan</h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-file-invoice text-dark"></i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="col-lg-6 col-5 text-right">
+          <a
+            class="btn btn-sm btn-neutral"
+            (click)="openModal(createUser, 'create', '')"
+          >
+            Tambah
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Senarai Pelanggan</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Papar
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="5" [selected]="tableEntries == 5">5</option>
+                    <option value="10" [selected]="tableEntries == 10">
+                      10
+                    </option>
+                    <option value="15" [selected]="tableEntries == 15">
+                      15
+                    </option>
+                    <option value="-1" [selected]="tableEntries == -1">
+                      Semua
+                    </option>
+                  </select>
+                  rekod
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Cari rekod"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+            (activate)="onActivate($event)"
+            [scrollbarH]="true"
+          >
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Nama Penuh</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.full_name }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Emel</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.email }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>No Telefon</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.phone }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span
+                  *ngIf="row.is_active"
+                  class="badge badge-pill badge-success"
+                  >Aktif</span
+                >
+                <span
+                  *ngIf="!row.is_active"
+                  class="badge badge-pill badge-danger"
+                  >Tidak aktif</span
+                >
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Tindakan</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <button
+                  class="btn btn-sm btn-primary"
+                  (click)="openModal(editUser, 'update', row)"
+                >
+                  Sunting
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(row)">
+                  Buang
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createUser>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Tambah
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="alert alert-danger" role="alert">
+      <strong>Info!</strong> Tetapan password awal adalah planetarium@2020
+    </div>
+    <form [formGroup]="userFormGroup">
+      <div class="form-group">
+        <label class="form-control-label required-field">Nama Penuh</label>
+        <input
+          class="form-control"
+          formControlName="full_name"
+          placeholder="Nama Penuh"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field"
+          >Nama Pengguna
+          <small class="text-danger">
+            * nama pengguna adalah sama dengan emel pengguna</small
+          ></label
+        >
+        <input
+          class="form-control"
+          formControlName="username"
+          placeholder="Nama Pengguna"
+          type="email"
+        />
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Emel</label>
+            <input
+              class="form-control"
+              formControlName="email"
+              placeholder="Emel"
+              type="email"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">No Telefon</label>
+            <input
+              class="form-control"
+              formControlName="phone"
+              placeholder="No Telefon"
+              type="tel"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Alamat Surat Menyurat</label>
+        <input
+          class="form-control"
+          formControlName="address"
+          placeholder="Alamat Surat Menyurat"
+          type="text"
+        />
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Poskod</label>
+            <input
+              class="form-control"
+              formControlName="postcode"
+              placeholder="Poskod"
+              type="number"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Bandar</label>
+            <input
+              class="form-control"
+              formControlName="city"
+              placeholder="Bandar"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Negeri</label>
+            <select
+              class="form-control"
+              formControlName="state"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option value="01">Johor</option>
+              <option value="02">Kedah</option>
+              <option value="03">Kelantan</option>
+              <option value="04">Melaka</option>
+              <option value="05">Negeri Sembilan</option>
+              <option value="06">Pahang</option>
+              <option value="07">Pulau Pinang</option>
+              <option value="08">Perak</option>
+              <option value="09">Perlis</option>
+              <option value="10">Selangor</option>
+              <option value="11">Terengganu</option>
+              <option value="12">Sabah</option>
+              <option value="13">Sarawak</option>
+              <option value="14">Wilayah Persekutuan Kuala Lumpur</option>
+              <option value="15">Wilayah Persekutuan Labuan</option>
+              <option value="16">Wilayah Persekutuan Putrajaya</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Negara</label>
+            <input
+              class="form-control"
+              formControlName="country"
+              placeholder="Negara"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Status</label>
+            <select
+              class="form-control"
+              formControlName="is_active"
+              placeholder="Sila pilih"
+            >
+              <option value="true">Aktif</option>
+              <option value="false">Tidak aktif</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="create()"
+      [disabled]="!userFormGroup.valid"
+    >
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editUser>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Ubah Suai
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="userFormGroup">
+      <div class="form-group">
+        <label class="form-control-label required-field">Nama Penuh</label>
+        <input
+          class="form-control"
+          formControlName="full_name"
+          placeholder="Nama Penuh"
+          type="text"
+        />
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Emel</label>
+            <input
+              class="form-control"
+              formControlName="email"
+              placeholder="Emel"
+              type="email"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">No Telefon</label>
+            <input
+              class="form-control"
+              formControlName="phone"
+              placeholder="No Telefon"
+              type="tel"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label required-field">Alamat Surat Menyurat</label>
+        <input
+          class="form-control"
+          formControlName="address"
+          placeholder="Alamat Surat Menyurat"
+          type="text"
+        />
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Poskod</label>
+            <input
+              class="form-control"
+              formControlName="postcode"
+              placeholder="Poskod"
+              type="number"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Bandar</label>
+            <input
+              class="form-control"
+              formControlName="city"
+              placeholder="Bandar"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Negeri</label>
+            <select
+              class="form-control"
+              formControlName="state"
+              placeholder="Sila pilih"
+            >
+              <option value="">Sila pilih</option>
+              <option value="01">Johor</option>
+              <option value="02">Kedah</option>
+              <option value="03">Kelantan</option>
+              <option value="04">Melaka</option>
+              <option value="05">Negeri Sembilan</option>
+              <option value="06">Pahang</option>
+              <option value="07">Pulau Pinang</option>
+              <option value="08">Perak</option>
+              <option value="09">Perlis</option>
+              <option value="10">Selangor</option>
+              <option value="11">Terengganu</option>
+              <option value="12">Sabah</option>
+              <option value="13">Sarawak</option>
+              <option value="14">Wilayah Persekutuan Kuala Lumpur</option>
+              <option value="15">Wilayah Persekutuan Labuan</option>
+              <option value="16">Wilayah Persekutuan Putrajaya</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Negara</label>
+            <input
+              class="form-control"
+              formControlName="country"
+              placeholder="Negara"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label required-field">Status</label>
+            <select
+              class="form-control"
+              formControlName="is_active"
+              placeholder="Sila pilih"
+            >
+              <option value="true">Aktif</option>
+              <option value="false">Tidak aktif</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="update()"
+      [disabled]="!userFormGroup.valid"
+    >
+      Simpan
+    </button>
+
+    <button
+      class="btn btn-outline-primary ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Tutup
+    </button>
+  </div>
+</ng-template>

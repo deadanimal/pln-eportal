@@ -1,0 +1,12 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}Selamat datang ke Planetarium Negara
+
+Terima kasih kerana mendaftar akaun pengguna di Planetarium Negara.
+
+Anda menerima emel ini kerana pendaftaran anda telah berjaya di Portal Rasmi Planetarium Negara.
+Anda boleh melog masuk ke dalam Portal Rasmi Planetarium Negara dengan menggunakan emel serta kata laluan yang telah anda daftarkan.
+
+{% trans "Terima kasih kerana menggunakan laman web kami!" %}
+
+{% blocktrans %}Dari Planetarium Negara, Malaysia{% endblocktrans %}
+
+{% endautoescape %}
